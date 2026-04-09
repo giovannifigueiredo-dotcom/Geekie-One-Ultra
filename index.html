@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Geekie One Portal Ultra</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <title>Geekie One Portal ULTRA PREMIUM v4.0</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -12,21 +12,23 @@
             --primary-dark: #00cc6a;
             --secondary: #ff00ff;
             --accent: #00d4ff;
+            --gold: #ffd700;
             --bg-primary: #0a0e27;
             --bg-secondary: #131832;
-            --bg-card: rgba(19, 24, 50, 0.6);
+            --bg-card: rgba(19, 24, 50, 0.7);
             --text-primary: #ffffff;
             --text-secondary: #94a3b8;
             --border-color: rgba(0, 255, 136, 0.15);
             --shadow-glow: 0 0 30px rgba(0, 255, 136, 0.25);
             --gradient-1: linear-gradient(135deg, #00ff88 0%, #00d4ff 100%);
             --gradient-2: linear-gradient(135deg, #ff00ff 0%, #ff6b6b 100%);
+            --gradient-gold: linear-gradient(135deg, #ffd700 0%, #ffaa00 100%);
             --gradient-bg: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0f1429 100%);
         }
 
         [data-theme="ocean"] {
             --primary: #0077be; --primary-dark: #005a8c; --secondary: #00d4ff; --accent: #7dd3fc;
-            --bg-primary: #0c1929; --bg-secondary: #132f4c; --bg-card: rgba(19, 47, 76, 0.6);
+            --bg-primary: #0c1929; --bg-secondary: #132f4c; --bg-card: rgba(19, 47, 76, 0.7);
             --border-color: rgba(0, 119, 190, 0.2); --shadow-glow: 0 0 30px rgba(0, 119, 190, 0.3);
             --gradient-1: linear-gradient(135deg, #0077be 0%, #00d4ff 100%);
             --gradient-2: linear-gradient(135deg, #00d4ff 0%, #7dd3fc 100%);
@@ -35,7 +37,7 @@
 
         [data-theme="sunset"] {
             --primary: #ff6b35; --primary-dark: #e55a2b; --secondary: #f7931e; --accent: #ffd700;
-            --bg-primary: #1a0a0a; --bg-secondary: #2d1515; --bg-card: rgba(45, 21, 21, 0.6);
+            --bg-primary: #1a0a0a; --bg-secondary: #2d1515; --bg-card: rgba(45, 21, 21, 0.7);
             --border-color: rgba(255, 107, 53, 0.2); --shadow-glow: 0 0 30px rgba(255, 107, 53, 0.3);
             --gradient-1: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
             --gradient-2: linear-gradient(135deg, #ffd700 0%, #ff6b35 100%);
@@ -44,7 +46,7 @@
 
         [data-theme="forest"] {
             --primary: #22c55e; --primary-dark: #16a34a; --secondary: #84cc16; --accent: #a3e635;
-            --bg-primary: #0a1a0a; --bg-secondary: #152815; --bg-card: rgba(21, 40, 21, 0.6);
+            --bg-primary: #0a1a0a; --bg-secondary: #152815; --bg-card: rgba(21, 40, 21, 0.7);
             --border-color: rgba(34, 197, 94, 0.2); --shadow-glow: 0 0 30px rgba(34, 197, 94, 0.3);
             --gradient-1: linear-gradient(135deg, #22c55e 0%, #84cc16 100%);
             --gradient-2: linear-gradient(135deg, #84cc16 0%, #a3e635 100%);
@@ -53,38 +55,83 @@
 
         [data-theme="royal"] {
             --primary: #a855f7; --primary-dark: #9333ea; --secondary: #ec4899; --accent: #f472b6;
-            --bg-primary: #170a1f; --bg-secondary: #281536; --bg-card: rgba(40, 21, 54, 0.6);
+            --bg-primary: #170a1f; --bg-secondary: #281536; --bg-card: rgba(40, 21, 54, 0.7);
             --border-color: rgba(168, 85, 247, 0.2); --shadow-glow: 0 0 30px rgba(168, 85, 247, 0.3);
             --gradient-1: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
             --gradient-2: linear-gradient(135deg, #ec4899 0%, #f472b6 100%);
             --gradient-bg: linear-gradient(135deg, #170a1f 0%, #281536 50%, #0f0817 100%);
         }
 
-        [data-theme="midnight"] {
-            --primary: #64748b; --primary-dark: #475569; --secondary: #94a3b8; --accent: #cbd5e1;
-            --bg-primary: #020617; --bg-secondary: #0f172a; --bg-card: rgba(15, 23, 42, 0.8);
-            --border-color: rgba(148, 163, 184, 0.15); --shadow-glow: 0 0 20px rgba(100, 116, 139, 0.2);
-            --gradient-1: linear-gradient(135deg, #64748b 0%, #94a3b8 100%);
-            --gradient-2: linear-gradient(135deg, #94a3b8 0%, #cbd5e1 100%);
-            --gradient-bg: linear-gradient(135deg, #020617 0%, #0f172a 50%, #030712 100%);
+        /* Animated Themes */
+        [data-theme="neon-cyber"] {
+            --primary: #00ffff; --primary-dark: #00cccc; --secondary: #ff00ff; --accent: #ffff00;
+            --bg-primary: #000000; --bg-secondary: #0a0a0a; --bg-card: rgba(10, 10, 10, 0.9);
+            --border-color: rgba(0, 255, 255, 0.3); --shadow-glow: 0 0 40px rgba(0, 255, 255, 0.5);
+            --gradient-1: linear-gradient(135deg, #00ffff 0%, #ff00ff 100%);
+            --gradient-2: linear-gradient(135deg, #ff00ff 0%, #ffff00 100%);
+            --gradient-bg: linear-gradient(135deg, #000000 0%, #0a0a1a 50%, #000010 100%);
+            animation: neonPulse 2s ease-in-out infinite alternate;
+        }
+        @keyframes neonPulse {
+            0% { filter: brightness(1) hue-rotate(0deg); }
+            100% { filter: brightness(1.2) hue-rotate(10deg); }
         }
 
-        [data-theme="galaxy"] {
+        [data-theme="galaxy-premium"] {
             --primary: #818cf8; --primary-dark: #6366f1; --secondary: #c084fc; --accent: #f0abfc;
-            --bg-primary: #0c0118; --bg-secondary: #1a0f2e; --bg-card: rgba(26, 15, 46, 0.6);
-            --border-color: rgba(129, 140, 248, 0.2); --shadow-glow: 0 0 30px rgba(129, 140, 248, 0.3);
+            --bg-primary: #0c0118; --bg-secondary: #1a0f2e; --bg-card: rgba(26, 15, 46, 0.8);
+            --border-color: rgba(129, 140, 248, 0.3); --shadow-glow: 0 0 40px rgba(129, 140, 248, 0.4);
             --gradient-1: linear-gradient(135deg, #818cf8 0%, #c084fc 100%);
             --gradient-2: linear-gradient(135deg, #c084fc 0%, #f0abfc 100%);
             --gradient-bg: linear-gradient(135deg, #0c0118 0%, #1a0f2e 50%, #080414 100%);
+            animation: galaxyRotate 20s linear infinite;
+        }
+        @keyframes galaxyRotate {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
-        [data-theme="cherry"] {
-            --primary: #fb7185; --primary-dark: #f43f5e; --secondary: #fda4af; --accent: #fecdd3;
-            --bg-primary: #1f0a0f; --bg-secondary: #331521; --bg-card: rgba(51, 21, 33, 0.6);
-            --border-color: rgba(251, 113, 133, 0.2); --shadow-glow: 0 0 30px rgba(251, 113, 133, 0.3);
-            --gradient-1: linear-gradient(135deg, #fb7185 0%, #fda4af 100%);
-            --gradient-2: linear-gradient(135deg, #fda4af 0%, #fecdd3 100%);
-            --gradient-bg: linear-gradient(135deg, #1f0a0f 0%, #331521 50%, #150609 100%);
+        [data-theme="fire-dragon"] {
+            --primary: #ff4500; --primary-dark: #cc3700; --secondary: #ff6347; --accent: #ffa500;
+            --bg-primary: #1a0500; --bg-secondary: #2d0a00; --bg-card: rgba(45, 10, 0, 0.8);
+            --border-color: rgba(255, 69, 0, 0.3); --shadow-glow: 0 0 40px rgba(255, 69, 0, 0.5);
+            --gradient-1: linear-gradient(135deg, #ff4500 0%, #ff6347 100%);
+            --gradient-2: linear-gradient(135deg, #ffa500 0%, #ff4500 100%);
+            --gradient-bg: linear-gradient(135deg, #1a0500 0%, #2d0a00 50%, #0f0200 100%);
+            animation: fireFlicker 0.5s ease-in-out infinite alternate;
+        }
+        @keyframes fireFlicker {
+            0% { filter: brightness(1) saturate(1); }
+            100% { filter: brightness(1.1) saturate(1.2); }
+        }
+
+        [data-theme="ice-crystal"] {
+            --primary: #00bcd4; --primary-dark: #0097a7; --secondary: #e0f7fa; --accent: #80deea;
+            --bg-primary: #001a1a; --bg-secondary: #002626; --bg-card: rgba(0, 38, 38, 0.8);
+            --border-color: rgba(0, 188, 212, 0.3); --shadow-glow: 0 0 40px rgba(0, 188, 212, 0.5);
+            --gradient-1: linear-gradient(135deg, #00bcd4 0%, #e0f7fa 100%);
+            --gradient-2: linear-gradient(135deg, #e0f7fa 0%, #80deea 100%);
+            --gradient-bg: linear-gradient(135deg, #001a1a 0%, #002626 50%, #000d0d 100%);
+            animation: iceShimmer 3s ease-in-out infinite;
+        }
+        @keyframes iceShimmer {
+            0%, 100% { filter: brightness(1) contrast(1); }
+            50% { filter: brightness(1.15) contrast(1.1); }
+        }
+
+        [data-theme="golden-emperor"] {
+            --primary: #ffd700; --primary-dark: #daa520; --secondary: #ffec8b; --accent: #fff8dc;
+            --bg-primary: #1a1400; --bg-secondary: #2d2200; --bg-card: rgba(45, 34, 0, 0.8);
+            --border-color: rgba(255, 215, 0, 0.3); --shadow-glow: 0 0 40px rgba(255, 215, 0, 0.5);
+            --gradient-1: linear-gradient(135deg, #ffd700 0%, #ffec8b 100%);
+            --gradient-2: linear-gradient(135deg, #ffec8b 0%, #fff8dc 100%);
+            --gradient-bg: linear-gradient(135deg, #1a1400 0%, #2d2200 50%, #0f0c00 100%);
+            animation: goldenShine 2s ease-in-out infinite alternate;
+        }
+        @keyframes goldenShine {
+            0% { filter: brightness(1) sepia(0.2); }
+            100% { filter: brightness(1.2) sepia(0.3); }
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -99,23 +146,21 @@
             transition: all 0.5s ease;
         }
 
-        .floating-orbs {
+        /* Particle Background */
+        .particles-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: -1; overflow: hidden;
         }
-        .orb {
-            position: absolute; border-radius: 50%; filter: blur(80px);
-            animation: orbFloat 20s infinite ease-in-out;
+        .particle {
+            position: absolute; width: 4px; height: 4px; background: var(--primary);
+            border-radius: 50%; opacity: 0.6; animation: particleFloat 15s infinite ease-in-out;
+            box-shadow: 0 0 10px var(--primary), 0 0 20px var(--primary);
         }
-        .orb-1 { width: 400px; height: 400px; background: var(--primary); opacity: 0.12; top: 10%; left: 10%; animation-delay: 0s; }
-        .orb-2 { width: 350px; height: 350px; background: var(--secondary); opacity: 0.10; bottom: 20%; right: 15%; animation-delay: -7s; }
-        .orb-3 { width: 300px; height: 300px; background: var(--accent); opacity: 0.08; top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: -14s; }
-
-        @keyframes orbFloat {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            25% { transform: translate(50px, -30px) scale(1.05); }
-            50% { transform: translate(-30px, 50px) scale(0.95); }
-            75% { transform: translate(-50px, -20px) scale(1.02); }
+        @keyframes particleFloat {
+            0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
         }
 
         ::-webkit-scrollbar { width: 10px; height: 10px; }
@@ -124,32 +169,62 @@
 
         .container { max-width: 1800px; margin: 0 auto; padding: 20px; position: relative; z-index: 1; }
 
-        /* Header */
+        /* Header with Stats */
         .top-nav {
             display: flex; justify-content: space-between; align-items: center;
-            padding: 18px 30px; background: var(--bg-card); backdrop-filter: blur(20px);
+            padding: 18px 30px; background: var(--bg-card); backdrop-filter: blur(25px);
             border: 1px solid var(--border-color); border-radius: 20px; margin-bottom: 25px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4); flex-wrap: wrap; gap: 15px;
         }
         .logo-section { display: flex; align-items: center; gap: 15px; }
         .logo-icon {
-            width: 50px; height: 50px; background: var(--gradient-1); border-radius: 14px;
-            display: flex; align-items: center; justify-content: center; font-size: 26px;
-            box-shadow: var(--shadow-glow); animation: logoPulse 3s ease-in-out infinite;
+            width: 55px; height: 55px; background: var(--gradient-1); border-radius: 16px;
+            display: flex; align-items: center; justify-content: center; font-size: 28px;
+            box-shadow: var(--shadow-glow); animation: logoGlow 2s ease-in-out infinite;
+            position: relative; overflow: hidden;
         }
-        @keyframes logoPulse {
-            0%, 100% { box-shadow: 0 0 20px rgba(var(--primary), 0.4); }
-            50% { box-shadow: 0 0 40px rgba(var(--primary), 0.7); }
+        .logo-icon::before {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: conic-gradient(from 0deg, transparent, var(--primary), transparent);
+            animation: logoSpin 3s linear infinite;
         }
+        .logo-icon i { position: relative; z-index: 1; }
+        @keyframes logoGlow {
+            0%, 100% { box-shadow: 0 0 20px rgba(var(--primary), 0.4), 0 0 40px rgba(var(--primary), 0.2); }
+            50% { box-shadow: 0 0 40px rgba(var(--primary), 0.7), 0 0 60px rgba(var(--primary), 0.4); }
+        }
+        @keyframes logoSpin { to { transform: rotate(360deg); } }
+        
         .logo-text h1 {
-            font-family: 'Poppins', sans-serif; font-size: 1.6rem; font-weight: 800;
-            background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+            font-family: 'Orbitron', sans-serif; font-size: 1.7rem; font-weight: 900;
+            background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
+            background-clip: text; letter-spacing: 2px;
         }
-        .logo-text span { font-size: 0.85rem; color: var(--text-secondary); font-weight: 500; }
+        .logo-text span { font-size: 0.85rem; color: var(--text-secondary); font-weight: 600; letter-spacing: 1px; }
 
-        .nav-actions { display: flex; gap: 12px; align-items: center; }
+        /* User Stats Bar */
+        .user-stats-bar {
+            display: flex; gap: 20px; align-items: center; flex-wrap: wrap;
+        }
+        .stat-item {
+            display: flex; align-items: center; gap: 8px; padding: 10px 18px;
+            background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-color);
+            border-radius: 12px; transition: all 0.3s ease;
+        }
+        .stat-item:hover { transform: translateY(-3px); box-shadow: var(--shadow-glow); border-color: var(--primary); }
+        .stat-icon { font-size: 20px; color: var(--gold); }
+        .stat-value { font-family: 'Orbitron', sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--gold); }
+        .stat-label { font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; }
+        .level-badge {
+            background: var(--gradient-gold); color: #000; padding: 8px 16px; border-radius: 12px;
+            font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 0.9rem;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4); cursor: pointer; transition: all 0.3s ease;
+        }
+        .level-badge:hover { transform: scale(1.05); box-shadow: 0 6px 25px rgba(255, 215, 0, 0.6); }
+
+        .nav-actions { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
         .nav-btn {
-            padding: 10px 18px; background: transparent; border: 1px solid var(--border-color);
+            padding: 12px 20px; background: transparent; border: 1px solid var(--border-color);
             border-radius: 12px; color: var(--text-primary); cursor: pointer;
             font-family: 'Inter', sans-serif; font-weight: 600; font-size: 13px;
             transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 8px;
@@ -160,8 +235,22 @@
         }
         .nav-btn.active { background: var(--gradient-1); color: white; border-color: transparent; }
 
+        .shop-btn {
+            padding: 12px 22px; background: var(--gradient-gold); border: none; border-radius: 12px;
+            color: #000; cursor: pointer; font-family: 'Orbitron', sans-serif; font-weight: 800;
+            font-size: 13px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-flex; align-items: center; gap: 10px;
+            box-shadow: 0 4px 20px rgba(255, 215, 0, 0.4); position: relative; overflow: hidden;
+        }
+        .shop-btn::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent); transition: left 0.5s ease;
+        }
+        .shop-btn:hover::before { left: 100%; }
+        .shop-btn:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 8px 30px rgba(255, 215, 0, 0.6); }
+
         .toggle-sidebar-btn {
-            padding: 10px 18px; background: var(--gradient-2); border: none; border-radius: 12px;
+            padding: 12px 20px; background: var(--gradient-2); border: none; border-radius: 12px;
             color: white; cursor: pointer; font-family: 'Inter', sans-serif; font-weight: 700;
             font-size: 13px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: inline-flex; align-items: center; gap: 10px;
@@ -179,7 +268,7 @@
 
         /* Layout */
         .main-layout {
-            display: grid; grid-template-columns: 320px 1fr; gap: 25px; margin-bottom: 25px;
+            display: grid; grid-template-columns: 340px 1fr; gap: 25px; margin-bottom: 25px;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .main-layout.sidebar-hidden { grid-template-columns: 0px 1fr; gap: 0; }
@@ -196,13 +285,21 @@
         .sidebar {
             display: flex; flex-direction: column; gap: 20px;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            opacity: 1; transform: translateX(0); overflow: hidden;
+            opacity: 1; transform: translateX(0); overflow-y: auto; max-height: calc(100vh - 200px);
         }
+        .sidebar::-webkit-scrollbar { width: 6px; }
+        .sidebar::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 3px; }
+        
         .sidebar-card {
-            background: var(--bg-card); backdrop-filter: blur(20px);
+            background: var(--bg-card); backdrop-filter: blur(25px);
             border: 1px solid var(--border-color); border-radius: 20px; padding: 24px;
-            transition: all 0.4s ease;
+            transition: all 0.4s ease; position: relative; overflow: hidden;
         }
+        .sidebar-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            background: var(--gradient-1); opacity: 0; transition: opacity 0.3s ease;
+        }
+        .sidebar-card:hover::before { opacity: 1; }
         .sidebar-card:hover { border-color: var(--primary); box-shadow: var(--shadow-glow); transform: translateX(-5px); }
         .card-title {
             font-family: 'Poppins', sans-serif; font-size: 1.15rem; font-weight: 700;
@@ -210,99 +307,130 @@
         }
         .card-title i { color: var(--primary); font-size: 1.2rem; }
 
+        /* Free Themes Grid */
         .theme-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
         .theme-option {
             padding: 14px 10px; background: rgba(255, 255, 255, 0.03); border: 2px solid transparent;
             border-radius: 14px; text-align: center; cursor: pointer; transition: all 0.3s ease;
-            font-size: 13px; font-weight: 600; color: var(--text-secondary);
+            font-size: 13px; font-weight: 600; color: var(--text-secondary); position: relative; overflow: hidden;
         }
         .theme-option:hover { background: rgba(255, 255, 255, 0.06); transform: scale(1.03); }
-        .theme-option.active { border-color: var(--primary); background: rgba(var(--primary), 0.1); color: var(--primary); box-shadow: 0 0 20px rgba(var(--primary), 0.2); }
+        .theme-option.active { border-color: var(--primary); background: rgba(0, 255, 136, 0.1); color: var(--primary); box-shadow: 0 0 20px rgba(0, 255, 136, 0.2); }
+        .theme-option.locked { opacity: 0.5; cursor: not-allowed; }
+        .theme-option.locked::after {
+            content: '\f023'; font-family: 'Font Awesome 6 Free'; font-weight: 900;
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            font-size: 20px; color: var(--gold);
+        }
         .theme-icon { font-size: 24px; margin-bottom: 6px; display: block; }
+        .theme-price {
+            position: absolute; top: 5px; right: 5px; background: var(--gold); color: #000;
+            font-size: 10px; padding: 2px 6px; border-radius: 6px; font-weight: 800;
+        }
 
+        /* Extensions Enhanced */
         .extension-item {
             display: flex; align-items: center; justify-content: space-between; padding: 14px;
             background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color);
             border-radius: 12px; margin-bottom: 10px; transition: all 0.3s ease;
         }
-        .extension-item:hover { background: rgba(255, 255, 255, 0.04); border-color: var(--primary); }
+        .extension-item:hover { background: rgba(255, 255, 255, 0.04); border-color: var(--primary); transform: translateX(5px); }
         .extension-info { display: flex; align-items: center; gap: 12px; }
         .extension-icon {
-            width: 42px; height: 42px; background: var(--gradient-1); border-radius: 10px;
+            width: 44px; height: 44px; background: var(--gradient-1); border-radius: 12px;
             display: flex; align-items: center; justify-content: center; font-size: 18px;
+            box-shadow: 0 4px 15px rgba(0, 255, 136, 0.2);
         }
         .extension-name { font-weight: 600; font-size: 14px; color: var(--text-primary); }
         .extension-desc { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
 
-        .toggle-switch { position: relative; width: 50px; height: 26px; }
+        .toggle-switch { position: relative; width: 52px; height: 28px; }
         .toggle-switch input { opacity: 0; width: 0; height: 0; }
         .toggle-slider {
             position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(255, 255, 255, 0.1); transition: 0.4s; border-radius: 26px;
+            background: rgba(255, 255, 255, 0.1); transition: 0.4s; border-radius: 28px;
         }
         .toggle-slider:before {
-            position: absolute; content: ""; height: 20px; width: 20px; left: 3px; bottom: 3px;
+            position: absolute; content: ""; height: 22px; width: 22px; left: 3px; bottom: 3px;
             background: white; transition: 0.4s; border-radius: 50%;
         }
         input:checked + .toggle-slider { background: var(--gradient-1); }
         input:checked + .toggle-slider:before { transform: translateX(24px); }
 
+        /* Daily Missions */
+        .mission-item {
+            background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color);
+            border-radius: 12px; padding: 14px; margin-bottom: 10px; transition: all 0.3s ease;
+        }
+        .mission-item:hover { border-color: var(--primary); }
+        .mission-item.completed { opacity: 0.6; border-color: var(--primary); background: rgba(0, 255, 136, 0.05); }
+        .mission-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .mission-title { font-weight: 600; font-size: 13px; color: var(--text-primary); }
+        .mission-reward { font-family: 'Orbitron', sans-serif; font-size: 12px; color: var(--gold); font-weight: 700; }
+        .mission-progress { height: 6px; background: rgba(255, 255, 255, 0.1); border-radius: 3px; overflow: hidden; }
+        .mission-progress-bar { height: 100%; background: var(--gradient-1); border-radius: 3px; transition: width 0.5s ease; }
+        .mission-status { font-size: 11px; color: var(--text-secondary); margin-top: 6px; }
+
+        /* Stats Mini Enhanced */
         .stats-mini { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .stat-box {
             background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color);
-            border-radius: 12px; padding: 16px; text-align: center;
+            border-radius: 12px; padding: 16px; text-align: center; transition: all 0.3s ease;
         }
-        .stat-value { font-family: 'Poppins', sans-serif; font-size: 1.8rem; font-weight: 800; color: var(--primary); }
+        .stat-box:hover { transform: scale(1.05); border-color: var(--primary); }
+        .stat-value { font-family: 'Orbitron', sans-serif; font-size: 1.8rem; font-weight: 800; color: var(--primary); }
         .stat-label { font-size: 11px; color: var(--text-secondary); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
 
-        /* Main Content */
+        /* Main Content Area */
         .content-area { display: flex; flex-direction: column; gap: 20px; transition: all 0.4s ease; }
 
         .iframe-card {
-            background: var(--bg-card); backdrop-filter: blur(20px);
+            background: var(--bg-card); backdrop-filter: blur(25px);
             border: 1px solid var(--border-color); border-radius: 24px; overflow: hidden;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3); transition: all 0.4s ease;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4); transition: all 0.4s ease;
         }
-        .iframe-card:hover { border-color: var(--primary); box-shadow: var(--shadow-glow), 0 20px 60px rgba(0, 0, 0, 0.3); }
+        .iframe-card:hover { border-color: var(--primary); box-shadow: var(--shadow-glow), 0 20px 60px rgba(0, 0, 0, 0.4); }
 
         .iframe-header {
-            background: rgba(0, 0, 0, 0.2); padding: 18px 24px;
+            background: rgba(0, 0, 0, 0.3); padding: 18px 24px;
             display: flex; justify-content: space-between; align-items: center;
             border-bottom: 1px solid var(--border-color); flex-wrap: wrap; gap: 15px;
         }
-        .iframe-controls { display: flex; gap: 10px; align-items: center; }
+        .iframe-controls { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
         .control-btn {
-            width: 38px; height: 38px; background: rgba(255, 255, 255, 0.05);
+            width: 40px; height: 40px; background: rgba(255, 255, 255, 0.05);
             border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-primary);
             cursor: pointer; transition: all 0.3s ease;
             display: flex; align-items: center; justify-content: center; font-size: 15px;
         }
-        .control-btn:hover { background: var(--primary); color: var(--bg-primary); border-color: var(--primary); transform: translateY(-2px); }
+        .control-btn:hover { background: var(--primary); color: var(--bg-primary); border-color: var(--primary); transform: translateY(-2px) scale(1.1); }
 
         .url-bar {
             flex: 1; min-width: 250px; max-width: 500px; display: flex; align-items: center;
-            background: rgba(0, 0, 0, 0.3); border: 1px solid var(--border-color);
+            background: rgba(0, 0, 0, 0.4); border: 1px solid var(--border-color);
             border-radius: 10px; padding: 10px 15px; gap: 10px;
         }
         .url-bar i { color: var(--primary); font-size: 14px; }
         .url-bar input { flex: 1; background: transparent; border: none; outline: none; color: var(--text-primary); font-family: 'Fira Code', monospace; font-size: 13px; }
 
-        .view-actions { display: flex; gap: 10px; }
+        .view-actions { display: flex; gap: 10px; flex-wrap: wrap; }
         .action-btn {
-            padding: 10px 20px; background: var(--gradient-1); border: none; border-radius: 10px;
+            padding: 11px 22px; background: var(--gradient-1); border: none; border-radius: 10px;
             color: white; font-weight: 600; font-size: 13px; cursor: pointer;
             transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 8px;
-            box-shadow: 0 4px 15px rgba(var(--primary), 0.3);
+            box-shadow: 0 4px 15px rgba(0, 255, 136, 0.3);
         }
-        .action-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(var(--primary), 0.4); }
+        .action-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 255, 136, 0.4); }
         .action-btn.secondary { background: rgba(255, 255, 255, 0.08); box-shadow: none; }
         .action-btn.secondary:hover { background: rgba(255, 255, 255, 0.15); }
+        .action-btn.gold { background: var(--gradient-gold); color: #000; box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3); }
+        .action-btn.gold:hover { box-shadow: 0 6px 25px rgba(255, 215, 0, 0.5); }
 
-        /* Iframe Container */
-        .iframe-container { position: relative; width: 100%; height: 750px; background: #000; }
+        /* Iframe Container with Multiple Load Methods */
+        .iframe-container { position: relative; width: 100%; height: 750px; background: #000; border-radius: 0 0 24px 24px; overflow: hidden; }
         iframe { width: 100%; height: 100%; border: none; background: white; }
 
-        /* Loading State */
+        /* Loading State Enhanced */
         .loading-overlay {
             position: absolute; top: 0; left: 0; right: 0; bottom: 0;
             background: var(--bg-primary); display: flex; flex-direction: column;
@@ -310,19 +438,27 @@
         }
         .loading-overlay.hidden { opacity: 0; pointer-events: none; }
 
-        .loader { width: 80px; height: 80px; position: relative; margin-bottom: 25px; }
+        .loader { width: 100px; height: 100px; position: relative; margin-bottom: 30px; }
         .loader-ring {
             position: absolute; width: 100%; height: 100%; border-radius: 50%;
-            border: 4px solid transparent; border-top-color: var(--primary); animation: spin 1s linear infinite;
+            border: 4px solid transparent; animation: spin 1s linear infinite;
         }
-        .loader-ring:nth-child(2) { width: 70%; height: 70%; top: 15%; left: 15%; border-top-color: var(--secondary); animation-duration: 0.8s; animation-direction: reverse; }
-        .loader-ring:nth-child(3) { width: 45%; height: 45%; top: 27.5%; left: 27.5%; border-top-color: var(--accent); animation-duration: 0.6s; }
+        .loader-ring:nth-child(1) { border-top-color: var(--primary); animation-duration: 1s; }
+        .loader-ring:nth-child(2) { width: 75%; height: 75%; top: 12.5%; left: 12.5%; border-top-color: var(--secondary); animation-duration: 0.8s; animation-direction: reverse; }
+        .loader-ring:nth-child(3) { width: 50%; height: 50%; top: 25%; left: 25%; border-top-color: var(--accent); animation-duration: 0.6s; }
+        .loader-ring:nth-child(4) { width: 25%; height: 25%; top: 37.5%; left: 37.5%; border-top-color: var(--gold); animation-duration: 0.4s; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        .loading-text { font-size: 1.2rem; font-weight: 600; color: var(--text-primary); margin-bottom: 8px; }
-        .loading-subtext { font-size: 0.9rem; color: var(--text-secondary); }
+        .loading-text { font-size: 1.3rem; font-weight: 700; color: var(--text-primary); margin-bottom: 10px; font-family: 'Orbitron', sans-serif; }
+        .loading-subtext { font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 20px; }
+        .loading-tips {
+            background: rgba(255, 255, 255, 0.05); padding: 15px 25px; border-radius: 12px;
+            border: 1px solid var(--border-color); max-width: 400px; text-align: center;
+        }
+        .loading-tips i { color: var(--gold); margin-right: 8px; }
+        .loading-tips span { font-size: 13px; color: var(--text-secondary); }
 
-        /* Error State - NOVO! */
+        /* Error/Info Overlay */
         .error-overlay {
             position: absolute; top: 0; left: 0; right: 0; bottom: 0;
             background: linear-gradient(135deg, rgba(10, 14, 39, 0.98) 0%, rgba(26, 31, 58, 0.98) 100%);
@@ -331,7 +467,7 @@
         }
         .error-overlay.hidden { display: none; }
 
-        .error-icon { font-size: 90px; margin-bottom: 25px; animation: bounce 2s infinite; }
+        .error-icon { font-size: 100px; margin-bottom: 25px; animation: bounce 2s infinite; }
         @keyframes bounce {
             0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
             40% { transform: translateY(-20px); }
@@ -341,62 +477,146 @@
         .error-overlay h3 { font-family: 'Poppins', sans-serif; font-size: 2rem; color: white; margin-bottom: 18px; }
         .error-overlay p { font-size: 1.1rem; color: var(--text-secondary); max-width: 650px; line-height: 1.7; margin-bottom: 35px; }
 
-        .error-actions { display: flex; flex-direction: column; gap: 15px; width: 100%; max-width: 450px; }
-        .btn-large { padding: 18px 35px; font-size: 16px; justify-content: center; border-radius: 14px; }
+        .error-actions { display: flex; flex-direction: column; gap: 15px; width: 100%; max-width: 480px; }
+        .btn-large { padding: 18px 35px; font-size: 16px; justify-content: center; border-radius: 14px; font-weight: 700; }
 
-        /* Extensions Dock */
+        /* Method Selector */
+        .method-selector {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px; margin-bottom: 25px; width: 100%; max-width: 700px;
+        }
+        .method-option {
+            background: rgba(255, 255, 255, 0.05); border: 2px solid var(--border-color);
+            border-radius: 16px; padding: 20px; cursor: pointer; transition: all 0.3s ease;
+            text-align: center;
+        }
+        .method-option:hover { border-color: var(--primary); transform: translateY(-3px); box-shadow: var(--shadow-glow); }
+        .method-option.selected { border-color: var(--primary); background: rgba(0, 255, 136, 0.1); }
+        .method-option i { font-size: 32px; color: var(--primary); margin-bottom: 10px; display: block; }
+        .method-option h4 { font-size: 14px; font-weight: 700; color: var(--text-primary); margin-bottom: 5px; }
+        .method-option p { font-size: 11px; color: var(--text-secondary); }
+
+        /* Extensions Dock Enhanced */
         .extensions-dock {
             position: fixed; right: 20px; bottom: 20px;
             display: flex; flex-direction: column; gap: 12px; z-index: 1000;
         }
         .dock-btn {
-            width: 56px; height: 56px; background: var(--bg-card); backdrop-filter: blur(20px);
+            width: 58px; height: 58px; background: var(--bg-card); backdrop-filter: blur(25px);
             border: 1px solid var(--border-color); border-radius: 16px; color: var(--text-primary);
             cursor: pointer; transition: all 0.3s ease;
             display: flex; align-items: center; justify-content: center; font-size: 22px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4); position: relative;
         }
         .dock-btn:hover { background: var(--gradient-1); transform: translateY(-5px) scale(1.1); box-shadow: var(--shadow-glow); }
         .dock-btn.active { background: var(--gradient-1); border-color: var(--primary); }
+        .dock-btn .notification-dot {
+            position: absolute; top: 8px; right: 8px; width: 10px; height: 10px;
+            background: #ef4444; border-radius: 50%; animation: pulse 2s infinite;
+        }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
 
-        /* Modals */
+        /* SHOP MODAL - NEW! */
         .modal-overlay {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(8px);
+            background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(10px);
             z-index: 2000; display: none; justify-content: center; align-items: center; padding: 20px;
+            overflow-y: auto;
         }
         .modal-overlay.active { display: flex; }
         .modal-content {
             background: var(--bg-secondary); border: 1px solid var(--border-color);
-            border-radius: 24px; padding: 30px; max-width: 550px; width: 100%; max-height: 80vh;
-            overflow-y: auto; box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
-            animation: modalSlideIn 0.4s ease;
+            border-radius: 24px; padding: 30px; max-width: 900px; width: 100%; max-height: 85vh;
+            overflow-y: auto; box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6);
+            animation: modalSlideIn 0.4s ease; position: relative;
         }
         @keyframes modalSlideIn {
             from { opacity: 0; transform: translateY(30px) scale(0.95); }
             to { opacity: 1; transform: translateY(0) scale(1); }
         }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; padding-bottom: 20px; border-bottom: 1px solid var(--border-color); }
-        .modal-title { font-family: 'Poppins', sans-serif; font-size: 1.5rem; font-weight: 700; color: var(--text-primary); display: flex; align-items: center; gap: 12px; }
-        .modal-close {
-            width: 40px; height: 40px; background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-primary);
-            cursor: pointer; transition: all 0.3s ease;
-            display: flex; align-items: center; justify-content: center; font-size: 18px;
+        .modal-header { 
+            display: flex; justify-content: space-between; align-items: center; 
+            margin-bottom: 30px; padding-bottom: 20px; border-bottom: 2px solid var(--border-color);
+            flex-wrap: wrap; gap: 15px;
         }
-        .modal-close:hover { background: #ef4444; border-color: #ef4444; }
+        .modal-title { 
+            font-family: 'Orbitron', sans-serif; font-size: 1.8rem; font-weight: 900; 
+            color: var(--text-primary); display: flex; align-items: center; gap: 15px;
+        }
+        .modal-title i { color: var(--gold); font-size: 2rem; }
+        .shop-balance {
+            background: var(--gradient-gold); color: #000; padding: 12px 24px; border-radius: 14px;
+            font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 1.1rem;
+            box-shadow: 0 4px 20px rgba(255, 215, 0, 0.4);
+        }
+        .modal-close {
+            width: 44px; height: 44px; background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color); border-radius: 12px; color: var(--text-primary);
+            cursor: pointer; transition: all 0.3s ease;
+            display: flex; align-items: center; justify-content: center; font-size: 20px;
+        }
+        .modal-close:hover { background: #ef4444; border-color: #ef4444; transform: rotate(90deg); }
 
+        /* Shop Categories */
+        .shop-categories { display: flex; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; }
+        .category-btn {
+            padding: 10px 20px; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-color);
+            border-radius: 12px; color: var(--text-secondary); cursor: pointer; transition: all 0.3s ease;
+            font-weight: 600; font-size: 13px;
+        }
+        .category-btn:hover, .category-btn.active { background: var(--gradient-1); color: white; border-color: transparent; }
+
+        /* Shop Items Grid */
+        .shop-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
+        .shop-item {
+            background: rgba(255, 255, 255, 0.03); border: 2px solid var(--border-color);
+            border-radius: 18px; padding: 20px; transition: all 0.3s ease; position: relative; overflow: hidden;
+        }
+        .shop-item:hover { border-color: var(--primary); transform: translateY(-5px); box-shadow: var(--shadow-glow); }
+        .shop-item.owned { border-color: var(--gold); background: rgba(255, 215, 0, 0.05); }
+        .shop-item.owned::after {
+            content: '✓ POSSUÍ'; position: absolute; top: 10px; right: 10px;
+            background: var(--gradient-gold); color: #000; padding: 5px 12px;
+            border-radius: 8px; font-size: 11px; font-weight: 800;
+        }
+        .item-preview {
+            height: 120px; background: linear-gradient(135deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 100%);
+            border-radius: 12px; margin-bottom: 15px; display: flex; align-items: center; justify-content: center;
+            font-size: 50px; position: relative; overflow: hidden;
+        }
+        .item-preview.animated { animation: itemPreviewAnim 3s ease-in-out infinite; }
+        @keyframes itemPreviewAnim {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.05) rotate(2deg); }
+        }
+        .item-name { font-family: 'Poppins', sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 8px; }
+        .item-desc { font-size: 12px; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5; }
+        .item-footer { display: flex; justify-content: space-between; align-items: center; }
+        .item-price {
+            font-family: 'Orbitron', sans-serif; font-size: 1.2rem; font-weight: 800; color: var(--gold);
+            display: flex; align-items: center; gap: 6px;
+        }
+        .buy-btn {
+            padding: 10px 20px; background: var(--gradient-1); border: none; border-radius: 10px;
+            color: white; font-weight: 700; font-size: 13px; cursor: pointer; transition: all 0.3s ease;
+        }
+        .buy-btn:hover { transform: scale(1.05); box-shadow: 0 4px 15px rgba(0, 255, 136, 0.4); }
+        .buy-btn:disabled { background: #4b5563; cursor: not-allowed; transform: none; box-shadow: none; }
+        .buy-btn.equipped { background: var(--gradient-gold); color: #000; }
+
+        /* Other Modals */
         .notes-area {
-            width: 100%; min-height: 250px; background: rgba(0, 0, 0, 0.3);
+            width: 100%; min-height: 280px; background: rgba(0, 0, 0, 0.3);
             border: 1px solid var(--border-color); border-radius: 14px; padding: 18px;
             color: var(--text-primary); font-family: 'Inter', sans-serif; font-size: 14px;
             line-height: 1.7; resize: vertical; outline: none; transition: all 0.3s ease;
         }
-        .notes-area:focus { border-color: var(--primary); box-shadow: 0 0 20px rgba(var(--primary), 0.15); }
+        .notes-area:focus { border-color: var(--primary); box-shadow: 0 0 20px rgba(0, 255, 136, 0.15); }
 
         .timer-display { text-align: center; padding: 40px 20px; background: rgba(0, 0, 0, 0.3); border-radius: 20px; margin-bottom: 25px; }
-        .timer-time { font-family: 'Fira Code', monospace; font-size: 4rem; font-weight: 700; color: var(--primary); letter-spacing: 4px; margin-bottom: 10px; }
+        .timer-time { font-family: 'Fira Code', monospace; font-size: 4.5rem; font-weight: 700; color: var(--primary); letter-spacing: 4px; margin-bottom: 10px; }
         .timer-label { font-size: 1rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 2px; }
+        .timer-xp-reward { margin-top: 15px; padding: 10px; background: rgba(255, 215, 0, 0.1); border-radius: 10px; font-size: 13px; color: var(--gold); font-weight: 600; }
         .timer-controls { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
         .timer-btn { padding: 14px 28px; background: var(--gradient-1); border: none; border-radius: 12px; color: white; font-weight: 600; font-size: 14px; cursor: pointer; transition: all 0.3s ease; }
         .timer-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-glow); }
@@ -407,7 +627,7 @@
 
         .calc-display { background: rgba(0, 0, 0, 0.4); border: 1px solid var(--border-color); border-radius: 14px; padding: 20px; margin-bottom: 20px; text-align: right; }
         .calc-expression { font-family: 'Fira Code', monospace; font-size: 14px; color: var(--text-secondary); margin-bottom: 8px; min-height: 20px; }
-        .calc-result { font-family: 'Fira Code', monospace; font-size: 2.5rem; font-weight: 700; color: var(--primary); }
+        .calc-result { font-family: 'Fira Code', monospace; font-size: 2.8rem; font-weight: 700; color: var(--primary); }
         .calc-buttons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
         .calc-btn { padding: 18px; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-color); border-radius: 12px; color: var(--text-primary); font-size: 18px; font-weight: 600; cursor: pointer; transition: all 0.2s ease; }
         .calc-btn:hover { background: rgba(255, 255, 255, 0.1); transform: scale(1.05); }
@@ -417,39 +637,67 @@
 
         .focus-overlay {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.95); z-index: 3000;
+            background: rgba(0, 0, 0, 0.97); z-index: 3000;
             display: none; justify-content: center; align-items: center; flex-direction: column; padding: 40px;
         }
         .focus-overlay.active { display: flex; }
-        .focus-timer { font-family: 'Fira Code', monospace; font-size: 6rem; font-weight: 700; color: var(--primary); margin-bottom: 30px; }
-        .focus-message { font-size: 1.5rem; color: var(--text-secondary); text-align: center; margin-bottom: 40px; }
-        .focus-exit { padding: 16px 40px; background: #ef4444; border: none; border-radius: 12px; color: white; font-weight: 700; font-size: 16px; cursor: pointer; transition: all 0.3s ease; }
+        .focus-timer { font-family: 'Fira Code', monospace; font-size: 7rem; font-weight: 700; color: var(--primary); margin-bottom: 30px; text-shadow: 0 0 30px var(--primary); }
+        .focus-message { font-size: 1.5rem; color: var(--text-secondary); text-align: center; margin-bottom: 40px; line-height: 1.6; }
+        .focus-stats { display: flex; gap: 30px; margin-bottom: 40px; }
+        .focus-stat { text-align: center; }
+        .focus-stat-value { font-family: 'Orbitron', sans-serif; font-size: 2rem; font-weight: 800; color: var(--gold); }
+        .focus-stat-label { font-size: 0.9rem; color: var(--text-secondary); }
+        .focus-exit { padding: 18px 45px; background: #ef4444; border: none; border-radius: 14px; color: white; font-weight: 800; font-size: 16px; cursor: pointer; transition: all 0.3s ease; }
         .focus-exit:hover { transform: scale(1.05); box-shadow: 0 0 30px rgba(239, 68, 68, 0.5); }
 
-        /* Toast */
+        /* Toast Notifications Enhanced */
         .toast-container { position: fixed; top: 25px; right: 25px; z-index: 9999; display: flex; flex-direction: column; gap: 12px; }
         .toast {
-            padding: 16px 24px; border-radius: 14px; color: white; font-weight: 600;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
-            display: flex; align-items: center; gap: 12px; min-width: 300px;
+            padding: 18px 26px; border-radius: 14px; color: white; font-weight: 600;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            display: flex; align-items: center; gap: 12px; min-width: 320px;
             animation: toastIn 0.4s ease; backdrop-filter: blur(10px);
+            border-left: 4px solid;
         }
-        .toast.success { background: linear-gradient(135deg, rgba(16, 185, 129, 0.95) 0%, rgba(5, 150, 105, 0.95) 100%); }
-        .toast.error { background: linear-gradient(135deg, rgba(239, 68, 68, 0.95) 0%, rgba(220, 38, 38, 0.95) 100%); }
-        .toast.info { background: linear-gradient(135deg, rgba(99, 102, 241, 0.95) 0%, rgba(79, 70, 229, 0.95) 100%); }
+        .toast.success { background: linear-gradient(135deg, rgba(16, 185, 129, 0.95) 0%, rgba(5, 150, 105, 0.95) 100%); border-left-color: #10b981; }
+        .toast.error { background: linear-gradient(135deg, rgba(239, 68, 68, 0.95) 0%, rgba(220, 38, 38, 0.95) 100%); border-left-color: #ef4444; }
+        .toast.info { background: linear-gradient(135deg, rgba(99, 102, 241, 0.95) 0%, rgba(79, 70, 229, 0.95) 100%); border-left-color: #6366f1; }
+        .toast.reward { background: linear-gradient(135deg, rgba(255, 215, 0, 0.95) 0%, rgba(255, 170, 0, 0.95) 100%); color: #000; border-left-color: #ffd700; }
         @keyframes toastIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 
+        /* Level Up Animation */
+        .levelup-overlay {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.9); z-index: 4000;
+            display: none; justify-content: center; align-items: center; flex-direction: column;
+        }
+        .levelup-overlay.active { display: flex; animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .levelup-content { text-align: center; animation: levelUpBounce 0.8s ease; }
+        @keyframes levelUpBounce {
+            0% { transform: scale(0) rotate(-10deg); }
+            50% { transform: scale(1.2) rotate(5deg); }
+            70% { transform: scale(0.9) rotate(-3deg); }
+            100% { transform: scale(1) rotate(0deg); }
+        }
+        .levelup-icon { font-size: 120px; margin-bottom: 20px; animation: spin 2s linear infinite; }
+        .levelup-text { font-family: 'Orbitron', sans-serif; font-size: 3rem; font-weight: 900; color: var(--gold); margin-bottom: 10px; }
+        .levelup-subtext { font-size: 1.3rem; color: var(--text-secondary); }
+
+        /* Footer */
         .footer { text-align: center; padding: 30px; color: var(--text-secondary); font-size: 0.9rem; border-top: 1px solid var(--border-color); margin-top: 30px; }
         .footer-icons { display: flex; justify-content: center; gap: 20px; margin-bottom: 15px; }
-        .footer-icons a { color: var(--text-secondary); font-size: 1.4rem; transition: all 0.3s ease; }
-        .footer-icons a:hover { color: var(--primary); transform: translateY(-3px); }
+        .footer-icons a { color: var(--text-secondary); font-size: 1.5rem; transition: all 0.3s ease; }
+        .footer-icons a:hover { color: var(--primary); transform: translateY(-3px) scale(1.2); }
 
+        /* Responsive */
         @media (max-width: 1024px) {
             .top-nav { flex-direction: column; gap: 15px; text-align: center; }
             .nav-actions { flex-wrap: wrap; justify-content: center; }
             .iframe-container { height: 550px; }
             .extensions-dock { right: 10px; bottom: 10px; }
-            .dock-btn { width: 48px; height: 48px; font-size: 18px; }
+            .dock-btn { width: 50px; height: 50px; font-size: 18px; }
+            .modal-content { margin: 10px; padding: 20px; }
         }
         @media (max-width: 768px) {
             .container { padding: 10px; }
@@ -458,39 +706,70 @@
             .view-actions { width: 100%; justify-content: center; }
             .iframe-container { height: 450px; }
             .timer-time { font-size: 3rem; }
-            .modal-content { padding: 20px; margin: 10px; }
+            .shop-grid { grid-template-columns: 1fr; }
+            .user-stats-bar { justify-content: center; }
         }
         .hidden { display: none !important; }
     </style>
 </head>
 <body data-theme="default">
 
-    <!-- Background -->
-    <div class="floating-orbs">
-        <div class="orb orb-1"></div>
-        <div class="orb orb-2"></div>
-        <div class="orb orb-3"></div>
-    </div>
+    <!-- Particles Background -->
+    <div class="particles-bg" id="particlesBg"></div>
 
     <!-- Toast Container -->
     <div class="toast-container" id="toastContainer"></div>
 
+    <!-- Level Up Overlay -->
+    <div class="levelup-overlay" id="levelUpOverlay">
+        <div class="levelup-content">
+            <div class="levelup-icon">🎉</div>
+            <div class="levelup-text">LEVEL UP!</div>
+            <div class="levelup-subtext" id="levelUpText">Você alcançou o nível 2!</div>
+        </div>
+    </div>
+
     <!-- Main Container -->
     <div class="container">
         
-        <!-- Navigation -->
+        <!-- Navigation with Stats -->
         <nav class="top-nav">
             <div class="logo-section">
                 <div class="logo-icon"><i class="fas fa-graduation-cap"></i></div>
                 <div class="logo-text">
-                    <h1>Geekie One</h1>
-                    <span>Portal Ultra • v3.0</span>
+                    <h1>GEEKIE ONE</h1>
+                    <span>ULTRA PREMIUM • v4.0</span>
+                </div>
+            </div>
+
+            <!-- User Stats Bar -->
+            <div class="user-stats-bar">
+                <div class="stat-item" title="Moedas">
+                    <i class="fas fa-coins stat-icon"></i>
+                    <div>
+                        <div class="stat-value" id="coinsDisplay">0</div>
+                        <div class="stat-label">Moedas</div>
+                    </div>
+                </div>
+                <div class="stat-item" title="Experiência">
+                    <i class="fas fa-star stat-icon"></i>
+                    <div>
+                        <div class="stat-value" id="xpDisplay">0</div>
+                        <div class="stat-label">XP</div>
+                    </div>
+                </div>
+                <div class="level-badge" onclick="openModal('achievements')" title="Ver Conquistas">
+                    <i class="fas fa-crown"></i> Nível <span id="levelDisplay">1</span>
                 </div>
             </div>
             
             <div class="nav-actions">
                 <button class="nav-btn active" onclick="showSection('home')">
                     <i class="fas fa-home"></i> Início
+                </button>
+                
+                <button class="shop-btn" onclick="openModal('shop')">
+                    <i class="fas fa-store"></i> Loja
                 </button>
                 
                 <button class="toggle-sidebar-btn" id="toggleSidebarBtn" onclick="toggleSidebar()">
@@ -510,9 +789,9 @@
             <!-- Sidebar -->
             <aside class="sidebar" id="sidebar">
                 
-                <!-- Themes -->
+                <!-- Free Themes -->
                 <div class="sidebar-card">
-                    <h3 class="card-title"><i class="fas fa-swatchbook"></i> Temas Exclusivos</h3>
+                    <h3 class="card-title"><i class="fas fa-palette"></i> Temas Gratuitos</h3>
                     <div class="theme-grid">
                         <div class="theme-option active" data-theme="default" onclick="changeTheme(this)">
                             <span class="theme-icon">🌿</span> Cyberpunk
@@ -532,12 +811,41 @@
                         <div class="theme-option" data-theme="midnight" onclick="changeTheme(this)">
                             <span class="theme-icon">🌙</span> Midnight
                         </div>
-                        <div class="theme-option" data-theme="galaxy" onclick="changeTheme(this)">
-                            <span class="theme-icon">🌌</span> Galaxy
+                    </div>
+                </div>
+
+                <!-- Premium Themes (Locked) -->
+                <div class="sidebar-card">
+                    <h3 class="card-title"><i class="fas fa-gem"></i> Temas Premium <span style="color:var(--gold);font-size:0.8rem;">(Loja)</span></h3>
+                    <div class="theme-grid">
+                        <div class="theme-option locked" data-theme="neon-cyber" onclick="tryPremiumTheme(this, 'neon-cyber')">
+                            <span class="theme-icon">💜</span> Neon Cyber
+                            <span class="theme-price">🪙 500</span>
                         </div>
-                        <div class="theme-option" data-theme="cherry" onclick="changeTheme(this)">
-                            <span class="theme-icon">🌸</span> Cherry
+                        <div class="theme-option locked" data-theme="galaxy-premium" onclick="tryPremiumTheme(this, 'galaxy-premium')">
+                            <span class="theme-icon">🌌</span> Galaxy Pro
+                            <span class="theme-price">🪙 750</span>
                         </div>
+                        <div class="theme-option locked" data-theme="fire-dragon" onclick="tryPremiumTheme(this, 'fire-dragon')">
+                            <span class="theme-icon">🔥</span> Fire Dragon
+                            <span class="theme-price">🪙 1000</span>
+                        </div>
+                        <div class="theme-option locked" data-theme="ice-crystal" onclick="tryPremiumTheme(this, 'ice-crystal')">
+                            <span class="theme-icon">❄️</span> Ice Crystal
+                            <span class="theme-price">🪙 1000</span>
+                        </div>
+                        <div class="theme-option locked" data-theme="golden-emperor" onclick="tryPremiumTheme(this, 'golden-emperor')">
+                            <span class="theme-icon">👑</span> Golden Emperor
+                            <span class="theme-price">🪙 2000</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Daily Missions -->
+                <div class="sidebar-card">
+                    <h3 class="card-title"><i class="fas fa-tasks"></i> Missões Diárias</h3>
+                    <div id="missionsContainer">
+                        <!-- Missions will be generated by JS -->
                     </div>
                 </div>
 
@@ -548,7 +856,7 @@
                     <div class="extension-item">
                         <div class="extension-info">
                             <div class="extension-icon"><i class="fas fa-sticky-note"></i></div>
-                            <div><div class="extension-name">Notas Rápidas</div><div class="extension-desc">Anotações durante estudos</div></div>
+                            <div><div class="extension-name">Notas Rápidas</div><div class="extension-desc">+5 XP a cada save</div></div>
                         </div>
                         <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
                     </div>
@@ -556,7 +864,7 @@
                     <div class="extension-item">
                         <div class="extension-info">
                             <div class="extension-icon"><i class="fas fa-clock"></i></div>
-                            <div><div class="extension-name">Pomodoro Timer</div><div class="extension-desc">Técnica de foco 25+5</div></div>
+                            <div><div class="extension-name">Pomodoro Timer</div><div class="extension-desc">+20 XP por sessão</div></div>
                         </div>
                         <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
                     </div>
@@ -564,7 +872,7 @@
                     <div class="extension-item">
                         <div class="extension-info">
                             <div class="extension-icon"><i class="fas fa-calculator"></i></div>
-                            <div><div class="extension-name">Calculadora</div><div class="extension-desc">Cálculos rápidos</div></div>
+                            <div><div class="extension-name">Calculadora</div><div class="extension-desc">+1 XP por uso</div></div>
                         </div>
                         <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
                     </div>
@@ -572,7 +880,7 @@
                     <div class="extension-item">
                         <div class="extension-info">
                             <div class="extension-icon"><i class="fas fa-crosshairs"></i></div>
-                            <div><div class="extension-name">Modo Foco</div><div class="extension-desc">Tela cheia sem distrações</div></div>
+                            <div><div class="extension-name">Modo Foco</div><div class="extension-desc">+50 XP bônus</div></div>
                         </div>
                         <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
                     </div>
@@ -580,12 +888,12 @@
 
                 <!-- Stats -->
                 <div class="sidebar-card">
-                    <h3 class="card-title"><i class="fas fa-chart-line"></i> Estatísticas</h3>
+                    <h3 class="card-title"><i class="fas fa-chart-line"></i> Suas Estatísticas</h3>
                     <div class="stats-mini">
-                        <div class="stat-box"><div class="stat-value">8</div><div class="stat-label">Temas</div></div>
-                        <div class="stat-box"><div class="stat-value">4</div><div class="stat-label">Extensões</div></div>
                         <div class="stat-box"><div class="stat-value" id="stat-sessions">0</div><div class="stat-label">Sessões</div></div>
                         <div class="stat-box"><div class="stat-value" id="stat-hours">0h</div><div class="stat-label">Estudo</div></div>
+                        <div class="stat-box"><div class="stat-value" id="stat-streak">0</div><div class="stat-label">Dias Seguidos</div></div>
+                        <div class="stat-box"><div class="stat-value" id="stat-totalxp">0</div><div class="stat-label">Total XP</div></div>
                     </div>
                 </div>
 
@@ -609,11 +917,11 @@
                         </div>
 
                         <div class="view-actions">
-                            <button class="action-btn secondary" onclick="openInNewTab()">
-                                <i class="fas fa-external-link-alt"></i> Nova Aba
+                            <button class="action-btn gold" onclick="openInNewTab()">
+                                <i class="fas fa-external-link-alt"></i> Abrir em Nova Aba (+10 XP)
                             </button>
-                            <button class="action-btn" onclick="tryAlternativeVersion()">
-                                <i class="fas fa-exchange-alt"></i> Versão Alt.
+                            <button class="action-btn secondary" onclick="showLoadMethods()">
+                                <i class="fas fa-cog"></i> Métodos de Carregamento
                             </button>
                             <button class="action-btn" onclick="openFullscreen()">
                                 <i class="fas fa-expand-arrows-alt"></i> Tela Cheia
@@ -629,29 +937,51 @@
                                 <div class="loader-ring"></div>
                                 <div class="loader-ring"></div>
                                 <div class="loader-ring"></div>
+                                <div class="loader-ring"></div>
                             </div>
                             <div class="loading-text" id="loadingText">Carregando Geekie One...</div>
-                            <div class="loading-subtext" id="loadingSubtext">Preparando sua experiência de estudos</div>
+                            <div class="loading-subtext" id="loadingSubtext">Preparando sua experiência premium</div>
+                            <div class="loading-tips">
+                                <i class="fas fa-lightbulb"></i>
+                                <span id="loadingTip">Dica: Use o Pomodoro Timer para ganhar XP extra!</span>
+                            </div>
                         </div>
 
-                        <!-- Error Overlay - NOVO! -->
+                        <!-- Error/Method Selection Overlay -->
                         <div class="error-overlay hidden" id="errorOverlay">
-                            <div class="error-icon">🔒</div>
-                            <h3>Proteção de Segurança Detectada</h3>
-                            <p>
-                                O <strong>Geekie One</strong> possui proteções de segurança avançadas 
-                                (X-Frame-Options) que impedem a exibição direta em iframe. 
-                                Isso é uma medida de segurança para proteger seus dados!
-                            </p>
+                            <div class="error-icon">🚀</div>
+                            <h3>Escolha Método de Carregamento</h3>
+                            <p>O Geekie One possui proteções de segurança. Escolha a melhor opção para você:</p>
+                            
+                            <div class="method-selector">
+                                <div class="method-option selected" onclick="selectMethod('direct')" id="methodDirect">
+                                    <i class="fas fa-globe"></i>
+                                    <h4>Carregamento Direto</h4>
+                                    <p>Tenta carregar normalmente (recomendado)</p>
+                                </div>
+                                <div class="method-option" onclick="selectMethod('newtab')" id="methodNewtab">
+                                    <i class="fas fa-external-link-alt"></i>
+                                    <h4>Nova Aba</h4>
+                                    <p>Abrir em nova janela (+10 XP)</p>
+                                </div>
+                                <div class="method-option" onclick="selectMethod('alternative')" id="methodAlternative">
+                                    <i class="fas fa-exchange-alt"></i>
+                                    <h4>Versão Alternativa</h4>
+                                    <p>Tentar versão modificada</p>
+                                </div>
+                                <div class="method-option" onclick="selectMethod('embed')" id="methodEmbed">
+                                    <i class="fas fa-code"></i>
+                                    <h4>Embed Proxy</h4>
+                                    <p>Usar serviço de embed</p>
+                                </div>
+                            </div>
+
                             <div class="error-actions">
-                                <button class="action-btn btn-large" onclick="openInNewTab()" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
-                                    <i class="fas fa-external-link-alt"></i> Abrir em Nova Aba (Recomendado)
+                                <button class="action-btn btn-large" onclick="executeSelectedMethod()" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+                                    <i class="fas fa-play"></i> Carregar Agora!
                                 </button>
-                                <button class="action-btn btn-large secondary" onclick="tryAlternativeVersion()">
-                                    <i class="fas fa-exchange-alt"></i> Tentar Versão Alternativa
-                                </button>
-                                <button class="action-btn btn-large" onclick="showErrorInfo()" style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);">
-                                    <i class="fas fa-info-circle"></i> Saiba Mais
+                                <button class="action-btn btn-large secondary" onclick="hideErrorOverlay()">
+                                    <i class="fas fa-times"></i> Cancelar
                                 </button>
                             </div>
                         </div>
@@ -662,9 +992,8 @@
                             src=""
                             title="Geekie One"
                             allowfullscreen
-                            sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-presentation"
+                            sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-presentation allow-downloads"
                             onload="onIframeLoad()"
-                            onerror="onIframeError()"
                         ></iframe>
                     </div>
                 </div>
@@ -680,9 +1009,10 @@
                 <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
                 <a href="#" title="YouTube"><i class="fab fa-youtube"></i></a>
             </div>
-            <p>© 2024 Geekie One Portal Ultra</p>
+            <p>© 2024 Geekie One Portal ULTRA PREMIUM v4.0</p>
             <p style="margin-top: 8px; font-size: 0.85rem;">
-                Desenvolvido com <i class="fas fa-heart" style="color: #ef4444;"></i> para a comunidade educacional
+                Desenvolvido com <i class="fas fa-heart" style="color: #ef4444;"></i> para a comunidade educacional | 
+                <i class="fas fa-coins" style="color: var(--gold);"></i> Ganhe XP enquanto estuda!
             </p>
         </footer>
 
@@ -690,10 +1020,37 @@
 
     <!-- Extensions Dock -->
     <div class="extensions-dock">
-        <button class="dock-btn" onclick="openModal('notes')" title="Notas"><i class="fas fa-sticky-note"></i></button>
-        <button class="dock-btn" onclick="openModal('timer')" title="Timer Pomodoro"><i class="fas fa-clock"></i></button>
-        <button class="dock-btn" onclick="openModal('calculator')" title="Calculadora"><i class="fas fa-calculator"></i></button>
-        <button class="dock-btn" onclick="startFocusMode()" title="Modo Foco"><i class="fas fa-crosshairs"></i></button>
+        <button class="dock-btn" onclick="openModal('notes')" title="Notas (+5 XP/save)"><i class="fas fa-sticky-note"></i></button>
+        <button class="dock-btn" onclick="openModal('timer')" title="Timer Pomodoro (+20 XP/sessão)"><i class="fas fa-clock"></i></button>
+        <button class="dock-btn" onclick="openModal('calculator')" title="Calculadora (+1 XP/uso)"><i class="fas fa-calculator"></i></button>
+        <button class="dock-btn" onclick="startFocusMode()" title="Modo Foco (+50 XP)"><i class="fas fa-crosshairs"></i></button>
+        <button class="dock-btn" onclick="openModal('achievements')" title="Conquistas"><i class="fas fa-trophy"></i><span class="notification-dot" id="achievementDot" style="display:none;"></span></button>
+    </div>
+
+    <!-- ==================== MODALS ==================== -->
+
+    <!-- Shop Modal -->
+    <div class="modal-overlay" id="shopModal">
+        <div class="modal-content" style="max-width: 1000px;">
+            <div class="modal-header">
+                <h2 class="modal-title"><i class="fas fa-store"></i> Loja Premium</h2>
+                <div class="shop-balance">
+                    <i class="fas fa-coins"></i> <span id="shopCoins">0</span> Moedas
+                </div>
+                <button class="modal-close" onclick="closeModal('shop')"><i class="fas fa-times"></i></button>
+            </div>
+
+            <div class="shop-categories">
+                <button class="category-btn active" onclick="filterShop('themes')">🎨 Temas Animados</button>
+                <button class="category-btn" onclick="filterShop('boosters')">⚡ Boosters de XP</button>
+                <button class="category-btn" onclick="filterShop('badges')">🏅 Badges Exclusivos</button>
+                <button class="category-btn" onclick="filterShop('effects')">✨ Efeitos Visuais</button>
+            </div>
+
+            <div class="shop-grid" id="shopGrid">
+                <!-- Shop items will be generated by JS -->
+            </div>
+        </div>
     </div>
 
     <!-- Notes Modal -->
@@ -705,14 +1062,14 @@
             </div>
             <textarea class="notes-area" id="notesArea" placeholder="Escreva suas anotações aqui... 📝
 
-Dicas:
-• Use para resumir conteúdos do Geekie One
+💡 Dicas:
+• Resuma conteúdos do Geekie One
 • Anote dúvidas para pesquisar depois
-• Crie listas de tarefas de estudo
+• Crie listas de tarefas
 
-Suas notas são salvas automaticamente! 💾"></textarea>
+⭐ Salve suas notas para ganhar +5 XP!"></textarea>
             <div style="margin-top: 15px; display: flex; gap: 10px;">
-                <button class="action-btn" onclick="saveNotes()" style="flex: 1;"><i class="fas fa-save"></i> Salvar Notas</button>
+                <button class="action-btn" onclick="saveNotes()" style="flex: 1;"><i class="fas fa-save"></i> Salvar Notas (+5 XP)</button>
                 <button class="action-btn secondary" onclick="clearNotes()" style="flex: 1;"><i class="fas fa-trash"></i> Limpar</button>
             </div>
         </div>
@@ -728,18 +1085,21 @@ Suas notas são salvas automaticamente! 💾"></textarea>
             <div class="timer-display">
                 <div class="timer-time" id="timerDisplay">25:00</div>
                 <div class="timer-label" id="timerLabel">Foco</div>
+                <div class="timer-xp-reward">
+                    <i class="fas fa-star"></i> Recompensa ao completar: +<span id="timerXPReward">20</span> XP
+                </div>
             </div>
             <div class="timer-controls">
                 <button class="timer-btn" id="timerStartBtn" onclick="toggleTimer()"><i class="fas fa-play"></i> Iniciar</button>
                 <button class="timer-btn reset" onclick="resetTimer()"><i class="fas fa-redo"></i> Resetar</button>
             </div>
             <div class="timer-presets">
-                <button class="preset-btn" onclick="setTimer(25)">25 min</button>
-                <button class="preset-btn" onclick="setTimer(15)">15 min</button>
-                <button class="preset-btn" onclick="setTimer(5)">5 min</button>
-                <button class="preset-btn" onclick="setTimer(45)">45 min</button>
-                <button class="preset-btn" onclick="setTimer(60)">1 hora</button>
-                <button class="preset-btn" onclick="setTimer(90)">1.5h</button>
+                <button class="preset-btn" onclick="setTimer(25)">25 min (+20 XP)</button>
+                <button class="preset-btn" onclick="setTimer(15)">15 min (+12 XP)</button>
+                <button class="preset-btn" onclick="setTimer(5)">5 min (+5 XP)</button>
+                <button class="preset-btn" onclick="setTimer(45)">45 min (+35 XP)</button>
+                <button class="preset-btn" onclick="setTimer(60)">1 hora (+50 XP)</button>
+                <button class="preset-btn" onclick="setTimer(90)">1.5h (+75 XP)</button>
             </div>
         </div>
     </div>
@@ -779,35 +1139,139 @@ Suas notas são salvas automaticamente! 💾"></textarea>
         </div>
     </div>
 
+    <!-- Achievements Modal -->
+    <div class="modal-overlay" id="achievementsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title"><i class="fas fa-trophy"></i> Conquistas & Badges</h2>
+                <button class="modal-close" onclick="closeModal('achievements')"><i class="fas fa-times"></i></button>
+            </div>
+            <div id="achievementsList" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px;">
+                <!-- Achievements will be generated by JS -->
+            </div>
+        </div>
+    </div>
+
     <!-- Focus Mode Overlay -->
     <div class="focus-overlay" id="focusOverlay">
         <div class="focus-timer" id="focusTimer">25:00</div>
         <div class="focus-message" id="focusMessage">🎯 Modo Foco Ativado!<br>Concentre-se nos seus estudos. Você consegue!</div>
+        <div class="focus-stats">
+            <div class="focus-stat">
+                <div class="focus-stat-value" id="focusXP">+50</div>
+                <div class="focus-stat-label">XP ao completar</div>
+            </div>
+            <div class="focus-stat">
+                <div class="focus-stat-value" id="focusTime">25:00</div>
+                <div class="focus-stat-label">Tempo restante</div>
+            </div>
+        </div>
         <button class="focus-exit" onclick="exitFocusMode()"><i class="fas fa-times"></i> Sair do Modo Foco</button>
     </div>
 
     <script>
         // ============================================
-        // CONFIGURATION & STATE
+        // CONFIGURAÇÃO E ESTADO GLOBAL
         // ============================================
-        const GEEKIE_NORMAL_URL = 'https://one.geekie.com.br/';
-        const GEEKIE_PLUS_URL = 'https://dx1website.pages.dev/resumao/geekieoneplus/';
-        
-        let state = {
-            theme: 'default',
-            sidebarOpen: true,
-            currentUrl: GEEKIE_NORMAL_URL,
-            usingAlternative: false,
-            notes: localStorage.getItem('geekieNotes') || '',
-            timer: {
-                minutes: 25, seconds: 0, isRunning: false, interval: null,
-                totalSessions: parseInt(localStorage.getItem('geekieSessions')) || 0,
-                totalMinutes: parseInt(localStorage.getItem('geekieMinutes')) || 0
-            },
-            calc: { expression: '', result: '0' },
-            focusMode: false,
-            loadAttempts: 0
+        const CONFIG = {
+            GEEKIE_URL: 'https://one.geekie.com.br/',
+            ALTERNATIVE_URL: 'https://dx1website.pages.dev/resumao/geekieoneplus/',
+            EMBED_URL: 'https://api.allorigins.win/raw?url=',
+            XP_PER_SECOND: 1,
+            COINS_PER_MINUTE: 2,
+            XP_PER_SESSION_COMPLETE: 20,
+            NOTES_XP: 5,
+            CALC_XP: 1,
+            TIMER_BASE_XP: 20,
+            FOCUS_XP: 50,
+            NEWTAB_XP: 10,
+            LEVEL_XP_MULTIPLIER: 100
         };
+
+        let state = {
+            theme: localStorage.getItem('selectedTheme') || 'default',
+            sidebarOpen: true,
+            currentUrl: CONFIG.GEEKIE_URL,
+            selectedMethod: 'direct',
+            
+            // Gamification
+            coins: parseInt(localStorage.getItem('geekieCoins')) || 50,
+            xp: parseInt(localStorage.getItem('geekieXP')) || 0,
+            level: parseInt(localStorage.getItem('geekieLevel')) || 1,
+            totalXP: parseInt(localStorage.getItem('geekieTotalXP')) || 0,
+            sessions: parseInt(localStorage.getItem('geekieSessions')) || 0,
+            studyMinutes: parseInt(localStorage.getItem('geekieStudyMinutes')) || 0,
+            streak: parseInt(localStorage.getItem('geekieStreak')) || 0,
+            lastVisit: localStorage.getItem('geekieLastVisit') || null,
+            
+            // Inventory
+            ownedThemes: JSON.parse(localStorage.getItem('geekieOwnedThemes')) || ['default', 'ocean', 'sunset', 'forest', 'royal', 'midnight'],
+            equippedTheme: localStorage.getItem('geekieEquippedTheme') || 'default',
+            ownedItems: JSON.parse(localStorage.getItem('geekieOwnedItems')) || [],
+            achievements: JSON.parse(localStorage.getItem('geekieAchievements')) || [],
+            
+            // Timer
+            timer: { minutes: 25, seconds: 0, isRunning: false, interval: null },
+            
+            // Calc
+            calc: { expression: '', result: '0' },
+            
+            // Notes
+            notes: localStorage.getItem('geekieNotes') || '',
+            
+            // Time tracking
+            sessionStart: Date.now(),
+            isActive: true,
+            xpInterval: null
+        };
+
+        // Shop Data
+        const SHOP_ITEMS = [
+            // Themes
+            { id: 'neon-cyber', name: 'Neon Cyber', desc: 'Tema cyberpunk neon animado com brilho pulsante', price: 500, category: 'themes', icon: '💜', type: 'theme', animated: true },
+            { id: 'galaxy-premium', name: 'Galaxy Pro', desc: 'Tema galáxia com gradiente animado rotativo', price: 750, category: 'themes', icon: '🌌', type: 'theme', animated: true },
+            { id: 'fire-dragon', name: 'Fire Dragon', desc: 'Tema de fogo com efeito de chama cintilante', price: 1000, category: 'themes', icon: '🔥', type: 'theme', animated: true },
+            { id: 'ice-crystal', name: 'Ice Crystal', desc: 'Tema gelado com brilho cristalino', price: 1000, category: 'themes', icon: '❄️', type: 'theme', animated: true },
+            { id: 'golden-emperor', name: 'Golden Emperor', desc: 'Tema dourado premium exclusivo', price: 2000, category: 'themes', icon: '👑', type: 'theme', animated: true },
+            
+            // Boosters
+            { id: 'booster_2x', name: 'Booster 2x XP', desc: 'Dobre seu ganho de XP por 1 hora', price: 200, category: 'boosters', icon: '⚡', type: 'booster', multiplier: 2, duration: 3600000 },
+            { id: 'booster_3x', name: 'Booster 3x XP', desc: 'Triplo de XP por 30 minutos', price: 400, category: 'boosters', icon: '⚡⚡', type: 'booster', multiplier: 3, duration: 1800000 },
+            { id: 'coin_boost', name: 'Impulso de Moedas', desc: 'Ganhe 5x moedas por 1 hora', price: 300, category: 'boosters', icon: '💰', type: 'coin_booster', multiplier: 5, duration: 3600000 },
+            
+            // Badges
+            { id: 'badge_pioneer', name: 'Badge Pioneiro', desc: 'Badge exclusiva para primeiros usuários', price: 1000, category: 'badges', icon: '🏅', type: 'badge' },
+            { id: 'badge_legendary', name: 'Badge Lendária', desc: 'Badge ultra rara e exclusiva', price: 5000, category: 'badges', icon: '🏆', type: 'badge' },
+            { id: 'badge_dedicated', name: 'Badge Dedicado', desc: 'Para quem estuda muito', price: 1500, category: 'badges', icon: '📚', type: 'badge' },
+            
+            // Effects
+            { id: 'effect_particles', name: 'Partículas Extras', desc: 'Mais partículas no fundo animado', price: 300, category: 'effects', icon: '✨', type: 'effect' },
+            { id: 'effect_rainbow', name: 'Arco-íris Mode', desc: 'Cores que mudam automaticamente', price: 800, category: 'effects', icon: '🌈', type: 'effect' },
+            { id: 'effect_glow', name: 'Super Brilho', desc: 'Efeitos de glow intensificados', price: 500, category: 'effects', icon: '💫', type: 'effect' }
+        ];
+
+        const ACHIEVEMENTS_LIST = [
+            { id: 'first_session', name: 'Primeira Sessão', desc: 'Complete sua primeira sessão de estudo', icon: '🎯', condition: () => state.sessions >= 1, reward: 50 },
+            { id: 'sessions_10', name: 'Estudante Ativo', desc: 'Complete 10 sessões de estudo', icon: '📖', condition: () => state.sessions >= 10, reward: 200 },
+            { id: 'sessions_50', name: 'Mestre dos Estudos', desc: 'Complete 50 sessões', icon: '🎓', condition: () => state.sessions >= 50, reward: 1000 },
+            { id: 'streak_3', name: '3 Dias Seguidos', desc: 'Mantenha um streak de 3 dias', icon: '🔥', condition: () => state.streak >= 3, reward: 150 },
+            { id: 'streak_7', name: 'Semana Perfeita', desc: '7 dias seguidos estudando', icon: '⭐', condition: () => state.streak >= 7, reward: 500 },
+            { id: 'level_5', name: 'Nível 5', desc: 'Alcance o nível 5', icon: '🌟', condition: () => state.level >= 5, reward: 300 },
+            { id: 'level_10', name: 'Nível 10', desc: 'Alcance o nível 10', icon: '💎', condition: () => state.level >= 10, reward: 1000 },
+            { id: 'coins_1000', name: 'Milhar de Moedas', desc: 'Acumule 1000 moedas', icon: '💰', condition: () => state.coins >= 1000, reward: 100 },
+            { id: 'hours_10', name: '10 Horas de Estudo', desc: 'Estude por 10 horas totais', icon: '⏰', condition: () => state.studyMinutes >= 600, reward: 500 },
+            { id: 'all_themes', name: 'Colecionador', desc: 'Compre todos os temas', icon: '🎨', condition: () => state.ownedThemes.length >= 11, reward: 2000 }
+        ];
+
+        const LOADING_TIPS = [
+            'Use o Pomodoro Timer para ganhar XP extra!',
+            'Complete missões diárias para ganhar recompensas!',
+            'Temas premium podem ser comprados na Loja!',
+            'Quanto mais tempo você usa, mais XP ganha!',
+            'Ative o Modo Foco para +50 XP bônus!',
+            'Salve suas notas para ganhar XP rapidinho!',
+            'Check suas conquistas no botão do troféu!'
+        ];
 
         // DOM Elements
         const iframe = document.getElementById('geekieFrame');
@@ -816,88 +1280,469 @@ Suas notas são salvas automaticamente! 💾"></textarea>
         const urlInput = document.getElementById('urlInput');
         const mainLayout = document.getElementById('mainLayout');
         const sidebar = document.getElementById('sidebar');
-        const toggleSidebarBtn = document.getElementById('toggleSidebarBtn');
-        const toggleIcon = document.getElementById('toggleIcon');
-        const toggleText = document.getElementById('toggleText');
 
         // ============================================
-        // INITIALIZATION
+        // INICIALIZAÇÃO
         // ============================================
-        console.log('%c🎓 Geekie One Portal ULTRA v3.0', 'font-size: 28px; font-weight: bold; color: #00ff88;');
-        console.log('%cPortal Inteligente Carregado!', 'font-size: 14px; color: #00d4ff;');
+        console.log('%c🎓 GEEKIE ONE ULTRA PREMIUM v4.0', 'font-size: 32px; font-weight: bold; color: #00ff88; text-shadow: 0 0 20px #00ff88;');
+        console.log('%c⭐ Sistema de Gamificação Ativo!', 'font-size: 16px; color: #ffd700;');
         
-        document.getElementById('notesArea').value = state.notes;
-        updateStats();
-
-        // Auto-start loading process
-        setTimeout(() => {
-            startLoadingProcess();
-        }, 500);
-
-        // ============================================
-        // INTELLIGENT LOADING SYSTEM
-        // ============================================
-        function startLoadingProcess() {
-            console.log('🚀 Iniciando processo de carga...');
+        function init() {
+            createParticles();
+            applySavedTheme();
+            updateAllDisplays();
+            generateMissions();
+            generateShop();
+            generateAchievements();
+            checkDailyStreak();
+            startXPTracking();
+            document.getElementById('notesArea').value = state.notes;
             
-            // Show loading
-            loadingOverlay.classList.remove('hidden');
-            errorOverlay.classList.add('hidden');
-            
-            // Update UI
-            updateLoadingText('Conectando ao Geekie One...', 'Tentando carregar o site oficial');
-            
-            // Try to load the NORMAL version first
-            state.currentUrl = GEEKIE_NORMAL_URL;
-            state.usingAlternative = false;
-            urlInput.value = GEEKIE_NORMAL_URL;
-            
-            // Set iframe source
-            iframe.src = GEEKIE_NORMAL_URL;
-            
-            // Set timeout to detect if it's stuck
-            state.loadAttempts++;
-            
-            // After 8 seconds, check if loaded
-            setTimeout(() => {
-                checkIfLoaded();
-            }, 8000);
+            // Auto-start loading
+            setTimeout(() => startLoadingProcess(), 500);
         }
 
-        function checkIfLoaded() {
-            // Check if still showing loading (means it didn't load properly)
-            if (!loadingOverlay.classList.contains('hidden')) {
-                console.log('⚠️ Timeout detectado! O site pode estar bloqueado.');
-                
-                // Show error screen with options
-                showErrorScreen();
-            } else {
-                console.log('✅ Site carregado com sucesso!');
+        // ============================================
+        // SISTEMA DE PARTÍCULAS
+        // ============================================
+        function createParticles() {
+            const container = document.getElementById('particlesBg');
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                container.appendChild(particle);
             }
         }
 
-        function showErrorScreen() {
-            loadingOverlay.classList.add('hidden');
-            errorOverlay.classList.remove('hidden');
-            
-            showToast('O site não pode ser carregado no iframe. Veja as opções!', 'warning');
-        }
-
-        function onIframeLoad() {
-            console.log('📄 Evento onLoad disparado');
-            
-            // Hide loading after short delay
-            setTimeout(() => {
-                if (!errorOverlay.classList.contains('hidden')) return; // Don't hide if error is showing
-                
-                loadingOverlay.classList.add('hidden');
-                showToast(state.usingAlternative ? 'Versão alternativa carregada!' : 'Geekie One carregado!', 'success');
+        // ============================================
+        // SISTEMA DE GAMIFICAÇÃO / XP
+        // ============================================
+        function startXPTracking() {
+            state.xpInterval = setInterval(() => {
+                if (state.isActive && !document.hidden) {
+                    addXP(CONFIG.XP_PER_SECOND, false);
+                    addCoins(Math.floor(CONFIG.COINS_PER_MINUTE / 60), false);
+                    state.studyMinutes++;
+                    
+                    if (state.studyMinutes % 60 === 0) {
+                        updateStatsDisplay();
+                    }
+                }
             }, 1000);
         }
 
-        function onIframeError() {
-            console.log('❌ Evento onerror disparado');
-            showErrorScreen();
+        function addXP(amount, showNotification = true) {
+            const hasBooster = state.ownedItems.includes('booster_2x') || state.ownedItems.includes('booster_3x');
+            const multiplier = state.ownedItems.includes('booster_3x') ? 3 : (hasBooster ? 2 : 1);
+            const finalAmount = amount * multiplier;
+            
+            state.xp += finalAmount;
+            state.totalXP += finalAmount;
+            
+            // Check level up
+            const newLevel = Math.floor(state.xp / CONFIG.LEVEL_XP_MULTIPLIER) + 1;
+            if (newLevel > state.level) {
+                levelUp(newLevel);
+            }
+            
+            state.level = newLevel;
+            saveProgress();
+            updateAllDisplays();
+            
+            if (showNotification && finalAmount > 0) {
+                showToast(`+${finalAmount} XP${multiplier > 1 ? ` (x${multiplier})` : ''}`, 'reward');
+            }
+        }
+
+        function addCoins(amount, showNotification = true) {
+            const hasCoinBoost = state.ownedItems.includes('coin_boost');
+            const finalAmount = amount * (hasCoinBoost ? 5 : 1);
+            
+            state.coins += finalAmount;
+            saveProgress();
+            updateAllDisplays();
+            
+            if (showNotification && finalAmount > 0) {
+                showToast(`+${finalAmount} 🪙`, 'reward');
+            }
+        }
+
+        function levelUp(newLevel) {
+            const overlay = document.getElementById('levelUpOverlay');
+            document.getElementById('levelUpText').textContent = `Você alcançou o nível ${newLevel}!`;
+            overlay.classList.add('active');
+            
+            // Reward for leveling up
+            const coinReward = newLevel * 50;
+            state.coins += coinReward;
+            
+            setTimeout(() => {
+                overlay.classList.remove('active');
+                showToast(`🎉 PARABÉNS! Nível ${newLevel}! +${coinReward} moedas!`, 'reward');
+            }, 2500);
+            
+            // Check achievements
+            checkAchievements();
+        }
+
+        function saveProgress() {
+            localStorage.setItem('geekieCoins', state.coins);
+            localStorage.setItem('geekieXP', state.xp);
+            localStorage.setItem('geekieLevel', state.level);
+            localStorage.setItem('geekieTotalXP', state.totalXP);
+            localStorage.setItem('geekieSessions', state.sessions);
+            localStorage.setItem('geekieStudyMinutes', state.studyMinutes);
+            localStorage.setItem('geekieStreak', state.streak);
+            localStorage.setItem('geekieOwnedThemes', JSON.stringify(state.ownedThemes));
+            localStorage.setItem('geekieOwnedItems', JSON.stringify(state.ownedItems));
+            localStorage.setItem('geekieAchievements', JSON.stringify(state.achievements));
+        }
+
+        function updateAllDisplays() {
+            document.getElementById('coinsDisplay').textContent = state.coins.toLocaleString();
+            document.getElementById('xpDisplay').textContent = state.xp.toLocaleString();
+            document.getElementById('levelDisplay').textContent = state.level;
+            document.getElementById('shopCoins').textContent = state.coins.toLocaleString();
+            
+            document.getElementById('stat-sessions').textContent = state.sessions;
+            document.getElementById('stat-hours').textContent = formatTime(state.studyMinutes);
+            document.getElementById('stat-streak').textContent = state.streak;
+            document.getElementById('stat-totalxp').textContent = state.totalXP.toLocaleString();
+        }
+
+        function updateStatsDisplay() {
+            document.getElementById('stat-hours').textContent = formatTime(state.studyMinutes);
+            document.getElementById('stat-totalxp').textContent = state.totalXP.toLocaleString();
+        }
+
+        function formatTime(minutes) {
+            const h = Math.floor(minutes / 60);
+            const m = minutes % 60;
+            return h > 0 ? `${h}h${m}m` : `${m}m`;
+        }
+
+        // ============================================
+        // MISSÕES DIÁRIAS
+        // ============================================
+        function generateMissions() {
+            const container = document.getElementById('missionsContainer');
+            const today = new Date().toDateString();
+            const savedMissions = JSON.parse(localStorage.getItem('dailyMissions'));
+            
+            let missions;
+            if (savedMissions && savedMissions.date === today) {
+                missions = savedMissions.data;
+            } else {
+                missions = [
+                    { id: 'study_5min', title: 'Estude 5 minutos', target: 300, current: 0, reward: 25, completed: false },
+                    { id: 'study_15min', title: 'Estude 15 minutos', target: 900, current: 0, reward: 50, completed: false },
+                    { id: 'use_timer', title: 'Use o Timer', target: 1, current: 0, reward: 30, completed: false },
+                    { id: 'save_notes', title: 'Salve Notas', target: 1, current: 0, reward: 20, completed: false },
+                    { id: 'open_newtab', title: 'Abrir Nova Aba', target: 1, current: 0, reward: 15, completed: false }
+                ];
+                localStorage.setItem('dailyMissions', JSON.stringify({ date: today, data: missions }));
+            }
+            
+            container.innerHTML = missions.map(mission => `
+                <div class="mission-item ${mission.completed ? 'completed' : ''}" id="mission-${mission.id}">
+                    <div class="mission-header">
+                        <span class="mission-title">${mission.title}</span>
+                        <span class="mission-reward">+${mission.reward} 🪙</span>
+                    </div>
+                    <div class="mission-progress">
+                        <div class="mission-progress-bar" style="width: ${Math.min((mission.current / mission.target) * 100, 100)}%"></div>
+                    </div>
+                    <div class="mission-status">${mission.completed ? '✅ Completa!' : `${formatTime(mission.current)} / ${formatTime(mission.target)}`}</div>
+                </div>
+            `).join('');
+            
+            state.dailyMissions = missions;
+        }
+
+        function updateMission(missionId, increment) {
+            const missions = state.dailyMissions;
+            const mission = missions.find(m => m.id === missionId);
+            if (mission && !mission.completed) {
+                mission.current += increment;
+                if (mission.current >= mission.target) {
+                    mission.completed = true;
+                    state.coins += mission.reward;
+                    showToast(`Missão Completa! +${mission.reward} 🪙`, 'reward');
+                    checkAchievements();
+                }
+                
+                const today = new Date().toDateString();
+                localStorage.setItem('dailyMissions', JSON.stringify({ date: today, data: missions }));
+                generateMissions();
+                updateAllDisplays();
+            }
+        }
+
+        // ============================================
+        // CONQUISTAS
+        // ============================================
+        function generateAchievements() {
+            const container = document.getElementById('achievementsList');
+            container.innerHTML = ACHIEVEMENTS_LIST.map(ach => {
+                const unlocked = state.achievements.includes(ach.id);
+                return `
+                    <div class="shop-item ${unlocked ? 'owned' : ''}" style="opacity: ${unlocked ? 1 : 0.5}">
+                        <div class="item-preview">${ach.icon}</div>
+                        <div class="item-name">${ach.name}</div>
+                        <div class="item-desc">${ach.desc}</div>
+                        <div class="item-footer">
+                            <span class="item-price">+${ach.reward} 🪙</span>
+                            <span>${unlocked ? '✅ Desbloqueada' : '🔒 Bloqueada'}</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function checkAchievements() {
+            ACHIEVEMENTS_LIST.forEach(ach => {
+                if (!state.achievements.includes(ach.id) && ach.condition()) {
+                    state.achievements.push(ach.id);
+                    state.coins += ach.reward;
+                    showToast(`🏆 Conquista Desbloqueada: ${ach.name}! +${ach.reward} 🪙`, 'reward');
+                    
+                    // Show notification dot
+                    document.getElementById('achievementDot').style.display = 'block';
+                }
+            });
+            saveProgress();
+            generateAchievements();
+        }
+
+        // ============================================
+        // STREAK DIÁRIO
+        // ============================================
+        function checkDailyStreak() {
+            const today = new Date().toDateString();
+            const yesterday = new Date(Date.now() - 86400000).toDateString();
+            
+            if (state.lastVisit === yesterday) {
+                // Continue streak
+            } else if (state.lastVisit !== today) {
+                // Reset streak or first visit
+                if (state.lastVisit && state.lastVisit !== yesterday) {
+                    state.streak = 0;
+                }
+                state.streak++;
+                if (state.streak > 0) {
+                    addCoins(state.streak * 10, true);
+                    showToast(`🔥 Streak de ${state.streak} dia(s)! +${state.streak * 10} 🪙`, 'reward');
+                }
+            }
+            
+            state.lastVisit = today;
+            localStorage.setItem('geekieLastVisit', today);
+            localStorage.setItem('geekieStreak', state.streak);
+            saveProgress();
+        }
+
+        // ============================================
+        // LOJA
+        // ============================================
+        function generateShop(filter = 'themes') {
+            const container = document.getElementById('shopGrid');
+            const filteredItems = SHOP_ITEMS.filter(item => item.category === filter);
+            
+            container.innerHTML = filteredItems.map(item => {
+                const owned = state.ownedThemes.includes(item.id) || state.ownedItems.includes(item.id);
+                const canAfford = state.coins >= item.price;
+                
+                return `
+                    <div class="shop-item ${owned ? 'owned' : ''}">
+                        <div class="item-preview ${item.animated ? 'animated' : ''}">${item.icon}</div>
+                        <div class="item-name">${item.name}</div>
+                        <div class="item-desc">${item.desc}</div>
+                        <div class="item-footer">
+                            <span class="item-price"><i class="fas fa-coins"></i> ${item.price.toLocaleString()}</span>
+                            ${owned ? 
+                                `<button class="buy-btn equipped" onclick="equipItem('${item.id}', '${item.type}')">Equipar</button>` :
+                                `<button class="buy-btn" onclick="buyItem('${item.id}', ${item.price}, '${item.type}')" ${!canAfford ? 'disabled' : ''}>Comprar</button>`
+                            }
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function filterShop(category) {
+            document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            generateShop(category);
+        }
+
+        function buyItem(id, price, type) {
+            if (state.coins >= price) {
+                state.coins -= price;
+                
+                if (type === 'theme') {
+                    state.ownedThemes.push(id);
+                } else {
+                    state.ownedItems.push(id);
+                }
+                
+                saveProgress();
+                updateAllDisplays();
+                generateShop();
+                
+                showToast(`✅ Comprado com sucesso!`, 'success');
+                
+                // Unlock theme in sidebar
+                const themeOption = document.querySelector(`[data-theme="${id}"]`);
+                if (themeOption) {
+                    themeOption.classList.remove('locked');
+                }
+            } else {
+                showToast('❌ Moedas insuficientes!', 'error');
+            }
+        }
+
+        function equipItem(id, type) {
+            if (type === 'theme') {
+                state.equippedTheme = id;
+                document.body.setAttribute('data-theme', id);
+                localStorage.setItem('geekieEquippedTheme', id);
+                
+                document.querySelectorAll('.theme-option').forEach(opt => opt.classList.remove('active'));
+                const option = document.querySelector(`[data-theme="${id}"]`);
+                if (option) option.classList.add('active');
+                
+                showToast(`Tema "${id}" equipado!`, 'success');
+            }
+        }
+
+        function tryPremiumTheme(element, themeId) {
+            if (state.ownedThemes.includes(themeId)) {
+                changeTheme(element);
+            } else {
+                openModal('shop');
+                filterShop('themes');
+                showToast(`Compre este tema na loja por ${SHOP_ITEMS.find(i => i.id === themeId)?.price || '?'} moedas!`, 'info');
+            }
+        }
+
+        // ============================================
+        // SISTEMA DE CARREGAMENTO INTELIGENTE
+        // ============================================
+        function startLoadingProcess() {
+            console.log('🚀 Iniciando processo de carga inteligente...');
+            
+            loadingOverlay.classList.remove('hidden');
+            errorOverlay.classList.add('hidden');
+            
+            // Random tip
+            const randomTip = LOADING_TIPS[Math.floor(Math.random() * LOADING_TIPS.length)];
+            document.getElementById('loadingTip').innerHTML = `<i class="fas fa-lightbulb"></i> ${randomTip}`;
+            
+            updateLoadingText('Conectando ao Geekie One...', 'Preparando ambiente seguro');
+            
+            // Try direct load first
+            state.currentUrl = CONFIG.GEEKIE_URL;
+            urlInput.value = CONFIG.GEEKIE_URL;
+            
+            iframe.src = CONFIG.GEEKIE_URL;
+            
+            // Set timeout to detect blocking
+            setTimeout(() => {
+                if (!loadingOverlay.classList.contains('hidden')) {
+                    console.log('⚠️ Possível bloqueio detectado, mostrando opções...');
+                    showLoadMethods();
+                }
+            }, 6000);
+        }
+
+        function showLoadMethods() {
+            loadingOverlay.classList.add('hidden');
+            errorOverlay.classList.remove('hidden');
+        }
+
+        function hideErrorOverlay() {
+            errorOverlay.classList.add('hidden');
+        }
+
+        function selectMethod(method) {
+            state.selectedMethod = method;
+            document.querySelectorAll('.method-option').forEach(opt => opt.classList.remove('selected'));
+            document.getElementById('method' + method.charAt(0).toUpperCase() + method.slice(1)).classList.add('selected');
+        }
+
+        function executeSelectedMethod() {
+            errorOverlay.classList.add('hidden');
+            loadingOverlay.classList.remove('hidden');
+            
+            switch(state.selectedMethod) {
+                case 'direct':
+                    loadDirect();
+                    break;
+                case 'newtab':
+                    openInNewTab();
+                    break;
+                case 'alternative':
+                    loadAlternative();
+                    break;
+                case 'embed':
+                    loadEmbed();
+                    break;
+            }
+        }
+
+        function loadDirect() {
+            updateLoadingText('Carregando diretamente...', 'Tentando conexão direta');
+            state.currentUrl = CONFIG.GEEKIE_URL;
+            urlInput.value = CONFIG.GEEKIE_URL;
+            iframe.src = CONFIG.GEEKIE_URL;
+            
+            setTimeout(checkLoadStatus, 6000);
+        }
+
+        function loadAlternative() {
+            updateLoadingText('Carregando versão alternativa...', 'Geekie One Plus modificado');
+            state.currentUrl = CONFIG.ALTERNATIVE_URL;
+            urlInput.value = CONFIG.ALTERNATIVE_URL;
+            iframe.src = CONFIG.ALTERNATIVE_URL;
+            
+            setTimeout(checkLoadStatus, 6000);
+        }
+
+        function loadEmbed() {
+            updateLoadingText('Carregando via Embed...', 'Usando proxy de embed');
+            const embedUrl = CONFIG.EMBED_URL + encodeURIComponent(CONFIG.GEEKIE_URL);
+            state.currentUrl = embedUrl;
+            urlInput.value = embedUrl;
+            iframe.src = embedUrl;
+            
+            setTimeout(checkLoadStatus, 8000);
+        }
+
+        function checkLoadStatus() {
+            if (!loadingOverlay.classList.contains('hidden')) {
+                // Still loading, might be blocked
+                showToast('Carregamento demorado. Tente "Nova Aba" para acesso rápido!', 'info');
+            }
+        }
+
+        function onIframeLoad() {
+            console.log('✅ Iframe carregado!');
+            
+            setTimeout(() => {
+                if (!errorOverlay.classList.contains('hidden')) return;
+                
+                loadingOverlay.classList.add('hidden');
+                showToast('Geekie One carregado! Continue ganhando XP! 🎮', 'success');
+                
+                // Track session
+                state.sessions++;
+                saveProgress();
+                updateAllDisplays();
+                updateMission('study_5min', 300);
+            }, 1000);
         }
 
         function updateLoadingText(main, sub) {
@@ -906,112 +1751,7 @@ Suas notas são salvas automaticamente! 💾"></textarea>
         }
 
         // ============================================
-        // ALTERNATIVE VERSION SYSTEM
-        // ============================================
-        function tryAlternativeVersion() {
-            console.log('🔄 Tentando versão alternativa...');
-            
-            // Switch to PLUS version
-            state.currentUrl = GEEKIE_PLUS_URL;
-            state.usingAlternative = true;
-            
-            // Update URL bar
-            urlInput.value = GEEKIE_PLUS_URL;
-            
-            // Show loading again
-            loadingOverlay.classList.remove('hidden');
-            errorOverlay.classList.add('hidden');
-            
-            updateLoadingText('Carregando Versão Alternativa...', 'Geekie One Plus (modificado)');
-            
-            // Load alternative
-            iframe.src = GEEKIE_PLUS_URL;
-            
-            showToast('Carregando versão alternativa...', 'info');
-            
-            // Check again after timeout
-            setTimeout(() => {
-                if (!loadingOverlay.classList.contains('hidden')) {
-                    // Alternative also failed, just show error with open tab option
-                    loadingOverlay.classList.add('hidden');
-                    errorOverlay.classList.remove('hidden');
-                    
-                    // Update error message for alternative
-                    document.querySelector('#errorOverlay p').innerHTML = `
-                        Ambas as versões não puderam ser carregadas no iframe devido a 
-                        restrições de segurança do navegador. <strong>A melhor opção 
-                        é abrir em uma nova aba!</strong>
-                    `;
-                }
-            }, 8000);
-        }
-
-        function showNormalVersion() {
-            console.log('🔙 Voltando para versão normal...');
-            
-            state.currentUrl = GEEKIE_NORMAL_URL;
-            state.usingAlternative = false;
-            
-            urlInput.value = GEEKIE_NORMAL_URL;
-            
-            loadingOverlay.classList.remove('hidden');
-            errorOverlay.classList.add('hidden');
-            
-            updateLoadingText('Carregando Geekie One Normal...', 'Versão oficial');
-            
-            iframe.src = GEEKIE_NORMAL_URL;
-            
-            setTimeout(() => {
-                checkIfLoaded();
-            }, 8000);
-        }
-
-        function showErrorInfo() {
-            alert(`📋 INFORMAÇÕES TÉCNICAS:
-
-❌ Por que não carrega?
-O site one.geekie.com.br usa X-Frame-Options e 
-Content-Security-Policy que bloqueiam iframes.
-
-✅ Solução recomendada:
-Clique em "Abrir em Nova Aba" para acesso completo!
-
-🔄 Alternativa:
-Use a "Versão Alternativa" (Geekie One Plus) 
-que pode funcionar em alguns navegadores.
-
-💡 Dica:
-As proteções existem por sua SEGURANÇA!
-Elas evitam ataques de phishing.`);
-        }
-
-        // ============================================
-        // SIDEBAR TOGGLE
-        // ============================================
-        function toggleSidebar() {
-            state.sidebarOpen = !state.sidebarOpen;
-            
-            if (state.sidebarOpen) {
-                mainLayout.classList.remove('sidebar-hidden');
-                toggleSidebarBtn.classList.remove('sidebar-closed');
-                toggleIcon.classList.remove('fa-times');
-                toggleIcon.classList.add('fa-bars');
-                toggleText.textContent = 'Fechar Painel';
-                showToast('Painel lateral aberto!', 'info');
-            } else {
-                mainLayout.classList.add('sidebar-hidden');
-                toggleSidebarBtn.classList.add('sidebar-closed');
-                toggleIcon.classList.remove('fa-bars');
-                toggleIcon.classList.add('fa-times');
-                toggleText.textContent = 'Abrir Painel';
-                showToast('Painel lateral fechado!', 'success');
-            }
-            
-            localStorage.setItem('sidebarOpen', state.sidebarOpen);
-        }
-
-        // ============================================
-        // IFRAME CONTROLS
+        // CONTROLES DO IFRAME
         // ============================================
         function refreshIframe() {
             loadingOverlay.classList.remove('hidden');
@@ -1021,8 +1761,10 @@ Elas evitam ataques de phishing.`);
         }
 
         function openInNewTab() {
-            window.open(state.currentUrl, '_blank');
-            showToast(`Abrindo ${state.usingAlternative ? 'versão alternativa' : 'Geekie One'} em nova aba!`, 'success');
+            window.open(CONFIG.GEEKIE_URL, '_blank');
+            addXP(CONFIG.NEWTAB_XP);
+            updateMission('open_newtab', 1);
+            showToast(`Abrindo em nova aba! +${CONFIG.NEWTAB_XP} XP`, 'success');
         }
 
         function openFullscreen() {
@@ -1041,24 +1783,71 @@ Elas evitam ataques de phishing.`);
         }
 
         // ============================================
-        // THEME SYSTEM
+        // SISTEMA DE TEMAS
         // ============================================
+        function applySavedTheme() {
+            if (state.ownedThemes.includes(state.theme)) {
+                document.body.setAttribute('data-theme', state.theme);
+            }
+        }
+
         function changeTheme(element) {
             const theme = element.dataset.theme;
+            
+            if (!state.ownedThemes.includes(theme)) {
+                tryPremiumTheme(element, theme);
+                return;
+            }
+            
             document.querySelectorAll('.theme-option').forEach(opt => opt.classList.remove('active'));
             element.classList.add('active');
             document.body.setAttribute('data-theme', theme);
             state.theme = theme;
+            state.equippedTheme = theme;
+            
             localStorage.setItem('selectedTheme', theme);
-            showToast(`Tema "${element.textContent.trim()}" ativado!`, 'success');
+            localStorage.setItem('geekieEquippedTheme', theme);
+            saveProgress();
+            
+            showToast(`Tema ativado: ${element.textContent.trim()}!`, 'success');
         }
 
         // ============================================
-        // MODAL SYSTEM
+        // SIDEBAR TOGGLE
+        // ============================================
+        function toggleSidebar() {
+            state.sidebarOpen = !state.sidebarOpen;
+            const btn = document.getElementById('toggleSidebarBtn');
+            const icon = document.getElementById('toggleIcon');
+            const text = document.getElementById('toggleText');
+            
+            if (state.sidebarOpen) {
+                mainLayout.classList.remove('sidebar-hidden');
+                btn.classList.remove('sidebar-closed');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+                text.textContent = 'Fechar Painel';
+            } else {
+                mainLayout.classList.add('sidebar-hidden');
+                btn.classList.add('sidebar-closed');
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+                text.textContent = 'Abrir Painel';
+            }
+        }
+
+        // ============================================
+        // SISTEMA DE MODAIS
         // ============================================
         function openModal(type) {
             document.getElementById(`${type}Modal`).classList.add('active');
-            showToast(`Abrindo ${type === 'notes' ? 'Notas' : type === 'timer' ? 'Timer' : 'Calculadora'}...`, 'info');
+            
+            if (type === 'shop') {
+                generateShop('themes');
+            }
+            
+            const names = { notes: 'Notas', timer: 'Timer', calculator: 'Calculadora', shop: 'Loja', achievements: 'Conquistas' };
+            showToast(`Abrindo ${names[type] || type}...`, 'info');
         }
 
         function closeModal(type) {
@@ -1072,12 +1861,14 @@ Elas evitam ataques de phishing.`);
         });
 
         // ============================================
-        // EXTENSIONS
+        // EXTENSÕES
         // ============================================
         function saveNotes() {
             state.notes = document.getElementById('notesArea').value;
             localStorage.setItem('geekieNotes', state.notes);
-            showToast('Notas salvas! 💾', 'success');
+            addXP(CONFIG.NOTES_XP);
+            updateMission('save_notes', 1);
+            showToast('Notas salvas! 💾 +' + CONFIG.NOTES_XP + ' XP', 'success');
         }
 
         function clearNotes() {
@@ -1089,11 +1880,15 @@ Elas evitam ataques de phishing.`);
             }
         }
 
+        // Auto-save notes every 30 seconds
         setInterval(() => {
             const notes = document.getElementById('notesArea').value;
-            if (notes !== state.notes) saveNotes();
+            if (notes !== state.notes && notes.length > 0) {
+                saveNotes();
+            }
         }, 30000);
 
+        // Timer Functions
         function toggleTimer() {
             const btn = document.getElementById('timerStartBtn');
             if (state.timer.isRunning) {
@@ -1105,27 +1900,33 @@ Elas evitam ataques de phishing.`);
                 state.timer.isRunning = true;
                 btn.innerHTML = '<i class="fas fa-pause"></i> Pausar';
                 showToast('Timer iniciado! 🎯', 'success');
+                updateMission('use_timer', 1);
+                
                 state.timer.interval = setInterval(() => {
-                    if (state.timer.seconds > 0) state.timer.seconds--;
-                    else if (state.timer.minutes > 0) { state.timer.minutes--; state.timer.seconds = 59; }
-                    else {
+                    if (state.timer.seconds > 0) {
+                        state.timer.seconds--;
+                    } else if (state.timer.minutes > 0) {
+                        state.timer.minutes--;
+                        state.timer.seconds = 59;
+                    } else {
+                        // Timer complete
                         clearInterval(state.timer.interval);
                         state.timer.isRunning = false;
                         btn.innerHTML = '<i class="fas fa-play"></i> Iniciar';
-                        state.timer.totalSessions++;
-                        state.timer.totalMinutes += 25;
-                        localStorage.setItem('geekieSessions', state.timer.totalSessions);
-                        localStorage.setItem('geekieMinutes', state.timer.totalMinutes);
-                        updateStats();
-                        showToast('⏰ Tempo esgotado!', 'success');
-                        try {
-                            const ctx = new (window.AudioContext || window.webkitAudioContext)();
-                            const osc = ctx.createOscillator();
-                            const gain = ctx.createGain();
-                            osc.connect(gain); gain.connect(ctx.destination);
-                            osc.frequency.value = 800; gain.gain.value = 0.3;
-                            osc.start(); setTimeout(() => osc.stop(), 500);
-                        } catch(e) {}
+                        
+                        // Calculate XP based on time
+                        const totalTime = (25 - state.timer.minutes) * 60 + (60 - state.timer.seconds);
+                        const xpEarned = Math.floor(totalTime / 60) * (CONFIG.TIMER_BASE_XP / 25);
+                        
+                        addXP(xpEarned);
+                        state.sessions++;
+                        saveProgress();
+                        updateAllDisplays();
+                        
+                        showToast(`⏰ Tempo esgotado! +${xpEarned} XP`, 'success');
+                        playSound();
+                        
+                        resetTimer();
                     }
                     updateTimerDisplay();
                 }, 1000);
@@ -1135,7 +1936,8 @@ Elas evitam ataques de phishing.`);
         function resetTimer() {
             clearInterval(state.timer.interval);
             state.timer.isRunning = false;
-            state.timer.minutes = 25; state.timer.seconds = 0;
+            state.timer.minutes = 25;
+            state.timer.seconds = 0;
             document.getElementById('timerStartBtn').innerHTML = '<i class="fas fa-play"></i> Iniciar';
             updateTimerDisplay();
             showToast('Timer resetado!', 'info');
@@ -1144,33 +1946,53 @@ Elas evitam ataques de phishing.`);
         function setTimer(mins) {
             clearInterval(state.timer.interval);
             state.timer.isRunning = false;
-            state.timer.minutes = mins; state.timer.seconds = 0;
+            state.timer.minutes = mins;
+            state.timer.seconds = 0;
             document.getElementById('timerStartBtn').innerHTML = '<i class="fas fa-play"></i> Iniciar';
+            
+            const xpReward = Math.floor(mins * (CONFIG.TIMER_BASE_XP / 25));
+            document.getElementById('timerXPReward').textContent = xpReward;
+            
             updateTimerDisplay();
-            showToast(`Timer: ${mins} minutos`, 'info');
+            showToast(`Timer: ${mins} minutos (+${xpReward} XP ao completar)`, 'info');
         }
 
         function updateTimerDisplay() {
             const m = String(state.timer.minutes).padStart(2, '0');
             const s = String(state.timer.seconds).padStart(2, '0');
-            document.getElementById('timerDisplay').textContent = `${m}:${s}`;
-            document.getElementById('focusTimer').textContent = `${m}:${s}`;
+            const timeStr = `${m}:${s}`;
+            document.getElementById('timerDisplay').textContent = timeStr;
+            document.getElementById('focusTimer').textContent = timeStr;
+            document.getElementById('focusTime').textContent = timeStr;
         }
 
-        function calcInput(v) { state.calc.expression += v; document.getElementById('calcExpression').textContent = state.calc.expression; }
-        function calcClear() { state.calc.expression = ''; state.calc.result = '0'; document.getElementById('calcExpression').textContent = ''; document.getElementById('calcResult').textContent = '0'; }
+        // Calculator Functions
+        function calcInput(v) { 
+            state.calc.expression += v; 
+            document.getElementById('calcExpression').textContent = state.calc.expression; 
+        }
+        
+        function calcClear() { 
+            state.calc.expression = ''; 
+            state.calc.result = '0'; 
+            document.getElementById('calcExpression').textContent = ''; 
+            document.getElementById('calcResult').textContent = '0'; 
+        }
+        
         function calculate() {
             try {
-                const r = Function('"use strict"; return (' + state.calc.expression + ')')();
-                state.calc.result = Number(r.toFixed(8)).toString();
+                const result = Function('"use strict"; return (' + state.calc.expression + ')')();
+                state.calc.result = Number(result.toFixed(8)).toString();
                 document.getElementById('calcResult').textContent = state.calc.result;
-                showToast(`= ${state.calc.result}`, 'success');
+                addXP(CONFIG.CALC_XP);
+                showToast(`= ${state.calc.result} +${CONFIG.CALC_XP} XP`, 'success');
             } catch(e) {
                 document.getElementById('calcResult').textContent = 'Erro';
                 showToast('Expressão inválida!', 'error');
             }
         }
 
+        // Keyboard support for calculator
         document.addEventListener('keydown', (e) => {
             if (document.getElementById('calculatorModal').classList.contains('active')) {
                 if (/[0-9+\-*/().]/.test(e.key)) calcInput(e.key);
@@ -1179,18 +2001,31 @@ Elas evitam ataques de phishing.`);
             }
         });
 
+        // Focus Mode
         let focusInterval;
         function startFocusMode() {
             state.focusMode = true;
             document.getElementById('focusOverlay').classList.add('active');
-            let mins = state.timer.minutes, secs = state.timer.seconds;
+            
+            let mins = state.timer.minutes;
+            let secs = state.timer.seconds;
+            
             focusInterval = setInterval(() => {
                 if (secs > 0) secs--;
                 else if (mins > 0) { mins--; secs = 59; }
-                else { exitFocusMode(); showToast('⏰ Sessão concluída!', 'success'); return; }
-                document.getElementById('focusTimer').textContent = `${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
+                else {
+                    exitFocusMode();
+                    addXP.CONFIG.FOCUS_XP;
+                    showToast('⏰ Sessão de foco concluída! +' + CONFIG.FOCUS_XP + ' XP', 'success');
+                    return;
+                }
+                
+                const timeStr = `${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
+                document.getElementById('focusTimer').textContent = timeStr;
+                document.getElementById('focusTime').textContent = timeStr;
             }, 1000);
-            showToast('🎯 MODO FOCO!', 'success');
+            
+            showToast('🎯 MODO FOCO ATIVADO! +' + CONFIG.FOCUS_XP + ' XP ao completar!', 'success');
         }
 
         function exitFocusMode() {
@@ -1199,88 +2034,116 @@ Elas evitam ataques de phishing.`);
             clearInterval(focusInterval);
         }
 
+        function playSound() {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.frequency.value = 800;
+                gain.gain.value = 0.3;
+                osc.start();
+                setTimeout(() => osc.stop(), 500);
+            } catch(e) {}
+        }
+
         // ============================================
         // TOAST NOTIFICATIONS
         // ============================================
         function showToast(msg, type = 'info') {
-            const c = document.getElementById('toastContainer');
-            const t = document.createElement('div');
-            t.className = `toast ${type}`;
-            t.innerHTML = `<span>${{success:'✅',error:'❌',info:'ℹ️',warning:'⚠️'}[type]||msg}</span> ${msg}`;
-            c.appendChild(t);
-            setTimeout(() => { t.style.animation = 'fadeOut 0.4s forwards'; setTimeout(() => t.remove(), 400); }, 3500);
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            
+            const icons = { success: '✅', error: '❌', info: 'ℹ️', warning: '⚠️', reward: '🎁' };
+            toast.innerHTML = `<span>${icons[type] || 'ℹ️'}</span> ${msg}`;
+            
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.animation = 'fadeOut 0.4s forwards';
+                setTimeout(() => toast.remove(), 400);
+            }, 3500);
         }
 
-        const s = document.createElement('style');
-        s.textContent = '@keyframes fadeOut { to { opacity: 0; transform: translateX(100%); } }';
-        document.head.appendChild(s);
-
-        // Fix toast HTML
-        const originalShowToast = showToast;
-        showToast = function(msg, type = 'info') {
-            const c = document.getElementById('toastContainer');
-            const t = document.createElement('div');
-            t.className = `toast ${type}`;
-            const icons = {success:'✅',error:'❌',info:'ℹ️',warning:'⚠️'};
-            t.innerHTML = `<span>${icons[type]}</span> ${msg}`;
-            c.appendChild(t);
-            setTimeout(() => { t.style.animation = 'fadeOut 0.4s forwards'; setTimeout(() => t.remove(), 400); }, 3500);
-        };
-
-        function updateStats() {
-            document.getElementById('stat-sessions').textContent = state.timer.totalSessions;
-            const h = Math.floor(state.timer.totalMinutes / 60);
-            const m = state.timer.totalMinutes % 60;
-            document.getElementById('stat-hours').textContent = h > 0 ? `${h}h${m}m` : `${m}m`;
-        }
+        // Add fadeOut animation
+        const style = document.createElement('style');
+        style.textContent = '@keyframes fadeOut { to { opacity: 0; transform: translateX(100%); } }';
+        document.head.appendChild(style);
 
         function showSection(section) {
-            document.querySelectorAll('.nav-btn:not(.toggle-sidebar-btn)').forEach(b => b.classList.remove('active'));
-            if (event.target.closest('.nav-btn')) event.target.closest('.nav-btn').classList.add('active');
+            document.querySelectorAll('.nav-btn:not(.toggle-sidebar-btn):not(.shop-btn)').forEach(b => b.classList.remove('active'));
+            if (event && event.target.closest('.nav-btn')) {
+                event.target.closest('.nav-btn').classList.add('active');
+            }
         }
 
         // ============================================
-        // KEYBOARD SHORTCUTS
+        // ATALHOS DE TECLADO
         // ============================================
         document.addEventListener('keydown', (e) => {
             if ((e.ctrlKey || e.metaKey) && e.key === 'b') { e.preventDefault(); toggleSidebar(); }
             if ((e.ctrlKey || e.metaKey) && e.key === 'n') { e.preventDefault(); openModal('notes'); }
             if ((e.ctrlKey || e.metaKey) && e.key === 't') { e.preventDefault(); openModal('timer'); }
-            if ((e.ctrlKey || e.metaKey) && e.key === 'c' && !e.target.matches('input,textarea')) { e.preventDefault; openModal('calculator'); }
-            if (e.key === 'Escape') { document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active')); if (state.focusMode) exitFocusMode(); }
+            if ((e.ctrlKey || e.metaKey) && e.key === 'c' && !e.target.matches('input,textarea')) { e.preventDefault(); openModal('calculator'); }
+            if ((e.ctrlKey || e.metaKey) && e.key === 's') { e.preventDefault(); openModal('shop'); }
+            if (e.key === 'Escape') { 
+                document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active')); 
+                if (state.focusMode) exitFocusMode(); 
+            }
             if (e.key === 'F11') { e.preventDefault(); openFullscreen(); }
         });
 
-        // Easter egg
-        let kc = []; const ks = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+        // Easter Egg - Konami Code
+        let konamiCode = [];
+        const konamiSequence = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
         document.addEventListener('keydown', (e) => {
-            kc.push(e.key); kc = kc.slice(-10);
-            if (kc.join(',') === ks.join(',')) {
-                document.body.style.animation = 'rainbow 3s linear infinite';
-                showToast('🎮 MODO ARCO-ÍRIS!', 'success');
-                const rs = document.createElement('style');
-                rs.id='rm'; rs.textContent='@keyframes rainbow{0%{filter:hue-rotate(0deg)}100%{filter:hue-rotate(360deg)}}';
-                if (!document.getElementById('rm')) document.head.appendChild(rs);
-                setTimeout(() => { document.body.style.animation=''; const el=document.getElementById('rm'); if(el)el.remove(); }, 5000);
+            konamiCode.push(e.key);
+            konamiCode = konamiCode.slice(-10);
+            if (konamiCode.join(',') === konamiSequence.join(',')) {
+                addCoins(9999);
+                addXP(5000);
+                showToast('🎮 CHEAT CODE ATIVADO! +9999 🪙 +5000 XP!', 'reward');
+                document.body.style.animation = 'rainbow 5s linear infinite';
+                const rainbowStyle = document.createElement('style');
+                rainbowStyle.id='rainbowMode';
+                rainbowStyle.textContent='@keyframes rainbow{0%{filter:hue-rotate(0deg)}100%{filter:hue-rotate(360deg)}}';
+                if (!document.getElementById('rainbowMode')) document.head.appendChild(rainbowStyle);
+                setTimeout(() => { 
+                    document.body.style.animation=''; 
+                    const el=document.getElementById('rainbowMode'); 
+                    if(el) el.remove(); 
+                }, 5000);
             }
         });
 
-        console.log(`
-%c╔══════════════════════════════════════╗
-║  🎓 GEEKIE ONE PORTAL ULTRA v3.0     ║
-║     Sistema Inteligente              ║
-╠══════════════════════════════════════╣
-║  ✅ Detecção automática de erros     ║
-║  ✅ Versão Normal + Alternativa      ║
-║  ✅ Fallback inteligente             ║
-║  ✅ Abrir em nova aba (sempre OK!)   ║
-╠══════════════════════════════════════╣
-║  Se não carregar:                   ║
-║  1. Clique "Nova Aba" ✅           ║
-║  2. Ou "Versão Alt." 🔄             ║
-╚══════════════════════════════════════╝
-        `, 'color: #00ff88; font-family: monospace;');
+        // Visibility API - pause when tab hidden
+        document.addEventListener('visibilitychange', () => {
+            state.isActive = !document.hidden;
+        });
 
+        // Initialize on load
+        window.addEventListener('load', init);
+
+        // Console welcome message
+        console.log(`
+%c╔═════════════════════════════════════════════╗
+║     🎓 GEEKIE ONE ULTRA PREMIUM v4.0       ║
+║           Sistema de Gamificação           ║
+╠═════════════════════════════════════════════╣
+║  ⭐ Ganhe XP ficando online                 ║
+║  🪙 Ganhe Moedas por tempo de estudo        ║
+║  🎨 Compre Temas Premium na Loja           ║
+║  🏆 Desbloqueie Conquistas                 ║
+║  🔥 Mantenha seu Streak diário             ║
+╠═════════════════════════════════════════════╣
+║  Dicas:                                     ║
+║  • Use Ctrl+S para abrir a Loja            ║
+║  • Konami Code = Cheat Mode (↑↑↓↓←→←→BA)   ║
+║  • Mais tempo = Mais XP e Moedas!          ║
+╚═════════════════════════════════════════════╝
+        `, 'color: #00ff88; font-family: monospace; font-size: 12px; background: #0a0e27; padding: 10px; border-radius: 5px;');
     </script>
 </body>
 </html>
