@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Geekie One Portal ULTRA MASTER v5.0</title>
+    <title>Geekie One Portal ULTRA MASTER v6.0 - Study Pro Edition</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -26,99 +26,13 @@
             --gradient-bg: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0f1429 100%);
         }
 
-        [data-theme="ocean"] {
-            --primary: #0077be; --primary-dark: #005a8c; --secondary: #00d4ff; --accent: #7dd3fc;
-            --bg-primary: #0c1929; --bg-secondary: #132f4c; --bg-card: rgba(19, 47, 76, 0.7);
-            --border-color: rgba(0, 119, 190, 0.2); --shadow-glow: 0 0 30px rgba(0, 119, 190, 0.3);
-            --gradient-1: linear-gradient(135deg, #0077be 0%, #00d4ff 100%);
-            --gradient-2: linear-gradient(135deg, #00d4ff 0%, #7dd3fc 100%);
-            --gradient-bg: linear-gradient(135deg, #0c1929 0%, #132f4c 50%, #0a1628 100%);
-        }
-
-        [data-theme="sunset"] {
-            --primary: #ff6b35; --primary-dark: #e55a2b; --secondary: #f7931e; --accent: #ffd700;
-            --bg-primary: #1a0a0a; --bg-secondary: #2d1515; --bg-card: rgba(45, 21, 21, 0.7);
-            --border-color: rgba(255, 107, 53, 0.2); --shadow-glow: 0 0 30px rgba(255, 107, 53, 0.3);
-            --gradient-1: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
-            --gradient-2: linear-gradient(135deg, #ffd700 0%, #ff6b35 100%);
-            --gradient-bg: linear-gradient(135deg, #1a0a0a 0%, #2d1515 50%, #150808 100%);
-        }
-
-        [data-theme="forest"] {
-            --primary: #22c55e; --primary-dark: #16a34a; --secondary: #84cc16; --accent: #a3e635;
-            --bg-primary: #0a1a0a; --bg-secondary: #152815; --bg-card: rgba(21, 40, 21, 0.7);
-            --border-color: rgba(34, 197, 94, 0.2); --shadow-glow: 0 0 30px rgba(34, 197, 94, 0.3);
-            --gradient-1: linear-gradient(135deg, #22c55e 0%, #84cc16 100%);
-            --gradient-2: linear-gradient(135deg, #84cc16 0%, #a3e635 100%);
-            --gradient-bg: linear-gradient(135deg, #0a1a0a 0%, #152815 50%, #081208 100%);
-        }
-
-        [data-theme="royal"] {
-            --primary: #a855f7; --primary-dark: #9333ea; --secondary: #ec4899; --accent: #f472b6;
-            --bg-primary: #170a1f; --bg-secondary: #281536; --bg-card: rgba(40, 21, 54, 0.7);
-            --border-color: rgba(168, 85, 247, 0.2); --shadow-glow: 0 0 30px rgba(168, 85, 247, 0.3);
-            --gradient-1: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
-            --gradient-2: linear-gradient(135deg, #ec4899 0%, #f472b6 100%);
-            --gradient-bg: linear-gradient(135deg, #170a1f 0%, #281536 50%, #0f0817 100%);
-        }
-
-        [data-theme="neon-cyber"] {
-            --primary: #00ffff; --primary-dark: #00cccc; --secondary: #ff00ff; --accent: #ffff00;
-            --bg-primary: #000000; --bg-secondary: #0a0a0a; --bg-card: rgba(10, 10, 10, 0.9);
-            --border-color: rgba(0, 255, 255, 0.3); --shadow-glow: 0 0 40px rgba(0, 255, 255, 0.5);
-            --gradient-1: linear-gradient(135deg, #00ffff 0%, #ff00ff 100%);
-            --gradient-2: linear-gradient(135deg, #ff00ff 0%, #ffff00 100%);
-            --gradient-bg: linear-gradient(135deg, #000000 0%, #0a0a1a 50%, #000010 100%);
-            animation: neonPulse 2s ease-in-out infinite alternate;
-        }
-        @keyframes neonPulse { 0%, 100% { filter: brightness(1) hue-rotate(0deg); } 100% { filter: brightness(1.2) hue-rotate(10deg); } }
-
-        [data-theme="galaxy-premium"] {
-            --primary: #818cf8; --primary-dark: #6366f1; --secondary: #c084fc; --accent: #f0abfc;
-            --bg-primary: #0c0118; --bg-secondary: #1a0f2e; --bg-card: rgba(26, 15, 46, 0.8);
-            --border-color: rgba(129, 140, 248, 0.3); --shadow-glow: 0 0 40px rgba(129, 140, 248, 0.4);
-            --gradient-1: linear-gradient(135deg, #818cf8 0%, #c084fc 100%);
-            --gradient-2: linear-gradient(135deg, #c084fc 0%, #f0abfc 100%);
-            --gradient-bg: linear-gradient(135deg, #0c0118 0%, #1a0f2e 50%, #080414 100%);
-            animation: galaxyRotate 20s linear infinite;
-        }
-        @keyframes galaxyRotate { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-
-        [data-theme="fire-dragon"] {
-            --primary: #ff4500; --primary-dark: #cc3700; --secondary: #ff6347; --accent: #ffa500;
-            --bg-primary: #1a0500; --bg-secondary: #2d0a00; --bg-card: rgba(45, 10, 0, 0.8);
-            --border-color: rgba(255, 69, 0, 0.3); --shadow-glow: 0 0 40px rgba(255, 69, 0, 0.5);
-            --gradient-1: linear-gradient(135deg, #ff4500 0%, #ff6347 100%);
-            --gradient-2: linear-gradient(135deg, #ffa500 0%, #ff4500 100%);
-            --gradient-bg: linear-gradient(135deg, #1a0500 0%, #2d0a00 50%, #0f0200 100%);
-            animation: fireFlicker 0.5s ease-in-out infinite alternate;
-        }
-        @keyframes fireFlicker { 0% { filter: brightness(1) saturate(1); } 100% { filter: brightness(1.1) saturate(1.2); } }
-
-        [data-theme="ice-crystal"] {
-            --primary: #00bcd4; --primary-dark: #0097a7; --secondary: #e0f7fa; --accent: #80deea;
-            --bg-primary: #001a1a; --bg-secondary: #002626; --bg-card: rgba(0, 38, 38, 0.8);
-            --border-color: rgba(0, 188, 212, 0.3); --shadow-glow: 0 0 40px rgba(0, 188, 212, 0.5);
-            --gradient-1: linear-gradient(135deg, #00bcd4 0%, #e0f7fa 100%);
-            --gradient-2: linear-gradient(135deg, #e0f7fa 0%, #80deea 100%);
-            --gradient-bg: linear-gradient(135deg, #001a1a 0%, #002626 50%, #000d0d 100%);
-            animation: iceShimmer 3s ease-in-out infinite;
-        }
-        @keyframes iceShimmer { 0%, 100% { filter: brightness(1) contrast(1); } 50% { filter: brightness(1.15) contrast(1.1); } }
-
-        [data-theme="golden-emperor"] {
-            --primary: #ffd700; --primary-dark: #daa520; --secondary: #ffec8b; --accent: #fff8dc;
-            --bg-primary: #1a1400; --bg-secondary: #2d2200; --bg-card: rgba(45, 34, 0, 0.8);
-            --border-color: rgba(255, 215, 0, 0.3); --shadow-glow: 0 0 40px rgba(255, 215, 0, 0.5);
-            --gradient-1: linear-gradient(135deg, #ffd700 0%, #ffec8b 100%);
-            --gradient-2: linear-gradient(135deg, #ffec8b 0%, #fff8dc 100%);
-            --gradient-bg: linear-gradient(135deg, #1a1400 0%, #2d2200 50%, #0f0c00 100%);
-            animation: goldenShine 2s ease-in-out infinite alternate;
-        }
-        @keyframes goldenShine { 0% { filter: brightness(1) sepia(0.2); } 100% { filter: brightness(1.2) sepia(0.3); } }
+        [data-theme="ocean"] { --primary: #0077be; --secondary: #00d4ff; --accent: #7dd3fc; --bg-primary: #0c1929; --bg-secondary: #132f4c; --bg-card: rgba(19, 47, 76, 0.7); --border-color: rgba(0, 119, 190, 0.2); --shadow-glow: 0 0 30px rgba(0, 119, 190, 0.3); --gradient-1: linear-gradient(135deg, #0077be 0%, #00d4ff 100%); --gradient-2: linear-gradient(135deg, #00d4ff 0%, #7dd3fc 100%); }
+        [data-theme="sunset"] { --primary: #ff6b35; --secondary: #f7931e; --accent: #ffd700; --bg-primary: #1a0a0a; --bg-secondary: #2d1515; --bg-card: rgba(45, 21, 21, 0.7); --border-color: rgba(255, 107, 53, 0.2); --shadow-glow: 0 0 30px rgba(255, 107, 53, 0.3); --gradient-1: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%); --gradient-2: linear-gradient(135deg, #ffd700 0%, #ff6b35 100%); }
+        [data-theme="forest"] { --primary: #22c55e; --secondary: #84cc16; --accent: #a3e635; --bg-primary: #0a1a0a; --bg-secondary: #152815; --bg-card: rgba(21, 40, 21, 0.7); --border-color: rgba(34, 197, 94, 0.2); --shadow-glow: 0 0 30px rgba(34, 197, 94, 0.3); --gradient-1: linear-gradient(135deg, #22c55e 0%, #84cc16 100%); --gradient-2: linear-gradient(135deg, #84cc16 0%, #a3e635 100%); }
+        [data-theme="royal"] { --primary: #a855f7; --secondary: #ec4899; --accent: #f472b6; --bg-primary: #170a1f; --bg-secondary: #281536; --bg-card: rgba(40, 21, 54, 0.7); --border-color: rgba(168, 85, 247, 0.2); --shadow-glow: 0 0 30px rgba(168, 85, 247, 0.3); --gradient-1: linear-gradient(135deg, #a855f7 0%, #ec4899 100%); --gradient-2: linear-gradient(135deg, #ec4899 0%, #f472b6 100%); }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
+        
         body {
             font-family: 'Inter', sans-serif;
             background: var(--gradient-bg);
@@ -129,7 +43,6 @@
             transition: all 0.5s ease;
         }
 
-        /* Particles */
         .particles-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: -1; overflow: hidden;
@@ -141,8 +54,7 @@
         }
         @keyframes particleFloat {
             0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.6; }
-            90% { opacity: 0.6; }
+            10% { opacity: 0.6; } 90% { opacity: 0.6; }
             100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
         }
 
@@ -152,14 +64,13 @@
 
         .container { max-width: 1800px; margin: 0 auto; padding: 20px; position: relative; z-index: 1; }
 
-        /* ==================== HEADER ==================== */
+        /* HEADER */
         .top-header {
             display: flex; justify-content: space-between; align-items: center;
             padding: 20px 30px; background: var(--bg-card); backdrop-filter: blur(25px);
             border: 1px solid var(--border-color); border-radius: 20px; margin-bottom: 20px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4); flex-wrap: wrap; gap: 20px;
         }
-        
         .logo-section { display: flex; align-items: center; gap: 15px; cursor: pointer; }
         .logo-icon {
             width: 58px; height: 58px; background: var(--gradient-1); border-radius: 16px;
@@ -178,18 +89,14 @@
             50% { box-shadow: 0 0 40px rgba(0, 255, 136, 0.7), 0 0 60px rgba(0, 255, 136, 0.4); }
         }
         @keyframes logoSpin { to { transform: rotate(360deg); } }
-        
         .logo-text h1 {
             font-family: 'Orbitron', sans-serif; font-size: 1.8rem; font-weight: 900;
             background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            background-clip: text; letter-spacing: 2px;
+            letter-spacing: 2px;
         }
         .logo-text span { font-size: 0.85rem; color: var(--text-secondary); font-weight: 600; letter-spacing: 1px; }
 
-        /* User Stats Bar */
-        .user-stats-bar {
-            display: flex; gap: 15px; align-items: center; flex-wrap: wrap;
-        }
+        .user-stats-bar { display: flex; gap: 15px; align-items: center; flex-wrap: wrap; }
         .stat-item {
             display: flex; align-items: center; gap: 8px; padding: 10px 18px;
             background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-color);
@@ -214,21 +121,16 @@
             box-shadow: 0 4px 15px rgba(0, 255, 136, 0.3);
         }
         .header-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 255, 136, 0.4); }
-        .header-btn.gold { background: var(--gradient-gold); color: #000; box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3); }
-        .header-btn.gold:hover { box-shadow: 0 6px 25px rgba(255, 215, 0, 0.5); }
+        .header-btn.gold { background: var(--gradient-gold); color: #000; }
         .header-btn.secondary { background: rgba(255, 255, 255, 0.08); box-shadow: none; }
-        .header-btn.secondary:hover { background: rgba(255, 255, 255, 0.15); }
 
-        /* ==================== TABS NAVIGATION ==================== */
+        /* TABS NAVIGATION */
         .tabs-navigation {
-            display: flex; gap: 8px; margin-bottom: 20px; 
+            display: flex; gap: 8px; margin-bottom: 20px;
             background: var(--bg-card); backdrop-filter: blur(25px);
             border: 1px solid var(--border-color); border-radius: 16px; padding: 12px;
             overflow-x: auto; flex-wrap: wrap;
         }
-        .tabs-navigation::-webkit-scrollbar { height: 6px; }
-        .tabs-navigation::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 3px; }
-
         .tab-button {
             display: flex; align-items: center; gap: 10px; padding: 14px 24px;
             background: rgba(255, 255, 255, 0.03); border: 2px solid transparent;
@@ -242,28 +144,23 @@
         }
         .tab-button.active {
             background: var(--gradient-1); color: #000; border-color: transparent;
-            box-shadow: 0 4px 20px rgba(0, 255, 136, 0.4);
-            font-weight: 700;
+            box-shadow: 0 4px 20px rgba(0, 255, 136, 0.4); font-weight: 700;
         }
         .tab-button i { font-size: 18px; }
-        .tab-button .tab-badge {
+        .tab-badge {
             position: absolute; top: -6px; right: -6px;
             background: #ef4444; color: white; font-size: 10px; font-weight: 800;
-            padding: 3px 7px; border-radius: 8px; min-width: 18px; text-align: center;
-            animation: pulse 2s infinite;
+            padding: 3px 7px; border-radius: 8px; animation: pulse 2s infinite;
         }
         @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
 
-        /* ==================== TAB CONTENT ==================== */
+        /* TAB CONTENT */
         .tab-content { display: none; animation: fadeIn 0.4s ease; }
         .tab-content.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* ==================== HOME TAB ==================== */
-        .home-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px; margin-bottom: 20px;
-        }
+        /* HOME TAB */
+        .home-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 20px; }
         .home-card {
             background: var(--bg-card); backdrop-filter: blur(25px);
             border: 1px solid var(--border-color); border-radius: 20px; padding: 24px;
@@ -277,8 +174,7 @@
         .home-card:hover { border-color: var(--primary); box-shadow: var(--shadow-glow); transform: translateY(-5px); }
         .home-card-title {
             font-family: 'Poppins', sans-serif; font-size: 1.2rem; font-weight: 700;
-            margin-bottom: 15px; display: flex; align-items: center; gap: 10px;
-            color: var(--text-primary);
+            margin-bottom: 15px; display: flex; align-items: center; gap: 10px; color: var(--text-primary);
         }
         .home-card-title i { color: var(--primary); font-size: 1.3rem; }
 
@@ -292,18 +188,12 @@
             margin-bottom: 10px;
         }
         .welcome-banner p { font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 20px; }
-        .welcome-stats {
-            display: flex; justify-content: center; gap: 40px; flex-wrap: wrap;
-        }
+        .welcome-stats { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; }
         .welcome-stat { text-align: center; }
-        .welcome-stat-value {
-            font-family: 'Orbitron', sans-serif; font-size: 2.5rem; font-weight: 900; color: var(--gold);
-        }
+        .welcome-stat-value { font-family: 'Orbitron', sans-serif; font-size: 2.5rem; font-weight: 900; color: var(--gold); }
         .welcome-stat-label { font-size: 0.9rem; color: var(--text-secondary); text-transform: uppercase; }
 
-        .quick-actions {
-            display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 15px;
-        }
+        .quick-actions { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 15px; }
         .quick-action-btn {
             padding: 14px; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-color);
             border-radius: 12px; color: var(--text-primary); cursor: pointer; transition: all 0.3s ease;
@@ -326,7 +216,17 @@
         .mission-progress-bar { height: 100%; background: var(--gradient-1); border-radius: 3px; transition: width 0.5s ease; }
         .mission-status { font-size: 11px; color: var(--text-secondary); margin-top: 6px; }
 
-        /* ==================== GEEKIE TAB ==================== */
+        /* STUDY STATS CARD */
+        .study-stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        .stat-box {
+            background: rgba(255,255,255,0.03); padding: 15px; border-radius: 12px; text-align: center;
+            transition: all 0.3s ease;
+        }
+        .stat-box:hover { background: rgba(0, 255, 136, 0.1); transform: scale(1.02); }
+        .stat-box-value { font-family: 'Orbitron'; font-size: 1.5rem; font-weight: 800; color: var(--primary); }
+        .stat-box-label { font-size: 0.8rem; color: var(--text-secondary); margin-top: 5px; }
+
+        /* GEEKIE TAB */
         .iframe-container-wrapper {
             background: var(--bg-card); backdrop-filter: blur(25px);
             border: 1px solid var(--border-color); border-radius: 24px; overflow: hidden;
@@ -385,116 +285,225 @@
         .loading-text { font-size: 1.2rem; font-weight: 700; color: var(--text-primary); margin-bottom: 8px; font-family: 'Orbitron', sans-serif; }
         .loading-subtext { font-size: 0.9rem; color: var(--text-secondary); }
 
-        .method-selection {
-            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(135deg, rgba(10, 14, 39, 0.98) 0%, rgba(26, 31, 58, 0.98) 100%);
-            display: none; flex-direction: column; justify-content: center; align-items: center;
-            padding: 40px; z-index: 10; text-align: center;
+        /* STUDY TOOLS TAB - NOVO DESIGN */
+        .tools-container { max-width: 1400px; margin: 0 auto; }
+        .tools-hero {
+            text-align: center; padding: 40px 20px; margin-bottom: 30px;
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.08) 0%, rgba(0, 212, 255, 0.08) 100%);
+            border-radius: 24px; border: 1px solid var(--border-color);
         }
-        .method-selection.active { display: flex; }
-        .method-selector {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 15px; margin: 25px 0; width: 100%; max-width: 750px;
+        .tools-hero h2 {
+            font-family: 'Orbitron', sans-serif; font-size: 2.5rem; font-weight: 900;
+            background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
         }
-        .method-option {
-            background: rgba(255, 255, 255, 0.05); border: 2px solid var(--border-color);
-            border-radius: 16px; padding: 20px; cursor: pointer; transition: all 0.3s ease;
-            text-align: center;
-        }
-        .method-option:hover { border-color: var(--primary); transform: translateY(-3px); box-shadow: var(--shadow-glow); }
-        .method-option.selected { border-color: var(--primary); background: rgba(0, 255, 136, 0.1); }
-        .method-option i { font-size: 32px; color: var(--primary); margin-bottom: 10px; display: block; }
-        .method-option h4 { font-size: 14px; font-weight: 700; color: var(--text-primary); margin-bottom: 5px; }
-        .method-option p { font-size: 11px; color: var(--text-secondary); }
-        .method-actions { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
+        .tools-hero p { font-size: 1.1rem; color: var(--text-secondary); max-width: 700px; margin: 0 auto; line-height: 1.6; }
 
-        /* ==================== SHOP TAB ==================== */
-        .shop-categories {
-            display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;
-        }
-        .category-btn {
-            padding: 10px 20px; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-color);
-            border-radius: 12px; color: var(--text-secondary); cursor: pointer; transition: all 0.3s ease;
-            font-weight: 600; font-size: 13px;
-        }
-        .category-btn:hover, .category-btn.active { background: var(--gradient-1); color: white; border-color: transparent; }
-        .shop-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 18px; }
-        .shop-item {
-            background: rgba(255, 255, 255, 0.03); border: 2px solid var(--border-color);
-            border-radius: 18px; padding: 20px; transition: all 0.3s ease; position: relative; overflow: hidden;
-        }
-        .shop-item:hover { border-color: var(--primary); transform: translateY(-5px); box-shadow: var(--shadow-glow); }
-        .shop-item.owned { border-color: var(--gold); background: rgba(255, 215, 0, 0.05); }
-        .shop-item.owned::after {
-            content: '✓ POSSUÍ'; position: absolute; top: 10px; right: 10px;
-            background: var(--gradient-gold); color: #000; padding: 5px 12px;
-            border-radius: 8px; font-size: 10px; font-weight: 800;
-        }
-        .item-preview {
-            height: 110px; background: linear-gradient(135deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 100%);
-            border-radius: 12px; margin-bottom: 15px; display: flex; align-items: center; justify-content: center;
-            font-size: 48px; position: relative; overflow: hidden;
-        }
-        .item-preview.animated { animation: itemPreviewAnim 3s ease-in-out infinite; }
-        @keyframes itemPreviewAnim { 0%, 100% { transform: scale(1) rotate(0deg); } 50% { transform: scale(1.05) rotate(2deg); } }
-        .item-name { font-family: 'Poppins', sans-serif; font-size: 1.05rem; font-weight: 700; color: var(--text-primary); margin-bottom: 8px; }
-        .item-desc { font-size: 12px; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5; }
-        .item-footer { display: flex; justify-content: space-between; align-items: center; }
-        .item-price { font-family: 'Orbitron', sans-serif; font-size: 1.1rem; font-weight: 800; color: var(--gold); display: flex; align-items: center; gap: 6px; }
-        .buy-btn {
-            padding: 10px 18px; background: var(--gradient-1); border: none; border-radius: 10px;
-            color: white; font-weight: 700; font-size: 12px; cursor: pointer; transition: all 0.3s ease;
-        }
-        .buy-btn:hover { transform: scale(1.05); box-shadow: 0 4px 15px rgba(0, 255, 136, 0.4); }
-        .buy-btn:disabled { background: #4b5563; cursor: not-allowed; transform: none; box-shadow: none; }
-        .buy-btn.equipped { background: var(--gradient-gold); color: #000; }
-
-        /* ==================== TOOLS TAB ==================== */
         .tools-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 20px;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 25px;
         }
         .tool-card {
             background: var(--bg-card); backdrop-filter: blur(25px);
-            border: 1px solid var(--border-color); border-radius: 20px; padding: 24px;
-            transition: all 0.3s ease;
+            border: 1px solid var(--border-color); border-radius: 20px; padding: 28px;
+            transition: all 0.3s ease; position: relative; overflow: hidden;
         }
-        .tool-card:hover { border-color: var(--primary); box-shadow: var(--shadow-glow); }
+        .tool-card:hover { border-color: var(--primary); box-shadow: var(--shadow-glow); transform: translateY(-5px); }
+        .tool-card.featured {
+            border: 2px solid var(--gold);
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.05) 0%, rgba(255, 170, 0, 0.02) 100%);
+        }
+        .tool-card.featured::before {
+            content: '⭐ FAVORITO';
+            position: absolute; top: 15px; right: 15px;
+            background: var(--gradient-gold); color: #000; padding: 5px 12px;
+            border-radius: 8px; font-size: 11px; font-weight: 800;
+        }
         .tool-header {
             display: flex; justify-content: space-between; align-items: center;
             margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid var(--border-color);
         }
-        .tool-title { font-family: 'Poppins', sans-serif; font-size: 1.2rem; font-weight: 700; color: var(--text-primary); display: flex; align-items: center; gap: 10px; }
-        .tool-title i { color: var(--primary); }
-        .notes-area {
-            width: 100%; min-height: 200px; background: rgba(0, 0, 0, 0.3);
-            border: 1px solid var(--border-color); border-radius: 14px; padding: 16px;
-            color: var(--text-primary); font-family: 'Inter', sans-serif; font-size: 14px;
-            line-height: 1.7; resize: vertical; outline: none; transition: all 0.3s ease;
+        .tool-title { font-family: 'Poppins', sans-serif; font-size: 1.3rem; font-weight: 700; color: var(--text-primary); display: flex; align-items: center; gap: 10px; }
+        .tool-title i { color: var(--primary); font-size: 1.5rem; }
+        .tool-badge {
+            background: var(--gradient-1); color: #000; padding: 5px 12px;
+            border-radius: 8px; font-size: 11px; font-weight: 700;
         }
-        .notes-area:focus { border-color: var(--primary); box-shadow: 0 0 20px rgba(0, 255, 136, 0.15); }
-        .timer-display { text-align: center; padding: 30px 20px; background: rgba(0, 0, 0, 0.3); border-radius: 16px; margin-bottom: 20px; }
-        .timer-time { font-family: 'Fira Code', monospace; font-size: 3.5rem; font-weight: 700; color: var(--primary); letter-spacing: 4px; }
-        .timer-label { font-size: 0.95rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 2px; margin-top: 8px; }
-        .timer-xp-reward { margin-top: 12px; padding: 10px; background: rgba(255, 215, 0, 0.1); border-radius: 10px; font-size: 13px; color: var(--gold); font-weight: 600; }
-        .timer-controls { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 15px; }
-        .timer-btn { padding: 12px 24px; background: var(--gradient-1); border: none; border-radius: 12px; color: white; font-weight: 600; font-size: 13px; cursor: pointer; transition: all 0.3s ease; }
-        .timer-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-glow); }
-        .timer-btn.reset { background: rgba(239, 68, 68, 0.2); color: #ef4444; border: 1px solid #ef4444; }
-        .timer-presets { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-        .preset-btn { padding: 10px; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-primary); font-weight: 600; font-size: 12px; cursor: pointer; transition: all 0.3s ease; }
-        .preset-btn:hover { background: var(--primary); color: var(--bg-primary); border-color: var(--primary); }
-        .calc-display { background: rgba(0, 0, 0, 0.4); border: 1px solid var(--border-color); border-radius: 14px; padding: 18px; margin-bottom: 15px; text-align: right; }
-        .calc-expression { font-family: 'Fira Code', monospace; font-size: 13px; color: var(--text-secondary); margin-bottom: 6px; min-height: 18px; }
-        .calc-result { font-family: 'Fira Code', monospace; font-size: 2.5rem; font-weight: 700; color: var(--primary); }
-        .calc-buttons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-        .calc-btn { padding: 16px; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-color); border-radius: 12px; color: var(--text-primary); font-size: 17px; font-weight: 600; cursor: pointer; transition: all 0.2s ease; }
+
+        /* POMODORO MELHORADO */
+        .pomodoro-display {
+            text-align: center; padding: 35px 20px; background: rgba(0, 0, 0, 0.3);
+            border-radius: 16px; margin-bottom: 20px; position: relative;
+        }
+        .timer-circle {
+            width: 180px; height: 180px; margin: 0 auto 20px;
+            border-radius: 50%; border: 4px solid var(--border-color);
+            display: flex; align-items: center; justify-content: center;
+            position: relative; transition: all 0.3s ease;
+        }
+        .timer-circle.running {
+            border-color: var(--primary);
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.3), inset 0 0 30px rgba(0, 255, 136, 0.1);
+            animation: timerPulse 2s ease-in-out infinite;
+        }
+        @keyframes timerPulse {
+            0%, 100% { box-shadow: 0 0 30px rgba(0, 255, 136, 0.3), inset 0 0 30px rgba(0, 255, 136, 0.1); }
+            50% { box-shadow: 0 0 50px rgba(0, 255, 136, 0.5), inset 0 0 50px rgba(0, 255, 136, 0.2); }
+        }
+        .timer-time-big {
+            font-family: 'Fira Code', monospace; font-size: 3rem; font-weight: 700;
+            color: var(--primary); letter-spacing: 4px;
+        }
+        .timer-phase {
+            font-size: 1rem; color: var(--text-secondary); text-transform: uppercase;
+            letter-spacing: 2px; margin-top: 8px; font-weight: 600;
+        }
+        .timer-session-info {
+            display: flex; justify-content: center; gap: 20px; margin-top: 15px;
+        }
+        .session-stat {
+            background: rgba(255, 255, 255, 0.05); padding: 8px 16px;
+            border-radius: 10px; font-size: 0.85rem; color: var(--text-secondary);
+        }
+        .session-stat strong { color: var(--gold); font-family: 'Orbitron'; }
+        .timer-controls { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
+        .timer-btn-main {
+            padding: 16px 40px; background: var(--gradient-1); border: none; border-radius: 14px;
+            color: white; font-weight: 700; font-size: 15px; cursor: pointer;
+            transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 10px;
+            box-shadow: 0 6px 25px rgba(0, 255, 136, 0.4);
+        }
+        .timer-btn-main:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 8px 35px rgba(0, 255, 136, 0.5); }
+        .timer-btn-main.pause { background: var(--gradient-2); }
+        .timer-btn-secondary {
+            padding: 12px 24px; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-color);
+            border-radius: 12px; color: var(--text-primary); font-weight: 600; font-size: 13px;
+            cursor: pointer; transition: all 0.3s ease;
+        }
+        .timer-btn-secondary:hover { background: var(--primary); color: #000; border-color: var(--primary); }
+        .timer-presets { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        .preset-btn {
+            padding: 12px; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-color);
+            border-radius: 10px; color: var(--text-primary); font-weight: 600; font-size: 12px;
+            cursor: pointer; transition: all 0.3s ease; text-align: center;
+        }
+        .preset-btn:hover { background: var(--primary); color: #000; border-color: var(--primary); transform: scale(1.05); }
+        .preset-time { font-family: 'Fira Code'; font-size: 1.1rem; font-weight: 700; display: block; margin-bottom: 2px; }
+        .preset-label { font-size: 0.75rem; color: var(--text-secondary); }
+
+        /* SMART NOTES */
+        .notes-toolbar {
+            display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;
+        }
+        .notes-tool-btn {
+            padding: 8px 14px; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-color);
+            border-radius: 8px; color: var(--text-primary); font-size: 12px; cursor: pointer;
+            transition: all 0.2s ease; display: inline-flex; align-items: center; gap: 6px;
+        }
+        .notes-tool-btn:hover { background: var(--primary); color: #000; border-color: var(--primary); }
+        .notes-area {
+            width: 100%; min-height: 250px; background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color); border-radius: 14px; padding: 18px;
+            color: var(--text-primary); font-family: 'Inter', sans-serif; font-size: 14px;
+            line-height: 1.8; resize: vertical; outline: none; transition: all 0.3s ease;
+        }
+        .notes-area:focus { border-color: var(--primary); box-shadow: 0 0 25px rgba(0, 255, 136, 0.15); }
+        .notes-footer {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-top: 12px; flex-wrap: wrap; gap: 10px;
+        }
+        .notes-count { font-size: 12px; color: var(--text-secondary); }
+        .notes-count strong { color: var(--primary); font-family: 'Orbitron'; }
+        .notes-actions { display: flex; gap: 10px; }
+
+        /* CALCULATOR */
+        .calc-display {
+            background: rgba(0, 0, 0, 0.4); border: 1px solid var(--border-color);
+            border-radius: 14px; padding: 20px; margin-bottom: 15px; text-align: right;
+        }
+        .calc-expression { font-family: 'Fira Code', monospace; font-size: 14px; color: var(--text-secondary); margin-bottom: 8px; min-height: 20px; word-break: break-all; }
+        .calc-result { font-family: 'Fira Code', monospace; font-size: 2.8rem; font-weight: 700; color: var(--primary); }
+        .calc-buttons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        .calc-btn {
+            padding: 18px; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-color);
+            border-radius: 12px; color: var(--text-primary); font-size: 18px; font-weight: 600;
+            cursor: pointer; transition: all 0.2s ease;
+        }
         .calc-btn:hover { background: rgba(255, 255, 255, 0.1); transform: scale(1.05); }
         .calc-btn.operator { background: var(--gradient-1); color: white; }
         .calc-btn.equals { background: var(--gradient-2); color: white; grid-column: span 2; }
         .calc-btn.clear { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
 
-        /* ==================== CHARACTERS TAB (NOVO!) ==================== */
+        /* FOCUS MODE ADVANCED */
+        .focus-mode-card {
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.08) 0%, rgba(0, 212, 255, 0.08) 100%) !important;
+            border: 2px solid var(--primary) !important;
+        }
+        .focus-options { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 20px 0; }
+        .focus-option {
+            background: rgba(0, 0, 0, 0.3); border: 1px solid var(--border-color);
+            border-radius: 12px; padding: 15px; cursor: pointer; transition: all 0.3s ease;
+            text-align: center;
+        }
+        .focus-option:hover, .focus-option.selected {
+            background: var(--primary); color: #000; border-color: var(--primary);
+            transform: scale(1.02);
+        }
+        .focus-option i { font-size: 28px; margin-bottom: 8px; display: block; }
+        .focus-option-title { font-weight: 700; font-size: 13px; margin-bottom: 4px; }
+        .focus-option-desc { font-size: 11px; opacity: 0.8; }
+        .focus-start-btn {
+            width: 100%; padding: 18px; background: var(--gradient-1); border: none; border-radius: 14px;
+            color: white; font-weight: 700; font-size: 16px; cursor: pointer;
+            transition: all 0.3s ease; display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+            box-shadow: 0 6px 25px rgba(0, 255, 136, 0.4);
+        }
+        .focus-start-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 35px rgba(0, 255, 136, 0.5); }
+
+        /* STUDY GOALS - NOVO */
+        .goals-section { margin-top: 30px; }
+        .goals-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .goals-title { font-family: 'Poppins', sans-serif; font-size: 1.4rem; font-weight: 700; color: var(--text-primary); display: flex; align-items: center; gap: 10px; }
+        .goals-title i { color: var(--gold); }
+        .add-goal-btn {
+            padding: 10px 20px; background: var(--gradient-1); border: none; border-radius: 10px;
+            color: white; font-weight: 600; font-size: 13px; cursor: pointer;
+            transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 8px;
+        }
+        .add-goal-btn:hover { transform: scale(1.05); }
+        .goals-list { display: flex; flex-direction: column; gap: 12px; }
+        .goal-item {
+            background: rgba(0, 0, 0, 0.3); border: 1px solid var(--border-color);
+            border-radius: 14px; padding: 18px; display: flex; align-items: center; gap: 15px;
+            transition: all 0.3s ease;
+        }
+        .goal-item:hover { border-color: var(--primary); }
+        .goal-checkbox {
+            width: 26px; height: 26px; border: 2px solid var(--border-color);
+            border-radius: 8px; cursor: pointer; display: flex; align-items: center;
+            justify-content: center; transition: all 0.3s ease; flex-shrink: 0;
+        }
+        .goal-checkbox:hover { border-color: var(--primary); }
+        .goal-checkbox.checked {
+            background: var(--gradient-1); border-color: var(--primary); color: #000;
+        }
+        .goal-content { flex: 1; }
+        .goal-text { font-size: 14px; color: var(--text-primary); font-weight: 500; margin-bottom: 6px; }
+        .goal-text.completed { text-decoration: line-through; opacity: 0.5; }
+        .goal-meta { display: flex; gap: 15px; font-size: 12px; color: var(--text-secondary); }
+        .goal-priority {
+            padding: 3px 10px; border-radius: 6px; font-weight: 600; font-size: 11px;
+        }
+        .priority-high { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+        .priority-medium { background: rgba(245, 158, 11, 0.2); color: #f59e0b; }
+        .priority-low { background: rgba(34, 197, 94, 0.2); color: #22c55e; }
+        .goal-delete {
+            background: none; border: none; color: var(--text-secondary);
+            cursor: pointer; font-size: 16px; padding: 5px; transition: all 0.2s ease;
+        }
+        .goal-delete:hover { color: #ef4444; transform: scale(1.2); }
+
+        /* CHARACTERS TAB */
         .characters-container {
             background: var(--bg-card); backdrop-filter: blur(25px);
             border: 1px solid var(--border-color); border-radius: 24px; padding: 30px;
@@ -508,21 +517,14 @@
             color: var(--text-primary); display: flex; align-items: center; gap: 12px;
         }
         .characters-title i { color: var(--primary); font-size: 2rem; }
-        
         .search-characters {
             flex: 1; min-width: 250px; max-width: 400px;
             display: flex; align-items: center; background: rgba(0, 0, 0, 0.3);
             border: 1px solid var(--border-color); border-radius: 12px; padding: 12px 16px; gap: 10px;
         }
         .search-characters i { color: var(--primary); }
-        .search-characters input {
-            flex: 1; background: transparent; border: none; outline: none;
-            color: var(--text-primary); font-size: 14px;
-        }
-
-        .char-categories {
-            display: flex; gap: 10px; margin-bottom: 25px; flex-wrap: wrap;
-        }
+        .search-characters input { flex: 1; background: transparent; border: none; outline: none; color: var(--text-primary); font-size: 14px; }
+        .char-categories { display: flex; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; }
         .char-category-btn {
             padding: 12px 24px; background: rgba(255, 255, 255, 0.05);
             border: 2px solid var(--border-color); border-radius: 14px;
@@ -533,15 +535,7 @@
             background: var(--gradient-1); color: #000; border-color: transparent;
             transform: translateY(-3px); box-shadow: var(--shadow-glow);
         }
-        .char-category-btn .cat-count {
-            background: rgba(0,0,0,0.2); padding: 2px 8px; border-radius: 8px;
-            font-size: 11px; font-weight: 800;
-        }
-
-        .char-grid {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
-            gap: 10px;
-        }
+        .char-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); gap: 10px; }
         .char-item {
             aspect-ratio: 1; background: rgba(255, 255, 255, 0.03);
             border: 2px solid var(--border-color); border-radius: 14px;
@@ -551,10 +545,8 @@
         }
         .char-item:hover {
             background: var(--gradient-1); color: #000; border-color: var(--primary);
-            transform: scale(1.15) rotate(5deg); box-shadow: var(--shadow-glow);
-            z-index: 10;
+            transform: scale(1.15) rotate(5deg); box-shadow: var(--shadow-glow); z-index: 10;
         }
-        .char-item:active { transform: scale(0.95); }
         .char-item .char-tooltip {
             position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%);
             background: var(--bg-secondary); color: var(--text-primary);
@@ -564,7 +556,6 @@
             margin-bottom: 5px; border: 1px solid var(--border-color);
         }
         .char-item:hover .char-tooltip { opacity: 1; }
-
         .recently-copied {
             background: rgba(0, 0, 0, 0.3); border: 1px solid var(--border-color);
             border-radius: 16px; padding: 20px; margin-top: 25px;
@@ -573,27 +564,21 @@
             font-family: 'Poppins', sans-serif; font-size: 1.1rem; font-weight: 700;
             color: var(--gold); margin-bottom: 15px; display: flex; align-items: center; gap: 10px;
         }
-        .recent-chars-list {
-            display: flex; flex-wrap: wrap; gap: 10px;
-        }
+        .recent-chars-list { display: flex; flex-wrap: wrap; gap: 10px; }
         .recent-char-item {
             background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-color);
             border-radius: 10px; padding: 10px 16px; font-size: 20px; cursor: pointer;
             transition: all 0.3s ease; display: flex; align-items: center; gap: 8px;
         }
-        .recent-char-item:hover {
-            background: var(--primary); color: #000; transform: scale(1.05);
-        }
-        .recent-char-code {
-            font-family: 'Fira Code', monospace; font-size: 11px; color: var(--text-secondary);
-        }
+        .recent-char-item:hover { background: var(--primary); color: #000; transform: scale(1.05); }
+        .recent-char-code { font-family: 'Fira Code', monospace; font-size: 11px; color: var(--text-secondary); }
         .recent-char-item:hover .recent-char-code { color: #000; }
 
-        /* ==================== ACHIEVEMENTS TAB ==================== */
-        .achievements-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
+        /* ACHIEVEMENTS TAB */
+        .achievements-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
         .achievement-card {
             background: rgba(255, 255, 255, 0.03); border: 2px solid var(--border-color);
-            border-radius: 16px; padding: 20px; text-align: center; transition: all 0.3s ease;
+            border-radius: 16px; padding: 24px; text-align: center; transition: all 0.3s ease;
             position: relative; overflow: hidden;
         }
         .achievement-card.unlocked { border-color: var(--gold); background: rgba(255, 215, 0, 0.05); }
@@ -604,14 +589,14 @@
             font-size: 12px; font-weight: 800;
         }
         .achievement-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-glow); }
-        .achievement-icon { font-size: 48px; margin-bottom: 12px; }
-        .achievement-name { font-family: 'Poppins', sans-serif; font-size: 1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 6px; }
-        .achievement-desc { font-size: 12px; color: var(--text-secondary); margin-bottom: 10px; line-height: 1.4; }
-        .achievement-reward { font-family: 'Orbitron', sans-serif; font-size: 13px; color: var(--gold); font-weight: 700; }
+        .achievement-icon { font-size: 52px; margin-bottom: 12px; }
+        .achievement-name { font-family: 'Poppins', sans-serif; font-size: 1.05rem; font-weight: 700; color: var(--text-primary); margin-bottom: 8px; }
+        .achievement-desc { font-size: 12px; color: var(--text-secondary); margin-bottom: 12px; line-height: 1.5; }
+        .achievement-reward { font-family: 'Orbitron', sans-serif; font-size: 14px; color: var(--gold); font-weight: 700; }
         .achievement-card.locked { opacity: 0.5; }
         .achievement-card.locked .achievement-icon { filter: grayscale(1); }
 
-        /* ==================== NOTIFICATIONS TAB ==================== */
+        /* NOTIFICATIONS TAB */
         .notifications-header {
             display: flex; justify-content: space-between; align-items: center;
             margin-bottom: 25px; flex-wrap: wrap; gap: 15px;
@@ -620,14 +605,12 @@
             font-family: 'Poppins', sans-serif; font-size: 1.8rem; font-weight: 800;
             color: var(--text-primary); display: flex; align-items: center; gap: 12px;
         }
-        .notifications-title i { color: var(--primary); font-size: 2rem; }
         .clear-notifications-btn {
             padding: 10px 20px; background: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444;
             border-radius: 10px; color: #ef4444; cursor: pointer; font-weight: 600;
             font-size: 13px; transition: all 0.3s ease;
         }
         .clear-notifications-btn:hover { background: #ef4444; color: white; }
-
         .update-log-list { display: flex; flex-direction: column; gap: 20px; }
         .update-log-entry {
             background: var(--bg-card); backdrop-filter: blur(25px);
@@ -635,28 +618,20 @@
             transition: all 0.3s ease; position: relative; overflow: hidden;
         }
         .update-log-entry::before {
-            content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
-            background: var(--gradient-1);
+            content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--gradient-1);
         }
         .update-log-entry:hover { border-color: var(--primary); box-shadow: var(--shadow-glow); transform: translateX(5px); }
         .update-log-entry.new::before { background: var(--gradient-gold); }
         .update-log-entry.new { border-color: var(--gold); }
-
-        .update-log-header {
-            display: flex; justify-content: space-between; align-items: start;
-            margin-bottom: 15px; flex-wrap: wrap; gap: 10px;
-        }
+        .update-log-header { display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px; flex-wrap: wrap; gap: 10px; }
         .update-version {
             font-family: 'Orbitron', sans-serif; font-size: 1.3rem; font-weight: 800;
             color: var(--primary); display: flex; align-items: center; gap: 10px;
         }
         .update-version .version-badge {
-            background: var(--gradient-1); color: #000; padding: 4px 12px;
-            border-radius: 8px; font-size: 0.85rem;
+            background: var(--gradient-1); color: #000; padding: 4px 12px; border-radius: 8px; font-size: 0.85rem;
         }
-        .update-date {
-            font-size: 0.9rem; color: var(--text-secondary); font-weight: 600;
-        }
+        .update-date { font-size: 0.9rem; color: var(--text-secondary); font-weight: 600; }
         .update-type {
             padding: 5px 12px; border-radius: 8px; font-size: 11px; font-weight: 700;
             text-transform: uppercase; letter-spacing: 0.5px;
@@ -664,72 +639,45 @@
         .update-type.major { background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: white; }
         .update-type.minor { background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: white; }
         .update-type.patch { background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); color: white; }
-        .update-type.hotfix { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white; }
-
         .update-title {
             font-family: 'Poppins', sans-serif; font-size: 1.15rem; font-weight: 700;
             color: var(--text-primary); margin-bottom: 12px;
         }
         .update-description { font-size: 0.95rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 15px; }
-        .update-features {
-            list-style: none; padding: 0;
-        }
+        .update-features { list-style: none; padding: 0; }
         .update-features li {
             padding: 8px 0; padding-left: 28px; position: relative;
             font-size: 0.92rem; color: var(--text-secondary); border-bottom: 1px solid rgba(255, 255, 255, 0.03);
         }
         .update-features li:last-child { border-bottom: none; }
         .update-features li::before {
-            content: '✓'; position: absolute; left: 0; color: var(--primary);
-            font-weight: 800; font-size: 14px;
+            content: '✓'; position: absolute; left: 0; color: var(--primary); font-weight: 800; font-size: 14px;
         }
-        .update-features li.feature-new::before { content: '🆕'; }
-        .update-features li.feature-improved::before { content: '⬆️'; }
-        .update-features li.feature-fixed::before { content: '🔧'; }
-        .update-features li.feature-removed::before { content: '❌'; }
-
         .notification-badge-new {
             position: absolute; top: 15px; right: 15px;
             background: var(--gradient-gold); color: #000; padding: 5px 12px;
-            border-radius: 8px; font-size: 11px; font-weight: 800;
-            animation: pulse 2s infinite;
+            border-radius: 8px; font-size: 11px; font-weight: 800; animation: pulse 2s infinite;
         }
 
-        /* Stats Summary in Notifications */
-        .stats-summary {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px; margin-bottom: 25px;
-        }
-        .summary-stat {
-            background: var(--bg-card); backdrop-filter: blur(25px);
-            border: 1px solid var(--border-color); border-radius: 16px; padding: 20px;
-            text-align: center; transition: all 0.3s ease;
-        }
-        .summary-stat:hover { border-color: var(--primary); transform: scale(1.02); }
-        .summary-stat-icon { font-size: 32px; margin-bottom: 10px; }
-        .summary-stat-value { font-family: 'Orbitron', sans-serif; font-size: 1.8rem; font-weight: 800; color: var(--primary); }
-        .summary-stat-label { font-size: 0.85rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; }
-
-        /* Focus Mode Overlay */
+        /* FOCUS MODE OVERLAY */
         .focus-overlay {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.97); z-index: 3000;
+            background: rgba(0, 0, 0, 0.98); z-index: 3000;
             display: none; justify-content: center; align-items: center; flex-direction: column; padding: 40px;
         }
         .focus-overlay.active { display: flex; }
-        .focus-timer { font-family: 'Fira Code', monospace; font-size: 6rem; font-weight: 700; color: var(--primary); margin-bottom: 25px; text-shadow: 0 0 30px var(--primary); }
-        .focus-message { font-size: 1.4rem; color: var(--text-secondary); text-align: center; margin-bottom: 35px; line-height: 1.6; }
-        .focus-exit { padding: 16px 40px; background: #ef4444; border: none; border-radius: 14px; color: white; font-weight: 800; font-size: 15px; cursor: pointer; transition: all 0.3s ease; }
+        .focus-timer { font-family: 'Fira Code', monospace; font-size: 7rem; font-weight: 700; color: var(--primary); margin-bottom: 30px; text-shadow: 0 0 50px var(--primary); }
+        .focus-message { font-size: 1.6rem; color: var(--text-secondary); text-align: center; margin-bottom: 40px; line-height: 1.6; max-width: 600px; }
+        .focus-exit { padding: 18px 50px; background: #ef4444; border: none; border-radius: 14px; color: white; font-weight: 800; font-size: 16px; cursor: pointer; transition: all 0.3s ease; }
         .focus-exit:hover { transform: scale(1.05); box-shadow: 0 0 30px rgba(239, 68, 68, 0.5); }
 
-        /* Toast Notifications */
+        /* TOAST NOTIFICATIONS */
         .toast-container { position: fixed; top: 25px; right: 25px; z-index: 9999; display: flex; flex-direction: column; gap: 12px; }
         .toast {
-            padding: 16px 24px; border-radius: 14px; color: white; font-weight: 600;
+            padding: 18px 26px; border-radius: 14px; color: white; font-weight: 600;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-            display: flex; align-items: center; gap: 12px; min-width: 320px;
-            animation: toastIn 0.4s ease; backdrop-filter: blur(10px);
-            border-left: 4px solid;
+            display: flex; align-items: center; gap: 12px; min-width: 350px;
+            animation: toastIn 0.4s ease; backdrop-filter: blur(10px); border-left: 4px solid;
         }
         .toast.success { background: linear-gradient(135deg, rgba(16, 185, 129, 0.95) 0%, rgba(5, 150, 105, 0.95) 100%); border-left-color: #10b981; }
         .toast.error { background: linear-gradient(135deg, rgba(239, 68, 68, 0.95) 0%, rgba(220, 38, 38, 0.95) 100%); border-left-color: #ef4444; }
@@ -737,7 +685,7 @@
         .toast.reward { background: linear-gradient(135deg, rgba(255, 215, 0, 0.95) 0%, rgba(255, 170, 0, 0.95) 100%); color: #000; border-left-color: #ffd700; }
         @keyframes toastIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 
-        /* Level Up Animation */
+        /* LEVEL UP ANIMATION */
         .levelup-overlay {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0, 0, 0, 0.9); z-index: 4000;
@@ -746,17 +694,17 @@
         .levelup-overlay.active { display: flex; animation: fadeIn 0.5s ease; }
         .levelup-content { text-align: center; animation: levelUpBounce 0.8s ease; }
         @keyframes levelUpBounce { 0% { transform: scale(0) rotate(-10deg); } 50% { transform: scale(1.2) rotate(5deg); } 70% { transform: scale(0.9) rotate(-3deg); } 100% { transform: scale(1) rotate(0deg); } }
-        .levelup-icon { font-size: 110px; margin-bottom: 20px; animation: spin 2s linear infinite; }
-        .levelup-text { font-family: 'Orbitron', sans-serif; font-size: 2.8rem; font-weight: 900; color: var(--gold); margin-bottom: 10px; }
-        .levelup-subtext { font-size: 1.2rem; color: var(--text-secondary); }
+        .levelup-icon { font-size: 120px; margin-bottom: 20px; animation: spin 2s linear infinite; }
+        .levelup-text { font-family: 'Orbitron', sans-serif; font-size: 3rem; font-weight: 900; color: var(--gold); margin-bottom: 10px; }
+        .levelup-subtext { font-size: 1.3rem; color: var(--text-secondary); }
 
-        /* Extensions Dock */
+        /* EXTENSIONS DOCK */
         .extensions-dock {
             position: fixed; right: 20px; bottom: 20px;
             display: flex; flex-direction: column; gap: 10px; z-index: 1000;
         }
         .dock-btn {
-            width: 54px; height: 54px; background: var(--bg-card); backdrop-filter: blur(25px);
+            width: 56px; height: 56px; background: var(--bg-card); backdrop-filter: blur(25px);
             border: 1px solid var(--border-color); border-radius: 14px; color: var(--text-primary);
             cursor: pointer; transition: all 0.3s ease;
             display: flex; align-items: center; justify-content: center; font-size: 20px;
@@ -768,18 +716,19 @@
             background: #ef4444; border-radius: 50%; animation: pulse 2s infinite;
         }
 
-        /* Footer */
-        .footer { text-align: center; padding: 25px; color: var(--text-secondary); font-size: 0.9rem; border-top: 1px solid var(--border-color); margin-top: 25px; }
-        .footer-icons { display: flex; justify-content: center; gap: 18px; margin-bottom: 12px; }
-        .footer-icons a { color: var(--text-secondary); font-size: 1.4rem; transition: all 0.3s ease; }
+        /* FOOTER */
+        .footer { text-align: center; padding: 30px; color: var(--text-secondary); font-size: 0.9rem; border-top: 1px solid var(--border-color); margin-top: 30px; }
+        .footer-icons { display: flex; justify-content: center; gap: 20px; margin-bottom: 15px; }
+        .footer-icons a { color: var(--text-secondary); font-size: 1.5rem; transition: all 0.3s ease; }
         .footer-icons a:hover { color: var(--primary); transform: translateY(-3px) scale(1.2); }
 
-        /* Responsive */
+        /* RESPONSIVE */
         @media (max-width: 1024px) {
             .top-header { flex-direction: column; text-align: center; }
             .tabs-navigation { justify-content: flex-start; }
             .welcome-banner { grid-column: span 1; }
             .iframe-container { height: 500px; }
+            .tools-grid { grid-template-columns: 1fr; }
         }
         @media (max-width: 768px) {
             .container { padding: 10px; }
@@ -788,8 +737,9 @@
             .tab-button span { display: none; }
             .tab-button i { font-size: 18px; }
             .iframe-container { height: 400px; }
-            .tools-grid { grid-template-columns: 1fr; }
             .char-grid { grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); }
+            .timer-time-big { font-size: 2.2rem; }
+            .focus-timer { font-size: 4rem; }
         }
         .hidden { display: none !important; }
     </style>
@@ -823,7 +773,7 @@
                 <div class="logo-icon"><i class="fas fa-graduation-cap"></i></div>
                 <div class="logo-text">
                     <h1>GEEKIE ONE</h1>
-                    <span>ULTRA MASTER • v5.0</span>
+                    <span>STUDY PRO EDITION • v6.0</span>
                 </div>
             </div>
 
@@ -835,6 +785,10 @@
                 <div class="stat-item" title="Experiência">
                     <i class="fas fa-star stat-icon"></i>
                     <div><div class="stat-value" id="xpDisplay">0</div><div class="stat-label">XP</div></div>
+                </div>
+                <div class="stat-item" title="Tempo de Estudo Hoje">
+                    <i class="fas fa-clock stat-icon"></i>
+                    <div><div class="stat-value" id="todayStudyTime">0h</div><div class="stat-label">Estudo</div></div>
                 </div>
                 <div class="level-badge" onclick="switchTab('achievements')" title="Ver Conquistas">
                     <i class="fas fa-crown"></i> Nível <span id="levelDisplay">1</span>
@@ -851,7 +805,7 @@
             </div>
         </header>
 
-        <!-- ==================== TABS NAVIGATION ==================== -->
+        <!-- Tabs Navigation -->
         <nav class="tabs-navigation">
             <button class="tab-button active" data-tab="home" onclick="switchTab('home')">
                 <i class="fas fa-home"></i> <span>Início</span>
@@ -859,33 +813,28 @@
             <button class="tab-button" data-tab="geekie" onclick="switchTab('geekie')">
                 <i class="fas fa-graduation-cap"></i> <span>Geekie One</span>
             </button>
-            <button class="tab-button" data-tab="shop" onclick="switchTab('shop')">
-                <i class="fas fa-store"></i> <span>Loja</span>
-            </button>
             <button class="tab-button" data-tab="tools" onclick="switchTab('tools')">
-                <i class="fas fa-toolbox"></i> <span>Ferramentas</span>
+                <i class="fas fa-tools"></i> <span>Ferramentas de Estudo</span>
+                <span class="tab-badge" style="display:none;">NOVO</span>
             </button>
             <button class="tab-button" data-tab="characters" onclick="switchTab('characters')">
                 <i class="fas fa-font"></i> <span>Caracteres</span>
-                <span class="tab-badge" style="display:none;">NOVO</span>
             </button>
             <button class="tab-button" data-tab="achievements" onclick="switchTab('achievements')">
                 <i class="fas fa-trophy"></i> <span>Conquistas</span>
-                <span class="tab-badge" id="achievementBadge" style="display:none;">!</span>
             </button>
             <button class="tab-button" data-tab="notifications" onclick="switchTab('notifications')">
-                <i class="fas fa-bell"></i> <span>Notificações</span>
-                <span class="tab-badge" id="notifBadge">3</span>
+                <i class="fas fa-bell"></i> <span>Atualizações</span>
+                <span class="tab-badge" id="notifBadge">2</span>
             </button>
         </nav>
 
         <!-- ==================== TAB: HOME ==================== -->
         <section class="tab-content active" id="tab-home">
             <div class="home-grid">
-                <!-- Welcome Banner -->
                 <div class="home-card welcome-banner">
-                    <h2>Bem-vindo de Volta! 👋</h2>
-                    <p>Continue seus estudos e ganhe recompensas exclusivas</p>
+                    <h2>Bem-vindo ao Modo Estudo! 📚</h2>
+                    <p>Ferramentas completas para maximizar seu aprendizado</p>
                     <div class="welcome-stats">
                         <div class="welcome-stat">
                             <div class="welcome-stat-value" id="homeLevel">1</div>
@@ -906,57 +855,43 @@
                     </div>
                 </div>
 
-                <!-- Quick Actions -->
                 <div class="home-card">
-                    <h3 class="home-card-title"><i class="fas fa-bolt"></i> Ações Rápidas</h3>
+                    <h3 class="home-card-title"><i class="fas fa-bolt"></i> Ações Rápidas de Estudo</h3>
                     <div class="quick-actions">
-                        <button class="quick-action-btn" onclick="switchTab('geekie')"><i class="fas fa-play"></i> Abrir Geekie</button>
-                        <button class="quick-action-btn" onclick="openModalTool('timer')"><i class="fas fa-clock"></i> Pomodoro</button>
-                        <button class="quick-action-btn" onclick="openModalTool('calculator')"><i class="fas fa-calculator"></i> Calculadora</button>
-                        <button class="quick-action-btn" onclick="openModalTool('notes')"><i class="fas fa-sticky-note"></i> Notas</button>
-                        <button class="quick-action-btn" onclick="startFocusMode()"><i class="fas fa-crosshairs"></i> Modo Foco</button>
-                        <button class="quick-action-btn" onclick="switchTab('characters')"><i class="fas fa-font"></i> Caracteres ✨</button>
-                        <button class="quick-action-btn" onclick="switchTab('shop')"><i class="fas fa-store"></i> Abrir Loja</button>
+                        <button class="quick-action-btn" onclick="switchTab('geekie')"><i class="fas fa-play"></i> Abrir Geekie One</button>
+                        <button class="quick-action-btn" onclick="switchTab('tools')"><i class="fas fa-clock"></i> Pomodoro Timer</button>
+                        <button class="quick-action-btn" onclick="startFocusMode()"><i class="fas fa-crosshairs"></i> Modo Foco Profundo</button>
+                        <button class="quick-action-btn" onclick="switchTab('tools')"><i class="fas fa-sticky-note"></i> Notas Inteligentes</button>
+                        <button class="quick-action-btn" onclick="switchTab('characters')"><i class="fas fa-font"></i> Caracteres Especiais</button>
+                        <button class="quick-action-btn" onclick="switchTab('shop')"><i class="fas fa-store"></i> Loja de Temas</button>
                     </div>
                 </div>
 
-                <!-- Daily Missions -->
                 <div class="home-card">
-                    <h3 class="home-card-title"><i class="fas fa-tasks"></i> Missões Diárias</h3>
-                    <div class="missions-list" id="homeMissions">
-                        <!-- Missions generated by JS -->
-                    </div>
-                </div>
-
-                <!-- Recent Activity -->
-                <div class="home-card">
-                    <h3 class="home-card-title"><i class="fas fa-chart-line"></i> Seu Progresso</h3>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-                        <div style="background: rgba(255,255,255,0.03); padding: 15px; border-radius: 12px; text-align: center;">
-                            <div style="font-family: 'Orbitron'; font-size: 1.5rem; font-weight: 800; color: var(--primary);" id="homeSessions">0</div>
-                            <div style="font-size: 0.8rem; color: var(--text-secondary);">Sessões</div>
+                    <h3 class="home-card-title"><i class="fas fa-chart-line"></i> Seu Progresso de Estudo</h3>
+                    <div class="study-stats-grid">
+                        <div class="stat-box">
+                            <div class="stat-box-value" id="homeSessions">0</div>
+                            <div class="stat-box-label">Sessões Completas</div>
                         </div>
-                        <div style="background: rgba(255,255,255,0.03); padding: 15px; border-radius: 12px; text-align: center;">
-                            <div style="font-family: 'Orbitron'; font-size: 1.5rem; font-weight: 800; color: var(--primary);" id="homeHours">0h</div>
-                            <div style="font-size: 0.8rem; color: var(--text-secondary);">Tempo Estudo</div>
+                        <div class="stat-box">
+                            <div class="stat-box-value" id="homeHours">0h</div>
+                            <div class="stat-box-label">Tempo Total Estudado</div>
                         </div>
-                        <div style="background: rgba(255,255,255,0.03); padding: 15px; border-radius: 12px; text-align: center;">
-                            <div style="font-family: 'Orbitron'; font-size: 1.5rem; font-weight: 800; color: var(--gold);" id="homeThemes">6</div>
-                            <div style="font-size: 0.8rem; color: var(--text-secondary);">Temas</div>
+                        <div class="stat-box">
+                            <div class="stat-box-value" id="homePomodoros">0</div>
+                            <div class="stat-box-label">Pomodoros Feitos</div>
                         </div>
-                        <div style="background: rgba(255,255,255,0.03); padding: 15px; border-radius: 12px; text-align: center;">
-                            <div style="font-family: 'Orbitron'; font-size: 1.5rem; font-weight: 800; color: var(--gold);" id="homeBadges">0</div>
-                            <div style="font-size: 0.8rem; color: var(--text-secondary);">Conquistas</div>
+                        <div class="stat-box">
+                            <div class="stat-box-value" id="homeGoalsCompleted">0</div>
+                            <div class="stat-box-label">Metas Concluídas</div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Free Themes Preview -->
                 <div class="home-card">
-                    <h3 class="home-card-title"><i class="fas fa-palette"></i> Temas Disponíveis</h3>
-                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;" id="homeThemesGrid">
-                        <!-- Themes generated by JS -->
-                    </div>
+                    <h3 class="home-card-title"><i class="fas fa-tasks"></i> Metas de Estudo de Hoje</h3>
+                    <div class="missions-list" id="homeMissions"></div>
                 </div>
             </div>
         </section>
@@ -978,16 +913,12 @@
                         <button class="action-btn gold" onclick="openInNewTab()">
                             <i class="fas fa-external-link-alt"></i> Nova Aba (+10 XP)
                         </button>
-                        <button class="action-btn secondary" onclick="showMethodSelection()">
-                            <i class="fas fa-cog"></i> Métodos
-                        </button>
                         <button class="action-btn" onclick="openFullscreen()">
                             <i class="fas fa-expand-arrows-alt"></i> Tela Cheia
                         </button>
                     </div>
                 </div>
                 <div class="iframe-container">
-                    <!-- Loading -->
                     <div class="loading-overlay" id="loadingOverlay">
                         <div class="loader">
                             <div class="loader-ring"></div>
@@ -996,396 +927,328 @@
                             <div class="loader-ring"></div>
                         </div>
                         <div class="loading-text">Carregando Geekie One...</div>
-                        <div class="loading-subtext">Preparando sua experiência premium</div>
+                        <div class="loading-subtext">Preparando ambiente de estudo imersivo</div>
                     </div>
-
-                    <!-- Method Selection -->
-                    <div class="method-selection" id="methodSelection">
-                        <h2 style="font-family: 'Poppins'; font-size: 1.8rem; margin-bottom: 10px;">Escolha Método de Carregamento</h2>
-                        <p style="color: var(--text-secondary); margin-bottom: 20px;">Selecione a melhor opção para acessar o Geekie One</p>
-                        
-                        <div class="method-selector">
-                            <div class="method-option selected" onclick="selectMethod('direct')">
-                                <i class="fas fa-globe"></i>
-                                <h4>Direto</h4>
-                                <p>Tentativa padrão</p>
-                            </div>
-                            <div class="method-option" onclick="selectMethod('newtab')">
-                                <i class="fas fa-external-link-alt"></i>
-                                <h4>Nova Aba</h4>
-                                <p>+10 XP bônus</p>
-                            </div>
-                            <div class="method-option" onclick="selectMethod('alternative')">
-                                <i class="fas fa-exchange-alt"></i>
-                                <h4>Alternativo</h4>
-                                <p>Versão modificada</p>
-                            </div>
-                            <div class="method-option" onclick="selectMethod('embed')">
-                                <i class="fas fa-code"></i>
-                                <h4>Embed Proxy</h4>
-                                <p>Serviço proxy</p>
-                            </div>
-                        </div>
-
-                        <div class="method-actions">
-                            <button class="action-btn" onclick="executeSelectedMethod()" style="padding: 14px 35px; font-size: 15px;">
-                                <i class="fas fa-play"></i> Carregar Agora!
-                            </button>
-                            <button class="action-btn secondary" onclick="hideMethodSelection()">Cancelar</button>
-                        </div>
-                    </div>
-
                     <iframe id="geekieFrame" src="" title="Geekie One" allowfullscreen sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-presentation allow-downloads" onload="onIframeLoad()"></iframe>
                 </div>
             </div>
         </section>
 
-        <!-- ==================== TAB: SHOP ==================== -->
-        <section class="tab-content" id="tab-shop">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 15px;">
-                <h2 style="font-family: 'Orbitron'; font-size: 1.8rem; font-weight: 800; color: var(--text-primary);">
-                    <i class="fas fa-store" style="color: var(--gold);"></i> Loja Premium
-                </h2>
-                <div class="level-badge">
-                    <i class="fas fa-coins"></i> <span id="shopCoins">0</span> Moedas
-                </div>
-            </div>
-
-            <div class="shop-categories">
-                <button class="category-btn active" onclick="filterShop('themes')">🎨 Temas Animados</button>
-                <button class="category-btn" onclick="filterShop('boosters')">⚡ Boosters de XP</button>
-                <button class="category-btn" onclick="filterShop('badges')">🏅 Badges Exclusivos</button>
-                <button class="category-btn" onclick="filterShop('effects')">✨ Efeitos Visuais</button>
-            </div>
-
-            <div class="shop-grid" id="shopGrid">
-                <!-- Shop items by JS -->
-            </div>
-        </section>
-
-        <!-- ==================== TAB: TOOLS ==================== -->
+        <!-- ==================== TAB: STUDY TOOLS (COMPLETAMENTE REESCRITO) ==================== -->
         <section class="tab-content" id="tab-tools">
-            <h2 style="font-family: 'Orbitron'; font-size: 1.8rem; font-weight: 800; color: var(--text-primary); margin-bottom: 20px;">
-                <i class="fas fa-toolbox" style="color: var(--primary);"></i> Ferramentas de Estudo
-            </h2>
+            <div class="tools-container">
+                
+                <!-- Hero Section -->
+                <div class="tools-hero">
+                    <h2><i class="fas fa-graduation-cap"></i> Ferramentas de Estudo Avançadas</h2>
+                    <p>Tudo que você precisa para estudar de forma eficiente, focada e produtiva. Timer Pomodoro profissional, notas inteligentes, calculadora e modo de concentração profunda.</p>
+                </div>
 
-            <div class="tools-grid">
-                <!-- Notes Tool -->
-                <div class="tool-card">
-                    <div class="tool-header">
-                        <h3 class="tool-title"><i class="fas fa-sticky-note"></i> Notas Rápidas</h3>
-                        <span style="color: var(--gold); font-size: 12px; font-weight: 600;">+5 XP/save</span>
+                <div class="tools-grid">
+                    
+                    <!-- POMODORO TIMER MELHORADO -->
+                    <div class="tool-card featured" style="grid-column: span 2;">
+                        <div class="tool-header">
+                            <h3 class="tool-title"><i class="fas fa-clock"></i> Pomodoro Timer Profissional</h3>
+                            <span class="tool-badge">+25 XP/sessão</span>
+                        </div>
+                        
+                        <div class="pomodoro-display">
+                            <div class="timer-circle" id="timerCircle">
+                                <div>
+                                    <div class="timer-time-big" id="timerDisplay">25:00</div>
+                                    <div class="timer-phase" id="timerPhase">FOCO</div>
+                                </div>
+                            </div>
+                            
+                            <div class="timer-session-info">
+                                <div class="session-stat">Sessão: <strong id="currentSession">1</strong>/4</div>
+                                <div class="session-stat">Hoje: <strong id="todayPomodoros">0</strong></div>
+                                <div class="session-stat">Total: <strong id="totalPomodoros">0</strong></div>
+                            </div>
+                        </div>
+
+                        <div class="timer-controls">
+                            <button class="timer-btn-main" id="timerStartBtn" onclick="toggleTimer()">
+                                <i class="fas fa-play"></i> Iniciar Sessão
+                            </button>
+                            <button class="timer-btn-secondary" onclick="resetTimer()">
+                                <i class="fas fa-redo"></i> Resetar
+                            </button>
+                            <button class="timer-btn-secondary" onclick="skipPhase()">
+                                <i class="fas fa-forward"></i> Pular Fase
+                            </button>
+                        </div>
+
+                        <div class="timer-presets">
+                            <button class="preset-btn" onclick="setTimer(25)">
+                                <span class="preset-time">25:00</span>
+                                <span class="preset-label">Pomodoro</span>
+                            </button>
+                            <button class="preset-btn" onclick="setTimer(15)">
+                                <span class="preset-time">15:00</span>
+                                <span class="preset-label">Curto</span>
+                            </button>
+                            <button class="preset-btn" onclick="setTimer(5)">
+                                <span class="preset-time">05:00</span>
+                                <span class="preset-label">Pausa Curta</span>
+                            </button>
+                            <button class="preset-btn" onclick="setTimer(15)">
+                                <span class="preset-time">15:00</span>
+                                <span class="preset-label">Pausa Longa</span>
+                            </button>
+                        </div>
                     </div>
-                    <textarea class="notes-area" id="notesArea" placeholder="Escreva suas anotações aqui... 📝
 
-💡 Dicas:
-• Resuma conteúdos do Geekie One
+                    <!-- SMART NOTES -->
+                    <div class="tool-card">
+                        <div class="tool-header">
+                            <h3 class="tool-title"><i class="fas fa-sticky-note"></i> Notas Inteligentes</h3>
+                            <span class="tool-badge">+5 XP/save</span>
+                        </div>
+                        
+                        <div class="notes-toolbar">
+                            <button class="notes-tool-btn" onclick="formatText('bold')" title="Negrito"><i class="fas fa-bold"></i></button>
+                            <button class="notes-tool-btn" onclick="formatText('italic')" title="Itálico"><i class="fas fa-italic"></i></button>
+                            <button class="notes-tool-btn" onclick="formatText('list')" title="Lista"><i class="fas fa-list-ul"></i></button>
+                            <button class="notes-tool-btn" onclick="insertDate()" title="Inserir Data/Hora"><i class="fas fa-calendar-alt"></i></button>
+                            <button class="notes-tool-btn" onclick="clearNotes()" title="Limpar"><i class="fas fa-trash"></i></button>
+                        </div>
+
+                        <textarea class="notes-area" id="notesArea" placeholder="📝 Escreva suas anotações de estudo aqui...
+
+💡 DICAS DE ESTUDO:
+• Resuma os pontos principais do conteúdo
 • Anote dúvidas para pesquisar depois
-• Crie listas de tarefas
+• Crie listas de tópicos a revisar
+• Use formatação para organizar ideias
 
-⭐ Salve para ganhar XP!"></textarea>
-                    <div style="margin-top: 12px; display: flex; gap: 10px;">
-                        <button class="action-btn" onclick="saveNotes()" style="flex: 1;"><i class="fas fa-save"></i> Salvar (+5 XP)</button>
-                        <button class="action-btn secondary" onclick="clearNotes()" style="flex: 1;"><i class="fas fa-trash"></i> Limpar</button>
+⭐ Salve automaticamente ou manualmente para ganhar XP!"></textarea>
+                        
+                        <div class="notes-footer">
+                            <div class="notes-count">
+                                <span><strong id="notesCharCount">0</strong> caracteres</span>
+                                <span style="margin-left: 10px;"><strong id="notesWordCount">0</strong> palavras</span>
+                            </div>
+                            <div class="notes-actions">
+                                <button class="action-btn" onclick="saveNotes()" style="padding: 10px 20px;"><i class="fas fa-save"></i> Salvar</button>
+                                <button class="action-btn secondary" onclick="exportNotes()" style="padding: 10px 20px;"><i class="fas fa-download"></i> Exportar</button>
+                            </div>
+                        </div>
                     </div>
-                </div>
 
-                <!-- Timer Tool -->
-                <div class="tool-card">
-                    <div class="tool-header">
-                        <h3 class="tool-title"><i class="fas fa-clock"></i> Pomodoro Timer</h3>
-                        <span style="color: var(--gold); font-size: 12px; font-weight: 600;">+20 XP/sessão</span>
+                    <!-- CALCULADORA -->
+                    <div class="tool-card">
+                        <div class="tool-header">
+                            <h3 class="tool-title"><i class="fas fa-calculator"></i> Calculadora Científica</h3>
+                            <span class="tool-badge">+1 XP/uso</span>
+                        </div>
+                        <div class="calc-display">
+                            <div class="calc-expression" id="calcExpression"></div>
+                            <div class="calc-result" id="calcResult">0</div>
+                        </div>
+                        <div class="calc-buttons">
+                            <button class="calc-btn clear" onclick="calcClear()">C</button>
+                            <button class="calc-btn operator" onclick="calcInput('(')">(</button>
+                            <button class="calc-btn operator" onclick="calcInput(')')">)</button>
+                            <button class="calc-btn operator" onclick="calcInput('/')">÷</button>
+                            <button class="calc-btn" onclick="calcInput('7')">7</button>
+                            <button class="calc-btn" onclick="calcInput('8')">8</button>
+                            <button class="calc-btn" onclick="calcInput('9')">9</button>
+                            <button class="calc-btn operator" onclick="calcInput('*')">×</button>
+                            <button class="calc-btn" onclick="calcInput('4')">4</button>
+                            <button class="calc-btn" onclick="calcInput('5')">5</button>
+                            <button class="calc-btn" onclick="calcInput('6')">6</button>
+                            <button class="calc-btn operator" onclick="calcInput('-')">−</button>
+                            <button class="calc-btn" onclick="calcInput('1')">1</button>
+                            <button class="calc-btn" onclick="calcInput('2')">2</button>
+                            <button class="calc-btn" onclick="calcInput('3')">3</button>
+                            <button class="calc-btn operator" onclick="calcInput('+')">+</button>
+                            <button class="calc-btn" onclick="calcInput('0')">0</button>
+                            <button class="calc-btn" onclick="calcInput('.')">.</button>
+                            <button class="calc-btn equals" onclick="calculate()">=</button>
+                        </div>
                     </div>
-                    <div class="timer-display">
-                        <div class="timer-time" id="timerDisplay">25:00</div>
-                        <div class="timer-label">Foco</div>
-                        <div class="timer-xp-reward"><i class="fas fa-star"></i> Recompensa: +<span id="timerXPReward">20</span> XP</div>
-                    </div>
-                    <div class="timer-controls">
-                        <button class="timer-btn" id="timerStartBtn" onclick="toggleTimer()"><i class="fas fa-play"></i> Iniciar</button>
-                        <button class="timer-btn reset" onclick="resetTimer()"><i class="fas fa-redo"></i> Resetar</button>
-                    </div>
-                    <div class="timer-presets">
-                        <button class="preset-btn" onclick="setTimer(25)">25 min</button>
-                        <button class="preset-btn" onclick="setTimer(15)">15 min</button>
-                        <button class="preset-btn" onclick="setTimer(5)">5 min</button>
-                        <button class="preset-btn" onclick="setTimer(45)">45 min</button>
-                        <button class="preset-btn" onclick="setTimer(60)">1 hora</button>
-                        <button class="preset-btn" onclick="setTimer(90)">1.5h</button>
-                    </div>
-                </div>
 
-                <!-- Calculator Tool -->
-                <div class="tool-card">
-                    <div class="tool-header">
-                        <h3 class="tool-title"><i class="fas fa-calculator"></i> Calculadora</h3>
-                        <span style="color: var(--gold); font-size: 12px; font-weight: 600;">+1 XP/uso</span>
-                    </div>
-                    <div class="calc-display">
-                        <div class="calc-expression" id="calcExpression"></div>
-                        <div class="calc-result" id="calcResult">0</div>
-                    </div>
-                    <div class="calc-buttons">
-                        <button class="calc-btn clear" onclick="calcClear()">C</button>
-                        <button class="calc-btn operator" onclick="calcInput('(')">(</button>
-                        <button class="calc-btn operator" onclick="calcInput(')')">)</button>
-                        <button class="calc-btn operator" onclick="calcInput('/')">÷</button>
-                        <button class="calc-btn" onclick="calcInput('7')">7</button>
-                        <button class="calc-btn" onclick="calcInput('8')">8</button>
-                        <button class="calc-btn" onclick="calcInput('9')">9</button>
-                        <button class="calc-btn operator" onclick="calcInput('*')">×</button>
-                        <button class="calc-btn" onclick="calcInput('4')">4</button>
-                        <button class="calc-btn" onclick="calcInput('5')">5</button>
-                        <button class="calc-btn" onclick="calcInput('6')">6</button>
-                        <button class="calc-btn operator" onclick="calcInput('-')">−</button>
-                        <button class="calc-btn" onclick="calcInput('1')">1</button>
-                        <button class="calc-btn" onclick="calcInput('2')">2</button>
-                        <button class="calc-btn" onclick="calcInput('3')">3</button>
-                        <button class="calc-btn operator" onclick="calcInput('+')">+</button>
-                        <button class="calc-btn" onclick="calcInput('0')">0</button>
-                        <button class="calc-btn" onclick="calcInput('.')">.</button>
-                        <button class="calc-btn equals" onclick="calculate()">=</button>
-                    </div>
-                </div>
+                    <!-- MODO FOCO AVANÇADO -->
+                    <div class="tool-card focus-mode-card">
+                        <div class="tool-header">
+                            <h3 class="tool-title"><i class="fas fa-crosshairs"></i> Modo Foco Profundo</h3>
+                            <span class="tool-badge" style="background: var(--gradient-2);">+50 XP bônus</span>
+                        </div>
+                        
+                        <div style="text-align: center; padding: 20px 0;">
+                            <i class="fas fa-brain" style="font-size: 72px; color: var(--primary); margin-bottom: 20px;"></i>
+                            <p style="color: var(--text-secondary); margin-bottom: 25px; line-height: 1.7; font-size: 0.95rem;">
+                                Entre em um estado de concentração máxima. Tela cheia imersiva sem distrações.
+                                Ideal para sessões de estudo intensivo e revisões importantes.
+                            </p>
+                        </div>
 
-                <!-- Focus Mode Card -->
-                <div class="tool-card" style="background: linear-gradient(135deg, rgba(0, 255, 136, 0.05) 0%, rgba(0, 212, 255, 0.05) 100%); border: 2px solid var(--primary);">
-                    <div class="tool-header">
-                        <h3 class="tool-title"><i class="fas fa-crosshairs"></i> Modo Foco</h3>
-                        <span style="color: var(--gold); font-size: 12px; font-weight: 600;">+50 XP bônus</span>
-                    </div>
-                    <div style="text-align: center; padding: 20px;">
-                        <i class="fas fa-bullseye" style="font-size: 64px; color: var(--primary); margin-bottom: 15px;"></i>
-                        <p style="color: var(--text-secondary); margin-bottom: 20px; line-height: 1.6;">
-                            Ative o modo foco para eliminar distrações e concentrar-se totalmente nos estudos.
-                            Tela cheia imersiva sem interrupções!
-                        </p>
-                        <button class="action-btn" onclick="startFocusMode()" style="width: 100%; justify-content: center; padding: 16px; font-size: 15px;">
-                            <i class="fas fa-play"></i> Iniciar Modo Foco (+50 XP)
+                        <div class="focus-options">
+                            <div class="focus-option selected" onclick="selectFocusMode('standard')">
+                                <i class="fas fa-eye"></i>
+                                <div class="focus-option-title">Padrão</div>
+                                <div class="focus-option-desc">Timer + estatísticas</div>
+                            </div>
+                            <div class="focus-option" onclick="selectFocusMode('zen')">
+                                <i class="fas fa-spa"></i>
+                                <div class="focus-option-title">Zen Mode</div>
+                                <div class="focus-option-desc">Minimalista e calmo</div>
+                            </div>
+                            <div class="focus-option" onclick="selectFocusMode('hardcore')">
+                                <i class="fas fa-fire"></i>
+                                <div class="focus-option-title">Hardcore</div>
+                                <div class="focus-option-desc">Máxima concentração</div>
+                            </div>
+                            <div class="focus-option" onclick="selectFocusMode('music')">
+                                <i class="fas fa-music"></i>
+                                <div class="focus-option-title">Com Música</div>
+                                <div class="focus-option-desc">Ambiente relaxante</div>
+                            </div>
+                        </div>
+
+                        <button class="focus-start-btn" onclick="startFocusMode()">
+                            <i class="fas fa-play-circle"></i> Iniciar Modo Foco (+50 XP)
                         </button>
                     </div>
+
                 </div>
+
+                <!-- METAS DE ESTUDO -->
+                <div class="tool-card" style="grid-column: span 2;">
+                    <div class="goals-section">
+                        <div class="goals-header">
+                            <h3 class="goals-title"><i class="fas fa-bullseye"></i> Metas de Estudo de Hoje</h3>
+                            <button class="add-goal-btn" onclick="showAddGoalModal()">
+                                <i class="fas fa-plus"></i> Adicionar Meta
+                            </button>
+                        </div>
+                        <div class="goals-list" id="goalsList">
+                            <!-- Goals renderizadas via JS -->
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </section>
 
-        <!-- ==================== TAB: CHARACTERS (NOVO!) ==================== -->
+        <!-- ==================== TAB: CHARACTERS ==================== -->
         <section class="tab-content" id="tab-characters">
             <div class="characters-container">
                 <div class="characters-header">
                     <h2 class="characters-title">
-                        <i class="fas fa-font"></i> Caracteres Especiais
+                        <i class="fas fa-font"></i> Banco de Caracteres Especiais
                     </h2>
                     <div class="search-characters">
                         <i class="fas fa-search"></i>
-                        <input type="text" id="charSearch" placeholder="Buscar caracteres..." oninput="filterCharacters()">
+                        <input type="text" id="charSearch" placeholder="Buscar caracteres por nome..." oninput="filterCharacters()">
                     </div>
                 </div>
 
-                <p style="color: var(--text-secondary); margin-bottom: 20px; font-size: 0.95rem; line-height: 1.6;">
+                <p style="color: var(--text-secondary); margin-bottom: 25px; font-size: 0.95rem; line-height: 1.6;">
                     <i class="fas fa-info-circle" style="color: var(--primary);"></i> 
-                    Clique em qualquer caractere para copiar automaticamente para a área de transferência! 
-                    Perfeito para usar em suas anotações, resumos e trabalhos no Geekie One.
+                    Clique em qualquer caractere para copiar instantaneamente! 
+                    Perfeito para enriquecer suas anotações, trabalhos e resumos de estudo.
                 </p>
 
-                <!-- Categories -->
                 <div class="char-categories" id="charCategories">
                     <button class="char-category-btn active" onclick="showCharCategory('all')">
-                        🎯 Todos <span class="cat-count" id="countAll">150+</span>
+                        🎯 Todos <span class="cat-count">150+</span>
                     </button>
                     <button class="char-category-btn" onclick="showCharCategory('arrows')">
-                        ➡️ Setas <span class="cat-count" id="countArrows">20</span>
+                        ➡️ Setas <span class="cat-count">20</span>
                     </button>
                     <button class="char-category-btn" onclick="showCharCategory('math')">
-                        ∑ Matemática <span class="cat-count" id="countMath">20</span>
+                        ∑ Matemática <span class="cat-count">20</span>
                     </button>
                     <button class="char-category-btn" onclick="showCharCategory('symbols')">
-                        ◎ Símbolos <span class="cat-count" id="countSymbols">25</span>
+                        ◎ Símbolos <span class="cat-count">25</span>
                     </button>
                     <button class="char-category-btn" onclick="showCharCategory('shapes')">
-                        ▲ Formas <span class="cat-count" id="countShapes">20</span>
+                        ▲ Formas <span class="cat-count">20</span>
                     </button>
                     <button class="char-category-btn" onclick="showCharCategory('stars')">
-                        ★ Estrelas <span class="cat-count" id="countStars">15</span>
+                        ★ Estrelas <span class="cat-count">15</span>
                     </button>
                     <button class="char-category-btn" onclick="showCharCategory('emoji')">
-                        😀 Emojis <span class="cat-count" id="countEmoji">25</span>
+                        😀 Emojis <span class="cat-count">25</span>
                     </button>
                     <button class="char-category-btn" onclick="showCharCategory('special')">
-                        ⌨️ Especiais <span class="cat-count" id="countSpecial">25</span>
+                        ⌨️ Especiais <span class="cat-count">25</span>
                     </button>
                 </div>
 
-                <!-- Characters Grid Container -->
-                <div id="charactersContainer">
-                    <!-- Generated by JS -->
-                </div>
+                <div id="charactersContainer"></div>
 
-                <!-- Recently Copied -->
                 <div class="recently-copied" id="recentlyCopiedSection" style="display: none;">
                     <div class="recently-copied-title">
-                        <i class="fas fa-clock"></i> Copiados Recentemente
+                        <i class="fas fa-history"></i> Copiados Recentemente
                     </div>
-                    <div class="recent-chars-list" id="recentCharsList">
-                        <!-- Generated by JS -->
-                    </div>
+                    <div class="recent-chars-list" id="recentCharsList"></div>
                 </div>
             </div>
         </section>
 
         <!-- ==================== TAB: ACHIEVEMENTS ==================== -->
         <section class="tab-content" id="tab-achievements">
-            <h2 style="font-family: 'Orbitron'; font-size: 1.8rem; font-weight: 800; color: var(--text-primary); margin-bottom: 20px;">
-                <i class="fas fa-trophy" style="color: var(--gold);"></i> Conquistas & Badges
+            <h2 style="font-family: 'Orbitron'; font-size: 1.8rem; font-weight: 800; color: var(--text-primary); margin-bottom: 25px;">
+                <i class="fas fa-trophy" style="color: var(--gold);"></i> Conquistas de Estudo & Badges
             </h2>
-            <div class="achievements-grid" id="achievementsGrid">
-                <!-- Achievements by JS -->
-            </div>
+            <div class="achievements-grid" id="achievementsGrid"></div>
         </section>
 
-        <!-- ==================== TAB: NOTIFICATIONS / UPDATE LOG ==================== -->
+        <!-- ==================== TAB: NOTIFICATIONS ==================== -->
         <section class="tab-content" id="tab-notifications">
             <div class="notifications-header">
                 <h2 class="notifications-title">
-                    <i class="fas fa-bell"></i> Notificações & Update Log
+                    <i class="fas fa-bell"></i> Atualizações & Novidades
                 </h2>
                 <button class="clear-notifications-btn" onclick="markAllRead()">
                     <i class="fas fa-check-double"></i> Marcar Todas como Lidas
                 </button>
             </div>
 
-            <!-- Stats Summary -->
-            <div class="stats-summary">
-                <div class="summary-stat">
-                    <div class="summary-stat-icon">📢</div>
-                    <div class="summary-stat-value" id="totalUpdates">8</div>
-                    <div class="summary-stat-label">Total de Updates</div>
-                </div>
-                <div class="summary-stat">
-                    <div class="summary-stat-icon">🆕</div>
-                    <div class="summary-stat-value" id="newUpdates">3</div>
-                    <div class="summary-stat-label">Novidades</div>
-                </div>
-                <div class="summary-stat">
-                    <div class="summary-stat-icon">⭐</div>
-                    <div class="summary-stat-value" id="totalFeatures">45+</div>
-                    <div class="summary-stat-label">Novas Features</div>
-                </div>
-                <div class="summary-stat">
-                    <div class="summary-stat-icon">🐛</div>
-                    <div class="summary-stat-value" id="bugsFixed">20+</div>
-                    <div class="summary-stat-label">Bugs Corrigidos</div>
-                </div>
-            </div>
-
-            <!-- Update Log List -->
-            <div class="update-log-list" id="updateLogList">
-                
-                <!-- VERSION 5.0 - NOVO -->
+            <div class="update-log-list">
                 <div class="update-log-entry new">
-                    <span class="notification-badge-new">NOVO!</span>
+                    <span class="notification-badge-new">RECENTE!</span>
                     <div class="update-log-header">
-                        <div class="update-version">
-                            v5.0 <span class="version-badge">ULTRA MASTER</span>
-                        </div>
+                        <div class="update-version">v6.0 <span class="version-badge">STUDY PRO</span></div>
                         <div style="display: flex; gap: 10px; align-items: center;">
                             <span class="update-date">Janeiro 2025</span>
                             <span class="update-type major">MAJOR</span>
                         </div>
                     </div>
-                    <h3 class="update-title">🚀 Grande Atualização - Sistema de Abas Completo!</h3>
-                    <p class="update-description">
-                        Versão mais completa já lançada! Novo sistema de navegação por abas, 
-                        central de notificações com histórico completo de atualizações, e muito mais!
-                    </p>
+                    <h3 class="update-title">🎓 Study Pro Edition - Ferramentas Completas de Estudo!</h3>
+                    <p class="update-description">Maior atualização focada em aprendizado! Pomodoro profissional, metas de estudo, notas inteligentes, modo foco avançado e muito mais!</p>
                     <ul class="update-features">
-                        <li class="feature-new">🆕 NOVO: Sistema de Navegação por Abas (7 abas completas)</li>
-                        <li class="feature-new">🆕 NOVA Aba: Caracteres Especiais com 150+ símbolos</li>
-                        <li class="feature-new">🆕 NOVA Aba: Notificações & Update Log com histórico completo</li>
-                        <li class="feature-new">🆕 NOVA Aba: Início com dashboard personalizado</li>
-                        <li class="feature-new">🆕 NOVA Aba: Ferramentas centralizadas (Timer, Calc, Notes, Foco)</li>
-                        <li class="feature-new">🆕 NOVA Aba: Conquistas com grid visual de badges</li>
-                        <li class="feature-improved">⬆️ MELHORADO: Interface completamente redesenhada</li>
-                        <li class="feature-fixed">🔧 CORRIGIDO: Performance geral otimizada</li>
+                        <li>🆕 NOVO: Pomodoro Timer Profissional com 4 fases</li>
+                        <li>🆕 NOVO: Notas Inteligentes com formatação</li>
+                        <li>🆕 NOVO: Sistema de Metas de Estudo diárias</li>
+                        <li>🆕 NOVO: Modo Foco com 4 modos diferentes</li>
+                        <li>🆕 NOVO: Estatísticas detalhadas de estudo</li>
+                        <li>🆕 NOVO: Banco de 150+ caracteres especiais</li>
+                        <li>⬆️ MELHORADO: Interface completamente redesenhada</li>
+                        <li>⬆️ MELHORADO: Sistema de gamificação expandido</li>
+                        <li>🔧 CORRIGIDO: Todos os bugs conhecidos</li>
                     </ul>
                 </div>
 
-                <!-- VERSION 4.0 -->
-                <div class="update-log-entry new">
-                    <span class="notification-badge-new">RECENTE</span>
+                <div class="update-log-entry">
                     <div class="update-log-header">
-                        <div class="update-version">
-                            v4.0 <span class="version-badge">ULTRA PREMIUM</span>
-                        </div>
+                        <div class="update-version">v5.0</div>
                         <div style="display: flex; gap: 10px; align-items: center;">
                             <span class="update-date">Dezembro 2024</span>
                             <span class="update-type major">MAJOR</span>
                         </div>
                     </div>
-                    <h3 class="update-title">🎮 Gamificação Total & Loja Premium!</h3>
-                    <p class="update-description">
-                        O maior update da história! Sistema de gamificação completo com XP, moedas, níveis, 
-                        loja premium com temas animados, conquistas, missões diárias e muito mais!
-                    </p>
+                    <h3 class="update-title">🚀 Gamificação & Loja Premium</h3>
                     <ul class="update-features">
-                        <li class="feature-new">🆕 NOVO: Sistema de Gamificação (XP, Moedas, Níveis)</li>
-                        <li class="feature-new">🆕 NOVO: Loja Premium com Temas Animados</li>
-                        <li class="feature-new">🆕 NOVO: Sistema de Boosters de XP (2x, 3x)</li>
-                        <li class="feature-improved">⬆️ MELHORADO: Ganho automático de XP por tempo online</li>
-                        <li class="feature-fixed">🔧 CORRIGIDO: Salvamento de progresso no localStorage</li>
+                        <li>🆕 NOVO: Sistema de XP, Moedas e Níveis</li>
+                        <li>🆕 NOVO: Loja com temas animados</li>
+                        <li>🆕 NOVO: 10 Conquistas para desbloquear</li>
                     </ul>
                 </div>
-
-                <!-- VERSION 3.0 -->
-                <div class="update-log-entry">
-                    <div class="update-log-header">
-                        <div class="update-version">v3.0</div>
-                        <div style="display: flex; gap: 10px; align-items: center;">
-                            <span class="update-date">Outubro 2024</span>
-                            <span class="update-type major">MAJOR</span>
-                        </div>
-                    </div>
-                    <h3 class="update-title">🛡️ Sistema Inteligente de Carregamento</h3>
-                    <ul class="update-features">
-                        <li class="feature-new">🆕 NOVO: Detecção automática de bloqueio X-Frame-Options</li>
-                        <li class="feature-new">🆕 NOVO: 4 métodos de carregamento (Direto, Nova Aba, Alternativo, Embed)</li>
-                        <li class="feature-fixed">🔧 CORRIGIDO: Problemas de carregamento em alguns navegadores</li>
-                    </ul>
-                </div>
-
-                <!-- VERSION 2.0 -->
-                <div class="update-log-entry">
-                    <div class="update-log-header">
-                        <div class="update-version">v2.0</div>
-                        <div style="display: flex; gap: 10px; align-items: center;">
-                            <span class="update-date">Agosto 2024</span>
-                            <span class="update-type major">MAJOR</span>
-                        </div>
-                    </div>
-                    <h3 class="update-title">🔧 Portal Ultra - Extensões Integradas</h3>
-                    <ul class="update-features">
-                        <li class="feature-new">🆕 NOVO: Sistema de extensões (Notas Rápidas, Pomodoro, Calculadora)</li>
-                        <li class="feature-new">🆕 NOVO: Modo Foco tela cheia</li>
-                        <li class="feature-improved">⬆️ MELHORADO: Interface moderna glassmorphism</li>
-                    </ul>
-                </div>
-
-                <!-- VERSION 1.0 -->
-                <div class="update-log-entry">
-                    <div class="update-log-header">
-                        <div class="update-version">v1.0</div>
-                        <div style="display: flex; gap: 10px; align-items: center;">
-                            <span class="update-date">Junho 2024</span>
-                            <span class="update-type major">RELEASE</span>
-                        </div>
-                    </div>
-                    <h3 class="update-title">🎉 Lançamento Inicial - Geekie One Portal</h3>
-                    <ul class="update-features">
-                        <li class="feature-new">🆕 LANÇAMENTO: Portal inicial com embed do Geekie One</li>
-                        <li class="feature-new">🆕 NOVO: Controles de navegação (voltar, avançar, refresh)</li>
-                        <li class="feature-new">🆕 NOVO: Botão de tela cheia</li>
-                    </ul>
-                </div>
-
             </div>
         </section>
 
@@ -1395,12 +1258,11 @@
                 <a href="#" title="GitHub"><i class="fab fa-github"></i></a>
                 <a href="#" title="Discord"><i class="fab fa-discord"></i></a>
                 <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
-                <a href="#" title="YouTube"><i class="fab fa-youtube"></i></a>
             </div>
-            <p>© 2024-2025 Geekie One Portal ULTRA MASTER v5.0 + Caracteres</p>
-            <p style="margin-top: 8px; font-size: 0.85rem;">
-                Desenvolvido com <i class="fas fa-heart" style="color: #ef4444;"></i> para a comunidade educacional | 
-                <i class="fas fa-coins" style="color: var(--gold);"></i> Ganhe XP enquanto estuda!
+            <p>© 2024-2025 Geekie One Portal STUDY PRO v6.0</p>
+            <p style="margin-top: 10px; font-size: 0.85rem;">
+                Desenvolvido com <i class="fas fa-heart" style="color: #ef4444;"></i> para maximizar seu aprendizado | 
+                <i class="fas fa-graduation-cap" style="color: var(--primary);"></i> Estude com eficiência!
             </p>
         </footer>
 
@@ -1410,10 +1272,10 @@
     <div class="extensions-dock">
         <button class="dock-btn" onclick="switchTab('home')" title="Início"><i class="fas fa-home"></i></button>
         <button class="dock-btn" onclick="switchTab('geekie')" title="Geekie One"><i class="fas fa-graduation-cap"></i></button>
-        <button class="dock-btn" onclick="switchTab('tools')" title="Ferramentas"><i class="fas fa-toolbox"></i></button>
+        <button class="dock-btn" onclick="switchTab('tools')" title="Ferramentas"><i class="fas fa-tools"></i></button>
         <button class="dock-btn" onclick="switchTab('characters')" title="Caracteres"><i class="fas fa-font"></i></button>
         <button class="dock-btn" onclick="startFocusMode()" title="Modo Foco"><i class="fas fa-crosshairs"></i></button>
-        <button class="dock-btn" onclick="switchTab('notifications')" title="Notificações">
+        <button class="dock-btn" onclick="switchTab('notifications')" title="Atualizações">
             <i class="fas fa-bell"></i>
             <span class="notification-dot" id="dockNotifDot"></span>
         </button>
@@ -1422,8 +1284,8 @@
     <!-- Focus Mode Overlay -->
     <div class="focus-overlay" id="focusOverlay">
         <div class="focus-timer" id="focusTimer">25:00</div>
-        <div class="focus-message" id="focusMessage">🎯 Modo Foco Ativado!<br>Concentre-se nos seus estudos. Você consegue!</div>
-        <button class="focus-exit" onclick="exitFocusMode()"><i class="fas fa-times"></i> Sair do Modo Foco</button>
+        <div class="focus-message" id="focusMessage">🎯 Modo Foco Profundo Ativado!<br><br>Você está em um estado de concentração máxima.<br>Elimine todas as distrações e mergulhe nos estudos.<br><br><em>Foque no presente. Você consegue! 💪</em></div>
+        <button class="focus-exit" onclick="exitFocusMode()"><i class="fas fa-times"></i> Encerrar Modo Foco</button>
     </div>
 
     <script>
@@ -1432,164 +1294,155 @@
         // ============================================
         const CONFIG = {
             GEEKIE_URL: 'https://one.geekie.com.br/',
-            ALTERNATIVE_URL: 'https://dx1website.pages.dev/resumao/geekieoneplus/',
-            EMBED_URL: 'https://api.allorigins.win/raw?url=',
             XP_PER_SECOND: 1,
-            COINS_PER_MINUTE: 2,
             NOTES_XP: 5,
             CALC_XP: 1,
-            TIMER_BASE_XP: 20,
+            TIMER_BASE_XP: 25,
             FOCUS_XP: 50,
             NEWTAB_XP: 10,
-            LEVEL_XP_MULTIPLIER: 100
+            LEVEL_XP_MULTIPLIER: 100,
+            GOAL_COMPLETE_XP: 15
         };
 
         let state = {
             theme: localStorage.getItem('selectedTheme') || 'default',
-            coins: parseInt(localStorage.getItem('geekieCoins')) || 50,
+            coins: parseInt(localStorage.getItem('geekieCoins')) || 100,
             xp: parseInt(localStorage.getItem('geekieXP')) || 0,
             level: parseInt(localStorage.getItem('geekieLevel')) || 1,
             totalXP: parseInt(localStorage.getItem('geekieTotalXP')) || 0,
             sessions: parseInt(localStorage.getItem('geekieSessions')) || 0,
             studyMinutes: parseInt(localStorage.getItem('geekieStudyMinutes')) || 0,
+            todayStudyMinutes: parseInt(localStorage.getItem('todayStudyMinutes')) || 0,
             streak: parseInt(localStorage.getItem('geekieStreak')) || 0,
-            lastVisit: localStorage.getItem('geekieLastVisit') || null,
-            ownedThemes: JSON.parse(localStorage.getItem('geekieOwnedThemes')) || ['default','ocean','sunset','forest','royal','midnight'],
-            ownedItems: JSON.parse(localStorage.getItem('geekieOwnedItems')) || [],
-            achievements: JSON.parse(localStorage.getItem('geekieAchievements')) || [],
+            pomodorosToday: parseInt(localStorage.getItem('pomodorosToday')) || 0,
+            totalPomodoros: parseInt(localStorage.getItem('totalPomodoros')) || 0,
+            goalsCompleted: parseInt(localStorage.getItem('goalsCompleted')) || 0,
             notes: localStorage.getItem('geekieNotes') || '',
-            timer: { minutes: 25, seconds: 0, isRunning: false, interval: null },
+            timer: { minutes: 25, seconds: 0, isRunning: false, interval: null, phase: 'focus', session: 1 },
             calc: { expression: '', result: '0' },
-            sessionStart: Date.now(),
-            isActive: true,
-            xpInterval: null,
             currentMethod: 'direct',
-            notificationsRead: JSON.parse(localStorage.getItem('notificationsRead')) || [],
-            recentCharacters: JSON.parse(localStorage.getItem('recentCharacters')) || []
+            recentCharacters: JSON.parse(localStorage.getItem('recentCharacters')) || [],
+            goals: JSON.parse(localStorage.getItem('studyGoals')) || [],
+            focusModeType: 'standard'
         };
 
-        // ============================================
-        // BANCO DE CARACTERES ESPECIAIS (NOVO!)
-        // ============================================
+        // BANCO DE CARACTERES
         const CHARACTERS_DB = {
             arrows: [
                 { char: '→', name: 'Seta Direita' }, { char: '←', name: 'Seta Esquerda' },
                 { char: '↑', name: 'Seta Cima' }, { char: '↓', name: 'Seta Baixo' },
-                { char: '↔', name: 'Seta Dupla H' }, { char: '↕', name: 'Seta Dupla V' },
-                { char: '⇒', name: 'Seta Dupla Dir' }, { char: '⇐', name: 'Seta Dupla Esq' },
+                { char: '↔', name: 'Seta Pesada' }, { char: '↕', name: 'Seta Dupla Vertical' },
+                { char: '⇒', name: 'Seta Dupla Direita' }, { char: '⇐', name: 'Seta Dupla Esquerda' },
                 { char: '➔', name: 'Seta Pesada' }, { char: '➜', name: 'Seta Curva' },
-                { char: '➤', name: 'Seta Ponta' }, { char: '➥', name: 'Seta Curva Baixo' },
-                { char: '➦', name: 'Seta Curva Cima' }, { char: '➧', name: 'Seta Grossa' },
-                { char: '➨', name: 'Seta Grossa Dir' }, { char: '➩', name: 'Seta Contorno' },
-                { char: '➪', name: 'Seta Onda' }, { char: '➫', name: 'Seta Zigzag' },
-                { char: '↗', name: 'Diagonal NE' }, { char: '↘', name: 'Diagonal SE' },
-                { char: '↙', name: 'Diagonal SW' }, { char: '↖', name: 'Diagonal NW' }
+                { char: '➤', name: 'Seta Pontuda' }, { char: '↗', name: 'Diagonal NE' },
+                { char: '↘', name: 'Diagonal SE' }, { char: '↙', name: 'Diagonal SW' },
+                { char: '↖', name: 'Diagonal NW' }, { char: '⇶', name: 'Seta Dupla Pesada' },
+                { char: '⇵', name: 'Seta Dupla Leve' }, { char: '⇴', name: 'Seta Dupla Tracejada' },
+                { char: '⇳', name: 'Seta Tripla' }, { char: '⇴', name: 'Seta Onda' }
             ],
             math: [
                 { char: '+', name: 'Mais' }, { char: '−', name: 'Menos' },
-                { char: '×', name: 'Vezes' }, { char: '÷', name: 'Dividido' },
+                { char: '×', name: 'Multiplicação' }, { char: '÷', name: 'Divisão' },
                 { char: '=', name: 'Igual' }, { char: '≠', name: 'Diferente' },
-                { char: '≈', name: 'Aproximado' }, { char: '√', name: 'Raiz' },
+                { char: '≈', name: 'Aproximado' }, { char: '√', name: 'Raiz Quadrada' },
                 { char: 'π', name: 'Pi' }, { char: '∞', name: 'Infinito' },
-                { char: '∑', name: 'Soma' }, { char: '∫', name: 'Integral' },
-                { char: '≤', name: 'Menor Igual' }, { char: '≥', name: 'Maior Igual' },
-                { char: '±', name: 'Mais/Menos' }, { char: '÷', name: 'Fração' },
-                { char: '%', name: 'Porcentagem' }, { char: '‰', name: 'Por mil' },
-                { char: '∆', name: 'Delta' }, { char: '∂', name: 'Parcial' }
+                { char: '∑', name: 'Somatório' }, { char: '∫', name: 'Integral' },
+                { char: '≤', name: 'Menor ou Igual' }, { char: '≥', name: 'Maior ou Igual' },
+                { char: '±', name: 'Mais ou Menos' }, { char: '≠', name: 'Não Igual' },
+                { char: '%', name: 'Porcentagem' }, { char: '‰', name: 'Por Mil' },
+                { char: '∆', name: 'Delta' }, { char: '∂', name: 'Derivada Parcial' },
+                { char: '∇', name: 'Nabla' }, { char: '∏', name: 'Integral de Contorno' }
             ],
             symbols: [
                 { char: '©', name: 'Copyright' }, { char: '®', name: 'Registrado' },
-                { char: '™', name: 'Trademark' }, { char: '§', name: 'Seção' },
+                { char: '™', name: 'Marca Registrada' }, { char: '§', name: 'Seção' },
                 { char: '¶', name: 'Parágrafo' }, { char: '†', name: 'Cruz' },
-                { char: '•', name: 'Bullet' }, { char: '…', name: 'Reticências' },
-                { char: '¢', name: 'Centavo' }, { char: '€', name: 'Euro' },
-                { char: '£', name: 'Libra' }, { char: '¥', name: 'Yen' },
-                { char: '¤', name: 'Moeda' }, { char: '♠', name: 'Espadas' },
-                { char: '♣', name: 'Paus' }, { char: '♥', name: 'Copas' },
-                { char: '♦', name: 'Ouros' }, { char: '★', name: 'Estrela' },
-                { char: '☆', name: 'Estrela Vazia' }, { char: '♩', name: 'Nota Musical' },
-                { char: '♬', name: 'Dupla Nota' }, { char: '♭', name: 'Bemol' },
-                { char: '☀', name: 'Sol' }, { char: '☁', name: 'Nuvem' },
-                { char: '☂', name: 'Guarda-chuva' }, { char: '☃', name: 'Boneco neve' }
-            ],
-            shapes: [
-                { char: '▲', name: 'Triângulo Cima' }, { char: '▼', name: 'Triângulo Baixo' },
-                { char: '●', name: 'Círculo' }, { char: '■', name: 'Quadrado' },
-                { char: '◆', name: 'Losango' }, { char: '★', name: 'Estrela Cheia' },
-                { char: '☆', name: 'Estrela Vazia' }, { char: '♦', name: 'Losango Vazio' },
+                { char: '‡', name: 'Cruz Dupla' }, { char: '•', name: 'Bullet' },
+                { char: '…', name: 'Reticências' }, { char: '¢', name: 'Centavo' },
+                { char: '€', name: 'Euro' }, { char: '£', name: 'Libra Esterlina' },
+                { char: '¥', name: 'Yen Japonês' }, { char: '¤', name: 'Símbolo de Moeda' },
                 { char: '♠', name: 'Espadas' }, { char: '♣', name: 'Paus' },
                 { char: '♥', name: 'Copas' }, { char: '♦', name: 'Ouros' },
-                { char: '○', name: 'Círculo Vazio' }, { char: '□', name: 'Quadrado Vazio' },
-                { char: '△', name: 'Triângulo Vazio' }, { char: '▽', name: 'Triângulo Baixo Vazio' },
-                { char: '◇', name: 'Losango Vazio' }, { char: '◈', name: 'Losango Ponto' },
-                { char: '▣', name: 'Quadrado Sombra' }, { char: '▢', name: 'Quadrado Pequeno' }
+                { char: '★', name: 'Estrela Preenchida' }, { char: '☆', name: 'Estrela Vazia' },
+                { char: '☀', name: 'Sol' }, { char: '☁', name: 'Nuvem' },
+                { char: '☂', name: 'Guarda-chuva' }, { char: '❄', name: 'Floco de Neve' }
+            ],
+            shapes: [
+                { char: '▲', name: 'Triângulo Para Cima' }, { char: '▼', name: 'Triângulo Para Baixo' },
+                { char: '●', name: 'Círculo Preenchido' }, { char: '■', name: 'Quadrado' },
+                { char: '◆', name: 'Losango' }, { char: '★', name: 'Estrela' },
+                { char: '☆', name: 'Estrela Vazia' }, { char: '○', name: 'Círculo Vazio' },
+                { char: '□', name: 'Quadrado Vazio' }, { char: '△', name: 'Triângulo Vazio' },
+                { char: '▽', name: 'Triângulo Baixo Vazio' }, { char: '◇', name: 'Losango Vazio' },
+                { char: '◈', name: 'Losango com Ponto' }, { char: '▣', name: 'Quadrado Sombreado' },
+                { char: '⬟', name: 'Paralelogramo' }, { char: '⬡', name: 'Trapézio' },
+                { char: '⬢', name: 'Pentágono' }, { char: '⬣', name: 'Hexágono' },
+                { char: '⬤', name: 'Heptágono' }, { char: '⬥', name: 'Octógono' }
             ],
             stars: [
-                { char: '★', name: 'Estrela Cheia' }, { char: '☆', name: 'Estrela Vazia' },
-                { char: '✦', name: 'Estrela 4 Pontas' }, { char: '✧', name: 'Brilho' },
+                { char: '★', name: 'Estrela Preenchida' }, { char: '☆', name: 'Estrela Vazia' },
+                { char: '✦', name: 'Estrela de Quatro Pontas' }, { char: '✧', name: 'Brilho' },
                 { char: '✨', name: 'Brilhos' }, { char: '🌟', name: 'Estrela Brilhante' },
-                { char: '⭐', name: 'Estrela Emoji' }, { char: '🌠', name: 'Estrela Cadente' },
-                { char: '✴', name: 'Estrela 8 Pontas' }, { char: '✹', name: 'Estrela 12 Pontas' },
-                { char: '❂', name: 'Roda Dentada' }, { char: '🔯', name: 'Om' },
-                { char: '💫', name: 'Tontura' }, { char: '⚝', name: 'Estrela Outline' },
-                { char: '✺', name: 'Estrela Circulo' }, { char: '✹', name: 'Estrela Pontuda' }
+                { char: '⭐', name: 'Estrela Média' }, { char: '🌠', name: 'Estrela Cadente' },
+                { char: '✴', name: 'Estrela de Oito Pontas' }, { char: '✹', name: 'Estrela de Doze Pontas' },
+                { char: '❂', name: 'Engrenagem de Dentada' }, { char: '🔯', name: 'Símbolo Om' },
+                { char: '💫', name: 'Tontura' }, { char: '⚝', name: 'Estrela de Contorno' },
+                { char: '✺', name: 'Estrela em Círculo' }, { char: '✸', name: 'Estrela Pesada' }
             ],
             emoji: [
-                { char: '📚', name: 'Livros' }, { char: '✏️', name: 'Lápis' },
+                { char: '📚', name: 'Livros Abertos' }, { char: '✏️', name: 'Lápis' },
                 { char: '🎯', name: 'Alvo' }, { char: '🔥', name: 'Fogo' },
-                { char: '💡', name: 'Ideia' }, { char: '✅', name: 'Check' },
-                { char: '🎓', name: 'Formatura' }, { char: '🏆', name: 'Troféu' },
-                { char: '📝', name: 'Memo' }, { char: '📖', name: 'Livro Aberto' },
+                { char: '💡', name: 'Lâmpada' }, { char: '✅', name: 'Check Mark Verde' },
+                { char: '🎓', name: 'Capelo de Formatura' }, { char: '🏆', name: 'Troféu' },
+                { char: '📝', name: 'Bloco de Notas' }, { char: '📖', name: 'Livro Aberto' },
                 { char: '🔬', name: 'Microscópio' }, { char: '🧮', name: 'Ábaco' },
-                { char: '📐', name: 'Réguas' }, { char: '🎨', name: 'Paleta' },
-                { char: '💻', name: 'Computador' }, { char: '📱', name: 'Celular' },
+                { char: '📐', name: 'Réguas Triangulares' }, { char: '🎨', name: 'Paleta Artística' },
+                { char: '💻', name: 'Notebook' }, { char: '📱', name: 'Smartphone' },
                 { char: '⏰', name: 'Relógio' }, { char: '📅', name: 'Calendário' },
-                { char: '✨', name: 'Brilho' }, { char: '🌟', name: 'Estrela' },
-                { char: '💪', name: 'Força' }, { char: '🧠', name: 'Cérebro' },
-                { char: '🎵', name: 'Música' }, { char: '🎮', name: 'Game' },
-                { char: '🚀', name: 'Foguete' }, { char: '⚡', name: 'Raio' }
+                { char: '✨', name: 'Brilhos' }, { char: '🌟', name: 'Estrela Cintilante' },
+                { char: '💪', name: 'Braço Forte' }, { char: '🧠', name: 'Cérebro' },
+                { char: '🎵', name: 'Nota Musical' }, { char: '🎮', name: 'Controle de Videogame' },
+                { char: '🚀', name: 'Foguete' }, { char: '⚡', name: 'Raio' },
+                { char: '💎', name: 'Festa' }, { char: '🏅', name: 'Basquete' },
+                { char: '⚽', name: 'Bola de Golfe' }, { char: '🎪', name: 'Circus' }
             ],
             special: [
                 { char: '¹', name: 'Expoente 1' }, { char: '²', name: 'Expoente 2' },
-                { char: '³', name: 'Expoente 3' }, { char: '½', name: 'Meio' },
-                { char: '¼', name: 'Um Quarto' }, { char: '¾', name: 'Três Quartos' },
-                { char: '✓', name: 'Check' }, { char: '✗', name: 'X' },
-                { char: '™', name: 'Trademark' }, { char: '°', name: 'Grau' },
-                { char: '′', name: 'Minuto' }, { char: '″', name: 'Segundo' },
-                { char: '§', name: 'Parágrafo' }, { char: '¶', name: 'Pilcrow' },
-                { char: '†', name: 'Cruz' }, { char: '‡', name: 'Dupla Cruz' },
-                { char: '…', name: 'Elipse' }, { char: '–', name: 'En dash' },
-                { char: '—', name: 'Em dash' }, { char: '¯', name: 'Macron' },
-                { char: '¦', name: 'Barra Partida' }, { char: '·', name: 'Ponto Médio' },
-                { char: '※', name: 'Referência' }, { char: '‽', name: 'Careta' }
+                { char: '³', name: 'Expoente 3' }, { char: '⁴', name: 'Expoente 4' },
+                { char: '½', name: 'Meio' }, { char: '¼', name: 'Um Quarto' },
+                { char: '¾', name: 'Três Quartos' }, { char: '⅐', name: 'Comum Fração' },
+                { char: '⅑', name: 'Um Nono' }, { char: '⅒', name: 'Um Décimo' },
+                { char: '⅛', name: 'Três Oitavos' }, { char: '⅜', name: 'Cinco Oitavos' },
+                { char: '⅝', name: 'Sete Oitavos' }, { char: '⅞', name: 'Nove Oitavos' },
+                { char: '⅟', name: 'Quinze Dezesseis' }, { char: '¾', name: 'Três Quartos' },
+                { char: '✓', name: 'Check Mark' }, { char: '✗', name: 'Mark X' },
+                { char: '™', name: 'Trade Mark' }, { char: '°', name: 'Grau' },
+                { char: '′', name: 'Primeiro' }, { char: '″', name: 'Segundo' },
+                { char: '§', name: 'Seção' }, { char: '¶', name: 'Pilcrow' },
+                { char: '†', name: 'Cruz Latina' }, { char: '‡', name: 'Cruz Dupla' },
+                { char: '…', name: 'Elipse Horizontal' }, { char char: '–', name: 'En Dash' },
+                { char: '—', name: 'Em Dash' }, { char: '¯', name: 'Macron' },
+                { char: '¦', name: 'Barra Quebrada' }, { char: '·', name: 'Ponto Médio' },
+                { char: '※', name: 'Referência' }, { char: '†', name: 'Obelisque' },
+                { char: '⁂', name: 'Asterismo' }, { char: '™', name: 'Trade Mark Sign' }
             ]
         };
 
         // ============================================
-        // FUNÇÕES DE NAVEGAÇÃO
+        // FUNÇÃO PRINCIPAL DE NAVEGAÇÃO
         // ============================================
-        
         function switchTab(tabId) {
-            console.log('✅ Navegando para aba:', tabId);
-            
-            // Esconder todas as abas
-            const tabs = document.querySelectorAll('.tab-content');
-            tabs.forEach(tab => {
+            document.querySelectorAll('.tab-content').forEach(tab => {
                 tab.classList.remove('active');
                 tab.style.display = 'none';
             });
             
-            // Mostrar a aba selecionada
             const target = document.getElementById('tab-' + tabId);
             if (target) {
                 target.style.display = 'block';
                 target.classList.add('active');
-                console.log('✅ Aba exibida:', tabId);
-            } else {
-                console.error('❌ Aba não encontrada:', tabId);
             }
 
-            // Atualizar botões de navegação
             document.querySelectorAll('.tab-button').forEach(btn => {
                 btn.classList.remove('active');
                 if (btn.getAttribute('data-tab') === tabId) {
@@ -1597,39 +1450,22 @@
                 }
             });
 
-            // Renderizar conteúdo específico da aba
-            if (tabId === 'characters') {
-                showCharCategory('all');
-            }
-            
-            if (tabId === 'shop') {
-                renderShop();
-            }
-            
-            if (tabId === 'achievements') {
-                renderAchievements();
-            }
-            
-            if (tabId === 'home') {
-                renderHome();
-            }
+            if (tabId === 'characters') showCharCategory('all');
+            if (tabId === 'tools') initTools();
+            if (tabId === 'achievements') renderAchievements();
+            if (tabId === 'home') renderHome();
         }
 
+        // ============================================
+        // SISTEMA DE CARACTERES
+        // ============================================
         function showCharCategory(category) {
-            console.log('📝 Mostrando categoria:', category);
             const container = document.getElementById('charactersContainer');
-            if (!container) return;
-
-            // Atualizar botões ativos
-            document.querySelectorAll('.char-category-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
+            container.innerHTML = '';
+            
+            document.querySelectorAll('.char-category-btn').forEach(btn => btn.classList.remove('active'));
             event.target.closest('.char-category-btn')?.classList.add('active');
 
-            // Limpar container
-            container.innerHTML = '';
-
-            // Obter caracteres da categoria
             let chars = [];
             if (category === 'all') {
                 Object.keys(CHARACTERS_DB).forEach(key => {
@@ -1639,7 +1475,6 @@
                 chars = CHARACTERS_DB[category] || [];
             }
 
-            // Renderizar grid
             const grid = document.createElement('div');
             grid.className = 'char-grid';
 
@@ -1650,11 +1485,7 @@
                     <span style="font-size: 28px;">${item.char}</span>
                     <div class="char-tooltip">${item.name}</div>
                 `;
-                
-                div.onclick = () => {
-                    copyToClipboard(item.char, item.name);
-                };
-                
+                div.onclick = () => copyToClipboard(item.char, item.name);
                 grid.appendChild(div);
             });
 
@@ -1663,23 +1494,21 @@
 
         function copyToClipboard(char, name) {
             navigator.clipboard.writeText(char).then(() => {
-                showToast(`✅ "${char}" copiado! (${name})`, 'success');
-                
-                // Adicionar aos recentes
+                showToast(`✅ "${char}" copiado!`, 'success');
                 state.recentCharacters.unshift({ char, name });
                 if (state.recentCharacters.length > 10) state.recentCharacters.pop();
                 localStorage.setItem('recentCharacters', JSON.stringify(state.recentCharacters));
-                
-                // Mostrar seção de recentes
                 updateRecentCharacters();
-                
-                // Feedback visual
-                const feedback = document.getElementById('copyFeedback');
-                feedback.classList.add('show');
-                setTimeout(() => feedback.classList.remove('show'), 1500);
-            }).catch(err => {
-                console.error('Erro ao copiar:', err);
-                showToast('❌ Erro ao copiar', 'error');
+                addXP(2);
+            });
+        }
+
+        function filterCharacters() {
+            const search = document.getElementById('charSearch').value.toLowerCase();
+            document.querySelectorAll('.char-item').forEach(item => {
+                const tooltip = item.querySelector('.char-tooltip');
+                const text = tooltip ? tooltip.textContent.toLowerCase() : '';
+                item.style.display = (text.includes(search) || item.textContent.trim().toLowerCase().includes(search)) ? 'flex' : 'none';
             });
         }
 
@@ -1690,7 +1519,6 @@
             if (state.recentCharacters.length > 0 && section && list) {
                 section.style.display = 'block';
                 list.innerHTML = '';
-                
                 state.recentCharacters.slice(0, 8).forEach(item => {
                     const div = document.createElement('div');
                     div.className = 'recent-char-item';
@@ -1701,141 +1529,32 @@
             }
         }
 
-        function filterCharacters() {
-            const search = document.getElementById('charSearch').value.toLowerCase();
-            const items = document.querySelectorAll('.char-item');
-            
-            items.forEach(item => {
-                const tooltip = item.querySelector('.char-tooltip');
-                const text = tooltip ? tooltip.textContent.toLowerCase() : '';
-                const char = item.textContent.trim().toLowerCase();
-                
-                if (text.includes(search) || char.includes(search)) {
-                    item.style.display = 'flex';
-                } else {
-                    item.style.display = 'none';
-                }
-            });
-        }
-
-        function showToast(message, type = 'success') {
-            const container = document.getElementById('toastContainer');
-            const toast = document.createElement('div');
-            toast.className = `toast ${type}`;
-            toast.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : type === 'reward' ? 'gift' : 'info-circle'}"></i> ${message}`;
-            container.appendChild(toast);
-            
-            setTimeout(() => {
-                toast.style.animation = 'toastIn 0.4s ease reverse';
-                setTimeout(() => toast.remove(), 400);
-            }, 3000);
-        }
-
         // ============================================
-        // FUNÇÕES DO GEEKIE IFRAME
+        // FERRAMENTAS DE ESTUDO
         // ============================================
-        
-        function goBack() {
-            try {
-                document.getElementById('geekieFrame').contentWindow.history.back();
-            } catch(e) {
-                console.log('Não foi possível voltar');
-            }
+        function initTools() {
+            updateTimerDisplay();
+            updateNotesStats();
+            renderGoals();
+            document.getElementById('notesArea').value = state.notes;
         }
 
-        function goForward() {
-            try {
-                document.getElementById('geekieFrame').contentWindow.history.forward();
-            } catch(e) {
-                console.log('Não foi possível avançar');
-            }
-        }
-
-        function refreshIframe() {
-            const frame = document.getElementById('geekieFrame');
-            document.getElementById('loadingOverlay').classList.remove('hidden');
-            frame.src = frame.src;
-        }
-
-        function onIframeLoad() {
-            setTimeout(() => {
-                document.getElementById('loadingOverlay').classList.add('hidden');
-            }, 1000);
-        }
-
-        function openInNewTab() {
-            window.open(CONFIG.GEEKIE_URL, '_blank');
-            addXP(CONFIG.NEWTAB_XP);
-            showToast('+10 XP por abrir em nova aba!', 'reward');
-        }
-
-        function showMethodSelection() {
-            document.getElementById('methodSelection').classList.add('active');
-        }
-
-        function hideMethodSelection() {
-            document.getElementById('methodSelection').classList.remove('active');
-        }
-
-        function selectMethod(method) {
-            state.currentMethod = method;
-            document.querySelectorAll('.method-option').forEach(opt => opt.classList.remove('selected'));
-            event.target.closest('.method-option')?.classList.add('selected');
-        }
-
-        function executeSelectedMethod() {
-            hideMethodSelection();
-            const frame = document.getElementById('geekieFrame');
-            document.getElementById('loadingOverlay').classList.remove('hidden');
-            
-            switch(state.currentMethod) {
-                case 'direct':
-                    frame.src = CONFIG.GEEKIE_URL;
-                    break;
-                case 'newtab':
-                    openInNewTab();
-                    break;
-                case 'alternative':
-                    frame.src = CONFIG.ALTERNATIVE_URL;
-                    break;
-                case 'embed':
-                    frame.src = CONFIG.EMBED_URL + encodeURIComponent(CONFIG.GEEKIE_URL);
-                    break;
-            }
-        }
-
-        function openFullscreen() {
-            if (document.documentElement.requestFullscreen) {
-                document.documentElement.requestFullscreen();
-            }
-        }
-
-        // ============================================
-        // FUNÇÕES DE FERRAMENTAS
-        // ============================================
-        
-        function saveNotes() {
-            const notes = document.getElementById('notesArea').value;
-            state.notes = notes;
-            localStorage.setItem('geekieNotes', notes);
-            addXP(CONFIG.NOTES_XP);
-            showToast('✅ Notas salvas! +5 XP', 'success');
-        }
-
-        function clearNotes() {
-            document.getElementById('notesArea').value = '';
-            showToast('🗑️ Notas limpas!', 'info');
-        }
-
+        // POMODORO TIMER
         function toggleTimer() {
             const btn = document.getElementById('timerStartBtn');
+            const circle = document.getElementById('timerCircle');
+            
             if (state.timer.isRunning) {
                 clearInterval(state.timer.interval);
                 state.timer.isRunning = false;
-                btn.innerHTML = '<i class="fas fa-play"></i> Iniciar';
+                btn.innerHTML = '<i class="fas fa-play"></i> Continuar';
+                circle.classList.remove('running');
             } else {
                 state.timer.isRunning = true;
                 btn.innerHTML = '<i class="fas fa-pause"></i> Pausar';
+                btn.classList.add('pause');
+                circle.classList.add('running');
+                
                 state.timer.interval = setInterval(() => {
                     if (state.timer.seconds > 0) {
                         state.timer.seconds--;
@@ -1843,15 +1562,47 @@
                         state.timer.minutes--;
                         state.timer.seconds = 59;
                     } else {
-                        clearInterval(state.timer.interval);
-                        state.timer.isRunning = false;
-                        btn.innerHTML = '<i class="fas fa-play"></i> Iniciar';
-                        addXP(CONFIG.TIMER_BASE_XP);
-                        showToast(`🎉 Timer completo! +${CONFIG.TIMER_BASE_XP} XP`, 'reward');
+                        completePomodoroPhase();
                     }
                     updateTimerDisplay();
                 }, 1000);
             }
+        }
+
+        function completePomodoroPhase() {
+            clearInterval(state.timer.interval);
+            state.timer.isRunning = false;
+            
+            const phases = ['focus', 'shortBreak', 'focus', 'longBreak', 'focus'];
+            const phaseNames = ['FOCO', 'PAUSA CURTA', 'FOCO', 'PAUSA LONGA', 'FOCO'];
+            const phaseTimes = [25, 5, 25, 15, 25];
+            
+            let currentPhaseIndex = phases.indexOf(state.timer.phase);
+            currentPhaseIndex = (currentPhaseIndex + 1) % phases.length;
+            
+            if (currentPhaseIndex === 0) {
+                state.timer.session++;
+                if (state.timer.session > 4) state.timer.session = 1;
+                state.pomodorosToday++;
+                state.totalPomodoros++;
+                addXP(CONFIG.TIMER_BASE_XP);
+                showToast(`🍅 Pomodoro #${state.totalPomodoros} completo! +${CONFIG.TIMER_BASE_XP} XP`, 'reward');
+            }
+            
+            state.timer.phase = phases[currentPhaseIndex];
+            state.timer.minutes = phaseTimes[currentPhaseIndex];
+            state.timer.seconds = 0;
+            
+            document.getElementById('currentSession').textContent = state.timer.session;
+            document.getElementById('todayPomodoros').textContent = state.pomodorosToday;
+            document.getElementById('totalPomodoros').textContent = state.totalPomodoros;
+            document.getElementById('timerPhase').textContent = phaseNames[currentPhaseIndex];
+            document.getElementById('timerStartBtn').innerHTML = '<i class="fas fa-play"></i> Iniciar Sessão';
+            document.getElementById('timerStartBtn').classList.remove('pause');
+            document.getElementById('timerCircle').classList.remove('running');
+            
+            saveState();
+            updateHomeStats();
         }
 
         function resetTimer() {
@@ -1859,22 +1610,109 @@
             state.timer.isRunning = false;
             state.timer.minutes = 25;
             state.timer.seconds = 0;
-            document.getElementById('timerStartBtn').innerHTML = '<i class="fas fa-play"></i> Iniciar';
+            state.timer.phase = 'focus';
+            state.timer.session = 1;
             updateTimerDisplay();
+            document.getElementById('currentSession').textContent = '1';
+            document.getElementById('timerPhase').textContent = 'FOCO';
+            document.getElementById('timerStartBtn').innerHTML = '<i class="fas fa-play"></i> Iniciar Sessão';
+            document.getElementById('timerStartBtn').classList.remove('pause');
+            document.getElementById('timerCircle').classList.remove('running');
+        }
+
+        function skipPhase() {
+            completePomodoroPhase();
         }
 
         function setTimer(minutes) {
-            resetTimer();
+            clearInterval(state.timer.interval);
+            state.timer.isRunning = false;
             state.timer.minutes = minutes;
+            state.timer.seconds = 0;
             updateTimerDisplay();
+            document.getElementById('timerStartBtn').innerHTML = '<i class="fas fa-play"></i> Iniciar Sessão';
+            document.getElementById('timerStartBtn').classList.remove('pause');
+            document.getElementById('timerCircle').classList.remove('running');
         }
 
         function updateTimerDisplay() {
             const mins = String(state.timer.minutes).padStart(2, '0');
             const secs = String(state.timer.seconds).padStart(2, '0');
             document.getElementById('timerDisplay').textContent = `${mins}:${secs}`;
+            document.getElementById('focusTimer').textContent = `${mins}:${secs}`;
         }
 
+        // NOTAS INTELIGENTES
+        function updateNotesStats() {
+            const notes = document.getElementById('notesArea').value;
+            document.getElementById('notesCharCount').textContent = notes.length;
+            document.getElementById('notesWordCount').textContent = notes.split(/\s+/).filter(w => w.length > 0).length;
+        }
+
+        document.getElementById('notesArea')?.addEventListener('input', updateNotesStats);
+
+        function saveNotes() {
+            state.notes = document.getElementById('notesArea').value;
+            localStorage.setItem('geekieNotes', state.notes);
+            addXP(CONFIG.NOTES_XP);
+            showToast('✅ Notas salvas! +5 XP', 'success');
+            updateNotesStats();
+        }
+
+        function clearNotes() {
+            if (confirm('Limpar todas as notas?')) {
+                document.getElementById('notesArea').value = '';
+                state.notes = '';
+                localStorage.setItem('geekieNotes', '');
+                updateNotesStats();
+                showToast('🗑️ Notas limpas!', 'info');
+            }
+        }
+
+        function formatText(type) {
+            const textarea = document.getElementById('textarea');
+            const start = textarea.selectionStart;
+            const end = textarea.selectionEnd;
+            const selectedText = textarea.value.substring(start, end);
+            
+            let formatted = selectedText;
+            if (type === 'bold') formatted = `**${selectedText}**`;
+            else if (type === 'italic') formatted = `*${selectedText}*`;
+            else if (type === 'list') formatted = `• ${selectedText}`;
+            
+            document.getElementById('notesArea').value = 
+                textarea.value.substring(0, start) + formatted + textarea.value.substring(end);
+            updateNotesStats();
+        }
+
+        function insertDate() {
+            const now = new Date();
+            const dateStr = `[${now.toLocaleDateString('pt-BR')} ${now.toLocaleTimeString('pt-BR')}] `;
+            const textarea = document.getElementById('notesArea');
+            textarea.value += dateStr;
+            updateNotesStats();
+        }
+
+        function exportNotes() {
+            const notes = document.getElementById('notesArea').value;
+            const blob = new Blob([notes], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `notas-estudo-${new Date().toISOString().split('T')[0]}.txt`;
+            a.click();
+            showToast('📥 Notas exportadas!', 'success');
+        }
+
+        // Auto-save notes a cada 30 segundos
+        setInterval(() => {
+            const notes = document.getElementById('notesArea')?.value;
+            if (notes && notes !== state.notes && notes.length > 10) {
+                saveNotes();
+            }
+        }, 30000);
+
+        // CALCULADORA
         function calcInput(val) {
             state.calc.expression += val;
             document.getElementById('calcExpression').textContent = state.calc.expression;
@@ -1889,63 +1727,194 @@
 
         function calculate() {
             try {
-                const result = eval(state.calc.expression);
-                state.calc.result = result;
-                document.getElementById('calcResult').textContent = result;
+                const result = Function('"use strict";return (' + state.calc.expression + ')')();
+                state.calc.result = String(result);
+                document.getElementById('calcResult').textContent = state.calc.result;
                 addXP(CONFIG.CALC_XP);
             } catch(e) {
                 document.getElementById('calcResult').textContent = 'Erro';
             }
         }
 
-        function openModalTool(tool) {
-            switchTab('tools');
-            showToast(`🔧 Ferramenta: ${tool}`, 'info');
+        // METAS DE ESTUDO
+        function renderGoals() {
+            const container = document.getElementById('goalsList');
+            container.innerHTML = '';
+            
+            if (state.goals.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 30px; color: var(--text-secondary);">
+                        <i class="fas fa-bullseye" style="font-size: 48px; margin-bottom: 15px; opacity: 0.5;"></i>
+                        <p>Nenhuma meta ainda. Adicione suas metas de estudo!</p>
+                    </div>`;
+                return;
+            }
+            
+            state.goals.forEach((goal, index) => {
+                const div = document.createElement('div');
+                div.className = 'goal-item';
+                div.innerHTML = `
+                    <div class="goal-checkbox ${goal.completed ? 'checked' : ''}" onclick="toggleGoal(${index})">
+                        ${goal.completed ? '<i class="fas fa-check"></i>' : ''}
+                    </div>
+                    <div class="goal-content">
+                        <div class="goal-text ${goal.completed ? 'completed' : ''}">${goal.text}</div>
+                        <div class="goal-meta">
+                            <span class="goal-priority priority-${goal.priority}">${goal.priority === 'high' ? 'Alta' : goal.priority === 'medium' ? 'Média' : 'Baixa'}</span>
+                        <span>Criado: ${new Date(goal.created).toLocaleDateString('pt-BR')}</span>
+                        </div>
+                    </div>
+                    <button class="goal-delete" onclick="deleteGoal(${index})" title="Excluir meta"><i class="fas fa-trash"></i></button>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function showAddGoalModal() {
+            const text = prompt('Digite sua meta de estudo:');
+            if (text && text.trim()) {
+                const priority = confirm('Pressione OK para ALTA prioridade, Cancelar para BAIXA/MÉDIA');
+                state.goals.push({
+                    text: text.trim(),
+                    completed: false,
+                    priority: priority ? 'high' : 'medium',
+                    created: new Date().toISOString()
+                });
+                saveState();
+                renderGoals();
+                showToast('✅ Meta adicionada!', 'success');
+            }
+        }
+
+        function toggleGoal(index) {
+            state.goals[index].completed = !state.goals[index].completed;
+            if (state.goals[index].completed) {
+                state.goalsCompleted++;
+                addXP(CONFIG.GOAL_COMPLETE_XP);
+                showToast(`🎯 Meta concluída! +${CONFIG.GOAL_COMPLETE_XP} XP`, 'reward');
+            }
+            saveState();
+            renderGoals();
+            updateHomeStats();
+        }
+
+        function deleteGoal(index) {
+            if (confirm('Excluir esta meta?')) {
+                state.goals.splice(index, 1);
+                saveState();
+                renderGoals();
+                showToast('🗑️ Meta removida', 'info');
+            }
+        }
+
+        // MODO FOCO
+        function selectFocusMode(mode) {
+            state.focusModeType = mode;
+            document.querySelectorAll('.focus-option').forEach(opt => opt.classList.remove('selected'));
+            event.target.closest('.focus-option')?.classList.add('selected');
+        }
+
+        function startFocusMode() {
+            document.getElementById('focusOverlay').classList.add('active');
+            addXP(CONFIG.FOCUS_XP);
+            
+            const messages = {
+                standard: '🎯 Modo Foco Profundo Ativado!<br><br>Você está em um estado de concentração máxima.<br>Elimine todas as distrações e mergulhe nos estudos.<br><br><em>Foque no presente. Você consegue! 💪</em>',
+                zen: '🧘 Zen Mode Ativado<br><br>Mente calma, estudo focado.<br>Aceite o momento presente.<br><br><em>Simplicidade é a sofisticação máxima.</em>',
+                hardcore: '🔥 HARDCORE MODE!<br><br>MÁXIMA CONCENTRAÇÃO ATIVADA!<br>Nenhuma distração permitida.<br><br><em>ESTUDE INTENSO EM PROGRESSO! 💪</em>',
+                music: '🎵 Modo Estudo com Música<br><br>Ambiente relaxante para aprender.<br>Música suave melhora o foco.<br><br><em>Flua com o conhecimento.</em>'
+            };
+            
+            document.getElementById('focusMessage').innerHTML = messages[state.focusModeType];
+            
+            // Iniciar timer de foco se não estiver rodando
+            if (!state.timer.isRunning) {
+                setTimer(25);
+                toggleTimer();
+            }
+        }
+
+        function exitFocusMode() {
+            document.getElementById('focusOverlay').classList.remove('active');
+            clearInterval(state.timer.interval);
+            state.timer.isRunning = false;
+            showToast('✅ Modo Foco finalizado!', 'info');
         }
 
         // ============================================
-        // FUNÇÕES DE GAMIFICAÇÃO
+        // GEEKIE IFRAME
         // ============================================
-        
+        function goBack() { try { document.getElementById('geekieFrame').contentWindow.history.back(); } catch(e) {} }
+        function goForward() { try { document.getElementById('geekieFrame').contentWindow.history.forward(); } catch(e) {} }
+        function refreshIframe() {
+            document.getElementById('loadingOverlay').classList.remove('hidden');
+            document.getElementById('geekieFrame').src = document.getElementById('geekieFrame').src;
+        }
+        function onIframeLoad() {
+            setTimeout(() => {
+                document.getElementById('loadingOverlay').classList.add('hidden');
+                state.sessions++;
+                saveState();
+                updateHomeStats();
+            }, 1500);
+        }
+        function openInNewTab() {
+            window.open(CONFIG.GEEKIE_URL, '_blank');
+            addXP(CONFIG.NEWTAB_XP);
+        }
+        function openFullscreen() {
+            if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen();
+        }
+
+        // ============================================
+        // SISTEMA DE GAMIFICAÇÃO
+        // ============================================
         function addXP(amount) {
             state.xp += amount;
             state.totalXP += amount;
             
-            // Verificar level up
             const newLevel = Math.floor(state.totalXP / CONFIG.LEVEL_XP_MULTIPLIER) + 1;
             if (newLevel > state.level) {
                 state.level = newLevel;
+                state.coins += newLevel * 50;
                 showLevelUp(newLevel);
             }
             
-            updateStatsDisplay();
+            updateAllDisplays();
             saveState();
         }
 
-        function addCoins(amount) {
-            state.coins += amount;
-            updateStatsDisplay();
-            saveState();
-        }
-
-        function showLevelUp(newLevel) {
-            const overlay = document.getElementById('levelUpOverlay');
-            document.getElementById('levelUpText').textContent = `Você alcançou o nível ${newLevel}!`;
-            overlay.classList.add('active');
-            
+        function showLevelUp(level) {
+            document.getElementById('levelUpText').textContent = `Parabéns! Você alcançou o nível ${level}!`;
+            document.getElementById('levelUpOverlay').classList.add('active');
             setTimeout(() => {
-                overlay.classList.remove('active');
+                document.getElementById('levelUpOverlay').classList.remove('active');
             }, 3000);
         }
 
-        function updateStatsDisplay() {
+        function updateAllDisplays() {
             document.getElementById('coinsDisplay').textContent = state.coins;
             document.getElementById('xpDisplay').textContent = state.xp;
             document.getElementById('levelDisplay').textContent = state.level;
-            document.getElementById('shopCoins').textContent = state.coins;
+            document.getElementById('todayStudyTime').textContent = formatTime(state.todayStudyMinutes);
+            updateHomeStats();
+        }
+
+        function updateHomeStats() {
             document.getElementById('homeLevel').textContent = state.level;
             document.getElementById('homeCoins').textContent = state.coins;
+            document.getElementById('homeStreak').textContent = state.streak;
             document.getElementById('homeXP').textContent = state.totalXP;
+            document.getElementById('homeSessions').textContent = state.sessions;
+            document.getElementById('homeHours').textContent = formatTime(state.studyMinutes);
+            document.getElementById('homePomodoros').textContent = state.totalPomodoros;
+            document.getElementById('homeGoalsCompleted').textContent = state.goalsCompleted;
+        }
+
+        function formatTime(minutes) {
+            const h = Math.floor(minutes / 60);
+            const m = minutes % 60;
+            return h > 0 ? `${h}h${m}m` : `${m}m`;
         }
 
         function saveState() {
@@ -1953,218 +1922,138 @@
             localStorage.setItem('geekieXP', state.xp);
             localStorage.setItem('geekieLevel', state.level);
             localStorage.setItem('geekieTotalXP', state.totalXP);
+            localStorage.setItem('geekieSessions', state.sessions);
+            localStorage.setItem('geekieStudyMinutes', state.studyMinutes);
+            localStorage.setItem('todayStudyMinutes', state.todayStudyMinutes);
+            localStorage.setItem('geekieStreak', state.streak);
+            localStorage.setItem('pomodorosToday', state.pomodorosToday);
+            localStorage.setItem('totalPomodoros', state.totalPomodoros);
+            localStorage.setItem('goalsCompleted', state.goalsCompleted);
+            localStorage.setItem('studyGoals', JSON.stringify(state.goals));
         }
 
         // ============================================
-        // RENDERIZAÇÃO DE CONTEÚDO
+        // CONQUISTAS
         // ============================================
-        
-        function renderHome() {
-            // Missões
-            const missionsContainer = document.getElementById('homeMissions');
-            missionsContainer.innerHTML = `
-                <div class="mission-item">
-                    <div class="mission-header">
-                        <span class="mission-title">Estudar 30 minutos</span>
-                        <span class="mission-reward">+50 XP</span>
-                    </div>
-                    <div class="mission-progress">
-                        <div class="mission-progress-bar" style="width: 60%"></div>
-                    </div>
-                    <div class="mission-status">Progresso: 18/30 minutos</div>
-                </div>
-                <div class="mission-item completed">
-                    <div class="mission-header">
-                        <span class="mission-title">Completar 1 sessão</span>
-                        <span class="mission-reward">+20 XP ✓</span>
-                    </div>
-                    <div class="mission-progress">
-                        <div class="mission-progress-bar" style="width: 100%"></div>
-                    </div>
-                    <div class="mission-status">Concluído! ✅</div>
-                </div>
-                <div class="mission-item">
-                    <div class="mission-header">
-                        <span class="mission-title">Usar ferramentas 5x</span>
-                        <span class="mission-reward">+30 XP</span>
-                    </div>
-                    <div class="mission-progress">
-                        <div class="mission-progress-bar" style="width: 40%"></div>
-                    </div>
-                    <div class="mission-status">Progresso: 2/5 usos</div>
-                </div>
-            `;
-
-            // Temas disponíveis
-            const themesGrid = document.getElementById('homeThemesGrid');
-            themesGrid.innerHTML = `
-                <div style="background: linear-gradient(135deg, #00ff88, #00d4ff); padding: 15px; border-radius: 12px; text-align: center; cursor: pointer;" onclick="changeTheme('default')">
-                    <div style="font-size: 24px;">🌿</div>
-                    <div style="font-size: 11px; font-weight: 600; color: #000;">Default</div>
-                </div>
-                <div style="background: linear-gradient(135deg, #0077be, #00d4ff); padding: 15px; border-radius: 12px; text-align: center; cursor: pointer;" onclick="changeTheme('ocean')">
-                    <div style="font-size: 24px;">🌊</div>
-                    <div style="font-size: 11px; font-weight: 600; color: #fff;">Ocean</div>
-                </div>
-                <div style="background: linear-gradient(135deg, #ff6b35, #f7931e); padding: 15px; border-radius: 12px; text-align: center; cursor: pointer;" onclick="changeTheme('sunset')">
-                    <div style="font-size: 24px;">🌅</div>
-                    <div style="font-size: 11px; font-weight: 600; color: #fff;">Sunset</div>
-                </div>
-                <div style="background: linear-gradient(135deg, #22c55e, #84cc16); padding: 15px; border-radius: 12px; text-align: center; cursor: pointer;" onclick="changeTheme('forest')">
-                    <div style="font-size: 24px;">🌲</div>
-                    <div style="font-size: 11px; font-weight: 600; color: #fff;">Forest</div>
-                </div>
-                <div style="background: linear-gradient(135deg, #a855f7, #ec4899); padding: 15px; border-radius: 12px; text-align: center; cursor: pointer;" onclick="changeTheme('royal')">
-                    <div style="font-size: 24px;">👑</div>
-                    <div style="font-size: 11px; font-weight: 600; color: #fff;">Royal</div>
-                </div>
-                <div style="background: linear-gradient(135deg, #ff4500, #ff6347); padding: 15px; border-radius: 12px; text-align: center; cursor: pointer;" onclick="changeTheme('fire-dragon')">
-                    <div style="font-size: 24px;">🐉</div>
-                    <div style="font-size: 11px; font-weight: 600; color: #fff;">Fire Dragon</div>
-                </div>
-            `;
-        }
-
-        function changeTheme(themeName) {
-            document.body.setAttribute('data-theme', themeName);
-            localStorage.setItem('selectedTheme', themeName);
-            showToast(`🎨 Tema alterado: ${themeName}`, 'info');
-        }
-
-        function renderShop() {
-            const shopGrid = document.getElementById('shopGrid');
-            shopGrid.innerHTML = `
-                <div class="shop-item">
-                    <div class="item-preview">🌌</div>
-                    <div class="item-name">Tema Galaxy Premium</div>
-                    <div class="item-desc">Animação galáxia rotativa com cores vibrantes</div>
-                    <div class="item-footer">
-                        <div class="item-price"><i class="fas fa-coins"></i> 500</div>
-                        <button class="buy-btn" onclick="buyItem('galaxy-premium', 500)">Comprar</button>
-                    </div>
-                </div>
-                <div class="shop-item">
-                    <div class="item-preview">⚡</div>
-                    <div class="item-name">Booster XP 2x</div>
-                    <div class="item-desc">Dobre seu ganho de XP por 1 hora</div>
-                    <div class="item-footer">
-                        <div class="item-price"><i class="fas fa-coins"></i> 200</div>
-                        <button class="buy-btn" onclick="buyItem('booster-2x', 200)">Comprar</button>
-                    </div>
-                </div>
-                <div class="shop-item">
-                    <div class="item-preview">🏆</div>
-                    <div class="item-name">Badge Estudante VIP</div>
-                    <div class="item-desc">Badge exclusiva para seu perfil</div>
-                    <div class="item-footer">
-                        <div class="item-price"><i class="fas fa-coins"></i> 1000</div>
-                        <button class="buy-btn" onclick="buyItem('badge-vip', 1000)">Comprar</button>
-                    </div>
-                </div>
-            `;
-        }
-
-        function buyItem(itemId, price) {
-            if (state.coins >= price) {
-                state.coins -= price;
-                state.ownedItems.push(itemId);
-                saveState();
-                updateStatsDisplay();
-                showToast(`🛒 Item comprado: ${itemId}!`, 'reward');
-                renderShop();
-            } else {
-                showToast('❌ Moedas insuficientes!', 'error');
-            }
-        }
-
-        function filterShop(category) {
-            document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            renderShop();
-        }
-
         function renderAchievements() {
             const grid = document.getElementById('achievementsGrid');
             const achievements = [
-                { icon: '🎓', name: 'Primeiros Passos', desc: 'Acesse o portal pela primeira vez', reward: '+50 XP', unlocked: true },
-                { icon: '📚', name: 'Estudante Dedicação', desc: 'Estude por 1 hora total', reward: '+100 XP', unlocked: false },
-                { icon: '🔥', name: 'Streak Master', desc: '7 dias seguidos de estudo', reward: '+500 XP', unlocked: false },
-                { icon: '💰', name: 'Colecionador', desc: 'Acumule 1000 moedas', reward: '+200 XP', unlocked: false },
-                { icon: '⭐', name: 'Nível 10', desc: 'Alcance o nível 10', reward: '+1000 XP', unlocked: false },
-                { icon: '🎯', name: 'Foco Total', desc: 'Complete 10 sessões Pomodoro', reward: '+300 XP', unlocked: false }
+                { icon: '🎓', name: 'Primeiro Dia', desc: 'Use o portal pela primeira vez', reward: '+50 XP', unlocked: state.sessions >= 1 },
+                { icon: '📚', name: 'Estudante Dedicação', desc: 'Estude por 1 hora total', reward: '+100 XP', unlocked: state.studyMinutes >= 60 },
+                { icon: '🔥', name: 'Sequência de 3 dias', desc: 'Use o portal 3 dias seguidos', reward: '+150 XP', unlocked: state.streak >= 3 },
+                { icon: '⭐', name: 'Nível 5', desc: 'Alcance o nível 5', reward: '+200 XP', unlocked: state.level >= 5 },
+                { icon: '🍅', name: '10 Pomodoros', desc: 'Complete 10 sessões Pomodoro', reward: '+250 XP', unlocked: state.totalPomodoros >= 10 },
+                { icon: '🎯', name: '5 Metas', desc: 'Complete 5 metas de estudo', reward: '+200 XP', unlocked: state.goalsCompleted >= 5 },
+                icon: '🏆', name: 'Mestre do Estudo', desc: 'Estude por 10 horas', reward: '+500 XP', unlocked: state.studyMinutes >= 600 },
+                icon: '💰', name: 'Milionário', desc: 'Acumule 1000 moedas', reward: '+100 XP', unlocked: state.coins >= 1000 },
+                icon: '🌟', name: 'Nível 10', desc: 'Alcance o nível 10', reward: '+1000 XP', unlocked: state.level >= 10 }
             ];
 
-            grid.innerHTML = achievements.map(ach => `
-                <div class="achievement-card ${ach.unlocked ? 'unlocked' : 'locked'}">
-                    <div class="achievement-icon">${ach.icon}</div>
-                    <div class="achievement-name">${ach.name}</div>
-                    <div class="achievement-desc">${ach.desc}</div>
-                    <div class="achievement-reward">${ach.reward}</div>
+            grid.innerHTML = achievements.map(a => `
+                <div class="achievement-card ${a.unlocked ? 'unlocked' : 'locked'}">
+                    <div class="achievement-icon">${a.icon}</div>
+                    <div class="achievement-name">${a.name}</div>
+                    <div class="achievement-desc">${a.desc}</div>
+                    <div class="achievement-reward">${a.reward}</div>
                 </div>
             `).join('');
         }
 
+        // ============================================
+        // NOTIFICAÇÕES
+        // ============================================
         function markAllRead() {
-            state.notificationsRead = ['all'];
-            localStorage.setItem('notificationsRead', JSON.stringify(state.notificationsRead));
             document.getElementById('notifBadge').style.display = 'none';
-            showToast('✅ Todas as notificações marcadas como lidas!', 'success');
+            document.getElementById('dockNotifDot').style.display = 'none';
+            showToast('✅ Todas as atualizações marcadas como lidas!', 'success');
         }
 
         // ============================================
-        // MODO FOCO
+        // TOAST SYSTEM
         // ============================================
-        
-        function startFocusMode() {
-            document.getElementById('focusOverlay').classList.add('active');
-            addXP(CONFIG.FOCUS_XP);
-            showToast('🎯 Modo Foco ativado! +50 XP', 'reward');
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            const icons = { success: '✅', error: '❌', info: 'ℹ️', reward: '🎁' };
+            toast.innerHTML = `<span>${icons[type]}</span> ${message}`;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.animation = 'toastIn 0.4s ease reverse';
+                setTimeout(() => toast.remove(), 400);
+            }, 3500);
         }
 
-        function exitFocusMode() {
-            document.getElementById('focusOverlay').classList.remove('active');
-            showToast('✅ Modo Foco finalizado!', 'info');
+        // ============================================
+        // RENDERIZAÇÃO HOME
+        // ============================================
+        function renderHome() {
+            const missionsContainer = document.getElementById('homeMissions');
+            missionsContainer.innerHTML = `
+                <div class="mission-item">
+                    <div class="mission-header">
+                        <span class="mission-title">📖 Estudar no Geekie One (30 min)</span>
+                        <span class="mission-reward">+50 XP</span>
+                    </div>
+                    <div class="mission-progress"><div class="mission-progress-bar" style="width: ${Math.min((state.todayStudyMinutes / 30) * 100, 100)}%"></div></div>
+                    <div class="mission-status">${Math.min(Math.round(state.todayStudyMinutes / 30 * 100), 100)}% completo</div>
+                </div>
+                <div class="mission-item">
+                    <div class="mission-header">
+                        <span class="mission-title">🍅 Completar 4 Pomodoros</span>
+                        <span class="mission-reward">+100 XP</span>
+                    </div>
+                    <div class="mission-progress"><div class="mission-progress-bar" style="width: ${Math.min((state.pomodorosToday / 4) * 100, 100)}%"></div></div>
+                    <div class="mission-status">${state.pomodorosToday}/4 completos</div>
+                </div>
+                <div class="mission-item">
+                    <div class="mission-header">
+                        <span class="mission-title">✅ Concluir 3 Metas de Estudo</span>
+                        <span class="mission-reward">+45 XP</span>
+                    </div>
+                    <div class="mission-progress"><div class="mission-progress-bar" style="width: ${Math.min((state.goalsCompleted / 3) * 100, 100)}%"></div></div>
+                    <div class="mission-status">${state.goalsCompleted}/3 completas</div>
+                </div>
+            `;
         }
 
         // ============================================
         // INICIALIZAÇÃO
         // ============================================
-        
         document.addEventListener('DOMContentLoaded', () => {
-            console.log('🚀 Geekie Portal v5.0 + Caracteres carregado!');
+            console.log('🚀 Geekie Portal STUDY PRO v6.0 carregado!');
             
-            // Criar partículas de fundo
-            const bg = document.querySelector('.particles-bg');
-            if (bg) {
-                for (let i = 0; i < 30; i++) {
-                    const p = document.createElement('div');
-                    p.className = 'particle';
-                    p.style.left = Math.random() * 100 + 'vw';
-                    p.style.top = Math.random() * 100 + 'vh';
-                    p.style.animationDelay = Math.random() * 10 + 's';
-                    bg.appendChild(p);
-                }
+            // Criar partículas
+            const bg = document.getElementById('particlesBg');
+            for (let i = 0; i < 30; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.top = Math.random() * 100 + '%';
+                p.style.animationDelay = Math.random() * 10 + 's';
+                bg.appendChild(p);
             }
 
-            // Carregar estado salvo
-            updateStatsDisplay();
-            
-            // Renderizar aba inicial
+            // Restaurar estado
+            updateAllDisplays();
             renderHome();
 
-            // Ganho passivo de XP
-            state.xpInterval = setInterval(() => {
-                if (state.isActive) {
-                    addXP(CONFIG.XP_PER_SECOND);
+            // Tracking de tempo de estudo (simulação)
+            setInterval(() => {
+                if (!document.hidden && document.getElementById('tab-tools').classList.contains('active')) {
+                    state.todayStudyMinutes++;
+                    state.studyMinutes++;
+                    updateAllDisplays();
+                    saveState();
                 }
-            }, 1000);
+            }, 60000); // A cada minuto
 
-            console.log('✅ Portal pronto! Todos os sistemas operacionais.');
+            console.log('✅ Portal pronto! Sistema de estudo completo ativo.');
         });
 
         // Prevenir erros globais
         window.onerror = function(msg, url, line) {
-            console.error('❌ Erro detectado:', msg, 'na linha', line);
+            console.error('❌ Erro:', msg, 'na linha', line);
             return false;
         };
     </script>
