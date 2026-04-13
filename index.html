@@ -160,7 +160,7 @@
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4); flex-wrap: wrap; gap: 20px;
         }
         
-        .logo-section { display: flex; align-items: center; gap: 15px; }
+        .logo-section { display: flex; align-items: center; gap: 15px; cursor: pointer; }
         .logo-icon {
             width: 58px; height: 58px; background: var(--gradient-1); border-radius: 16px;
             display: flex; align-items: center; justify-content: center; font-size: 28px;
@@ -392,7 +392,6 @@
             padding: 40px; z-index: 10; text-align: center;
         }
         .method-selection.active { display: flex; }
-        .method-selection.hidden { display: none; }
         .method-selector {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 15px; margin: 25px 0; width: 100%; max-width: 750px;
@@ -494,6 +493,101 @@
         .calc-btn.operator { background: var(--gradient-1); color: white; }
         .calc-btn.equals { background: var(--gradient-2); color: white; grid-column: span 2; }
         .calc-btn.clear { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+
+        /* ==================== CHARACTERS TAB (NOVO!) ==================== */
+        .characters-container {
+            background: var(--bg-card); backdrop-filter: blur(25px);
+            border: 1px solid var(--border-color); border-radius: 24px; padding: 30px;
+        }
+        .characters-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 25px; flex-wrap: wrap; gap: 15px;
+        }
+        .characters-title {
+            font-family: 'Orbitron', sans-serif; font-size: 1.8rem; font-weight: 800;
+            color: var(--text-primary); display: flex; align-items: center; gap: 12px;
+        }
+        .characters-title i { color: var(--primary); font-size: 2rem; }
+        
+        .search-characters {
+            flex: 1; min-width: 250px; max-width: 400px;
+            display: flex; align-items: center; background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color); border-radius: 12px; padding: 12px 16px; gap: 10px;
+        }
+        .search-characters i { color: var(--primary); }
+        .search-characters input {
+            flex: 1; background: transparent; border: none; outline: none;
+            color: var(--text-primary); font-size: 14px;
+        }
+
+        .char-categories {
+            display: flex; gap: 10px; margin-bottom: 25px; flex-wrap: wrap;
+        }
+        .char-category-btn {
+            padding: 12px 24px; background: rgba(255, 255, 255, 0.05);
+            border: 2px solid var(--border-color); border-radius: 14px;
+            color: var(--text-secondary); cursor: pointer; transition: all 0.3s ease;
+            font-weight: 700; font-size: 14px; display: flex; align-items: center; gap: 8px;
+        }
+        .char-category-btn:hover, .char-category-btn.active {
+            background: var(--gradient-1); color: #000; border-color: transparent;
+            transform: translateY(-3px); box-shadow: var(--shadow-glow);
+        }
+        .char-category-btn .cat-count {
+            background: rgba(0,0,0,0.2); padding: 2px 8px; border-radius: 8px;
+            font-size: 11px; font-weight: 800;
+        }
+
+        .char-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+            gap: 10px;
+        }
+        .char-item {
+            aspect-ratio: 1; background: rgba(255, 255, 255, 0.03);
+            border: 2px solid var(--border-color); border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 28px; cursor: pointer; transition: all 0.3s ease;
+            position: relative; overflow: hidden;
+        }
+        .char-item:hover {
+            background: var(--gradient-1); color: #000; border-color: var(--primary);
+            transform: scale(1.15) rotate(5deg); box-shadow: var(--shadow-glow);
+            z-index: 10;
+        }
+        .char-item:active { transform: scale(0.95); }
+        .char-item .char-tooltip {
+            position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%);
+            background: var(--bg-secondary); color: var(--text-primary);
+            padding: 6px 12px; border-radius: 8px; font-size: 11px;
+            font-family: 'Fira Code', monospace; white-space: nowrap;
+            opacity: 0; pointer-events: none; transition: opacity 0.2s;
+            margin-bottom: 5px; border: 1px solid var(--border-color);
+        }
+        .char-item:hover .char-tooltip { opacity: 1; }
+
+        .recently-copied {
+            background: rgba(0, 0, 0, 0.3); border: 1px solid var(--border-color);
+            border-radius: 16px; padding: 20px; margin-top: 25px;
+        }
+        .recently-copied-title {
+            font-family: 'Poppins', sans-serif; font-size: 1.1rem; font-weight: 700;
+            color: var(--gold); margin-bottom: 15px; display: flex; align-items: center; gap: 10px;
+        }
+        .recent-chars-list {
+            display: flex; flex-wrap: wrap; gap: 10px;
+        }
+        .recent-char-item {
+            background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-color);
+            border-radius: 10px; padding: 10px 16px; font-size: 20px; cursor: pointer;
+            transition: all 0.3s ease; display: flex; align-items: center; gap: 8px;
+        }
+        .recent-char-item:hover {
+            background: var(--primary); color: #000; transform: scale(1.05);
+        }
+        .recent-char-code {
+            font-family: 'Fira Code', monospace; font-size: 11px; color: var(--text-secondary);
+        }
+        .recent-char-item:hover .recent-char-code { color: #000; }
 
         /* ==================== ACHIEVEMENTS TAB ==================== */
         .achievements-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
@@ -695,6 +789,7 @@
             .tab-button i { font-size: 18px; }
             .iframe-container { height: 400px; }
             .tools-grid { grid-template-columns: 1fr; }
+            .char-grid { grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); }
         }
         .hidden { display: none !important; }
     </style>
@@ -706,6 +801,9 @@
 
     <!-- Toast Container -->
     <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Copy Feedback -->
+    <div class="copy-feedback" id="copyFeedback">✓ COPIADO!</div>
 
     <!-- Level Up Overlay -->
     <div class="levelup-overlay" id="levelUpOverlay">
@@ -721,7 +819,7 @@
         
         <!-- Header -->
         <header class="top-header">
-            <div class="logo-section">
+            <div class="logo-section" onclick="switchTab('home')">
                 <div class="logo-icon"><i class="fas fa-graduation-cap"></i></div>
                 <div class="logo-text">
                     <h1>GEEKIE ONE</h1>
@@ -766,6 +864,10 @@
             </button>
             <button class="tab-button" data-tab="tools" onclick="switchTab('tools')">
                 <i class="fas fa-toolbox"></i> <span>Ferramentas</span>
+            </button>
+            <button class="tab-button" data-tab="characters" onclick="switchTab('characters')">
+                <i class="fas fa-font"></i> <span>Caracteres</span>
+                <span class="tab-badge" style="display:none;">NOVO</span>
             </button>
             <button class="tab-button" data-tab="achievements" onclick="switchTab('achievements')">
                 <i class="fas fa-trophy"></i> <span>Conquistas</span>
@@ -813,6 +915,7 @@
                         <button class="quick-action-btn" onclick="openModalTool('calculator')"><i class="fas fa-calculator"></i> Calculadora</button>
                         <button class="quick-action-btn" onclick="openModalTool('notes')"><i class="fas fa-sticky-note"></i> Notas</button>
                         <button class="quick-action-btn" onclick="startFocusMode()"><i class="fas fa-crosshairs"></i> Modo Foco</button>
+                        <button class="quick-action-btn" onclick="switchTab('characters')"><i class="fas fa-font"></i> Caracteres ✨</button>
                         <button class="quick-action-btn" onclick="switchTab('shop')"><i class="fas fa-store"></i> Abrir Loja</button>
                     </div>
                 </div>
@@ -1065,6 +1168,70 @@
             </div>
         </section>
 
+        <!-- ==================== TAB: CHARACTERS (NOVO!) ==================== -->
+        <section class="tab-content" id="tab-characters">
+            <div class="characters-container">
+                <div class="characters-header">
+                    <h2 class="characters-title">
+                        <i class="fas fa-font"></i> Caracteres Especiais
+                    </h2>
+                    <div class="search-characters">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="charSearch" placeholder="Buscar caracteres..." oninput="filterCharacters()">
+                    </div>
+                </div>
+
+                <p style="color: var(--text-secondary); margin-bottom: 20px; font-size: 0.95rem; line-height: 1.6;">
+                    <i class="fas fa-info-circle" style="color: var(--primary);"></i> 
+                    Clique em qualquer caractere para copiar automaticamente para a área de transferência! 
+                    Perfeito para usar em suas anotações, resumos e trabalhos no Geekie One.
+                </p>
+
+                <!-- Categories -->
+                <div class="char-categories" id="charCategories">
+                    <button class="char-category-btn active" onclick="showCharCategory('all')">
+                        🎯 Todos <span class="cat-count" id="countAll">150+</span>
+                    </button>
+                    <button class="char-category-btn" onclick="showCharCategory('arrows')">
+                        ➡️ Setas <span class="cat-count" id="countArrows">20</span>
+                    </button>
+                    <button class="char-category-btn" onclick="showCharCategory('math')">
+                        ∑ Matemática <span class="cat-count" id="countMath">20</span>
+                    </button>
+                    <button class="char-category-btn" onclick="showCharCategory('symbols')">
+                        ◎ Símbolos <span class="cat-count" id="countSymbols">25</span>
+                    </button>
+                    <button class="char-category-btn" onclick="showCharCategory('shapes')">
+                        ▲ Formas <span class="cat-count" id="countShapes">20</span>
+                    </button>
+                    <button class="char-category-btn" onclick="showCharCategory('stars')">
+                        ★ Estrelas <span class="cat-count" id="countStars">15</span>
+                    </button>
+                    <button class="char-category-btn" onclick="showCharCategory('emoji')">
+                        😀 Emojis <span class="cat-count" id="countEmoji">25</span>
+                    </button>
+                    <button class="char-category-btn" onclick="showCharCategory('special')">
+                        ⌨️ Especiais <span class="cat-count" id="countSpecial">25</span>
+                    </button>
+                </div>
+
+                <!-- Characters Grid Container -->
+                <div id="charactersContainer">
+                    <!-- Generated by JS -->
+                </div>
+
+                <!-- Recently Copied -->
+                <div class="recently-copied" id="recentlyCopiedSection" style="display: none;">
+                    <div class="recently-copied-title">
+                        <i class="fas fa-clock"></i> Copiados Recentemente
+                    </div>
+                    <div class="recent-chars-list" id="recentCharsList">
+                        <!-- Generated by JS -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- ==================== TAB: ACHIEVEMENTS ==================== -->
         <section class="tab-content" id="tab-achievements">
             <h2 style="font-family: 'Orbitron'; font-size: 1.8rem; font-weight: 800; color: var(--text-primary); margin-bottom: 20px;">
@@ -1131,15 +1298,13 @@
                         central de notificações com histórico completo de atualizações, e muito mais!
                     </p>
                     <ul class="update-features">
-                        <li class="feature-new">🆕 NOVO: Sistema de Navegação por Abas (6 abas completas)</li>
+                        <li class="feature-new">🆕 NOVO: Sistema de Navegação por Abas (7 abas completas)</li>
+                        <li class="feature-new">🆕 NOVA Aba: Caracteres Especiais com 150+ símbolos</li>
                         <li class="feature-new">🆕 NOVA Aba: Notificações & Update Log com histórico completo</li>
                         <li class="feature-new">🆕 NOVA Aba: Início com dashboard personalizado</li>
                         <li class="feature-new">🆕 NOVA Aba: Ferramentas centralizadas (Timer, Calc, Notes, Foco)</li>
                         <li class="feature-new">🆕 NOVA Aba: Conquistas com grid visual de badges</li>
                         <li class="feature-improved">⬆️ MELHORADO: Interface completamente redesenhada</li>
-                        <li class="feature-improved">⬆️ MELHORADO: Botões individuais para cada aba no header</li>
-                        <li class="feature-improved">⬆️ MELHORADO: Sistema de badges de notificação nas abas</li>
-                        <li class="feature-improved">⬆️ MELHORADO: Update log detalhado com todas as versões</li>
                         <li class="feature-fixed">🔧 CORRIGIDO: Performance geral otimizada</li>
                     </ul>
                 </div>
@@ -1163,36 +1328,10 @@
                     </p>
                     <ul class="update-features">
                         <li class="feature-new">🆕 NOVO: Sistema de Gamificação (XP, Moedas, Níveis)</li>
-                        <li class="feature-new">🆕 NOVO: Loja Premium com Temas Animados (Neon Cyber, Galaxy, Fire Dragon, etc.)</li>
+                        <li class="feature-new">🆕 NOVO: Loja Premium com Temas Animados</li>
                         <li class="feature-new">🆕 NOVO: Sistema de Boosters de XP (2x, 3x)</li>
-                        <li class="feature-new">🆕 NOVO: 10 Conquistas/Badges para desbloquear</li>
-                        <li class="feature-new">🆕 NOVO: Missões Diárias com recompensas</li>
-                        <li class="feature-new">🆕 NOVO: Streak Diário (bônus por dias seguidos)</li>
-                        <li class="feature-new">🆕 NOVO: Partículas animadas no background</li>
-                        <li class="feature-new">🆕 NOVO: Animação de Level Up</li>
-                        <li class="feature-new">🆕 NOVO: Easter Egg Konami Code (+9999 moedas)</li>
                         <li class="feature-improved">⬆️ MELHORADO: Ganho automático de XP por tempo online</li>
-                        <li class="feature-improved">⬆️ MELHORADO: Todos os botões agora dão XP</li>
                         <li class="feature-fixed">🔧 CORRIGIDO: Salvamento de progresso no localStorage</li>
-                    </ul>
-                </div>
-
-                <!-- VERSION 3.5 -->
-                <div class="update-log-entry new">
-                    <div class="update-log-header">
-                        <div class="update-version">v3.5</div>
-                        <div style="display: flex; gap: 10px; align-items: center;">
-                            <span class="update-date">Novembro 2024</span>
-                            <span class="update-type minor">MINOR</span>
-                        </div>
-                    </div>
-                    <h3 class="update-title">✨ Temas Animados & Melhorias Visuais</h3>
-                    <ul class="update-features">
-                        <li class="feature-new">🆕 NOVO: Temas animados (Neon Pulse, Galaxy Rotate, Fire Flicker)</li>
-                        <li class="feature-new">🆕 NOVO: Efeito de partículas no fundo</li>
-                        <li class="feature-new">🆕 NOVO: Logo com animação de rotação glow</li>
-                        <li class="feature-improved">⬆️ MELHORADO: Transições mais suaves</li>
-                        <li class="feature-improved">⬆️ MELHORADO: Cards com hover effects avançados</li>
                     </ul>
                 </div>
 
@@ -1209,29 +1348,7 @@
                     <ul class="update-features">
                         <li class="feature-new">🆕 NOVO: Detecção automática de bloqueio X-Frame-Options</li>
                         <li class="feature-new">🆕 NOVO: 4 métodos de carregamento (Direto, Nova Aba, Alternativo, Embed)</li>
-                        <li class="feature-new">🆕 NOVO: Tela de erro informativa com soluções</li>
-                        <li class="feature-new">🆕 NOVO: Loading screen com tips educacionais</li>
-                        <li class="feature-new">🆕 NOVO: Versão alternativa Geekie One Plus</li>
-                        <li class="feature-improved">⬆️ MELHORADO: Tratamento de erros robusto</li>
                         <li class="feature-fixed">🔧 CORRIGIDO: Problemas de carregamento em alguns navegadores</li>
-                    </ul>
-                </div>
-
-                <!-- VERSION 2.5 -->
-                <div class="update-log-entry">
-                    <div class="update-log-header">
-                        <div class="update-version">v2.5</div>
-                        <div style="display: flex; gap: 10px; align-items: center;">
-                            <span class="update-date">Setembro 2024</span>
-                            <span class="update-type minor">MINOR</span>
-                        </div>
-                    </div>
-                    <h3 class="update-title">🎨 Expansão de Temas & Extensões</h3>
-                    <ul class="update-features">
-                        <li class="feature-new">🆕 NOVO: 8 temas visuais (Cyberpunk, Ocean, Sunset, Forest, Royal, Midnight, Galaxy, Cherry)</li>
-                        <li class="feature-new">🆕 NOVO: 4 extensões integradas (Notas, Timer, Calculator, Foco)</li>
-                        <li class="feature-new">🆕 NOVO: Sidebar colapsável</li>
-                        <li class="feature-improved">⬆️ MELHORADO: Design responsivo</li>
                     </ul>
                 </div>
 
@@ -1248,28 +1365,7 @@
                     <ul class="update-features">
                         <li class="feature-new">🆕 NOVO: Sistema de extensões (Notas Rápidas, Pomodoro, Calculadora)</li>
                         <li class="feature-new">🆕 NOVO: Modo Foco tela cheia</li>
-                        <li class="feature-new">🆕 NOVO: Dock flutuante de atalhos</li>
-                        <li class="feature-new">🆕 NOVO: Sistema de modais</li>
-                        <li class="feature-new">🆕 NOVO: Notificações toast</li>
-                        <li class="feature-new">🆕 NOVO: Atalhos de teclado (Ctrl+N, Ctrl+T, Ctrl+C)</li>
                         <li class="feature-improved">⬆️ MELHORADO: Interface moderna glassmorphism</li>
-                    </ul>
-                </div>
-
-                <!-- VERSION 1.5 -->
-                <div class="update-log-entry">
-                    <div class="update-log-header">
-                        <div class="update-version">v1.5</div>
-                        <div style="display: flex; gap: 10px; align-items: center;">
-                            <span class="update-date">Julho 2024</span>
-                            <span class="update-type patch">PATCH</span>
-                        </div>
-                    </div>
-                    <h3 class="update-title">🌈 Personalização Visual</h3>
-                    <ul class="update-features">
-                        <li class="feature-new">🆕 NOVO: Sistema de temas com 6 opções iniciais</li>
-                        <li class="feature-new">🆕 NOVO: Cores dinâmicas via CSS variables</li>
-                        <li class="feature-fixed">🔧 CORRIGIDO: Bugs de exibição em mobile</li>
                     </ul>
                 </div>
 
@@ -1285,10 +1381,8 @@
                     <h3 class="update-title">🎉 Lançamento Inicial - Geekie One Portal</h3>
                     <ul class="update-features">
                         <li class="feature-new">🆕 LANÇAMENTO: Portal inicial com embed do Geekie One</li>
-                        <li class="feature-new">🆕 NOVO: Interface básica com iframe</li>
                         <li class="feature-new">🆕 NOVO: Controles de navegação (voltar, avançar, refresh)</li>
                         <li class="feature-new">🆕 NOVO: Botão de tela cheia</li>
-                        <li class="feature-new">🆕 NOVO: Design responsivo inicial</li>
                     </ul>
                 </div>
 
@@ -1303,7 +1397,7 @@
                 <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
                 <a href="#" title="YouTube"><i class="fab fa-youtube"></i></a>
             </div>
-            <p>© 2024-2025 Geekie One Portal ULTRA MASTER v5.0</p>
+            <p>© 2024-2025 Geekie One Portal ULTRA MASTER v5.0 + Caracteres</p>
             <p style="margin-top: 8px; font-size: 0.85rem;">
                 Desenvolvido com <i class="fas fa-heart" style="color: #ef4444;"></i> para a comunidade educacional | 
                 <i class="fas fa-coins" style="color: var(--gold);"></i> Ganhe XP enquanto estuda!
@@ -1317,6 +1411,7 @@
         <button class="dock-btn" onclick="switchTab('home')" title="Início"><i class="fas fa-home"></i></button>
         <button class="dock-btn" onclick="switchTab('geekie')" title="Geekie One"><i class="fas fa-graduation-cap"></i></button>
         <button class="dock-btn" onclick="switchTab('tools')" title="Ferramentas"><i class="fas fa-toolbox"></i></button>
+        <button class="dock-btn" onclick="switchTab('characters')" title="Caracteres"><i class="fas fa-font"></i></button>
         <button class="dock-btn" onclick="startFocusMode()" title="Modo Foco"><i class="fas fa-crosshairs"></i></button>
         <button class="dock-btn" onclick="switchTab('notifications')" title="Notificações">
             <i class="fas fa-bell"></i>
@@ -1369,341 +1464,390 @@
             isActive: true,
             xpInterval: null,
             currentMethod: 'direct',
-            notificationsRead: JSON.parse(localStorage.getItem('notificationsRead')) || []
+            notificationsRead: JSON.parse(localStorage.getItem('notificationsRead')) || [],
+            recentCharacters: JSON.parse(localStorage.getItem('recentCharacters')) || []
         };
 
-        const SHOP_ITEMS = [
-            { id: 'neon-cyber', name: 'Neon Cyber', desc: 'Tema cyberpunk neon com brilho pulsante', price: 500, category: 'themes', icon: '💜', type: 'theme', animated: true },
-            { id: 'galaxy-premium', name: 'Galaxy Pro', desc: 'Tema galáxia com gradiente rotativo', price: 750, category: 'themes', icon: '🌌', type: 'theme', animated: true },
-            { id: 'fire-dragon', name: 'Fire Dragon', desc: 'Tema de fogo com efeito cintilante', price: 1000, category: 'themes', icon: '🔥', type: 'theme', animated: true },
-            { id: 'ice-crystal', name: 'Ice Crystal', desc: 'Tema gelado com brilho cristalino', price: 1000, category: 'themes', icon: '❄️', type: 'theme', animated: true },
-            { id: 'golden-emperor', name: 'Golden Emperor', desc: 'Tema dourado premium exclusivo', price: 2000, category: 'themes', icon: '👑', type: 'theme', animated: true },
-            { id: 'booster_2x', name: 'Booster 2x XP', desc: 'Dobre seu ganho de XP por 1 hora', price: 200, category: 'boosters', icon: '⚡', type: 'booster' },
-            { id: 'booster_3x', name: 'Booster 3x XP', desc: 'Triplo de XP por 30 minutos', price: 400, category: 'boosters', icon: '⚡⚡', type: 'booster' },
-            { id: 'badge_pioneer', name: 'Badge Pioneiro', desc: 'Badge para primeiros usuários', price: 1000, category: 'badges', icon: '🏅', type: 'badge' },
-            { id: 'badge_legendary', name: 'Badge Lendária', desc: 'Badge ultra rara exclusiva', price: 5000, category: 'badges', icon: '🏆', type: 'badge' },
-            { id: 'effect_particles', name: 'Partículas Extras', desc: 'Mais partículas no fundo', price: 300, category: 'effects', icon: '✨', type: 'effect' },
-            { id: 'effect_rainbow', name: 'Arco-íris Mode', desc: 'Cores que mudam automaticamente', price: 800, category: 'effects', icon: '🌈', type: 'effect' }
-        ];
-
-        const ACHIEVEMENTS_LIST = [
-            { id: 'first_session', name: 'Primeira Sessão', desc: 'Complete sua primeira sessão', icon: '🎯', condition: () => state.sessions >= 1, reward: 50 },
-            { id: 'sessions_10', name: 'Estudante Ativo', desc: 'Complete 10 sessões', icon: '📖', condition: () => state.sessions >= 10, reward: 200 },
-            { id: 'sessions_50', name: 'Mestre dos Estudos', desc: 'Complete 50 sessões', icon: '🎓', condition: () => state.sessions >= 50, reward: 1000 },
-            { id: 'streak_3', name: '3 Dias Seguidos', desc: 'Streak de 3 dias', icon: '🔥', condition: () => state.streak >= 3, reward: 150 },
-            { id: 'streak_7', name: 'Semana Perfeita', desc: '7 dias seguidos', icon: '⭐', condition: () => state.streak >= 7, reward: 500 },
-            { id: 'level_5', name: 'Nível 5', desc: 'Alcance o nível 5', icon: '🌟', condition: () => state.level >= 5, reward: 300 },
-            { id: 'level_10', name: 'Nível 10', desc: 'Alcance o nível 10', icon: '💎', condition: () => state.level >= 10, reward: 1000 },
-            { id: 'coins_1000', name: 'Milhar de Moedas', desc: 'Acumule 1000 moedas', icon: '💰', condition: () => state.coins >= 1000, reward: 100 },
-            { id: 'hours_10', name: '10 Horas de Estudo', desc: 'Estude 10 horas totais', icon: '⏰', condition: () => state.studyMinutes >= 600, reward: 500 },
-            { id: 'all_themes', name: 'Colecionador', desc: 'Compre todos os temas', icon: '🎨', condition: () => state.ownedThemes.length >= 11, reward: 2000 }
-        ];
-
-        // DOM Elements
-        const iframe = document.getElementById('geekieFrame');
-        const loadingOverlay = document.getElementById('loadingOverlay');
-        const methodSelection = document.getElementById('methodSelection');
+        // ============================================
+        // BANCO DE CARACTERES ESPECIAIS (NOVO!)
+        // ============================================
+        const CHARACTERS_DB = {
+            arrows: [
+                { char: '→', name: 'Seta Direita' }, { char: '←', name: 'Seta Esquerda' },
+                { char: '↑', name: 'Seta Cima' }, { char: '↓', name: 'Seta Baixo' },
+                { char: '↔', name: 'Seta Dupla H' }, { char: '↕', name: 'Seta Dupla V' },
+                { char: '⇒', name: 'Seta Dupla Dir' }, { char: '⇐', name: 'Seta Dupla Esq' },
+                { char: '➔', name: 'Seta Pesada' }, { char: '➜', name: 'Seta Curva' },
+                { char: '➤', name: 'Seta Ponta' }, { char: '➥', name: 'Seta Curva Baixo' },
+                { char: '➦', name: 'Seta Curva Cima' }, { char: '➧', name: 'Seta Grossa' },
+                { char: '➨', name: 'Seta Grossa Dir' }, { char: '➩', name: 'Seta Contorno' },
+                { char: '➪', name: 'Seta Onda' }, { char: '➫', name: 'Seta Zigzag' },
+                { char: '↗', name: 'Diagonal NE' }, { char: '↘', name: 'Diagonal SE' },
+                { char: '↙', name: 'Diagonal SW' }, { char: '↖', name: 'Diagonal NW' }
+            ],
+            math: [
+                { char: '+', name: 'Mais' }, { char: '−', name: 'Menos' },
+                { char: '×', name: 'Vezes' }, { char: '÷', name: 'Dividido' },
+                { char: '=', name: 'Igual' }, { char: '≠', name: 'Diferente' },
+                { char: '≈', name: 'Aproximado' }, { char: '√', name: 'Raiz' },
+                { char: 'π', name: 'Pi' }, { char: '∞', name: 'Infinito' },
+                { char: '∑', name: 'Soma' }, { char: '∫', name: 'Integral' },
+                { char: '≤', name: 'Menor Igual' }, { char: '≥', name: 'Maior Igual' },
+                { char: '±', name: 'Mais/Menos' }, { char: '÷', name: 'Fração' },
+                { char: '%', name: 'Porcentagem' }, { char: '‰', name: 'Por mil' },
+                { char: '∆', name: 'Delta' }, { char: '∂', name: 'Parcial' }
+            ],
+            symbols: [
+                { char: '©', name: 'Copyright' }, { char: '®', name: 'Registrado' },
+                { char: '™', name: 'Trademark' }, { char: '§', name: 'Seção' },
+                { char: '¶', name: 'Parágrafo' }, { char: '†', name: 'Cruz' },
+                { char: '•', name: 'Bullet' }, { char: '…', name: 'Reticências' },
+                { char: '¢', name: 'Centavo' }, { char: '€', name: 'Euro' },
+                { char: '£', name: 'Libra' }, { char: '¥', name: 'Yen' },
+                { char: '¤', name: 'Moeda' }, { char: '♠', name: 'Espadas' },
+                { char: '♣', name: 'Paus' }, { char: '♥', name: 'Copas' },
+                { char: '♦', name: 'Ouros' }, { char: '★', name: 'Estrela' },
+                { char: '☆', name: 'Estrela Vazia' }, { char: '♩', name: 'Nota Musical' },
+                { char: '♬', name: 'Dupla Nota' }, { char: '♭', name: 'Bemol' },
+                { char: '☀', name: 'Sol' }, { char: '☁', name: 'Nuvem' },
+                { char: '☂', name: 'Guarda-chuva' }, { char: '☃', name: 'Boneco neve' }
+            ],
+            shapes: [
+                { char: '▲', name: 'Triângulo Cima' }, { char: '▼', name: 'Triângulo Baixo' },
+                { char: '●', name: 'Círculo' }, { char: '■', name: 'Quadrado' },
+                { char: '◆', name: 'Losango' }, { char: '★', name: 'Estrela Cheia' },
+                { char: '☆', name: 'Estrela Vazia' }, { char: '♦', name: 'Losango Vazio' },
+                { char: '♠', name: 'Espadas' }, { char: '♣', name: 'Paus' },
+                { char: '♥', name: 'Copas' }, { char: '♦', name: 'Ouros' },
+                { char: '○', name: 'Círculo Vazio' }, { char: '□', name: 'Quadrado Vazio' },
+                { char: '△', name: 'Triângulo Vazio' }, { char: '▽', name: 'Triângulo Baixo Vazio' },
+                { char: '◇', name: 'Losango Vazio' }, { char: '◈', name: 'Losango Ponto' },
+                { char: '▣', name: 'Quadrado Sombra' }, { char: '▢', name: 'Quadrado Pequeno' }
+            ],
+            stars: [
+                { char: '★', name: 'Estrela Cheia' }, { char: '☆', name: 'Estrela Vazia' },
+                { char: '✦', name: 'Estrela 4 Pontas' }, { char: '✧', name: 'Brilho' },
+                { char: '✨', name: 'Brilhos' }, { char: '🌟', name: 'Estrela Brilhante' },
+                { char: '⭐', name: 'Estrela Emoji' }, { char: '🌠', name: 'Estrela Cadente' },
+                { char: '✴', name: 'Estrela 8 Pontas' }, { char: '✹', name: 'Estrela 12 Pontas' },
+                { char: '❂', name: 'Roda Dentada' }, { char: '🔯', name: 'Om' },
+                { char: '💫', name: 'Tontura' }, { char: '⚝', name: 'Estrela Outline' },
+                { char: '✺', name: 'Estrela Circulo' }, { char: '✹', name: 'Estrela Pontuda' }
+            ],
+            emoji: [
+                { char: '📚', name: 'Livros' }, { char: '✏️', name: 'Lápis' },
+                { char: '🎯', name: 'Alvo' }, { char: '🔥', name: 'Fogo' },
+                { char: '💡', name: 'Ideia' }, { char: '✅', name: 'Check' },
+                { char: '🎓', name: 'Formatura' }, { char: '🏆', name: 'Troféu' },
+                { char: '📝', name: 'Memo' }, { char: '📖', name: 'Livro Aberto' },
+                { char: '🔬', name: 'Microscópio' }, { char: '🧮', name: 'Ábaco' },
+                { char: '📐', name: 'Réguas' }, { char: '🎨', name: 'Paleta' },
+                { char: '💻', name: 'Computador' }, { char: '📱', name: 'Celular' },
+                { char: '⏰', name: 'Relógio' }, { char: '📅', name: 'Calendário' },
+                { char: '✨', name: 'Brilho' }, { char: '🌟', name: 'Estrela' },
+                { char: '💪', name: 'Força' }, { char: '🧠', name: 'Cérebro' },
+                { char: '🎵', name: 'Música' }, { char: '🎮', name: 'Game' },
+                { char: '🚀', name: 'Foguete' }, { char: '⚡', name: 'Raio' }
+            ],
+            special: [
+                { char: '¹', name: 'Expoente 1' }, { char: '²', name: 'Expoente 2' },
+                { char: '³', name: 'Expoente 3' }, { char: '½', name: 'Meio' },
+                { char: '¼', name: 'Um Quarto' }, { char: '¾', name: 'Três Quartos' },
+                { char: '✓', name: 'Check' }, { char: '✗', name: 'X' },
+                { char: '™', name: 'Trademark' }, { char: '°', name: 'Grau' },
+                { char: '′', name: 'Minuto' }, { char: '″', name: 'Segundo' },
+                { char: '§', name: 'Parágrafo' }, { char: '¶', name: 'Pilcrow' },
+                { char: '†', name: 'Cruz' }, { char: '‡', name: 'Dupla Cruz' },
+                { char: '…', name: 'Elipse' }, { char: '–', name: 'En dash' },
+                { char: '—', name: 'Em dash' }, { char: '¯', name: 'Macron' },
+                { char: '¦', name: 'Barra Partida' }, { char: '·', name: 'Ponto Médio' },
+                { char: '※', name: 'Referência' }, { char: '‽', name: 'Careta' }
+            ]
+        };
 
         // ============================================
-        // INICIALIZAÇÃO
+        // FUNÇÕES DE NAVEGAÇÃO
         // ============================================
-        function init() {
-            createParticles();
-            applyTheme();
-            updateAllDisplays();
-            generateHomeContent();
-            generateShop('themes');
-            generateAchievements();
-            checkDailyStreak();
-            startXPTracking();
-            document.getElementById('notesArea').value = state.notes;
+        
+        function switchTab(tabId) {
+            console.log('✅ Navegando para aba:', tabId);
             
-            setTimeout(() => loadGeekie(), 500);
+            // Esconder todas as abas
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+                tab.style.display = 'none';
+            });
             
-            console.log('%c🚀 GEEKIE ONE ULTRA MASTER v5.0 CARREGADO!', 'font-size: 24px; color: #00ff88; font-weight: bold;');
-        }
+            // Mostrar a aba selecionada
+            const target = document.getElementById('tab-' + tabId);
+            if (target) {
+                target.style.display = 'block';
+                target.classList.add('active');
+                console.log('✅ Aba exibida:', tabId);
+            } else {
+                console.error('❌ Aba não encontrada:', tabId);
+            }
 
-        function createParticles() {
-            const container = document.getElementById('particlesBg');
-            for(let i = 0; i < 25; i++) {
-                const p = document.createElement('div');
-                p.className = 'particle';
-                p.style.left = Math.random()*100 + '%';
-                p.style.animationDelay = Math.random()*15 + 's';
-                p.style.animationDuration = (Math.random()*10+10) + 's';
-                container.appendChild(p);
+            // Atualizar botões de navegação
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('data-tab') === tabId) {
+                    btn.classList.add('active');
+                }
+            });
+
+            // Renderizar conteúdo específico da aba
+            if (tabId === 'characters') {
+                showCharCategory('all');
+            }
+            
+            if (tabId === 'shop') {
+                renderShop();
+            }
+            
+            if (tabId === 'achievements') {
+                renderAchievements();
+            }
+            
+            if (tabId === 'home') {
+                renderHome();
             }
         }
 
-        // ============================================
-        // SISTEMA DE ABAS
-        // ============================================
-        function switchTab(tabName) {
-            // Hide all tabs
-            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-            // Remove active from all buttons
-            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
-            
-            // Show selected tab
-            document.getElementById('tab-' + tabName).classList.add('active');
-            // Activate button
-            document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
-            
-            // Special actions
-            if(tabName === 'geekie' && !iframe.src) loadGeekie();
-            if(tabName === 'shop') generateShop('themes');
-            if(tabName === 'notifications') markNotificationsSeen();
-            
-            showToast(`Aba "${getTabName(tabName)}" aberta`, 'info');
-        }
+        function showCharCategory(category) {
+            console.log('📝 Mostrando categoria:', category);
+            const container = document.getElementById('charactersContainer');
+            if (!container) return;
 
-        function getTabName(tab) {
-            const names = { home: 'Início', geekie: 'Geekie One', shop: 'Loja', tools: 'Ferramentas', achievements: 'Conquistas', notifications: 'Notificações' };
-            return names[tab] || tab;
-        }
+            // Atualizar botões ativos
+            document.querySelectorAll('.char-category-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.closest('.char-category-btn')?.classList.add('active');
 
-        // ============================================
-        // TAB: HOME CONTENT
-        // ============================================
-        function generateHomeContent() {
-            // Update welcome stats
-            document.getElementById('homeLevel').textContent = state.level;
-            document.getElementById('homeCoins').textContent = state.coins.toLocaleString();
-            document.getElementById('homeStreak').textContent = state.streak;
-            document.getElementById('homeXP').textContent = state.totalXP.toLocaleString();
-            document.getElementById('homeSessions').textContent = state.sessions;
-            document.getElementById('homeHours').textContent = formatTime(state.studyMinutes);
-            document.getElementById('homeThemes').textContent = state.ownedThemes.length;
-            document.getElementById('homeBadges').textContent = state.achievements.length;
+            // Limpar container
+            container.innerHTML = '';
 
-            // Generate missions
-            const missionsContainer = document.getElementById('homeMissions');
-            const missions = getDailyMissions();
-            missionsContainer.innerHTML = missions.map(m => `
-                <div class="mission-item ${m.completed ? 'completed' : ''}">
-                    <div class="mission-header">
-                        <span class="mission-title">${m.title}</span>
-                        <span class="mission-reward">+${m.reward} 🪙</span>
-                    </div>
-                    <div class="mission-progress">
-                        <div class="mission-progress-bar" style="width:${Math.min((m.current/m.target)*100,100)}%"></div>
-                    </div>
-                    <div class="mission-status">${m.completed ? '✅ Completa!' : `${formatTime(m.current)} / ${formatTime(m.target)}`}</div>
-                </div>
-            `).join('');
-
-            // Generate themes preview
-            const themesGrid = document.getElementById('homeThemesGrid');
-            const freeThemes = ['default','ocean','sunset','forest','royal','midnight'];
-            const themeIcons = {'default':'🌿','ocean':'🌊','sunset':'🌅','forest':'🌲','royal':'👑','midnight':'🌙'};
-            const themeNames = {'default':'Cyberpunk','ocean':'Ocean','sunset':'Sunset','forest':'Forest','royal':'Royal','midnight':'Midnight'};
-            
-            themesGrid.innerHTML = freeThemes.map(t => `
-                <div onclick="changeThemeByName('${t}')" style="cursor:pointer;padding:12px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:10px;text-align:center;transition:all 0.3s;" onmouseover="this.style.borderColor='var(--primary)'" onmouseout="this.style.borderColor='var(--border-color)'">
-                    <div style="font-size:24px;margin-bottom:5px;">${themeIcons[t]}</div>
-                    <div style="font-size:11px;color:var(--text-secondary);">${themeNames[t]}</div>
-                </div>
-            `).join('');
-        }
-
-        function getDailyMissions() {
-            const today = new Date().toDateString();
-            let missions = JSON.parse(localStorage.getItem('dailyMissions'))?.data;
-            
-            if(!missions || JSON.parse(localStorage.getItem('dailyMissions')).date !== today) {
-                missions = [
-                    { id:'study_5min', title:'Estude 5 minutos', target:300, current:0, reward:25, completed:false },
-                    { id:'study_15min', title:'Estude 15 minutos', target:900, current:0, reward:50, completed:false },
-                    { id:'use_timer', title:'Use o Timer', target:1, current:0, reward:30, completed:false },
-                    { id:'save_notes', title:'Salve Notas', target:1, current:0, reward:20, completed:false },
-                    { id:'open_newtab', title:'Abrir Nova Aba', target:1, current:0, reward:15, completed:false }
-                ];
-                localStorage.setItem('dailyMissions', JSON.stringify({date:today, data:missions}));
+            // Obter caracteres da categoria
+            let chars = [];
+            if (category === 'all') {
+                Object.keys(CHARACTERS_DB).forEach(key => {
+                    chars = chars.concat(CHARACTERS_DB[key]);
+                });
+            } else {
+                chars = CHARACTERS_DB[category] || [];
             }
-            return missions;
+
+            // Renderizar grid
+            const grid = document.createElement('div');
+            grid.className = 'char-grid';
+
+            chars.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'char-item';
+                div.innerHTML = `
+                    <span style="font-size: 28px;">${item.char}</span>
+                    <div class="char-tooltip">${item.name}</div>
+                `;
+                
+                div.onclick = () => {
+                    copyToClipboard(item.char, item.name);
+                };
+                
+                grid.appendChild(div);
+            });
+
+            container.appendChild(grid);
         }
 
-        // ============================================
-        // TAB: GEEKIE LOADING
-        // ============================================
-        function loadGeekie() {
-            loadingOverlay.classList.remove('hidden');
-            methodSelection.classList.remove('active');
-            iframe.src = CONFIG.GEEKIE_URL;
+        function copyToClipboard(char, name) {
+            navigator.clipboard.writeText(char).then(() => {
+                showToast(`✅ "${char}" copiado! (${name})`, 'success');
+                
+                // Adicionar aos recentes
+                state.recentCharacters.unshift({ char, name });
+                if (state.recentCharacters.length > 10) state.recentCharacters.pop();
+                localStorage.setItem('recentCharacters', JSON.stringify(state.recentCharacters));
+                
+                // Mostrar seção de recentes
+                updateRecentCharacters();
+                
+                // Feedback visual
+                const feedback = document.getElementById('copyFeedback');
+                feedback.classList.add('show');
+                setTimeout(() => feedback.classList.remove('show'), 1500);
+            }).catch(err => {
+                console.error('Erro ao copiar:', err);
+                showToast('❌ Erro ao copiar', 'error');
+            });
+        }
+
+        function updateRecentCharacters() {
+            const section = document.getElementById('recentlyCopiedSection');
+            const list = document.getElementById('recentCharsList');
+            
+            if (state.recentCharacters.length > 0 && section && list) {
+                section.style.display = 'block';
+                list.innerHTML = '';
+                
+                state.recentCharacters.slice(0, 8).forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = 'recent-char-item';
+                    div.innerHTML = `<span>${item.char}</span><span class="recent-char-code">${item.name}</span>`;
+                    div.onclick = () => copyToClipboard(item.char, item.name);
+                    list.appendChild(div);
+                });
+            }
+        }
+
+        function filterCharacters() {
+            const search = document.getElementById('charSearch').value.toLowerCase();
+            const items = document.querySelectorAll('.char-item');
+            
+            items.forEach(item => {
+                const tooltip = item.querySelector('.char-tooltip');
+                const text = tooltip ? tooltip.textContent.toLowerCase() : '';
+                const char = item.textContent.trim().toLowerCase();
+                
+                if (text.includes(search) || char.includes(search)) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : type === 'reward' ? 'gift' : 'info-circle'}"></i> ${message}`;
+            container.appendChild(toast);
             
             setTimeout(() => {
-                if(!loadingOverlay.classList.contains('hidden')) {
-                    showMethodSelection();
-                }
-            }, 6000);
+                toast.style.animation = 'toastIn 0.4s ease reverse';
+                setTimeout(() => toast.remove(), 400);
+            }, 3000);
         }
 
-        function showMethodSelection() {
-            loadingOverlay.classList.add('hidden');
-            methodSelection.classList.add('active');
-        }
-
-        function hideMethodSelection() {
-            methodSelection.classList.remove('active');
-            loadingOverlay.classList.remove('hidden');
-        }
-
-        function selectMethod(method) {
-            state.currentMethod = method;
-            document.querySelectorAll('.method-option').forEach(o => o.classList.remove('selected'));
-            event.currentTarget.classList.add('selected');
-        }
-
-        function executeSelectedMethod() {
-            methodSelection.classList.remove('active');
-            loadingOverlay.classList.remove('hidden');
-            
-            switch(state.currentMethod) {
-                case 'direct': iframe.src = CONFIG.GEEKIE_URL; break;
-                case 'newtab': openInNewTab(); break;
-                case 'alternative': iframe.src = CONFIG.ALTERNATIVE_URL; break;
-                case 'embed': iframe.src = CONFIG.EMBED_URL + encodeURIComponent(CONFIG.GEEKIE_URL); break;
+        // ============================================
+        // FUNÇÕES DO GEEKIE IFRAME
+        // ============================================
+        
+        function goBack() {
+            try {
+                document.getElementById('geekieFrame').contentWindow.history.back();
+            } catch(e) {
+                console.log('Não foi possível voltar');
             }
+        }
+
+        function goForward() {
+            try {
+                document.getElementById('geekieFrame').contentWindow.history.forward();
+            } catch(e) {
+                console.log('Não foi possível avançar');
+            }
+        }
+
+        function refreshIframe() {
+            const frame = document.getElementById('geekieFrame');
+            document.getElementById('loadingOverlay').classList.remove('hidden');
+            frame.src = frame.src;
         }
 
         function onIframeLoad() {
             setTimeout(() => {
-                loadingOverlay.classList.add('hidden');
-                state.sessions++;
-                saveProgress();
-                updateAllDisplays();
-                showToast('Geekie One carregado! +XP ativo!', 'success');
+                document.getElementById('loadingOverlay').classList.add('hidden');
             }, 1000);
-        }
-
-        function refreshIframe() {
-            loadingOverlay.classList.remove('hidden');
-            iframe.src = iframe.src;
         }
 
         function openInNewTab() {
             window.open(CONFIG.GEEKIE_URL, '_blank');
             addXP(CONFIG.NEWTAB_XP);
-            updateMission('open_newtab', 1);
+            showToast('+10 XP por abrir em nova aba!', 'reward');
+        }
+
+        function showMethodSelection() {
+            document.getElementById('methodSelection').classList.add('active');
+        }
+
+        function hideMethodSelection() {
+            document.getElementById('methodSelection').classList.remove('active');
+        }
+
+        function selectMethod(method) {
+            state.currentMethod = method;
+            document.querySelectorAll('.method-option').forEach(opt => opt.classList.remove('selected'));
+            event.target.closest('.method-option')?.classList.add('selected');
+        }
+
+        function executeSelectedMethod() {
+            hideMethodSelection();
+            const frame = document.getElementById('geekieFrame');
+            document.getElementById('loadingOverlay').classList.remove('hidden');
+            
+            switch(state.currentMethod) {
+                case 'direct':
+                    frame.src = CONFIG.GEEKIE_URL;
+                    break;
+                case 'newtab':
+                    openInNewTab();
+                    break;
+                case 'alternative':
+                    frame.src = CONFIG.ALTERNATIVE_URL;
+                    break;
+                case 'embed':
+                    frame.src = CONFIG.EMBED_URL + encodeURIComponent(CONFIG.GEEKIE_URL);
+                    break;
+            }
         }
 
         function openFullscreen() {
-            const container = document.querySelector('.iframe-container');
-            if(container.requestFullscreen) container.requestFullscreen();
-        }
-
-        function goBack() { try{iframe.contentWindow.history.back()}catch(e){} }
-        function goForward() { try{iframe.contentWindow.history.forward()}catch(e){} }
-
-        // ============================================
-        // TAB: SHOP
-        // ============================================
-        function generateShop(category) {
-            const grid = document.getElementById('shopGrid');
-            const items = SHOP_ITEMS.filter(i => i.category === category);
-            
-            grid.innerHTML = items.map(item => {
-                const owned = state.ownedThemes.includes(item.id) || state.ownedItems.includes(item.id);
-                return `
-                    <div class="shop-item ${owned ? 'owned' : ''}">
-                        <div class="item-preview ${item.animated ? 'animated' : ''}">${item.icon}</div>
-                        <div class="item-name">${item.name}</div>
-                        <div class="item-desc">${item.desc}</div>
-                        <div class="item-footer">
-                            <span class="item-price"><i class="fas fa-coins"></i> ${item.price}</span>
-                            ${owned ? 
-                                `<button class="buy-btn equipped" onclick="equipItem('${item.id}','${item.type}')">Equipar</button>` :
-                                `<button class="buy-btn" onclick="buyItem('${item.id}',${item.price},'${item.type}')" ${state.coins<item.price?'disabled':''}>Comprar</button>`
-                            }
-                        </div>
-                    </div>`;
-            }).join('');
-        }
-
-        function filterShop(cat) {
-            document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
-            event.target.classList.add('active');
-            generateShop(cat);
-        }
-
-        function buyItem(id, price, type) {
-            if(state.coins >= price) {
-                state.coins -= price;
-                if(type === 'theme') state.ownedThemes.push(id);
-                else state.ownedItems.push(id);
-                saveProgress();
-                updateAllDisplays();
-                generateShop(event?.target?.closest('.category-btn')?.classList.contains('active') ? 
-                    [...document.querySelectorAll('.category-btn')].find(b=>b.classList.contains('active')).textContent.includes('Temas') ? 'themes' : 
-                    [...document.querySelectorAll('.category-btn')].find(b=>b.classList.contains('active')).textContent : 'themes');
-                showToast('✅ Comprado com sucesso!', 'success');
-            }
-        }
-
-        function equipItem(id, type) {
-            if(type === 'theme') {
-                document.body.setAttribute('data-theme', id);
-                state.theme = id;
-                localStorage.setItem('selectedTheme', id);
-                showToast(`Tema "${id}" equipado!`, 'success');
+            if (document.documentElement.requestFullscreen) {
+                document.documentElement.requestFullscreen();
             }
         }
 
         // ============================================
-        // TAB: TOOLS
+        // FUNÇÕES DE FERRAMENTAS
         // ============================================
-        function openModalTool(tool) {
-            // Scroll to tool or highlight it
-            const toolCard = document.querySelector(`#${tool === 'notes' ? 'notesArea' : tool === 'timer' ? 'timerDisplay' : 'calcDisplay'}`);
-            if(toolCard) toolCard.scrollIntoView({behavior: 'smooth', block: 'center'});
-            showToast(`Ferramenta ${tool} pronta!`, 'info');
-        }
-
+        
         function saveNotes() {
-            state.notes = document.getElementById('notesArea').value;
-            localStorage.setItem('geekieNotes', state.notes);
+            const notes = document.getElementById('notesArea').value;
+            state.notes = notes;
+            localStorage.setItem('geekieNotes', notes);
             addXP(CONFIG.NOTES_XP);
-            updateMission('save_notes', 1);
-            showToast('Notas salvas! +' + CONFIG.NOTES_XP + ' XP', 'success');
+            showToast('✅ Notas salvas! +5 XP', 'success');
         }
 
         function clearNotes() {
-            if(confirm('Limpar notas?')) {
-                document.getElementById('notesArea').value = '';
-                state.notes = '';
-                localStorage.setItem('geekieNotes', '');
-                showToast('Notas limpas!', 'info');
-            }
+            document.getElementById('notesArea').value = '';
+            showToast('🗑️ Notas limpas!', 'info');
         }
 
-        // Auto-save notes
-        setInterval(() => {
-            const notes = document.getElementById('notesArea').value;
-            if(notes !== state.notes && notes.length > 0) saveNotes();
-        }, 30000);
-
-        // Timer functions
         function toggleTimer() {
             const btn = document.getElementById('timerStartBtn');
-            if(state.timer.isRunning) {
+            if (state.timer.isRunning) {
                 clearInterval(state.timer.interval);
                 state.timer.isRunning = false;
-                btn.innerHTML = '<i class="fas fa-play"></i> Continuar';
+                btn.innerHTML = '<i class="fas fa-play"></i> Iniciar';
             } else {
                 state.timer.isRunning = true;
                 btn.innerHTML = '<i class="fas fa-pause"></i> Pausar';
-                updateMission('use_timer', 1);
-                
                 state.timer.interval = setInterval(() => {
-                    if(state.timer.seconds > 0) state.timer.seconds--;
-                    else if(state.timer.minutes > 0) { state.timer.minutes--; state.timer.seconds = 59; }
-                    else {
+                    if (state.timer.seconds > 0) {
+                        state.timer.seconds--;
+                    } else if (state.timer.minutes > 0) {
+                        state.timer.minutes--;
+                        state.timer.seconds = 59;
+                    } else {
                         clearInterval(state.timer.interval);
                         state.timer.isRunning = false;
                         btn.innerHTML = '<i class="fas fa-play"></i> Iniciar';
-                        const xpEarned = Math.floor(((25-state.timer.minutes)*60+(60-state.timer.seconds))/60)*(CONFIG.TIMER_BASE_XP/25);
-                        addXP(xpEarned);
-                        resetTimer();
+                        addXP(CONFIG.TIMER_BASE_XP);
+                        showToast(`🎉 Timer completo! +${CONFIG.TIMER_BASE_XP} XP`, 'reward');
                     }
                     updateTimerDisplay();
                 }, 1000);
@@ -1713,309 +1857,316 @@
         function resetTimer() {
             clearInterval(state.timer.interval);
             state.timer.isRunning = false;
-            state.timer.minutes = 25; state.timer.seconds = 0;
+            state.timer.minutes = 25;
+            state.timer.seconds = 0;
             document.getElementById('timerStartBtn').innerHTML = '<i class="fas fa-play"></i> Iniciar';
             updateTimerDisplay();
         }
 
-        function setTimer(mins) {
-            clearInterval(state.timer.interval);
-            state.timer.isRunning = false;
-            state.timer.minutes = mins; state.timer.seconds = 0;
-            document.getElementById('timerStartBtn').innerHTML = '<i class="fas fa-play"></i> Iniciar';
-            document.getElementById('timerXPReward').textContent = Math.floor(mins*(CONFIG.TIMER_BASE_XP/25));
+        function setTimer(minutes) {
+            resetTimer();
+            state.timer.minutes = minutes;
             updateTimerDisplay();
         }
 
         function updateTimerDisplay() {
-            const t = `${String(state.timer.minutes).padStart(2,'0')}:${String(state.timer.seconds).padStart(2,'0')}`;
-            document.getElementById('timerDisplay').textContent = t;
-            document.getElementById('focusTimer').textContent = t;
+            const mins = String(state.timer.minutes).padStart(2, '0');
+            const secs = String(state.timer.seconds).padStart(2, '0');
+            document.getElementById('timerDisplay').textContent = `${mins}:${secs}`;
         }
 
-        // Calculator functions
-        function calcInput(v) { state.calc.expression += v; document.getElementById('calcExpression').textContent = state.calc.expression; }
-        function calcClear() { state.calc.expression=''; state.calc.result='0'; document.getElementById('calcExpression').textContent=''; document.getElementById('calcResult').textContent='0'; }
+        function calcInput(val) {
+            state.calc.expression += val;
+            document.getElementById('calcExpression').textContent = state.calc.expression;
+        }
+
+        function calcClear() {
+            state.calc.expression = '';
+            state.calc.result = '0';
+            document.getElementById('calcExpression').textContent = '';
+            document.getElementById('calcResult').textContent = '0';
+        }
+
         function calculate() {
             try {
-                const r = Function('"use strict";return('+state.calc.expression+')')();
-                state.calc.result = Number(r.toFixed(8)).toString();
-                document.getElementById('calcResult').textContent = state.calc.result;
+                const result = eval(state.calc.expression);
+                state.calc.result = result;
+                document.getElementById('calcResult').textContent = result;
                 addXP(CONFIG.CALC_XP);
             } catch(e) {
                 document.getElementById('calcResult').textContent = 'Erro';
-                showToast('Expressão inválida!', 'error');
             }
         }
 
-        document.addEventListener('keydown', (e) => {
-            if(document.getElementById('tab-tools').classList.contains('active')) {
-                if(/[0-9+\-*/().]/.test(e.key)) calcInput(e.key);
-                else if(e.key==='Enter') calculate();
-                else if(e.key==='Escape') calcClear();
-            }
-        });
-
-        // Focus Mode
-        let focusInterval;
-        function startFocusMode() {
-            document.getElementById('focusOverlay').classList.add('active');
-            let mins = state.timer.minutes, secs = state.timer.seconds;
-            focusInterval = setInterval(() => {
-                if(secs > 0) secs--;
-                else if(mins > 0) { mins--; secs = 59; }
-                else { exitFocusMode(); addXP(CONFIG.FOCUS_XP); return; }
-                document.getElementById('focusTimer').textContent = `${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
-            }, 1000);
-            showToast('🎯 Modo Foco! +' + CONFIG.FOCUS_XP + ' XP ao completar', 'success');
-        }
-
-        function exitFocusMode() {
-            document.getElementById('focusOverlay').classList.remove('active');
-            clearInterval(focusInterval);
+        function openModalTool(tool) {
+            switchTab('tools');
+            showToast(`🔧 Ferramenta: ${tool}`, 'info');
         }
 
         // ============================================
-        // TAB: ACHIEVEMENTS
+        // FUNÇÕES DE GAMIFICAÇÃO
         // ============================================
-        function generateAchievements() {
-            const grid = document.getElementById('achievementsGrid');
-            grid.innerHTML = ACHIEVEMENTS_LIST.map(a => {
-                const unlocked = state.achievements.includes(a.id);
-                return `
-                    <div class="achievement-card ${unlocked ? 'unlocked' : 'locked'}">
-                        <div class="achievement-icon">${a.icon}</div>
-                        <div class="achievement-name">${a.name}</div>
-                        <div class="achievement-desc">${a.desc}</div>
-                        <div class="achievement-reward">+${a.reward} 🪙</div>
-                    </div>`;
-            }).join('');
-        }
-
-        function checkAchievements() {
-            ACHIEVEMENTS_LIST.forEach(a => {
-                if(!state.achievements.includes(a.id) && a.condition()) {
-                    state.achievements.push(a.id);
-                    state.coins += a.reward;
-                    showToast(`🏆 Conquista: ${a.name}! +${a.reward}🪙`, 'reward');
-                    document.getElementById('achievementBadge').style.display = 'block';
-                }
-            });
-            saveProgress();
-            generateAchievements();
-        }
-
-        // ============================================
-        // TAB: NOTIFICATIONS
-        // ============================================
-        function markNotificationsSeen() {
-            state.notificationsRead.push('v5.0', 'v4.0', 'v3.5');
-            localStorage.setItem('notificationsRead', JSON.stringify(state.notificationsRead));
-            document.getElementById('notifBadge').style.display = 'none';
-            document.getElementById('dockNotifDot').style.display = 'none';
-        }
-
-        function markAllRead() {
-            markNotificationsSeen();
-            showToast('Todas as notificações marcadas como lidas!', 'success');
-        }
-
-        // ============================================
-        // GAMIFICATION SYSTEM
-        // ============================================
-        function startXPTracking() {
-            state.xpInterval = setInterval(() => {
-                if(state.isActive && !document.hidden) {
-                    addXP(CONFIG.XP_PER_SECOND, false);
-                    state.coins += Math.floor(CONFIG.COINS_PER_MINUTE/60);
-                    state.studyMinutes++;
-                    if(state.studyMinutes % 60 === 0) updateAllDisplays();
-                    updateMission('study_5min', 1);
-                    updateMission('study_15min', 1);
-                    saveProgress();
-                }
-            }, 1000);
-        }
-
-        function addXP(amount, show = true) {
-            const mult = state.ownedItems.includes('booster_3x') ? 3 : (state.ownedItems.includes('booster_2x') ? 2 : 1);
-            state.xp += amount * mult;
-            state.totalXP += amount * mult;
+        
+        function addXP(amount) {
+            state.xp += amount;
+            state.totalXP += amount;
             
-            const newLvl = Math.floor(state.xp / CONFIG.LEVEL_XP_MULTIPLIER) + 1;
-            if(newLvl > state.level) {
-                state.level = newLvl;
-                state.coins += newLvl * 50;
-                showLevelUp(newLvl);
+            // Verificar level up
+            const newLevel = Math.floor(state.totalXP / CONFIG.LEVEL_XP_MULTIPLIER) + 1;
+            if (newLevel > state.level) {
+                state.level = newLevel;
+                showLevelUp(newLevel);
             }
             
-            saveProgress();
-            updateAllDisplays();
-            if(show && amount > 0) showToast(`+${amount*mult} XP${mult>1?` (x${mult})`:''}`, 'reward');
-            checkAchievements();
+            updateStatsDisplay();
+            saveState();
         }
 
-        function showLevelUp(lvl) {
-            document.getElementById('levelUpText').textContent = `Você alcançou o nível ${lvl}!`;
-            document.getElementById('levelUpOverlay').classList.add('active');
+        function addCoins(amount) {
+            state.coins += amount;
+            updateStatsDisplay();
+            saveState();
+        }
+
+        function showLevelUp(newLevel) {
+            const overlay = document.getElementById('levelUpOverlay');
+            document.getElementById('levelUpText').textContent = `Você alcançou o nível ${newLevel}!`;
+            overlay.classList.add('active');
+            
             setTimeout(() => {
-                document.getElementById('levelUpOverlay').classList.remove('active');
-                showToast(`🎉 LEVEL ${lvl}! +${lvl*50}🪙`, 'reward');
-            }, 2500);
+                overlay.classList.remove('active');
+            }, 3000);
         }
 
-        function updateMission(id, inc) {
-            const missions = getDailyMissions();
-            const m = missions.find(x => x.id === id);
-            if(m && !m.completed) {
-                m.current += inc;
-                if(m.current >= m.target) {
-                    m.completed = true;
-                    state.coins += m.reward;
-                    showToast(`Missão: ${m.title}! +${m.reward}🪙`, 'reward');
-                }
-                const today = new Date().toDateString();
-                localStorage.setItem('dailyMissions', JSON.stringify({date:today, data:missions}));
-                generateHomeContent();
-            }
+        function updateStatsDisplay() {
+            document.getElementById('coinsDisplay').textContent = state.coins;
+            document.getElementById('xpDisplay').textContent = state.xp;
+            document.getElementById('levelDisplay').textContent = state.level;
+            document.getElementById('shopCoins').textContent = state.coins;
+            document.getElementById('homeLevel').textContent = state.level;
+            document.getElementById('homeCoins').textContent = state.coins;
+            document.getElementById('homeXP').textContent = state.totalXP;
         }
 
-        function checkDailyStreak() {
-            const today = new Date().toDateString();
-            const yesterday = new Date(Date.now()-86400000).toDateString();
-            if(state.lastVisit !== today) {
-                if(state.lastVisit !== yesterday) state.streak = 0;
-                state.streak++;
-                state.coins += state.streak * 10;
-                showToast(`🔥 Streak ${state.streak} dia(s)! +${state.streak*10}🪙`, 'reward');
-            }
-            state.lastVisit = today;
-            localStorage.setItem('geekieLastVisit', today);
-            localStorage.setItem('geekieStreak', state.streak);
-            saveProgress();
-        }
-
-        function saveProgress() {
+        function saveState() {
             localStorage.setItem('geekieCoins', state.coins);
             localStorage.setItem('geekieXP', state.xp);
             localStorage.setItem('geekieLevel', state.level);
             localStorage.setItem('geekieTotalXP', state.totalXP);
-            localStorage.setItem('geekieSessions', state.sessions);
-            localStorage.setItem('geekieStudyMinutes', state.studyMinutes);
-            localStorage.setItem('geekieStreak', state.streak);
-            localStorage.setItem('geekieOwnedThemes', JSON.stringify(state.ownedThemes));
-            localStorage.setItem('geekieOwnedItems', JSON.stringify(state.ownedItems));
-            localStorage.setItem('geekieAchievements', JSON.stringify(state.achievements));
         }
 
-        function updateAllDisplays() {
-            document.getElementById('coinsDisplay').textContent = state.coins.toLocaleString();
-            document.getElementById('xpDisplay').textContent = state.xp.toLocaleString();
-            document.getElementById('levelDisplay').textContent = state.level;
-            document.getElementById('shopCoins').textContent = state.coins.toLocaleString();
-            document.getElementById('homeLevel').textContent = state.level;
-            document.getElementById('homeCoins').textContent = state.coins.toLocaleString();
-            document.getElementById('homeStreak').textContent = state.streak;
-            document.getElementById('homeXP').textContent = state.totalXP.toLocaleString();
-            document.getElementById('homeSessions').textContent = state.sessions;
-            document.getElementById('homeHours').textContent = formatTime(state.studyMinutes);
-            document.getElementById('homeThemes').textContent = state.ownedThemes.length;
-            document.getElementById('homeBadges').textContent = state.achievements.length;
+        // ============================================
+        // RENDERIZAÇÃO DE CONTEÚDO
+        // ============================================
+        
+        function renderHome() {
+            // Missões
+            const missionsContainer = document.getElementById('homeMissions');
+            missionsContainer.innerHTML = `
+                <div class="mission-item">
+                    <div class="mission-header">
+                        <span class="mission-title">Estudar 30 minutos</span>
+                        <span class="mission-reward">+50 XP</span>
+                    </div>
+                    <div class="mission-progress">
+                        <div class="mission-progress-bar" style="width: 60%"></div>
+                    </div>
+                    <div class="mission-status">Progresso: 18/30 minutos</div>
+                </div>
+                <div class="mission-item completed">
+                    <div class="mission-header">
+                        <span class="mission-title">Completar 1 sessão</span>
+                        <span class="mission-reward">+20 XP ✓</span>
+                    </div>
+                    <div class="mission-progress">
+                        <div class="mission-progress-bar" style="width: 100%"></div>
+                    </div>
+                    <div class="mission-status">Concluído! ✅</div>
+                </div>
+                <div class="mission-item">
+                    <div class="mission-header">
+                        <span class="mission-title">Usar ferramentas 5x</span>
+                        <span class="mission-reward">+30 XP</span>
+                    </div>
+                    <div class="mission-progress">
+                        <div class="mission-progress-bar" style="width: 40%"></div>
+                    </div>
+                    <div class="mission-status">Progresso: 2/5 usos</div>
+                </div>
+            `;
+
+            // Temas disponíveis
+            const themesGrid = document.getElementById('homeThemesGrid');
+            themesGrid.innerHTML = `
+                <div style="background: linear-gradient(135deg, #00ff88, #00d4ff); padding: 15px; border-radius: 12px; text-align: center; cursor: pointer;" onclick="changeTheme('default')">
+                    <div style="font-size: 24px;">🌿</div>
+                    <div style="font-size: 11px; font-weight: 600; color: #000;">Default</div>
+                </div>
+                <div style="background: linear-gradient(135deg, #0077be, #00d4ff); padding: 15px; border-radius: 12px; text-align: center; cursor: pointer;" onclick="changeTheme('ocean')">
+                    <div style="font-size: 24px;">🌊</div>
+                    <div style="font-size: 11px; font-weight: 600; color: #fff;">Ocean</div>
+                </div>
+                <div style="background: linear-gradient(135deg, #ff6b35, #f7931e); padding: 15px; border-radius: 12px; text-align: center; cursor: pointer;" onclick="changeTheme('sunset')">
+                    <div style="font-size: 24px;">🌅</div>
+                    <div style="font-size: 11px; font-weight: 600; color: #fff;">Sunset</div>
+                </div>
+                <div style="background: linear-gradient(135deg, #22c55e, #84cc16); padding: 15px; border-radius: 12px; text-align: center; cursor: pointer;" onclick="changeTheme('forest')">
+                    <div style="font-size: 24px;">🌲</div>
+                    <div style="font-size: 11px; font-weight: 600; color: #fff;">Forest</div>
+                </div>
+                <div style="background: linear-gradient(135deg, #a855f7, #ec4899); padding: 15px; border-radius: 12px; text-align: center; cursor: pointer;" onclick="changeTheme('royal')">
+                    <div style="font-size: 24px;">👑</div>
+                    <div style="font-size: 11px; font-weight: 600; color: #fff;">Royal</div>
+                </div>
+                <div style="background: linear-gradient(135deg, #ff4500, #ff6347); padding: 15px; border-radius: 12px; text-align: center; cursor: pointer;" onclick="changeTheme('fire-dragon')">
+                    <div style="font-size: 24px;">🐉</div>
+                    <div style="font-size: 11px; font-weight: 600; color: #fff;">Fire Dragon</div>
+                </div>
+            `;
         }
 
-        function formatTime(mins) {
-            const h = Math.floor(mins/60), m = mins%60;
-            return h > 0 ? `${h}h${m}m` : `${m}m`;
+        function changeTheme(themeName) {
+            document.body.setAttribute('data-theme', themeName);
+            localStorage.setItem('selectedTheme', themeName);
+            showToast(`🎨 Tema alterado: ${themeName}`, 'info');
         }
 
-        function applyTheme() {
-            if(state.ownedThemes.includes(state.theme)) {
-                document.body.setAttribute('data-theme', state.theme);
-            }
+        function renderShop() {
+            const shopGrid = document.getElementById('shopGrid');
+            shopGrid.innerHTML = `
+                <div class="shop-item">
+                    <div class="item-preview">🌌</div>
+                    <div class="item-name">Tema Galaxy Premium</div>
+                    <div class="item-desc">Animação galáxia rotativa com cores vibrantes</div>
+                    <div class="item-footer">
+                        <div class="item-price"><i class="fas fa-coins"></i> 500</div>
+                        <button class="buy-btn" onclick="buyItem('galaxy-premium', 500)">Comprar</button>
+                    </div>
+                </div>
+                <div class="shop-item">
+                    <div class="item-preview">⚡</div>
+                    <div class="item-name">Booster XP 2x</div>
+                    <div class="item-desc">Dobre seu ganho de XP por 1 hora</div>
+                    <div class="item-footer">
+                        <div class="item-price"><i class="fas fa-coins"></i> 200</div>
+                        <button class="buy-btn" onclick="buyItem('booster-2x', 200)">Comprar</button>
+                    </div>
+                </div>
+                <div class="shop-item">
+                    <div class="item-preview">🏆</div>
+                    <div class="item-name">Badge Estudante VIP</div>
+                    <div class="item-desc">Badge exclusiva para seu perfil</div>
+                    <div class="item-footer">
+                        <div class="item-price"><i class="fas fa-coins"></i> 1000</div>
+                        <button class="buy-btn" onclick="buyItem('badge-vip', 1000)">Comprar</button>
+                    </div>
+                </div>
+            `;
         }
 
-        function changeThemeByName(name) {
-            if(state.ownedThemes.includes(name)) {
-                document.body.setAttribute('data-theme', name);
-                state.theme = name;
-                localStorage.setItem('selectedTheme', name);
-                showToast(`Tema: ${name}!`, 'success');
+        function buyItem(itemId, price) {
+            if (state.coins >= price) {
+                state.coins -= price;
+                state.ownedItems.push(itemId);
+                saveState();
+                updateStatsDisplay();
+                showToast(`🛒 Item comprado: ${itemId}!`, 'reward');
+                renderShop();
             } else {
-                switchTab('shop');
-                showToast('Compre este tema na loja!', 'info');
+                showToast('❌ Moedas insuficientes!', 'error');
             }
         }
 
-        // ============================================
-        // TOAST SYSTEM
-        // ============================================
-        function showToast(msg, type='info') {
-            const c = document.getElementById('toastContainer');
-            const t = document.createElement('div');
-            t.className = `toast ${type}`;
-            const icons = {success:'✅',error:'❌',info:'ℹ️',warning:'⚠️',reward:'🎁'};
-            t.innerHTML = `<span>${icons[type]}</span> ${msg}`;
-            c.appendChild(t);
-            setTimeout(()=>{t.style.animation='fadeOut 0.4s forwards';setTimeout(()=>t.remove(),400)},3500);
+        function filterShop(category) {
+            document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            renderShop();
         }
 
-        // Add fadeOut style
-        const s = document.createElement('style');
-        s.textContent = '@keyframes fadeOut{to{opacity:0;transform:translateX(100%)}}';
-        document.head.appendChild(s);
+        function renderAchievements() {
+            const grid = document.getElementById('achievementsGrid');
+            const achievements = [
+                { icon: '🎓', name: 'Primeiros Passos', desc: 'Acesse o portal pela primeira vez', reward: '+50 XP', unlocked: true },
+                { icon: '📚', name: 'Estudante Dedicação', desc: 'Estude por 1 hora total', reward: '+100 XP', unlocked: false },
+                { icon: '🔥', name: 'Streak Master', desc: '7 dias seguidos de estudo', reward: '+500 XP', unlocked: false },
+                { icon: '💰', name: 'Colecionador', desc: 'Acumule 1000 moedas', reward: '+200 XP', unlocked: false },
+                { icon: '⭐', name: 'Nível 10', desc: 'Alcance o nível 10', reward: '+1000 XP', unlocked: false },
+                { icon: '🎯', name: 'Foco Total', desc: 'Complete 10 sessões Pomodoro', reward: '+300 XP', unlocked: false }
+            ];
+
+            grid.innerHTML = achievements.map(ach => `
+                <div class="achievement-card ${ach.unlocked ? 'unlocked' : 'locked'}">
+                    <div class="achievement-icon">${ach.icon}</div>
+                    <div class="achievement-name">${ach.name}</div>
+                    <div class="achievement-desc">${ach.desc}</div>
+                    <div class="achievement-reward">${ach.reward}</div>
+                </div>
+            `).join('');
+        }
+
+        function markAllRead() {
+            state.notificationsRead = ['all'];
+            localStorage.setItem('notificationsRead', JSON.stringify(state.notificationsRead));
+            document.getElementById('notifBadge').style.display = 'none';
+            showToast('✅ Todas as notificações marcadas como lidas!', 'success');
+        }
 
         // ============================================
-        // KEYBOARD SHORTCUTS
+        // MODO FOCO
         // ============================================
-        document.addEventListener('keydown', (e) => {
-            if((e.ctrlKey||e.metaKey) && e.key==='1') {e.preventDefault();switchTab('home');}
-            if((e.ctrlKey||e.metaKey) && e.key==='2') {e.preventDefault();switchTab('geekie');}
-            if((e.ctrlKey||e.metaKey) && e.key==='3') {e.preventDefault();switchTab('shop');}
-            if((e.ctrlKey||e.metaKey) && e.key==='4') {e.preventDefault();switchTab('tools');}
-            if((e.ctrlKey||e.metaKey) && e.key==='5') {e.preventDefault();switchTab('achievements');}
-            if((e.ctrlKey||e.metaKey) && e.key==='6') {e.preventDefault();switchTab('notifications');}
-            if(e.key==='Escape') {document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));document.getElementById('tab-home').classList.add('active');if(state.focusMode)exitFocusMode();}
-            if(e.key==='F11') {e.preventDefault();openFullscreen();}
-        });
+        
+        function startFocusMode() {
+            document.getElementById('focusOverlay').classList.add('active');
+            addXP(CONFIG.FOCUS_XP);
+            showToast('🎯 Modo Foco ativado! +50 XP', 'reward');
+        }
 
-        // Visibility API
-        document.addEventListener('visibilitychange', () => { state.isActive = !document.hidden; });
+        function exitFocusMode() {
+            document.getElementById('focusOverlay').classList.remove('active');
+            showToast('✅ Modo Foco finalizado!', 'info');
+        }
 
-        // Easter Egg
-        let kc=[];const ks=['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
-        document.addEventListener('keydown',(e)=>{
-            kc.push(e.key);kc=kc.slice(-10);
-            if(kc.join(',')===ks.join(',')){
-                addXP(5000);state.coins+=9999;saveProgress();updateAllDisplays();
-                showToast('🎮 CHEAT CODE! +9999🪙 +5000XP!','reward');
-                document.body.style.animation='rainbow 5s linear infinite';
-                const rs=document.createElement('style');rs.id='rm';
-                rs.textContent='@keyframes rainbow{0%{filter:hue-rotate(0deg)}100%{filter:hue-rotate(360deg)}}';
-                if(!document.getElementById('rm'))document.head.appendChild(rs);
-                setTimeout(()=>{document.body.style.animation='';const el=document.getElementById('rm');if(el)el.remove();},5000);
+        // ============================================
+        // INICIALIZAÇÃO
+        // ============================================
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('🚀 Geekie Portal v5.0 + Caracteres carregado!');
+            
+            // Criar partículas de fundo
+            const bg = document.querySelector('.particles-bg');
+            if (bg) {
+                for (let i = 0; i < 30; i++) {
+                    const p = document.createElement('div');
+                    p.className = 'particle';
+                    p.style.left = Math.random() * 100 + 'vw';
+                    p.style.top = Math.random() * 100 + 'vh';
+                    p.style.animationDelay = Math.random() * 10 + 's';
+                    bg.appendChild(p);
+                }
             }
+
+            // Carregar estado salvo
+            updateStatsDisplay();
+            
+            // Renderizar aba inicial
+            renderHome();
+
+            // Ganho passivo de XP
+            state.xpInterval = setInterval(() => {
+                if (state.isActive) {
+                    addXP(CONFIG.XP_PER_SECOND);
+                }
+            }, 1000);
+
+            console.log('✅ Portal pronto! Todos os sistemas operacionais.');
         });
 
-        // Initialize
-        window.addEventListener('load', init);
-
-        console.log(`
-%c╔═════════════════════════════════════════════════╗
-║     🚀 GEEKIE ONE ULTRA MASTER v5.0             ║
-║        Sistema de Abas + Notificações           ║
-╠═════════════════════════════════════════════════╣
-║  📑 6 Abas Completas:                          ║
-║     • Início (Dashboard)                       ║
-║     • Geekie One (Embed)                       ║
-║     • Loja (Temas/Boosters)                    ║
-║     • Ferramentas (Timer/Calc/Notes/Foco)      ║
-║     • Conquistas (10 Badges)                   ║
-║     • Notificações (Update Log)                ║
-╠═════════════════════════════════════════════════╣
-║  ⌨️  Atalhos: Ctrl+1 a Ctrl+6 para abas       ║
-║  🎮 Konami Code: ↑↑↓↓←→←→BA                   ║
-╚═════════════════════════════════════════════════╝
-        `, 'color:#00ff88;font-family:monospace;font-size:11px;background:#0a0e27;padding:10px;border-radius:5px;');
+        // Prevenir erros globais
+        window.onerror = function(msg, url, line) {
+            console.error('❌ Erro detectado:', msg, 'na linha', line);
+            return false;
+        };
     </script>
 </body>
 </html>
