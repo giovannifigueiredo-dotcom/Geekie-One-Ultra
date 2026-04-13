@@ -39,7 +39,7 @@
         
         /* Partículas */
         .particles-bg {
-            position: fixed; top: 0; left:; width: 100%; height: 100%;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: -1; overflow: hidden;
         }
         .particle {
@@ -141,7 +141,7 @@
             background: rgba(255, 255, 255, 0.03); border: 2px solid transparent;
             border-radius: 12px; color: var(--text-secondary); cursor: pointer;
             font-family: 'Inter', sans-serif; font-weight: 600; font-size: 14px;
-            transition: all 0.3s ease; white-space: nowrap;
+            transition: all 0.3s ease; white-space: nowrap; position: relative;
         }
         .tab-button:hover {
             background: rgba(255, 255, 255, 0.06); color: var(--text-primary);
@@ -318,7 +318,7 @@
         .tool-card:hover { border-color: var(--primary); box-shadow: var(--shadow-glow); transform: translateY(-5px); }
         .tool-card.featured {
             border: 2px solid var(--gold);
-            background: linear-gradient(135deg, rgba(255, 215, 0.05) 0%, rgba(255, 170, 0.02) 100%);
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.05) 0%, rgba(255, 170, 0, 0.02) 100%);
         }
         .tool-header {
             display: flex; justify-content: space-between; align-items: center;
@@ -369,7 +369,7 @@
             background: rgba(255, 255, 255, 0.05); padding: 8px 16px;
             border-radius: 10px; font-size: 0.85rem; color: var(--text-secondary);
         }
-        .session-stat strong { color: var(--gold); font-family: 'Orbitron'; }
+        .session-stat strong { color: var(--gold); font-family: 'Orbitron', sans-serif; }
         .timer-controls { display: flex; justify-content: center; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
         .timer-btn-main {
             padding: 16px 40px; background: var(--gradient-1); border: none; border-radius: 14px;
@@ -386,7 +386,7 @@
         }
         .timer-btn-secondary:hover { background: var(--primary); color: var(--bg-primary); border-color: var(--primary); }
         .timer-presets {
-            display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
         }
         .preset-btn {
             padding: 12px; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-color);
@@ -418,7 +418,7 @@
             margin-top: 12px; flex-wrap: wrap; gap: 10px;
         }
         .notes-count { font-size: 12px; color: var(--text-secondary); }
-        .notes-count strong { color: var(--primary); font-family: 'Orbitron'; }
+        .notes-count strong { color: var(--primary); font-family: 'Orbitron', sans-serif; }
         .notes-actions { display: flex; gap: 10px; }
 
         /* CALCULATOR */
@@ -431,7 +431,7 @@
             margin-bottom: 8px; min-height: 18px; word-break: break-all;
         }
         .calc-result {
-            font-family: 'Fire Code', monospace; font-size: 2.8rem; font-weight: 700; color: var(--primary);
+            font-family: 'Fira Code', monospace; font-size: 2.8rem; font-weight: 700; color: var(--primary);
         }
         .calc-buttons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
         .calc-btn {
@@ -631,7 +631,7 @@
             margin-bottom: 25px; flex-wrap: wrap; gap: 15px;
         }
         .notifications-title {
-            font-family: '; font-size: 1.8rem; font-weight: 800;
+            font-family: 'Orbitron', sans-serif; font-size: 1.8rem; font-weight: 800;
             color: var(--text-primary); display: flex; align-items: center; gap: 12px;
         }
         .notifications-title i { color: var(--primary); font-size: 2rem; }
@@ -641,6 +641,17 @@
             font-weight: 600; font-size: 13px; transition: all 0.3s ease;
         }
         .clear-notifications-btn:hover { background: #ef4444; color: white; }
+
+        .stats-summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 25px; }
+        .summary-stat {
+            background: var(--bg-card); backdrop-filter: blur(25px);
+            border: 1px solid var(--border-color); border-radius: 16px;
+            padding: 20px; text-align: center; transition: all 0.3s ease;
+        }
+        .summary-stat:hover { border-color: var(--primary); transform: scale(1.02); }
+        .summary-stat-icon { font-size: 28px; margin-bottom: 8px; }
+        .summary-stat-value { font-family: 'Orbitron', sans-serif; font-size: 1.8rem; font-weight: 800; color: var(--primary); }
+        .summary-stat-label { font-size: 0.8rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; }
 
         .update-log-list { display: flex; flex-direction: column; gap: 20px; }
         .update-log-entry {
@@ -674,8 +685,9 @@
         }
         .update-type.major { background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: white; }
         .update-type.minor { background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: white; }
-        .patch { background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); color: white; }
-        .hotfix { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white; }
+        .update-type.patch { background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); color: white; }
+        .update-type.hotfix { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white; }
+        .update-type.release { background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); color: white; }
         .update-title {
             font-family: 'Poppins', sans-serif; font-size: 1.15rem; font-weight: 700;
             color: var(--text-primary); margin-bottom: 12px;
@@ -697,6 +709,27 @@
             background: var(--gradient-gold); color: #000; padding: 5px 12px;
             border-radius: 8px; font-size: 11px; font-weight: 800;
             animation: pulse 2s infinite;
+        }
+
+        /* SHOP */
+        .shop-categories { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+        .category-btn {
+            padding: 10px 20px; background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color); border-radius: 10px;
+            color: var(--text-secondary); cursor: pointer; font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .category-btn:hover, .category-btn.active {
+            background: var(--gradient-1); color: #000; border-color: transparent;
+        }
+        .shop-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 16px; }
+
+        /* COPY FEEDBACK */
+        .copy-feedback {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            background: var(--gradient-1); color: #000; padding: 15px 30px;
+            border-radius: 12px; font-weight: 800; font-size: 16px;
+            z-index: 10000; display: none; box-shadow: 0 10px 40px rgba(0, 255, 136, 0.5);
         }
 
         /* FOCUS OVERLAY */
@@ -737,8 +770,8 @@
         }
         .toast.success { background: linear-gradient(135deg, rgba(16, 185, 129, 0.95) 0%, rgba(5, 150, 105, 0.95) 100%); border-left-color: #10b981; }
         .toast.error { background: linear-gradient(135deg, rgba(239, 68, 68, 0.95) 0%, rgba(220, 38, 38, 0.95) 100%); border-left-color: #ef4444; }
-        .toast.info { background: linear-gradient(135deg, rgba(99, 102, 241, 0.95) 0%, rgba(79, 70, 229, 0.95) 0%, rgba(79, 70, 229, 1) 100%); border-left-color: #6366f1; }
-        .reward { background: linear-gradient(135deg, rgba(255, 215, 0, 0.95) 0%, rgba(255, 170, 0, 0.95) 0%, 0); color: #000; border-left-color: #ffd700; }
+        .toast.info { background: linear-gradient(135deg, rgba(99, 102, 241, 0.95) 0%, rgba(79, 70, 229, 0.95) 100%); border-left-color: #6366f1; }
+        .toast.reward { background: linear-gradient(135deg, rgba(255, 215, 0, 0.95) 0%, rgba(255, 170, 0, 0.95) 100%); color: #000; border-left-color: #ffd700; }
         @keyframes toastIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
         @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
 
@@ -776,6 +809,7 @@
             transition: all 0.3s ease;
             display: flex; align-items: center; justify-content: center; font-size: 20px;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+            position: relative;
         }
         .dock-btn:hover { background: var(--gradient-1); transform: translateY(-5px) scale(1.1); box-shadow: var(--shadow-glow); }
         .dock-btn .notification-dot {
@@ -792,7 +826,7 @@
             margin-top: 30px;
         }
         .footer-icons { display: flex; justify-content: center; gap: 20px; margin-bottom: 15px; }
-        .footer-icons a { color: var(--text-secondary); font-size: 1.5rem; transition: all 0.3s ease; }
+        .footer-icons a { color: var(--text-secondary); font-size: 1.5rem; transition: all 0.3s ease; text-decoration: none; }
         .footer-icons a:hover { color: var(--primary); transform: translateY(-3px) scale(1.2); }
 
         /* RESPONSIVE */
@@ -805,9 +839,8 @@
             .pomodoro-display { padding: 25px 15px; }
             .timer-time-big { font-size: 2.5rem; }
             .timer-circle { width: 140px; height: 140px; }
-            .char-grid { grid-template-columns: repeat(auto-fill, minmax(60px, 1fr); }
+            .char-grid { grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); }
             .goals-section { grid-column: span 1; }
-            .tools-grid { grid-template-columns: 1fr; }
         }
         @media (max-width: 768px) {
             .container { padding: 10px; }
@@ -821,7 +854,6 @@
             .pomodoro-display { padding: 20px 12px; }
             .timer-time-big { font-size: 2rem; }
             .timer-circle { width: 120px; height: 120px; }
-            .timer-circle { width: 140px; height: 120px; }
             .focus-timer { font-size: 4rem; }
             .focus-message { font-size: 1.1rem; }
             .focus-exit { padding: 14px 35px; font-size: 14px; }
@@ -838,43 +870,21 @@
             .calc-result { font-size: 2.2rem; }
             .calc-buttons { grid-template-columns: repeat(4, 1fr); gap: 8px; }
             .calc-btn { padding: 14px; font-size: 16px; }
-            .calc-btn.equals { grid-column: span 2; }
-            .calc-btn.clear { grid-column: span 2; }
             .focus-options { grid-template-columns: 1fr; }
-            .focus-option { padding: 20px 12px; }
-            .focus-start-btn { width: 100%; padding: 16px; font-size: 14px; }
             .goals-header { flex-direction: column; align-items: stretch; gap: 10px; }
             .goals-title { font-size: 1.2rem; }
             .add-goal-btn { width: 100%; padding: 12px; font-size: 13px; }
             .goals-list { max-height: 280px; overflow-y: auto; }
-            .goal-item { padding: 14px; }
-            .goal-content { flex: 1; }
-            .goal-meta { flex-wrap: wrap; font-size: 11px; }
-            .goal-delete { background: none; border: 2px solid #ddd; color: #666; font-size: 16px; padding: 5px; cursor: pointer; }
             .char-categories { flex-wrap: wrap; }
             .char-category-btn { padding: 10px 18px; font-size: 12px; }
             .search-characters { flex: 1; min-width: 200px; max-width: 350px; }
-            .achievements-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr); gap: 14px; }
+            .achievements-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
             .achievement-card { padding: 20px; }
             .achievement-icon { font-size: 42px; }
             .achievement-name { font-size: 0.95rem; }
-            .achievement-desc { font-size: 11px; }
-            .achievement-reward { font-size: 0.95rem; }
             .update-log-entry { padding: 20px; }
             .update-log-header { flex-direction: column; align-items: flex-start; gap: 10px; }
             .update-version { font-size: 1.1rem; }
-            .update-date { font-size: 0.85rem; }
-            .update-type { font-size: 0.85rem; }
-            .update-title { font-size: 1rem; }
-            .update-description { font-size: 0.9rem; }
-            .update-features { font-size: 0.85rem; }
-            .notification-badge-new { position: absolute; top: 15px; right: 15px; background: var(--gradient-gold); color: #000; padding: 5px 12px; border-radius: 8px; font-size: 10px; font-weight: 800; animation: pulse 2s infinite; }
-            .stats-summary { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 25px; }
-            .summary-stat { background: var(--bg-card); backdrop-filter: blur(25px); border: 1px solid var(--border-color); border-radius: 16px; padding: 20px; text-align: center; transition: all 0.3s ease; }
-            .summary-stat:hover { border-color: var(--primary); transform: scale(1.02); }
-            .summary-stat-icon { font-size: 28px; margin-bottom: 8px; }
-            .summary-stat-value { font-family: 'Orbitron', sans-serif; font-size: 1.8rem; font-weight: 800; color: var(--primary); }
-            .summary-stat-label { font-size: 0.8rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; }
         }
     </style>
 </head>
@@ -924,12 +934,15 @@
                 <div class="stat-item" title="Moedas">
                     <i class="fas fa-coins stat-icon"></i>
                     <div><div class="stat-value" id="coinsDisplay">0</div><div class="stat-label">Moedas</div></div>
+                </div>
                 <div class="stat-item" title="Experiência">
                     <i class="fas fa-star stat-icon"></i>
                     <div><div class="stat-value" id="xpDisplay">0</div><div class="stat-label">XP</div></div>
+                </div>
                 <div class="stat-item" title="Tempo de Estudo Hoje">
                     <i class="fas fa-clock stat-icon"></i>
                     <div><div class="stat-value" id="todayStudyTime">0h</div><div class="stat-label">Hoje</div></div>
+                </div>
                 <div class="level-badge" onclick="switchTab('achievements')" title="Ver Conquistas">
                     <i class="fas fa-crown"></i> Nível <span id="levelDisplay">1</span>
                 </div>
@@ -955,11 +968,9 @@
             </button>
             <button class="tab-button" data-tab="tools" onclick="switchTab('tools')">
                 <i class="fas fa-tools"></i> <span>Ferramentas</span>
-                <span class="tab-badge" style="display:none;">NOVO!</span>
             </button>
             <button class="tab-button" data-tab="characters" onclick="switchTab('characters')">
                 <i class="fas fa-font"></i> <span>Caracteres</span>
-                <span class="tab-badge" style="display:none;">✨</span>
             </button>
             <button class="tab-button" data-tab="achievements" onclick="switchTab('achievements')">
                 <i class="fas fa-trophy"></i> <span>Conquistas</span>
@@ -1049,7 +1060,7 @@
                     </div>
                 </div>
 
-                <!-- Free Themes Preview -->
+                <!-- Themes Preview -->
                 <div class="home-card">
                     <h3 class="home-card-title"><i class="fas fa-palette"></i> Temas Disponíveis</h3>
                     <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;" id="homeThemesGrid"></div>
@@ -1169,23 +1180,24 @@
                             <button class="preset-btn" onclick="setTimer(90)">1.5h</button>
                         </div>
                     </div>
+                </div>
                     
-                    <!-- SMART NOTES -->
-                    <div class="tool-card">
-                        <div class="tool-header">
-                            <h3 class="tool-title"><i class="fas fa-sticky-note"></i> Notas Inteligentes</h3>
-                            <span class="tool-badge">+5 XP/save</span>
-                        </div>
-                        
-                        <div class="notes-toolbar">
-                            <button class="notes-tool-btn" onclick="formatText('bold')" title="Negrito"><i class="fas fa-bold"></i></button>
-                            <button class="notes-tool-btn" onclick="formatText('italic')" title="Itálico"><i class="fas fa-italic"></i></button>
-                            <button class="notes-tool-btn" onclick="formatText('list')" title="Lista"><i class="fas fa-list-ul"></i></button>
-                            <button class="notes-tool-btn" onclick="insertDate()" title="Inserir Data/Hora"><i class="fas fa-calendar-alt"></i></button>
-                            <button class="notes-tool-btn" onclick="clearNotes()" title="Limpar"><i class="fas fa-trash"></i></button>
-                        </div>
-                        
-                        <textarea class="notes-area" id="notesArea" placeholder="📝 Escreva suas anotações de estudo aqui...
+                <!-- SMART NOTES -->
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <h3 class="tool-title"><i class="fas fa-sticky-note"></i> Notas Inteligentes</h3>
+                        <span class="tool-badge">+5 XP/save</span>
+                    </div>
+                    
+                    <div class="notes-toolbar">
+                        <button class="notes-tool-btn" onclick="formatText('bold')" title="Negrito"><i class="fas fa-bold"></i></button>
+                        <button class="notes-tool-btn" onclick="formatText('italic')" title="Itálico"><i class="fas fa-italic"></i></button>
+                        <button class="notes-tool-btn" onclick="formatText('list')" title="Lista"><i class="fas fa-list-ul"></i></button>
+                        <button class="notes-tool-btn" onclick="insertDate()" title="Inserir Data/Hora"><i class="fas fa-calendar-alt"></i></button>
+                        <button class="notes-tool-btn" onclick="clearNotes()" title="Limpar"><i class="fas fa-trash"></i></button>
+                    </div>
+                    
+                    <textarea class="notes-area" id="notesArea" placeholder="📝 Escreva suas anotações de estudo aqui...
 
 💡 DICAS DE ESTUDO:
 • Resuma os pontos principais do conteúdo
@@ -1194,106 +1206,108 @@
 • Use formatação para organizar
 
 ⭐ Salve para ganhar XP automaticamente!"></textarea>
-                        
-                        <div class="notes-footer">
-                            <div class="notes-count">
-                                <span><strong id="notesCharCount">0</strong> caracteres</span>
-                                <span style="margin-left: 10px;"><strong id="notesWordCount">0</strong> palavras</span>
-                            </div>
-                            <div class="notes-actions">
-                                <button class="action-btn" onclick="saveNotes()"><i class="fas fa-save"></i> Salvar</button>
-                                <button class="action-btn secondary" onclick="exportNotes()"><i class="fas fa-download"></i> Exportar</button>
-                            </div>
+                    
+                    <div class="notes-footer">
+                        <div class="notes-count">
+                            <span><strong id="notesCharCount">0</strong> caracteres</span>
+                            <span style="margin-left: 10px;"><strong id="notesWordCount">0</strong> palavras</span>
+                        </div>
+                        <div class="notes-actions">
+                            <button class="action-btn" onclick="saveNotes()"><i class="fas fa-save"></i> Salvar</button>
+                            <button class="action-btn secondary" onclick="exportNotes()"><i class="fas fa-download"></i> Exportar</button>
                         </div>
                     </div>
+                </div>
                     
-                    <!-- CALCULADORA -->
-                    <div class="tool-card">
-                        <div class="tool-header">
-                            <h3 class="tool-title"><i class="fas fa-calculator"></i> Calculadora Científica</h3>
-                            <span class="tool-badge">+1 XP/uso</span>
-                        </div>
-                        <div class="calc-display">
-                            <div class="calc-expression" id="calcExpression"></div>
-                            <div class="calc-result" id="calcResult">0</div>
-                        </div>
-                        <div class="calc-buttons">
-                            <button class="calc-btn clear" onclick="calcClear()">C</button>
-                            <button class="calc-btn operator" onclick="calcInput('(')">(</button>
-                            <button class="calc-btn operator" onclick="calcInput(')">(</button>
-                            <button class="calc-btn operator" onclick="calcInput('*')">×</button>
-                            <button class="calc-btn operator" onclick="calcInput('/')">÷</button>
-                            <button class="calc-btn number" onclick="calcInput('7')">7</button>
-                            <button class="calc-btn number" onclick="calcInput('8')">8</button>
-                            <button class="calc-btn number" onclick="calcInput('9')">9</button>
-                            <button class="calc-btn operator" onclick="calcInput('-')">−</button>
-                            <button class="calc-btn number" onclick="calcInput('4')">4</button>
-                            <button class="calc-btn number" onclick="calcInput('5')">5</button>
-                            <button class="calc-btn number" onclick="calcInput('6')">6</button>
-                            <button class="calc-btn number" onclick="calcInput('1')">1</button>
-                            <button class="calc-btn number" onclick="calcInput('0')">0</button>
-                            <button class="calc-btn equals" onclick="calculate()">=</button>
-                            <button class="calc-btn equals" style="grid-column: span 2;">C</button>
-                        </div>
+                <!-- CALCULADORA -->
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <h3 class="tool-title"><i class="fas fa-calculator"></i> Calculadora Científica</h3>
+                        <span class="tool-badge">+1 XP/uso</span>
+                    </div>
+                    <div class="calc-display">
+                        <div class="calc-expression" id="calcExpression"></div>
+                        <div class="calc-result" id="calcResult">0</div>
+                    </div>
+                    <div class="calc-buttons">
+                        <button class="calc-btn clear" onclick="calcClear()">C</button>
+                        <button class="calc-btn operator" onclick="calcInput('(')">(</button>
+                        <button class="calc-btn operator" onclick="calcInput(')')">)</button>
+                        <button class="calc-btn operator" onclick="calcInput('/')">÷</button>
+                        <button class="calc-btn number" onclick="calcInput('7')">7</button>
+                        <button class="calc-btn number" onclick="calcInput('8')">8</button>
+                        <button class="calc-btn number" onclick="calcInput('9')">9</button>
+                        <button class="calc-btn operator" onclick="calcInput('*')">×</button>
+                        <button class="calc-btn number" onclick="calcInput('4')">4</button>
+                        <button class="calc-btn number" onclick="calcInput('5')">5</button>
+                        <button class="calc-btn number" onclick="calcInput('6')">6</button>
+                        <button class="calc-btn operator" onclick="calcInput('-')">−</button>
+                        <button class="calc-btn number" onclick="calcInput('1')">1</button>
+                        <button class="calc-btn number" onclick="calcInput('2')">2</button>
+                        <button class="calc-btn number" onclick="calcInput('3')">3</button>
+                        <button class="calc-btn operator" onclick="calcInput('+')">+</button>
+                        <button class="calc-btn number" onclick="calcInput('0')" style="grid-column: span 2;">0</button>
+                        <button class="calc-btn equals" onclick="calculate()">=</button>
+                    </div>
+                </div>
+                    
+                <!-- FOCUS MODE ADVANCED -->
+                <div class="tool-card focus-mode-card">
+                    <div class="tool-header">
+                        <h3 class="tool-title"><i class="fas fa-crosshairs"></i> Modo Foco Profundo</h3>
+                        <span class="tool-badge" style="background: var(--gradient-2);">+50 XP bônus</span>
                     </div>
                     
-                    <!-- FOCUS MODE ADVANCED -->
-                    <div class="tool-card focus-mode-card">
-                        <div class="tool-header">
-                            <h3 class="tool-title"><i class="fas fa-crosshairs"></i> Modo Foco Profundo</h3>
-                            <span class="tool-badge" style="background: var(--gradient-2);">+50 XP bônus</span>
+                    <div style="text-align: center; padding: 25px 0;">
+                        <i class="fas fa-brain" style="font-size: 64px; color: var(--primary); margin-bottom: 15px;"></i>
+                        <p style="color: var(--text-secondary); margin-bottom: 25px; line-height: 1.6;">
+                            Entre em um estado de concentração máxima.<br>
+                            Elimine distrações e mergulhe nos estudos.<br>
+                            <strong>Foco no presente. Você consegue!</strong>
+                        </p>
+                        
+                        <div class="focus-options">
+                            <div class="focus-option selected" onclick="selectFocusMode('standard')">
+                                <i class="fas fa-eye"></i>
+                                <div class="focus-option-title">Padrão</div>
+                                <div class="focus-option-desc">Timer + estatísticas</div>
+                            </div>
+                            <div class="focus-option" onclick="selectFocusMode('zen')">
+                                <i class="fas fa-spa"></i>
+                                <div class="focus-option-title">Zen Mode</div>
+                                <div class="focus-option-desc">Minimalista e calmo</div>
+                            </div>
+                            <div class="focus-option" onclick="selectFocusMode('hardcore')">
+                                <i class="fas fa-fire"></i>
+                                <div class="focus-option-title">Hardcore</div>
+                                <div class="focus-option-desc">Máxima concentração</div>
+                            </div>
+                            <div class="focus-option" onclick="selectFocusMode('music')">
+                                <i class="fas fa-music"></i>
+                                <div class="focus-option-title">Com Música</div>
+                                <div class="focus-option-desc">Ambiente relaxante</div>
+                            </div>
                         </div>
                         
-                        <div style="text-align: center; padding: 25px 0;">
-                            <i class="fas fa-brain" style="font-size: 64px; color: var(--primary); margin-bottom: 15px;"></i>
-                            <p style="color: var(--text-secondary); margin-bottom: 25px; line-height: 1.6;">
-                                Entre em um estado de concentração máxima.<br>
-                                Elimine distrações e mergulhe nos estudos.<br>
-                                <strong>Foco no presente. Você consegue!</strong>
-                            </p>
-                            
-                            <div class="focus-options">
-                                <div class="focus-option selected" onclick="selectFocusMode('standard')">
-                                    <i class="fas fa-eye"></i>
-                                    <div class="focus-option-title">Padrão</div>
-                                    <div class="focus-option-desc">Timer + estatísticas</div>
-                                </div>
-                                <div class="focus-option" onclick="selectFocusMode('zen')">
-                                    <i class="fas fa-spa"></i>
-                                    <div class="focus-option-title">Zen Mode</div>
-                                    <div class="focus-option-desc">Minimalista e calmo</div>
-                                </div>
-                                <div class="focus-option" onclick="selectFocusMode('hardcore')">
-                                    <i class="fa-fire"></i>
-                                    <div class="focus-option-title">Hardcore</div>
-                                    <div class="focus-option-desc">Máxima concentração</div>
-                                </div>
-                                <div class="focus-option" onclick="selectFocusMode('music')">
-                                    <i class="fas fa-music"></i>
-                                    <div class="focus-option-title">Com Música</div>
-                                    <div class="focus-option-desc">Ambiente relaxante</div>
-                                </div>
-                            </div>
-                            
-                            <button class="focus-start-btn" onclick="startFocusMode()">
-                                <i class="fas fa-play-circle"></i> Iniciar Modo Foco (+50 XP)
+                        <button class="focus-start-btn" onclick="startFocusMode()">
+                            <i class="fas fa-play-circle"></i> Iniciar Modo Foco (+50 XP)
+                        </button>
+                    </div>
+                </div>
+                    
+                <!-- STUDY GOALS -->
+                <div class="tool-card" style="grid-column: span 2;">
+                    <div class="goals-section">
+                        <div class="goals-header">
+                            <h3 class="goals-title">
+                                <i class="fas fa-bullseye"></i> Metas de Estudo de Hoje
+                            </h3>
+                            <button class="add-goal-btn" onclick="showAddGoalModal()">
+                                <i class="fas fa-plus"></i> Adicionar Meta
                             </button>
                         </div>
+                        <div class="goals-list" id="goalsList"></div>
                     </div>
-                    
-                    <!-- STUDY GOALS -->
-                    <div class="tool-card" style="grid-column: span 2;">
-                        <div class="goals-section">
-                            <div class="goals-header">
-                                <h3 class="goals-title">
-                                    <i class="fas fa-bullseye"></i> Metas de Estudo de Hoje
-                                </h3>
-                                <button class="add-goal-btn" onclick="showAddGoalModal()">
-                                    <i class="fas fa-plus"></i> Adicionar Meta
-                                </button>
-                            </div>
-                            <div class="goals-list" id="goalsList"></div>
-                        </div>
                 </div>
             </div>
         </section>
@@ -1344,9 +1358,8 @@
 
         <!-- ==================== TAB: ACHIEVEMENTS ==================== -->
         <section class="tab-content" id="tab-achievements">
-            <h2 style="font-family: 'Orbitron', sans-serif; font-size: 1.8rem; font-weight: 800;
-                 color: var(--text-primary); margin-bottom: 25px;
-                 <i class="fas fa-trophy" style="color: var(--gold);"></i> Conquistas & Badges
+            <h2 style="font-family: 'Orbitron', sans-serif; font-size: 1.8rem; font-weight: 800; color: var(--text-primary); margin-bottom: 25px;">
+                <i class="fas fa-trophy" style="color: var(--gold);"></i> Conquistas &amp; Badges
             </h2>
             <div class="achievements-grid" id="achievementsGrid"></div>
         </section>
@@ -1355,7 +1368,7 @@
         <section class="tab-content" id="tab-notifications">
             <div class="notifications-header">
                 <h2 class="notifications-title">
-                    <i class="fas fa-bell"></i> Atualizações & Dev Log
+                    <i class="fas fa-bell"></i> Atualizações &amp; Dev Log
                 </h2>
                 <button class="clear-notifications-btn" onclick="markAllRead()">
                     <i class="fas fa-check-double"></i> Marcar Todas como Lidas
@@ -1381,7 +1394,7 @@
                 <div class="summary-stat">
                     <div class="summary-stat-icon">🐛</div>
                     <div class="summary-stat-value" id="bugsFixed">25+</div>
-                    <div class="stat-label">Bugs Corrigidos</div>
+                    <div class="summary-stat-label">Bugs Corrigidos</div>
                 </div>
             </div>
             
@@ -1399,21 +1412,21 @@
                             <span class="update-type major">MAJOR</span>
                         </div>
                     </div>
-                    <h3 class="update-title">🔤 NOVA ABA: Caracteres & Dev Log Completo!</h3>
+                    <h3 class="update-title">🔤 NOVA ABA: Caracteres &amp; Dev Log Completo!</h3>
                     <p class="update-description">
                         Maior atualização da história! Nova aba completa de caracteres especiais com mais de 150 símbolos,
                         sistema de copy-to-clipboard instantâneo, metas de estudo, dev log completo e muito mais!
                     </p>
                     <ul class="update-features">
-                        <li class="feature-new">🆕 NOVA: Aba "Caracteres Especiais" completa com 150+ símbolos</li>
-                        <li class="feature-new">🆕 NOVO: Categoria de SETAS (40+ tipos diferentes)</li>
-                        <li class="feature-new">🆕 NOVO: Categoria MATEMÁTICA (∑∫∫√≈≤≥)</li>
-                        <li class="feature-new">🆕 NOVO: Categoria SÍMBOLOS (©®™¢€£¥¥ etc.)</li>
-                        <li class="feature-new">🆕 NOVO: Categoria FORMAS GEOMÉTRICAS (▲●■◆)</li>
-                        <li class="feature-new">🆕 NOVO: Categoria ESTRELAS (★☆✦✧⭐)</li>
-                        <li class="feature-new">🆕 NOVO: Categoria EMOJIS úteis para estudos</li>
-                        <li class="feature-improved">⬆️ MELHORADO: Interface da aba Notificações expandida</li>
-                        <li class="feature-fixed">🔧 CORRIGIDO: Performance otimizada para 200+ caracteres</li>
+                        <li>🆕 NOVA: Aba "Caracteres Especiais" completa com 150+ símbolos</li>
+                        <li>🆕 NOVO: Categoria de SETAS (40+ tipos diferentes)</li>
+                        <li>🆕 NOVO: Categoria MATEMÁTICA (∑∫√≈≤≥)</li>
+                        <li>🆕 NOVO: Categoria SÍMBOLOS (©®™¢€£¥ etc.)</li>
+                        <li>🆕 NOVO: Categoria FORMAS GEOMÉTRICAS (▲●■◆)</li>
+                        <li>🆕 NOVO: Categoria ESTRELAS (★☆✦✧⭐)</li>
+                        <li>🆕 NOVO: Categoria EMOJIS úteis para estudos</li>
+                        <li>⬆️ MELHORADO: Interface da aba Notificações expandida</li>
+                        <li>🔧 CORRIGIDO: Performance otimizada para 200+ caracteres</li>
                     </ul>
                 </div>
 
@@ -1429,21 +1442,21 @@
                     </div>
                     <h3 class="update-title">🔤 STUDY PRO EDITION - Versão Completa!</h3>
                     <p class="update-description">
-                        Maior atualização focada em **aprendizado**! Sistema completo de ferramentas de estudo.
+                        Maior atualização focada em aprendizado! Sistema completo de ferramentas de estudo.
                     </p>
                     <ul class="update-features">
-                        <li class="feature-new">🆕 NOVA: Aba "Caracteres Especiais"</li>
-                        <li class="feature-new">🆕 NOVO: Pomodoro Timer Profissional (4 fases)</li>
-                        <li class="feature-new">🆕 NOVO: Notas Inteligentes com formatação</li>
-                        <li class="feature-new">🆕 NOVO: Metas de Estudo Diárias</li>
-                        <li class="feature-new">🆕 NOVO: Modo Foco Avançado (4 modos)</li>
-                        <li class="feature-new">🆕 NOVO: 150+ caracteres especiais</li>
-                        <li class="feature-improved">⬆️ MELHORADO: Interface completamente redesenhada</li>
-                        <li class="feature-fixed">🔧 CORRIGIDO: Todos os bugs conhecidos</li>
+                        <li>🆕 NOVA: Aba "Caracteres Especiais"</li>
+                        <li>🆕 NOVO: Pomodoro Timer Profissional (4 fases)</li>
+                        <li>🆕 NOVO: Notas Inteligentes com formatação</li>
+                        <li>🆕 NOVO: Metas de Estudo Diárias</li>
+                        <li>🆕 NOVO: Modo Foco Avançado (4 modos)</li>
+                        <li>🆕 NOVO: 150+ caracteres especiais</li>
+                        <li>⬆️ MELHORADO: Interface completamente redesenhada</li>
+                        <li>🔧 CORRIGIDO: Todos os bugs conhecidos</li>
                     </ul>
                 </div>
 
-                <!-- Versões anteriores -->
+                <!-- Versão 5.0 -->
                 <div class="update-log-entry">
                     <div class="update-log-header">
                         <div class="update-version">v5.0</div>
@@ -1457,14 +1470,14 @@
                         O maior update da história! Sistema de gamificação completo com XP, moedas, níveis, loja premium, conquistas, missões diárias e muito mais!
                     </p>
                     <ul class="update-features">
-                        <li class="feature-new">🆕 NOVO: Sistema de Gamificação (XP, Moedas, Níveis)</li>
-                        <li class="feature-new">🆕 NOVO: Loja Premium com Temas Animados</li>
-                        <li class="feature-new">🆕 NOVO: Sistema de Boosters de XP (2x, 3x)</li>
-                        <li class="feature-new">🆕 NOVO: 10 Conquistas/Badges para desbloquear</li>
-                        <li class="feature-new">🆕 NOVO: Missões Diárias com recompensas</li>
-                        <li class="feature-improved">⬆️ MELHORADO: Ganho automático de XP por tempo online</li>
-                        <li class="feature-improved">⬆️ MELHORADO: Todos os botões agora dão XP</li>
-                        <li class="feature-fixed">🔧 CORRIGIDO: Salvamento no localStorage</li>
+                        <li>🆕 NOVO: Sistema de Gamificação (XP, Moedas, Níveis)</li>
+                        <li>🆕 NOVO: Loja Premium com Temas Animados</li>
+                        <li>🆕 NOVO: Sistema de Boosters de XP (2x, 3x)</li>
+                        <li>🆕 NOVO: 10 Conquistas/Badges para desbloquear</li>
+                        <li>🆕 NOVO: Missões Diárias com recompensas</li>
+                        <li>⬆️ MELHORADO: Ganho automático de XP por tempo online</li>
+                        <li>⬆️ MELHORADO: Todos os botões agora dão XP</li>
+                        <li>🔧 CORRIGIDO: Salvamento no localStorage</li>
                     </ul>
                 </div>
 
@@ -1477,18 +1490,18 @@
                             <span class="update-type major">MAJOR</span>
                         </div>
                     </div>
-                    <h3 class="update-title">🎮 Gamificação Total & Loja Premium</h3>
+                    <h3 class="update-title">🎮 Gamificação Total &amp; Loja Premium</h3>
                     <p class="update-description">
                         O maior update da história! Sistema de gamificação completo com XP, moedas, níveis, loja premium, conquistas, missões diárias e muito mais!
                     </p>
                     <ul class="update-features">
-                        <li class="feature-new">🆕 NOVO: Sistema de Gamificação (XP, Moedas, Níveis)</li>
-                        <li class="feature-new">🆕 NOVO: Loja Premium com Temas Animados</li>
-                        <li class="feature-new">🆕 NOVO: Sistema de Boosters de XP (2x, 3x)</li>
-                        <li class="feature-new">🆕 NOVO: 10 Conquistas/Badges para desbloquear</li>
-                        <li class="feature-new">🆕 NOVO: Missões Diárias com recompensas</li>
-                        <li class="feature-improved">⬆️ MELHORADO: Ganho automático de XP por tempo online</li>
-                        <li class="feature-improved">⬆️ MELHORADO: Todos os botões agora dão XP</li>
+                        <li>🆕 NOVO: Sistema de Gamificação (XP, Moedas, Níveis)</li>
+                        <li>🆕 NOVO: Loja Premium com Temas Animados</li>
+                        <li>🆕 NOVO: Sistema de Boosters de XP (2x, 3x)</li>
+                        <li>🆕 NOVO: 10 Conquistas/Badges para desbloquear</li>
+                        <li>🆕 NOVO: Missões Diárias com recompensas</li>
+                        <li>⬆️ MELHORADO: Ganho automático de XP por tempo online</li>
+                        <li>⬆️ MELHORADO: Todos os botões agora dão XP</li>
                     </ul>
                 </div>
 
@@ -1501,12 +1514,12 @@
                             <span class="update-type minor">MINOR</span>
                         </div>
                     </div>
-                    <h3 class="update-title">✨ Temas & Extensões</h3>
+                    <h3 class="update-title">✨ Temas &amp; Extensões</h3>
                     <ul class="update-features">
-                        <li class="feature-new">🆕 NOVO: 8 temas visuais</li>
-                        <li class="feature-new">🆕 NOVO: 4 extensões integradas</li>
-                        <li class="feature-improved">⬆️ MELHORADO: Design responsivo</li>
-                        <li class="feature-fixed">🔧 CORRIGIDO: Bugs de performance</li>
+                        <li>🆕 NOVO: 8 temas visuais</li>
+                        <li>🆕 NOVO: 4 extensões integradas</li>
+                        <li>⬆️ MELHORADO: Design responsivo</li>
+                        <li>🔧 CORRIGIDO: Bugs de performance</li>
                     </ul>
                 </div>
 
@@ -1524,10 +1537,10 @@
                         Primeira versão grande! Novo sistema de navegação por abas, extensões integradas (Notas Rápidas, Timer, Calculadora, Foco) e muito mais!
                     </p>
                     <ul class="update-features">
-                        <li class="feature-new">🆕 NOVO: Sistema de Navegação por Abas</li>
-                        <li class="feature-new">🆕 NOVA: Extensões integradas (Notas, Timer, Calculadora, Foco)</li>
-                        <li class="feature-new">🆕 NOVO: Dock flutuante de atalhos</li>
-                        <li class="feature-improved">⬆️ MELHORADO: Interface moderna glassmorphism</li>
+                        <li>🆕 NOVO: Sistema de Navegação por Abas</li>
+                        <li>🆕 NOVA: Extensões integradas (Notas, Timer, Calculadora, Foco)</li>
+                        <li>🆕 NOVO: Dock flutuante de atalhos</li>
+                        <li>⬆️ MELHORADO: Interface moderna glassmorphism</li>
                     </ul>
                 </div>
 
@@ -1545,9 +1558,9 @@
                         Primeira versão do portal! Interface básica com embed do Geekie One e controles de navegação.
                     </p>
                     <ul class="update-features">
-                        <li class="feature-new">🆕 LANÇAMENTO: Portal inicial com embed do Geekie One</li>
-                        <li class="feature-new">🆕 NOVO: Controles de navegação</li>
-                        <li class="feature-new">🆕 NOVO: Controles básicos (voltar, avançar, refreshar)</li>
+                        <li>🆕 LANÇAMENTO: Portal inicial com embed do Geekie One</li>
+                        <li>🆕 NOVO: Controles de navegação</li>
+                        <li>🆕 NOVO: Controles básicos (voltar, avançar, atualizar)</li>
                     </ul>
                 </div>
             </div>
@@ -1556,16 +1569,16 @@
         <!-- Footer -->
         <footer class="footer">
             <div class="footer-icons">
-                <a href="#" title="GitHub"><i class="fab fa-github"></a></a>
-                <a href="#" title="Discord"><i class="fab fa-discord"></a></a>
-                <a href="#" title="Twitter"><i class="fab fa-twitter"></a></a>
-                <a href="#" title="YouTube"><i class="fab fa-youtube"></a></a>
+                <a href="#" title="GitHub"><i class="fab fa-github"></i></a>
+                <a href="#" title="Discord"><i class="fab fa-discord"></i></a>
+                <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" title="YouTube"><i class="fab fa-youtube"></i></a>
             </div>
             <p>© 2024-2025 Geekie One Portal ULTRA MASTER v7.0 - Study Pro Edition</p>
             <p style="margin-top: 10px; font-size: 0.85rem; color: var(--text-secondary);">
                 Desenvolvido com <i class="fas fa-heart" style="color: #ef4444;"></i> 
                 para a comunidade educacional | 
-                <i class="fas fa-graduation-cap" style="color: var(--gold);" onclick="changeTheme('default')"></i>
+                <i class="fas fa-graduation-cap" style="color: var(--gold);"></i>
                 <i class="fas fa-coins" style="color: var(--gold);"></i> Ganhe XP enquanto estuda!
             </p>
         </footer>
@@ -1581,31 +1594,9 @@
         <div class="dock-btn" onclick="startFocusMode()" title="Modo Foco"><i class="fas fa-crosshairs"></i></div>
         <div class="dock-btn" onclick="switchTab('notifications')" title="Notificações">
             <i class="fas fa-bell"></i>
-            <span class="notification-dot" id="dockNotifDot"></span>2</span>
+            <span class="notification-dot" id="dockNotifDot"></span>
         </div>
-
-    <!-- Focus Mode Overlay -->
-    <div class="focus-overlay" id="focusOverlay">
-        <div class="focus-timer" id="focusTimer">25:00</div>
-        <div class="focus-message" id="focusMessage"></div>
-        <button class="focus-exit" onclick="exitFocusMode()">
-            <i class="fas fa-times"></i> Sair do Modo Foco
-        </button>
     </div>
-
-    <!-- Toast Container -->
-    <div class="toast-container" id="toastContainer"></div>
-
-    <!-- Copy Feedback -->
-    <div class="copy-feedback" id="copyFeedback">✓ COPIADO!</div>
-
-    <!-- Level Up Overlay -->
-    <div class="levelup-overlay" id="levelUpOverlay">
-        <div class="levelup-content">
-            <div class="levelup-icon">🎉</div>
-            <div class="levelup-text">LEVEL UP!</div>
-            <div class="levelup-subtext" id="levelUpText">Você alcançou o nível 2!</div>
-        </div>
 
     <script>
         // ============================================
@@ -1625,28 +1616,6 @@
         };
 
         // ============================================
-        // ESTADO DO SISTEMA
-        // ============================================
-        let state = {
-            theme: localStorage.getItem('selectedTheme') || 'default',
-            coins: parseInt(localStorage.getItem('geekieCoins')) || 100),
-            xp: parseInt(localStorage.getItem('geekieXP')) || 0),
-            level: parseInt(localStorage.getItem('geekieLevel')) || 1),
-            totalXP: parseInt(localStorage.getItem('geekieTotalXP')) || 0),
-            sessions: parseInt(localStorage.getItem('geekieSessions')) || 0),
-            studyMinutes: parseInt(localStorage.getItem('geekieStudyMinutes')) || 0),
-            todayStudyMinutes: parseInt(localStorage.getItem('geekieTodayStudy')) || 0),
-            pomodorosToday: parseInt(localStorage.getItem('geekiePomodoros')) || 0),
-            totalPomodoros: parseInt(localStorage.getItem('geekieTotalPomodoros')) || 0),
-            goalsCompleted: parseInt(localStorage.getItem('geekieGoalsCompleted')) || 0),
-            notes: localStorage.getItem('geekieNotes') || '',
-            timer: { minutes: 25, seconds: 0, isRunning: false, interval: null, phase: 'focus', session: 1 },
-            calc: { expression: '', result: '0' },
-            recentCharacters: JSON.parse(localStorage.getItem('recentCharacters)) || [],
-            goals: JSON.parse(localStorage.getItem('studyGoals')) || []
-        };
-
-        // ============================================
         // BANCO DE CARACTERES
         // ============================================
         const CHARACTERS_DB = {
@@ -1654,25 +1623,23 @@
                 { char: '→', nome: 'Seta direita' }, { char: '←', nome: 'Seta esquerda' },
                 { char: '↑', nome: 'Seta cima' }, { char: '↓', nome: 'Seta baixo' },
                 { char: '↔', nome: 'Seta dupla horizontal' }, { char: '↕', nome: 'Seta dupla vertical' },
-                { char: '⇒', nome: 'Seta dupla direita' }, { char: '⇐', nome: 'Seta dupla pesada' },
+                { char: '⇒', nome: 'Seta dupla direita' }, { char: '⇐', nome: 'Seta dupla esquerda' },
                 { char: '➔', nome: 'Seta pesada' }, { char: '➜', nome: 'Seta curva' },
-                { char: '➤', nome: 'Seta grossa' }, { char: '➥', nome: 'Seta curva' },
-                { char: '➦', nome: 'Seta tracejada' }, { char: '➨', nome: 'Estrela cheia' },
-                { char: '➪', nome: 'Estrela vazia' }, { char: '✓', nome: 'Check verde' },
-                { char: '✗', nome: 'X vermelho' }, { char: '✗', nome: 'X vermelho' }
+                { char: '➤', nome: 'Seta grossa' }, { char: '➥', nome: 'Seta curva direita' },
+                { char: '➦', nome: 'Seta tracejada' }, { char: '➨', nome: 'Seta preenchida' },
+                { char: '➪', nome: 'Seta aberta' }, { char: '✓', nome: 'Check' },
+                { char: '✗', nome: 'X' }
             ],
             math: [
                 { char: '+', nome: 'Mais' }, { char: '−', nome: 'Menos' },
                 { char: '×', nome: 'Multiplicação' }, { char: '÷', nome: 'Divisão' },
-                { char: '÷', nome: 'Dividido' }, { char: '=', nome: 'Igual' },
-                { char: '≠', nome: 'Aproximado' }, { char: '≠', nome: 'Diferente' },
-                { char: '<', nome: 'Menor ou igual' }, { char: '>', nome: 'Maior ou igual' },
-                { char: '√', nome: 'Raiz quadrada' }, { char: 'π', nome: 'Pi' },
-                { char: '∞', nome: 'Infinito' }, { char: '∫', nome: 'Integral' },
-                { char: '∑', nome: 'Somatório' }, { char: '∫', nome: 'Integral de contourorno' },
+                { char: '=', nome: 'Igual' }, { char: '≠', nome: 'Diferente' },
+                { char: '≈', nome: 'Aproximado' }, { char: '<', nome: 'Menor que' },
+                { char: '>', nome: 'Maior que' }, { char: '√', nome: 'Raiz quadrada' },
+                { char: 'π', nome: 'Pi' }, { char: '∞', nome: 'Infinito' },
+                { char: '∫', nome: 'Integral' }, { char: '∑', nome: 'Somatório' },
                 { char: '≤', nome: 'Menor ou igual' }, { char: '≥', nome: 'Maior ou igual' },
-                { char: '±', nome: 'Mais ou menos' }, { char: '÷', nome: 'Divisão' },
-                { char: '%', nome: 'Porcento' }, { char: '‰', nome: 'Por mil' },
+                { char: '±', nome: 'Mais ou menos' }, { char: '%', nome: 'Porcento' },
                 { char: '‰', nome: 'Por mil' }
             ],
             symbols: [
@@ -1682,93 +1649,96 @@
                 { char: '•', nome: 'Bullet point' }, { char: '…', nome: 'Reticências' },
                 { char: '¢', nome: 'Centavo' }, { char: '€', nome: 'Euro' },
                 { char: '£', nome: 'Libra Esterlina' }, { char: '¥', nome: 'Yen Japonês' },
-                { char: '¤', nome: 'Dinheiro' }, { char: '♠', nome: 'Naipe' }, { char: '♣', nome: 'Ouro' }, { char: '♦', nome: 'Ouros' },
-                { char: '◇', nome: 'Losango' }, { char: '◆', nome: 'Losango' },
-                { char: '●', nome: 'Círculo' }, { char: '■', nome: 'Quadrado' },
-                { char: '▲', nome: 'Triângulo' }, { char: '▼', nome: 'Triângulo invertido' },
-                { char: '★', nome: 'Estrela cheia' }, { char: '☆', nome: 'Estrela vazia' },
-                { char: '✦', nome: 'Brilho' }, { char: '✨', nome: 'Brilho intenso' }
+                { char: '¤', nome: 'Moeda' }, { char: '♠', nome: 'Espadas' },
+                { char: '♣', nome: 'Paus' }, { char: '♦', nome: 'Ouros' },
+                { char: '♥', nome: 'Copas' }, { char: '◇', nome: 'Losango vazio' },
+                { char: '◆', nome: 'Losango cheio' }, { char: '●', nome: 'Círculo' },
+                { char: '■', nome: 'Quadrado' }, { char: '▲', nome: 'Triângulo' },
+                { char: '▼', nome: 'Triângulo invertido' }, { char: '★', nome: 'Estrela cheia' },
+                { char: '☆', nome: 'Estrela vazia' }, { char: '✦', nome: 'Brilho' },
+                { char: '✨', nome: 'Brilho intenso' }
             ],
             shapes: [
                 { char: '▲', nome: 'Triângulo' }, { char: '▼', nome: 'Triângulo invertido' },
                 { char: '●', nome: 'Círculo' }, { char: '■', nome: 'Quadrado' },
                 { char: '◆', nome: 'Losango' }, { char: '★', nome: 'Estrela cheia' },
-                { char: '☆', nome: 'Estrela vazia' }, { char: '⬟', nome: 'Brilho intenso' },
-                { char: '⬟', nome: 'Forma geométrica' }, { char: '⬛', nome: 'Forma preenchida' },
-                { char: '⬟', nome: 'Forma vazia' }, { char: '⬜', nome: 'Forma sombreado' }
+                { char: '☆', nome: 'Estrela vazia' }, { char: '⬟', nome: 'Pentágono' },
+                { char: '⬛', nome: 'Quadrado grande' }, { char: '⬜', nome: 'Quadrado branco' }
             ],
             stars: [
                 { char: '★', nome: 'Estrela cheia' }, { char: '☆', nome: 'Estrela vazia' },
-                { char: '✦', nome: 'Brilho intenso' }, { char: '✨', nome: 'Brilho' },
-                { char: '⭐', nome: 'Estrela brilhante' }, { char: '🌟', nome: 'Estrela brilhante' },
-                { char: '⭐', nome: 'Estrela cintilante' }, { char: '🌟', nome: 'Estrela brilhante' }
+                { char: '✦', nome: 'Brilho' }, { char: '✨', nome: 'Brilho intenso' },
+                { char: '⭐', nome: 'Estrela brilhante' }, { char: '🌟', nome: 'Estrela cintilante' }
             ],
             emoji: [
                 { char: '📚', nome: 'Livros' }, { char: '✏️', nome: 'Lápis' },
-                { char: '✏️', nome: 'Bloco de nota' }, { char: '🎯', nome: 'Alvo' },
-                { char: '🎯', nome: 'Alvo' }, { char: '🔥', nome: 'Fogo' },
-                { char: '💡', nome: 'Ideia' }, { char: '✅', nome: 'Check verde' },
-                { char: '🎓', nome: 'Formatura' }, { char: '🏆', nome: 'Formatura' },
-                { char: '🏆', nome: 'Estrela cintilante' }, { char: '🔴', nome: 'Fogo' },
-                { char: '⚡', nome: 'Dinheiro' }, { char: '💪', nome: 'Dinheiro' }
+                { char: '📝', nome: 'Bloco de nota' }, { char: '🎯', nome: 'Alvo' },
+                { char: '🔥', nome: 'Fogo' }, { char: '💡', nome: 'Ideia' },
+                { char: '✅', nome: 'Check verde' }, { char: '🎓', nome: 'Formatura' },
+                { char: '🏆', nome: 'Troféu' }, { char: '⚡', nome: 'Raio' },
+                { char: '💪', nome: 'Força' }, { char: '🔴', nome: 'Círculo vermelho' }
             ],
             special: [
                 { char: '¹', nome: 'Expoente 1' }, { char: '²', nome: 'Expoente 2' },
-                { char: '³', nome: 'Expoente 3' }, { char: '⁴', nome: 'Meio' },
-                { char: '¼', nome: 'Um quarto' }, { char: '¾', nome: 'Três quartos' },
-                { char: '½', nome: 'Meio' }, { char: '¾', nome: 'Três quartos' },
-                { char: '✓', nome: 'Check verde' }, { char: '✗', nome: 'X vermelho' },
-                { char: '™', nome: 'Trade Mark' }, { char: '°', nome: 'Grau' },
-                { char: '′', nome: 'Primeiro' }, { char: '″', nome: 'Segundo' },
-                { char: '‡', nome: 'Duplo duplo' }, { char: '–', nome: 'En dash' },
-                { char: '—', nome: 'Em dash' }, { char: '—', nome: 'Em dash longo' }
+                { char: '³', nome: 'Expoente 3' }, { char: '⁴', nome: 'Expoente 4' },
+                { char: '¼', nome: 'Um quarto' }, { char: '½', nome: 'Meio' },
+                { char: '¾', nome: 'Três quartos' }, { char: '✓', nome: 'Check' },
+                { char: '✗', nome: 'X' }, { char: '™', nome: 'Trade Mark' },
+                { char: '°', nome: 'Grau' }, { char: '′', nome: 'Primeiro' },
+                { char: '″', nome: 'Segundo' }, { char: '‡', nome: 'Dupla cruz' },
+                { char: '–', nome: 'En dash' }, { char: '—', nome: 'Em dash' }
             ]
         };
-    </style>
-</head>
-<body data-theme="default">
 
-    <body>
-        <div class="particles-bg" id="particlesBg"></div>
-        <div class="toast-container" id="toastContainer"></div>
-        <div class="copy-feedback" id="copyFeedback">✓ COPIADO!</div>
-        <div class="levelup-overlay" id="levelUpOverlay"></div>
-        <div class="focus-overlay" id="focusOverlay"></div>
-        <div class="extensions-dock">
-            <div class="dock-btn" onclick="switchTab('home')"><i class="fas fa-home"></i></div>
-            <div class="dock-btn" onclick="switchTab('geekie')"><i class="fas fa-graduation-cap"></i></div>
-            <div class="dock-btn" onclick="switchTab('tools')"><i class="fas fa-tools"></i></div>
-            <div class="dock-btn" onclick="switchTab('characters')"><i class="fas fa-font"></i></div>
-            <div class="dock-btn" onclick="startFocusMode()"><i class="fas fa-crosshairs"></i></div>
-            <div class="dock-btn" onclick="switchTab('notifications')"><i class="fas fa-bell"></i></div>
-        </div>
+        // ============================================
+        // ESTADO DO SISTEMA
+        // ============================================
+        let state = {
+            theme: localStorage.getItem('selectedTheme') || 'default',
+            coins: parseInt(localStorage.getItem('geekieCoins')) || 100,
+            xp: parseInt(localStorage.getItem('geekieXP')) || 0,
+            level: parseInt(localStorage.getItem('geekieLevel')) || 1,
+            totalXP: parseInt(localStorage.getItem('geekieTotalXP')) || 0,
+            sessions: parseInt(localStorage.getItem('geekieSessions')) || 0,
+            studyMinutes: parseInt(localStorage.getItem('geekieStudyMinutes')) || 0,
+            todayStudyMinutes: parseInt(localStorage.getItem('geekieTodayStudy')) || 0,
+            pomodorosToday: parseInt(localStorage.getItem('geekiePomodoros')) || 0,
+            totalPomodoros: parseInt(localStorage.getItem('geekieTotalPomodoros')) || 0,
+            goalsCompleted: parseInt(localStorage.getItem('geekieGoalsCompleted')) || 0,
+            streak: parseInt(localStorage.getItem('geekieStreak')) || 0,
+            notes: localStorage.getItem('geekieNotes') || '',
+            timer: { minutes: 25, seconds: 0, isRunning: false, interval: null, phase: 'focus', session: 1 },
+            calc: { expression: '', result: '0' },
+            recentCharacters: JSON.parse(localStorage.getItem('recentCharacters') || '[]'),
+            goals: JSON.parse(localStorage.getItem('studyGoals') || '[]'),
+            isActive: true,
+            selectedFocusMode: 'standard'
+        };
 
-        <script>
         // ============================================
-        // VARIÁVEIS GLOBAIS
+        // INICIALIZAÇÃO
         // ============================================
-        console.log('%c🚀 GEEKIE PORTAL v7.0 - CARREGIDO');
-        console.log('%c📋 Sistema inicializado - Pronto para uso!');
-        
+        console.log('%c🚀 GEEKIE PORTAL v7.0 - CARREGADO', 'color: #00ff88; font-size: 16px; font-weight: bold;');
+        console.log('%c📋 Sistema inicializado - Pronto para uso!', 'color: #00d4ff; font-size: 12px;');
+
         // Criar partículas de fundo
         function createParticles() {
             const container = document.getElementById('particlesBg');
-            for(let i = 0; i < 35; i++) {
+            for (let i = 0; i < 35; i++) {
                 const p = document.createElement('div');
                 p.className = 'particle';
                 p.style.left = Math.random() * 100 + 'vw';
                 p.style.top = Math.random() * 100 + 'vh';
                 p.style.animationDelay = Math.random() * 15 + 's';
-                p.style.animationDelay = Math.random() * 5 + 's;
+                p.style.animationDuration = (Math.random() * 10 + 10) + 's';
                 container.appendChild(p);
             }
         }
-        
-        // Inicialização
+
+        // DOMContentLoaded
         window.addEventListener('DOMContentLoaded', () => {
             console.log('🔄 Iniciando sistema...');
             
-            // Criar partículas
             createParticles();
             
             // Restaurar estado
@@ -1780,8 +1750,8 @@
             if (!localStorage.getItem('geekieTodayStudy')) localStorage.setItem('geekieTodayStudy', '0');
             if (!localStorage.getItem('geekiePomodoros')) localStorage.setItem('geekiePomodoros', '0');
             if (!localStorage.getItem('geekieTotalPomodoros')) localStorage.setItem('geekieTotalPomodoros', '0');
-            if (!localStorage.getItem('geekieGoalsCompleted')) localStorage.setItem('geekieGoalsCompleted'), '[]');
-            if (!localStorage.getItem('recentCharacters')) localStorage.setItem('recentCharacters'), JSON.stringify([]));
+            if (!localStorage.getItem('geekieGoalsCompleted')) localStorage.setItem('geekieGoalsCompleted', '0');
+            if (!localStorage.getItem('recentCharacters')) localStorage.setItem('recentCharacters', JSON.stringify([]));
             
             // Renderizar conteúdo inicial
             renderHome();
@@ -1792,55 +1762,35 @@
             // Configurar abas iniciais
             switchTab('home');
             
-            // Tracking de tempo
+            // Tracking de tempo (a cada minuto)
             setInterval(() => {
-                if (document.hidden && !document.hidden) {
+                if (!document.hidden) {
                     state.todayStudyMinutes++;
                     state.studyMinutes++;
-                    if (state.todayStudyMinutes % 60 === 0) {
-                        state.pomodorosToday++;
-                        if (state.pomodorosToday % 4 === 0) {
-                            state.streak++;
-                            if (state.streak > 30) state.streak = 0;
-                        }
-                    }
+                    state.coins += CONFIG.COINS_PER_MINUTE;
                     saveState();
+                    updateAllDisplays();
                 }
-            }, 60000); // A cada minuto
+            }, 60000);
             
-            // XP passivo
+            // XP passivo (a cada segundo)
             setInterval(() => {
-                if (!document.hidden && !document.hidden && state.isActive) {
+                if (!document.hidden && state.isActive) {
                     addXP(CONFIG.XP_PER_SECOND);
-                saveState();
-                if (state.todayStudyMinutes % 30 === 0) {
-                    state.pomodorosToday++;
-                    if (state.pomodorosToday % 4 === 0) {
-                        state.streak++;
-                        if (state.streak > 30) state.streak = 0;
-                    }
                 }
             }, 1000);
             
-            console.log('✅ Sistema pronto! Use as abas abaixo:');
-            console.log('   • switchTab("home") - Início');
-            console.log('   • switchTab("geekie") - Geekie One');
-            console.log('   • switchTab("tools") - Ferramentas');
-            console.log('   • switchTab("characters") - Caracteres');
-            console.log('   • switchTab("achievements") - Conquistas');
-            console.log('   • switchTab("notifications") - Atualizações');
+            console.log('✅ Sistema pronto!');
         });
-        });
-        
+
         // ============================================
         // FUNÇÃO PRINCIPAL - TROCA DE ABAS
         // ============================================
         function switchTab(tabId) {
-            console.log(`\n🔘 [SWITCH] Trocando para aba: ${tabId}`);
+            console.log(`🔘 [SWITCH] Trocando para aba: ${tabId}`);
             
             // 1. Esconder todas as abas
             const tabs = document.querySelectorAll('.tab-content');
-            
             tabs.forEach(tab => {
                 tab.classList.remove('active');
                 tab.style.display = 'none';
@@ -1848,24 +1798,20 @@
             
             // 2. Mostrar apenas a aba selecionada
             const targetTab = document.getElementById('tab-' + tabId);
-            
             if (targetTab) {
                 targetTab.style.display = 'block';
                 targetTab.classList.add('active');
-                console.log(`   ✅ Exibindo aba: ${tabId}`);
             } else {
-                console.error(`   ❌ ERRO: Aba "${tabId}" não encontrada!`);
+                console.error(`❌ ERRO: Aba "${tabId}" não encontrada!`);
             }
             
             // 3. Atualizar botões
             const buttons = document.querySelectorAll('.tab-button');
             buttons.forEach(btn => {
-                btn.addEventListener('click', function(e) {
-                    const tab = this.getAttribute('data-tab');
-                    if (tab === tabId) {
-                        this.classList.add('active');
-                    }
-                });
+                btn.classList.remove('active');
+                if (btn.getAttribute('data-tab') === tabId) {
+                    btn.classList.add('active');
+                }
             });
             
             // 4. Renderizar conteúdo específico
@@ -1875,21 +1821,30 @@
             else if (tabId === 'characters') renderCharacters();
             else if (tabId === 'achievements') renderAchievements();
             else if (tabId === 'notifications') renderNotifications();
-            
-            console.log('   ✓ Switch realizado:', tabId, '- Funcionando:', targetTab !== null ? '✅' : '❌');
         }
-        
+
         // ============================================
         // POMODORO TIMER
         // ============================================
         function initTools() {
             updateTimerDisplay();
-            document.getElementById('notesArea').value = state.notes;
-            document.getElementById('notesCharCount').textContent = document.getElementById('notesArea').value.length;
-            document.getElementById('notesWordCount').textContent = document.getElementById('notesArea').value.split(/\s+/).length - 1).length;
+            const notesArea = document.getElementById('notesArea');
+            if (notesArea) {
+                notesArea.value = state.notes;
+                document.getElementById('notesCharCount').textContent = notesArea.value.length;
+                const words = notesArea.value.trim().split(/\s+/).filter(w => w.length > 0);
+                document.getElementById('notesWordCount').textContent = words.length;
+            }
             renderGoals();
         }
-        
+
+        function updateTimerDisplay() {
+            const mins = String(state.timer.minutes).padStart(2, '0');
+            const secs = String(state.timer.seconds).padStart(2, '0');
+            const display = document.getElementById('timerDisplay');
+            if (display) display.textContent = `${mins}:${secs}`;
+        }
+
         function toggleTimer() {
             const btn = document.getElementById('timerStartBtn');
             const circle = document.getElementById('timerCircle');
@@ -1905,112 +1860,94 @@
                 btn.innerHTML = '<i class="fas fa-pause"></i> Pausar';
                 btn.classList.add('pause');
                 circle.classList.add('running');
+                
+                state.timer.interval = setInterval(() => {
+                    if (state.timer.seconds === 0) {
+                        if (state.timer.minutes === 0) {
+                            completePomodoroPhase();
+                            return;
+                        }
+                        state.timer.minutes--;
+                        state.timer.seconds = 59;
+                    } else {
+                        state.timer.seconds--;
+                    }
+                    updateTimerDisplay();
+                }, 1000);
             }
         }
-        
+
         function resetTimer() {
             clearInterval(state.timer.interval);
             state.timer.isRunning = false;
             state.timer.minutes = 25;
             state.timer.seconds = 0;
             updateTimerDisplay();
-            document.getElementById('timerStartBtn').innerHTML = '<i class="fas fa-play"></i> Iniciar';
-            document.getElementById('timerPhase').textContent = 'FOCO';
-            document.getElementById('timerCircle').classList.remove('running');
+            const btn = document.getElementById('timerStartBtn');
+            if (btn) btn.innerHTML = '<i class="fas fa-play"></i> Iniciar';
+            const phase = document.getElementById('timerPhase');
+            if (phase) phase.textContent = 'FOCO';
+            const circle = document.getElementById('timerCircle');
+            if (circle) circle.classList.remove('running');
         }
-        
+
         function setTimer(minutes) {
             resetTimer();
             state.timer.minutes = minutes;
             state.timer.seconds = 0;
             updateTimerDisplay();
-            document.getElementById('timerStartBtn').innerHTML = '<i class="fas fa-play"></i> Iniciar';
-            document.getElementById('timerPhase').textContent = 'FOCO';
         }
-        
+
         function skipPhase() {
             completePomodoroPhase();
         }
-        
+
         function completePomodoroPhase() {
             clearInterval(state.timer.interval);
             state.timer.isRunning = false;
+            
             const phases = ['focus', 'shortBreak', 'focus', 'longBreak'];
-            const currentIndex = phases.indexOf(state.timer.phase);
-            const nextIndex = (currentIndex + 1) % phases.length;
-            state.timer.phase = phases[nextIndex];
-            const phaseNames = ['FOCO', 'PAUSA CURTA', 'FOCO', 'LONGA PAUSA', 'LONGA PAUSA'];
-            const phaseTimes = [25, 5, 15, 15];
+            const phaseNames = { focus: 'FOCO', shortBreak: 'PAUSA CURTA', longBreak: 'PAUSA LONGA' };
+            const phaseTimes = { focus: 25, shortBreak: 5, longBreak: 15 };
             
-            state.timer.minutes = phaseTimes[nextIndex];
+            // Se completou uma fase de foco, conta pomodoro
+            if (state.timer.phase === 'focus') {
+                state.pomodorosToday++;
+                state.totalPomodoros++;
+                addXP(CONFIG.TIMER_BASE_XP);
+                showToast(`🍅 Pomodoro #${state.pomodorosToday} completo! +${CONFIG.TIMER_BASE_XP} XP`, 'reward');
+            }
+            
+            // Próxima fase
+            if (state.timer.phase === 'focus') {
+                state.timer.phase = (state.timer.session % 4 === 0) ? 'longBreak' : 'shortBreak';
+            } else {
+                state.timer.phase = 'focus';
+                state.timer.session++;
+                if (state.timer.session > 4) state.timer.session = 1;
+            }
+            
+            state.timer.minutes = phaseTimes[state.timer.phase];
             state.timer.seconds = 0;
-            state.timer.session = (state.timer.session >= 4) ? 1 : state.timer.session + 1;
             
-            if (state.timer.session > 4) state.timer.session = 1;
+            updateTimerDisplay();
+            const phaseEl = document.getElementById('timerPhase');
+            if (phaseEl) phaseEl.textContent = phaseNames[state.timer.phase];
+            const sessionEl = document.getElementById('currentSession');
+            if (sessionEl) sessionEl.textContent = state.timer.session;
+            const todayPomEl = document.getElementById('todayPomodoros');
+            if (todayPomEl) todayPomEl.textContent = state.pomodorosToday;
+            const totalPomEl = document.getElementById('totalPomodoros');
+            if (totalPomEl) totalPomEl.textContent = state.totalPomodoros;
             
-            const xpEarned = CONFIG.TIMER_BASE_XP;
-            addXP(xpEarned);
+            const circle = document.getElementById('timerCircle');
+            if (circle) circle.classList.remove('running');
+            const btn = document.getElementById('timerStartBtn');
+            if (btn) btn.innerHTML = '<i class="fas fa-play"></i> Iniciar';
             
-            document.getElementById('currentSession').textContent = state.timer.session;
-            document.getElementById('todayPomodoros').textContent = state.pomodorosToday;
-            document.getElementById('totalPomodoros').textContent = state.totalPomodoros;
-            
-            if (state.pomodorosToday % 4 === 0) {
-                state.streak++;
-                if (state.streak > 30) state.streak = 0;
-            }
-            
-            updateStatsDisplay();
-            showToast(`🍅 Pomodoro #${state.pomodorosToday} completos! +25 XP`, 'reward');
-            
-            if (state.pomodorosToday % 4 === 0) {
-                addXP(CONFIG.TIMER_BASE_XP));
-            }
-            
-            updateHomeStats();
             saveState();
         }
-        
-        // ============================================
-        // NOTAS INTELIGENTES
-        // ============================================
-        function openInNewTab(url) {
-            window.open(url, '_blank');
-            addXP(CONFIG.NEWTAB_XP);
-            showToast('🔗 Nova aba aberta! +10 XP!', 'reward');
-        }
-        
-        function openFullscreen() {
-            if (document.documentElement.requestFullscreen) {
-                document.documentElement.requestFullscreen();
-            }
-        }
-        
-        // ============================================
-        // CALCULADORA
-        // ============================================
-        function calcInput(val) {
-            const input = document.getElementById('calcInput');
-            input.value += val;
-            input.focus();
-        }
-        
-        function calcClear() {
-            document.getElementById('calcInput').value = '';
-            document.getElementById('calcResult').textContent = '0';
-            document.getElementById('calcExpression').textContent = '';
-        }
-        
-        function calculate() {
-            try {
-                const result = eval(document.getElementById('calcInput').value);
-                document.getElementById('calcResult').textContent = result;
-                addXP(1);
-            } catch (e) {
-                document.getElementById('calcResult').textContent = 'Erro';
-            }
-        }
-        
+
         // ============================================
         // NOTAS INTELIGENTES
         // ============================================
@@ -2022,38 +1959,268 @@
             const before = textarea.value.substring(0, start);
             const after = textarea.value.substring(end);
             
-            const newText = `${before}<${type}${selectedText}</strong>${after}</strong></strong>`;
-            textarea.value = newText;
-            textarea.setSelectionRange(start, end);
-            return true;
+            let formatted;
+            if (type === 'bold') {
+                formatted = `**${selectedText}**`;
+            } else if (type === 'italic') {
+                formatted = `_${selectedText}_`;
+            } else if (type === 'list') {
+                formatted = `\n• ${selectedText}`;
+            } else {
+                formatted = selectedText;
+            }
+            
+            textarea.value = before + formatted + after;
+            textarea.focus();
+            updateNotesCounts();
         }
-        
+
         function insertDate() {
             const now = new Date();
             const dateStr = now.toLocaleDateString('pt-BR');
             const timeStr = now.toLocaleTimeString('pt-BR');
-            document.getElementById('notesArea').value += `\n\n📅 ${dateStr} ${timeStr}`;
-            document.getElementById('notesArea').focus();
+            const textarea = document.getElementById('notesArea');
+            textarea.value += `\n\n📅 ${dateStr} ${timeStr}`;
+            textarea.focus();
+            updateNotesCounts();
         }
-        
+
+        function clearNotes() {
+            if (confirm('Tem certeza que deseja limpar as notas?')) {
+                document.getElementById('notesArea').value = '';
+                updateNotesCounts();
+            }
+        }
+
+        function saveNotes() {
+            state.notes = document.getElementById('notesArea').value;
+            localStorage.setItem('geekieNotes', state.notes);
+            addXP(CONFIG.NOTES_XP);
+            showToast(`📝 Notas salvas! +${CONFIG.NOTES_XP} XP`, 'success');
+        }
+
+        function exportNotes() {
+            const text = document.getElementById('notesArea').value;
+            const blob = new Blob([text], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'notas-estudo.txt';
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('📥 Notas exportadas!', 'success');
+        }
+
+        function updateNotesCounts() {
+            const textarea = document.getElementById('notesArea');
+            const charCount = document.getElementById('notesCharCount');
+            const wordCount = document.getElementById('notesWordCount');
+            if (charCount) charCount.textContent = textarea.value.length;
+            if (wordCount) {
+                const words = textarea.value.trim().split(/\s+/).filter(w => w.length > 0);
+                wordCount.textContent = words.length;
+            }
+        }
+
         // ============================================
-        // SALVARIAVEL GLOBAL
+        // CALCULADORA
         // ============================================
-        let state = {
-            theme: localStorage.getItem('selectedTheme') || 'default',
-            coins: parseInt(localStorage.getItem('geekieCoins')) || 100,
-            xp: parseInt(localStorage.getItem('geekieXP')) || 0),
-            level: parseInt(localStorage.getItem('geekieLevel')) || 1),
-            totalXP: parseInt(localStorage.getItem('geekieTotalXP')) || 0),
-            sessions: parseInt(localStorage.getItem('geekieSessions')) || 0),
-            studyMinutes: parseInt(localStorage.getItem('geekieStudyMinutes')) || 0),
-            todayStudyMinutes: parseInt(localStorage.getItem('geekieTodayStudy')) || 0),
-            pomodorosToday: parseInt(localStorage.getItem('geekiePomodoros')) || 0),
-            totalPomodoros: parseInt(localStorage.getItem('geekieTotalPomodoros')) || 0),
-            goalsCompleted: JSON.parse(localStorage.getItem('geekieGoalsCompleted') || []),
-            recentCharacters: JSON.parse(localStorage.getItem('recentCharacters')) || [])
-        };
-        
+        function calcInput(val) {
+            state.calc.expression += val;
+            document.getElementById('calcExpression').textContent = state.calc.expression;
+        }
+
+        function calcClear() {
+            state.calc.expression = '';
+            state.calc.result = '0';
+            document.getElementById('calcExpression').textContent = '';
+            document.getElementById('calcResult').textContent = '0';
+        }
+
+        function calculate() {
+            try {
+                const expr = state.calc.expression.replace(/×/g, '*').replace(/÷/g, '/').replace(/−/g, '-');
+                const result = eval(expr);
+                state.calc.result = result;
+                document.getElementById('calcResult').textContent = result;
+                addXP(CONFIG.CALC_XP);
+            } catch (e) {
+                document.getElementById('calcResult').textContent = 'Erro';
+            }
+        }
+
+        // ============================================
+        // MODO FOCO
+        // ============================================
+        function selectFocusMode(mode) {
+            state.selectedFocusMode = mode;
+            document.querySelectorAll('.focus-option').forEach(opt => opt.classList.remove('selected'));
+            event.currentTarget.classList.add('selected');
+        }
+
+        function startFocusMode() {
+            const overlay = document.getElementById('focusOverlay');
+            overlay.classList.add('active');
+            addXP(CONFIG.FOCUS_XP);
+            showToast('🎯 Modo Foco ativado! +50 XP', 'reward');
+            
+            let focusMinutes = 25;
+            let focusSeconds = 0;
+            const focusTimerEl = document.getElementById('focusTimer');
+            
+            const focusInterval = setInterval(() => {
+                if (focusSeconds === 0) {
+                    if (focusMinutes === 0) {
+                        clearInterval(focusInterval);
+                        exitFocusMode();
+                        showToast('🎉 Sessão de foco completa!', 'reward');
+                        return;
+                    }
+                    focusMinutes--;
+                    focusSeconds = 59;
+                } else {
+                    focusSeconds--;
+                }
+                focusTimerEl.textContent = `${String(focusMinutes).padStart(2, '0')}:${String(focusSeconds).padStart(2, '0')}`;
+            }, 1000);
+            
+            overlay._focusInterval = focusInterval;
+        }
+
+        function exitFocusMode() {
+            const overlay = document.getElementById('focusOverlay');
+            if (overlay._focusInterval) clearInterval(overlay._focusInterval);
+            overlay.classList.remove('active');
+        }
+
+        // ============================================
+        // METAS DE ESTUDO
+        // ============================================
+        function renderGoals() {
+            const container = document.getElementById('goalsList');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            state.goals.forEach((goal, index) => {
+                const div = document.createElement('div');
+                div.className = 'goal-item';
+                div.innerHTML = `
+                    <div class="goal-checkbox ${goal.completed ? 'checked' : ''}" onclick="toggleGoal(${index})">
+                        ${goal.completed ? '✓' : ''}
+                    </div>
+                    <div class="goal-content">
+                        <div class="goal-text ${goal.completed ? 'completed' : ''}">${goal.text}</div>
+                        <div class="goal-meta">
+                            <span class="goal-priority priority-${goal.priority}">${goal.priority.toUpperCase()}</span>
+                        </div>
+                    </div>
+                    <button class="goal-delete" onclick="deleteGoal(${index})"><i class="fas fa-trash"></i></button>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function showAddGoalModal() {
+            const text = prompt('Digite sua meta de estudo:');
+            if (text && text.trim()) {
+                state.goals.push({ text: text.trim(), completed: false, priority: 'medium' });
+                localStorage.setItem('studyGoals', JSON.stringify(state.goals));
+                renderGoals();
+                showToast('🎯 Meta adicionada!', 'success');
+            }
+        }
+
+        function toggleGoal(index) {
+            state.goals[index].completed = !state.goals[index].completed;
+            if (state.goals[index].completed) {
+                state.goalsCompleted++;
+                addXP(CONFIG.GOAL_COMPLETE_XP);
+                showToast(`✅ Meta concluída! +${CONFIG.GOAL_COMPLETE_XP} XP`, 'reward');
+            }
+            localStorage.setItem('studyGoals', JSON.stringify(state.goals));
+            renderGoals();
+            saveState();
+        }
+
+        function deleteGoal(index) {
+            state.goals.splice(index, 1);
+            localStorage.setItem('studyGoals', JSON.stringify(state.goals));
+            renderGoals();
+        }
+
+        // ============================================
+        // CARACTERES ESPECIAIS
+        // ============================================
+        function renderCharacters(category) {
+            const container = document.getElementById('charactersContainer');
+            if (!container) return;
+            
+            let chars = [];
+            if (!category || category === 'all') {
+                Object.values(CHARACTERS_DB).forEach(cat => chars = chars.concat(cat));
+            } else {
+                chars = CHARACTERS_DB[category] || [];
+            }
+            
+            container.innerHTML = `<div class="char-grid">${chars.map(c => `
+                <div class="char-item" onclick="copyCharacter('${c.char}', '${c.nome}')" title="${c.nome}">
+                    ${c.char}
+                    <span class="char-tooltip">${c.nome}</span>
+                </div>
+            `).join('')}</div>`;
+        }
+
+        function showCharCategory(category) {
+            document.querySelectorAll('.char-category-btn').forEach(btn => btn.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            renderCharacters(category);
+        }
+
+        function filterCharacters() {
+            const query = document.getElementById('charSearch').value.toLowerCase();
+            const container = document.getElementById('charactersContainer');
+            let allChars = [];
+            Object.values(CHARACTERS_DB).forEach(cat => allChars = allChars.concat(cat));
+            
+            const filtered = allChars.filter(c => c.nome.toLowerCase().includes(query) || c.char.includes(query));
+            
+            container.innerHTML = `<div class="char-grid">${filtered.map(c => `
+                <div class="char-item" onclick="copyCharacter('${c.char}', '${c.nome}')" title="${c.nome}">
+                    ${c.char}
+                    <span class="char-tooltip">${c.nome}</span>
+                </div>
+            `).join('')}</div>`;
+        }
+
+        function copyCharacter(char, name) {
+            navigator.clipboard.writeText(char).then(() => {
+                // Mostrar feedback
+                const feedback = document.getElementById('copyFeedback');
+                feedback.style.display = 'block';
+                setTimeout(() => { feedback.style.display = 'none'; }, 1000);
+                
+                // Adicionar aos recentes
+                if (!state.recentCharacters.includes(char)) {
+                    state.recentCharacters.unshift(char);
+                    if (state.recentCharacters.length > 20) state.recentCharacters.pop();
+                    localStorage.setItem('recentCharacters', JSON.stringify(state.recentCharacters));
+                }
+                
+                // Mostrar seção de recentes
+                const recentSection = document.getElementById('recentlyCopiedSection');
+                if (recentSection) {
+                    recentSection.style.display = 'block';
+                    const list = document.getElementById('recentCharsList');
+                    list.innerHTML = state.recentCharacters.map(c => 
+                        `<span class="recent-char-item" onclick="copyCharacter('${c}', '')">${c}</span>`
+                    ).join('');
+                }
+                
+                addXP(1);
+                showToast(`✓ "${char}" copiado! (${name})`, 'success');
+            });
+        }
+
         // ============================================
         // GAMIFICAÇÃO
         // ============================================
@@ -2061,7 +2228,7 @@
             state.xp += amount;
             state.totalXP += amount;
             if (amount > 0) {
-                const newLevel = Math.floor(state.totalXP / 100) + 1;
+                const newLevel = Math.floor(state.totalXP / CONFIG.LEVEL_XP_MULTIPLIER) + 1;
                 if (newLevel > state.level) {
                     state.level = newLevel;
                     state.coins += newLevel * 50;
@@ -2071,13 +2238,21 @@
             updateAllDisplays();
             saveState();
         }
-        
+
         function addCoins(amount) {
             state.coins += amount;
             updateAllDisplays();
             saveState();
         }
-        
+
+        function showLevelUp(level) {
+            const overlay = document.getElementById('levelUpOverlay');
+            const text = document.getElementById('levelUpText');
+            if (text) text.textContent = `Você alcançou o nível ${level}!`;
+            overlay.classList.add('active');
+            setTimeout(() => overlay.classList.remove('active'), 3000);
+        }
+
         function saveState() {
             localStorage.setItem('geekieCoins', state.coins);
             localStorage.setItem('geekieXP', state.xp);
@@ -2088,110 +2263,211 @@
             localStorage.setItem('geekieTodayStudy', state.todayStudyMinutes);
             localStorage.setItem('geekiePomodoros', state.pomodorosToday);
             localStorage.setItem('geekieTotalPomodoros', state.totalPomodoros);
-            localStorage.setItem('geekieGoalsCompleted', JSON.stringify(state.goalsCompleted));
+            localStorage.setItem('geekieGoalsCompleted', state.goalsCompleted);
+            localStorage.setItem('geekieStreak', state.streak);
             localStorage.setItem('recentCharacters', JSON.stringify(state.recentCharacters));
         }
-        
+
         function updateAllDisplays() {
-            document.getElementById('coinsDisplay').textContent = state.coins;
-            document.getElementById('xpDisplay').textContent = state.xp;
-            document.getElementById('levelDisplay').textContent = state.level;
-            document.getElementById('homeLevel').textContent = state.level;
-            document.getElementById('homeCoins').textContent = state.coins;
-            document.getElementById('homeXP').textContent = state.totalXP;
-            document.getElementById('todayStudyTime').textContent = formatTime(state.todayStudyMinutes);
-            document.getElementById('homeStreak').textContent = state.streak;
-            document.getElementById('homePomodoros').textContent = state.pomodorosToday;
-            document.getElementById('totalPomodoros').textContent = state.totalPomodoros;
-            document.getElementById('homeGoalsCompleted').textContent = state.goalsCompleted;
+            const setEl = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+            setEl('coinsDisplay', state.coins);
+            setEl('xpDisplay', state.xp);
+            setEl('levelDisplay', state.level);
+            setEl('homeLevel', state.level);
+            setEl('homeCoins', state.coins);
+            setEl('homeXP', state.totalXP);
+            setEl('homeStreak', state.streak);
+            setEl('todayStudyTime', formatTime(state.todayStudyMinutes));
+            setEl('homePomodoros', state.pomodorosToday);
+            setEl('homeSessions', state.sessions);
+            setEl('homeHours', formatTime(state.studyMinutes));
+            setEl('homeGoalsCompleted', state.goalsCompleted);
+            setEl('shopCoins', state.coins);
         }
-        
+
         function formatTime(minutes) {
             if (minutes < 60) return `${Math.floor(minutes)}min`;
             return `${Math.floor(minutes / 60)}h`;
         }
-        
+
+        // ============================================
+        // TOAST NOTIFICATIONS
+        // ============================================
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `<span>${message}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.animation = 'fadeOut 0.4s ease forwards';
+                setTimeout(() => toast.remove(), 400);
+            }, 3000);
+        }
+
         // ============================================
         // RENDERIZAÇÃO DE CONTEÚDO
         // ============================================
         function renderHome() {
+            updateAllDisplays();
+            
             const missionsContainer = document.getElementById('homeMissions');
+            if (!missionsContainer) return;
+            
             const missions = [
-                { id: 'm1', title: 'Estudar 30 minutos', target: 30, reward: 50, completed: false },
-                id: 'm2', title: 'Completar 1 tarefa', target: 60, reward: 100, completed: false },
-                id: 'm3', title: ' Ler 1 tarefa', target: 90, reward: 150, completed: false },
-                id: 'm4', title: ' Ler 1 capítulo', target: 120, reward: 250, completed: false },
-                id: 'm5', title: ' Completar 5 tarefas', target: 150, reward: 500, completed: false }
+                { title: 'Estudar 30 minutos', reward: 50, progress: Math.min(state.todayStudyMinutes / 30, 1) },
+                { title: 'Completar 1 Pomodoro', reward: 100, progress: Math.min(state.pomodorosToday / 1, 1) },
+                { title: 'Completar 3 Pomodoros', reward: 150, progress: Math.min(state.pomodorosToday / 3, 1) },
+                { title: 'Estudar 1 hora', reward: 250, progress: Math.min(state.todayStudyMinutes / 60, 1) },
+                { title: 'Completar 5 metas', reward: 500, progress: Math.min(state.goalsCompleted / 5, 1) }
             ];
             
-            missionsContainer.innerHTML = '';
-            missions.forEach(mission => {
-                const div = document.createElement('div');
-                div.className = `mission-item ${mission.completed ? 'completed' : ''}`;
-                div.innerHTML = `
-                    <div class="mission-header">
-                        <span class="mission-title">${mission.title}</span>
-                        <span class="mission-reward">+${mission.reward}</span>
-                    </div>
-                    <div class="mission-progress">
+            missionsContainer.innerHTML = missions.map(mission => {
+                const completed = mission.progress >= 1;
+                const percent = Math.round(mission.progress * 100);
+                return `
+                    <div class="mission-item ${completed ? 'completed' : ''}">
+                        <div class="mission-header">
+                            <span class="mission-title">${mission.title}</span>
+                            <span class="mission-reward">+${mission.reward} XP</span>
+                        </div>
                         <div class="mission-progress">
-                            <div class="mission-progress-bar" style="width: ${Math.min(mission.target / mission.target * 100)%"></div>
+                            <div class="mission-progress-bar" style="width: ${percent}%"></div>
+                        </div>
+                        <div class="mission-status">${completed ? '✅ Concluído!' : `🔄 ${percent}% completo`}</div>
                     </div>
-                    <div class="mission-status">${mission.completed ? '✅ Concluído!' : '🔄 Clique para completar' : ' + (clique para descompletar!)'}
-                </div>
-            `;
-                missionsContainer.appendChild(div);
-            });
+                `;
+            }).join('');
             
-            document.getElementById('homeMissions').innerHTML = missionsContainer;
-        }
-        
-        // Renderizar temas
-        const themesGrid = document.getElementById('homeThemesGrid');
-        const themes = [
-            { id: 't1', name: 'Cyberpunk', icon: '🌃', bg: 'linear-gradient(135deg, #0077be 0%, #00d4ff 100%)', preview: '🌌' },
-            { id: 't2', name: 'Ocean', icon: '🌊', bg: 'linear-gradient(135deg, #0077be 0%, #00d4ff 100%)', preview: '🌊' },
-            { id: 't3', name: 'Sunset', icon: '☀️', bg: 'linear-gradient(135deg, #ff6b35 0%, #ffa500)', preview: '🌅' },
-            { id: 't4', name: 'Forest', icon: '🌲', bg: 'linear-gradient(135deg, #22c55e 0%, #16a34a 0%, #166a34 0%, #0f1428 100%)', preview: '🌲' },
-            { id: 't5', name: 'Royal', icon: '👑', bg: 'linear-gradient(135deg, #a855f7 0%, #ec489 0%, #f472b 0%, #f472b 0%, #fff; preview: '👑' },
-            { id: 't6', name: 'Golden Emperor', icon: '👑', bg: 'linear-gradient(135deg, #ffd700 0%, #ffaa00 0%, #ffaa00 0%, #fff;)', preview: '👑' }
-        ];
-        
-        themesGrid.innerHTML = themes.map(t => `
-            <div class="theme-preview" onclick="changeTheme('${t.id}')">
-                <div class="theme-preview" style="${t.bg}">
-                    <div style="font-size: 24px; font-weight: 700; color: #000; font-family: 'Poppins', sans-serif;">
-                        <div style="font-size: 14px; font-weight: 600;">${t.name}</div>
-                </div>
-            `);
-        
-        // Renderizar abas
-        const homeLevels = document.querySelectorAll('.home-level, .home-streak, .home-xp');
-        homeLevels.forEach((lvl, idx) => lvl.textContent = lvl);
-    </div>
-
-        // ============================================
-        // CONQUISTA DE DEBUG
-        // ============================================
-        function debugLog(msg) {
-            const log = document.getElementById('debugInfo');
-            if (log) {
-                const item = document.createElement('div');
-                item.innerHTML = `<strong style="color: #00ff88; font-family: 'monospace'; font-size: 14px;">[${msg}]</div>`;
-                log.appendChild(item);
+            // Renderizar temas
+            const themesGrid = document.getElementById('homeThemesGrid');
+            if (themesGrid) {
+                const themes = [
+                    { id: 'cyberpunk', name: 'Cyberpunk', icon: '🌃', bg: 'linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%)' },
+                    { id: 'ocean', name: 'Ocean', icon: '🌊', bg: 'linear-gradient(135deg, #0077be 0%, #00d4ff 100%)' },
+                    { id: 'sunset', name: 'Sunset', icon: '☀️', bg: 'linear-gradient(135deg, #ff6b35 0%, #ffa500 100%)' },
+                    { id: 'forest', name: 'Forest', icon: '🌲', bg: 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)' },
+                    { id: 'royal', name: 'Royal', icon: '👑', bg: 'linear-gradient(135deg, #a855f7 0%, #ec4899 100%)' },
+                    { id: 'golden', name: 'Golden', icon: '✨', bg: 'linear-gradient(135deg, #ffd700 0%, #ffaa00 100%)' }
+                ];
+                
+                themesGrid.innerHTML = themes.map(t => `
+                    <div style="background: ${t.bg}; border-radius: 12px; padding: 15px; text-align: center; cursor: pointer; transition: all 0.3s ease;" 
+                         onclick="changeTheme('${t.id}')" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                        <div style="font-size: 24px;">${t.icon}</div>
+                        <div style="font-size: 12px; font-weight: 700; margin-top: 5px; color: white;">${t.name}</div>
+                    </div>
+                `).join('');
             }
         }
-        
-        // Inicialização
-        console.log('%c[🔷 GEEKIE PORTAL v7.0]');
-        console.log('%c[📋 Sistema carregado com sucesso!');
-        console.log('%c[📋 Pronto! Use as abas abaixo:');
-        console.log('   • switchTab("home") - Início');
-        console.log('   • switchTab("geekie") - Geekie One');
-        console.log('   • switchTab("tools") - Ferramentas');
-        console.log('   • switchTab("characters") - Caracteres');
-        console.log('   • switchTab("achievements") - Conquistas');
-        console.log('   • switchTab("notifications") - Atualizações');
+
+        function renderShop() {
+            const shopGrid = document.getElementById('shopGrid');
+            if (!shopGrid) return;
+            shopGrid.innerHTML = '<p style="color: var(--text-secondary); text-align: center; grid-column: 1/-1; padding: 40px;">🏪 Loja em breve! Junte moedas para desbloquear temas exclusivos.</p>';
+        }
+
+        function renderAchievements() {
+            const grid = document.getElementById('achievementsGrid');
+            if (!grid) return;
+            
+            const achievements = [
+                { icon: '🎯', name: 'Primeiro Passo', desc: 'Complete sua primeira sessão', reward: '+50 XP', unlocked: state.sessions > 0 },
+                { icon: '🔥', name: 'Em Chamas', desc: 'Complete 5 Pomodoros em um dia', reward: '+100 XP', unlocked: state.pomodorosToday >= 5 },
+                { icon: '📚', name: 'Estudioso', desc: 'Estude por 1 hora total', reward: '+150 XP', unlocked: state.studyMinutes >= 60 },
+                { icon: '💪', name: 'Persistente', desc: 'Alcance o nível 5', reward: '+200 XP', unlocked: state.level >= 5 },
+                { icon: '🏆', name: 'Campeão', desc: 'Alcance o nível 10', reward: '+500 XP', unlocked: state.level >= 10 },
+                { icon: '⭐', name: 'Estrela', desc: 'Complete 10 metas', reward: '+300 XP', unlocked: state.goalsCompleted >= 10 },
+                { icon: '🧠', name: 'Gênio', desc: 'Acumule 1000 XP', reward: '+200 XP', unlocked: state.totalXP >= 1000 },
+                { icon: '💰', name: 'Rico', desc: 'Acumule 500 moedas', reward: '+100 XP', unlocked: state.coins >= 500 },
+                { icon: '📝', name: 'Escritor', desc: 'Salve 10 notas', reward: '+100 XP', unlocked: false },
+                { icon: '🎓', name: 'Mestre', desc: 'Desbloqueie todas as conquistas', reward: '+1000 XP', unlocked: false }
+            ];
+            
+            grid.innerHTML = achievements.map(a => `
+                <div class="achievement-card ${a.unlocked ? 'unlocked' : 'locked'}">
+                    <div class="achievement-icon">${a.icon}</div>
+                    <div class="achievement-name">${a.name}</div>
+                    <div class="achievement-desc">${a.desc}</div>
+                    <div class="achievement-reward">${a.reward}</div>
+                </div>
+            `).join('');
+        }
+
+        function renderNotifications() {
+            // Notifications are rendered as static HTML
+        }
+
+        // ============================================
+        // IFRAME / GEEKIE
+        // ============================================
+        function initGeekie() {
+            const frame = document.getElementById('geekieFrame');
+            if (frame && !frame.src) {
+                frame.src = CONFIG.GEEKIE_URL;
+            }
+            state.sessions++;
+            saveState();
+        }
+
+        function onIframeLoad() {
+            const overlay = document.getElementById('loadingOverlay');
+            if (overlay) overlay.classList.add('hidden');
+        }
+
+        function refreshIframe() {
+            const frame = document.getElementById('geekieFrame');
+            if (frame) frame.src = frame.src;
+        }
+
+        function goBack() { window.history.back(); }
+        function goForward() { window.history.forward(); }
+
+        function openInNewTab() {
+            window.open(CONFIG.GEEKIE_URL, '_blank');
+            addXP(CONFIG.NEWTAB_XP);
+            showToast('🔗 Nova aba aberta! +10 XP!', 'reward');
+        }
+
+        function openFullscreen() {
+            if (document.documentElement.requestFullscreen) {
+                document.documentElement.requestFullscreen();
+            }
+        }
+
+        // ============================================
+        // UTILIDADES
+        // ============================================
+        function changeTheme(themeId) {
+            state.theme = themeId;
+            localStorage.setItem('selectedTheme', themeId);
+            showToast(`🎨 Tema "${themeId}" aplicado!`, 'success');
+        }
+
+        function markAllRead() {
+            const badge = document.getElementById('notifBadge');
+            if (badge) badge.style.display = 'none';
+            const dot = document.getElementById('dockNotifDot');
+            if (dot) dot.style.display = 'none';
+            showToast('✅ Todas as notificações marcadas como lidas!', 'success');
+        }
+
+        function filterShop(category) {
+            document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+        }
+
+        // Listener para contagem de notas
+        document.addEventListener('input', (e) => {
+            if (e.target.id === 'notesArea') {
+                updateNotesCounts();
+            }
+        });
+
+        // Debug log
+        function debugLog(msg) {
+            console.log(`[DEBUG] ${msg}`);
+        }
     </script>
-</head>
+</body>
 </html>
