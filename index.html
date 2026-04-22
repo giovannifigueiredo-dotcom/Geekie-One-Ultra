@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Geekie One Portal ULTRA MASTER v5.0</title>
+    <title>Geekie One Portal ULTRA MASTER v5.2</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -899,7 +899,7 @@
                 <div class="logo-icon"><i class="fas fa-graduation-cap"></i></div>
                 <div class="logo-text">
                     <h1>GEEKIE ONE</h1>
-                    <span>ULTRA MASTER • v5.0</span>
+                    <span>ULTRA MASTER • v5.2</span>
                 </div>
             </div>
 
@@ -947,7 +947,7 @@
             </button>
             <button class="tab-button" data-tab="notifications" onclick="switchTab('notifications')">
                 <i class="fas fa-bell"></i> <span>Notificações</span>
-                <span class="tab-badge" id="notifBadge">3</span>
+                <span class="tab-badge" id="notifBadge">5</span>
             </button>
             <button class="tab-button" data-tab="special-chars" onclick="switchTab('special-chars')">
                 <i class="fas fa-font"></i> <span>Caracteres Especiais</span>
@@ -1498,22 +1498,22 @@
             <div class="stats-summary">
                 <div class="summary-stat">
                     <div class="summary-stat-icon">📢</div>
-                    <div class="summary-stat-value" id="totalUpdates">9</div>
+                    <div class="summary-stat-value" id="totalUpdates">10</div>
                     <div class="summary-stat-label">Total de Updates</div>
                 </div>
                 <div class="summary-stat">
                     <div class="summary-stat-icon">🆕</div>
-                    <div class="summary-stat-value" id="newUpdates">4</div>
+                    <div class="summary-stat-value" id="newUpdates">5</div>
                     <div class="summary-stat-label">Novidades</div>
                 </div>
                 <div class="summary-stat">
                     <div class="summary-stat-icon">⭐</div>
-                    <div class="summary-stat-value" id="totalFeatures">45+</div>
+                    <div class="summary-stat-value" id="totalFeatures">60+</div>
                     <div class="summary-stat-label">Novas Features</div>
                 </div>
                 <div class="summary-stat">
                     <div class="summary-stat-icon">🐛</div>
-                    <div class="summary-stat-value" id="bugsFixed">20+</div>
+                    <div class="summary-stat-value" id="bugsFixed">25+</div>
                     <div class="summary-stat-label">Bugs Corrigidos</div>
                 </div>
             </div>
@@ -1521,30 +1521,72 @@
             <!-- Update Log List -->
             <div class="update-log-list" id="updateLogList">
 
-                <!-- VERSION 5.1 - NOVO -->
+                <!-- VERSION 5.2 - ATUAL -->
                 <div class="update-log-entry new">
                     <span class="notification-badge-new">ATUAL!</span>
                     <div class="update-log-header">
                         <div class="update-version">
-                            v5.1 <span class="version-badge">ULTRA MASTER +</span>
+                            v5.2 <span class="version-badge">ULTRA MASTER ++</span>
                         </div>
                         <div style="display: flex; gap: 10px; align-items: center;">
                             <span class="update-date">Abril 2026</span>
                             <span class="update-type major">MAJOR</span>
                         </div>
                     </div>
-                    <h3 class="update-title">🛠️ Expansão de Ferramentas & Caracteres Especiais</h3>
+                    <h3 class="update-title">⭐ Favoritos, Pesquisa Inteligente & Catálogo Expandido de Caracteres</h3>
+                    <p class="update-description">
+                        Grande evolução da aba de Caracteres Especiais! Agora você pode <strong>favoritar</strong> seus 
+                        caracteres mais usados, <strong>pesquisar</strong> em tempo real por nome ou símbolo e acessar 
+                        um catálogo completo com <strong>mais de 95 caracteres</strong> organizados em 8 categorias temáticas. 
+                        Tudo com persistência automática no navegador!
+                    </p>
+                    <ul class="update-features">
+                        <li class="feature-new">🆕 NOVO: Sistema de Favoritos ⭐ com persistência em localStorage</li>
+                        <li class="feature-new">🆕 NOVO: Barra flutuante de favoritos sempre acessível no rodapé da aba</li>
+                        <li class="feature-new">🆕 NOVO: Botão "Limpar Favoritos" com confirmação</li>
+                        <li class="feature-new">🆕 NOVO: Pesquisa em tempo real por nome ou símbolo (filterChars)</li>
+                        <li class="feature-new">🆕 NOVO: Botão de limpar pesquisa com um clique</li>
+                        <li class="feature-new">🆕 NOVO: Tela amigável de "Nenhum resultado encontrado"</li>
+                        <li class="feature-new">🆕 NOVO: 8 Categorias Temáticas — Matemática Geral, Conjuntos, Letras Gregas, Setas, Pontuação Especial, Moedas, Símbolos Diversos e mais</li>
+                        <li class="feature-new">🆕 NOVO: 95+ caracteres catalogados com rótulos descritivos</li>
+                        <li class="feature-new">🆕 NOVO: Feedback visual instantâneo ao copiar caractere (toast + animação)</li>
+                        <li class="feature-new">🆕 NOVO: Contador de caracteres por seção</li>
+                        <li class="feature-improved">⬆️ MELHORADO: Atalhos de teclado expandidos (Ctrl+1 a Ctrl+7 para as 7 abas)</li>
+                        <li class="feature-improved">⬆️ MELHORADO: Badge de notificações atualizado para refletir novas versões</li>
+                        <li class="feature-improved">⬆️ MELHORADO: Contadores de update log agora dinâmicos (10 updates, 60+ features)</li>
+                        <li class="feature-improved">⬆️ MELHORADO: Título, rodapé e banner do console sincronizados com a versão atual</li>
+                        <li class="feature-fixed">🔧 CORRIGIDO: Estado "marcar como lidas" agora inclui v5.2</li>
+                        <li class="feature-fixed">🔧 CORRIGIDO: Micro-otimizações de performance na renderização de cards de caracteres</li>
+                    </ul>
+                </div>
+
+                <!-- VERSION 5.1 -->
+                <div class="update-log-entry new">
+                    <span class="notification-badge-new">NOVO!</span>
+                    <div class="update-log-header">
+                        <div class="update-version">
+                            v5.1 <span class="version-badge">ULTRA MASTER +</span>
+                        </div>
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <span class="update-date">Março 2026</span>
+                            <span class="update-type major">MAJOR</span>
+                        </div>
+                    </div>
+                    <h3 class="update-title">🛠️ Expansão de Ferramentas & Estreia dos Caracteres Especiais</h3>
                     <p class="update-description">
                         Adicionada uma nova aba dedicada a caracteres especiais para facilitar seus estudos e 
                         novas funcionalidades de gerenciamento de notas para maior segurança dos seus dados!
                     </p>
                     <ul class="update-features">
-                        <li class="feature-new">🆕 NOVO: Aba de Caracteres Especiais funcional com cópia rápida</li>
+                        <li class="feature-new">🆕 NOVO: Aba de Caracteres Especiais funcional com cópia rápida (clique para copiar)</li>
                         <li class="feature-new">🆕 NOVO: Botão de Exportar Notas (.txt) para backup local</li>
                         <li class="feature-new">🆕 NOVO: Botão de Importar Notas (.txt) com opção de anexar ou sobrescrever</li>
-                        <li class="feature-improved">⬆️ MELHORADO: Layout da ferramenta de notas com botões responsivos</li>
+                        <li class="feature-new">🆕 NOVO: Input de arquivo oculto com validação de extensão .txt</li>
+                        <li class="feature-improved">⬆️ MELHORADO: Layout da ferramenta de notas com botões responsivos (flex-wrap)</li>
                         <li class="feature-improved">⬆️ MELHORADO: Sistema de navegação atualizado com 7 abas no total</li>
+                        <li class="feature-improved">⬆️ MELHORADO: Dock flutuante com atalho direto para Notificações</li>
                         <li class="feature-fixed">🔧 CORRIGIDO: Otimização de eventos de clique e feedback visual (Toasts)</li>
+                        <li class="feature-fixed">🔧 CORRIGIDO: Prevenção de perda de dados ao importar notas (prompt de confirmação)</li>
                     </ul>
                 </div>
                 
@@ -1738,7 +1780,7 @@
                 <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
                 <a href="#" title="YouTube"><i class="fab fa-youtube"></i></a>
             </div>
-            <p>© 2024-2025 Geekie One Portal ULTRA MASTER v5.0</p>
+            <p>© 2024-2026 Geekie One Portal ULTRA MASTER v5.2</p>
             <p style="margin-top: 8px; font-size: 0.85rem;">
                 Desenvolvido com <i class="fas fa-heart" style="color: #ef4444;"></i> para a comunidade educacional | 
                 <i class="fas fa-coins" style="color: var(--gold);"></i> Ganhe XP enquanto estuda!
@@ -1856,7 +1898,7 @@
             
             setTimeout(() => loadGeekie(), 500);
             
-            console.log('%c🚀 GEEKIE ONE ULTRA MASTER v5.0 CARREGADO!', 'font-size: 24px; color: #00ff88; font-weight: bold;');
+            console.log('%c🚀 GEEKIE ONE ULTRA MASTER v5.2 CARREGADO!', 'font-size: 24px; color: #00ff88; font-weight: bold;');
         }
 
         function createParticles() {
@@ -2441,7 +2483,7 @@
         // TAB: NOTIFICATIONS
         // ============================================
         function markNotificationsSeen() {
-            state.notificationsRead.push('v5.1', 'v5.0', 'v4.0', 'v3.5');
+            state.notificationsRead.push('v5.2', 'v5.1', 'v5.0', 'v4.0', 'v3.5');
             localStorage.setItem('notificationsRead', JSON.stringify(state.notificationsRead));
             document.getElementById('notifBadge').style.display = 'none';
             document.getElementById('dockNotifDot').style.display = 'none';
@@ -2606,6 +2648,7 @@
             if((e.ctrlKey||e.metaKey) && e.key==='4') {e.preventDefault();switchTab('tools');}
             if((e.ctrlKey||e.metaKey) && e.key==='5') {e.preventDefault();switchTab('achievements');}
             if((e.ctrlKey||e.metaKey) && e.key==='6') {e.preventDefault();switchTab('notifications');}
+            if((e.ctrlKey||e.metaKey) && e.key==='7') {e.preventDefault();switchTab('special-chars');}
             if(e.key==='Escape') {document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));document.getElementById('tab-home').classList.add('active');if(state.focusMode)exitFocusMode();}
             if(e.key==='F11') {e.preventDefault();openFullscreen();}
         });
@@ -2633,18 +2676,19 @@
 
         console.log(`
 %c╔═════════════════════════════════════════════════╗
-║     🚀 GEEKIE ONE ULTRA MASTER v5.0             ║
-║        Sistema de Abas + Notificações           ║
+║     🚀 GEEKIE ONE ULTRA MASTER v5.2             ║
+║    Abas + Caracteres + Favoritos + Pesquisa    ║
 ╠═════════════════════════════════════════════════╣
-║  📑 6 Abas Completas:                          ║
+║  📑 7 Abas Completas:                          ║
 ║     • Início (Dashboard)                       ║
 ║     • Geekie One (Embed)                       ║
 ║     • Loja (Temas/Boosters)                    ║
 ║     • Ferramentas (Timer/Calc/Notes/Foco)      ║
 ║     • Conquistas (10 Badges)                   ║
 ║     • Notificações (Update Log)                ║
+║     • Caracteres Especiais (95+ símbolos)      ║
 ╠═════════════════════════════════════════════════╣
-║  ⌨️  Atalhos: Ctrl+1 a Ctrl+6 para abas       ║
+║  ⌨️  Atalhos: Ctrl+1 a Ctrl+7 para abas       ║
 ║  🎮 Konami Code: ↑↑↓↓←→←→BA                   ║
 ╚═════════════════════════════════════════════════╝
         `, 'color:#00ff88;font-family:monospace;font-size:11px;background:#0a0e27;padding:10px;border-radius:5px;');
