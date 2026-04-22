@@ -697,6 +697,180 @@
             .tools-grid { grid-template-columns: 1fr; }
         }
         .hidden { display: none !important; }
+
+        /* ==================== SPECIAL CHARS TAB ==================== */
+        .chars-tab-header {
+            display: flex; justify-content: space-between; align-items: flex-start;
+            flex-wrap: wrap; gap: 16px; margin-bottom: 28px;
+        }
+        .chars-main-title {
+            font-family: 'Orbitron', sans-serif; font-size: 1.8rem; font-weight: 800;
+            color: var(--text-primary); display: flex; align-items: center; gap: 12px;
+        }
+        .chars-main-title i { color: var(--primary); }
+        .chars-main-sub { color: var(--text-secondary); margin-top: 6px; font-size: 0.9rem; }
+        .chars-search-wrapper {
+            position: relative; display: flex; align-items: center;
+            min-width: 280px; flex: 1; max-width: 420px;
+        }
+        .chars-search-icon {
+            position: absolute; left: 14px; color: var(--text-secondary);
+            font-size: 14px; pointer-events: none; z-index: 1;
+        }
+        .chars-search-input {
+            width: 100%; padding: 12px 40px 12px 40px;
+            background: var(--bg-card); backdrop-filter: blur(20px);
+            border: 1.5px solid var(--border-color); border-radius: 12px;
+            color: var(--text-primary); font-family: 'Inter', sans-serif;
+            font-size: 14px; transition: all 0.3s ease; outline: none;
+        }
+        .chars-search-input:focus {
+            border-color: var(--primary); box-shadow: 0 0 0 3px rgba(0,255,136,0.15);
+        }
+        .chars-search-input::placeholder { color: var(--text-secondary); }
+        .chars-search-clear {
+            position: absolute; right: 10px; background: none; border: none;
+            color: var(--text-secondary); cursor: pointer; padding: 6px;
+            border-radius: 6px; transition: color 0.2s; display: none; font-size: 13px;
+            align-items: center; justify-content: center;
+        }
+        .chars-search-clear:hover { color: var(--primary); }
+        .chars-search-clear.visible { display: flex; }
+        .chars-no-results {
+            text-align: center; padding: 50px 20px;
+            color: var(--text-secondary); display: flex;
+            flex-direction: column; align-items: center; gap: 10px;
+        }
+        .chars-section {
+            margin-bottom: 24px;
+            background: var(--bg-card); backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color); border-radius: 16px;
+            padding: 20px 22px; transition: border-color 0.3s ease;
+        }
+        .chars-section:hover { border-color: rgba(0,255,136,0.3); }
+        .chars-section-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 16px; padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .chars-section-title {
+            font-family: 'Poppins', sans-serif; font-size: 1.05rem; font-weight: 700;
+            color: var(--text-primary); display: flex; align-items: center; gap: 10px;
+        }
+        .chars-section-icon { font-size: 1.2rem; }
+        .chars-section-count {
+            font-size: 0.78rem; color: var(--text-secondary);
+            background: rgba(255,255,255,0.06); padding: 4px 10px;
+            border-radius: 20px; border: 1px solid var(--border-color);
+        }
+        .chars-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+            gap: 10px;
+        }
+        .char-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-color); border-radius: 12px;
+            display: flex; flex-direction: column; align-items: center;
+            padding: 10px 6px 8px; gap: 6px; transition: all 0.25s ease;
+            position: relative; overflow: hidden;
+        }
+        .char-card:hover {
+            border-color: var(--primary); background: rgba(0,255,136,0.06);
+            transform: translateY(-2px); box-shadow: 0 4px 18px rgba(0,255,136,0.15);
+        }
+        .char-card.favorited {
+            border-color: var(--gold) !important;
+            background: rgba(255,215,0,0.07) !important;
+        }
+        .char-card.hidden-by-search { display: none; }
+        .char-symbol {
+            background: none; border: none; color: var(--text-primary);
+            font-size: 26px; cursor: pointer; padding: 6px 10px;
+            border-radius: 8px; transition: all 0.2s ease;
+            font-family: 'Fira Code', monospace; line-height: 1;
+        }
+        .char-symbol:hover {
+            background: var(--primary); color: var(--bg-primary);
+            transform: scale(1.15);
+        }
+        .char-label {
+            font-size: 10px; color: var(--text-secondary);
+            text-align: center; line-height: 1.3; width: 100%;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+            padding: 0 4px;
+        }
+        .char-fav-btn {
+            background: none; border: none; cursor: pointer;
+            color: var(--text-secondary); font-size: 11px;
+            padding: 3px 6px; border-radius: 6px; transition: all 0.2s ease;
+        }
+        .char-fav-btn:hover { color: var(--gold); transform: scale(1.2); }
+        .char-card.favorited .char-fav-btn { color: var(--gold); }
+        .chars-favorites-footer {
+            position: sticky; bottom: 0;
+            background: rgba(10, 14, 39, 0.97);
+            backdrop-filter: blur(25px) saturate(180%);
+            border-top: 2px solid var(--gold);
+            box-shadow: 0 -8px 30px rgba(0,0,0,0.5), 0 -2px 0 rgba(255,215,0,0.3);
+            padding: 14px 22px;
+            z-index: 100;
+            margin-top: 20px;
+        }
+        .chars-favorites-bar {
+            display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+        }
+        .chars-favorites-title {
+            display: flex; align-items: center; gap: 8px;
+            font-family: 'Poppins', sans-serif; font-weight: 700;
+            font-size: 0.95rem; color: var(--gold); white-space: nowrap; flex-shrink: 0;
+        }
+        .chars-fav-count {
+            background: var(--gold); color: #000; font-size: 11px; font-weight: 800;
+            padding: 2px 8px; border-radius: 12px; min-width: 22px; text-align: center;
+        }
+        .chars-favorites-list {
+            display: flex; flex-wrap: wrap; gap: 8px; flex: 1; align-items: center;
+        }
+        .chars-fav-empty {
+            color: var(--text-secondary); font-size: 0.85rem; font-style: italic;
+        }
+        .chars-fav-pill {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: rgba(255, 215, 0, 0.12); border: 1px solid rgba(255,215,0,0.4);
+            border-radius: 20px; padding: 5px 10px; cursor: pointer;
+            font-family: 'Fira Code', monospace; font-size: 16px;
+            color: var(--text-primary); transition: all 0.2s ease;
+        }
+        .chars-fav-pill:hover {
+            background: rgba(255,215,0,0.25); transform: scale(1.08);
+            box-shadow: 0 2px 10px rgba(255,215,0,0.3);
+        }
+        .chars-fav-pill .fav-pill-label {
+            font-family: 'Inter', sans-serif; font-size: 10px;
+            color: var(--text-secondary); max-width: 60px;
+            overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+        }
+        .chars-fav-remove {
+            font-size: 10px; color: var(--text-secondary);
+            background: none; border: none; cursor: pointer;
+            padding: 0 2px; line-height: 1; transition: color 0.2s;
+        }
+        .chars-fav-remove:hover { color: #ef4444; }
+        .chars-fav-clear-btn {
+            background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.4);
+            color: #ef4444; border-radius: 8px; padding: 6px 14px;
+            cursor: pointer; font-size: 12px; font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.2s ease; flex-shrink: 0;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .chars-fav-clear-btn:hover { background: rgba(239,68,68,0.3); }
+        @media (max-width: 600px) {
+            .chars-grid { grid-template-columns: repeat(auto-fill, minmax(85px, 1fr)); }
+            .chars-tab-header { flex-direction: column; }
+            .chars-search-wrapper { max-width: 100%; min-width: unset; width: 100%; }
+        }
     </style>
 </head>
 <body data-theme="default">
@@ -1083,107 +1257,230 @@
 
         <!-- ==================== TAB: SPECIAL CHARACTERS ==================== -->
         <section class="tab-content" id="tab-special-chars">
-            <h2 style="font-family: 'Orbitron'; font-size: 1.8rem; font-weight: 800; color: var(--text-primary); margin-bottom: 20px;">
-                <i class="fas fa-font" style="color: var(--primary);"></i> Caracteres Especiais
-            </h2>
-            <p style="color: var(--text-secondary); margin-bottom: 20px;">Clique em um caractere para copiá-lo para a área de transferência.</p>
-            
-            <div class="special-chars-container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); gap: 10px;">
-                <!-- Mathematical -->
-                <button class="char-btn" onclick="copyChar('±')" title="Mais ou menos">±</button>
-                <button class="char-btn" onclick="copyChar('×')" title="Multiplicação">×</button>
-                <button class="char-btn" onclick="copyChar('÷')" title="Divisão">÷</button>
-                <button class="char-btn" onclick="copyChar('≈')" title="Aproximadamente">≈</button>
-                <button class="char-btn" onclick="copyChar('≠')" title="Diferente">≠</button>
-                <button class="char-btn" onclick="copyChar('≤')" title="Menor ou igual">≤</button>
-                <button class="char-btn" onclick="copyChar('≥')" title="Maior ou igual">≥</button>
-                <button class="char-btn" onclick="copyChar('∞')" title="Infinito">∞</button>
-                <button class="char-btn" onclick="copyChar('√')" title="Raiz quadrada">√</button>
-                <button class="char-btn" onclick="copyChar('∛')" title="Raiz cúbica">∛</button>
-                <button class="char-btn" onclick="copyChar('∑')" title="Somatório">∑</button>
-                <button class="char-btn" onclick="copyChar('∫')" title="Integral">∫</button>
-                <button class="char-btn" onclick="copyChar('π')" title="Pi">π</button>
-                <button class="char-btn" onclick="copyChar('∆')" title="Delta">∆</button>
-                <button class="char-btn" onclick="copyChar('∇')" title="Nabla">∇</button>
-                <button class="char-btn" onclick="copyChar('∈')" title="Pertence">∈</button>
-                <button class="char-btn" onclick="copyChar('∉')" title="Não pertence">∉</button>
-                <button class="char-btn" onclick="copyChar('⊂')" title="Contido">⊂</button>
-                <button class="char-btn" onclick="copyChar('⊄')" title="Não contido">⊄</button>
-                <button class="char-btn" onclick="copyChar('∪')" title="União">∪</button>
-                <button class="char-btn" onclick="copyChar('∩')" title="Interseção">∩</button>
-                <button class="char-btn" onclick="copyChar('∅')" title="Conjunto vazio">∅</button>
-                <button class="char-btn" onclick="copyChar('∀')" title="Para todo">∀</button>
-                <button class="char-btn" onclick="copyChar('∃')" title="Existe">∃</button>
-                <button class="char-btn" onclick="copyChar('∄')" title="Não existe">∄</button>
-                <button class="char-btn" onclick="copyChar('∴')" title="Portanto">∴</button>
-                <button class="char-btn" onclick="copyChar('∵')" title="Porque">∵</button>
-                <button class="char-btn" onclick="copyChar('∝')" title="Proporcional">∝</button>
-                <button class="char-btn" onclick="copyChar('∠')" title="Ângulo">∠</button>
-                <button class="char-btn" onclick="copyChar('⊥')" title="Perpendicular">⊥</button>
-                <button class="char-btn" onclick="copyChar('∥')" title="Paralelo">∥</button>
-                <button class="char-btn" onclick="copyChar('°')" title="Grau">°</button>
-                <button class="char-btn" onclick="copyChar('′')" title="Minuto">′</button>
-                <button class="char-btn" onclick="copyChar('″')" title="Segundo">″</button>
-                
-                <!-- Greek Letters -->
-                <button class="char-btn" onclick="copyChar('α')" title="Alpha">α</button>
-                <button class="char-btn" onclick="copyChar('β')" title="Beta">β</button>
-                <button class="char-btn" onclick="copyChar('γ')" title="Gamma">γ</button>
-                <button class="char-btn" onclick="copyChar('δ')" title="Delta">δ</button>
-                <button class="char-btn" onclick="copyChar('ε')" title="Epsilon">ε</button>
-                <button class="char-btn" onclick="copyChar('ζ')" title="Zeta">ζ</button>
-                <button class="char-btn" onclick="copyChar('η')" title="Eta">η</button>
-                <button class="char-btn" onclick="copyChar('θ')" title="Theta">θ</button>
-                <button class="char-btn" onclick="copyChar('λ')" title="Lambda">λ</button>
-                <button class="char-btn" onclick="copyChar('μ')" title="Mu">μ</button>
-                <button class="char-btn" onclick="copyChar('ρ')" title="Rho">ρ</button>
-                <button class="char-btn" onclick="copyChar('σ')" title="Sigma">σ</button>
-                <button class="char-btn" onclick="copyChar('τ')" title="Tau">τ</button>
-                <button class="char-btn" onclick="copyChar('φ')" title="Phi">φ</button>
-                <button class="char-btn" onclick="copyChar('ω')" title="Omega">ω</button>
-                
-                <!-- Arrows -->
-                <button class="char-btn" onclick="copyChar('←')" title="Seta esquerda">←</button>
-                <button class="char-btn" onclick="copyChar('↑')" title="Seta cima">↑</button>
-                <button class="char-btn" onclick="copyChar('→')" title="Seta direita">→</button>
-                <button class="char-btn" onclick="copyChar('↓')" title="Seta baixo">↓</button>
-                <button class="char-btn" onclick="copyChar('↔')" title="Seta dupla">↔</button>
-                <button class="char-btn" onclick="copyChar('⇒')" title="Implica">⇒</button>
-                <button class="char-btn" onclick="copyChar('⇔')" title="Equivale">⇔</button>
-                
-                <!-- Others -->
-                <button class="char-btn" onclick="copyChar('©')" title="Copyright">©</button>
-                <button class="char-btn" onclick="copyChar('®')" title="Registrado">®</button>
-                <button class="char-btn" onclick="copyChar('™')" title="Marca registrada">™</button>
-                <button class="char-btn" onclick="copyChar('€')" title="Euro">€</button>
-                <button class="char-btn" onclick="copyChar('£')" title="Libra">£</button>
-                <button class="char-btn" onclick="copyChar('¥')" title="Iene">¥</button>
-                <button class="char-btn" onclick="copyChar('¢')" title="Centavo">¢</button>
-                <button class="char-btn" onclick="copyChar('•')" title="Bullet">•</button>
-                <button class="char-btn" onclick="copyChar('✓')" title="Check">✓</button>
-                <button class="char-btn" onclick="copyChar('✗')" title="X">✗</button>
+
+            <!-- Tab Header -->
+            <div class="chars-tab-header">
+                <div>
+                    <h2 class="chars-main-title">
+                        <i class="fas fa-font"></i> Caracteres Especiais
+                    </h2>
+                    <p class="chars-main-sub">Clique no caractere para copiar · ⭐ para favoritar</p>
+                </div>
+                <div class="chars-search-wrapper">
+                    <i class="fas fa-search chars-search-icon"></i>
+                    <input type="text" id="charsSearchInput" class="chars-search-input"
+                        placeholder="Pesquisar caractere ou nome..."
+                        oninput="filterChars(this.value)">
+                    <button class="chars-search-clear" id="charsSearchClear" onclick="clearCharSearch()" title="Limpar pesquisa">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
             </div>
-            <style>
-                .char-btn {
-                    background: rgba(255, 255, 255, 0.05);
-                    border: 1px solid var(--border-color);
-                    border-radius: 8px;
-                    color: var(--text-primary);
-                    font-size: 24px;
-                    padding: 15px 0;
-                    cursor: pointer;
-                    transition: all 0.2s ease;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                }
-                .char-btn:hover {
-                    background: var(--primary);
-                    color: var(--bg-primary);
-                    border-color: var(--primary);
-                    transform: scale(1.1);
-                }
-            </style>
+
+            <!-- No Results -->
+            <div id="charsNoResults" class="chars-no-results" style="display:none;">
+                <i class="fas fa-search" style="font-size:2.5rem; opacity:0.3; margin-bottom:12px;"></i>
+                <p>Nenhum caractere encontrado para "<span id="charsNoResultsTerm"></span>"</p>
+            </div>
+
+            <!-- All Sections Wrapper -->
+            <div id="charsSectionsWrapper">
+
+                <!-- SECTION: Matemática Geral -->
+                <div class="chars-section" data-section="matematica">
+                    <div class="chars-section-header">
+                        <h3 class="chars-section-title"><span class="chars-section-icon">🔢</span> Matemática Geral</h3>
+                        <span class="chars-section-count">11 caracteres</span>
+                    </div>
+                    <div class="chars-grid" id="grid-matematica">
+                        <div class="char-card" data-char="±" data-name="mais ou menos"><button class="char-symbol" onclick="copyChar('±')">±</button><button class="char-fav-btn" onclick="toggleFavorite('±','Mais ou menos')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Mais/menos</span></div>
+                        <div class="char-card" data-char="×" data-name="multiplicação multiplicar"><button class="char-symbol" onclick="copyChar('×')">×</button><button class="char-fav-btn" onclick="toggleFavorite('×','Multiplicação')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Multiplicação</span></div>
+                        <div class="char-card" data-char="÷" data-name="divisão dividir"><button class="char-symbol" onclick="copyChar('÷')">÷</button><button class="char-fav-btn" onclick="toggleFavorite('÷','Divisão')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Divisão</span></div>
+                        <div class="char-card" data-char="≈" data-name="aproximadamente"><button class="char-symbol" onclick="copyChar('≈')">≈</button><button class="char-fav-btn" onclick="toggleFavorite('≈','Aproximadamente')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Aprox.</span></div>
+                        <div class="char-card" data-char="≠" data-name="diferente não igual"><button class="char-symbol" onclick="copyChar('≠')">≠</button><button class="char-fav-btn" onclick="toggleFavorite('≠','Diferente')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Diferente</span></div>
+                        <div class="char-card" data-char="≤" data-name="menor ou igual"><button class="char-symbol" onclick="copyChar('≤')">≤</button><button class="char-fav-btn" onclick="toggleFavorite('≤','Menor ou igual')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Menor/igual</span></div>
+                        <div class="char-card" data-char="≥" data-name="maior ou igual"><button class="char-symbol" onclick="copyChar('≥')">≥</button><button class="char-fav-btn" onclick="toggleFavorite('≥','Maior ou igual')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Maior/igual</span></div>
+                        <div class="char-card" data-char="∞" data-name="infinito"><button class="char-symbol" onclick="copyChar('∞')">∞</button><button class="char-fav-btn" onclick="toggleFavorite('∞','Infinito')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Infinito</span></div>
+                        <div class="char-card" data-char="√" data-name="raiz quadrada"><button class="char-symbol" onclick="copyChar('√')">√</button><button class="char-fav-btn" onclick="toggleFavorite('√','Raiz quadrada')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Raiz ²</span></div>
+                        <div class="char-card" data-char="∛" data-name="raiz cúbica"><button class="char-symbol" onclick="copyChar('∛')">∛</button><button class="char-fav-btn" onclick="toggleFavorite('∛','Raiz cúbica')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Raiz ³</span></div>
+                        <div class="char-card" data-char="π" data-name="pi"><button class="char-symbol" onclick="copyChar('π')">π</button><button class="char-fav-btn" onclick="toggleFavorite('π','Pi')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Pi</span></div>
+                    </div>
+                </div>
+
+                <!-- SECTION: Cálculo & Análise -->
+                <div class="chars-section" data-section="calculo">
+                    <div class="chars-section-header">
+                        <h3 class="chars-section-title"><span class="chars-section-icon">∫</span> Cálculo & Análise</h3>
+                        <span class="chars-section-count">6 caracteres</span>
+                    </div>
+                    <div class="chars-grid" id="grid-calculo">
+                        <div class="char-card" data-char="∑" data-name="somatório soma"><button class="char-symbol" onclick="copyChar('∑')">∑</button><button class="char-fav-btn" onclick="toggleFavorite('∑','Somatório')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Somatório</span></div>
+                        <div class="char-card" data-char="∫" data-name="integral integração"><button class="char-symbol" onclick="copyChar('∫')">∫</button><button class="char-fav-btn" onclick="toggleFavorite('∫','Integral')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Integral</span></div>
+                        <div class="char-card" data-char="∂" data-name="derivada parcial"><button class="char-symbol" onclick="copyChar('∂')">∂</button><button class="char-fav-btn" onclick="toggleFavorite('∂','Derivada parcial')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Deriv. parcial</span></div>
+                        <div class="char-card" data-char="∆" data-name="delta variação"><button class="char-symbol" onclick="copyChar('∆')">∆</button><button class="char-fav-btn" onclick="toggleFavorite('∆','Delta')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Delta</span></div>
+                        <div class="char-card" data-char="∇" data-name="nabla gradiente"><button class="char-symbol" onclick="copyChar('∇')">∇</button><button class="char-fav-btn" onclick="toggleFavorite('∇','Nabla')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Nabla</span></div>
+                        <div class="char-card" data-char="∝" data-name="proporcional"><button class="char-symbol" onclick="copyChar('∝')">∝</button><button class="char-fav-btn" onclick="toggleFavorite('∝','Proporcional')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Proporcional</span></div>
+                    </div>
+                </div>
+
+                <!-- SECTION: Teoria dos Conjuntos & Lógica -->
+                <div class="chars-section" data-section="conjuntos">
+                    <div class="chars-section-header">
+                        <h3 class="chars-section-title"><span class="chars-section-icon">⊂</span> Conjuntos & Lógica</h3>
+                        <span class="chars-section-count">13 caracteres</span>
+                    </div>
+                    <div class="chars-grid" id="grid-conjuntos">
+                        <div class="char-card" data-char="∈" data-name="pertence elemento"><button class="char-symbol" onclick="copyChar('∈')">∈</button><button class="char-fav-btn" onclick="toggleFavorite('∈','Pertence')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Pertence</span></div>
+                        <div class="char-card" data-char="∉" data-name="não pertence"><button class="char-symbol" onclick="copyChar('∉')">∉</button><button class="char-fav-btn" onclick="toggleFavorite('∉','Não pertence')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Não pertence</span></div>
+                        <div class="char-card" data-char="⊂" data-name="contido subconjunto"><button class="char-symbol" onclick="copyChar('⊂')">⊂</button><button class="char-fav-btn" onclick="toggleFavorite('⊂','Contido')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Contido</span></div>
+                        <div class="char-card" data-char="⊄" data-name="não contido"><button class="char-symbol" onclick="copyChar('⊄')">⊄</button><button class="char-fav-btn" onclick="toggleFavorite('⊄','Não contido')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Não contido</span></div>
+                        <div class="char-card" data-char="⊃" data-name="contém superconjunto"><button class="char-symbol" onclick="copyChar('⊃')">⊃</button><button class="char-fav-btn" onclick="toggleFavorite('⊃','Contém')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Contém</span></div>
+                        <div class="char-card" data-char="∪" data-name="união"><button class="char-symbol" onclick="copyChar('∪')">∪</button><button class="char-fav-btn" onclick="toggleFavorite('∪','União')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">União</span></div>
+                        <div class="char-card" data-char="∩" data-name="interseção intersecção"><button class="char-symbol" onclick="copyChar('∩')">∩</button><button class="char-fav-btn" onclick="toggleFavorite('∩','Interseção')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Interseção</span></div>
+                        <div class="char-card" data-char="∅" data-name="conjunto vazio"><button class="char-symbol" onclick="copyChar('∅')">∅</button><button class="char-fav-btn" onclick="toggleFavorite('∅','Conjunto vazio')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">C. vazio</span></div>
+                        <div class="char-card" data-char="∀" data-name="para todo quantificador universal"><button class="char-symbol" onclick="copyChar('∀')">∀</button><button class="char-fav-btn" onclick="toggleFavorite('∀','Para todo')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Para todo</span></div>
+                        <div class="char-card" data-char="∃" data-name="existe quantificador existencial"><button class="char-symbol" onclick="copyChar('∃')">∃</button><button class="char-fav-btn" onclick="toggleFavorite('∃','Existe')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Existe</span></div>
+                        <div class="char-card" data-char="∄" data-name="não existe"><button class="char-symbol" onclick="copyChar('∄')">∄</button><button class="char-fav-btn" onclick="toggleFavorite('∄','Não existe')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Não existe</span></div>
+                        <div class="char-card" data-char="∴" data-name="portanto logo então"><button class="char-symbol" onclick="copyChar('∴')">∴</button><button class="char-fav-btn" onclick="toggleFavorite('∴','Portanto')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Portanto</span></div>
+                        <div class="char-card" data-char="∵" data-name="porque pois"><button class="char-symbol" onclick="copyChar('∵')">∵</button><button class="char-fav-btn" onclick="toggleFavorite('∵','Porque')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Porque</span></div>
+                    </div>
+                </div>
+
+                <!-- SECTION: Geometria -->
+                <div class="chars-section" data-section="geometria">
+                    <div class="chars-section-header">
+                        <h3 class="chars-section-title"><span class="chars-section-icon">📐</span> Geometria</h3>
+                        <span class="chars-section-count">6 caracteres</span>
+                    </div>
+                    <div class="chars-grid" id="grid-geometria">
+                        <div class="char-card" data-char="∠" data-name="ângulo"><button class="char-symbol" onclick="copyChar('∠')">∠</button><button class="char-fav-btn" onclick="toggleFavorite('∠','Ângulo')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Ângulo</span></div>
+                        <div class="char-card" data-char="⊥" data-name="perpendicular"><button class="char-symbol" onclick="copyChar('⊥')">⊥</button><button class="char-fav-btn" onclick="toggleFavorite('⊥','Perpendicular')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Perpendicular</span></div>
+                        <div class="char-card" data-char="∥" data-name="paralelo"><button class="char-symbol" onclick="copyChar('∥')">∥</button><button class="char-fav-btn" onclick="toggleFavorite('∥','Paralelo')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Paralelo</span></div>
+                        <div class="char-card" data-char="°" data-name="grau ângulo"><button class="char-symbol" onclick="copyChar('°')">°</button><button class="char-fav-btn" onclick="toggleFavorite('°','Grau')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Grau</span></div>
+                        <div class="char-card" data-char="′" data-name="minuto arco"><button class="char-symbol" onclick="copyChar('′')">′</button><button class="char-fav-btn" onclick="toggleFavorite('′','Minuto')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Minuto</span></div>
+                        <div class="char-card" data-char="″" data-name="segundo arco"><button class="char-symbol" onclick="copyChar('″')">″</button><button class="char-fav-btn" onclick="toggleFavorite('″','Segundo')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Segundo</span></div>
+                    </div>
+                </div>
+
+                <!-- SECTION: Letras Gregas -->
+                <div class="chars-section" data-section="gregas">
+                    <div class="chars-section-header">
+                        <h3 class="chars-section-title"><span class="chars-section-icon">🇬🇷</span> Letras Gregas</h3>
+                        <span class="chars-section-count">24 caracteres</span>
+                    </div>
+                    <div class="chars-grid" id="grid-gregas">
+                        <div class="char-card" data-char="α" data-name="alpha alfa"><button class="char-symbol" onclick="copyChar('α')">α</button><button class="char-fav-btn" onclick="toggleFavorite('α','Alpha')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Alpha (α)</span></div>
+                        <div class="char-card" data-char="β" data-name="beta"><button class="char-symbol" onclick="copyChar('β')">β</button><button class="char-fav-btn" onclick="toggleFavorite('β','Beta')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Beta (β)</span></div>
+                        <div class="char-card" data-char="γ" data-name="gamma gama"><button class="char-symbol" onclick="copyChar('γ')">γ</button><button class="char-fav-btn" onclick="toggleFavorite('γ','Gamma')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Gamma (γ)</span></div>
+                        <div class="char-card" data-char="Γ" data-name="gamma maiúsculo gama"><button class="char-symbol" onclick="copyChar('Γ')">Γ</button><button class="char-fav-btn" onclick="toggleFavorite('Γ','Gamma maiúsculo')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Gamma (Γ)</span></div>
+                        <div class="char-card" data-char="δ" data-name="delta"><button class="char-symbol" onclick="copyChar('δ')">δ</button><button class="char-fav-btn" onclick="toggleFavorite('δ','Delta')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Delta (δ)</span></div>
+                        <div class="char-card" data-char="ε" data-name="epsilon épsilon"><button class="char-symbol" onclick="copyChar('ε')">ε</button><button class="char-fav-btn" onclick="toggleFavorite('ε','Epsilon')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Epsilon (ε)</span></div>
+                        <div class="char-card" data-char="ζ" data-name="zeta"><button class="char-symbol" onclick="copyChar('ζ')">ζ</button><button class="char-fav-btn" onclick="toggleFavorite('ζ','Zeta')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Zeta (ζ)</span></div>
+                        <div class="char-card" data-char="η" data-name="eta"><button class="char-symbol" onclick="copyChar('η')">η</button><button class="char-fav-btn" onclick="toggleFavorite('η','Eta')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Eta (η)</span></div>
+                        <div class="char-card" data-char="θ" data-name="theta teta"><button class="char-symbol" onclick="copyChar('θ')">θ</button><button class="char-fav-btn" onclick="toggleFavorite('θ','Theta')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Theta (θ)</span></div>
+                        <div class="char-card" data-char="Θ" data-name="theta maiúsculo teta"><button class="char-symbol" onclick="copyChar('Θ')">Θ</button><button class="char-fav-btn" onclick="toggleFavorite('Θ','Theta maiúsculo')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Theta (Θ)</span></div>
+                        <div class="char-card" data-char="λ" data-name="lambda"><button class="char-symbol" onclick="copyChar('λ')">λ</button><button class="char-fav-btn" onclick="toggleFavorite('λ','Lambda')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Lambda (λ)</span></div>
+                        <div class="char-card" data-char="Λ" data-name="lambda maiúsculo"><button class="char-symbol" onclick="copyChar('Λ')">Λ</button><button class="char-fav-btn" onclick="toggleFavorite('Λ','Lambda maiúsculo')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Lambda (Λ)</span></div>
+                        <div class="char-card" data-char="μ" data-name="mu mi"><button class="char-symbol" onclick="copyChar('μ')">μ</button><button class="char-fav-btn" onclick="toggleFavorite('μ','Mu')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Mu (μ)</span></div>
+                        <div class="char-card" data-char="ξ" data-name="xi csi"><button class="char-symbol" onclick="copyChar('ξ')">ξ</button><button class="char-fav-btn" onclick="toggleFavorite('ξ','Xi')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Xi (ξ)</span></div>
+                        <div class="char-card" data-char="ρ" data-name="rho ro"><button class="char-symbol" onclick="copyChar('ρ')">ρ</button><button class="char-fav-btn" onclick="toggleFavorite('ρ','Rho')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Rho (ρ)</span></div>
+                        <div class="char-card" data-char="σ" data-name="sigma"><button class="char-symbol" onclick="copyChar('σ')">σ</button><button class="char-fav-btn" onclick="toggleFavorite('σ','Sigma')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Sigma (σ)</span></div>
+                        <div class="char-card" data-char="Σ" data-name="sigma maiúsculo"><button class="char-symbol" onclick="copyChar('Σ')">Σ</button><button class="char-fav-btn" onclick="toggleFavorite('Σ','Sigma maiúsculo')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Sigma (Σ)</span></div>
+                        <div class="char-card" data-char="τ" data-name="tau"><button class="char-symbol" onclick="copyChar('τ')">τ</button><button class="char-fav-btn" onclick="toggleFavorite('τ','Tau')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Tau (τ)</span></div>
+                        <div class="char-card" data-char="υ" data-name="upsilon ipsilon"><button class="char-symbol" onclick="copyChar('υ')">υ</button><button class="char-fav-btn" onclick="toggleFavorite('υ','Upsilon')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Upsilon (υ)</span></div>
+                        <div class="char-card" data-char="φ" data-name="phi fi"><button class="char-symbol" onclick="copyChar('φ')">φ</button><button class="char-fav-btn" onclick="toggleFavorite('φ','Phi')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Phi (φ)</span></div>
+                        <div class="char-card" data-char="χ" data-name="chi qui"><button class="char-symbol" onclick="copyChar('χ')">χ</button><button class="char-fav-btn" onclick="toggleFavorite('χ','Chi')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Chi (χ)</span></div>
+                        <div class="char-card" data-char="ψ" data-name="psi psei"><button class="char-symbol" onclick="copyChar('ψ')">ψ</button><button class="char-fav-btn" onclick="toggleFavorite('ψ','Psi')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Psi (ψ)</span></div>
+                        <div class="char-card" data-char="ω" data-name="omega ômega"><button class="char-symbol" onclick="copyChar('ω')">ω</button><button class="char-fav-btn" onclick="toggleFavorite('ω','Omega')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Omega (ω)</span></div>
+                        <div class="char-card" data-char="Ω" data-name="omega maiúsculo ômega"><button class="char-symbol" onclick="copyChar('Ω')">Ω</button><button class="char-fav-btn" onclick="toggleFavorite('Ω','Omega maiúsculo')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Omega (Ω)</span></div>
+                    </div>
+                </div>
+
+                <!-- SECTION: Setas -->
+                <div class="chars-section" data-section="setas">
+                    <div class="chars-section-header">
+                        <h3 class="chars-section-title"><span class="chars-section-icon">→</span> Setas & Implicações</h3>
+                        <span class="chars-section-count">14 caracteres</span>
+                    </div>
+                    <div class="chars-grid" id="grid-setas">
+                        <div class="char-card" data-char="←" data-name="seta esquerda"><button class="char-symbol" onclick="copyChar('←')">←</button><button class="char-fav-btn" onclick="toggleFavorite('←','Seta esquerda')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">← Esquerda</span></div>
+                        <div class="char-card" data-char="↑" data-name="seta cima"><button class="char-symbol" onclick="copyChar('↑')">↑</button><button class="char-fav-btn" onclick="toggleFavorite('↑','Seta cima')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">↑ Cima</span></div>
+                        <div class="char-card" data-char="→" data-name="seta direita"><button class="char-symbol" onclick="copyChar('→')">→</button><button class="char-fav-btn" onclick="toggleFavorite('→','Seta direita')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">→ Direita</span></div>
+                        <div class="char-card" data-char="↓" data-name="seta baixo"><button class="char-symbol" onclick="copyChar('↓')">↓</button><button class="char-fav-btn" onclick="toggleFavorite('↓','Seta baixo')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">↓ Baixo</span></div>
+                        <div class="char-card" data-char="↔" data-name="seta dupla bidirecional"><button class="char-symbol" onclick="copyChar('↔')">↔</button><button class="char-fav-btn" onclick="toggleFavorite('↔','Seta bidirecional')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">↔ Dupla</span></div>
+                        <div class="char-card" data-char="↕" data-name="seta vertical dupla"><button class="char-symbol" onclick="copyChar('↕')">↕</button><button class="char-fav-btn" onclick="toggleFavorite('↕','Seta vertical dupla')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">↕ Vert.</span></div>
+                        <div class="char-card" data-char="⇒" data-name="implica implicação"><button class="char-symbol" onclick="copyChar('⇒')">⇒</button><button class="char-fav-btn" onclick="toggleFavorite('⇒','Implica')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">⇒ Implica</span></div>
+                        <div class="char-card" data-char="⇐" data-name="implicado por"><button class="char-symbol" onclick="copyChar('⇐')">⇐</button><button class="char-fav-btn" onclick="toggleFavorite('⇐','Implicado por')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">⇐ Impl. por</span></div>
+                        <div class="char-card" data-char="⇔" data-name="equivale bicondicional"><button class="char-symbol" onclick="copyChar('⇔')">⇔</button><button class="char-fav-btn" onclick="toggleFavorite('⇔','Equivale')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">⇔ Equivale</span></div>
+                        <div class="char-card" data-char="⇑" data-name="seta dupla cima"><button class="char-symbol" onclick="copyChar('⇑')">⇑</button><button class="char-fav-btn" onclick="toggleFavorite('⇑','Seta dupla cima')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">⇑ Dupla</span></div>
+                        <div class="char-card" data-char="⇓" data-name="seta dupla baixo"><button class="char-symbol" onclick="copyChar('⇓')">⇓</button><button class="char-fav-btn" onclick="toggleFavorite('⇓','Seta dupla baixo')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">⇓ Dupla</span></div>
+                        <div class="char-card" data-char="↗" data-name="seta diagonal cima direita"><button class="char-symbol" onclick="copyChar('↗')">↗</button><button class="char-fav-btn" onclick="toggleFavorite('↗','Seta diagonal')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">↗ Diagonal</span></div>
+                        <div class="char-card" data-char="↙" data-name="seta diagonal baixo esquerda"><button class="char-symbol" onclick="copyChar('↙')">↙</button><button class="char-fav-btn" onclick="toggleFavorite('↙','Seta diagonal')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">↙ Diagonal</span></div>
+                        <div class="char-card" data-char="↺" data-name="rotação circular esquerda"><button class="char-symbol" onclick="copyChar('↺')">↺</button><button class="char-fav-btn" onclick="toggleFavorite('↺','Rotação')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">↺ Rotação</span></div>
+                    </div>
+                </div>
+
+                <!-- SECTION: Monetário -->
+                <div class="chars-section" data-section="monetario">
+                    <div class="chars-section-header">
+                        <h3 class="chars-section-title"><span class="chars-section-icon">💰</span> Símbolos Monetários</h3>
+                        <span class="chars-section-count">8 caracteres</span>
+                    </div>
+                    <div class="chars-grid" id="grid-monetario">
+                        <div class="char-card" data-char="€" data-name="euro"><button class="char-symbol" onclick="copyChar('€')">€</button><button class="char-fav-btn" onclick="toggleFavorite('€','Euro')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Euro</span></div>
+                        <div class="char-card" data-char="£" data-name="libra esterlina"><button class="char-symbol" onclick="copyChar('£')">£</button><button class="char-fav-btn" onclick="toggleFavorite('£','Libra')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Libra</span></div>
+                        <div class="char-card" data-char="¥" data-name="iene yen japonês"><button class="char-symbol" onclick="copyChar('¥')">¥</button><button class="char-fav-btn" onclick="toggleFavorite('¥','Iene')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Iene/Yuan</span></div>
+                        <div class="char-card" data-char="¢" data-name="centavo cent"><button class="char-symbol" onclick="copyChar('¢')">¢</button><button class="char-fav-btn" onclick="toggleFavorite('¢','Centavo')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Centavo</span></div>
+                        <div class="char-card" data-char="₿" data-name="bitcoin cripto"><button class="char-symbol" onclick="copyChar('₿')">₿</button><button class="char-fav-btn" onclick="toggleFavorite('₿','Bitcoin')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Bitcoin</span></div>
+                        <div class="char-card" data-char="₽" data-name="rublo russo"><button class="char-symbol" onclick="copyChar('₽')">₽</button><button class="char-fav-btn" onclick="toggleFavorite('₽','Rublo')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Rublo</span></div>
+                        <div class="char-card" data-char="₹" data-name="rúpia indiana"><button class="char-symbol" onclick="copyChar('₹')">₹</button><button class="char-fav-btn" onclick="toggleFavorite('₹','Rúpia')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Rúpia</span></div>
+                        <div class="char-card" data-char="₩" data-name="won coreano"><button class="char-symbol" onclick="copyChar('₩')">₩</button><button class="char-fav-btn" onclick="toggleFavorite('₩','Won')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Won</span></div>
+                    </div>
+                </div>
+
+                <!-- SECTION: Outros & Miscelânea -->
+                <div class="chars-section" data-section="outros">
+                    <div class="chars-section-header">
+                        <h3 class="chars-section-title"><span class="chars-section-icon">✨</span> Outros & Miscelânea</h3>
+                        <span class="chars-section-count">14 caracteres</span>
+                    </div>
+                    <div class="chars-grid" id="grid-outros">
+                        <div class="char-card" data-char="©" data-name="copyright direitos autorais"><button class="char-symbol" onclick="copyChar('©')">©</button><button class="char-fav-btn" onclick="toggleFavorite('©','Copyright')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Copyright</span></div>
+                        <div class="char-card" data-char="®" data-name="registrado marca"><button class="char-symbol" onclick="copyChar('®')">®</button><button class="char-fav-btn" onclick="toggleFavorite('®','Registrado')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Registrado</span></div>
+                        <div class="char-card" data-char="™" data-name="trademark marca registrada"><button class="char-symbol" onclick="copyChar('™')">™</button><button class="char-fav-btn" onclick="toggleFavorite('™','Trademark')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Trademark</span></div>
+                        <div class="char-card" data-char="•" data-name="bullet ponto lista"><button class="char-symbol" onclick="copyChar('•')">•</button><button class="char-fav-btn" onclick="toggleFavorite('•','Bullet')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Bullet</span></div>
+                        <div class="char-card" data-char="✓" data-name="check correto verdadeiro"><button class="char-symbol" onclick="copyChar('✓')">✓</button><button class="char-fav-btn" onclick="toggleFavorite('✓','Check')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Check ✓</span></div>
+                        <div class="char-card" data-char="✗" data-name="errado falso x errar"><button class="char-symbol" onclick="copyChar('✗')">✗</button><button class="char-fav-btn" onclick="toggleFavorite('✗','Errado')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Errado ✗</span></div>
+                        <div class="char-card" data-char="†" data-name="cruz dagger"><button class="char-symbol" onclick="copyChar('†')">†</button><button class="char-fav-btn" onclick="toggleFavorite('†','Cruz')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Cruz</span></div>
+                        <div class="char-card" data-char="§" data-name="seção parágrafo"><button class="char-symbol" onclick="copyChar('§')">§</button><button class="char-fav-btn" onclick="toggleFavorite('§','Seção')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Seção</span></div>
+                        <div class="char-card" data-char="¶" data-name="parágrafo pilcrow"><button class="char-symbol" onclick="copyChar('¶')">¶</button><button class="char-fav-btn" onclick="toggleFavorite('¶','Parágrafo')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Parágrafo</span></div>
+                        <div class="char-card" data-char="…" data-name="reticências ellipsis"><button class="char-symbol" onclick="copyChar('…')">…</button><button class="char-fav-btn" onclick="toggleFavorite('…','Reticências')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Reticências</span></div>
+                        <div class="char-card" data-char="«" data-name="aspas francesas esquerda guillemets"><button class="char-symbol" onclick="copyChar('«')">«</button><button class="char-fav-btn" onclick="toggleFavorite('«','Aspas «')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Aspas «</span></div>
+                        <div class="char-card" data-char="»" data-name="aspas francesas direita guillemets"><button class="char-symbol" onclick="copyChar('»')">»</button><button class="char-fav-btn" onclick="toggleFavorite('»','Aspas »')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Aspas »</span></div>
+                        <div class="char-card" data-char="°" data-name="grau temperatura"><button class="char-symbol" onclick="copyChar('℃')">℃</button><button class="char-fav-btn" onclick="toggleFavorite('℃','Celsius')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Celsius</span></div>
+                        <div class="char-card" data-char="℉" data-name="fahrenheit temperatura"><button class="char-symbol" onclick="copyChar('℉')">℉</button><button class="char-fav-btn" onclick="toggleFavorite('℉','Fahrenheit')" title="Favoritar"><i class="fas fa-star"></i></button><span class="char-label">Fahrenheit</span></div>
+                    </div>
+                </div>
+
+            </div><!-- end charsSectionsWrapper -->
+
+            <!-- ===== FAVORITES FOOTER ===== -->
+            <div class="chars-favorites-footer" id="charsFavoritesFooter">
+                <div class="chars-favorites-bar">
+                    <div class="chars-favorites-title">
+                        <i class="fas fa-star" style="color:var(--gold);"></i>
+                        <span>Favoritos</span>
+                        <span class="chars-fav-count" id="charsFavCount">0</span>
+                    </div>
+                    <div class="chars-favorites-list" id="charsFavoritesList">
+                        <span class="chars-fav-empty" id="charsFavEmpty">Nenhum favorito ainda. Clique em ⭐ para favoritar!</span>
+                    </div>
+                    <button class="chars-fav-clear-btn" onclick="clearAllFavorites()" title="Limpar todos os favoritos">
+                        <i class="fas fa-trash"></i> Limpar
+                    </button>
+                </div>
+            </div>
+
         </section>
 
         <!-- ==================== TAB: NOTIFICATIONS / UPDATE LOG ==================== -->
@@ -1878,6 +2175,137 @@
                 showToast('Erro ao copiar caractere', 'error');
                 console.error('Erro ao copiar:', err);
             });
+        }
+
+        // ============================================
+        // CARACTERES: FAVORITOS
+        // ============================================
+        var charFavorites = JSON.parse(localStorage.getItem('geekieCharFavorites') || '[]');
+
+        function saveCharFavorites() {
+            localStorage.setItem('geekieCharFavorites', JSON.stringify(charFavorites));
+        }
+
+        function toggleFavorite(char, name) {
+            var idx = charFavorites.findIndex(function(f){ return f.char === char; });
+            if (idx === -1) {
+                charFavorites.push({ char: char, name: name });
+                showToast('⭐ \'' + char + '\' adicionado aos favoritos!', 'reward');
+                updateCharCardFavState(char, true);
+            } else {
+                charFavorites.splice(idx, 1);
+                showToast('\'' + char + '\' removido dos favoritos.', 'info');
+                updateCharCardFavState(char, false);
+            }
+            saveCharFavorites();
+            updateFavoritesFooter();
+        }
+
+        function removeFavorite(char) {
+            charFavorites = charFavorites.filter(function(f){ return f.char !== char; });
+            saveCharFavorites();
+            updateFavoritesFooter();
+            updateCharCardFavState(char, false);
+        }
+
+        function clearAllFavorites() {
+            if (!charFavorites.length) return;
+            charFavorites = [];
+            saveCharFavorites();
+            updateFavoritesFooter();
+            document.querySelectorAll('.char-card.favorited').forEach(function(c){ c.classList.remove('favorited'); });
+            showToast('Favoritos limpos.', 'info');
+        }
+
+        function updateCharCardFavState(char, isFav) {
+            document.querySelectorAll('.char-card').forEach(function(card) {
+                if (card.getAttribute('data-char') === char) {
+                    if (isFav) card.classList.add('favorited');
+                    else card.classList.remove('favorited');
+                }
+            });
+        }
+
+        function updateFavoritesFooter() {
+            var list = document.getElementById('charsFavoritesList');
+            var count = document.getElementById('charsFavCount');
+            if (!list) return;
+            if (count) count.textContent = charFavorites.length;
+            if (charFavorites.length === 0) {
+                list.innerHTML = '<span class="chars-fav-empty">Nenhum favorito ainda. Clique em ⭐ para favoritar!</span>';
+                return;
+            }
+            list.innerHTML = charFavorites.map(function(f) {
+                var safeChar = f.char.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+                var safeName = f.name.replace(/</g,'&lt;').replace(/>/g,'&gt;');
+                return '<span class="chars-fav-pill" title="Copiar: ' + safeName + '" onclick="copyChar(\'' + safeChar + '\')">'
+                    + f.char
+                    + '<span class="fav-pill-label">' + safeName + '</span>'
+                    + '<button class="chars-fav-remove" onclick="event.stopPropagation();removeFavorite(\'' + safeChar + '\')">✕</button>'
+                    + '</span>';
+            }).join('');
+        }
+
+        function initCharFavorites() {
+            charFavorites.forEach(function(f){ updateCharCardFavState(f.char, true); });
+            updateFavoritesFooter();
+        }
+
+        // ============================================
+        // CARACTERES: PESQUISA
+        // ============================================
+        function filterChars(query) {
+            var clearBtn = document.getElementById('charsSearchClear');
+            var noResults = document.getElementById('charsNoResults');
+            var noResultsTerm = document.getElementById('charsNoResultsTerm');
+            var sectionsWrapper = document.getElementById('charsSectionsWrapper');
+            var q = (query || '').trim().toLowerCase();
+
+            if (clearBtn) {
+                if (q.length > 0) clearBtn.classList.add('visible');
+                else clearBtn.classList.remove('visible');
+            }
+
+            if (q.length === 0) {
+                document.querySelectorAll('.char-card').forEach(function(c){ c.classList.remove('hidden-by-search'); });
+                document.querySelectorAll('.chars-section').forEach(function(s){ s.style.display = ''; });
+                if (noResults) noResults.style.display = 'none';
+                if (sectionsWrapper) sectionsWrapper.style.display = '';
+                return;
+            }
+
+            var totalVisible = 0;
+            document.querySelectorAll('.chars-section').forEach(function(section) {
+                var sectionVisible = 0;
+                section.querySelectorAll('.char-card').forEach(function(card) {
+                    var charText = (card.getAttribute('data-char') || '').toLowerCase();
+                    var charName = (card.getAttribute('data-name') || '').toLowerCase();
+                    var labelEl = card.querySelector('.char-label');
+                    var label = (labelEl ? labelEl.textContent : '').toLowerCase();
+                    if (charText.includes(q) || charName.includes(q) || label.includes(q)) {
+                        card.classList.remove('hidden-by-search');
+                        sectionVisible++;
+                        totalVisible++;
+                    } else {
+                        card.classList.add('hidden-by-search');
+                    }
+                });
+                section.style.display = sectionVisible === 0 ? 'none' : '';
+            });
+
+            if (noResults && noResultsTerm) {
+                noResultsTerm.textContent = query;
+                noResults.style.display = totalVisible === 0 ? 'flex' : 'none';
+            }
+            if (sectionsWrapper) {
+                sectionsWrapper.style.display = totalVisible === 0 ? 'none' : '';
+            }
+        }
+
+        function clearCharSearch() {
+            var input = document.getElementById('charsSearchInput');
+            if (input) { input.value = ''; input.focus(); }
+            filterChars('');
         }
 
         // Auto-save notes
