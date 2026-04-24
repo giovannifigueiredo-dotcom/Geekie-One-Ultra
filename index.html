@@ -545,6 +545,7 @@
         .chars-fav-clear-btn:hover{background:rgba(239,68,68,0.3);}
         @media(max-width:600px){.chars-grid{grid-template-columns:repeat(auto-fill,minmax(85px,1fr));}.chars-tab-header{flex-direction:column;}.chars-search-wrapper{max-width:100%;min-width:unset;width:100%;}}
     </style>
+    <script src="IA_KNOWLEDGE_BASE.js"></script>
 </head>
 <body data-theme="default">
     <div class="particles-bg" id="particlesBg"></div>
@@ -1256,6 +1257,8 @@
                         <button class="action-btn secondary" style="flex:1;min-width:120px;font-size:13px;" onclick="aiMode('explain')"><i class="fas fa-book-open"></i> Explicar</button>
                         <button class="action-btn secondary" style="flex:1;min-width:120px;font-size:13px;" onclick="aiMode('summarize')"><i class="fas fa-compress"></i> Resumir</button>
                         <button class="action-btn secondary" style="flex:1;min-width:120px;font-size:13px;" onclick="aiMode('generate')"><i class="fas fa-sparkles"></i> Gerar</button>
+                        <button class="action-btn secondary" style="flex:1;min-width:120px;font-size:13px;" onclick="aiMode('practice')"><i class="fas fa-dumbbell"></i> Praticar</button>
+                        <button class="action-btn secondary" style="flex:1;min-width:120px;font-size:13px;" onclick="aiMode('debate')"><i class="fas fa-comments"></i> Debater</button>
                     </div>
                     <div id="aiChatContainer" style="background:rgba(0,0,0,0.3);height:500px;border-radius:12px;display:flex;flex-direction:column;border:1px solid var(--border-color);">
                         <div id="aiMessages" style="flex:1;overflow-y:auto;padding:15px;display:flex;flex-direction:column;gap:12px;">
@@ -1989,54 +1992,59 @@
         const lower = userMessage.toLowerCase();
         const mode = aiState.currentMode;
         
-        // Padrão de reconhecimento
+        // Detectar disciplina com novo sistema
+        let discipline = detectDiscipline(userMessage);
         let response = '';
-        let subject = '';
         
-        // Detectar disciplina
-        for (let key in aiState.knowledgeBase) {
-            if (lower.includes(key)) {
-                subject = key;
-                break;
-            }
-        }
+        // Definir padrão de resposta
+        const patterns = IA_KNOWLEDGE_SYSTEM.responsePatterns[mode] || IA_KNOWLEDGE_SYSTEM.responsePatterns.chat;
+        const selectedPattern = patterns[Math.floor(Math.random() * patterns.length)];
         
         // Respostas personalizadas por modo
         if (mode === 'explain') {
-            const topics = ['conceito', 'ideia', 'termo', 'processo', 'método', 'teoria'];
-            const pattern = aiState.responsePatterns.explain[Math.floor(Math.random() * aiState.responsePatterns.explain.length)];
-            
-            if (lower.includes('?')) {
-                const term = userMessage.replace(/\?/g, '').slice(0, 30);
-                response = `${pattern}${term}:\n\n📚 **Conceito:** Esse é um tema importante nos estudos.\n\n💡 **Explicação:** É um elemento fundamental que envolve vários aspectos e aplicações práticas. Lembre-se de revisar com regularidade para consolidar o aprendizado.\n\n🔗 **Relação:** Conecta-se com outros conceitos importantes da disciplina.\n\n✨ **Dica de Estudo:** Crie flashcards sobre este tema para melhorar retenção!`;
+            if (discipline) {
+                const disciplineObj = IA_KNOWLEDGE_SYSTEM.disciplines[discipline];
+                const topic = disciplineObj.topics[Math.floor(Math.random() * disciplineObj.topics.length)];
+                response = `${selectedPattern}\n\n📚 **${discipline.charAt(0).toUpperCase() + discipline.slice(1)}**\n\n**Tópico:** ${topic}\n\n📖 **Explicação Detalhada:**\n• Conceito fundamental: Este é um tema central em ${discipline}\n• Aplicação prática: Você verá isso frequentemente em exercícios e provas\n• Conexões: Relaciona-se com vários outros conceitos importantes\n• Exemplos: Existem muitas aplicações do mundo real\n\n💡 **Dica:** Use recurões práticas e crie diagramas para memorizar melhor!\n\n🎓 **Próximo passo:** Quer alguns exemplos específicos ou exercícios?`;
             } else {
-                response = `${pattern}Você mencionou "${userMessage.slice(0, 25)}..."\n\nEste é um assunto relevante e bem estruturado. Para aprender melhor:\n• Use exemplos práticos\n• Crie mapas mentais\n• Faça anotações resumidas\n\nDeseja um resumo ou exemplos específicos? 📖`;
+                response = `${selectedPattern}\n\n📚 **Conceito Explicado:**\n• Definição básica: Este é um tema importante\n• Características principais: Varios aspectos o compõem\n• Importância: Fundamental para o aprendizado\n• Aplicações: Usado em múltiplos contextos\n\n💡 **Como aprender:**\n1. Leia o conceito com atenção\n2. Procure por exemplos práticos\n3. Crie suas próprias analogias\n4. Pratique exercícios relacionados\n\n✨ **Dica de Estudo:** ${getStudyTip()}`;
             }
         } else if (mode === 'summarize') {
-            const pattern = aiState.responsePatterns.summarize[Math.floor(Math.random() * aiState.responsePatterns.summarize.length)];
-            const topics = ['história', 'conceito', 'teoria', 'processo'];
-            const topic = topics[Math.floor(Math.random() * topics.length)];
+            const topics = discipline ? 
+                IA_KNOWLEDGE_SYSTEM.disciplines[discipline].topics.slice(0, 3) : 
+                ['conceito importante', 'aplicação prática', 'consequências relevantes'];
             
-            response = `${pattern}\n\n📌 **Pontos Principais:**\n• Primeiro ponto crucial\n• Segundo aspecto importante\n• Terceiro elemento relevante\n• Conclusão significativa\n\n✅ **Resumo:** O essencial é entender que estes elementos trabalham juntos para criar um todo coerente.\n\n🎯 Sugestão: Monte um diagrama com essas informações para memorizar melhor!`;
+            response = `${selectedPattern}\n\n📌 **Pontos Essenciais:**\n`;
+            topics.forEach((topic, idx) => {
+                response += `${idx + 1}. **${topic}** - elemento crucial\n`;
+            });
+            response += `\n✅ **Resumo Final:** O essencial é entender que estes elementos trabalham juntos para criar uma estrutura coerente.\n\n🎯 **Para memorizar:** Crie um mapa mental com esses pontos principais!`;
         } else if (mode === 'generate') {
-            const pattern = aiState.responsePatterns.generate[Math.floor(Math.random() * aiState.responsePatterns.generate.length)];
-            const questions = aiState.generatedQuestions;
-            const randomQ = questions[Math.floor(Math.random() * questions.length)];
+            const question = discipline ? 
+                getRandomQuestion(discipline) : 
+                getRandomQuestion('geral');
             
-            response = `${pattern}\n\n❓ **Questão ${Math.floor(Math.random()*100)+1}:**\n"${randomQ}"\n\n💭 Tente responder sem olhar nos livros primeiro. Depois você pode verificar a resposta!\n\n📚 Quer mais questões? Digite "gerar mais questões de [disciplina]"`;
+            response = `${selectedPattern}\n\n❓ **Questão Desafio:**\n"${question}"\n\n💭 **Como resolver:**\n• Leia com atenção a questão\n• Identifique o que está sendo pedido\n• Use conhecimentos adquiridos\n• Verifique sua resposta\n\n📚 **Quer resolvê-la?** Digite sua resposta e discutiremos!`;
+        } else if (mode === 'practice') {
+            const question = discipline ? 
+                getRandomQuestion(discipline) : 
+                getRandomQuestion('geral');
+            
+            response = `${selectedPattern}\n\n🏋️ **Exercício de Prática:**\n"${question}"\n\n⚙️ **Passos para resolver:**\n1. Analise os dados fornecidos\n2. Aplique a teoria apropriada\n3. Execute os cálculos ou raciocínio\n4. Revise e verifique sua solução\n\n⚡ **Dica:** Comece pelos conceitos básicos e vá aumentando a dificuldade!`;
+        } else if (mode === 'debate') {
+            response = `${selectedPattern}\n\n⚖️ **Análise Crítica:**\nVocê apresentou um ponto interessante! \n\n**Argumento principal:** Entendo sua perspectiva\n\n**Visões diferentes sobre o tema:**\n• Perspectiva A: Uma abordagem comum\n• Perspectiva B: Outra visão importante\n• Perspectiva C: Análise alternativa\n\n🗣️ **Para aprofundar:** Quais são seus argumentos? Que evidências sustentam sua posição?`;
         } else {
             // Mode: chat (default)
-            const baseResponses = [
-                `Ótima pergunta! ${userMessage.includes('?') ? 'Deixa eu explicar...' : 'Você está certo!'} A resposta envolve vários aspectos importantes. Geralmente, quando se trata desse tema, precisamos considerar o contexto e toda a complexidade envolvida.`,
-                `Entendo o que você quer saber. ${userMessage.slice(0, 20)}... é realmente interessante! Este é um dos tópicos mais relevantes nos estudos atuais.`,
-                `Sim, você está na trilha certa! O que você comentou reflete uma boa compreensão do assunto. Continue investigando para aprofundar seus conhecimentos!`,
-                `Interessante perspectiva! A maioria das pessoas não percebe que ${userMessage.includes('what') || userMessage.includes('qual') ? 'há várias camadas para entender ' : 'este é um ponto crucial em '}${userMessage.slice(0, 15)}... Se quer, explico melhor!`
-            ];
-            response = baseResponses[Math.floor(Math.random() * baseResponses.length)];
+            if (discipline) {
+                const disciplineObj = IA_KNOWLEDGE_SYSTEM.disciplines[discipline];
+                response = `${selectedPattern}\n\n**Campo:** ${discipline.charAt(0).toUpperCase() + discipline.slice(1)}\n\nVocê está estudando um tópico excelente! ${disciplineObj.description}\n\n💡 **O que eu posso fazer:**\n• 📖 Explicar conceitos em detalhes\n• 📊 Resumir temas complexos\n• ❓ Gerar questões para praticar\n• 🏋️ Propor exercícios\n• ⚖️ Debater ideias\n\n🎯 **Próximo passo:** Como posso ajudá-lo especificamente?`;
+            } else {
+                response = `${selectedPattern}\n\nEssa é uma pergunta interessante!\n\n💭 **Minhas capacidades:**\n• Explicar conceitos acadêmicos\n• Resumir informações complexas\n• Gerar questões de teste\n• Auxiliar na prática\n• Discutir diferentes perspectivas\n\n📚 **Disciplinas disponíveis:** ${Object.keys(IA_KNOWLEDGE_SYSTEM.disciplines).slice(0, 5).join(', ')}...\n\n🔍 **Dica:** Cite uma disciplina específica para respostas mais direcionadas!`;
+            }
         }
         
         if (!response) {
-            response = "Essa é uma pergunta muito interessante! 🤔 Me diga mais sobre o que específicamente você quer saber, e fico feliz em ajudar com explicações, resumos ou questões de treino!";
+            response = "Essa é uma pergunta muito interessante! 🤔 Me diga mais sobre o que você quer aprender, e fico feliz em ajudar com explicações detalhadas, resumos ou questões de treino! 📚✨";
         }
         
         return response;
@@ -2049,6 +2057,7 @@
         if (aiState.messageCount > 20) aiState.knowledgeLevel = 'Intermediário';
         if (aiState.messageCount > 50) aiState.knowledgeLevel = 'Avançado';
         if (aiState.messageCount > 100) aiState.knowledgeLevel = 'Especialista';
+        if (aiState.messageCount > 200) aiState.knowledgeLevel = 'Mestre';
         
         document.getElementById('aiKnowledge').textContent = aiState.knowledgeLevel;
         
