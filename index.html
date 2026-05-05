@@ -460,23 +460,41 @@
         <section id="tab-flashcards" class="tab-content">
             <div class="glass-card" style="max-width: 800px; margin: 0 auto; width: 100%;">
                 <h3><i class="fa-solid fa-bolt"></i> Revisão Ativa (Flashcards)</h3>
+                
+                <!-- Área de Criação de Flashcards -->
+                <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px; margin-bottom: 20px;">
+                    <h4 style="margin-bottom: 10px; color: var(--accent); font-size: 0.9rem;">Criar Novo Flashcard</h4>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <input type="text" id="newCardFront" placeholder="Frente (Ex: Fórmula da Água)" style="flex: 1; min-width: 200px;">
+                        <input type="text" id="newCardBack" placeholder="Verso (Ex: H2O)" style="flex: 1; min-width: 200px;">
+                        <button class="btn btn-primary" onclick="addFlashcard()"><i class="fa-solid fa-plus"></i> Adicionar</button>
+                    </div>
+                </div>
+
                 <p style="text-align: center; margin-bottom: 20px; color: var(--text-muted);">Clique no card para ver a resposta.</p>
                 
                 <div class="flashcard-container" onclick="flipCard()">
                     <div class="flashcard" id="flashcard">
                         <div class="card-front" id="cardFront">
-                            O que é a Mitocôndria?
+                            Carregando...
                         </div>
                         <div class="card-back" id="cardBack">
-                            Organela responsável pela respiração celular e produção de energia (ATP).
+                            Carregando...
                         </div>
                     </div>
                 </div>
 
-                <div class="flashcard-controls">
+                <div class="flashcard-controls" style="margin-top: 20px;">
                     <button class="btn btn-outline" onclick="prevCard()"><i class="fa-solid fa-arrow-left"></i> Anterior</button>
-                    <span style="display:flex; align-items:center; color: var(--text-muted);" id="cardCounter">1 / 3</span>
+                    <span style="display:flex; align-items:center; color: var(--text-muted);" id="cardCounter">0 / 0</span>
                     <button class="btn btn-primary" onclick="nextCard()">Próximo <i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+                
+                <!-- Controles Extras do Card Atual -->
+                <div style="display: flex; justify-content: center; margin-top: 15px;">
+                    <button class="btn btn-outline" style="color: var(--danger); border-color: var(--danger);" onclick="deleteCurrentCard()">
+                        <i class="fa-solid fa-trash"></i> Excluir Card Atual
+                    </button>
                 </div>
             </div>
         </section>
@@ -701,11 +719,17 @@
         renderTodos();
 
         // ================== FLASHCARDS LOGIC ==================
-        const flashcardsData = [
-            { front: "O que é a Mitocôndria?", back: "Organela responsável pela respiração celular e produção de energia (ATP)." },
-            { front: "Fórmula de Bhaskara", back: "x = (-b ± √(b² - 4ac)) / 2a" },
-            { front: "1ª Lei de Newton", back: "Inércia: Um corpo em repouso tende a permanecer em repouso, e um em movimento uniforme tende a manter seu estado, a menos que uma força atue sobre ele." }
-        ];
+        // Carrega do LocalStorage ou usa dados padrão se estiver vazio
+        let flashcardsData = JSON.parse(localStorage.getItem('geekieFlashcards'));
+        
+        if (!flashcardsData || flashcardsData.length === 0) {
+            flashcardsData = [
+                { front: "O que é a Mitocôndria?", back: "Organela responsável pela respiração celular e produção de energia (ATP)." },
+                { front: "Fórmula de Bhaskara", back: "x = (-b ± √(b² - 4ac)) / 2a" },
+                { front: "1ª Lei de Newton", back: "Inércia: Um corpo em repouso tende a permanecer em repouso, e um em movimento uniforme tende a manter seu estado, a menos que uma força atue sobre ele." }
+            ];
+            saveFlashcards();
+        }
         
         let currentCardIndex = 0;
         const flashcardElement = document.getElementById('flashcard');
@@ -713,17 +737,33 @@
         const cardBack = document.getElementById('cardBack');
         const cardCounter = document.getElementById('cardCounter');
 
+        function saveFlashcards() {
+            localStorage.setItem('geekieFlashcards', JSON.stringify(flashcardsData));
+        }
+
         function updateCardDisplay() {
             flashcardElement.classList.remove('is-flipped');
+            
             setTimeout(() => {
-                cardFront.textContent = flashcardsData[currentCardIndex].front;
-                cardBack.textContent = flashcardsData[currentCardIndex].back;
-                cardCounter.textContent = `${currentCardIndex + 1} / ${flashcardsData.length}`;
-            }, 150); // Espera a animação de desvirar para trocar o texto
+                if (flashcardsData.length === 0) {
+                    cardFront.textContent = "Nenhum flashcard.";
+                    cardBack.textContent = "Adicione um novo acima!";
+                    cardCounter.textContent = `0 / 0`;
+                } else {
+                    // Garante que o índice é válido
+                    if (currentCardIndex >= flashcardsData.length) currentCardIndex = Math.max(0, flashcardsData.length - 1);
+                    
+                    cardFront.textContent = flashcardsData[currentCardIndex].front;
+                    cardBack.textContent = flashcardsData[currentCardIndex].back;
+                    cardCounter.textContent = `${currentCardIndex + 1} / ${flashcardsData.length}`;
+                }
+            }, 150); // Espera a animação de desvirar
         }
 
         function flipCard() {
-            flashcardElement.classList.toggle('is-flipped');
+            if (flashcardsData.length > 0) {
+                flashcardElement.classList.toggle('is-flipped');
+            }
         }
 
         function nextCard() {
@@ -736,6 +776,44 @@
         function prevCard() {
             if (currentCardIndex > 0) {
                 currentCardIndex--;
+                updateCardDisplay();
+            }
+        }
+
+        function addFlashcard() {
+            const frontInput = document.getElementById('newCardFront');
+            const backInput = document.getElementById('newCardBack');
+            const frontText = frontInput.value.trim();
+            const backText = backInput.value.trim();
+
+            if (frontText && backText) {
+                flashcardsData.push({ front: frontText, back: backText });
+                saveFlashcards();
+                
+                // Limpa os inputs
+                frontInput.value = '';
+                backInput.value = '';
+                
+                // Vai para o card recém adicionado
+                currentCardIndex = flashcardsData.length - 1;
+                updateCardDisplay();
+            } else {
+                alert("Por favor, preencha a frente e o verso do flashcard.");
+            }
+        }
+
+        function deleteCurrentCard() {
+            if (flashcardsData.length === 0) return;
+            
+            if(confirm("Tem certeza que deseja excluir este flashcard?")) {
+                flashcardsData.splice(currentCardIndex, 1);
+                saveFlashcards();
+                
+                // Ajusta o índice se apagou o último
+                if (currentCardIndex >= flashcardsData.length) {
+                    currentCardIndex = Math.max(0, flashcardsData.length - 1);
+                }
+                
                 updateCardDisplay();
             }
         }
