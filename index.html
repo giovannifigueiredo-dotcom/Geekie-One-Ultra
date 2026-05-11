@@ -308,309 +308,198 @@
             font-weight: 600;
             cursor: pointer;
             transition: var(--transition);
-            display: inline-flex;
+            display: flex;
             align-items: center;
+            justify-content: center;
             gap: 8px;
         }
 
         .btn-primary { background: var(--primary); color: var(--bg-base); }
-        .btn-primary:hover { box-shadow: 0 0 15px var(--primary-glow); transform: translateY(-2px); }
-        
+        .btn-primary:hover { box-shadow: 0 0 15px var(--primary-glow); }
         .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text-main); }
-        .btn-outline:hover { background: var(--bg-glass-hover); border-color: var(--primary); color: var(--primary); }
+        .btn-outline:hover { background: rgba(255,255,255,0.1); }
+        .btn-gold { background: linear-gradient(45deg, #ffd700, #ffaa00); color: #000; font-weight: bold; border: none; }
+        .btn-gold:hover { box-shadow: 0 0 15px rgba(255, 215, 0, 0.5); transform: translateY(-2px); }
+        .btn-disabled { background: #333; color: #777; cursor: not-allowed; }
 
-        /* Timer Styles */
-        .timer-display {
-            font-size: 4rem;
-            font-weight: 700;
-            text-align: center;
-            margin: 20px 0;
-            font-family: 'Fira Code', monospace;
-            color: var(--primary);
-            text-shadow: 0 0 20px var(--primary-glow);
-        }
-
-        .timer-controls { display: flex; justify-content: center; gap: 15px; }
-
-        /* To-Do Styles */
-        .todo-input-group { display: flex; gap: 10px; margin-bottom: 20px; }
-        .todo-input-group input {
-            flex: 1;
-            background: rgba(255,255,255,0.05);
+        /* Store Items */
+        .store-item {
+            background: rgba(0,0,0,0.3);
             border: 1px solid var(--border);
-            padding: 10px 15px;
-            border-radius: 8px;
-            color: #fff;
-            outline: none;
-        }
-        .todo-input-group input:focus { border-color: var(--primary); }
-
-        .todo-list { list-style: none; }
-        .todo-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px;
-            background: rgba(255,255,255,0.03);
-            border-radius: 8px;
-            margin-bottom: 8px;
-            border-left: 3px solid var(--secondary);
-            transition: var(--transition);
-        }
-        .todo-item.completed { opacity: 0.5; border-left-color: var(--primary); }
-        .todo-item.completed span { text-decoration: line-through; }
-        .todo-actions { display: flex; gap: 10px; }
-        .todo-actions i { cursor: pointer; transition: 0.2s; }
-        .todo-actions i.check:hover { color: var(--primary); }
-        .todo-actions i.delete:hover { color: var(--danger); }
-
-        /* Flashcards Styles */
-        .flashcard-container {
-            perspective: 1000px;
-            width: 100%;
-            height: 250px;
-            cursor: pointer;
-        }
-        .flashcard {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            text-align: center;
-            transition: transform 0.6s;
-            transform-style: preserve-3d;
-        }
-        .flashcard.is-flipped { transform: rotateY(180deg); }
-        .card-front, .card-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 30px;
-            font-size: 1.2rem;
-            border-radius: 15px;
-            border: 1px solid var(--border);
-            background: var(--bg-glass-hover);
-        }
-        .card-back { transform: rotateY(180deg); color: var(--primary); background: rgba(0,255,136,0.05); }
-
-        /* Ambient Styles */
-        .ambient-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .ambient-btn {
-            background: var(--bg-glass);
-            border: 1px solid var(--border);
+            border-radius: 10px;
             padding: 20px;
-            border-radius: 12px;
-            color: var(--text-main);
-            cursor: pointer;
-            transition: var(--transition);
+            text-align: center;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            gap: 10px;
-        }
-        .ambient-btn:hover { border-color: var(--accent); background: rgba(0,212,255,0.1); }
-        .ambient-btn.active { border-color: var(--primary); background: rgba(0,255,136,0.1); color: var(--primary); }
-        .ambient-btn i { font-size: 1.5rem; }
-
-        /* Store Styles */
-        .store-card {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 15px;
-            text-align: center;
+            gap: 15px;
             transition: var(--transition);
         }
-        .store-card:hover { transform: translateY(-5px); border-color: var(--gold); }
-        .store-card h4 { margin: 10px 0; }
-        .price-tag { color: var(--gold); font-weight: 700; margin-bottom: 15px; display: block; }
+        .store-item:hover { border-color: var(--accent); transform: translateY(-5px); }
+        .store-item i.preview-icon { font-size: 3rem; color: var(--text-muted); margin-bottom: 10px; }
+        .store-price { color: var(--gold); font-weight: bold; font-size: 1.2rem; }
 
-        /* Character Keyboard Styles */
-        .char-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(45px, 1fr));
-            gap: 8px;
-            margin-bottom: 20px;
+        /* --- CARACTERES ÚTEIS --- */
+        .char-category { font-size: 1.1rem; color: var(--primary); margin: 25px 0 10px 0; border-bottom: 1px solid var(--border); padding-bottom: 5px; }
+        .char-category:first-of-type { margin-top: 10px; }
+        .char-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); gap: 10px; margin-bottom: 20px; }
+        .char-btn { 
+            background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 8px; 
+            font-size: 1.4rem; color: var(--text-main); cursor: pointer; transition: var(--transition); 
+            height: 60px; display: flex; align-items: center; justify-content: center; font-family: 'Fira Code', monospace;
         }
-        .char-btn {
-            height: 45px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            color: var(--text-main);
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .char-btn:hover {
-            background: var(--primary);
-            color: var(--bg-base);
-            transform: scale(1.1);
-            z-index: 2;
-        }
-        .char-category {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--accent);
-            margin: 15px 0 10px 0;
-            border-bottom: 1px solid rgba(0, 212, 255, 0.2);
-            padding-bottom: 5px;
-        }
+        .char-btn:hover { background: rgba(0, 212, 255, 0.2); border-color: var(--accent); color: var(--accent); transform: scale(1.05); }
+
+        /* --- BLOCO DE NOTAS --- */
+        .notes-toolbar { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; align-items: center;}
+        .note-select { background: rgba(0,0,0,0.4); color: white; border: 1px solid var(--border); padding: 10px; border-radius: 8px; flex: 1; min-width: 200px; outline: none; }
+        .note-select option { background: var(--bg-secondary); color: white; }
+        .note-title-input { width: 100%; background: rgba(0,0,0,0.2); border: 1px solid var(--border); color: var(--primary); padding: 10px 15px; border-radius: 8px; outline: none; margin-bottom: 10px; font-size: 1.2rem; font-weight: bold; transition: var(--transition); }
+        .note-title-input:focus { border-color: var(--primary); }
+        .note-editor { width: 100%; min-height: 400px; background: rgba(0,0,0,0.2); border: 1px solid var(--border); color: var(--text-main); padding: 15px; border-radius: 8px; resize: vertical; outline: none; font-family: inherit; transition: var(--transition); line-height: 1.6; }
+        .note-editor:focus { border-color: var(--accent); }
 
         /* Toast Notification */
         .toast {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: var(--success);
-            color: #000;
-            padding: 12px 25px;
-            border-radius: 8px;
-            font-weight: 600;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transform: translateY(100px);
-            opacity: 0;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            z-index: 9999;
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(100px); 
+            background: var(--success); color: var(--bg-base); padding: 12px 24px; border-radius: 8px; 
+            font-weight: bold; opacity: 0; transition: all 0.3s ease; z-index: 1000; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            display: flex; align-items: center; gap: 10px;
         }
-        .toast.show { transform: translateY(0); opacity: 1; }
+        .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 
-        /* Dev Log Styles */
-        .timeline { position: relative; padding-left: 30px; }
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: var(--border);
+        /* --- DEV LOG (TIMELINE) --- */
+        .timeline {
+            border-left: 3px solid rgba(0, 255, 136, 0.3);
+            margin-left: 20px;
+            padding-left: 30px;
+            position: relative;
         }
-        .timeline-item { position: relative; margin-bottom: 40px; }
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: -34px;
-            top: 5px;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: var(--secondary);
-            border: 2px solid var(--bg-base);
-        }
-        .version-header { display: flex; align-items: center; gap: 15px; margin-bottom: 10px; }
-        .version-tag { background: var(--secondary); color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; }
-        .version-date { color: var(--text-muted); font-size: 0.8rem; }
-        .timeline-item ul { list-style: none; padding-left: 15px; }
-        .timeline-item li { color: var(--text-muted); margin-bottom: 5px; position: relative; }
-        .timeline-item li::before { content: '•'; color: var(--primary); position: absolute; left: -15px; }
-
-        /* Notepad Styles */
-        .notepad-container {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-            gap: 15px;
-        }
-        .notepad-toolbar {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            padding-bottom: 10px;
-            border-bottom: 1px solid var(--border);
-        }
-        .notepad-editor {
-            flex: 1;
-            background: rgba(255,255,255,0.03);
-            border: 1px solid var(--border);
-            border-radius: 12px;
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.03);
             padding: 20px;
-            color: var(--text-main);
-            font-family: 'Poppins', sans-serif;
-            font-size: 1rem;
-            line-height: 1.6;
-            resize: none;
-            outline: none;
+            border-radius: 10px;
+            border: 1px solid var(--border);
             transition: var(--transition);
         }
-        .notepad-editor:focus {
-            border-color: var(--primary);
-            background: rgba(255,255,255,0.05);
+        .timeline-item:hover {
+            border-color: var(--primary-glow);
+            transform: translateX(5px);
         }
-        .notepad-status {
-            font-size: 0.8rem;
-            color: var(--text-muted);
+        .timeline-item::before {
+            content: '';
+            width: 16px;
+            height: 16px;
+            background: var(--primary);
+            border-radius: 50%;
+            position: absolute;
+            left: -39px;
+            top: 25px;
+            box-shadow: 0 0 10px var(--primary-glow);
+        }
+        .timeline-item.old-version::before {
+            background: var(--text-muted);
+            box-shadow: none;
+        }
+        .timeline-item.old-version { border-color: transparent; }
+        
+        .version-header {
             display: flex;
-            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
         }
+        .version-tag {
+            background: rgba(0, 255, 136, 0.15);
+            color: var(--primary);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-family: 'Fira Code', monospace;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .version-date { color: var(--text-muted); font-size: 0.85rem; }
+        .timeline-item ul { list-style: none; padding-left: 10px; }
+        .timeline-item ul li { margin-bottom: 8px; position: relative; padding-left: 20px; color: #d1d5db; }
+        .timeline-item ul li::before { content: '>'; position: absolute; left: 0; color: var(--accent); font-family: 'Fira Code', monospace; font-weight: bold; }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .sidebar { position: fixed; height: 100%; }
-            .sidebar.collapsed { transform: translateX(-100%); }
-            .main-content { width: 100%; }
-        }
+        /* --- POMODORO TIMER --- */
+        .timer-display { font-size: 4rem; font-family: 'Fira Code', monospace; text-align: center; margin: 20px 0; font-weight: 700; color: var(--text-main); text-shadow: 0 0 20px rgba(255,255,255,0.2); }
+        .timer-controls { display: flex; justify-content: center; gap: 10px; }
+        .pomodoro-stats { text-align: center; margin-top: 15px; font-size: 0.9rem; color: var(--text-muted); }
+
+        /* --- TAREFAS / TODO LIST --- */
+        .todo-input-group { display: flex; gap: 10px; margin-bottom: 15px; }
+        input[type="text"] { flex: 1; background: rgba(0,0,0,0.2); border: 1px solid var(--border); color: white; padding: 10px 15px; border-radius: 8px; outline: none; transition: border-color 0.3s; }
+        input[type="text"]:focus { border-color: var(--primary); }
+        .todo-list { list-style: none; max-height: 300px; overflow-y: auto; }
+        .todo-item { display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.05); padding: 10px 15px; border-radius: 8px; margin-bottom: 8px; transition: var(--transition); }
+        .todo-item.completed span { text-decoration: line-through; color: var(--text-muted); }
+        .todo-actions { display: flex; gap: 10px; }
+        .todo-actions i { cursor: pointer; transition: color 0.2s; }
+        .todo-actions .check { color: var(--success); }
+        .todo-actions .delete { color: var(--danger); }
+
+        /* --- FLASHCARDS --- */
+        .flashcard-container { perspective: 1000px; height: 300px; width: 100%; max-width: 500px; margin: 0 auto 20px; }
+        .flashcard { width: 100%; height: 100%; position: relative; transition: transform 0.6s; transform-style: preserve-3d; cursor: pointer; }
+        .flashcard.is-flipped { transform: rotateY(180deg); }
+        .card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; align-items: center; justify-content: center; padding: 30px; border-radius: 15px; text-align: center; font-size: 1.2rem; border: 1px solid var(--border); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .card-front { background: linear-gradient(135deg, var(--bg-glass), rgba(123, 44, 191, 0.2)); color: var(--primary); }
+        .card-back { background: linear-gradient(135deg, var(--bg-glass), rgba(0, 212, 255, 0.2)); transform: rotateY(180deg); }
+        .flashcard-controls { display: flex; justify-content: center; gap: 15px; }
+
+        /* --- PLAYER LOFI & AMBIENT --- */
+        .ambient-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .ambient-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--border); padding: 15px; border-radius: 8px; color: white; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 10px; transition: var(--transition); }
+        .ambient-btn:hover { background: rgba(255,255,255,0.1); border-color: var(--accent); }
+        .ambient-btn.active { background: rgba(0, 212, 255, 0.2); border-color: var(--accent); color: var(--accent); }
+        .ambient-btn i { font-size: 1.5rem; }
+
+        .w-full { width: 100%; }
+        .mt-4 { margin-top: 1rem; }
     </style>
 </head>
 <body>
 
-    <!-- SIDEBAR -->
+    <!-- SIDEBAR NAVIGATION -->
     <aside class="sidebar" id="sidebar">
         <div class="brand">
-            <i class="fa-solid fa-rocket"></i>
-            <span>Study Hub Ultra</span>
+            <i class="fa-solid fa-graduation-cap"></i>
+            Geekie Ultra <span style="font-size:0.6em; background:var(--primary); color:#000; padding:2px 5px; border-radius:4px; margin-left:auto;">v7.3</span>
         </div>
-        
         <nav class="nav-menu">
             <div class="nav-item active" onclick="switchTab('tab-geekie', this)">
-                <i class="fa-solid fa-graduation-cap"></i>
-                <span>Geekie One</span>
+                <i class="fa-solid fa-book-open"></i> Portal Geekie
             </div>
-            <div class="nav-item" onclick="switchTab('tab-notepad', this)">
-                <i class="fa-solid fa-note-sticky"></i>
-                <span>Bloco de Notas</span>
+            
+            <!-- NOVA ABA: BLOCO DE NOTAS -->
+            <div class="nav-item" onclick="switchTab('tab-notes', this)">
+                <i class="fa-solid fa-book-journal-whills"></i> Bloco de Notas
+            </div>
+
+            <div class="nav-item store-link" onclick="switchTab('tab-store', this)">
+                <i class="fa-solid fa-store"></i> Loja de Temas
             </div>
             <div class="nav-item" onclick="switchTab('tab-focus', this)">
-                <i class="fa-solid fa-brain"></i>
-                <span>Foco & Metas</span>
+                <i class="fa-solid fa-stopwatch"></i> Foco & Tarefas
             </div>
             <div class="nav-item" onclick="switchTab('tab-flashcards', this)">
-                <i class="fa-solid fa-bolt"></i>
-                <span>Flashcards</span>
-            </div>
-            <div class="nav-item" onclick="switchTab('tab-chars', this)">
-                <i class="fa-solid fa-keyboard"></i>
-                <span>Caracteres</span>
+                <i class="fa-solid fa-clone"></i> Flashcards
             </div>
             <div class="nav-item" onclick="switchTab('tab-ambient', this)">
-                <i class="fa-solid fa-leaf"></i>
-                <span>Sons Ambiente</span>
+                <i class="fa-solid fa-headphones"></i> Sons Ambiente
             </div>
-            <div class="nav-item store-link" onclick="switchTab('tab-store', this)">
-                <i class="fa-solid fa-cart-shopping"></i>
-                <span>Loja de Skins</span>
+            <div class="nav-item" onclick="switchTab('tab-chars', this)">
+                <i class="fa-solid fa-keyboard"></i> Caracteres Úteis
             </div>
-
-            <!-- Dev Log Link -->
+            
             <div class="nav-item" onclick="switchTab('tab-devlog', this)" style="margin-top: 20px; border-top: 1px solid var(--border); border-radius: 0; padding-top: 15px;">
-                <i class="fa-solid fa-code"></i>
-                <span>Dev Log</span>
+                <i class="fa-solid fa-clock-rotate-left"></i> Dev Log
             </div>
         </nav>
-
-        <div style="padding: 20px; font-size: 0.7rem; color: var(--text-muted); text-align: center;">
-            v7.3.0 Platinum Edition
-        </div>
     </aside>
 
     <!-- MAIN CONTENT -->
@@ -640,28 +529,47 @@
             </div>
         </section>
 
-        <!-- TAB: BLOCO DE NOTAS -->
-        <section id="tab-notepad" class="tab-content">
-            <div class="glass-card w-full" style="max-width: 1000px; margin: 0 auto; height: 100%; display: flex; flex-direction: column;">
-                <h3><i class="fa-solid fa-note-sticky"></i> Bloco de Notas Inteligente</h3>
-                <div class="notepad-container">
-                    <div class="notepad-toolbar">
-                        <button class="btn btn-primary" onclick="saveNote()"><i class="fa-solid fa-floppy-disk"></i> Salvar</button>
-                        <button class="btn btn-outline" onclick="copyNote()"><i class="fa-solid fa-copy"></i> Copiar</button>
-                        <button class="btn btn-outline" onclick="pasteNote()"><i class="fa-solid fa-paste"></i> Colar</button>
-                        <button class="btn btn-outline" onclick="exportNote()"><i class="fa-solid fa-file-export"></i> Exportar .txt</button>
-                        <button class="btn btn-outline" style="position: relative; overflow: hidden;">
-                            <i class="fa-solid fa-file-import"></i> Importar
-                            <input type="file" id="importFile" onchange="importNote(event)" style="position: absolute; left: 0; top: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;">
-                        </button>
-                        <button class="btn btn-outline" style="color: var(--danger); border-color: var(--danger);" onclick="clearNote()"><i class="fa-solid fa-trash"></i> Limpar</button>
-                    </div>
-                    <textarea id="notepadEditor" class="notepad-editor" placeholder="Comece a anotar suas matérias aqui..."></textarea>
-                    <div class="notepad-status">
-                        <span id="noteCharCount">0 caracteres</span>
-                        <span id="noteLastSaved">Não salvo nesta sessão</span>
-                    </div>
+        <!-- TAB: BLOCO DE NOTAS (NOVO) -->
+        <section id="tab-notes" class="tab-content">
+            <div class="glass-card w-full" style="max-width: 1000px; margin: 0 auto; display: flex; flex-direction: column; height: 100%;">
+                <h3 style="color: var(--accent);"><i class="fa-solid fa-book-journal-whills"></i> Bloco de Notas</h3>
+                
+                <!-- Barra de Ferramentas Superior -->
+                <div class="notes-toolbar">
+                    <select id="noteSelect" class="note-select" onchange="loadSelectedNote()">
+                        <option value="new">+ Nova Anotação...</option>
+                    </select>
+                    
+                    <button class="btn btn-primary" onclick="saveNote()" title="Salvar Anotação">
+                        <i class="fa-solid fa-floppy-disk"></i> Salvar
+                    </button>
+                    <button class="btn btn-outline" style="color:var(--danger); border-color:var(--danger);" onclick="deleteNote()" title="Excluir Nota Atual">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
                 </div>
+
+                <!-- Barra de Ferramentas Inferior -->
+                <div class="notes-toolbar" style="margin-bottom: 20px; gap: 8px;">
+                    <button class="btn btn-outline" onclick="copyNoteContent()" title="Copiar tudo">
+                        <i class="fa-solid fa-copy"></i> Copiar
+                    </button>
+                    <button class="btn btn-outline" onclick="pasteNoteContent()" title="Colar conteúdo">
+                        <i class="fa-solid fa-paste"></i> Colar
+                    </button>
+                    <button class="btn btn-outline" onclick="exportNote()" title="Baixar arquivo .txt">
+                        <i class="fa-solid fa-file-export"></i> Exportar (.txt)
+                    </button>
+                    
+                    <!-- O input de arquivo fica invisível, ativado pela label -->
+                    <label class="btn btn-outline" style="cursor: pointer; margin: 0;">
+                        <i class="fa-solid fa-file-import"></i> Importar
+                        <input type="file" id="importNoteFile" accept=".txt" style="display: none;" onchange="importNote(event)">
+                    </label>
+                </div>
+
+                <!-- Área de Edição -->
+                <input type="text" id="noteTitle" class="note-title-input" placeholder="Título da Anotação (Ex: Resumo de Biologia - Aula 3)">
+                <textarea id="noteContent" class="note-editor" placeholder="Digite suas anotações da aula aqui... Dica: Você pode copiar fórmulas da aba 'Caracteres Úteis' e colar aqui!"></textarea>
             </div>
         </section>
 
@@ -797,65 +705,71 @@
                     <button class="char-btn" onclick="copyChar('≥')" title="Maior ou Igual">≥</button>
                     <button class="char-btn" onclick="copyChar('∞')" title="Infinito">∞</button>
                     <button class="char-btn" onclick="copyChar('√')" title="Raiz Quadrada">√</button>
-                    <button class="char-btn" onclick="copyChar('π')" title="Pi">π</button>
-                    <button class="char-btn" onclick="copyChar('∑')" title="Somatório">∑</button>
-                    <button class="char-btn" onclick="copyChar('∫')" title="Integral">∫</button>
-                    <button class="char-btn" onclick="copyChar('∆')" title="Delta">∆</button>
-                    <button class="char-btn" onclick="copyChar('∂')" title="Derivada Parcial">∂</button>
+                    <button class="char-btn" onclick="copyChar('∛')" title="Raiz Cúbica">∛</button>
+                    <button class="char-btn" onclick="copyChar('°')" title="Graus">°</button>
+                    <button class="char-btn" onclick="copyChar('²')" title="Ao Quadrado">²</button>
+                    <button class="char-btn" onclick="copyChar('³')" title="Ao Cubo">³</button>
+                    <button class="char-btn" onclick="copyChar('½')" title="Metade">½</button>
+                    <button class="char-btn" onclick="copyChar('¼')" title="Um Quarto">¼</button>
                 </div>
 
-                <!-- Setas e Lógica -->
-                <h4 class="char-category">Setas e Lógica</h4>
+                <!-- Lógica & Conjuntos -->
+                <h4 class="char-category">Álgebra, Lógica e Conjuntos</h4>
                 <div class="char-grid">
-                    <button class="char-btn" onclick="copyChar('→')" title="Seta Direita">→</button>
-                    <button class="char-btn" onclick="copyChar('←')" title="Seta Esquerda">←</button>
-                    <button class="char-btn" onclick="copyChar('⇒')" title="Implica">⇒</button>
-                    <button class="char-btn" onclick="copyChar('⇔')" title="Se e somente se">⇔</button>
-                    <button class="char-btn" onclick="copyChar('∴')" title="Portanto">∴</button>
-                    <button class="char-btn" onclick="copyChar('∵')" title="Porque">∵</button>
-                    <button class="char-btn" onclick="copyChar('∀')" title="Para todo">∀</button>
+                    <button class="char-btn" onclick="copyChar('∀')" title="Para Todo">∀</button>
                     <button class="char-btn" onclick="copyChar('∃')" title="Existe">∃</button>
                     <button class="char-btn" onclick="copyChar('∈')" title="Pertence">∈</button>
-                    <button class="char-btn" onclick="copyChar('∉')" title="Não pertence">∉</button>
-                    <button class="char-btn" onclick="copyChar('∩')" title="Intersecção">∩</button>
+                    <button class="char-btn" onclick="copyChar('∉')" title="Não Pertence">∉</button>
+                    <button class="char-btn" onclick="copyChar('⊂')" title="Contém (Próprio)">⊂</button>
+                    <button class="char-btn" onclick="copyChar('⊃')" title="Está Contido (Próprio)">⊃</button>
                     <button class="char-btn" onclick="copyChar('∪')" title="União">∪</button>
+                    <button class="char-btn" onclick="copyChar('∩')" title="Interseção">∩</button>
+                    <button class="char-btn" onclick="copyChar('∅')" title="Vazio">∅</button>
+                    <button class="char-btn" onclick="copyChar('∫')" title="Integral">∫</button>
+                    <button class="char-btn" onclick="copyChar('∑')" title="Somatório">∑</button>
+                    <button class="char-btn" onclick="copyChar('∏')" title="Produtório">∏</button>
+                    <button class="char-btn" onclick="copyChar('∴')" title="Portanto">∴</button>
                 </div>
 
-                <!-- Alfabeto Grego (Comuns) -->
-                <h4 class="char-category">Alfabeto Grego (Física/Matemática)</h4>
+                <!-- Setas -->
+                <h4 class="char-category">Setas Direcionais e Vetores</h4>
                 <div class="char-grid">
-                    <button class="char-btn" onclick="copyChar('α')" title="Alpha">α</button>
+                    <button class="char-btn" onclick="copyChar('→')" title="Direita">→</button>
+                    <button class="char-btn" onclick="copyChar('←')" title="Esquerda">←</button>
+                    <button class="char-btn" onclick="copyChar('↑')" title="Cima">↑</button>
+                    <button class="char-btn" onclick="copyChar('↓')" title="Baixo">↓</button>
+                    <button class="char-btn" onclick="copyChar('↔')" title="Dupla">↔</button>
+                    <button class="char-btn" onclick="copyChar('↕')" title="Vertical Dupla">↕</button>
+                    <button class="char-btn" onclick="copyChar('⇒')" title="Implica">⇒</button>
+                    <button class="char-btn" onclick="copyChar('⇔')" title="Equivalente">⇔</button>
+                    <button class="char-btn" onclick="copyChar('⇄')" title="Troca">⇄</button>
+                    <button class="char-btn" onclick="copyChar('↗')" title="Diagonal">↗</button>
+                    <button class="char-btn" onclick="copyChar('↘')" title="Diagonal">↘</button>
+                </div>
+
+                <!-- Alfabeto Grego (Física/Mat) -->
+                <h4 class="char-category">Alfabeto Grego (Física & Geometria)</h4>
+                <div class="char-grid">
+                    <button class="char-btn" onclick="copyChar('α')" title="Alfa">α</button>
                     <button class="char-btn" onclick="copyChar('β')" title="Beta">β</button>
-                    <button class="char-btn" onclick="copyChar('γ')" title="Gamma">γ</button>
-                    <button class="char-btn" onclick="copyChar('δ')" title="Delta (minúsculo)">δ</button>
+                    <button class="char-btn" onclick="copyChar('γ')" title="Gama">γ</button>
+                    <button class="char-btn" onclick="copyChar('Δ')" title="Delta (Maiúsculo)">Δ</button>
+                    <button class="char-btn" onclick="copyChar('δ')" title="Delta (Minúsculo)">δ</button>
                     <button class="char-btn" onclick="copyChar('ε')" title="Epsilon">ε</button>
-                    <button class="char-btn" onclick="copyChar('θ')" title="Theta">θ</button>
+                    <button class="char-btn" onclick="copyChar('θ')" title="Teta">θ</button>
                     <button class="char-btn" onclick="copyChar('λ')" title="Lambda">λ</button>
-                    <button class="char-btn" onclick="copyChar('μ')" title="Mu">μ</button>
-                    <button class="char-btn" onclick="copyChar('ρ')" title="Rho">ρ</button>
+                    <button class="char-btn" onclick="copyChar('μ')" title="Mi (Micro)">μ</button>
+                    <button class="char-btn" onclick="copyChar('π')" title="Pi">π</button>
+                    <button class="char-btn" onclick="copyChar('ρ')" title="Rô">ρ</button>
                     <button class="char-btn" onclick="copyChar('σ')" title="Sigma">σ</button>
-                    <button class="char-btn" onclick="copyChar('τ')" title="Tau">τ</button>
-                    <button class="char-btn" onclick="copyChar('φ')" title="Phi">φ</button>
-                    <button class="char-btn" onclick="copyChar('ω')" title="Omega">ω</button>
-                    <button class="char-btn" onclick="copyChar('Ω')" title="Omega (Maiúsculo)">Ω</button>
-                </div>
-
-                <!-- Sobrescritos e Subscritos -->
-                <h4 class="char-category">Potências e Índices</h4>
-                <div class="char-grid">
-                    <button class="char-btn" onclick="copyChar('¹')">¹</button>
-                    <button class="char-btn" onclick="copyChar('²')">²</button>
-                    <button class="char-btn" onclick="copyChar('³')">³</button>
-                    <button class="char-btn" onclick="copyChar('ⁿ')">ⁿ</button>
-                    <button class="char-btn" onclick="copyChar('₀')">₀</button>
-                    <button class="char-btn" onclick="copyChar('₁')">₁</button>
-                    <button class="char-btn" onclick="copyChar('₂')">₂</button>
-                    <button class="char-btn" onclick="copyChar('ₓ')">ₓ</button>
+                    <button class="char-btn" onclick="copyChar('φ')" title="Fi">φ</button>
+                    <button class="char-btn" onclick="copyChar('Ω')" title="Ômega">Ω</button>
+                    <button class="char-btn" onclick="copyChar('ω')" title="Ômega (Minúsculo)">ω</button>
                 </div>
             </div>
         </section>
 
-        <!-- TAB: DEV LOG -->
+        <!-- TAB 7: DEV LOG -->
         <section id="tab-devlog" class="tab-content">
             <div class="glass-card w-full" style="max-width: 900px; margin: 0 auto;">
                 <h3><i class="fa-solid fa-laptop-code"></i> Developer Changelog</h3>
@@ -868,16 +782,15 @@
                     <div class="timeline-item">
                         <div class="version-header">
                             <span class="version-tag">v7.3.0</span>
-                            <h3>Bloco de Notas Inteligente</h3>
+                            <h3>Bloco de Notas Avançado</h3>
                             <span class="version-date">Atualização Recente</span>
                         </div>
                         <ul>
-                            <li><strong>Nova Aba:</strong> "Bloco de Notas" adicionada ao menu lateral para anotações rápidas.</li>
-                            <li><strong>Persistência:</strong> Sistema de salvamento automático no LocalStorage para não perder dados.</li>
-                            <li><strong>Ferramentas:</strong> Funções de Copiar, Colar e Limpar integradas à interface.</li>
-                            <li><strong>Exportação:</strong> Opção de exportar anotações como arquivo .txt para o computador.</li>
-                            <li><strong>Importação:</strong> Possibilidade de carregar arquivos de texto externos diretamente no bloco.</li>
-                            <li><strong>UI:</strong> Contador de caracteres em tempo real e indicador de último salvamento.</li>
+                            <li><strong>Nova Aba:</strong> "Bloco de Notas" adicionada com gerenciamento de múltiplas notas.</li>
+                            <li><strong>Funcionalidade:</strong> Salvar anotações localmente de forma segura e rápida.</li>
+                            <li><strong>Produtividade:</strong> Botões de Copiar (Tudo) e Colar (da Área de Transferência).</li>
+                            <li><strong>Export/Import:</strong> Possibilidade de exportar anotações para `.txt` e importar arquivos `.txt` do seu computador.</li>
+                            <li><strong>Gamificação:</strong> Salvar uma nova nota agora rende +10 moedas!</li>
                         </ul>
                     </div>
 
@@ -890,8 +803,7 @@
                         <ul>
                             <li><strong>Nova Aba:</strong> "Caracteres Úteis" adicionada ao menu lateral.</li>
                             <li><strong>Feature:</strong> Teclado virtual com +50 símbolos matemáticos, lógicos, setas e alfabeto grego.</li>
-                            <li><strong>Interação:</strong> Sistema "Click to Copy" (Cópia em 1 clique).</li>
-                            <li><strong>UI/UX:</strong> Implementado sistema de notificação "Toast" animada verde de confirmação ao copiar.</li>
+                            <li><strong>Interação:</strong> Sistema de notificação "Toast" animada verde ao copiar caracteres.</li>
                         </ul>
                     </div>
 
@@ -902,37 +814,19 @@
                             <h3>Gamificação & Dev Log</h3>
                         </div>
                         <ul>
-                            <li><strong>Implementado:</strong> Sistema de economia virtual (Geekie Coins).</li>
-                            <li><strong>Implementado:</strong> Loja de Temas (Skins animadas para o Iframe).</li>
-                            <li><strong>Recompensas:</strong> Ganho de moedas ao concluir Pomodoros (+50), Tarefas (+10) e Flashcards (+5).</li>
-                            <li><strong>Implementado:</strong> Temas Neon Pulse, Chroma RGB e Hacker Matrix.</li>
-                            <li><strong>Implementado:</strong> Aba de Dev Log para histórico de atualizações.</li>
-                        </ul>
-                    </div>
-
-                    <!-- Update v7.0.2 -->
-                    <div class="timeline-item">
-                        <div class="version-header">
-                            <span class="version-tag">v7.0.2</span>
-                            <h3>Flashcards Customizados</h3>
-                        </div>
-                        <ul>
-                            <li><strong>Melhoria:</strong> Sistema de Flashcards 3D agora possui funcionalidade CRUD.</li>
-                            <li><strong>Implementado:</strong> Inputs de criação de novos Flashcards pela interface.</li>
-                            <li><strong>Sistema:</strong> Integração completa com LocalStorage.</li>
+                            <li><strong>Implementado:</strong> Sistema de economia virtual (Geekie Coins) e Loja de Temas.</li>
+                            <li><strong>Recompensas:</strong> Ganho de moedas por estudos, tarefas e flashcards.</li>
                         </ul>
                     </div>
 
                     <!-- Update v7.0 -->
-                    <div class="timeline-item">
+                    <div class="timeline-item old-version">
                         <div class="version-header">
-                            <span class="version-tag">v7.0.0</span>
-                            <h3>The Study Hub Update</h3>
+                            <span class="version-tag" style="background: rgba(148, 163, 184, 0.2); color: var(--text-muted);">v7.0.0</span>
+                            <h3 style="color: var(--text-muted);">The Study Hub Update</h3>
                         </div>
                         <ul>
-                            <li><strong>Design:</strong> Refatoração completa da UI para o estilo "Glassmorphism" Dark Mode.</li>
-                            <li><strong>Feature:</strong> Modo Zen (Tela cheia imersiva).</li>
-                            <li><strong>Feature:</strong> Pomodoro Inteligente, Tarefas e Frequências de Foco.</li>
+                            <li>Refatoração "Glassmorphism", Modo Zen, Pomodoro e Tarefas persistentes.</li>
                         </ul>
                     </div>
                 </div>
@@ -944,54 +838,11 @@
     <!-- Áudio de notificação do Pomodoro -->
     <audio id="alarmSound" src="https://cdn.pixabay.com/download/audio/2021/08/04/audio_c6ccf3232f.mp3?filename=bell-ringing-05-43026.mp3" preload="auto"></audio>
 
-    <!-- Componente Toast (Notificação de cópia) -->
-    <div id="copyToast" class="toast"><i class="fa-solid fa-check"></i> Copiado!</div>
+    <!-- Componente Toast (Notificações) -->
+    <div id="appToast" class="toast"><i class="fa-solid fa-check"></i> <span>Ação Realizada!</span></div>
 
     <script>
-        // ================== CORE SYSTEM ==================
-        const sidebar = document.getElementById('sidebar');
-        const toggleSidebarBtn = document.getElementById('toggleSidebar');
-        const coinCountElement = document.getElementById('coinCount');
-        let coins = parseInt(localStorage.getItem('geekieCoins')) || 0;
-
-        function updateCoinDisplay() {
-            coinCountElement.textContent = coins;
-            localStorage.setItem('geekieCoins', coins);
-        }
-
-        function addCoins(amount) {
-            coins += amount;
-            updateCoinDisplay();
-            showCoinAnim(amount);
-        }
-
-        function showCoinAnim(amount) {
-            const anim = document.createElement('div');
-            anim.className = 'coin-anim';
-            anim.textContent = `+${amount}`;
-            document.getElementById('coinContainer').appendChild(anim);
-            setTimeout(() => anim.remove(), 1500);
-        }
-
-        updateCoinDisplay();
-
-        // Sidebar Toggle
-        toggleSidebarBtn.addEventListener('click', () => {
-            sidebar.classList.toggle('collapsed');
-        });
-
-        // Tab Switching
-        function switchTab(tabId, element) {
-            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-            
-            document.getElementById(tabId).classList.add('active');
-            element.classList.add('active');
-
-            if (window.innerWidth <= 768) sidebar.classList.add('collapsed');
-        }
-
-        // Clock
+        // ================== CLOCK LOGIC ==================
         function updateClock() {
             const now = new Date();
             document.getElementById('realTimeClock').textContent = now.toLocaleTimeString('pt-BR');
@@ -999,123 +850,367 @@
         setInterval(updateClock, 1000);
         updateClock();
 
-        // Zen Mode
-        function toggleZenMode() {
-            if (!document.fullscreenElement) {
-                document.documentElement.requestFullscreen().catch(err => console.log(err));
-            } else {
-                document.exitFullscreen();
+        // ================== SIDEBAR & TABS ==================
+        const sidebar = document.getElementById('sidebar');
+        const toggleBtn = document.getElementById('toggleSidebar');
+
+        toggleBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('collapsed');
+        });
+
+        function switchTab(tabId, element) {
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            element.classList.add('active');
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+
+            if(window.innerWidth < 768) {
+                sidebar.classList.add('collapsed');
             }
         }
 
-        // ================== STORE SYSTEM ==================
-        const themes = [
-            { id: 'default', name: 'Padrão Clean', price: 0, class: 'theme-default' },
-            { id: 'neon', name: 'Neon Pulse', price: 150, class: 'theme-neon' },
-            { id: 'rgb', name: 'Chroma RGB', price: 300, class: 'theme-rgb' },
-            { id: 'matrix', name: 'Hacker Matrix', price: 500, class: 'theme-matrix' }
+        // ================== TOAST NOTIFICATIONS ==================
+        let toastTimeout;
+        function showToast(msg, isError = false) {
+            const toast = document.getElementById('appToast');
+            toast.style.background = isError ? 'var(--danger)' : 'var(--success)';
+            toast.innerHTML = isError 
+                ? `<i class="fa-solid fa-triangle-exclamation"></i> <span>${msg}</span>` 
+                : `<i class="fa-solid fa-check"></i> <span>${msg}</span>`;
+            
+            toast.classList.add('show');
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // ================== ZEN MODE ==================
+        let isZen = false;
+        function toggleZenMode() {
+            isZen = !isZen;
+            const topbar = document.querySelector('.topbar');
+            
+            if (isZen) {
+                sidebar.classList.add('collapsed');
+                topbar.style.display = 'none';
+                document.body.requestFullscreen().catch(err => console.log(err));
+            } else {
+                sidebar.classList.remove('collapsed');
+                topbar.style.display = 'flex';
+                if (document.fullscreenElement) document.exitFullscreen();
+            }
+        }
+
+        document.addEventListener('fullscreenchange', () => {
+            if (!document.fullscreenElement && isZen) toggleZenMode();
+        });
+
+        // ================== ECONOMY & STORE LOGIC ==================
+        let coins = parseInt(localStorage.getItem('geekieCoins')) || 0;
+        let ownedThemes = JSON.parse(localStorage.getItem('geekieThemes')) || ['theme-default'];
+        let equippedTheme = localStorage.getItem('geekieEquipped') || 'theme-default';
+
+        const storeItems = [
+            { id: 'theme-default', name: 'Original', price: 0, icon: 'fa-square', desc: 'Borda simples, limpo.' },
+            { id: 'theme-neon', name: 'Neon Pulse', price: 100, icon: 'fa-bolt', desc: 'Borda azul brilhante que pulsa suavemente.' },
+            { id: 'theme-rgb', name: 'Chroma RGB', price: 300, icon: 'fa-palette', desc: 'Tema gamer que muda de cor constantemente.' },
+            { id: 'theme-matrix', name: 'Hacker Matrix', price: 500, icon: 'fa-terminal', desc: 'Efeito glitch verde cibernético.' }
         ];
 
-        let unlockedThemes = JSON.parse(localStorage.getItem('geekieUnlockedThemes')) || ['default'];
-        let currentTheme = localStorage.getItem('geekieCurrentTheme') || 'default';
+        const coinCountElement = document.getElementById('coinCount');
+        const coinContainer = document.getElementById('coinContainer');
+        const iframeContainer = document.getElementById('geekieIframeContainer');
 
-        function renderStore() {
-            const grid = document.getElementById('storeGrid');
-            grid.innerHTML = '';
-            
-            themes.forEach(theme => {
-                const isUnlocked = unlockedThemes.includes(theme.id);
-                const isActive = currentTheme === theme.id;
-                
-                const card = document.createElement('div');
-                card.className = 'store-card';
-                card.innerHTML = `
-                    <h4>${theme.name}</h4>
-                    <span class="price-tag">${isUnlocked ? 'Desbloqueado' : theme.price + ' Moedas'}</span>
-                    <button class="btn ${isActive ? 'btn-outline' : 'btn-primary'}" 
-                            onclick="${isUnlocked ? `applyTheme('${theme.id}')` : `buyTheme('${theme.id}', ${theme.price})`}"
-                            ${isActive ? 'disabled' : ''}>
-                        ${isActive ? 'Ativo' : (isUnlocked ? 'Aplicar' : 'Comprar')}
-                    </button>
-                `;
-                grid.appendChild(card);
-            });
-        }
-
-        function buyTheme(id, price) {
-            if (coins >= price) {
-                coins -= price;
-                unlockedThemes.push(id);
-                localStorage.setItem('geekieUnlockedThemes', JSON.stringify(unlockedThemes));
-                updateCoinDisplay();
-                applyTheme(id);
-                renderStore();
-                showToast("Tema desbloqueado!");
-            } else {
-                alert("Moedas insuficientes! Estude mais para ganhar.");
-            }
-        }
-
-        function applyTheme(id) {
-            const container = document.getElementById('geekieIframeContainer');
-            const theme = themes.find(t => t.id === id);
-            
-            themes.forEach(t => container.classList.remove(t.class));
-            container.classList.add(theme.class);
-            
-            currentTheme = id;
-            localStorage.setItem('geekieCurrentTheme', id);
+        function updateCoinDisplay() {
+            coinCountElement.textContent = coins;
+            localStorage.setItem('geekieCoins', coins);
             renderStore();
         }
 
-        applyTheme(currentTheme);
+        function addCoins(amount) {
+            coins += amount;
+            updateCoinDisplay();
+            
+            const anim = document.createElement('div');
+            anim.className = 'coin-anim';
+            anim.textContent = `+${amount}`;
+            
+            const randomX = Math.floor(Math.random() * 20) - 10;
+            anim.style.left = `calc(50% + ${randomX}px)`;
+            anim.style.top = '10px';
+            
+            coinContainer.appendChild(anim);
+            setTimeout(() => anim.remove(), 1500);
+        }
+
+        function applyTheme(themeId) {
+            storeItems.forEach(item => iframeContainer.classList.remove(item.id));
+            iframeContainer.classList.add(themeId);
+        }
+
+        function equipTheme(themeId) {
+            equippedTheme = themeId;
+            localStorage.setItem('geekieEquipped', equippedTheme);
+            applyTheme(themeId);
+            renderStore();
+        }
+
+        function buyTheme(themeId, price) {
+            if (coins >= price) {
+                coins -= price;
+                ownedThemes.push(themeId);
+                localStorage.setItem('geekieThemes', JSON.stringify(ownedThemes));
+                updateCoinDisplay();
+                equipTheme(themeId);
+                showToast('Tema comprado com sucesso!');
+            } else {
+                showToast('Moedas insuficientes!', true);
+            }
+        }
+
+        function renderStore() {
+            const storeGrid = document.getElementById('storeGrid');
+            if(!storeGrid) return;
+            storeGrid.innerHTML = '';
+
+            storeItems.forEach(item => {
+                const isOwned = ownedThemes.includes(item.id);
+                const isEquipped = equippedTheme === item.id;
+                
+                let buttonHtml = '';
+                if (isEquipped) {
+                    buttonHtml = `<button class="btn btn-outline w-full" disabled><i class="fa-solid fa-check"></i> Equipado</button>`;
+                } else if (isOwned) {
+                    buttonHtml = `<button class="btn btn-primary w-full" onclick="equipTheme('${item.id}')">Equipar</button>`;
+                } else {
+                    const canAfford = coins >= item.price;
+                    buttonHtml = `<button class="btn btn-gold w-full ${!canAfford ? 'btn-disabled' : ''}" 
+                                   onclick="${canAfford ? `buyTheme('${item.id}', ${item.price})` : ''}">
+                                   <i class="fa-solid fa-cart-shopping"></i> Comprar (${item.price} <i class="fa-solid fa-coins"></i>)
+                                  </button>`;
+                }
+
+                storeGrid.innerHTML += `
+                    <div class="store-item ${isEquipped ? item.id : ''}">
+                        <i class="fa-solid ${item.icon} preview-icon"></i>
+                        <h4>${item.name}</h4>
+                        <p style="font-size: 0.8rem; color: var(--text-muted); flex: 1;">${item.desc}</p>
+                        ${buttonHtml}
+                    </div>
+                `;
+            });
+        }
+
+        updateCoinDisplay();
+        applyTheme(equippedTheme);
         renderStore();
 
-        // ================== POMODORO SYSTEM ==================
+        // ================== BLOCO DE NOTAS (NOVO) ==================
+        let savedNotes = JSON.parse(localStorage.getItem('geekieNotes')) || [];
+        let currentNoteId = null;
+
+        const noteSelect = document.getElementById('noteSelect');
+        const noteTitleInput = document.getElementById('noteTitle');
+        const noteContentInput = document.getElementById('noteContent');
+
+        function renderNotesDropdown() {
+            noteSelect.innerHTML = '<option value="new">+ Nova Anotação...</option>';
+            savedNotes.forEach(note => {
+                const option = document.createElement('option');
+                option.value = note.id;
+                option.textContent = note.title || 'Nota sem título';
+                if (note.id === currentNoteId) option.selected = true;
+                noteSelect.appendChild(option);
+            });
+        }
+
+        function loadSelectedNote() {
+            const selectedId = noteSelect.value;
+            if (selectedId === 'new') {
+                currentNoteId = null;
+                noteTitleInput.value = '';
+                noteContentInput.value = '';
+            } else {
+                const note = savedNotes.find(n => n.id == selectedId);
+                if (note) {
+                    currentNoteId = note.id;
+                    noteTitleInput.value = note.title;
+                    noteContentInput.value = note.content;
+                }
+            }
+        }
+
+        function saveNote() {
+            const title = noteTitleInput.value.trim() || 'Nota sem título';
+            const content = noteContentInput.value;
+
+            if (!content.trim() && !title.trim()) {
+                showToast("A nota está vazia!", true);
+                return;
+            }
+
+            if (currentNoteId === null) {
+                // Nova nota
+                const newNote = {
+                    id: Date.now().toString(),
+                    title: title,
+                    content: content,
+                    date: new Date().toLocaleDateString()
+                };
+                savedNotes.push(newNote);
+                currentNoteId = newNote.id;
+                addCoins(10); // Gamificação: +10 moedas por anotar
+                showToast("Nova anotação salva! +10 Moedas");
+            } else {
+                // Atualizar nota existente
+                const index = savedNotes.findIndex(n => n.id === currentNoteId);
+                if (index !== -1) {
+                    savedNotes[index].title = title;
+                    savedNotes[index].content = content;
+                    showToast("Anotação atualizada!");
+                }
+            }
+
+            localStorage.setItem('geekieNotes', JSON.stringify(savedNotes));
+            renderNotesDropdown();
+        }
+
+        function deleteNote() {
+            if (currentNoteId === null) {
+                // Apenas limpa a tela se for nota nova
+                noteTitleInput.value = '';
+                noteContentInput.value = '';
+                return;
+            }
+
+            if(confirm("Tem certeza que deseja excluir esta anotação permanentemente?")) {
+                savedNotes = savedNotes.filter(n => n.id !== currentNoteId);
+                localStorage.setItem('geekieNotes', JSON.stringify(savedNotes));
+                
+                currentNoteId = null;
+                noteTitleInput.value = '';
+                noteContentInput.value = '';
+                
+                renderNotesDropdown();
+                showToast("Anotação excluída!");
+            }
+        }
+
+        function copyNoteContent() {
+            const content = noteContentInput.value;
+            if(!content) {
+                showToast("Nada para copiar!", true);
+                return;
+            }
+            navigator.clipboard.writeText(content).then(() => {
+                showToast("Conteúdo copiado!");
+            }).catch(() => {
+                showToast("Erro ao copiar. Use Ctrl+C", true);
+            });
+        }
+
+        async function pasteNoteContent() {
+            try {
+                const text = await navigator.clipboard.readText();
+                // Insere onde o cursor está ou no final
+                const startPos = noteContentInput.selectionStart;
+                const endPos = noteContentInput.selectionEnd;
+                noteContentInput.value = noteContentInput.value.substring(0, startPos) + text + noteContentInput.value.substring(endPos, noteContentInput.value.length);
+                showToast("Conteúdo colado!");
+            } catch (err) {
+                showToast("Permissão negada pelo navegador. Pressione Ctrl+V para colar.", true);
+            }
+        }
+
+        function exportNote() {
+            const title = noteTitleInput.value.trim() || 'Anotacao';
+            const content = noteContentInput.value;
+            
+            if(!content) {
+                showToast("A nota está vazia para exportar!", true);
+                return;
+            }
+
+            const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${title}.txt`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast("Arquivo exportado!");
+        }
+
+        function importNote(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const content = e.target.result;
+                const titleName = file.name.replace('.txt', '');
+                
+                currentNoteId = null; // Força salvar como nota nova
+                noteTitleInput.value = titleName;
+                noteContentInput.value = content;
+                
+                // Reseta o file input
+                document.getElementById('importNoteFile').value = '';
+                
+                // Pula para aba nova
+                noteSelect.value = 'new';
+                showToast("Arquivo importado com sucesso! Lembre-se de salvar.");
+            };
+            reader.readAsText(file);
+        }
+
+        // Init Notes
+        renderNotesDropdown();
+
+        // ================== POMODORO LOGIC ==================
         let timerInterval;
         let timeLeft = 25 * 60;
         let isTimerRunning = false;
         let isBreak = false;
-        let pomodorosDone = parseInt(localStorage.getItem('geekiePomodoros')) || 0;
+        let cycles = 0;
 
         const timerDisplay = document.getElementById('timerDisplay');
         const timerMode = document.getElementById('timerMode');
         const btnStartTimer = document.getElementById('btnStartTimer');
+        const alarmSound = document.getElementById('alarmSound');
         const pomodoroCount = document.getElementById('pomodoroCount');
 
-        pomodoroCount.textContent = pomodorosDone;
-
         function updateTimerDisplay() {
-            const mins = Math.floor(timeLeft / 60);
-            const secs = timeLeft % 60;
-            timerDisplay.textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            document.title = `${timerDisplay.textContent} - Geekie Ultra`;
         }
 
         function startTimer() {
             if (isTimerRunning) return;
             isTimerRunning = true;
-            btnStartTimer.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Focando...';
+            btnStartTimer.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Rodando';
             
             timerInterval = setInterval(() => {
                 timeLeft--;
                 updateTimerDisplay();
-                
+
                 if (timeLeft <= 0) {
                     clearInterval(timerInterval);
                     isTimerRunning = false;
-                    document.getElementById('alarmSound').play();
+                    alarmSound.play();
                     
                     if (!isBreak) {
-                        pomodorosDone++;
-                        localStorage.setItem('geekiePomodoros', pomodorosDone);
-                        pomodoroCount.textContent = pomodorosDone;
-                        addCoins(50); // RECOMPENSA POMODORO
-                        
+                        cycles++;
+                        pomodoroCount.textContent = cycles;
+                        addCoins(50);
                         isBreak = true;
                         timeLeft = 5 * 60;
-                        timerMode.textContent = "Modo: Pausa (5 min)";
-                        timerMode.style.color = "var(--primary)";
-                        alert("Parabéns! Ciclo de foco concluído. Aproveite sua pausa.");
+                        timerMode.textContent = "Modo: Pausa Curta (5 min)";
+                        timerMode.style.color = "var(--accent)";
+                        alert("Foco concluído! Você ganhou +50 Moedas! Faça uma pausa de 5 min.");
                     } else {
                         isBreak = false;
                         timeLeft = 25 * 60;
@@ -1173,7 +1268,7 @@
             if (text) {
                 todos.push({ text, completed: false });
                 todoInput.value = '';
-                addCoins(5); // RECOMPENSA CRIAR TAREFA
+                addCoins(5);
                 renderTodos();
             }
         }
@@ -1184,7 +1279,7 @@
             const wasCompleted = todos[index].completed;
             todos[index].completed = !todos[index].completed;
             if (!wasCompleted && todos[index].completed) {
-                addCoins(10); // RECOMPENSA CONCLUIR TAREFA
+                addCoins(10);
             }
             renderTodos();
         }
@@ -1240,10 +1335,11 @@
             if (frontInput.value.trim() && backInput.value.trim()) {
                 flashcardsData.push({ front: frontInput.value.trim(), back: backInput.value.trim() });
                 saveFlashcards();
-                addCoins(5); // RECOMPENSA CRIAR FLASHCARD
+                addCoins(5);
                 frontInput.value = ''; backInput.value = '';
                 currentCardIndex = flashcardsData.length - 1;
                 updateCardDisplay();
+                showToast("Flashcard Criado!");
             } else alert("Preencha frente e verso!");
         }
 
@@ -1254,6 +1350,7 @@
                 saveFlashcards();
                 if (currentCardIndex >= flashcardsData.length) currentCardIndex = Math.max(0, flashcardsData.length - 1);
                 updateCardDisplay();
+                showToast("Flashcard Excluído!");
             }
         }
 
@@ -1280,7 +1377,7 @@
                 textArea.select();
                 try {
                     document.execCommand('copy');
-                    showToast(`Copiado: ${text}`);
+                    showToast(`Símbolo ${text} copiado!`);
                 } catch (err) {
                     console.error('Erro ao copiar', err);
                 }
@@ -1289,109 +1386,12 @@
 
             if (navigator.clipboard && navigator.clipboard.writeText) {
                 navigator.clipboard.writeText(char)
-                    .then(() => showToast(`Copiado: ${char}`))
+                    .then(() => showToast(`Símbolo ${char} copiado!`))
                     .catch(() => fallbackCopy(char));
             } else {
                 fallbackCopy(char);
             }
         }
-
-        let toastTimeout;
-        function showToast(msg) {
-            const toast = document.getElementById('copyToast');
-            toast.innerHTML = `<i class="fa-solid fa-check"></i> ${msg}`;
-            toast.classList.add('show');
-            
-            clearTimeout(toastTimeout);
-            toastTimeout = setTimeout(() => {
-                toast.classList.remove('show');
-            }, 2500);
-        }
-
-        // ================== NOTEPAD LOGIC ==================
-        const notepadEditor = document.getElementById('notepadEditor');
-        const noteCharCount = document.getElementById('noteCharCount');
-        const noteLastSaved = document.getElementById('noteLastSaved');
-
-        // Carregar nota salva
-        notepadEditor.value = localStorage.getItem('geekieNote') || '';
-        updateCharCount();
-
-        function updateCharCount() {
-            noteCharCount.textContent = `${notepadEditor.value.length} caracteres`;
-        }
-
-        notepadEditor.addEventListener('input', updateCharCount);
-
-        function saveNote() {
-            localStorage.setItem('geekieNote', notepadEditor.value);
-            const now = new Date();
-            noteLastSaved.textContent = `Salvo em: ${now.toLocaleTimeString()}`;
-            showToast("Nota salva com sucesso!");
-        }
-
-        function clearNote() {
-            if (confirm("Tem certeza que deseja limpar toda a nota?")) {
-                notepadEditor.value = '';
-                updateCharCount();
-                localStorage.removeItem('geekieNote');
-                showToast("Nota limpa!");
-            }
-        }
-
-        function copyNote() {
-            notepadEditor.select();
-            document.execCommand('copy');
-            showToast("Nota copiada para a área de transferência!");
-        }
-
-        async function pasteNote() {
-            try {
-                const text = await navigator.clipboard.readText();
-                const start = notepadEditor.selectionStart;
-                const end = notepadEditor.selectionEnd;
-                const currentText = notepadEditor.value;
-                notepadEditor.value = currentText.substring(0, start) + text + currentText.substring(end);
-                updateCharCount();
-                showToast("Conteúdo colado!");
-            } catch (err) {
-                alert("Erro ao colar. Certifique-se de dar permissão ao navegador.");
-            }
-        }
-
-        function exportNote() {
-            const text = notepadEditor.value;
-            const blob = new Blob([text], { type: 'text/plain' });
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `minhas-notas-${new Date().toLocaleDateString().replace(/\//g, '-')}.txt`;
-            a.click();
-            window.URL.revokeObjectURL(url);
-            showToast("Arquivo exportado!");
-        }
-
-        function importNote(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-            
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                notepadEditor.value = e.target.result;
-                updateCharCount();
-                showToast("Arquivo importado com sucesso!");
-            };
-            reader.readAsText(file);
-        }
-
-        // Auto-save a cada 30 segundos
-        setInterval(() => {
-            if (notepadEditor.value !== localStorage.getItem('geekieNote')) {
-                localStorage.setItem('geekieNote', notepadEditor.value);
-                const now = new Date();
-                noteLastSaved.textContent = `Auto-salvo em: ${now.toLocaleTimeString()}`;
-            }
-        }, 30000);
 
     </script>
 </body>
