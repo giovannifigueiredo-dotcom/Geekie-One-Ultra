@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geekie One Ultra v8.0 - Notepad Edition</title>
+    <!-- Fontes Modernas -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Variáveis de Tema - Cyber/Neon Dark */
+        :root {
+            --primary: #00ff88;
+            --primary-glow: rgba(0, 255, 136, 0.4);
+            --secondary: #7b2cbf;
+            --accent: #00d4ff;
+            --bg-base: #0a0e17;
+            --bg-glass: rgba(16, 22, 38, 0.7);
+            --bg-glass-hover: rgba(26, 35, 58, 0.9);
+            --text-main: #f0f4f8;
+            --text-muted: #94a3b8;
+            --border: rgba(255, 255, 255, 0.08);
+            --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+            --danger: #ff4d4d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-image: radial-gradient(circle at 50% 50%, #16213e 0%, #0a0e17 100%);
+            overflow-x: hidden;
+        }
+
+        /* Navbar */
+        nav {
+            background: var(--bg-glass);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Container Principal */
+        main {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 2rem;
+        }
+
+        @media (max-width: 968px) {
+            main { grid-template-columns: 1fr; }
+        }
+
+        /* Seção do Bloco de Notas */
+        .notepad-section {
+            background: var(--bg-glass);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .notepad-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1rem;
+        }
+
+        .notepad-controls {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        /* Inputs e TextArea */
+        .note-input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        input[type="text"], textarea, select {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 12px 16px;
+            color: var(--text-main);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 10px var(--primary-glow);
+        }
+
+        textarea {
+            min-height: 250px;
+            resize: vertical;
+            line-height: 1.6;
+        }
+
+        /* Botões */
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary { background: var(--primary); color: #000; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 5px 15px var(--primary-glow); }
+        
+        .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text-main); }
+        .btn-outline:hover { background: var(--bg-glass-hover); border-color: var(--accent); }
+
+        .btn-danger { background: rgba(255, 77, 77, 0.15); color: var(--danger); border: 1px solid var(--danger); }
+        .btn-danger:hover { background: var(--danger); color: #fff; }
+
+        /* Lista de Notas */
+        .notes-list {
+            margin-top: 1rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+
+        .note-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 1.5rem;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .note-card:hover {
+            transform: scale(1.02);
+            border-color: var(--accent);
+        }
+
+        .note-card h3 {
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+            color: var(--primary);
+        }
+
+        .note-card p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            white-space: pre-wrap;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .note-card .meta {
+            margin-top: 1rem;
+            font-size: 0.75rem;
+            opacity: 0.6;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .note-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        /* Sidebar - Central de Áudio (mantida do anterior) */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .glass-panel {
+            background: var(--bg-glass);
+            border-radius: 20px;
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+        }
+
+        .panel-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .audio-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.8rem;
+        }
+
+        .audio-item {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 12px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .audio-item.active {
+            border-color: var(--primary);
+            background: rgba(0, 255, 136, 0.05);
+        }
+
+        .play-btn {
+            background: none;
+            border: none;
+            color: var(--text-main);
+            cursor: pointer;
+            font-size: 1.2rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .play-btn:hover { background: rgba(255, 255, 255, 0.1); }
+
+        /* Toast de Notificação */
+        #copyToast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--primary);
+            color: #000;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 2000;
+            box-shadow: 0 10px 20px rgba(0, 255, 136, 0.3);
+        }
+
+        #copyToast.show { transform: translateX(-50%) translateY(0); }
+
+        /* Character Grid */
+        .char-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .char-btn {
+            background: rgba(0,0,0,0.2);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.2s;
+        }
+
+        .char-btn:hover { border-color: var(--primary); background: rgba(0,255,136,0.1); }
+
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">
+            <i class="fa-solid fa-brain"></i>
+            Geekie One Ultra <span>v8.0</span>
+        </div>
+        <div class="notepad-controls">
+            <button class="btn btn-outline" onclick="exportNotes()"><i class="fa-solid fa-download"></i> Exportar</button>
+            <button class="btn btn-outline" onclick="document.getElementById('importFile').click()"><i class="fa-solid fa-upload"></i> Importar</button>
+            <input type="file" id="importFile" class="hidden" accept=".json" onchange="importNotes(event)">
+        </div>
+    </nav>
+
+    <main>
+        <!-- Coluna Esquerda: Editor e Lista -->
+        <div class="notepad-section">
+            <div class="notepad-header">
+                <h2><i class="fa-solid fa-pen-nib"></i> Bloco de Notas</h2>
+                <div id="statusInfo" style="font-size: 0.8rem; color: var(--text-muted)">Salvo automaticamente</div>
+            </div>
+
+            <div class="note-input-group">
+                <input type="text" id="noteTitle" placeholder="Título da Matéria (ex: Biologia - Citologia)">
+                <select id="noteCategory">
+                    <option value="Geral">📂 Categoria: Geral</option>
+                    <option value="Exatas">📐 Exatas</option>
+                    <option value="Humanas">📜 Humanas</option>
+                    <option value="Biologicas">🌿 Biológicas</option>
+                    <option value="Linguagens">✍️ Linguagens</option>
+                </select>
+                <textarea id="noteContent" placeholder="Escreva suas anotações aqui..."></textarea>
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn btn-primary" id="saveBtn" onclick="saveNote()">
+                        <i class="fa-solid fa-plus"></i> Adicionar Nota
+                    </button>
+                    <button class="btn btn-outline" onclick="clearEditor()">
+                        <i class="fa-solid fa-eraser"></i> Limpar Editor
+                    </button>
+                </div>
+            </div>
+
+            <div class="notepad-header" style="margin-top: 1rem;">
+                <h3><i class="fa-solid fa-list-ul"></i> Suas Matérias</h3>
+            </div>
+            <div class="notes-list" id="notesList">
+                <!-- Notas aparecem aqui dinamicamente -->
+            </div>
+        </div>
+
+        <!-- Coluna Direita: Ferramentas -->
+        <div class="sidebar">
+            <!-- Central de Áudio -->
+            <div class="glass-panel">
+                <div class="panel-title"><i class="fa-solid fa-headphones"></i> Foco Sonoro</div>
+                <div class="audio-grid">
+                    <div class="audio-item" id="item-lofi">
+                        <span>Lofi Beats</span>
+                        <button class="play-btn" onclick="toggleAudio('lofi')"><i class="fa-solid fa-play"></i></button>
+                    </div>
+                    <div class="audio-item" id="item-rain">
+                        <span>Chuva Relaxante</span>
+                        <button class="play-btn" onclick="toggleAudio('rain')"><i class="fa-solid fa-play"></i></button>
+                    </div>
+                    <div class="audio-item" id="item-forest">
+                        <span>Floresta</span>
+                        <button class="play-btn" onclick="toggleAudio('forest')"><i class="fa-solid fa-play"></i></button>
+                    </div>
+                </div>
+                <div style="margin-top: 15px;">
+                    <label style="font-size: 0.8rem; display: block; margin-bottom: 5px;">Volume Geral</label>
+                    <input type="range" min="0" max="1" step="0.1" value="0.5" style="width: 100%; accent-color: var(--primary);" oninput="changeVolume(this.value)">
+                </div>
+            </div>
+
+            <!-- Caracteres Especiais -->
+            <div class="glass-panel">
+                <div class="panel-title"><i class="fa-solid fa-keyboard"></i> Símbolos de Estudo</div>
+                <div class="char-grid">
+                    <button class="char-btn" onclick="copyChar('→')">→</button>
+                    <button class="char-btn" onclick="copyChar('∑')">∑</button>
+                    <button class="char-btn" onclick="copyChar('Δ')">Δ</button>
+                    <button class="char-btn" onclick="copyChar('π')">π</button>
+                    <button class="char-btn" onclick="copyChar('√')">√</button>
+                    <button class="char-btn" onclick="copyChar('∞')">∞</button>
+                    <button class="char-btn" onclick="copyChar('≈')">≈</button>
+                    <button class="char-btn" onclick="copyChar('≠')">≠</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="copyToast">Copiado com sucesso!</div>
+
+    <script>
+        // ================== LOGICA DO BLOCO DE NOTAS ==================
+        let notes = JSON.parse(localStorage.getItem('geekie_notes')) || [];
+        let editingIndex = -1;
+
+        function renderNotes() {
+            const list = document.getElementById('notesList');
+            list.innerHTML = '';
+
+            notes.forEach((note, index) => {
+                const card = document.createElement('div');
+                card.className = 'note-card';
+                card.innerHTML = `
+                    <h3>${note.title}</h3>
+                    <div style="font-size: 0.7rem; color: var(--accent); margin-bottom: 5px;">${note.category}</div>
+                    <p>${note.content}</p>
+                    <div class="meta">
+                        <span>${note.date}</span>
+                    </div>
+                    <div class="note-actions">
+                        <button class="btn btn-outline" style="padding: 5px 10px; font-size: 0.8rem;" onclick="editNote(${index})">
+                            <i class="fa-solid fa-edit"></i> Editar
+                        </button>
+                        <button class="btn btn-outline" style="padding: 5px 10px; font-size: 0.8rem;" onclick="copyToClipboard(${index})">
+                            <i class="fa-solid fa-copy"></i> Copiar
+                        </button>
+                        <button class="btn btn-danger" style="padding: 5px 10px; font-size: 0.8rem;" onclick="deleteNote(${index})">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+                list.appendChild(card);
+            });
+        }
+
+        function saveNote() {
+            const title = document.getElementById('noteTitle').value.trim();
+            const content = document.getElementById('noteContent').value.trim();
+            const category = document.getElementById('noteCategory').value;
+
+            if (!title || !content) {
+                showToast("Preencha título e conteúdo!");
+                return;
+            }
+
+            const now = new Date();
+            const dateStr = now.toLocaleDateString() + ' ' + now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+
+            const noteData = { title, content, category, date: dateStr };
+
+            if (editingIndex > -1) {
+                notes[editingIndex] = noteData;
+                editingIndex = -1;
+                document.getElementById('saveBtn').innerHTML = '<i class="fa-solid fa-plus"></i> Adicionar Nota';
+            } else {
+                notes.unshift(noteData);
+            }
+
+            localStorage.setItem('geekie_notes', JSON.stringify(notes));
+            clearEditor();
+            renderNotes();
+            showToast("Nota salva!");
+        }
+
+        function editNote(index) {
+            const note = notes[index];
+            document.getElementById('noteTitle').value = note.title;
+            document.getElementById('noteContent').value = note.content;
+            document.getElementById('noteCategory').value = note.category;
+            
+            editingIndex = index;
+            document.getElementById('saveBtn').innerHTML = '<i class="fa-solid fa-check"></i> Salvar Edição';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function deleteNote(index) {
+            if(confirm("Deseja realmente apagar esta nota?")) {
+                notes.splice(index, 1);
+                localStorage.setItem('geekie_notes', JSON.stringify(notes));
+                renderNotes();
+                showToast("Nota removida");
+            }
+        }
+
+        function clearEditor() {
+            document.getElementById('noteTitle').value = '';
+            document.getElementById('noteContent').value = '';
+            editingIndex = -1;
+            document.getElementById('saveBtn').innerHTML = '<i class="fa-solid fa-plus"></i> Adicionar Nota';
+        }
+
+        function copyToClipboard(index) {
+            const text = `${notes[index].title}\n\n${notes[index].content}`;
+            navigator.clipboard.writeText(text).then(() => {
+                showToast("Conteúdo copiado!");
+            });
+        }
+
+        // ================== IMPORTAR / EXPORTAR ==================
+        function exportNotes() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(notes));
+            const downloadAnchorNode = document.createElement('a');
+            downloadAnchorNode.setAttribute("href", dataStr);
+            downloadAnchorNode.setAttribute("download", "geekie_ultra_backup.json");
+            document.body.appendChild(downloadAnchorNode);
+            downloadAnchorNode.click();
+            downloadAnchorNode.remove();
+        }
+
+        function importNotes(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const imported = JSON.parse(e.target.result);
+                    notes = [...imported, ...notes];
+                    localStorage.setItem('geekie_notes', JSON.stringify(notes));
+                    renderNotes();
+                    showToast("Notas importadas com sucesso!");
+                } catch (err) {
+                    showToast("Erro ao ler arquivo!");
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        // ================== AUDIO LOGIC ==================
+        const audios = {
+            lofi: new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'),
+            rain: new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3'),
+            forest: new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3')
+        };
+        Object.values(audios).forEach(a => a.loop = true);
+
+        function toggleAudio(id) {
+            const item = document.getElementById(`item-${id}`);
+            const btn = item.querySelector('i');
+            
+            if (audios[id].paused) {
+                Object.values(audios).forEach(a => a.pause()); // Opcional: pausar outros antes
+                document.querySelectorAll('.audio-item').forEach(el => el.classList.remove('active'));
+                
+                audios[id].play();
+                item.classList.add('active');
+                btn.className = 'fa-solid fa-pause';
+            } else {
+                audios[id].pause();
+                item.classList.remove('active');
+                btn.className = 'fa-solid fa-play';
+            }
+        }
+
+        function changeVolume(val) { Object.values(audios).forEach(a => a.volume = val); }
+
+        // ================== UI HELPERS ==================
+        function copyChar(char) {
+            navigator.clipboard.writeText(char);
+            showToast(`Símbolo ${char} copiado!`);
+        }
+
+        let toastTimeout;
+        function showToast(msg) {
+            const toast = document.getElementById('copyToast');
+            toast.innerText = msg;
+            toast.classList.add('show');
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        // Iniciar
+        renderNotes();
+    </script>
+</body>
+</html>
