@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Geekie One Ultra v8.0 - Study Hub</title>
+    <title>Geekie One Ultra v8.1 - Study Hub</title>
     <link rel="icon" id="pageIcon" href="https://i.postimg.cc/gcHHYqtC/fire-geekie.png">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&family=Orbitron:wght@400;700&family=Ubuntu:wght@400;500;700&family=Space+Grotesk:wght@400;600;700&family=Rajdhani:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -92,23 +92,10 @@
         .btn-icon:hover { background: var(--primary); color: var(--bg-base); border-color: var(--primary); box-shadow: 0 0 15px var(--primary-glow); }
         .topbar-right { display: flex; gap: 15px; align-items: center; }
         .clock-widget { font-family: 'Fira Code', monospace; font-weight: 600; color: var(--accent); background: rgba(0, 212, 255, 0.1); padding: 5px 15px; border-radius: 20px; }
-        .coin-display {
-            display: flex; align-items: center; gap: 8px; background: rgba(255, 215, 0, 0.1);
-            border: 1px solid rgba(255, 215, 0, 0.3); color: var(--gold); padding: 5px 15px;
-            border-radius: 20px; font-weight: 600; position: relative;
-        }
         .xp-display {
             display: flex; align-items: center; gap: 8px; background: rgba(139, 92, 246, 0.15);
             border: 1px solid rgba(139, 92, 246, 0.4); color: #a78bfa; padding: 5px 15px;
             border-radius: 20px; font-weight: 600; font-size: 0.9rem;
-        }
-        .coin-anim {
-            position: absolute; color: var(--gold); font-weight: bold; font-size: 1.2rem;
-            animation: floatUp 1.5s ease-out forwards; pointer-events: none; z-index: 1000;
-        }
-        @keyframes floatUp {
-            0% { opacity: 1; transform: translateY(0) scale(1); }
-            100% { opacity: 0; transform: translateY(-30px) scale(1.5); }
         }
 
         /* ===== TABS ===== */
@@ -127,53 +114,38 @@
         }
 
         /* ===== UBUNTU ANIMATED THEMES ===== */
-        /* FIX: Nenhuma animação aplica transform ao container que quebraria pointer-events do iframe */
         .theme-default { border: 2px solid var(--border); box-shadow: none; }
-
-        /* Ubuntu Yaru — laranja/canela com aurora */
         .theme-ubuntu-yaru { border: 2px solid #E95420 !important; animation: yaruGlow 4s ease-in-out infinite; }
         @keyframes yaruGlow {
             0%,100% { box-shadow: 0 0 20px rgba(233,84,32,0.5), 0 0 60px rgba(233,84,32,0.2); border-color: #E95420; }
             50% { box-shadow: 0 0 35px rgba(250,140,20,0.6), 0 0 80px rgba(250,140,20,0.3); border-color: #FA8C14; }
         }
-
-        /* Ubuntu Ambiance — roxo/noite com partículas */
         .theme-ubuntu-ambiance { border: 2px solid #5C3566 !important; animation: ambianceShift 5s ease-in-out infinite; }
         @keyframes ambianceShift {
             0%,100% { box-shadow: 0 0 25px rgba(92,53,102,0.6), inset 0 0 30px rgba(92,53,102,0.1); }
             33% { box-shadow: 0 0 30px rgba(143,65,179,0.6), inset 0 0 30px rgba(143,65,179,0.1); border-color: #8F41B3; }
             66% { box-shadow: 0 0 25px rgba(92,53,102,0.5), inset 0 0 20px rgba(92,53,102,0.1); border-color: #5C3566; }
         }
-
-        /* Ubuntu Radiance — verde lima/cítrico */
         .theme-ubuntu-radiance { border: 2px solid #87B03D !important; animation: radiancePulse 3s ease-in-out infinite; }
         @keyframes radiancePulse {
             0%,100% { box-shadow: 0 0 20px rgba(135,176,61,0.5), 0 0 40px rgba(135,176,61,0.15); }
             50% { box-shadow: 0 0 30px rgba(185,220,80,0.6), 0 0 60px rgba(185,220,80,0.25); border-color: #B9DC50; }
         }
-
-        /* Ubuntu Communitheme — azul-neon snap */
         .theme-ubuntu-snap { border: 2px solid #1BA1E2 !important; animation: snapNeon 2.5s linear infinite; }
         @keyframes snapNeon {
             0%,100% { box-shadow: 0 0 15px #1BA1E2, 0 0 30px rgba(27,161,226,0.3), inset 0 0 20px rgba(27,161,226,0.05); }
             50% { box-shadow: 0 0 25px #44CCFF, 0 0 50px rgba(68,204,255,0.4), inset 0 0 30px rgba(68,204,255,0.1); border-color: #44CCFF; }
         }
-
-        /* Ubuntu Dark — cinza grafite com brilho */
         .theme-ubuntu-dark { border: 2px solid #3C3B37 !important; animation: darkPulse 6s ease-in-out infinite; }
         @keyframes darkPulse {
             0%,100% { box-shadow: 0 0 20px rgba(60,59,55,0.8), inset 0 0 40px rgba(255,255,255,0.02); border-color: #3C3B37; }
             50% { box-shadow: 0 0 35px rgba(100,98,90,0.6), inset 0 0 40px rgba(255,255,255,0.04); border-color: #64625A; }
         }
-
-        /* Ubuntu Frost — branco/gelo holográfico */
         .theme-ubuntu-frost { border: 2px solid #C8E6FA !important; animation: frostShine 3.5s ease-in-out infinite; }
         @keyframes frostShine {
             0%,100% { box-shadow: 0 0 20px rgba(200,230,250,0.4), inset 0 0 40px rgba(200,230,250,0.08); }
             50% { box-shadow: 0 0 35px rgba(255,255,255,0.6), inset 0 0 50px rgba(200,230,250,0.15); border-color: #fff; }
         }
-
-        /* Ubuntu Sunset — laranja→rosa→roxo */
         .theme-ubuntu-sunset { border: 2px solid #F97316 !important; animation: ubuntuSunset 6s linear infinite; }
         @keyframes ubuntuSunset {
             0% { border-color: #F97316; box-shadow: 0 0 25px #F97316, 0 0 50px rgba(249,115,22,0.25); }
@@ -181,22 +153,16 @@
             66% { border-color: #8B5CF6; box-shadow: 0 0 25px #8B5CF6, 0 0 50px rgba(139,92,246,0.25); }
             100% { border-color: #F97316; box-shadow: 0 0 25px #F97316, 0 0 50px rgba(249,115,22,0.25); }
         }
-
-        /* Ubuntu Forest — verde floresta com respiração */
         .theme-ubuntu-forest { border: 2px solid #16A34A !important; animation: forestBreath 4s ease-in-out infinite; }
         @keyframes forestBreath {
             0%,100% { box-shadow: 0 0 20px rgba(22,163,74,0.4), 0 0 50px rgba(22,163,74,0.1); }
             50% { box-shadow: 0 0 35px rgba(74,222,128,0.5), 0 0 70px rgba(74,222,128,0.2); border-color: #4ADE80; }
         }
-
-        /* Ubuntu Cosmic — deep space roxo */
         .theme-ubuntu-cosmic { border: 2px solid #6D28D9 !important; animation: cosmicPulse 4s ease-in-out infinite; }
         @keyframes cosmicPulse {
             0%,100% { box-shadow: 0 0 20px #6D28D9, 0 0 50px rgba(109,40,217,0.2), inset 0 0 30px rgba(109,40,217,0.05); }
             50% { box-shadow: 0 0 35px #A78BFA, 0 0 70px rgba(167,139,250,0.3), inset 0 0 40px rgba(167,139,250,0.08); border-color: #A78BFA; }
         }
-
-        /* Ubuntu Fire — chama viva */
         .theme-ubuntu-fire { border: 2px solid #EF4444 !important; animation: ubuntuFire 1.8s ease-in-out infinite; }
         @keyframes ubuntuFire {
             0%,100% { box-shadow: 0 0 20px #EF4444, 0 0 50px rgba(239,68,68,0.2); }
@@ -204,41 +170,55 @@
             66% { box-shadow: 0 0 25px #FBBF24, 0 0 60px rgba(251,191,36,0.25); border-color: #FBBF24; }
         }
 
-        /* ===== WALLPAPER ANIMADO BACKGROUNDS ===== */
-        .wallpaper-wrap {
-            position: absolute; inset: 0; z-index: 0; overflow: hidden; border-radius: 10px; pointer-events: none;
-        }
+        /* ===== WALLPAPER ===== */
+        .wallpaper-wrap { position: absolute; inset: 0; z-index: 0; overflow: hidden; border-radius: 10px; pointer-events: none; }
         .wallpaper-canvas { width: 100%; height: 100%; display: block; }
 
         /* ===== CARDS & WIDGETS ===== */
         .grid-dashboard { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
         .glass-card { background: var(--bg-glass); border: 1px solid var(--border); border-radius: 12px; padding: 20px; backdrop-filter: blur(10px); }
         .glass-card h3 { margin-bottom: 15px; color: var(--accent); display: flex; align-items: center; gap: 10px; }
-
-        /* Botões */
         .btn { padding: 10px 20px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: var(--transition); display: flex; align-items: center; justify-content: center; gap: 8px; }
         .btn-primary { background: var(--primary); color: var(--bg-base); }
         .btn-primary:hover { box-shadow: 0 0 15px var(--primary-glow); }
         .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text-main); }
         .btn-outline:hover { background: rgba(255,255,255,0.1); }
-        .btn-gold { background: linear-gradient(45deg, #ffd700, #ffaa00); color: #000; font-weight: bold; border: none; }
-        .btn-gold:hover { box-shadow: 0 0 15px rgba(255, 215, 0, 0.5); transform: translateY(-2px); }
         .btn-disabled { background: #333; color: #777; cursor: not-allowed; }
-
-        /* Store Items */
         .store-item { background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: 10px; padding: 20px; text-align: center; display: flex; flex-direction: column; gap: 15px; transition: var(--transition); }
         .store-item:hover { border-color: var(--accent); transform: translateY(-5px); }
         .store-item i.preview-icon { font-size: 3rem; color: var(--text-muted); margin-bottom: 10px; }
-        .store-price { color: var(--gold); font-weight: bold; font-size: 1.2rem; }
 
-        /* Caracteres */
+        /* Pomodoro */
+        .timer-display { font-size: 4rem; font-family: 'Fira Code', monospace; text-align: center; margin: 20px 0; font-weight: 700; color: var(--text-main); text-shadow: 0 0 20px rgba(255,255,255,0.2); }
+        .timer-controls { display: flex; justify-content: center; gap: 10px; }
+        .pomodoro-stats { text-align: center; margin-top: 15px; font-size: 0.9rem; color: var(--text-muted); }
+        .todo-input-group { display: flex; gap: 10px; margin-bottom: 15px; }
+        input[type="text"] { flex: 1; background: rgba(0,0,0,0.2); border: 1px solid var(--border); color: white; padding: 10px 15px; border-radius: 8px; outline: none; transition: border-color 0.3s; }
+        input[type="text"]:focus { border-color: var(--primary); }
+        .todo-list { list-style: none; max-height: 300px; overflow-y: auto; }
+        .todo-item { display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.05); padding: 10px 15px; border-radius: 8px; margin-bottom: 8px; transition: var(--transition); }
+        .todo-item.completed span { text-decoration: line-through; color: var(--text-muted); }
+        .todo-actions { display: flex; gap: 10px; }
+        .todo-actions i { cursor: pointer; transition: color 0.2s; }
+        .todo-actions .check { color: var(--success); }
+        .todo-actions .delete { color: var(--danger); }
+        .flashcard-container { perspective: 1000px; height: 300px; width: 100%; max-width: 500px; margin: 0 auto 20px; }
+        .flashcard { width: 100%; height: 100%; position: relative; transition: transform 0.6s; transform-style: preserve-3d; cursor: pointer; }
+        .flashcard.is-flipped { transform: rotateY(180deg); }
+        .card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; align-items: center; justify-content: center; padding: 30px; border-radius: 15px; text-align: center; font-size: 1.2rem; border: 1px solid var(--border); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .card-front { background: linear-gradient(135deg, var(--bg-glass), rgba(123, 44, 191, 0.2)); color: var(--primary); }
+        .card-back { background: linear-gradient(135deg, var(--bg-glass), rgba(0, 212, 255, 0.2)); transform: rotateY(180deg); }
+        .flashcard-controls { display: flex; justify-content: center; gap: 15px; }
+        .ambient-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .ambient-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--border); padding: 15px; border-radius: 8px; color: white; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 10px; transition: var(--transition); }
+        .ambient-btn:hover { background: rgba(255,255,255,0.1); border-color: var(--accent); }
+        .ambient-btn.active { background: rgba(0, 212, 255, 0.2); border-color: var(--accent); color: var(--accent); }
+        .ambient-btn i { font-size: 1.5rem; }
         .char-category { font-size: 1.1rem; color: var(--primary); margin: 25px 0 10px 0; border-bottom: 1px solid var(--border); padding-bottom: 5px; }
         .char-category:first-of-type { margin-top: 10px; }
         .char-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); gap: 10px; margin-bottom: 20px; }
         .char-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 8px; font-size: 1.4rem; color: var(--text-main); cursor: pointer; transition: var(--transition); height: 60px; display: flex; align-items: center; justify-content: center; font-family: 'Fira Code', monospace; }
         .char-btn:hover { background: rgba(0, 212, 255, 0.2); border-color: var(--accent); color: var(--accent); transform: scale(1.05); }
-
-        /* Notas */
         .notes-toolbar { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; align-items: center; }
         .note-select { background: rgba(0,0,0,0.4); color: white; border: 1px solid var(--border); padding: 10px; border-radius: 8px; flex: 1; min-width: 200px; outline: none; }
         .note-select option { background: #0a0e17; color: white; }
@@ -246,12 +226,8 @@
         .note-title-input:focus { border-color: var(--primary); }
         .note-editor { width: 100%; min-height: 400px; background: rgba(0,0,0,0.2); border: 1px solid var(--border); color: var(--text-main); padding: 15px; border-radius: 8px; resize: vertical; outline: none; font-family: inherit; transition: var(--transition); line-height: 1.6; }
         .note-editor:focus { border-color: var(--accent); }
-
-        /* Toast */
         .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--success); color: var(--bg-base); padding: 12px 24px; border-radius: 8px; font-weight: bold; opacity: 0; transition: all 0.3s ease; z-index: 9999; box-shadow: 0 5px 15px rgba(0,0,0,0.3); display: flex; align-items: center; gap: 10px; }
         .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
-
-        /* Dev Log */
         .timeline { border-left: 3px solid rgba(0, 255, 136, 0.3); margin-left: 20px; padding-left: 30px; position: relative; }
         .timeline-item { position: relative; margin-bottom: 30px; background: rgba(255, 255, 255, 0.03); padding: 20px; border-radius: 10px; border: 1px solid var(--border); transition: var(--transition); }
         .timeline-item:hover { border-color: var(--primary-glow); transform: translateX(5px); }
@@ -264,53 +240,11 @@
         .timeline-item ul { list-style: none; padding-left: 10px; }
         .timeline-item ul li { margin-bottom: 8px; position: relative; padding-left: 20px; color: #d1d5db; }
         .timeline-item ul li::before { content: '>'; position: absolute; left: 0; color: var(--accent); font-family: 'Fira Code', monospace; font-weight: bold; }
-
-        /* Pomodoro */
-        .timer-display { font-size: 4rem; font-family: 'Fira Code', monospace; text-align: center; margin: 20px 0; font-weight: 700; color: var(--text-main); text-shadow: 0 0 20px rgba(255,255,255,0.2); }
-        .timer-controls { display: flex; justify-content: center; gap: 10px; }
-        .pomodoro-stats { text-align: center; margin-top: 15px; font-size: 0.9rem; color: var(--text-muted); }
-
-        /* Todo */
-        .todo-input-group { display: flex; gap: 10px; margin-bottom: 15px; }
-        input[type="text"] { flex: 1; background: rgba(0,0,0,0.2); border: 1px solid var(--border); color: white; padding: 10px 15px; border-radius: 8px; outline: none; transition: border-color 0.3s; }
-        input[type="text"]:focus { border-color: var(--primary); }
-        .todo-list { list-style: none; max-height: 300px; overflow-y: auto; }
-        .todo-item { display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.05); padding: 10px 15px; border-radius: 8px; margin-bottom: 8px; transition: var(--transition); }
-        .todo-item.completed span { text-decoration: line-through; color: var(--text-muted); }
-        .todo-actions { display: flex; gap: 10px; }
-        .todo-actions i { cursor: pointer; transition: color 0.2s; }
-        .todo-actions .check { color: var(--success); }
-        .todo-actions .delete { color: var(--danger); }
-
-        /* Flashcards */
-        .flashcard-container { perspective: 1000px; height: 300px; width: 100%; max-width: 500px; margin: 0 auto 20px; }
-        .flashcard { width: 100%; height: 100%; position: relative; transition: transform 0.6s; transform-style: preserve-3d; cursor: pointer; }
-        .flashcard.is-flipped { transform: rotateY(180deg); }
-        .card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; align-items: center; justify-content: center; padding: 30px; border-radius: 15px; text-align: center; font-size: 1.2rem; border: 1px solid var(--border); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-        .card-front { background: linear-gradient(135deg, var(--bg-glass), rgba(123, 44, 191, 0.2)); color: var(--primary); }
-        .card-back { background: linear-gradient(135deg, var(--bg-glass), rgba(0, 212, 255, 0.2)); transform: rotateY(180deg); }
-        .flashcard-controls { display: flex; justify-content: center; gap: 15px; }
-
-        /* Ambient */
-        .ambient-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .ambient-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--border); padding: 15px; border-radius: 8px; color: white; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 10px; transition: var(--transition); }
-        .ambient-btn:hover { background: rgba(255,255,255,0.1); border-color: var(--accent); }
-        .ambient-btn.active { background: rgba(0, 212, 255, 0.2); border-color: var(--accent); color: var(--accent); }
-        .ambient-btn i { font-size: 1.5rem; }
-
-        /* ===== ABA DE TÍTULOS ===== */
         .title-settings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         @media (max-width: 700px) { .title-settings-grid { grid-template-columns: 1fr; } }
-        .title-preview-box {
-            background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: 10px;
-            padding: 20px; text-align: center; min-height: 80px; display: flex; align-items: center;
-            justify-content: center; gap: 12px; font-size: 1.4rem; font-weight: 700; color: var(--primary);
-        }
+        .title-preview-box { background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: 10px; padding: 20px; text-align: center; min-height: 80px; display: flex; align-items: center; justify-content: center; gap: 12px; font-size: 1.4rem; font-weight: 700; color: var(--primary); }
         .font-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px; margin-top: 10px; }
-        .font-option {
-            background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 8px;
-            padding: 12px; cursor: pointer; text-align: center; transition: var(--transition);
-        }
+        .font-option { background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 8px; padding: 12px; cursor: pointer; text-align: center; transition: var(--transition); }
         .font-option:hover { border-color: var(--accent); background: rgba(0,212,255,0.08); }
         .font-option.selected { border-color: var(--primary); background: rgba(0,255,136,0.1); color: var(--primary); }
         .font-option .font-name { font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; }
@@ -319,17 +253,8 @@
         .icon-option:hover { border-color: var(--accent); color: var(--accent); }
         .icon-option.selected { border-color: var(--primary); color: var(--primary); background: rgba(0,255,136,0.1); }
         .section-label { font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
-
-        /* ===== EVENTOS MENSAIS ===== */
-        .event-banner {
-            background: linear-gradient(135deg, var(--event-color-a, #E95420), var(--event-color-b, #7b2cbf));
-            border-radius: 12px; padding: 20px; margin-bottom: 20px;
-            display: flex; align-items: center; gap: 16px; position: relative; overflow: hidden;
-        }
-        .event-banner::before {
-            content: ''; position: absolute; inset: 0;
-            background: repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(255,255,255,0.03) 20px, rgba(255,255,255,0.03) 21px);
-        }
+        .event-banner { background: linear-gradient(135deg, var(--event-color-a, #E95420), var(--event-color-b, #7b2cbf)); border-radius: 12px; padding: 20px; margin-bottom: 20px; display: flex; align-items: center; gap: 16px; position: relative; overflow: hidden; }
+        .event-banner::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(255,255,255,0.03) 20px, rgba(255,255,255,0.03) 21px); }
         .event-banner-icon { font-size: 3rem; z-index: 1; }
         .event-banner-text { z-index: 1; flex: 1; }
         .event-banner-title { font-size: 1.3rem; font-weight: 700; }
@@ -348,11 +273,8 @@
         .xp-tier-card p { font-size: 0.8rem; color: var(--text-muted); }
         .xp-tier-badge { display: inline-block; background: rgba(0,255,136,0.15); color: var(--primary); font-size: 0.75rem; padding: 2px 8px; border-radius: 10px; margin-bottom: 6px; }
         .locked-badge { display: inline-block; background: rgba(148,163,184,0.15); color: var(--text-muted); font-size: 0.75rem; padding: 2px 8px; border-radius: 10px; margin-bottom: 6px; }
-
         .w-full { width: 100%; }
         .mt-4 { margin-top: 1rem; }
-
-        /* ===== MODAL ===== */
         .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 9000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
         .modal-overlay.open { display: flex; }
         .modal-box { background: #0f1623; border: 1px solid var(--border); border-radius: 16px; padding: 30px; max-width: 480px; width: 90%; position: relative; animation: fadeIn 0.3s ease; }
@@ -362,85 +284,47 @@
     </style>
 </head>
 <body>
-
 <!-- SIDEBAR -->
 <aside class="sidebar" id="sidebar">
     <div class="brand">
         <i class="fa-solid fa-graduation-cap"></i>
-        Geekie Ultra <span style="font-size:0.6em; background:var(--primary); color:#000; padding:2px 5px; border-radius:4px; margin-left:auto;">v8.0</span>
+        Geekie Ultra <span style="font-size:0.6em; background:var(--primary); color:#000; padding:2px 5px; border-radius:4px; margin-left:auto;">v8.1</span>
     </div>
     <nav class="nav-menu">
-        <div class="nav-item active" onclick="switchTab('tab-geekie', this)">
-            <i class="fa-solid fa-book-open"></i> Portal Geekie
-        </div>
-        <div class="nav-item" onclick="switchTab('tab-notes', this)">
-            <i class="fa-solid fa-book-journal-whills"></i> Bloco de Notas
-        </div>
-        <div class="nav-item store-link" onclick="switchTab('tab-store', this)">
-            <i class="fa-solid fa-store"></i> Loja de Temas
-        </div>
-        <div class="nav-item" onclick="switchTab('tab-focus', this)">
-            <i class="fa-solid fa-stopwatch"></i> Foco & Tarefas
-        </div>
-        <div class="nav-item" onclick="switchTab('tab-flashcards', this)">
-            <i class="fa-solid fa-clone"></i> Flashcards
-        </div>
-        <div class="nav-item" onclick="switchTab('tab-ambient', this)">
-            <i class="fa-solid fa-headphones"></i> Sons Ambiente
-        </div>
-        <div class="nav-item" onclick="switchTab('tab-chars', this)">
-            <i class="fa-solid fa-keyboard"></i> Caracteres Úteis
-        </div>
-        <div class="nav-item" onclick="switchTab('tab-title', this)">
-            <i class="fa-solid fa-pen-nib"></i> Título da Página
-        </div>
-        <div class="nav-item" onclick="switchTab('tab-events', this)">
-            <i class="fa-solid fa-calendar-star"></i> Eventos do Mês
-        </div>
-        <div class="nav-item" onclick="switchTab('tab-devlog', this)" style="margin-top: 20px; border-top: 1px solid var(--border); border-radius: 0; padding-top: 15px;">
-            <i class="fa-solid fa-clock-rotate-left"></i> Dev Log
-        </div>
+        <div class="nav-item active" onclick="switchTab('tab-geekie', this)"><i class="fa-solid fa-book-open"></i> Portal Geekie</div>
+        <div class="nav-item" onclick="switchTab('tab-notes', this)"><i class="fa-solid fa-book-journal-whills"></i> Bloco de Notas</div>
+        <div class="nav-item store-link" onclick="switchTab('tab-store', this)"><i class="fa-solid fa-store"></i> Loja de Temas</div>
+        <div class="nav-item" onclick="switchTab('tab-focus', this)"><i class="fa-solid fa-stopwatch"></i> Foco & Tarefas</div>
+        <div class="nav-item" onclick="switchTab('tab-flashcards', this)"><i class="fa-solid fa-clone"></i> Flashcards</div>
+        <div class="nav-item" onclick="switchTab('tab-ambient', this)"><i class="fa-solid fa-headphones"></i> Sons Ambiente</div>
+        <div class="nav-item" onclick="switchTab('tab-chars', this)"><i class="fa-solid fa-keyboard"></i> Caracteres Úteis</div>
+        <div class="nav-item" onclick="switchTab('tab-title', this)"><i class="fa-solid fa-pen-nib"></i> Título da Página</div>
+        <div class="nav-item" onclick="switchTab('tab-events', this)"><i class="fa-solid fa-calendar-star"></i> Eventos do Mês</div>
+        <div class="nav-item" onclick="switchTab('tab-devlog', this)" style="margin-top: 20px; border-top: 1px solid var(--border); border-radius: 0; padding-top: 15px;"><i class="fa-solid fa-clock-rotate-left"></i> Dev Log</div>
     </nav>
 </aside>
 
-<!-- MAIN CONTENT -->
 <main class="main-content">
-    <!-- TOPBAR -->
     <header class="topbar">
-        <button class="btn-icon" id="toggleSidebar" title="Alternar Menu">
-            <i class="fa-solid fa-bars"></i>
-        </button>
+        <button class="btn-icon" id="toggleSidebar" title="Alternar Menu"><i class="fa-solid fa-bars"></i></button>
         <div class="topbar-right">
-            <div class="xp-display" id="xpContainer" title="Seu XP Geekie (ganho pelo tempo de estudo)">
-                <i class="fa-solid fa-star"></i>
-                <span id="xpCount">0</span> XP
-            </div>
-            <div class="coin-display" id="coinContainer" title="Suas Moedas">
-                <i class="fa-solid fa-coins"></i>
-                <span id="coinCount">0</span>
-            </div>
+            <div class="xp-display" id="xpContainer" title="Seu XP Geekie (ganho pelo tempo de estudo)"><i class="fa-solid fa-star"></i> <span id="xpCount">0</span> XP</div>
             <div class="clock-widget" id="realTimeClock">00:00:00</div>
-            <button class="btn-icon" id="btnZenMode" title="Modo Zen" onclick="toggleZenMode()">
-                <i class="fa-solid fa-expand"></i>
-            </button>
+            <button class="btn-icon" id="btnZenMode" title="Modo Zen" onclick="toggleZenMode()"><i class="fa-solid fa-expand"></i></button>
         </div>
     </header>
 
-    <!-- TAB 1: GEEKIE IFRAME -->
     <section id="tab-geekie" class="tab-content active" style="padding: 20px;">
         <div class="iframe-container theme-default" id="geekieIframeContainer">
             <iframe id="geekieIframe" src="https://dx1website.pages.dev/resumao/geekieoneplus/" title="Geekie One Portal" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation"></iframe>
         </div>
     </section>
 
-    <!-- TAB: BLOCO DE NOTAS -->
     <section id="tab-notes" class="tab-content">
         <div class="glass-card w-full" style="max-width: 1000px; margin: 0 auto; display: flex; flex-direction: column; height: 100%;">
             <h3 style="color: var(--accent);"><i class="fa-solid fa-book-journal-whills"></i> Bloco de Notas</h3>
             <div class="notes-toolbar">
-                <select id="noteSelect" class="note-select" onchange="loadSelectedNote()">
-                    <option value="new">+ Nova Anotação...</option>
-                </select>
+                <select id="noteSelect" class="note-select" onchange="loadSelectedNote()"><option value="new">+ Nova Anotação...</option></select>
                 <button class="btn btn-primary" onclick="saveNote()"><i class="fa-solid fa-floppy-disk"></i> Salvar</button>
                 <button class="btn btn-outline" style="color:var(--danger); border-color:var(--danger);" onclick="deleteNote()"><i class="fa-solid fa-trash"></i></button>
             </div>
@@ -448,28 +332,21 @@
                 <button class="btn btn-outline" onclick="copyNoteContent()"><i class="fa-solid fa-copy"></i> Copiar</button>
                 <button class="btn btn-outline" onclick="pasteNoteContent()"><i class="fa-solid fa-paste"></i> Colar</button>
                 <button class="btn btn-outline" onclick="exportNote()"><i class="fa-solid fa-file-export"></i> Exportar (.txt)</button>
-                <label class="btn btn-outline" style="cursor: pointer; margin: 0;">
-                    <i class="fa-solid fa-file-import"></i> Importar
-                    <input type="file" id="importNoteFile" accept=".txt" style="display: none;" onchange="importNote(event)">
-                </label>
+                <label class="btn btn-outline" style="cursor: pointer; margin: 0;"><i class="fa-solid fa-file-import"></i> Importar <input type="file" id="importNoteFile" accept=".txt" style="display: none;" onchange="importNote(event)"></label>
             </div>
             <input type="text" id="noteTitle" class="note-title-input" placeholder="Título da Anotação">
             <textarea id="noteContent" class="note-editor" placeholder="Digite suas anotações aqui..."></textarea>
         </div>
     </section>
 
-    <!-- TAB: LOJA DE TEMAS -->
     <section id="tab-store" class="tab-content">
         <div class="glass-card w-full" style="max-width: 900px; margin: 0 auto;">
             <h3 style="color: var(--gold);"><i class="fa-solid fa-store"></i> Loja de Temas Ubuntu</h3>
-            <p style="color: var(--text-muted); margin-bottom: 20px;">
-                Temas com wallpapers animados inspirados no estilo visual do Ubuntu. Ganhe moedas estudando!
-            </p>
+            <p style="color: var(--text-muted); margin-bottom: 20px;">Temas com wallpapers animados inspirados no estilo visual do Ubuntu. Desbloqueie com seu XP de estudo!</p>
             <div class="grid-dashboard mt-4" id="storeGrid"></div>
         </div>
     </section>
 
-    <!-- TAB: FOCO & TAREFAS -->
     <section id="tab-focus" class="tab-content">
         <div class="grid-dashboard">
             <div class="glass-card">
@@ -494,7 +371,6 @@
         </div>
     </section>
 
-    <!-- TAB: FLASHCARDS -->
     <section id="tab-flashcards" class="tab-content">
         <div class="glass-card" style="max-width: 800px; margin: 0 auto; width: 100%;">
             <h3><i class="fa-solid fa-bolt"></i> Revisão Ativa (Flashcards)</h3>
@@ -503,7 +379,7 @@
                 <div style="display: flex; gap: 10px; flex-wrap: wrap;">
                     <input type="text" id="newCardFront" placeholder="Frente" style="flex: 1; min-width: 200px;">
                     <input type="text" id="newCardBack" placeholder="Verso" style="flex: 1; min-width: 200px;">
-                    <button class="btn btn-primary" onclick="addFlashcard()"><i class="fa-solid fa-plus"></i> Adicionar (+5 moedas)</button>
+                    <button class="btn btn-primary" onclick="addFlashcard()"><i class="fa-solid fa-plus"></i> Adicionar</button>
                 </div>
             </div>
             <p style="text-align: center; margin-bottom: 20px; color: var(--text-muted);">Clique no card para ver a resposta.</p>
@@ -524,7 +400,6 @@
         </div>
     </section>
 
-    <!-- TAB: SONS AMBIENTE -->
     <section id="tab-ambient" class="tab-content">
         <div class="glass-card" style="max-width: 600px; margin: 0 auto; width: 100%;">
             <h3><i class="fa-solid fa-wave-square"></i> Frequências de Foco</h3>
@@ -535,169 +410,90 @@
             </div>
             <audio id="audio-noise" loop preload="none"><source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_24a56d9595.mp3?filename=brown-noise-9005.mp3" type="audio/mpeg"></audio>
             <audio id="audio-rain" loop preload="none"><source src="https://cdn.pixabay.com/download/audio/2021/08/04/audio_0625c1539c.mp3?filename=light-rain-109591.mp3" type="audio/mpeg"></audio>
-            <div class="mt-4" style="text-align: center;">
-                <label>Volume: </label>
-                <input type="range" min="0" max="1" step="0.1" value="0.5" onchange="changeVolume(this.value)" style="vertical-align: middle;">
-            </div>
+            <div class="mt-4" style="text-align: center;"><label>Volume: </label><input type="range" min="0" max="1" step="0.1" value="0.5" onchange="changeVolume(this.value)" style="vertical-align: middle;"></div>
         </div>
     </section>
 
-    <!-- TAB: CARACTERES ÚTEIS -->
     <section id="tab-chars" class="tab-content">
         <div class="glass-card w-full" style="max-width: 900px; margin: 0 auto;">
             <h3><i class="fa-solid fa-keyboard"></i> Teclado de Caracteres Úteis</h3>
             <h4 class="char-category">Matemática Básica e Operadores</h4>
             <div class="char-grid">
-                <button class="char-btn" onclick="copyChar('±')" title="Mais ou Menos">±</button>
-                <button class="char-btn" onclick="copyChar('×')" title="Multiplicação">×</button>
-                <button class="char-btn" onclick="copyChar('÷')" title="Divisão">÷</button>
-                <button class="char-btn" onclick="copyChar('≈')" title="Aproximadamente">≈</button>
-                <button class="char-btn" onclick="copyChar('≠')" title="Diferente">≠</button>
-                <button class="char-btn" onclick="copyChar('≤')" title="Menor ou Igual">≤</button>
-                <button class="char-btn" onclick="copyChar('≥')" title="Maior ou Igual">≥</button>
-                <button class="char-btn" onclick="copyChar('∞')" title="Infinito">∞</button>
-                <button class="char-btn" onclick="copyChar('√')" title="Raiz Quadrada">√</button>
-                <button class="char-btn" onclick="copyChar('∛')" title="Raiz Cúbica">∛</button>
-                <button class="char-btn" onclick="copyChar('°')" title="Graus">°</button>
-                <button class="char-btn" onclick="copyChar('²')" title="Quadrado">²</button>
-                <button class="char-btn" onclick="copyChar('³')" title="Cubo">³</button>
-                <button class="char-btn" onclick="copyChar('½')" title="Metade">½</button>
-                <button class="char-btn" onclick="copyChar('¼')" title="Um Quarto">¼</button>
+                <button class="char-btn" onclick="copyChar('±')">±</button><button class="char-btn" onclick="copyChar('×')">×</button><button class="char-btn" onclick="copyChar('÷')">÷</button><button class="char-btn" onclick="copyChar('≈')">≈</button><button class="char-btn" onclick="copyChar('≠')">≠</button><button class="char-btn" onclick="copyChar('≤')">≤</button><button class="char-btn" onclick="copyChar('≥')">≥</button><button class="char-btn" onclick="copyChar('∞')">∞</button><button class="char-btn" onclick="copyChar('√')">√</button><button class="char-btn" onclick="copyChar('∛')">∛</button><button class="char-btn" onclick="copyChar('°')">°</button><button class="char-btn" onclick="copyChar('²')">²</button><button class="char-btn" onclick="copyChar('³')">³</button><button class="char-btn" onclick="copyChar('½')">½</button><button class="char-btn" onclick="copyChar('¼')">¼</button>
             </div>
             <h4 class="char-category">Álgebra, Lógica e Conjuntos</h4>
             <div class="char-grid">
-                <button class="char-btn" onclick="copyChar('∀')">∀</button><button class="char-btn" onclick="copyChar('∃')">∃</button>
-                <button class="char-btn" onclick="copyChar('∈')">∈</button><button class="char-btn" onclick="copyChar('∉')">∉</button>
-                <button class="char-btn" onclick="copyChar('⊂')">⊂</button><button class="char-btn" onclick="copyChar('⊃')">⊃</button>
-                <button class="char-btn" onclick="copyChar('∪')">∪</button><button class="char-btn" onclick="copyChar('∩')">∩</button>
-                <button class="char-btn" onclick="copyChar('∅')">∅</button><button class="char-btn" onclick="copyChar('∫')">∫</button>
-                <button class="char-btn" onclick="copyChar('∑')">∑</button><button class="char-btn" onclick="copyChar('∏')">∏</button>
-                <button class="char-btn" onclick="copyChar('∴')">∴</button>
+                <button class="char-btn" onclick="copyChar('∀')">∀</button><button class="char-btn" onclick="copyChar('∃')">∃</button><button class="char-btn" onclick="copyChar('∈')">∈</button><button class="char-btn" onclick="copyChar('∉')">∉</button><button class="char-btn" onclick="copyChar('⊂')">⊂</button><button class="char-btn" onclick="copyChar('⊃')">⊃</button><button class="char-btn" onclick="copyChar('∪')">∪</button><button class="char-btn" onclick="copyChar('∩')">∩</button><button class="char-btn" onclick="copyChar('∅')">∅</button><button class="char-btn" onclick="copyChar('∫')">∫</button><button class="char-btn" onclick="copyChar('∑')">∑</button><button class="char-btn" onclick="copyChar('∏')">∏</button><button class="char-btn" onclick="copyChar('∴')">∴</button>
             </div>
             <h4 class="char-category">Setas</h4>
             <div class="char-grid">
-                <button class="char-btn" onclick="copyChar('→')">→</button><button class="char-btn" onclick="copyChar('←')">←</button>
-                <button class="char-btn" onclick="copyChar('↑')">↑</button><button class="char-btn" onclick="copyChar('↓')">↓</button>
-                <button class="char-btn" onclick="copyChar('↔')">↔</button><button class="char-btn" onclick="copyChar('⇒')">⇒</button>
-                <button class="char-btn" onclick="copyChar('⇔')">⇔</button><button class="char-btn" onclick="copyChar('⇌')">⇌</button>
+                <button class="char-btn" onclick="copyChar('→')">→</button><button class="char-btn" onclick="copyChar('←')">←</button><button class="char-btn" onclick="copyChar('↑')">↑</button><button class="char-btn" onclick="copyChar('↓')">↓</button><button class="char-btn" onclick="copyChar('↔')">↔</button><button class="char-btn" onclick="copyChar('⇒')">⇒</button><button class="char-btn" onclick="copyChar('⇔')">⇔</button><button class="char-btn" onclick="copyChar('⇌')">⇌</button>
             </div>
             <h4 class="char-category">Alfabeto Grego</h4>
             <div class="char-grid">
-                <button class="char-btn" onclick="copyChar('α')">α</button><button class="char-btn" onclick="copyChar('β')">β</button>
-                <button class="char-btn" onclick="copyChar('γ')">γ</button><button class="char-btn" onclick="copyChar('Δ')">Δ</button>
-                <button class="char-btn" onclick="copyChar('ε')">ε</button><button class="char-btn" onclick="copyChar('θ')">θ</button>
-                <button class="char-btn" onclick="copyChar('λ')">λ</button><button class="char-btn" onclick="copyChar('μ')">μ</button>
-                <button class="char-btn" onclick="copyChar('π')">π</button><button class="char-btn" onclick="copyChar('σ')">σ</button>
-                <button class="char-btn" onclick="copyChar('φ')">φ</button><button class="char-btn" onclick="copyChar('Ω')">Ω</button>
+                <button class="char-btn" onclick="copyChar('α')">α</button><button class="char-btn" onclick="copyChar('β')">β</button><button class="char-btn" onclick="copyChar('γ')">γ</button><button class="char-btn" onclick="copyChar('Δ')">Δ</button><button class="char-btn" onclick="copyChar('ε')">ε</button><button class="char-btn" onclick="copyChar('θ')">θ</button><button class="char-btn" onclick="copyChar('λ')">λ</button><button class="char-btn" onclick="copyChar('μ')">μ</button><button class="char-btn" onclick="copyChar('π')">π</button><button class="char-btn" onclick="copyChar('σ')">σ</button><button class="char-btn" onclick="copyChar('φ')">φ</button><button class="char-btn" onclick="copyChar('Ω')">Ω</button>
             </div>
             <h4 class="char-category">Química, Física & Biologia</h4>
             <div class="char-grid">
-                <button class="char-btn" onclick="copyChar('H₂O')">H₂O</button><button class="char-btn" onclick="copyChar('CO₂')">CO₂</button>
-                <button class="char-btn" onclick="copyChar('E=mc²')">E=mc²</button><button class="char-btn" onclick="copyChar('F=ma')">F=ma</button>
-                <button class="char-btn" onclick="copyChar('DNA')">DNA</button><button class="char-btn" onclick="copyChar('RNA')">RNA</button>
-                <button class="char-btn" onclick="copyChar('ATP')">ATP</button><button class="char-btn" onclick="copyChar('♀')">♀</button>
-                <button class="char-btn" onclick="copyChar('♂')">♂</button><button class="char-btn" onclick="copyChar('ΔH')">ΔH</button>
-                <button class="char-btn" onclick="copyChar('pH')">pH</button>
+                <button class="char-btn" onclick="copyChar('H₂O')">H₂O</button><button class="char-btn" onclick="copyChar('CO₂')">CO₂</button><button class="char-btn" onclick="copyChar('E=mc²')">E=mc²</button><button class="char-btn" onclick="copyChar('F=ma')">F=ma</button><button class="char-btn" onclick="copyChar('DNA')">DNA</button><button class="char-btn" onclick="copyChar('RNA')">RNA</button><button class="char-btn" onclick="copyChar('ATP')">ATP</button><button class="char-btn" onclick="copyChar('♀')">♀</button><button class="char-btn" onclick="copyChar('♂')">♂</button><button class="char-btn" onclick="copyChar('ΔH')">ΔH</button><button class="char-btn" onclick="copyChar('pH')">pH</button>
             </div>
         </div>
     </section>
 
-    <!-- TAB: TÍTULO DA PÁGINA (NOVO) -->
     <section id="tab-title" class="tab-content">
         <div class="glass-card w-full" style="max-width: 900px; margin: 0 auto;">
             <h3><i class="fa-solid fa-pen-nib"></i> Personalizar Título da Página</h3>
             <p style="color: var(--text-muted); margin-bottom: 20px;">Altere o nome, ícone e a fonte exibidos na aba do navegador.</p>
-
-            <!-- Preview -->
             <div class="section-label">Preview</div>
-            <div class="title-preview-box" id="titlePreviewBox">
-                <i id="previewIconEl" class="fa-solid fa-graduation-cap"></i>
-                <span id="previewNameEl">Geekie One Ultra v8.0</span>
-            </div>
+            <div class="title-preview-box" id="titlePreviewBox"><i id="previewIconEl" class="fa-solid fa-graduation-cap"></i><span id="previewNameEl">Geekie One Ultra v8.1</span></div>
             <div style="display:flex;gap:12px;margin-top:16px;flex-wrap:wrap;align-items:center;">
-                <div style="flex:1;min-width:200px;">
-                    <div class="section-label">Nome da Página</div>
-                    <input type="text" id="pageTitleInput" placeholder="Ex: Meu Portal de Estudos" style="width:100%" oninput="updateTitlePreview()">
-                </div>
-                <div>
-                    <div class="section-label">Aplicar</div>
-                    <button class="btn btn-primary" onclick="applyPageTitle()" style="height:42px;margin-top:0px"><i class="fa-solid fa-check"></i> Salvar Título</button>
-                </div>
+                <div style="flex:1;min-width:200px;"><div class="section-label">Nome da Página</div><input type="text" id="pageTitleInput" placeholder="Ex: Meu Portal de Estudos" style="width:100%" oninput="updateTitlePreview()"></div>
+                <div><div class="section-label">Aplicar</div><button class="btn btn-primary" onclick="applyPageTitle()" style="height:42px;margin-top:0px"><i class="fa-solid fa-check"></i> Salvar Título</button></div>
             </div>
-
-            <!-- Ícones -->
-            <div class="section-label" style="margin-top:24px;">Ícone da Aba <span style="color:var(--text-muted)">(escolha um ícone Font Awesome)</span></div>
+            <div class="section-label" style="margin-top:24px;">Ícone da Aba</div>
             <div class="icon-grid" id="iconGrid"></div>
-
-            <!-- Fontes -->
             <div class="section-label" style="margin-top:24px;">Fonte do Título</div>
             <div class="font-grid" id="fontGrid"></div>
         </div>
     </section>
 
-    <!-- TAB: EVENTOS DO MÊS (NOVO) -->
     <section id="tab-events" class="tab-content">
         <div class="glass-card w-full" style="max-width: 900px; margin: 0 auto;">
             <h3><i class="fa-solid fa-calendar-star"></i> Eventos do Mês</h3>
-            <p style="color: var(--text-muted); margin-bottom: 20px;">
-                Cada mês traz um evento especial. Complete os desafios com seu XP acumulado de tempo de estudo no Geekie!
-            </p>
+            <p style="color: var(--text-muted); margin-bottom: 20px;">Cada mês traz um evento especial. Complete os desafios com seu XP acumulado de tempo de estudo no Geekie!</p>
             <div id="eventContainer"></div>
         </div>
     </section>
 
-    <!-- TAB: DEV LOG -->
     <section id="tab-devlog" class="tab-content">
         <div class="glass-card w-full" style="max-width: 900px; margin: 0 auto;">
             <h3><i class="fa-solid fa-laptop-code"></i> Developer Changelog</h3>
             <p style="color: var(--text-muted); margin-bottom: 30px;">Histórico de atualizações e novas funcionalidades.</p>
             <div class="timeline" id="devlogTimeline">
-
-                <!-- v8.0 — entrada principal das novas features -->
                 <div class="timeline-item">
-                    <div class="version-header">
-                        <span class="version-tag">v8.0.0</span>
-                        <h3>Ubuntu Themes, Eventos XP & Personalização</h3>
-                        <span class="version-date">Atualização Atual</span>
-                    </div>
+                    <div class="version-header"><span class="version-tag">v8.1.0</span><h3>Economia Simplificada — Tudo por XP</h3><span class="version-date">Atualização Atual</span></div>
                     <ul>
-                        <li><strong>Fix Click no Iframe:</strong> Corrigido o bug de bloqueio de cliques no iframe do Portal Geekie. Adicionado <code>pointer-events: auto</code>, atributo <code>sandbox</code> correto e remoção de overlays que interceptavam eventos.</li>
-                        <li><strong>Aba "Título da Página":</strong> Nova seção para personalizar o nome exibido na aba do navegador, com escolha de ícone (Font Awesome) e fonte tipográfica (7 opções: Poppins, Ubuntu, Orbitron, Space Grotesk, Fira Code, Rajdhani, JetBrains Mono).</li>
-                        <li><strong>Temas Ubuntu Animados:</strong> Substituídos os temas anteriores por 10 novos temas com wallpapers animados no estilo visual do Ubuntu: Yaru (laranja), Ambiance (roxo), Radiance (verde), Snap/Communitheme (azul-neon), Dark (grafite), Frost (gelo holográfico), Sunset (gradiente RGB), Forest (verde floresta), Cosmic (deep space) e Fire (chama viva). Todas as animações usam apenas box-shadow/border — sem transform no container, preservando os cliques do iframe.</li>
-                        <li><strong>Sistema de XP:</strong> Implementado XP baseado em tempo de presença no Geekie — 1 XP a cada 6 segundos de uso. XP salvo no localStorage e exibido na topbar.</li>
-                        <li><strong>Eventos Mensais:</strong> Sistema de eventos que muda a cada mês do ano, com recompensas e níveis desbloqueáveis baseados no XP do usuário. Cada mês tem tema, cor e tiers únicos (Iniciante ≥0 XP, Estudioso ≥500 XP, Expert ≥1500 XP, Lendário ≥3000 XP).</li>
-                        <li><strong>Dev Log Atualizado:</strong> Esta entrada registra todas as mudanças desta versão.</li>
-                    </ul>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="version-header">
-                        <span class="version-tag">v7.4.0</span>
-                        <h3>Expansão de Caracteres & Temas Premium</h3>
-                    </div>
-                    <ul>
-                        <li><strong>Aba de Caracteres Expandida:</strong> 6 novas categorias com 72+ novos símbolos científicos.</li>
-                        <li><strong>6 Novos Temas:</strong> Aurora, Pôr do Sol, Oceano, Floresta, Cristal, Fogo (100–500 moedas).</li>
-                        <li><strong>Dev Log em Tempo Real:</strong> Registra automaticamente ações do usuário.</li>
+                        <li><strong>Sistema de Moedas Removido:</strong> Todo o sistema de moedas (coins) foi aposentado.</li>
+                        <li><strong>Temas Baseados em XP:</strong> A loja de temas agora desbloqueia temas automaticamente conforme seu XP aumenta (de 0 a 3000 XP).</li>
+                        <li><strong>Progressão Unificada:</strong> XP é agora a única moeda do sistema. Quanto mais você estuda, mais temas desbloqueia.</li>
+                        <li><strong>Eventos Atualizados:</strong> Recompensas de eventos mensais não mencionam mais moedas.</li>
+                        <li><strong>UI Limpa:</strong> Removido o display de moedas da topbar para uma interface mais focada.</li>
                     </ul>
                 </div>
                 <div class="timeline-item">
-                    <div class="version-header"><span class="version-tag">v7.3.0</span><h3>Bloco de Notas Avançado</h3></div>
+                    <div class="version-header"><span class="version-tag">v8.0.0</span><h3>Ubuntu Themes, Eventos XP & Personalização</h3><span class="version-date">Maio 2026</span></div>
                     <ul>
-                        <li>Nova aba "Bloco de Notas" com múltiplas notas, export/import .txt e +10 moedas ao salvar.</li>
+                        <li><strong>Fix Click no Iframe:</strong> Corrigido o bug de bloqueio de cliques no iframe do Portal Geekie.</li>
+                        <li><strong>Aba "Título da Página":</strong> Nova seção para personalizar o nome exibido na aba do navegador.</li>
+                        <li><strong>Temas Ubuntu Animados:</strong> 10 novos temas com wallpapers animados no estilo visual do Ubuntu.</li>
+                        <li><strong>Sistema de XP:</strong> Implementado XP baseado em tempo de presença — 1 XP a cada 6 segundos.</li>
+                        <li><strong>Eventos Mensais:</strong> Sistema de eventos que muda a cada mês, com recompensas por XP.</li>
                     </ul>
                 </div>
-                <div class="timeline-item">
-                    <div class="version-header"><span class="version-tag">v7.2.0</span><h3>Aba de Caracteres & UI Premium</h3></div>
-                    <ul><li>Teclado virtual com 50+ símbolos e notificações Toast.</li></ul>
-                </div>
-                <div class="timeline-item old-version">
-                    <div class="version-header">
-                        <span class="version-tag" style="background: rgba(148, 163, 184, 0.2); color: var(--text-muted);">v7.0.0</span>
-                        <h3 style="color: var(--text-muted);">The Study Hub Update</h3>
-                    </div>
-                    <ul><li>Glassmorphism, Modo Zen, Pomodoro, Gamificação e Tarefas persistentes.</li></ul>
-                </div>
+                <div class="timeline-item"><div class="version-header"><span class="version-tag">v7.4.0</span><h3>Expansão de Caracteres & Temas Premium</h3></div><ul><li><strong>Aba de Caracteres Expandida:</strong> 6 novas categorias com 72+ novos símbolos.</li><li><strong>6 Novos Temas:</strong> Aurora, Pôr do Sol, Oceano, Floresta, Cristal, Fogo.</li></ul></div>
+                <div class="timeline-item"><div class="version-header"><span class="version-tag">v7.3.0</span><h3>Bloco de Notas Avançado</h3></div><ul><li>Nova aba "Bloco de Notas" com múltiplas notas, export/import .txt.</li></ul></div>
+                <div class="timeline-item"><div class="version-header"><span class="version-tag">v7.2.0</span><h3>Aba de Caracteres & UI Premium</h3></div><ul><li>Teclado virtual com 50+ símbolos e notificações Toast.</li></ul></div>
+                <div class="timeline-item old-version"><div class="version-header"><span class="version-tag" style="background: rgba(148, 163, 184, 0.2); color: var(--text-muted);">v7.0.0</span><h3 style="color: var(--text-muted);">The Study Hub Update</h3></div><ul><li>Glassmorphism, Modo Zen, Pomodoro, Gamificação e Tarefas persistentes.</li></ul></div>
             </div>
         </div>
     </section>
@@ -705,19 +501,14 @@
 
 <audio id="alarmSound" src="https://cdn.pixabay.com/download/audio/2021/08/04/audio_c6ccf3232f.mp3?filename=bell-ringing-05-43026.mp3" preload="auto"></audio>
 <div id="appToast" class="toast"><i class="fa-solid fa-check"></i> <span>Ação Realizada!</span></div>
-
 <script>
 // ===================== CLOCK =====================
-function updateClock() {
-    document.getElementById('realTimeClock').textContent = new Date().toLocaleTimeString('pt-BR');
-}
-setInterval(updateClock, 1000);
-updateClock();
+function updateClock() { document.getElementById('realTimeClock').textContent = new Date().toLocaleTimeString('pt-BR'); }
+setInterval(updateClock, 1000); updateClock();
 
 // ===================== SIDEBAR & TABS =====================
 const sidebar = document.getElementById('sidebar');
 document.getElementById('toggleSidebar').addEventListener('click', () => sidebar.classList.toggle('collapsed'));
-
 function switchTab(tabId, element) {
     document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
     element.classList.add('active');
@@ -732,8 +523,7 @@ function showToast(msg, isError = false) {
     const toast = document.getElementById('appToast');
     toast.style.background = isError ? 'var(--danger)' : 'var(--success)';
     toast.innerHTML = isError ? `<i class="fa-solid fa-triangle-exclamation"></i> <span>${msg}</span>` : `<i class="fa-solid fa-check"></i> <span>${msg}</span>`;
-    toast.classList.add('show');
-    clearTimeout(toastTimeout);
+    toast.classList.add('show'); clearTimeout(toastTimeout);
     toastTimeout = setTimeout(() => toast.classList.remove('show'), 3000);
 }
 
@@ -741,377 +531,121 @@ function showToast(msg, isError = false) {
 let isZen = false;
 function toggleZenMode() {
     isZen = !isZen;
-    if (isZen) {
-        sidebar.classList.add('collapsed');
-        document.querySelector('.topbar').style.display = 'none';
-        document.body.requestFullscreen().catch(() => {});
-    } else {
-        sidebar.classList.remove('collapsed');
-        document.querySelector('.topbar').style.display = 'flex';
-        if (document.fullscreenElement) document.exitFullscreen();
-    }
+    if (isZen) { sidebar.classList.add('collapsed'); document.querySelector('.topbar').style.display = 'none'; document.body.requestFullscreen().catch(() => {}); }
+    else { sidebar.classList.remove('collapsed'); document.querySelector('.topbar').style.display = 'flex'; if (document.fullscreenElement) document.exitFullscreen(); }
 }
 document.addEventListener('fullscreenchange', () => { if (!document.fullscreenElement && isZen) toggleZenMode(); });
 
-// ===================== ECONOMY =====================
-let coins = parseInt(localStorage.getItem('geekieCoins')) || 0;
+// ===================== ECONOMY (XP-BASED) =====================
 let ownedThemes = JSON.parse(localStorage.getItem('geekieThemes')) || ['theme-default'];
 let equippedTheme = localStorage.getItem('geekieEquipped') || 'theme-default';
-const coinCountEl = document.getElementById('coinCount');
-const coinContainer = document.getElementById('coinContainer');
 const iframeContainer = document.getElementById('geekieIframeContainer');
-
-function updateCoinDisplay() { coinCountEl.textContent = coins; localStorage.setItem('geekieCoins', coins); renderStore(); }
-
-function addCoins(amount) {
-    coins += amount;
-    updateCoinDisplay();
-    const anim = document.createElement('div');
-    anim.className = 'coin-anim';
-    anim.textContent = `+${amount}`;
-    anim.style.left = `calc(50% + ${Math.floor(Math.random()*20)-10}px)`;
-    anim.style.top = '10px';
-    coinContainer.appendChild(anim);
-    setTimeout(() => anim.remove(), 1500);
-}
 
 // ===================== XP SYSTEM =====================
 let xp = parseInt(localStorage.getItem('geekieXP')) || 0;
 const xpEl = document.getElementById('xpCount');
-
 function updateXP() { xpEl.textContent = xp; localStorage.setItem('geekieXP', xp); }
-
-// 1 XP a cada 6 segundos de presença
-setInterval(() => {
-    xp++;
-    updateXP();
-    // Verificar se evento desbloqueou novo tier
-    renderEventContent();
-}, 6000);
+setInterval(() => { xp++; updateXP(); renderEventContent(); renderStore(); }, 6000);
 updateXP();
 
-// ===================== UBUNTU THEMES =====================
+// ===================== UBUNTU THEMES (XP-BASED) =====================
 const storeItems = [
-    { id: 'theme-default',         name: 'Padrão',            price: 0,   icon: 'fa-square',            desc: 'Sem borda especial. Simples e limpo.',           color: '#94a3b8' },
-    { id: 'theme-ubuntu-yaru',     name: 'Ubuntu Yaru',       price: 80,  icon: 'fa-circle-dot',        desc: 'Laranja canela vibrante — tema oficial Ubuntu.', color: '#E95420' },
-    { id: 'theme-ubuntu-ambiance', name: 'Ubuntu Ambiance',   price: 120, icon: 'fa-moon',              desc: 'Roxo noturno com pulsação suave.',               color: '#5C3566' },
-    { id: 'theme-ubuntu-radiance', name: 'Ubuntu Radiance',   price: 100, icon: 'fa-sun',               desc: 'Verde lima cítrico, energia máxima.',           color: '#87B03D' },
-    { id: 'theme-ubuntu-snap',     name: 'Snap Neon',         price: 200, icon: 'fa-bolt',              desc: 'Azul neon estilo Communitheme.',                 color: '#1BA1E2' },
-    { id: 'theme-ubuntu-dark',     name: 'Ubuntu Dark',       price: 150, icon: 'fa-skull',             desc: 'Grafite escuro com brilho metálico.',           color: '#3C3B37' },
-    { id: 'theme-ubuntu-frost',    name: 'Ubuntu Frost',      price: 180, icon: 'fa-snowflake',         desc: 'Branco/gelo holográfico cristalino.',           color: '#C8E6FA' },
-    { id: 'theme-ubuntu-sunset',   name: 'Ubuntu Sunset',     price: 250, icon: 'fa-palette',           desc: 'Ciclo laranja → rosa → roxo contínuo.',         color: '#F97316' },
-    { id: 'theme-ubuntu-forest',   name: 'Ubuntu Forest',     price: 140, icon: 'fa-leaf',              desc: 'Verde floresta com respiração serena.',         color: '#16A34A' },
-    { id: 'theme-ubuntu-cosmic',   name: 'Ubuntu Cosmic',     price: 300, icon: 'fa-star',              desc: 'Deep space com aurora violeta.',                color: '#6D28D9' },
-    { id: 'theme-ubuntu-fire',     name: 'Ubuntu Fire',       price: 220, icon: 'fa-fire',              desc: 'Chama viva vermelho→laranja→amarelo.',          color: '#EF4444' },
+    { id: 'theme-default',         name: 'Padr\u00e3o',            xpReq: 0,    icon: 'fa-square',     desc: 'Sem borda especial. Simples e limpo.',           color: '#94a3b8' },
+    { id: 'theme-ubuntu-yaru',     name: 'Ubuntu Yaru',       xpReq: 50,   icon: 'fa-circle-dot', desc: 'Laranja canela vibrante \u2014 tema oficial Ubuntu.', color: '#E95420' },
+    { id: 'theme-ubuntu-radiance', name: 'Ubuntu Radiance',   xpReq: 100,  icon: 'fa-sun',        desc: 'Verde lima c\u00edtrico, energia m\u00e1xima.',           color: '#87B03D' },
+    { id: 'theme-ubuntu-ambiance', name: 'Ubuntu Ambiance',   xpReq: 200,  icon: 'fa-moon',       desc: 'Roxo noturno com pulsa\u00e7\u00e3o suave.',               color: '#5C3566' },
+    { id: 'theme-ubuntu-forest',   name: 'Ubuntu Forest',     xpReq: 350,  icon: 'fa-leaf',       desc: 'Verde floresta com respira\u00e7\u00e3o serena.',         color: '#16A34A' },
+    { id: 'theme-ubuntu-dark',     name: 'Ubuntu Dark',       xpReq: 500,  icon: 'fa-skull',      desc: 'Grafite escuro com brilho met\u00e1lico.',           color: '#3C3B37' },
+    { id: 'theme-ubuntu-snap',     name: 'Snap Neon',         xpReq: 750,  icon: 'fa-bolt',       desc: 'Azul neon estilo Communitheme.',                 color: '#1BA1E2' },
+    { id: 'theme-ubuntu-frost',    name: 'Ubuntu Frost',      xpReq: 1000, icon: 'fa-snowflake',  desc: 'Branco/gelo hologr\u00e1fico cristalino.',           color: '#C8E6FA' },
+    { id: 'theme-ubuntu-fire',     name: 'Ubuntu Fire',       xpReq: 1500, icon: 'fa-fire',       desc: 'Chama viva vermelho\u2192laranja\u2192amarelo.',          color: '#EF4444' },
+    { id: 'theme-ubuntu-sunset',   name: 'Ubuntu Sunset',     xpReq: 2000, icon: 'fa-palette',    desc: 'Ciclo laranja \u2192 rosa \u2192 roxo cont\u00ednuo.',         color: '#F97316' },
+    { id: 'theme-ubuntu-cosmic',   name: 'Ubuntu Cosmic',     xpReq: 3000, icon: 'fa-star',       desc: 'Deep space com aurora violeta.',                color: '#6D28D9' },
 ];
 
-function applyTheme(themeId) {
-    storeItems.forEach(item => iframeContainer.classList.remove(item.id));
-    iframeContainer.classList.add(themeId);
-}
-function equipTheme(themeId) {
-    equippedTheme = themeId;
-    localStorage.setItem('geekieEquipped', equippedTheme);
-    applyTheme(themeId);
-    renderStore();
-    showToast('Tema equipado!');
-}
-function buyTheme(themeId, price) {
-    if (coins >= price) {
-        coins -= price;
-        ownedThemes.push(themeId);
-        localStorage.setItem('geekieThemes', JSON.stringify(ownedThemes));
-        updateCoinDisplay();
-        equipTheme(themeId);
-        showToast('Tema comprado!');
-    } else {
-        showToast('Moedas insuficientes!', true);
-    }
-}
+function applyTheme(themeId) { storeItems.forEach(item => iframeContainer.classList.remove(item.id)); iframeContainer.classList.add(themeId); }
+function equipTheme(themeId) { equippedTheme = themeId; localStorage.setItem('geekieEquipped', equippedTheme); applyTheme(themeId); renderStore(); showToast('Tema equipado!'); }
+function unlockTheme(themeId) { if (!ownedThemes.includes(themeId)) { ownedThemes.push(themeId); localStorage.setItem('geekieThemes', JSON.stringify(ownedThemes)); } equipTheme(themeId); showToast('Tema desbloqueado!'); }
 
 function renderStore() {
-    const grid = document.getElementById('storeGrid');
-    if (!grid) return;
-    grid.innerHTML = '';
+    const grid = document.getElementById('storeGrid'); if (!grid) return; grid.innerHTML = '';
     storeItems.forEach(item => {
-        const isOwned = ownedThemes.includes(item.id);
-        const isEquipped = equippedTheme === item.id;
+        const isUnlocked = xp >= item.xpReq, isOwned = ownedThemes.includes(item.id), isEquipped = equippedTheme === item.id;
         let btn = '';
-        if (isEquipped) {
-            btn = `<button class="btn btn-outline w-full" disabled><i class="fa-solid fa-check"></i> Equipado</button>`;
-        } else if (isOwned) {
-            btn = `<button class="btn btn-primary w-full" onclick="equipTheme('${item.id}')">Equipar</button>`;
-        } else {
-            const can = coins >= item.price;
-            btn = `<button class="btn btn-gold w-full ${!can ? 'btn-disabled' : ''}" onclick="${can ? `buyTheme('${item.id}',${item.price})` : ''}">
-                <i class="fa-solid fa-cart-shopping"></i> Comprar (${item.price} <i class="fa-solid fa-coins"></i>)
-            </button>`;
-        }
-        grid.innerHTML += `
-            <div class="store-item" style="${isEquipped ? `border-color:${item.color};box-shadow:0 0 15px ${item.color}44;` : ''}">
-                <i class="fa-solid ${item.icon} preview-icon" style="color:${item.color};"></i>
-                <h4>${item.name}</h4>
-                <p style="font-size:0.8rem;color:var(--text-muted);flex:1;">${item.desc}</p>
-                ${btn}
-            </div>`;
+        if (isEquipped) btn = `<button class="btn btn-outline w-full" disabled><i class="fa-solid fa-check"></i> Equipado</button>`;
+        else if (isOwned) btn = `<button class="btn btn-primary w-full" onclick="equipTheme('${item.id}')">Equipar</button>`;
+        else if (isUnlocked) btn = `<button class="btn btn-primary w-full" onclick="unlockTheme('${item.id}')"><i class="fa-solid fa-lock-open"></i> Desbloquear</button>`;
+        else btn = `<button class="btn btn-disabled w-full" disabled><i class="fa-solid fa-lock"></i> ${item.xpReq} XP necess\u00e1rios</button>`;
+        grid.innerHTML += `<div class="store-item" style="${isEquipped ? `border-color:${item.color};box-shadow:0 0 15px ${item.color}44;` : ''}"><i class="fa-solid ${item.icon} preview-icon" style="color:${item.color};"></i><h4>${item.name}</h4><p style="font-size:0.8rem;color:var(--text-muted);flex:1;">${item.desc}</p><p style="font-size:0.75rem;color:${isUnlocked ? 'var(--primary)' : 'var(--text-muted)'};margin-bottom:4px;"><i class="fa-solid fa-star"></i> ${item.xpReq} XP ${isUnlocked ? '\u2705' : '\ud83d\udd12'}</p>${btn}</div>`;
     });
 }
-updateCoinDisplay();
-applyTheme(equippedTheme);
-renderStore();
+applyTheme(equippedTheme); renderStore();
 
 // ===================== EVENTOS MENSAIS =====================
 const monthlyEvents = [
-    { month: 1,  name: 'Janeiro: Início de Jornada',   icon: '🚀', desc: 'Novo ano, nova energia! Construa sua rotina de estudos.',       colorA: '#E95420', colorB: '#F97316',
-      tiers: [ { label: 'Iniciante',  xpReq: 0,    reward: 'Badge "Começando"',          icon: '🌱' }, { label: 'Estudioso', xpReq: 500,  reward: '+100 moedas',               icon: '📚' }, { label: 'Expert',    xpReq: 1500, reward: 'Tema Yaru desbloqueado',    icon: '⭐' }, { label: 'Lendário',  xpReq: 3000, reward: 'Tema Cosmic desbloqueado', icon: '🏆' } ] },
-    { month: 2,  name: 'Fevereiro: Amor ao Saber',      icon: '❤️', desc: 'Apaixone-se por aprender. Cada minuto estudado conta!',          colorA: '#EC4899', colorB: '#F43F5E',
-      tiers: [ { label: 'Iniciante',  xpReq: 0,    reward: 'Badge "Coração de Ouro"',    icon: '💛' }, { label: 'Estudioso', xpReq: 500,  reward: '+120 moedas',               icon: '💖' }, { label: 'Expert',    xpReq: 1500, reward: 'Tema Sunset desbloqueado',  icon: '🌸' }, { label: 'Lendário',  xpReq: 3000, reward: 'XP Duplo por 7 dias',       icon: '👑' } ] },
-    { month: 3,  name: 'Março: Força Total',            icon: '💪', desc: 'Primeiro trimestre no pico! Sprint de estudos começa agora.',     colorA: '#16A34A', colorB: '#4ADE80',
-      tiers: [ { label: 'Iniciante',  xpReq: 0,    reward: 'Badge "Determinado"',        icon: '🌿' }, { label: 'Estudioso', xpReq: 500,  reward: '+100 moedas',               icon: '🌱' }, { label: 'Expert',    xpReq: 1500, reward: 'Tema Forest desbloqueado',  icon: '🌲' }, { label: 'Lendário',  xpReq: 3000, reward: 'Tema Radiance desbloqueado',icon: '🏆' } ] },
-    { month: 4,  name: 'Abril: Despertar Digital',      icon: '🌐', desc: 'Tecnologia e estudo de mãos dadas. Explore novas ferramentas.',   colorA: '#1BA1E2', colorB: '#44CCFF',
-      tiers: [ { label: 'Iniciante',  xpReq: 0,    reward: 'Badge "Conectado"',          icon: '📡' }, { label: 'Estudioso', xpReq: 500,  reward: '+150 moedas',               icon: '💻' }, { label: 'Expert',    xpReq: 1500, reward: 'Tema Snap desbloqueado',    icon: '⚡' }, { label: 'Lendário',  xpReq: 3000, reward: 'Tema Frost desbloqueado',   icon: '🏆' } ] },
-    { month: 5,  name: 'Maio: Maratona do Foco',        icon: '⏱️', desc: 'Pomodoros acumulados viram conquistas. Foco máximo!',            colorA: '#8B5CF6', colorB: '#A78BFA',
-      tiers: [ { label: 'Iniciante',  xpReq: 0,    reward: 'Badge "Focado"',             icon: '🧠' }, { label: 'Estudioso', xpReq: 500,  reward: '+100 moedas',               icon: '⏰' }, { label: 'Expert',    xpReq: 1500, reward: 'Tema Ambiance desbloqueado',icon: '🌙' }, { label: 'Lendário',  xpReq: 3000, reward: 'Tema Cosmic desbloqueado',  icon: '🏆' } ] },
-    { month: 6,  name: 'Junho: Meio do Ano',            icon: '🌟', desc: 'Metade da jornada! Revise tudo e prepare o segundo semestre.',    colorA: '#FBBF24', colorB: '#F59E0B',
-      tiers: [ { label: 'Iniciante',  xpReq: 0,    reward: 'Badge "Persistente"',        icon: '🌻' }, { label: 'Estudioso', xpReq: 500,  reward: '+130 moedas',               icon: '🌟' }, { label: 'Expert',    xpReq: 1500, reward: 'Tema Fire desbloqueado',    icon: '🔥' }, { label: 'Lendário',  xpReq: 3000, reward: 'Todos os temas liberados',  icon: '🏆' } ] },
-    { month: 7,  name: 'Julho: Inverno Produtivo',      icon: '❄️', desc: 'Frio do inverno? Aquece com conhecimento! Não perca o ritmo.',   colorA: '#0EA5E9', colorB: '#38BDF8',
-      tiers: [ { label: 'Iniciante',  xpReq: 0,    reward: 'Badge "Resiliente"',         icon: '🧊' }, { label: 'Estudioso', xpReq: 500,  reward: '+100 moedas',               icon: '☃️' }, { label: 'Expert',    xpReq: 1500, reward: 'Tema Frost desbloqueado',   icon: '💎' }, { label: 'Lendário',  xpReq: 3000, reward: '+300 moedas bônus',         icon: '🏆' } ] },
-    { month: 8,  name: 'Agosto: Aceleração Final',      icon: '🔥', desc: 'Dois meses para o ENEM. Dobra o gás, hora do sprint!',           colorA: '#EF4444', colorB: '#F97316',
-      tiers: [ { label: 'Iniciante',  xpReq: 0,    reward: 'Badge "Guerreiro"',          icon: '⚔️' }, { label: 'Estudioso', xpReq: 500,  reward: '+200 moedas',               icon: '🔥' }, { label: 'Expert',    xpReq: 1500, reward: 'Tema Fire desbloqueado',    icon: '💥' }, { label: 'Lendário',  xpReq: 3000, reward: 'Modo Turbo (XP x2)',        icon: '🏆' } ] },
-    { month: 9,  name: 'Setembro: Mês da Ciência',      icon: '🔬', desc: 'Dia do Brasileiro. Explore ciências com curiosidade máxima.',     colorA: '#059669', colorB: '#10B981',
-      tiers: [ { label: 'Iniciante',  xpReq: 0,    reward: 'Badge "Cientista"',          icon: '⚗️' }, { label: 'Estudioso', xpReq: 500,  reward: '+100 moedas',               icon: '🔭' }, { label: 'Expert',    xpReq: 1500, reward: 'Tema Forest desbloqueado',  icon: '🌿' }, { label: 'Lendário',  xpReq: 3000, reward: 'Tema Radiance desbloqueado',icon: '🏆' } ] },
-    { month: 10, name: 'Outubro: Véspera do ENEM',      icon: '🎯', desc: 'Simulados diários, revisão de fórmulas. Você vai bombar!',        colorA: '#D97706', colorB: '#FBBF24',
-      tiers: [ { label: 'Iniciante',  xpReq: 0,    reward: 'Badge "Focado no Alvo"',     icon: '🎯' }, { label: 'Estudioso', xpReq: 500,  reward: '+250 moedas',               icon: '📝' }, { label: 'Expert',    xpReq: 1500, reward: 'Tema Sunset desbloqueado',  icon: '🌅' }, { label: 'Lendário',  xpReq: 3000, reward: 'Todos os temas + 500 coins',icon: '🏆' } ] },
-    { month: 11, name: 'Novembro: Hora da Verdade',     icon: '⚡', desc: 'ENEM chegou! Respira, aplica tudo que aprendeu. Vai lá!',         colorA: '#7C3AED', colorB: '#A78BFA',
-      tiers: [ { label: 'Iniciante',  xpReq: 0,    reward: 'Badge "Corajoso"',           icon: '🦁' }, { label: 'Estudioso', xpReq: 500,  reward: '+150 moedas',               icon: '✨' }, { label: 'Expert',    xpReq: 1500, reward: 'Tema Ambiance desbloqueado',icon: '🌙' }, { label: 'Lendário',  xpReq: 3000, reward: 'Tema Cosmic desbloqueado',  icon: '🏆' } ] },
-    { month: 12, name: 'Dezembro: Celebração!',         icon: '🎉', desc: 'Ano encerrado! Celebre cada minuto de estudo. Você evoluiu!',     colorA: '#DC2626', colorB: '#16A34A',
-      tiers: [ { label: 'Iniciante',  xpReq: 0,    reward: 'Badge "Sobrevivente"',       icon: '🎁' }, { label: 'Estudioso', xpReq: 500,  reward: '+300 moedas bônus',         icon: '🎄' }, { label: 'Expert',    xpReq: 1500, reward: 'Pack completo de temas',    icon: '🎊' }, { label: 'Lendário',  xpReq: 3000, reward: 'XP x3 em Janeiro',          icon: '🏆' } ] },
+    { month: 1, name: 'Janeiro: In\u00edcio de Jornada', icon: '\ud83d\ude80', desc: 'Novo ano, nova energia!', colorA: '#E95420', colorB: '#F97316', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'\ud83c\udf31'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'\ud83d\udcda'},{label:'Expert',xpReq:1500,reward:'Tema Yaru desbloqueado',icon:'\u2b50'},{label:'Lend\u00e1rio',xpReq:3000,reward:'Tema Cosmic desbloqueado',icon:'\ud83c\udfc6'}]},
+    { month: 2, name: 'Fevereiro: Amor ao Saber', icon: '\u2764\ufe0f', desc: 'Apaixone-se por aprender!', colorA: '#EC4899', colorB: '#F43F5E', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'\ud83d\udc9b'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'\ud83d\udc96'},{label:'Expert',xpReq:1500,reward:'Tema Sunset desbloqueado',icon:'\ud83c\udf38'},{label:'Lend\u00e1rio',xpReq:3000,reward:'XP Duplo por 7 dias',icon:'\ud83d\udc51'}]},
+    { month: 3, name: 'Mar\u00e7o: For\u00e7a Total', icon: '\ud83d\udcaa', desc: 'Sprint de estudos!', colorA: '#16A34A', colorB: '#4ADE80', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'\ud83c\udf3f'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'\ud83c\udf31'},{label:'Expert',xpReq:1500,reward:'Tema Forest desbloqueado',icon:'\ud83c\udf32'},{label:'Lend\u00e1rio',xpReq:3000,reward:'Tema Radiance desbloqueado',icon:'\ud83c\udfc6'}]},
+    { month: 4, name: 'Abril: Despertar Digital', icon: '\ud83c\udf10', desc: 'Tecnologia e estudo juntos!', colorA: '#1BA1E2', colorB: '#44CCFF', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'\ud83d\udce1'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'\ud83d\udcbb'},{label:'Expert',xpReq:1500,reward:'Tema Snap desbloqueado',icon:'\u26a1'},{label:'Lend\u00e1rio',xpReq:3000,reward:'Tema Frost desbloqueado',icon:'\ud83c\udfc6'}]},
+    { month: 5, name: 'Maio: Maratona do Foco', icon: '\u23f1\ufe0f', desc: 'Foco m\u00e1ximo!', colorA: '#8B5CF6', colorB: '#A78BFA', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'\ud83e\udde0'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'\u23f0'},{label:'Expert',xpReq:1500,reward:'Tema Ambiance desbloqueado',icon:'\ud83c\udf19'},{label:'Lend\u00e1rio',xpReq:3000,reward:'Tema Cosmic desbloqueado',icon:'\ud83c\udfc6'}]},
+    { month: 6, name: 'Junho: Meio do Ano', icon: '\ud83c\udf1f', desc: 'Metade da jornada!', colorA: '#FBBF24', colorB: '#F59E0B', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'\ud83c\udf3b'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'\ud83c\udf1f'},{label:'Expert',xpReq:1500,reward:'Tema Fire desbloqueado',icon:'\ud83d\udd25'},{label:'Lend\u00e1rio',xpReq:3000,reward:'Todos os temas liberados',icon:'\ud83c\udfc6'}]},
+    { month: 7, name: 'Julho: Inverno Produtivo', icon: '\u2744\ufe0f', desc: 'Aquece com conhecimento!', colorA: '#0EA5E9', colorB: '#38BDF8', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'\ud83e\uddca'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'\u2603\ufe0f'},{label:'Expert',xpReq:1500,reward:'Tema Frost desbloqueado',icon:'\ud83d\udc8e'},{label:'Lend\u00e1rio',xpReq:3000,reward:'Badge Especial',icon:'\ud83c\udfc6'}]},
+    { month: 8, name: 'Agosto: Acelera\u00e7\u00e3o Final', icon: '\ud83d\udd25', desc: 'Sprint para o ENEM!', colorA: '#EF4444', colorB: '#F97316', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'\u2694\ufe0f'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'\ud83d\udd25'},{label:'Expert',xpReq:1500,reward:'Tema Fire desbloqueado',icon:'\ud83d\udca5'},{label:'Lend\u00e1rio',xpReq:3000,reward:'Modo Turbo (XP x2)',icon:'\ud83c\udfc6'}]},
+    { month: 9, name: 'Setembro: M\u00eas da Ci\u00eancia', icon: '\ud83d\udd2c', desc: 'Explore ci\u00eancias!', colorA: '#059669', colorB: '#10B981', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'\u2697\ufe0f'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'\ud83d\udd2d'},{label:'Expert',xpReq:1500,reward:'Tema Forest desbloqueado',icon:'\ud83c\udf3f'},{label:'Lend\u00e1rio',xpReq:3000,reward:'Tema Radiance desbloqueado',icon:'\ud83c\udfc6'}]},
+    { month: 10, name: 'Outubro: V\u00e9spera do ENEM', icon: '\ud83c\udfaf', desc: 'Revis\u00e3o total!', colorA: '#D97706', colorB: '#FBBF24', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'\ud83c\udfaf'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'\ud83d\udcdd'},{label:'Expert',xpReq:1500,reward:'Tema Sunset desbloqueado',icon:'\ud83c\udf05'},{label:'Lend\u00e1rio',xpReq:3000,reward:'Badge Especial',icon:'\ud83c\udfc6'}]},
+    { month: 11, name: 'Novembro: Hora da Verdade', icon: '\u26a1', desc: 'ENEM chegou!', colorA: '#7C3AED', colorB: '#A78BFA', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'\ud83e\udd81'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'\u2728'},{label:'Expert',xpReq:1500,reward:'Tema Ambiance desbloqueado',icon:'\ud83c\udf19'},{label:'Lend\u00e1rio',xpReq:3000,reward:'Tema Cosmic desbloqueado',icon:'\ud83c\udfc6'}]},
+    { month: 12, name: 'Dezembro: Celebra\u00e7\u00e3o!', icon: '\ud83c\udf89', desc: 'Celebre cada minuto de estudo!', colorA: '#DC2626', colorB: '#16A34A', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'\ud83c\udf81'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'\ud83c\udf84'},{label:'Expert',xpReq:1500,reward:'Pack completo de temas',icon:'\ud83c\udf8a'},{label:'Lend\u00e1rio',xpReq:3000,reward:'XP x3 em Janeiro',icon:'\ud83c\udfc6'}]},
 ];
 
 function renderEventContent() {
-    const container = document.getElementById('eventContainer');
-    if (!container) return;
-    const month = new Date().getMonth(); // 0-indexed
+    const container = document.getElementById('eventContainer'); if (!container) return;
+    const month = new Date().getMonth();
     const ev = monthlyEvents[month];
     const maxXP = ev.tiers[ev.tiers.length - 1].xpReq;
     const pct = maxXP > 0 ? Math.min(100, Math.round((xp / maxXP) * 100)) : 100;
-
     let tiersHTML = ev.tiers.map(tier => {
         const unlocked = xp >= tier.xpReq;
-        return `<div class="xp-tier-card ${unlocked ? 'unlocked' : 'locked'}">
-            ${unlocked ? `<span class="xp-tier-badge">✅ Desbloqueado</span>` : `<span class="locked-badge">🔒 ${tier.xpReq} XP</span>`}
-            <h4>${tier.icon} ${tier.label}</h4>
-            <p>${tier.reward}</p>
-        </div>`;
+        return `<div class="xp-tier-card ${unlocked ? 'unlocked' : 'locked'}">${unlocked ? `<span class="xp-tier-badge">\u2705 Desbloqueado</span>` : `<span class="locked-badge">\ud83d\udd12 ${tier.xpReq} XP</span>`}<h4>${tier.icon} ${tier.label}</h4><p>${tier.reward}</p></div>`;
     }).join('');
-
-    container.innerHTML = `
-        <div class="event-banner" style="--event-color-a:${ev.colorA}; --event-color-b:${ev.colorB};">
-            <div class="event-banner-icon">${ev.icon}</div>
-            <div class="event-banner-text">
-                <div class="event-banner-title">${ev.name}</div>
-                <div class="event-banner-desc">${ev.desc}</div>
-                <div class="xp-progress-wrap">
-                    <div style="display:flex;justify-content:space-between;font-size:0.8rem;margin-bottom:4px;opacity:0.9;">
-                        <span>Seu XP: <strong>${xp}</strong></span><span>${pct}% do tier máximo</span>
-                    </div>
-                    <div class="xp-bar-outer">
-                        <div class="xp-bar-inner" style="width:${pct}%;--event-color-a:${ev.colorA};--event-color-b:${ev.colorB};"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="event-banner-xp">
-                <strong>${xp}</strong>
-                <span>XP total</span>
-            </div>
-        </div>
-        <div style="margin-top:4px;margin-bottom:8px;font-size:0.85rem;color:var(--text-muted);">
-            <i class="fa-solid fa-info-circle"></i> XP é ganho automaticamente ao usar o Geekie (+1 XP a cada 6 segundos)
-        </div>
-        <div class="xp-tier-grid">${tiersHTML}</div>
-    `;
+    container.innerHTML = `<div class="event-banner" style="--event-color-a:${ev.colorA}; --event-color-b:${ev.colorB};"><div class="event-banner-icon">${ev.icon}</div><div class="event-banner-text"><div class="event-banner-title">${ev.name}</div><div class="event-banner-desc">${ev.desc}</div><div class="xp-progress-wrap"><div style="display:flex;justify-content:space-between;font-size:0.8rem;margin-bottom:4px;opacity:0.9;"><span>Seu XP: <strong>${xp}</strong></span><span>${pct}% do tier m\u00e1ximo</span></div><div class="xp-bar-outer"><div class="xp-bar-inner" style="width:${pct}%;--event-color-a:${ev.colorA};--event-color-b:${ev.colorB};"></div></div></div></div><div class="event-banner-xp"><strong>${xp}</strong><span>XP total</span></div></div><div style="margin-top:4px;margin-bottom:8px;font-size:0.85rem;color:var(--text-muted);"><i class="fa-solid fa-info-circle"></i> XP \u00e9 ganho automaticamente ao usar o Geekie (+1 XP a cada 6 segundos)</div><div class="xp-tier-grid">${tiersHTML}</div>`;
 }
 renderEventContent();
 
-// ===================== TÍTULO DA PÁGINA =====================
-const availableFonts = [
-    { family: 'Poppins',       label: 'Poppins',          sample: 'Geekie Ultra' },
-    { family: 'Ubuntu',        label: 'Ubuntu',           sample: 'Geekie Ultra' },
-    { family: 'Orbitron',      label: 'Orbitron',         sample: 'Geekie Ultra' },
-    { family: 'Space Grotesk', label: 'Space Grotesk',    sample: 'Geekie Ultra' },
-    { family: 'Fira Code',     label: 'Fira Code',        sample: 'Geekie Ultra' },
-    { family: 'Rajdhani',      label: 'Rajdhani',         sample: 'Geekie Ultra' },
-    { family: 'JetBrains Mono',label: 'JetBrains Mono',   sample: 'Geekie Ultra' },
-];
-const availableIcons = [
-    'fa-graduation-cap','fa-book-open','fa-brain','fa-fire','fa-star','fa-bolt','fa-rocket',
-    'fa-laptop-code','fa-atom','fa-dna','fa-flask','fa-calculator','fa-infinity','fa-pencil',
-    'fa-trophy','fa-crown','fa-heart','fa-globe','fa-satellite','fa-moon',
-];
-
+// ===================== T\u00cdTULO DA P\u00c1GINA =====================
+const availableFonts = [{family:'Poppins',label:'Poppins',sample:'Geekie Ultra'},{family:'Ubuntu',label:'Ubuntu',sample:'Geekie Ultra'},{family:'Orbitron',label:'Orbitron',sample:'Geekie Ultra'},{family:'Space Grotesk',label:'Space Grotesk',sample:'Geekie Ultra'},{family:'Fira Code',label:'Fira Code',sample:'Geekie Ultra'},{family:'Rajdhani',label:'Rajdhani',sample:'Geekie Ultra'},{family:'JetBrains Mono',label:'JetBrains Mono',sample:'Geekie Ultra'}];
+const availableIcons = ['fa-graduation-cap','fa-book-open','fa-brain','fa-fire','fa-star','fa-bolt','fa-rocket','fa-laptop-code','fa-atom','fa-dna','fa-flask','fa-calculator','fa-infinity','fa-pencil','fa-trophy','fa-crown','fa-heart','fa-globe','fa-satellite','fa-moon'];
 let selectedFont = localStorage.getItem('geekieTitleFont') || 'Poppins';
 let selectedIcon = localStorage.getItem('geekieTitleIcon') || 'fa-graduation-cap';
-let savedTitle = localStorage.getItem('geekieTitleName') || 'Geekie One Ultra v8.0';
-
+let savedTitle = localStorage.getItem('geekieTitleName') || 'Geekie One Ultra v8.1';
 function buildTitleUI() {
-    const fontGrid = document.getElementById('fontGrid');
-    const iconGrid = document.getElementById('iconGrid');
-    fontGrid.innerHTML = '';
-    iconGrid.innerHTML = '';
-
-    availableFonts.forEach(f => {
-        const el = document.createElement('div');
-        el.className = `font-option ${selectedFont === f.family ? 'selected' : ''}`;
-        el.style.fontFamily = f.family;
-        el.innerHTML = `<div style="font-size:1.1rem;font-weight:700;">${f.sample}</div><div class="font-name">${f.label}</div>`;
-        el.onclick = () => { selectedFont = f.family; buildTitleUI(); updateTitlePreview(); };
-        fontGrid.appendChild(el);
-    });
-    availableIcons.forEach(ic => {
-        const el = document.createElement('div');
-        el.className = `icon-option ${selectedIcon === ic ? 'selected' : ''}`;
-        el.innerHTML = `<i class="fa-solid ${ic}"></i>`;
-        el.onclick = () => { selectedIcon = ic; buildTitleUI(); updateTitlePreview(); };
-        iconGrid.appendChild(el);
-    });
-
-    document.getElementById('pageTitleInput').value = savedTitle;
-    updateTitlePreview();
+    const fontGrid = document.getElementById('fontGrid'), iconGrid = document.getElementById('iconGrid'); fontGrid.innerHTML = ''; iconGrid.innerHTML = '';
+    availableFonts.forEach(f => { const el = document.createElement('div'); el.className = `font-option ${selectedFont === f.family ? 'selected' : ''}`; el.style.fontFamily = f.family; el.innerHTML = `<div style="font-size:1.1rem;font-weight:700;">${f.sample}</div><div class="font-name">${f.label}</div>`; el.onclick = () => { selectedFont = f.family; buildTitleUI(); updateTitlePreview(); }; fontGrid.appendChild(el); });
+    availableIcons.forEach(ic => { const el = document.createElement('div'); el.className = `icon-option ${selectedIcon === ic ? 'selected' : ''}`; el.innerHTML = `<i class="fa-solid ${ic}"></i>`; el.onclick = () => { selectedIcon = ic; buildTitleUI(); updateTitlePreview(); }; iconGrid.appendChild(el); });
+    document.getElementById('pageTitleInput').value = savedTitle; updateTitlePreview();
 }
-
-function updateTitlePreview() {
-    const name = document.getElementById('pageTitleInput').value || savedTitle;
-    const preview = document.getElementById('titlePreviewBox');
-    preview.style.fontFamily = selectedFont;
-    document.getElementById('previewIconEl').className = `fa-solid ${selectedIcon}`;
-    document.getElementById('previewNameEl').textContent = name;
-}
-
-function applyPageTitle() {
-    const name = document.getElementById('pageTitleInput').value.trim() || 'Geekie One Ultra v8.0';
-    savedTitle = name;
-    localStorage.setItem('geekieTitleName', name);
-    localStorage.setItem('geekieTitleFont', selectedFont);
-    localStorage.setItem('geekieTitleIcon', selectedIcon);
-    document.title = name;
-    // Atualizar brand
-    document.querySelector('.brand').style.fontFamily = selectedFont;
-    showToast('Título atualizado!');
-}
-
-// Aplicar título salvo ao carregar
-(function() {
-    document.title = savedTitle;
-    document.querySelector('.brand').style.fontFamily = selectedFont;
-    buildTitleUI();
-})();
+function updateTitlePreview() { const name = document.getElementById('pageTitleInput').value || savedTitle; document.getElementById('titlePreviewBox').style.fontFamily = selectedFont; document.getElementById('previewIconEl').className = `fa-solid ${selectedIcon}`; document.getElementById('previewNameEl').textContent = name; }
+function applyPageTitle() { const name = document.getElementById('pageTitleInput').value.trim() || 'Geekie One Ultra v8.1'; savedTitle = name; localStorage.setItem('geekieTitleName', name); localStorage.setItem('geekieTitleFont', selectedFont); localStorage.setItem('geekieTitleIcon', selectedIcon); document.title = name; document.querySelector('.brand').style.fontFamily = selectedFont; showToast('T\u00edtulo atualizado!'); }
+(function() { document.title = savedTitle; document.querySelector('.brand').style.fontFamily = selectedFont; buildTitleUI(); })();
 
 // ===================== NOTAS =====================
 let savedNotes = JSON.parse(localStorage.getItem('geekieNotes')) || [];
 let currentNoteId = null;
-const noteSelect = document.getElementById('noteSelect');
-const noteTitleInput = document.getElementById('noteTitle');
-const noteContentInput = document.getElementById('noteContent');
-
-function renderNotesDropdown() {
-    noteSelect.innerHTML = '<option value="new">+ Nova Anotação...</option>';
-    savedNotes.forEach(note => {
-        const opt = document.createElement('option');
-        opt.value = note.id;
-        opt.textContent = note.title || 'Nota sem título';
-        if (note.id === currentNoteId) opt.selected = true;
-        noteSelect.appendChild(opt);
-    });
-}
-function loadSelectedNote() {
-    const id = noteSelect.value;
-    if (id === 'new') { currentNoteId = null; noteTitleInput.value = ''; noteContentInput.value = ''; }
-    else { const n = savedNotes.find(n => n.id == id); if (n) { currentNoteId = n.id; noteTitleInput.value = n.title; noteContentInput.value = n.content; } }
-}
-function saveNote() {
-    const title = noteTitleInput.value.trim() || 'Nota sem título';
-    const content = noteContentInput.value;
-    if (!content.trim() && !noteTitleInput.value.trim()) { showToast('A nota está vazia!', true); return; }
-    if (currentNoteId === null) {
-        const nn = { id: Date.now().toString(), title, content, date: new Date().toLocaleDateString() };
-        savedNotes.push(nn); currentNoteId = nn.id; addCoins(10); showToast('Nova anotação salva! +10 Moedas');
-    } else {
-        const idx = savedNotes.findIndex(n => n.id === currentNoteId);
-        if (idx !== -1) { savedNotes[idx].title = title; savedNotes[idx].content = content; showToast('Anotação atualizada!'); }
-    }
-    localStorage.setItem('geekieNotes', JSON.stringify(savedNotes));
-    renderNotesDropdown();
-}
-function deleteNote() {
-    if (currentNoteId === null) { noteTitleInput.value = ''; noteContentInput.value = ''; return; }
-    if (confirm('Excluir esta anotação permanentemente?')) {
-        savedNotes = savedNotes.filter(n => n.id !== currentNoteId);
-        localStorage.setItem('geekieNotes', JSON.stringify(savedNotes));
-        currentNoteId = null; noteTitleInput.value = ''; noteContentInput.value = '';
-        renderNotesDropdown(); showToast('Anotação excluída!');
-    }
-}
-function copyNoteContent() {
-    if (!noteContentInput.value) { showToast('Nada para copiar!', true); return; }
-    navigator.clipboard.writeText(noteContentInput.value).then(() => showToast('Conteúdo copiado!')).catch(() => showToast('Erro ao copiar. Use Ctrl+C', true));
-}
-async function pasteNoteContent() {
-    try {
-        const text = await navigator.clipboard.readText();
-        const s = noteContentInput.selectionStart, e = noteContentInput.selectionEnd;
-        noteContentInput.value = noteContentInput.value.substring(0, s) + text + noteContentInput.value.substring(e);
-        showToast('Colado!');
-    } catch { showToast('Use Ctrl+V para colar.', true); }
-}
-function exportNote() {
-    if (!noteContentInput.value) { showToast('Nota vazia!', true); return; }
-    const blob = new Blob([noteContentInput.value], { type: 'text/plain;charset=utf-8' });
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = `${noteTitleInput.value.trim() || 'Anotacao'}.txt`;
-    a.click();
-    showToast('Exportado!');
-}
-function importNote(event) {
-    const file = event.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = e => {
-        currentNoteId = null; noteTitleInput.value = file.name.replace('.txt', ''); noteContentInput.value = e.target.result;
-        document.getElementById('importNoteFile').value = ''; noteSelect.value = 'new';
-        showToast('Importado! Lembre de salvar.');
-    };
-    reader.readAsText(file);
-}
+const noteSelect = document.getElementById('noteSelect'), noteTitleInput = document.getElementById('noteTitle'), noteContentInput = document.getElementById('noteContent');
+function renderNotesDropdown() { noteSelect.innerHTML = '<option value="new">+ Nova Anota\u00e7\u00e3o...</option>'; savedNotes.forEach(note => { const opt = document.createElement('option'); opt.value = note.id; opt.textContent = note.title || 'Nota sem t\u00edtulo'; if (note.id === currentNoteId) opt.selected = true; noteSelect.appendChild(opt); }); }
+function loadSelectedNote() { const id = noteSelect.value; if (id === 'new') { currentNoteId = null; noteTitleInput.value = ''; noteContentInput.value = ''; } else { const n = savedNotes.find(n => n.id == id); if (n) { currentNoteId = n.id; noteTitleInput.value = n.title; noteContentInput.value = n.content; } } }
+function saveNote() { const title = noteTitleInput.value.trim() || 'Nota sem t\u00edtulo'; const content = noteContentInput.value; if (!content.trim() && !noteTitleInput.value.trim()) { showToast('A nota est\u00e1 vazia!', true); return; } if (currentNoteId === null) { const nn = { id: Date.now().toString(), title, content, date: new Date().toLocaleDateString() }; savedNotes.push(nn); currentNoteId = nn.id; showToast('Nova anota\u00e7\u00e3o salva!'); } else { const idx = savedNotes.findIndex(n => n.id === currentNoteId); if (idx !== -1) { savedNotes[idx].title = title; savedNotes[idx].content = content; showToast('Anota\u00e7\u00e3o atualizada!'); } } localStorage.setItem('geekieNotes', JSON.stringify(savedNotes)); renderNotesDropdown(); }
+function deleteNote() { if (currentNoteId === null) { noteTitleInput.value = ''; noteContentInput.value = ''; return; } if (confirm('Excluir esta anota\u00e7\u00e3o permanentemente?')) { savedNotes = savedNotes.filter(n => n.id !== currentNoteId); localStorage.setItem('geekieNotes', JSON.stringify(savedNotes)); currentNoteId = null; noteTitleInput.value = ''; noteContentInput.value = ''; renderNotesDropdown(); showToast('Anota\u00e7\u00e3o exclu\u00edda!'); } }
+function copyNoteContent() { if (!noteContentInput.value) { showToast('Nada para copiar!', true); return; } navigator.clipboard.writeText(noteContentInput.value).then(() => showToast('Conte\u00fado copiado!')).catch(() => showToast('Erro ao copiar.', true)); }
+async function pasteNoteContent() { try { const text = await navigator.clipboard.readText(); const s = noteContentInput.selectionStart, e = noteContentInput.selectionEnd; noteContentInput.value = noteContentInput.value.substring(0, s) + text + noteContentInput.value.substring(e); showToast('Colado!'); } catch { showToast('Use Ctrl+V para colar.', true); } }
+function exportNote() { if (!noteContentInput.value) { showToast('Nota vazia!', true); return; } const blob = new Blob([noteContentInput.value], { type: 'text/plain;charset=utf-8' }); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `${noteTitleInput.value.trim() || 'Anotacao'}.txt`; a.click(); showToast('Exportado!'); }
+function importNote(event) { const file = event.target.files[0]; if (!file) return; const reader = new FileReader(); reader.onload = e => { currentNoteId = null; noteTitleInput.value = file.name.replace('.txt', ''); noteContentInput.value = e.target.result; document.getElementById('importNoteFile').value = ''; noteSelect.value = 'new'; showToast('Importado! Lembre de salvar.'); }; reader.readAsText(file); }
 renderNotesDropdown();
 
 // ===================== POMODORO =====================
 let timerInterval, timeLeft = 25*60, isTimerRunning = false, isBreak = false, cycles = 0;
-const timerDisplay = document.getElementById('timerDisplay');
-const timerMode = document.getElementById('timerMode');
-const btnStartTimer = document.getElementById('btnStartTimer');
-const alarmSound = document.getElementById('alarmSound');
-const pomodoroCount = document.getElementById('pomodoroCount');
-function updateTimerDisplay() {
-    timerDisplay.textContent = `${Math.floor(timeLeft/60).toString().padStart(2,'0')}:${(timeLeft%60).toString().padStart(2,'0')}`;
-    document.title = `${timerDisplay.textContent} - ${savedTitle}`;
-}
-function startTimer() {
-    if (isTimerRunning) return;
-    isTimerRunning = true;
-    btnStartTimer.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Rodando';
-    timerInterval = setInterval(() => {
-        timeLeft--;
-        updateTimerDisplay();
-        if (timeLeft <= 0) {
-            clearInterval(timerInterval); isTimerRunning = false; alarmSound.play();
-            if (!isBreak) { cycles++; pomodoroCount.textContent = cycles; addCoins(50); isBreak = true; timeLeft = 5*60; timerMode.textContent = 'Modo: Pausa Curta (5 min)'; timerMode.style.color = 'var(--accent)'; alert('Foco concluído! +50 Moedas. Pausa de 5 min.'); }
-            else { isBreak = false; timeLeft = 25*60; timerMode.textContent = 'Modo: Foco (25 min)'; timerMode.style.color = 'var(--text-muted)'; alert('Pausa concluída! Hora de focar.'); }
-            btnStartTimer.innerHTML = '<i class="fa-solid fa-play"></i> Iniciar';
-            updateTimerDisplay();
-        }
-    }, 1000);
-}
+const timerDisplay = document.getElementById('timerDisplay'), timerMode = document.getElementById('timerMode'), btnStartTimer = document.getElementById('btnStartTimer'), alarmSound = document.getElementById('alarmSound'), pomodoroCount = document.getElementById('pomodoroCount');
+function updateTimerDisplay() { timerDisplay.textContent = `${Math.floor(timeLeft/60).toString().padStart(2,'0')}:${(timeLeft%60).toString().padStart(2,'0')}`; document.title = `${timerDisplay.textContent} - ${savedTitle}`; }
+function startTimer() { if (isTimerRunning) return; isTimerRunning = true; btnStartTimer.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Rodando'; timerInterval = setInterval(() => { timeLeft--; updateTimerDisplay(); if (timeLeft <= 0) { clearInterval(timerInterval); isTimerRunning = false; alarmSound.play(); if (!isBreak) { cycles++; pomodoroCount.textContent = cycles; isBreak = true; timeLeft = 5*60; timerMode.textContent = 'Modo: Pausa Curta (5 min)'; timerMode.style.color = 'var(--accent)'; alert('Foco conclu\u00eddo! Pausa de 5 min.'); } else { isBreak = false; timeLeft = 25*60; timerMode.textContent = 'Modo: Foco (25 min)'; timerMode.style.color = 'var(--text-muted)'; alert('Pausa conclu\u00edda! Hora de focar.'); } btnStartTimer.innerHTML = '<i class="fa-solid fa-play"></i> Iniciar'; updateTimerDisplay(); } }, 1000); }
 function pauseTimer() { clearInterval(timerInterval); isTimerRunning = false; btnStartTimer.innerHTML = '<i class="fa-solid fa-play"></i> Continuar'; }
 function resetTimer() { clearInterval(timerInterval); isTimerRunning = false; isBreak = false; timeLeft = 25*60; timerMode.textContent = 'Modo: Foco (25 min)'; timerMode.style.color = 'var(--text-muted)'; btnStartTimer.innerHTML = '<i class="fa-solid fa-play"></i> Iniciar'; updateTimerDisplay(); }
 updateTimerDisplay();
@@ -1119,73 +653,36 @@ updateTimerDisplay();
 // ===================== TODO =====================
 const todoListEl = document.getElementById('todoList');
 let todos = JSON.parse(localStorage.getItem('geekieTodos')) || [];
-function renderTodos() {
-    todoListEl.innerHTML = '';
-    todos.forEach((todo, i) => {
-        const li = document.createElement('li');
-        li.className = `todo-item ${todo.completed ? 'completed' : ''}`;
-        li.innerHTML = `<span>${todo.text}</span><div class="todo-actions"><i class="fa-solid fa-check check" onclick="toggleTodo(${i})"></i><i class="fa-solid fa-trash delete" onclick="deleteTodo(${i})"></i></div>`;
-        todoListEl.appendChild(li);
-    });
-    localStorage.setItem('geekieTodos', JSON.stringify(todos));
-}
-function addTodo() { const t = document.getElementById('todoInput').value.trim(); if (t) { todos.push({text:t,completed:false}); document.getElementById('todoInput').value=''; addCoins(5); renderTodos(); } }
+function renderTodos() { todoListEl.innerHTML = ''; todos.forEach((todo, i) => { const li = document.createElement('li'); li.className = `todo-item ${todo.completed ? 'completed' : ''}`; li.innerHTML = `<span>${todo.text}</span><div class="todo-actions"><i class="fa-solid fa-check check" onclick="toggleTodo(${i})"></i><i class="fa-solid fa-trash delete" onclick="deleteTodo(${i})"></i></div>`; todoListEl.appendChild(li); }); localStorage.setItem('geekieTodos', JSON.stringify(todos)); }
+function addTodo() { const t = document.getElementById('todoInput').value.trim(); if (t) { todos.push({text:t,completed:false}); document.getElementById('todoInput').value=''; renderTodos(); } }
 function handleTodoKeyPress(e) { if (e.key==='Enter') addTodo(); }
-function toggleTodo(i) { const was = todos[i].completed; todos[i].completed = !todos[i].completed; if (!was && todos[i].completed) addCoins(10); renderTodos(); }
+function toggleTodo(i) { todos[i].completed = !todos[i].completed; renderTodos(); }
 function deleteTodo(i) { todos.splice(i,1); renderTodos(); }
 renderTodos();
 
 // ===================== FLASHCARDS =====================
 let flashcardsData = JSON.parse(localStorage.getItem('geekieFlashcards'));
-if (!flashcardsData || !flashcardsData.length) { flashcardsData = [{ front: 'O que é a Mitocôndria?', back: 'Organela responsável pela respiração celular (energia).' }]; localStorage.setItem('geekieFlashcards', JSON.stringify(flashcardsData)); }
+if (!flashcardsData || !flashcardsData.length) { flashcardsData = [{ front: 'O que \u00e9 a Mitoc\u00f4ndria?', back: 'Organela respons\u00e1vel pela respira\u00e7\u00e3o celular (energia).' }]; localStorage.setItem('geekieFlashcards', JSON.stringify(flashcardsData)); }
 let currentCardIndex = 0;
-const flashcardEl = document.getElementById('flashcard');
-const cardFront = document.getElementById('cardFront');
-const cardBack = document.getElementById('cardBack');
-const cardCounter = document.getElementById('cardCounter');
+const flashcardEl = document.getElementById('flashcard'), cardFront = document.getElementById('cardFront'), cardBack = document.getElementById('cardBack'), cardCounter = document.getElementById('cardCounter');
 function saveFlashcards() { localStorage.setItem('geekieFlashcards', JSON.stringify(flashcardsData)); }
-function updateCardDisplay() {
-    flashcardEl.classList.remove('is-flipped');
-    setTimeout(() => {
-        if (!flashcardsData.length) { cardFront.textContent = 'Nenhum flashcard.'; cardBack.textContent = 'Adicione acima!'; cardCounter.textContent = '0 / 0'; }
-        else { if (currentCardIndex >= flashcardsData.length) currentCardIndex = Math.max(0, flashcardsData.length-1); cardFront.textContent = flashcardsData[currentCardIndex].front; cardBack.textContent = flashcardsData[currentCardIndex].back; cardCounter.textContent = `${currentCardIndex+1} / ${flashcardsData.length}`; }
-    }, 150);
-}
+function updateCardDisplay() { flashcardEl.classList.remove('is-flipped'); setTimeout(() => { if (!flashcardsData.length) { cardFront.textContent = 'Nenhum flashcard.'; cardBack.textContent = 'Adicione acima!'; cardCounter.textContent = '0 / 0'; } else { if (currentCardIndex >= flashcardsData.length) currentCardIndex = Math.max(0, flashcardsData.length-1); cardFront.textContent = flashcardsData[currentCardIndex].front; cardBack.textContent = flashcardsData[currentCardIndex].back; cardCounter.textContent = `${currentCardIndex+1} / ${flashcardsData.length}`; } }, 150); }
 function flipCard() { if (flashcardsData.length) flashcardEl.classList.toggle('is-flipped'); }
 function nextCard() { if (currentCardIndex < flashcardsData.length-1) { currentCardIndex++; updateCardDisplay(); } }
 function prevCard() { if (currentCardIndex > 0) { currentCardIndex--; updateCardDisplay(); } }
-function addFlashcard() {
-    const f = document.getElementById('newCardFront'), b = document.getElementById('newCardBack');
-    if (f.value.trim() && b.value.trim()) { flashcardsData.push({front:f.value.trim(),back:b.value.trim()}); saveFlashcards(); addCoins(5); f.value=''; b.value=''; currentCardIndex=flashcardsData.length-1; updateCardDisplay(); showToast('Flashcard Criado!'); }
-    else alert('Preencha frente e verso!');
-}
-function deleteCurrentCard() {
-    if (!flashcardsData.length) return;
-    if (confirm('Excluir este flashcard?')) { flashcardsData.splice(currentCardIndex,1); saveFlashcards(); if (currentCardIndex >= flashcardsData.length) currentCardIndex = Math.max(0, flashcardsData.length-1); updateCardDisplay(); showToast('Excluído!'); }
-}
+function addFlashcard() { const f = document.getElementById('newCardFront'), b = document.getElementById('newCardBack'); if (f.value.trim() && b.value.trim()) { flashcardsData.push({front:f.value.trim(),back:b.value.trim()}); saveFlashcards(); f.value=''; b.value=''; currentCardIndex=flashcardsData.length-1; updateCardDisplay(); showToast('Flashcard Criado!'); } else alert('Preencha frente e verso!'); }
+function deleteCurrentCard() { if (!flashcardsData.length) return; if (confirm('Excluir este flashcard?')) { flashcardsData.splice(currentCardIndex,1); saveFlashcards(); if (currentCardIndex >= flashcardsData.length) currentCardIndex = Math.max(0, flashcardsData.length-1); updateCardDisplay(); showToast('Exclu\u00eddo!'); } }
 updateCardDisplay();
 
 // ===================== AMBIENT AUDIO =====================
 const audios = { noise: document.getElementById('audio-noise'), rain: document.getElementById('audio-rain') };
 const audioBtns = { noise: document.getElementById('btn-noise'), rain: document.getElementById('btn-rain') };
-function toggleAudio(type) {
-    if (audios[type].paused) { audios[type].play(); audioBtns[type].classList.add('active'); }
-    else { audios[type].pause(); audioBtns[type].classList.remove('active'); }
-}
+function toggleAudio(type) { if (audios[type].paused) { audios[type].play(); audioBtns[type].classList.add('active'); } else { audios[type].pause(); audioBtns[type].classList.remove('active'); } }
 function changeVolume(val) { Object.values(audios).forEach(a => a.volume = val); }
 changeVolume(0.5);
 
 // ===================== COPY CHAR =====================
-function copyChar(char) {
-    const fallback = (t) => {
-        const ta = document.createElement('textarea'); ta.value = t; document.body.appendChild(ta); ta.select();
-        try { document.execCommand('copy'); showToast(`Símbolo ${t} copiado!`); } catch(e) {}
-        document.body.removeChild(ta);
-    };
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(char).then(() => showToast(`Símbolo ${char} copiado!`)).catch(() => fallback(char));
-    } else fallback(char);
-}
+function copyChar(char) { const fallback = (t) => { const ta = document.createElement('textarea'); ta.value = t; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); showToast(`S\u00edmbolo ${t} copiado!`); } catch(e) {} document.body.removeChild(ta); }; if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(char).then(() => showToast(`S\u00edmbolo ${char} copiado!`)).catch(() => fallback(char)); } else fallback(char); }
 </script>
 </body>
 </html>
