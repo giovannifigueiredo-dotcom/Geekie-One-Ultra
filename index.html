@@ -3,178 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Geekie One Ultra v8.1 - Study Hub</title>
+    <title>Geekie One Ultra v9.0 - Study Hub</title>
     <link rel="icon" id="pageIcon" href="https://i.postimg.cc/gcHHYqtC/fire-geekie.png">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&family=Orbitron:wght@400;700&family=Ubuntu:wght@400;500;700&family=Space+Grotesk:wght@400;600;700&family=Rajdhani:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&family=Orbitron:wght@400;700&family=Ubuntu:wght@400;500;700&family=Space+Grotesk:wght@400;600;700&family=Rajdhani:wght@400;600;700&family=JetBrains+Mono:wght@400;600&family=Caveat:wght@400;600;700&family=Patrick+Hand&family=Indie+Flower&family=Shadows+Into+Light&family=Kalam:wght@400;700&family=Architects+Daughter&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <style>
         :root {
-            --primary: #00ff88;
-            --primary-glow: rgba(0, 255, 136, 0.4);
-            --secondary: #7b2cbf;
-            --accent: #00d4ff;
-            --bg-base: #0a0e17;
-            --bg-glass: rgba(16, 22, 38, 0.7);
+            --primary: #00ff88; --primary-glow: rgba(0, 255, 136, 0.4);
+            --secondary: #7b2cbf; --accent: #00d4ff;
+            --bg-base: #0a0e17; --bg-glass: rgba(16, 22, 38, 0.7);
             --bg-glass-hover: rgba(26, 35, 58, 0.9);
-            --text-main: #f0f4f8;
-            --text-muted: #94a3b8;
-            --border: rgba(255, 255, 255, 0.1);
-            --danger: #ff4757;
-            --success: #2ed573;
-            --gold: #ffd700;
+            --text-main: #f0f4f8; --text-muted: #94a3b8;
+            --border: rgba(255, 255, 255, 0.1); --danger: #ff4757;
+            --success: #2ed573; --gold: #ffd700;
             --sidebar-width: 260px;
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        body {
-            background-color: var(--bg-base);
-            color: var(--text-main);
-            height: 100vh;
-            overflow: hidden;
-            display: flex;
-            background-image:
-                radial-gradient(circle at 15% 50%, rgba(123, 44, 191, 0.15), transparent 25%),
-                radial-gradient(circle at 85% 30%, rgba(0, 212, 255, 0.15), transparent 25%);
-        }
+        body { background-color: var(--bg-base); color: var(--text-main); height: 100vh; overflow: hidden; display: flex;
+            background-image: radial-gradient(circle at 15% 50%, rgba(123, 44, 191, 0.15), transparent 25%), radial-gradient(circle at 85% 30%, rgba(0, 212, 255, 0.15), transparent 25%); }
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: var(--bg-base); }
         ::-webkit-scrollbar-thumb { background: var(--secondary); border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
 
-        /* ===== SIDEBAR ===== */
-        .sidebar {
-            width: var(--sidebar-width);
-            background: var(--bg-glass);
-            backdrop-filter: blur(10px);
-            border-right: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-            transition: var(--transition);
-            z-index: 100;
-        }
+        .sidebar { width: var(--sidebar-width); background: var(--bg-glass); backdrop-filter: blur(10px); border-right: 1px solid var(--border); display: flex; flex-direction: column; transition: var(--transition); z-index: 100; }
         .sidebar.collapsed { transform: translateX(-100%); margin-right: calc(var(--sidebar-width) * -1); }
-        .brand {
-            padding: 24px 20px;
-            font-size: 1.2rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border-bottom: 1px solid var(--border);
-            color: var(--primary);
-            text-shadow: 0 0 10px var(--primary-glow);
-        }
+        .brand { padding: 24px 20px; font-size: 1.2rem; font-weight: 700; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--border); color: var(--primary); text-shadow: 0 0 10px var(--primary-glow); }
         .nav-menu { flex: 1; padding: 20px 10px; overflow-y: auto; }
-        .nav-item {
-            display: flex; align-items: center; gap: 15px; padding: 12px 20px;
-            color: var(--text-muted); text-decoration: none; border-radius: 8px;
-            margin-bottom: 5px; cursor: pointer; transition: var(--transition);
-        }
+        .nav-item { display: flex; align-items: center; gap: 15px; padding: 12px 20px; color: var(--text-muted); text-decoration: none; border-radius: 8px; margin-bottom: 5px; cursor: pointer; transition: var(--transition); }
         .nav-item:hover { background: var(--bg-glass-hover); color: var(--text-main); transform: translateX(5px); }
         .nav-item.active { background: linear-gradient(90deg, rgba(0,255,136,0.1), transparent); color: var(--primary); border-left: 3px solid var(--primary); }
         .nav-item i { width: 20px; text-align: center; }
         .nav-item.store-link { color: var(--gold); }
         .nav-item.store-link.active { border-left-color: var(--gold); background: linear-gradient(90deg, rgba(255,215,0,0.1), transparent); }
+        .nav-item.titles-link { color: #a78bfa; }
+        .nav-item.titles-link.active { border-left-color: #a78bfa; background: linear-gradient(90deg, rgba(167,139,250,0.1), transparent); }
 
-        /* ===== MAIN CONTENT ===== */
         .main-content { flex: 1; display: flex; flex-direction: column; position: relative; }
-        .topbar {
-            height: 60px; background: var(--bg-glass); backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border); display: flex;
-            justify-content: space-between; align-items: center; padding: 0 20px;
-        }
-        .btn-icon {
-            background: transparent; border: 1px solid var(--border); color: var(--text-main);
-            width: 40px; height: 40px; border-radius: 8px; cursor: pointer; transition: var(--transition);
-            display: flex; align-items: center; justify-content: center;
-        }
+        .topbar { height: 60px; background: var(--bg-glass); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; padding: 0 20px; }
+        .btn-icon { background: transparent; border: 1px solid var(--border); color: var(--text-main); width: 40px; height: 40px; border-radius: 8px; cursor: pointer; transition: var(--transition); display: flex; align-items: center; justify-content: center; }
         .btn-icon:hover { background: var(--primary); color: var(--bg-base); border-color: var(--primary); box-shadow: 0 0 15px var(--primary-glow); }
         .topbar-right { display: flex; gap: 15px; align-items: center; }
         .clock-widget { font-family: 'Fira Code', monospace; font-weight: 600; color: var(--accent); background: rgba(0, 212, 255, 0.1); padding: 5px 15px; border-radius: 20px; }
-        .xp-display {
-            display: flex; align-items: center; gap: 8px; background: rgba(139, 92, 246, 0.15);
-            border: 1px solid rgba(139, 92, 246, 0.4); color: #a78bfa; padding: 5px 15px;
-            border-radius: 20px; font-weight: 600; font-size: 0.9rem;
-        }
+        .xp-display { display: flex; align-items: center; gap: 8px; background: rgba(139, 92, 246, 0.15); border: 1px solid rgba(139, 92, 246, 0.4); color: #a78bfa; padding: 5px 15px; border-radius: 20px; font-weight: 600; font-size: 0.9rem; cursor: pointer; }
+        .title-display { display: flex; align-items: center; gap: 6px; background: rgba(255,215,0,0.1); border: 1px solid rgba(255,215,0,0.3); color: var(--gold); padding: 5px 12px; border-radius: 20px; font-weight: 600; font-size: 0.8rem; }
 
-        /* ===== TABS ===== */
         .tab-content { flex: 1; display: none; padding: 20px; overflow-y: auto; animation: fadeIn 0.4s ease; }
         .tab-content.active { display: flex; flex-direction: column; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* ===== IFRAME ===== */
-        .iframe-container {
-            flex: 1; border-radius: 12px; overflow: hidden; border: 2px solid var(--border);
-            background: #fff; transition: all 0.3s ease; position: relative;
-        }
-        .iframe-container iframe {
-            width: 100%; height: 100%; border: none; background: #fff;
-            display: block; pointer-events: auto;
-        }
+        .iframe-container { flex: 1; border-radius: 12px; overflow: hidden; border: 2px solid var(--border); background: #fff; transition: all 0.3s ease; position: relative; }
+        .iframe-container iframe { width: 100%; height: 100%; border: none; background: #fff; display: block; pointer-events: auto; }
 
-        /* ===== UBUNTU ANIMATED THEMES ===== */
+        /* Theme Effects */
         .theme-default { border: 2px solid var(--border); box-shadow: none; }
-        .theme-ubuntu-yaru { border: 2px solid #E95420 !important; animation: yaruGlow 4s ease-in-out infinite; }
-        @keyframes yaruGlow {
-            0%,100% { box-shadow: 0 0 20px rgba(233,84,32,0.5), 0 0 60px rgba(233,84,32,0.2); border-color: #E95420; }
-            50% { box-shadow: 0 0 35px rgba(250,140,20,0.6), 0 0 80px rgba(250,140,20,0.3); border-color: #FA8C14; }
-        }
-        .theme-ubuntu-ambiance { border: 2px solid #5C3566 !important; animation: ambianceShift 5s ease-in-out infinite; }
-        @keyframes ambianceShift {
-            0%,100% { box-shadow: 0 0 25px rgba(92,53,102,0.6), inset 0 0 30px rgba(92,53,102,0.1); }
-            33% { box-shadow: 0 0 30px rgba(143,65,179,0.6), inset 0 0 30px rgba(143,65,179,0.1); border-color: #8F41B3; }
-            66% { box-shadow: 0 0 25px rgba(92,53,102,0.5), inset 0 0 20px rgba(92,53,102,0.1); border-color: #5C3566; }
-        }
-        .theme-ubuntu-radiance { border: 2px solid #87B03D !important; animation: radiancePulse 3s ease-in-out infinite; }
-        @keyframes radiancePulse {
-            0%,100% { box-shadow: 0 0 20px rgba(135,176,61,0.5), 0 0 40px rgba(135,176,61,0.15); }
-            50% { box-shadow: 0 0 30px rgba(185,220,80,0.6), 0 0 60px rgba(185,220,80,0.25); border-color: #B9DC50; }
-        }
-        .theme-ubuntu-snap { border: 2px solid #1BA1E2 !important; animation: snapNeon 2.5s linear infinite; }
-        @keyframes snapNeon {
-            0%,100% { box-shadow: 0 0 15px #1BA1E2, 0 0 30px rgba(27,161,226,0.3), inset 0 0 20px rgba(27,161,226,0.05); }
-            50% { box-shadow: 0 0 25px #44CCFF, 0 0 50px rgba(68,204,255,0.4), inset 0 0 30px rgba(68,204,255,0.1); border-color: #44CCFF; }
-        }
-        .theme-ubuntu-dark { border: 2px solid #3C3B37 !important; animation: darkPulse 6s ease-in-out infinite; }
-        @keyframes darkPulse {
-            0%,100% { box-shadow: 0 0 20px rgba(60,59,55,0.8), inset 0 0 40px rgba(255,255,255,0.02); border-color: #3C3B37; }
-            50% { box-shadow: 0 0 35px rgba(100,98,90,0.6), inset 0 0 40px rgba(255,255,255,0.04); border-color: #64625A; }
-        }
-        .theme-ubuntu-frost { border: 2px solid #C8E6FA !important; animation: frostShine 3.5s ease-in-out infinite; }
-        @keyframes frostShine {
-            0%,100% { box-shadow: 0 0 20px rgba(200,230,250,0.4), inset 0 0 40px rgba(200,230,250,0.08); }
-            50% { box-shadow: 0 0 35px rgba(255,255,255,0.6), inset 0 0 50px rgba(200,230,250,0.15); border-color: #fff; }
-        }
-        .theme-ubuntu-sunset { border: 2px solid #F97316 !important; animation: ubuntuSunset 6s linear infinite; }
-        @keyframes ubuntuSunset {
-            0% { border-color: #F97316; box-shadow: 0 0 25px #F97316, 0 0 50px rgba(249,115,22,0.25); }
-            33% { border-color: #EC4899; box-shadow: 0 0 25px #EC4899, 0 0 50px rgba(236,72,153,0.25); }
-            66% { border-color: #8B5CF6; box-shadow: 0 0 25px #8B5CF6, 0 0 50px rgba(139,92,246,0.25); }
-            100% { border-color: #F97316; box-shadow: 0 0 25px #F97316, 0 0 50px rgba(249,115,22,0.25); }
-        }
-        .theme-ubuntu-forest { border: 2px solid #16A34A !important; animation: forestBreath 4s ease-in-out infinite; }
-        @keyframes forestBreath {
-            0%,100% { box-shadow: 0 0 20px rgba(22,163,74,0.4), 0 0 50px rgba(22,163,74,0.1); }
-            50% { box-shadow: 0 0 35px rgba(74,222,128,0.5), 0 0 70px rgba(74,222,128,0.2); border-color: #4ADE80; }
-        }
-        .theme-ubuntu-cosmic { border: 2px solid #6D28D9 !important; animation: cosmicPulse 4s ease-in-out infinite; }
-        @keyframes cosmicPulse {
-            0%,100% { box-shadow: 0 0 20px #6D28D9, 0 0 50px rgba(109,40,217,0.2), inset 0 0 30px rgba(109,40,217,0.05); }
-            50% { box-shadow: 0 0 35px #A78BFA, 0 0 70px rgba(167,139,250,0.3), inset 0 0 40px rgba(167,139,250,0.08); border-color: #A78BFA; }
-        }
-        .theme-ubuntu-fire { border: 2px solid #EF4444 !important; animation: ubuntuFire 1.8s ease-in-out infinite; }
-        @keyframes ubuntuFire {
-            0%,100% { box-shadow: 0 0 20px #EF4444, 0 0 50px rgba(239,68,68,0.2); }
-            33% { box-shadow: 0 0 30px #F97316, 0 0 70px rgba(249,115,22,0.3); border-color: #F97316; }
-            66% { box-shadow: 0 0 25px #FBBF24, 0 0 60px rgba(251,191,36,0.25); border-color: #FBBF24; }
-        }
+        .theme-ubuntu-yaru { border: 2px solid #E95420 !important; animation: yaruGlow 4s ease-in-out infinite, yaruShake 8s ease-in-out infinite; }
+        @keyframes yaruGlow { 0%,100% { box-shadow: 0 0 20px rgba(233,84,32,0.5), 0 0 60px rgba(233,84,32,0.2); border-color: #E95420; } 50% { box-shadow: 0 0 35px rgba(250,140,20,0.6), 0 0 80px rgba(250,140,20,0.3); border-color: #FA8C14; } }
+        @keyframes yaruShake { 0%,90%,100% { transform: translateX(0); } 92% { transform: translateX(-3px) rotate(-0.5deg); } 94% { transform: translateX(3px) rotate(0.5deg); } 96% { transform: translateX(-2px) rotate(-0.3deg); } 98% { transform: translateX(2px) rotate(0.3deg); } }
 
-        /* ===== WALLPAPER ===== */
+        .theme-ubuntu-ambiance { border: 2px solid #5C3566 !important; animation: ambianceShift 5s ease-in-out infinite, ambianceFloat 6s ease-in-out infinite; }
+        @keyframes ambianceShift { 0%,100% { box-shadow: 0 0 25px rgba(92,53,102,0.6), inset 0 0 30px rgba(92,53,102,0.1); } 33% { box-shadow: 0 0 30px rgba(143,65,179,0.6), inset 0 0 30px rgba(143,65,179,0.1); border-color: #8F41B3; } 66% { box-shadow: 0 0 25px rgba(92,53,102,0.5), inset 0 0 20px rgba(92,53,102,0.1); border-color: #5C3566; } }
+        @keyframes ambianceFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+
+        .theme-ubuntu-radiance { border: 2px solid #87B03D !important; animation: radiancePulse 3s ease-in-out infinite, radianceScale 5s ease-in-out infinite; }
+        @keyframes radiancePulse { 0%,100% { box-shadow: 0 0 20px rgba(135,176,61,0.5), 0 0 40px rgba(135,176,61,0.15); } 50% { box-shadow: 0 0 30px rgba(185,220,80,0.6), 0 0 60px rgba(185,220,80,0.25); border-color: #B9DC50; } }
+        @keyframes radianceScale { 0%,100% { transform: scale(1); } 50% { transform: scale(1.003); } }
+
+        .theme-ubuntu-snap { border: 2px solid #1BA1E2 !important; animation: snapNeon 2.5s linear infinite, snapGlitch 10s ease-in-out infinite; }
+        @keyframes snapNeon { 0%,100% { box-shadow: 0 0 15px #1BA1E2, 0 0 30px rgba(27,161,226,0.3); } 50% { box-shadow: 0 0 25px #44CCFF, 0 0 50px rgba(68,204,255,0.4); border-color: #44CCFF; } }
+        @keyframes snapGlitch { 0%,95%,100% { transform: translate(0); filter: none; } 96% { transform: translate(-2px, 1px); filter: hue-rotate(90deg); } 97% { transform: translate(2px, -1px); filter: hue-rotate(-90deg); } 98% { transform: translate(-1px, -1px); filter: hue-rotate(45deg); } }
+
+        .theme-ubuntu-dark { border: 2px solid #3C3B37 !important; animation: darkPulse 6s ease-in-out infinite; }
+        @keyframes darkPulse { 0%,100% { box-shadow: 0 0 20px rgba(60,59,55,0.8), inset 0 0 40px rgba(255,255,255,0.02); border-color: #3C3B37; } 50% { box-shadow: 0 0 35px rgba(100,98,90,0.6), inset 0 0 40px rgba(255,255,255,0.04); border-color: #64625A; } }
+
+        .theme-ubuntu-frost { border: 2px solid #C8E6FA !important; animation: frostShine 3.5s ease-in-out infinite, frostSway 7s ease-in-out infinite; }
+        @keyframes frostShine { 0%,100% { box-shadow: 0 0 20px rgba(200,230,250,0.4), inset 0 0 40px rgba(200,230,250,0.08); } 50% { box-shadow: 0 0 35px rgba(255,255,255,0.6), inset 0 0 50px rgba(200,230,250,0.15); border-color: #fff; } }
+        @keyframes frostSway { 0%,100% { transform: rotate(0deg); } 25% { transform: rotate(0.3deg); } 75% { transform: rotate(-0.3deg); } }
+
+        .theme-ubuntu-sunset { border: 2px solid #F97316 !important; animation: ubuntuSunset 6s linear infinite, sunsetWave 4s ease-in-out infinite; }
+        @keyframes ubuntuSunset { 0% { border-color: #F97316; box-shadow: 0 0 25px #F97316; } 33% { border-color: #EC4899; box-shadow: 0 0 25px #EC4899; } 66% { border-color: #8B5CF6; box-shadow: 0 0 25px #8B5CF6; } 100% { border-color: #F97316; box-shadow: 0 0 25px #F97316; } }
+        @keyframes sunsetWave { 0%,100% { transform: perspective(800px) rotateX(0deg); } 50% { transform: perspective(800px) rotateX(0.5deg); } }
+
+        .theme-ubuntu-forest { border: 2px solid #16A34A !important; animation: forestBreath 4s ease-in-out infinite; }
+        @keyframes forestBreath { 0%,100% { box-shadow: 0 0 20px rgba(22,163,74,0.4), 0 0 50px rgba(22,163,74,0.1); } 50% { box-shadow: 0 0 35px rgba(74,222,128,0.5), 0 0 70px rgba(74,222,128,0.2); border-color: #4ADE80; } }
+
+        .theme-ubuntu-cosmic { border: 2px solid #6D28D9 !important; animation: cosmicPulse 4s ease-in-out infinite, cosmicSpin 20s linear infinite; }
+        @keyframes cosmicPulse { 0%,100% { box-shadow: 0 0 20px #6D28D9, 0 0 50px rgba(109,40,217,0.2); } 50% { box-shadow: 0 0 35px #A78BFA, 0 0 70px rgba(167,139,250,0.3); border-color: #A78BFA; } }
+        @keyframes cosmicSpin { 0% { filter: hue-rotate(0deg); } 100% { filter: hue-rotate(360deg); } }
+
+        .theme-ubuntu-fire { border: 2px solid #EF4444 !important; animation: ubuntuFire 1.8s ease-in-out infinite, fireShake 0.15s ease-in-out infinite; }
+        @keyframes ubuntuFire { 0%,100% { box-shadow: 0 0 20px #EF4444; } 33% { box-shadow: 0 0 30px #F97316; border-color: #F97316; } 66% { box-shadow: 0 0 25px #FBBF24; border-color: #FBBF24; } }
+        @keyframes fireShake { 0% { transform: translate(0, 0); } 25% { transform: translate(0.5px, -0.5px); } 50% { transform: translate(-0.5px, 0.5px); } 75% { transform: translate(0.5px, 0.5px); } 100% { transform: translate(0, 0); } }
+
         .wallpaper-wrap { position: absolute; inset: 0; z-index: 0; overflow: hidden; border-radius: 10px; pointer-events: none; }
         .wallpaper-canvas { width: 100%; height: 100%; display: block; }
 
-        /* ===== CARDS & WIDGETS ===== */
         .grid-dashboard { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
         .glass-card { background: var(--bg-glass); border: 1px solid var(--border); border-radius: 12px; padding: 20px; backdrop-filter: blur(10px); }
         .glass-card h3 { margin-bottom: 15px; color: var(--accent); display: flex; align-items: center; gap: 10px; }
@@ -188,20 +112,20 @@
         .store-item:hover { border-color: var(--accent); transform: translateY(-5px); }
         .store-item i.preview-icon { font-size: 3rem; color: var(--text-muted); margin-bottom: 10px; }
 
-        /* Pomodoro */
         .timer-display { font-size: 4rem; font-family: 'Fira Code', monospace; text-align: center; margin: 20px 0; font-weight: 700; color: var(--text-main); text-shadow: 0 0 20px rgba(255,255,255,0.2); }
         .timer-controls { display: flex; justify-content: center; gap: 10px; }
         .pomodoro-stats { text-align: center; margin-top: 15px; font-size: 0.9rem; color: var(--text-muted); }
         .todo-input-group { display: flex; gap: 10px; margin-bottom: 15px; }
         input[type="text"] { flex: 1; background: rgba(0,0,0,0.2); border: 1px solid var(--border); color: white; padding: 10px 15px; border-radius: 8px; outline: none; transition: border-color 0.3s; }
         input[type="text"]:focus { border-color: var(--primary); }
-        .todo-list { list-style: none; max-height: 300px; overflow-y: auto; }
+        .todo-list { list-style: none; max-height: 400px; overflow-y: auto; }
         .todo-item { display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.05); padding: 10px 15px; border-radius: 8px; margin-bottom: 8px; transition: var(--transition); }
         .todo-item.completed span { text-decoration: line-through; color: var(--text-muted); }
         .todo-actions { display: flex; gap: 10px; }
         .todo-actions i { cursor: pointer; transition: color 0.2s; }
         .todo-actions .check { color: var(--success); }
         .todo-actions .delete { color: var(--danger); }
+
         .flashcard-container { perspective: 1000px; height: 300px; width: 100%; max-width: 500px; margin: 0 auto 20px; }
         .flashcard { width: 100%; height: 100%; position: relative; transition: transform 0.6s; transform-style: preserve-3d; cursor: pointer; }
         .flashcard.is-flipped { transform: rotateY(180deg); }
@@ -209,39 +133,56 @@
         .card-front { background: linear-gradient(135deg, var(--bg-glass), rgba(123, 44, 191, 0.2)); color: var(--primary); }
         .card-back { background: linear-gradient(135deg, var(--bg-glass), rgba(0, 212, 255, 0.2)); transform: rotateY(180deg); }
         .flashcard-controls { display: flex; justify-content: center; gap: 15px; }
-        .ambient-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .ambient-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--border); padding: 15px; border-radius: 8px; color: white; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 10px; transition: var(--transition); }
-        .ambient-btn:hover { background: rgba(255,255,255,0.1); border-color: var(--accent); }
-        .ambient-btn.active { background: rgba(0, 212, 255, 0.2); border-color: var(--accent); color: var(--accent); }
-        .ambient-btn i { font-size: 1.5rem; }
+
+        /* Ambient Sounds - Enhanced */
+        .ambient-grid-v2 { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
+        .ambient-card { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 20px 15px; border-radius: 12px; cursor: pointer; text-align: center; transition: var(--transition); position: relative; overflow: hidden; }
+        .ambient-card:hover { background: rgba(255,255,255,0.08); border-color: var(--accent); transform: translateY(-3px); }
+        .ambient-card.playing { background: rgba(0, 212, 255, 0.15); border-color: var(--accent); }
+        .ambient-card.playing::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: var(--accent); animation: ambientBar 1.5s ease-in-out infinite; }
+        @keyframes ambientBar { 0%,100% { opacity: 0.4; } 50% { opacity: 1; } }
+        .ambient-card .ambient-icon { font-size: 2rem; margin-bottom: 8px; display: block; }
+        .ambient-card .ambient-label { font-size: 0.85rem; color: var(--text-muted); }
+        .ambient-card.playing .ambient-label { color: var(--accent); }
+        .ambient-mixer { margin-top: 20px; }
+        .ambient-mixer-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .ambient-mixer-row span { min-width: 100px; font-size: 0.85rem; color: var(--text-muted); }
+        .ambient-mixer-row input[type="range"] { flex: 1; accent-color: var(--accent); }
+        .ambient-mixer-row .vol-value { min-width: 35px; text-align: right; font-size: 0.8rem; color: var(--accent); font-family: 'Fira Code', monospace; }
+
         .char-category { font-size: 1.1rem; color: var(--primary); margin: 25px 0 10px 0; border-bottom: 1px solid var(--border); padding-bottom: 5px; }
         .char-category:first-of-type { margin-top: 10px; }
         .char-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); gap: 10px; margin-bottom: 20px; }
         .char-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 8px; font-size: 1.4rem; color: var(--text-main); cursor: pointer; transition: var(--transition); height: 60px; display: flex; align-items: center; justify-content: center; font-family: 'Fira Code', monospace; }
         .char-btn:hover { background: rgba(0, 212, 255, 0.2); border-color: var(--accent); color: var(--accent); transform: scale(1.05); }
+
         .notes-toolbar { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; align-items: center; }
         .note-select { background: rgba(0,0,0,0.4); color: white; border: 1px solid var(--border); padding: 10px; border-radius: 8px; flex: 1; min-width: 200px; outline: none; }
         .note-select option { background: #0a0e17; color: white; }
         .note-title-input { width: 100%; background: rgba(0,0,0,0.2); border: 1px solid var(--border); color: var(--primary); padding: 10px 15px; border-radius: 8px; outline: none; margin-bottom: 10px; font-size: 1.2rem; font-weight: bold; transition: var(--transition); }
         .note-title-input:focus { border-color: var(--primary); }
-        .note-editor { width: 100%; min-height: 400px; background: rgba(0,0,0,0.2); border: 1px solid var(--border); color: var(--text-main); padding: 15px; border-radius: 8px; resize: vertical; outline: none; font-family: inherit; transition: var(--transition); line-height: 1.6; }
+        .note-editor { width: 100%; min-height: 400px; background: rgba(0,0,0,0.2); border: 1px solid var(--border); color: var(--text-main); padding: 15px; border-radius: 8px; resize: vertical; outline: none; transition: var(--transition); line-height: 1.6; }
         .note-editor:focus { border-color: var(--accent); }
+        .note-font-picker { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+        .note-font-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--border); padding: 6px 12px; border-radius: 6px; color: var(--text-muted); cursor: pointer; font-size: 0.8rem; transition: var(--transition); }
+        .note-font-btn:hover { border-color: var(--accent); color: var(--accent); }
+        .note-font-btn.active { border-color: var(--primary); color: var(--primary); background: rgba(0,255,136,0.1); }
+
         .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--success); color: var(--bg-base); padding: 12px 24px; border-radius: 8px; font-weight: bold; opacity: 0; transition: all 0.3s ease; z-index: 9999; box-shadow: 0 5px 15px rgba(0,0,0,0.3); display: flex; align-items: center; gap: 10px; }
         .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
         .timeline { border-left: 3px solid rgba(0, 255, 136, 0.3); margin-left: 20px; padding-left: 30px; position: relative; }
         .timeline-item { position: relative; margin-bottom: 30px; background: rgba(255, 255, 255, 0.03); padding: 20px; border-radius: 10px; border: 1px solid var(--border); transition: var(--transition); }
         .timeline-item:hover { border-color: var(--primary-glow); transform: translateX(5px); }
         .timeline-item::before { content: ''; width: 16px; height: 16px; background: var(--primary); border-radius: 50%; position: absolute; left: -39px; top: 25px; box-shadow: 0 0 10px var(--primary-glow); }
         .timeline-item.old-version::before { background: var(--text-muted); box-shadow: none; }
-        .timeline-item.old-version { border-color: transparent; }
         .version-header { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; flex-wrap: wrap; }
         .version-tag { background: rgba(0, 255, 136, 0.15); color: var(--primary); padding: 4px 10px; border-radius: 6px; font-family: 'Fira Code', monospace; font-weight: 600; font-size: 0.9rem; }
         .version-date { color: var(--text-muted); font-size: 0.85rem; }
         .timeline-item ul { list-style: none; padding-left: 10px; }
         .timeline-item ul li { margin-bottom: 8px; position: relative; padding-left: 20px; color: #d1d5db; }
         .timeline-item ul li::before { content: '>'; position: absolute; left: 0; color: var(--accent); font-family: 'Fira Code', monospace; font-weight: bold; }
-        .title-settings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        @media (max-width: 700px) { .title-settings-grid { grid-template-columns: 1fr; } }
+
         .title-preview-box { background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: 10px; padding: 20px; text-align: center; min-height: 80px; display: flex; align-items: center; justify-content: center; gap: 12px; font-size: 1.4rem; font-weight: 700; color: var(--primary); }
         .font-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px; margin-top: 10px; }
         .font-option { background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 8px; padding: 12px; cursor: pointer; text-align: center; transition: var(--transition); }
@@ -253,6 +194,7 @@
         .icon-option:hover { border-color: var(--accent); color: var(--accent); }
         .icon-option.selected { border-color: var(--primary); color: var(--primary); background: rgba(0,255,136,0.1); }
         .section-label { font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+
         .event-banner { background: linear-gradient(135deg, var(--event-color-a, #E95420), var(--event-color-b, #7b2cbf)); border-radius: 12px; padding: 20px; margin-bottom: 20px; display: flex; align-items: center; gap: 16px; position: relative; overflow: hidden; }
         .event-banner::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(255,255,255,0.03) 20px, rgba(255,255,255,0.03) 21px); }
         .event-banner-icon { font-size: 3rem; z-index: 1; }
@@ -273,8 +215,23 @@
         .xp-tier-card p { font-size: 0.8rem; color: var(--text-muted); }
         .xp-tier-badge { display: inline-block; background: rgba(0,255,136,0.15); color: var(--primary); font-size: 0.75rem; padding: 2px 8px; border-radius: 10px; margin-bottom: 6px; }
         .locked-badge { display: inline-block; background: rgba(148,163,184,0.15); color: var(--text-muted); font-size: 0.75rem; padding: 2px 8px; border-radius: 10px; margin-bottom: 6px; }
+
+        /* Titles System */
+        .titles-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 15px; }
+        .title-card { background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: 12px; padding: 20px; transition: var(--transition); position: relative; overflow: hidden; }
+        .title-card.unlocked { border-color: var(--gold); }
+        .title-card.unlocked::before { content: ''; position: absolute; top: -2px; left: -2px; right: -2px; bottom: -2px; background: linear-gradient(45deg, transparent, rgba(255,215,0,0.1), transparent); border-radius: 12px; z-index: 0; }
+        .title-card.locked { opacity: 0.5; }
+        .title-card.equipped { border-color: var(--primary); box-shadow: 0 0 20px rgba(0,255,136,0.2); }
+        .title-card-inner { position: relative; z-index: 1; }
+        .title-card .title-name { font-size: 1.1rem; font-weight: 700; color: var(--gold); margin-bottom: 4px; }
+        .title-card .title-desc { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px; }
+        .title-card .title-xp-req { font-size: 0.75rem; color: var(--accent); }
+        .title-card .title-reward { font-size: 0.75rem; color: var(--primary); margin-top: 4px; }
+
         .w-full { width: 100%; }
         .mt-4 { margin-top: 1rem; }
+
         .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 9000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
         .modal-overlay.open { display: flex; }
         .modal-box { background: #0f1623; border: 1px solid var(--border); border-radius: 16px; padding: 30px; max-width: 480px; width: 90%; position: relative; animation: fadeIn 0.3s ease; }
@@ -283,18 +240,20 @@
         .modal-close:hover { color: var(--danger); }
     </style>
 </head>
+
 <body>
-<!-- SIDEBAR -->
 <aside class="sidebar" id="sidebar">
     <div class="brand">
         <i class="fa-solid fa-graduation-cap"></i>
-        Geekie Ultra <span style="font-size:0.6em; background:var(--primary); color:#000; padding:2px 5px; border-radius:4px; margin-left:auto;">v8.1</span>
+        Geekie Ultra <span style="font-size:0.6em; background:var(--primary); color:#000; padding:2px 5px; border-radius:4px; margin-left:auto;">v9.0</span>
     </div>
     <nav class="nav-menu">
         <div class="nav-item active" onclick="switchTab('tab-geekie', this)"><i class="fa-solid fa-book-open"></i> Portal Geekie</div>
         <div class="nav-item" onclick="switchTab('tab-notes', this)"><i class="fa-solid fa-book-journal-whills"></i> Bloco de Notas</div>
         <div class="nav-item store-link" onclick="switchTab('tab-store', this)"><i class="fa-solid fa-store"></i> Loja de Temas</div>
-        <div class="nav-item" onclick="switchTab('tab-focus', this)"><i class="fa-solid fa-stopwatch"></i> Foco & Tarefas</div>
+        <div class="nav-item titles-link" onclick="switchTab('tab-titles', this)"><i class="fa-solid fa-crown"></i> Títulos</div>
+        <div class="nav-item" onclick="switchTab('tab-timer', this)"><i class="fa-solid fa-stopwatch"></i> Pomodoro Timer</div>
+        <div class="nav-item" onclick="switchTab('tab-goals', this)"><i class="fa-solid fa-list-check"></i> Metas de Estudo</div>
         <div class="nav-item" onclick="switchTab('tab-flashcards', this)"><i class="fa-solid fa-clone"></i> Flashcards</div>
         <div class="nav-item" onclick="switchTab('tab-ambient', this)"><i class="fa-solid fa-headphones"></i> Sons Ambiente</div>
         <div class="nav-item" onclick="switchTab('tab-chars', this)"><i class="fa-solid fa-keyboard"></i> Caracteres Úteis</div>
@@ -308,18 +267,21 @@
     <header class="topbar">
         <button class="btn-icon" id="toggleSidebar" title="Alternar Menu"><i class="fa-solid fa-bars"></i></button>
         <div class="topbar-right">
-            <div class="xp-display" id="xpContainer" title="Seu XP Geekie (ganho pelo tempo de estudo)"><i class="fa-solid fa-star"></i> <span id="xpCount">0</span> XP</div>
+            <div class="title-display" id="playerTitleDisplay" title="Seu Título"><i class="fa-solid fa-crown"></i> <span id="playerTitleText">Novato</span></div>
+            <div class="xp-display" id="xpContainer" title="Seu XP Geekie"><i class="fa-solid fa-star"></i> <span id="xpCount">0</span> XP</div>
             <div class="clock-widget" id="realTimeClock">00:00:00</div>
             <button class="btn-icon" id="btnZenMode" title="Modo Zen" onclick="toggleZenMode()"><i class="fa-solid fa-expand"></i></button>
         </div>
     </header>
 
+    <!-- TAB: GEEKIE -->
     <section id="tab-geekie" class="tab-content active" style="padding: 20px;">
         <div class="iframe-container theme-default" id="geekieIframeContainer">
             <iframe id="geekieIframe" src="https://dx1website.pages.dev/resumao/geekieoneplus/" title="Geekie One Portal" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation"></iframe>
         </div>
     </section>
 
+    <!-- TAB: NOTES -->
     <section id="tab-notes" class="tab-content">
         <div class="glass-card w-full" style="max-width: 1000px; margin: 0 auto; display: flex; flex-direction: column; height: 100%;">
             <h3 style="color: var(--accent);"><i class="fa-solid fa-book-journal-whills"></i> Bloco de Notas</h3>
@@ -328,49 +290,90 @@
                 <button class="btn btn-primary" onclick="saveNote()"><i class="fa-solid fa-floppy-disk"></i> Salvar</button>
                 <button class="btn btn-outline" style="color:var(--danger); border-color:var(--danger);" onclick="deleteNote()"><i class="fa-solid fa-trash"></i></button>
             </div>
-            <div class="notes-toolbar" style="margin-bottom: 20px; gap: 8px;">
+            <div class="notes-toolbar" style="margin-bottom: 10px; gap: 8px;">
                 <button class="btn btn-outline" onclick="copyNoteContent()"><i class="fa-solid fa-copy"></i> Copiar</button>
                 <button class="btn btn-outline" onclick="pasteNoteContent()"><i class="fa-solid fa-paste"></i> Colar</button>
                 <button class="btn btn-outline" onclick="exportNote()"><i class="fa-solid fa-file-export"></i> Exportar (.txt)</button>
                 <label class="btn btn-outline" style="cursor: pointer; margin: 0;"><i class="fa-solid fa-file-import"></i> Importar <input type="file" id="importNoteFile" accept=".txt" style="display: none;" onchange="importNote(event)"></label>
             </div>
+            <div class="section-label">Fonte do Editor</div>
+            <div class="note-font-picker" id="noteFontPicker"></div>
             <input type="text" id="noteTitle" class="note-title-input" placeholder="Título da Anotação">
             <textarea id="noteContent" class="note-editor" placeholder="Digite suas anotações aqui..."></textarea>
         </div>
     </section>
 
+    <!-- TAB: STORE -->
     <section id="tab-store" class="tab-content">
         <div class="glass-card w-full" style="max-width: 900px; margin: 0 auto;">
             <h3 style="color: var(--gold);"><i class="fa-solid fa-store"></i> Loja de Temas Ubuntu</h3>
-            <p style="color: var(--text-muted); margin-bottom: 20px;">Temas com wallpapers animados inspirados no estilo visual do Ubuntu. Desbloqueie com seu XP de estudo!</p>
+            <p style="color: var(--text-muted); margin-bottom: 20px;">Temas com efeitos especiais animados. Desbloqueie com seu XP de estudo!</p>
             <div class="grid-dashboard mt-4" id="storeGrid"></div>
         </div>
     </section>
 
-    <section id="tab-focus" class="tab-content">
-        <div class="grid-dashboard">
-            <div class="glass-card">
-                <h3><i class="fa-solid fa-brain"></i> Pomodoro Inteligente</h3>
-                <p style="text-align:center; color: var(--text-muted);" id="timerMode">Modo: Foco (25 min)</p>
-                <div class="timer-display" id="timerDisplay">25:00</div>
-                <div class="timer-controls">
-                    <button class="btn btn-primary" id="btnStartTimer" onclick="startTimer()"><i class="fa-solid fa-play"></i> Iniciar</button>
-                    <button class="btn btn-outline" onclick="pauseTimer()"><i class="fa-solid fa-pause"></i></button>
-                    <button class="btn btn-outline" onclick="resetTimer()"><i class="fa-solid fa-rotate-right"></i></button>
-                </div>
-                <div class="pomodoro-stats">Ciclos concluídos hoje: <strong id="pomodoroCount" style="color:var(--primary)">0</strong></div>
+    <!-- TAB: TITLES -->
+    <section id="tab-titles" class="tab-content">
+        <div class="glass-card w-full" style="max-width: 900px; margin: 0 auto;">
+            <h3 style="color: var(--gold);"><i class="fa-solid fa-crown"></i> Sistema de Títulos</h3>
+            <p style="color: var(--text-muted); margin-bottom: 8px;">Conquiste títulos com seu XP de estudo! Cada título desbloqueia recompensas exclusivas.</p>
+            <div style="background: rgba(139,92,246,0.1); border: 1px solid rgba(139,92,246,0.3); border-radius: 10px; padding: 15px; margin-bottom: 20px; display: flex; align-items: center; gap: 12px;">
+                <i class="fa-solid fa-star" style="font-size: 1.5rem; color: #a78bfa;"></i>
+                <div><span style="font-size: 0.85rem; color: var(--text-muted);">Seu XP atual:</span><br><strong style="font-size: 1.3rem; color: #a78bfa;" id="titlesXpDisplay">0</strong></div>
             </div>
-            <div class="glass-card">
-                <h3><i class="fa-solid fa-list-check"></i> Metas de Estudo</h3>
-                <div class="todo-input-group">
-                    <input type="text" id="todoInput" placeholder="Ex: Ler capítulo 4 de Biologia" onkeypress="handleTodoKeyPress(event)">
-                    <button class="btn btn-primary" onclick="addTodo()"><i class="fa-solid fa-plus"></i></button>
+            <div class="titles-grid" id="titlesGrid"></div>
+        </div>
+    </section>
+
+    <!-- TAB: TIMER (separated) -->
+    <section id="tab-timer" class="tab-content">
+        <div class="glass-card" style="max-width: 500px; margin: 0 auto; width: 100%;">
+            <h3><i class="fa-solid fa-brain"></i> Pomodoro Inteligente</h3>
+            <p style="text-align:center; color: var(--text-muted);" id="timerMode">Modo: Foco (25 min)</p>
+            <div class="timer-display" id="timerDisplay">25:00</div>
+            <div class="timer-controls">
+                <button class="btn btn-primary" id="btnStartTimer" onclick="startTimer()"><i class="fa-solid fa-play"></i> Iniciar</button>
+                <button class="btn btn-outline" onclick="pauseTimer()"><i class="fa-solid fa-pause"></i></button>
+                <button class="btn btn-outline" onclick="resetTimer()"><i class="fa-solid fa-rotate-right"></i></button>
+            </div>
+            <div class="pomodoro-stats">Ciclos concluídos hoje: <strong id="pomodoroCount" style="color:var(--primary)">0</strong></div>
+            <div style="margin-top: 20px; text-align: center;">
+                <div class="section-label">Tempo Personalizado</div>
+                <div style="display:flex;gap:10px;justify-content:center;margin-top:8px;flex-wrap:wrap;">
+                    <button class="btn btn-outline" onclick="setCustomTimer(15)" style="font-size:0.85rem;">15 min</button>
+                    <button class="btn btn-outline" onclick="setCustomTimer(25)" style="font-size:0.85rem;">25 min</button>
+                    <button class="btn btn-outline" onclick="setCustomTimer(45)" style="font-size:0.85rem;">45 min</button>
+                    <button class="btn btn-outline" onclick="setCustomTimer(60)" style="font-size:0.85rem;">60 min</button>
                 </div>
-                <ul class="todo-list" id="todoList"></ul>
             </div>
         </div>
     </section>
 
+    <!-- TAB: GOALS (separated) -->
+    <section id="tab-goals" class="tab-content">
+        <div class="glass-card" style="max-width: 600px; margin: 0 auto; width: 100%;">
+            <h3><i class="fa-solid fa-list-check"></i> Metas de Estudo</h3>
+            <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;">
+                <button class="btn btn-outline" onclick="filterTodos('all')" style="font-size:0.8rem;"><i class="fa-solid fa-list"></i> Todas</button>
+                <button class="btn btn-outline" onclick="filterTodos('pending')" style="font-size:0.8rem;"><i class="fa-solid fa-clock"></i> Pendentes</button>
+                <button class="btn btn-outline" onclick="filterTodos('done')" style="font-size:0.8rem;"><i class="fa-solid fa-check"></i> Concluídas</button>
+            </div>
+            <div class="todo-input-group">
+                <input type="text" id="todoInput" placeholder="Ex: Ler capítulo 4 de Biologia" onkeypress="handleTodoKeyPress(event)">
+                <button class="btn btn-primary" onclick="addTodo()"><i class="fa-solid fa-plus"></i></button>
+            </div>
+            <ul class="todo-list" id="todoList"></ul>
+            <div style="margin-top: 15px; text-align: center; padding: 10px; background: rgba(0,0,0,0.2); border-radius: 8px;">
+                <span style="color:var(--text-muted); font-size: 0.85rem;">Progresso: </span>
+                <strong id="todoProgress" style="color:var(--primary);">0/0</strong>
+                <div style="margin-top:8px; background: rgba(255,255,255,0.1); border-radius: 10px; height: 8px; overflow: hidden;">
+                    <div id="todoProgressBar" style="height: 100%; background: var(--primary); border-radius: 10px; transition: width 0.5s ease; width: 0%;"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TAB: FLASHCARDS -->
     <section id="tab-flashcards" class="tab-content">
         <div class="glass-card" style="max-width: 800px; margin: 0 auto; width: 100%;">
             <h3><i class="fa-solid fa-bolt"></i> Revisão Ativa (Flashcards)</h3>
@@ -400,20 +403,31 @@
         </div>
     </section>
 
+    <!-- TAB: AMBIENT SOUNDS (ENHANCED) -->
     <section id="tab-ambient" class="tab-content">
-        <div class="glass-card" style="max-width: 600px; margin: 0 auto; width: 100%;">
-            <h3><i class="fa-solid fa-wave-square"></i> Frequências de Foco</h3>
-            <p style="margin-bottom: 20px; color: var(--text-muted);">Áudios contínuos para bloquear distrações.</p>
-            <div class="ambient-grid">
-                <button class="ambient-btn" id="btn-noise" onclick="toggleAudio('noise')"><i class="fa-solid fa-water"></i> Ruído Marrom (TDAH)</button>
-                <button class="ambient-btn" id="btn-rain" onclick="toggleAudio('rain')"><i class="fa-solid fa-cloud-rain"></i> Chuva Suave</button>
+        <div class="glass-card" style="max-width: 700px; margin: 0 auto; width: 100%;">
+            <h3><i class="fa-solid fa-headphones"></i> Sons Ambiente</h3>
+            <p style="margin-bottom: 8px; color: var(--text-muted);">Crie seu ambiente sonoro perfeito. Combine múltiplos sons e ajuste volumes individualmente.</p>
+            <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;">
+                <button class="btn btn-outline" onclick="stopAllAmbient()" style="font-size:0.8rem; color:var(--danger); border-color:var(--danger);"><i class="fa-solid fa-stop"></i> Parar Tudo</button>
+                <button class="btn btn-outline" onclick="presetRelax()" style="font-size:0.8rem;"><i class="fa-solid fa-spa"></i> Preset: Relaxar</button>
+                <button class="btn btn-outline" onclick="presetFocus()" style="font-size:0.8rem;"><i class="fa-solid fa-brain"></i> Preset: Foco</button>
+                <button class="btn btn-outline" onclick="presetNature()" style="font-size:0.8rem;"><i class="fa-solid fa-leaf"></i> Preset: Natureza</button>
             </div>
-            <audio id="audio-noise" loop preload="none"><source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_24a56d9595.mp3?filename=brown-noise-9005.mp3" type="audio/mpeg"></audio>
-            <audio id="audio-rain" loop preload="none"><source src="https://cdn.pixabay.com/download/audio/2021/08/04/audio_0625c1539c.mp3?filename=light-rain-109591.mp3" type="audio/mpeg"></audio>
-            <div class="mt-4" style="text-align: center;"><label>Volume: </label><input type="range" min="0" max="1" step="0.1" value="0.5" onchange="changeVolume(this.value)" style="vertical-align: middle;"></div>
+            <div class="ambient-grid-v2" id="ambientGrid"></div>
+            <div class="ambient-mixer" id="ambientMixer">
+                <div class="section-label" style="margin-top:16px;">Mixer Individual</div>
+                <div id="ambientMixerRows"></div>
+            </div>
+            <div class="mt-4" style="text-align:center;">
+                <label style="color:var(--text-muted);font-size:0.85rem;">Volume Master: </label>
+                <input type="range" min="0" max="1" step="0.05" value="0.5" id="masterVolume" onchange="changeMasterVolume(this.value)" style="vertical-align:middle; accent-color: var(--accent); width: 200px;">
+                <span id="masterVolLabel" style="color:var(--accent); font-family:'Fira Code',monospace; font-size:0.8rem; margin-left:8px;">50%</span>
+            </div>
         </div>
     </section>
 
+    <!-- TAB: CHARS -->
     <section id="tab-chars" class="tab-content">
         <div class="glass-card w-full" style="max-width: 900px; margin: 0 auto;">
             <h3><i class="fa-solid fa-keyboard"></i> Teclado de Caracteres Úteis</h3>
@@ -440,12 +454,13 @@
         </div>
     </section>
 
+    <!-- TAB: TITLE SETTINGS -->
     <section id="tab-title" class="tab-content">
         <div class="glass-card w-full" style="max-width: 900px; margin: 0 auto;">
             <h3><i class="fa-solid fa-pen-nib"></i> Personalizar Título da Página</h3>
             <p style="color: var(--text-muted); margin-bottom: 20px;">Altere o nome, ícone e a fonte exibidos na aba do navegador.</p>
             <div class="section-label">Preview</div>
-            <div class="title-preview-box" id="titlePreviewBox"><i id="previewIconEl" class="fa-solid fa-graduation-cap"></i><span id="previewNameEl">Geekie One Ultra v8.1</span></div>
+            <div class="title-preview-box" id="titlePreviewBox"><i id="previewIconEl" class="fa-solid fa-graduation-cap"></i><span id="previewNameEl">Geekie One Ultra v9.0</span></div>
             <div style="display:flex;gap:12px;margin-top:16px;flex-wrap:wrap;align-items:center;">
                 <div style="flex:1;min-width:200px;"><div class="section-label">Nome da Página</div><input type="text" id="pageTitleInput" placeholder="Ex: Meu Portal de Estudos" style="width:100%" oninput="updateTitlePreview()"></div>
                 <div><div class="section-label">Aplicar</div><button class="btn btn-primary" onclick="applyPageTitle()" style="height:42px;margin-top:0px"><i class="fa-solid fa-check"></i> Salvar Título</button></div>
@@ -457,43 +472,49 @@
         </div>
     </section>
 
+    <!-- TAB: EVENTS -->
     <section id="tab-events" class="tab-content">
         <div class="glass-card w-full" style="max-width: 900px; margin: 0 auto;">
             <h3><i class="fa-solid fa-calendar-star"></i> Eventos do Mês</h3>
-            <p style="color: var(--text-muted); margin-bottom: 20px;">Cada mês traz um evento especial. Complete os desafios com seu XP acumulado de tempo de estudo no Geekie!</p>
+            <p style="color: var(--text-muted); margin-bottom: 20px;">Cada mês traz um evento especial. Complete os desafios com seu XP acumulado!</p>
             <div id="eventContainer"></div>
         </div>
     </section>
 
+    <!-- TAB: DEVLOG -->
     <section id="tab-devlog" class="tab-content">
         <div class="glass-card w-full" style="max-width: 900px; margin: 0 auto;">
             <h3><i class="fa-solid fa-laptop-code"></i> Developer Changelog</h3>
             <p style="color: var(--text-muted); margin-bottom: 30px;">Histórico de atualizações e novas funcionalidades.</p>
             <div class="timeline" id="devlogTimeline">
                 <div class="timeline-item">
-                    <div class="version-header"><span class="version-tag">v8.1.0</span><h3>Economia Simplificada — Tudo por XP</h3><span class="version-date">Atualização Atual</span></div>
+                    <div class="version-header"><span class="version-tag">v9.0.0</span><h3>Mega Update — Títulos, Fontes, Efeitos & Mixer</h3><span class="version-date">Atualização Atual</span></div>
                     <ul>
-                        <li><strong>Sistema de Moedas Removido:</strong> Todo o sistema de moedas (coins) foi aposentado.</li>
-                        <li><strong>Temas Baseados em XP:</strong> A loja de temas agora desbloqueia temas automaticamente conforme seu XP aumenta (de 0 a 3000 XP).</li>
-                        <li><strong>Progressão Unificada:</strong> XP é agora a única moeda do sistema. Quanto mais você estuda, mais temas desbloqueia.</li>
-                        <li><strong>Eventos Atualizados:</strong> Recompensas de eventos mensais não mencionam mais moedas.</li>
-                        <li><strong>UI Limpa:</strong> Removido o display de moedas da topbar para uma interface mais focada.</li>
+                        <li><strong>Sistema de Títulos:</strong> Nova aba com 10 títulos conquistados por XP, com temas exclusivos como recompensa.</li>
+                        <li><strong>Fontes no Bloco de Notas:</strong> 6 fontes personalizadas para o editor (Caveat, Kalam, Indie Flower, etc).</li>
+                        <li><strong>Efeitos Especiais nos Temas:</strong> Cada tema Ubuntu agora tem efeito único (shake, float, glitch, spin, sway).</li>
+                        <li><strong>Timer Separado:</strong> Pomodoro agora tem sua própria aba com timers customizáveis.</li>
+                        <li><strong>Metas Separadas:</strong> Metas de Estudo com filtros e barra de progresso em aba dedicada.</li>
+                        <li><strong>Sons Ambiente 2.0:</strong> 8 sons, mixer individual, presets e controle master.</li>
                     </ul>
                 </div>
                 <div class="timeline-item">
-                    <div class="version-header"><span class="version-tag">v8.0.0</span><h3>Ubuntu Themes, Eventos XP & Personalização</h3><span class="version-date">Maio 2026</span></div>
+                    <div class="version-header"><span class="version-tag">v8.1.0</span><h3>Economia Simplificada — Tudo por XP</h3></div>
                     <ul>
-                        <li><strong>Fix Click no Iframe:</strong> Corrigido o bug de bloqueio de cliques no iframe do Portal Geekie.</li>
-                        <li><strong>Aba "Título da Página":</strong> Nova seção para personalizar o nome exibido na aba do navegador.</li>
-                        <li><strong>Temas Ubuntu Animados:</strong> 10 novos temas com wallpapers animados no estilo visual do Ubuntu.</li>
-                        <li><strong>Sistema de XP:</strong> Implementado XP baseado em tempo de presença — 1 XP a cada 6 segundos.</li>
-                        <li><strong>Eventos Mensais:</strong> Sistema de eventos que muda a cada mês, com recompensas por XP.</li>
+                        <li>Sistema de Moedas removido. Temas baseados em XP.</li>
+                        <li>Progressão unificada. UI limpa.</li>
                     </ul>
                 </div>
-                <div class="timeline-item"><div class="version-header"><span class="version-tag">v7.4.0</span><h3>Expansão de Caracteres & Temas Premium</h3></div><ul><li><strong>Aba de Caracteres Expandida:</strong> 6 novas categorias com 72+ novos símbolos.</li><li><strong>6 Novos Temas:</strong> Aurora, Pôr do Sol, Oceano, Floresta, Cristal, Fogo.</li></ul></div>
-                <div class="timeline-item"><div class="version-header"><span class="version-tag">v7.3.0</span><h3>Bloco de Notas Avançado</h3></div><ul><li>Nova aba "Bloco de Notas" com múltiplas notas, export/import .txt.</li></ul></div>
-                <div class="timeline-item"><div class="version-header"><span class="version-tag">v7.2.0</span><h3>Aba de Caracteres & UI Premium</h3></div><ul><li>Teclado virtual com 50+ símbolos e notificações Toast.</li></ul></div>
-                <div class="timeline-item old-version"><div class="version-header"><span class="version-tag" style="background: rgba(148, 163, 184, 0.2); color: var(--text-muted);">v7.0.0</span><h3 style="color: var(--text-muted);">The Study Hub Update</h3></div><ul><li>Glassmorphism, Modo Zen, Pomodoro, Gamificação e Tarefas persistentes.</li></ul></div>
+                <div class="timeline-item">
+                    <div class="version-header"><span class="version-tag">v8.0.0</span><h3>Ubuntu Themes, Eventos XP & Personalização</h3></div>
+                    <ul>
+                        <li>10 temas Ubuntu animados. Sistema de XP. Eventos mensais.</li>
+                    </ul>
+                </div>
+                <div class="timeline-item old-version">
+                    <div class="version-header"><span class="version-tag" style="background: rgba(148, 163, 184, 0.2); color: var(--text-muted);">v7.x</span><h3 style="color: var(--text-muted);">Versões Anteriores</h3></div>
+                    <ul><li>Flashcards, Caracteres, Bloco de Notas, Glassmorphism, Modo Zen, Pomodoro.</li></ul>
+                </div>
             </div>
         </div>
     </section>
@@ -501,6 +522,7 @@
 
 <audio id="alarmSound" src="https://cdn.pixabay.com/download/audio/2021/08/04/audio_c6ccf3232f.mp3?filename=bell-ringing-05-43026.mp3" preload="auto"></audio>
 <div id="appToast" class="toast"><i class="fa-solid fa-check"></i> <span>Ação Realizada!</span></div>
+
 <script>
 // ===================== CLOCK =====================
 function updateClock() { document.getElementById('realTimeClock').textContent = new Date().toLocaleTimeString('pt-BR'); }
@@ -536,31 +558,30 @@ function toggleZenMode() {
 }
 document.addEventListener('fullscreenchange', () => { if (!document.fullscreenElement && isZen) toggleZenMode(); });
 
-// ===================== ECONOMY (XP-BASED) =====================
+// ===================== XP SYSTEM =====================
+let xp = parseInt(localStorage.getItem('geekieXP')) || 0;
+const xpEl = document.getElementById('xpCount');
+function updateXP() { xpEl.textContent = xp; localStorage.setItem('geekieXP', xp); document.getElementById('titlesXpDisplay').textContent = xp; updatePlayerTitle(); }
+setInterval(() => { xp++; updateXP(); renderEventContent(); renderStore(); renderTitles(); }, 6000);
+updateXP();
+
+// ===================== THEMES =====================
 let ownedThemes = JSON.parse(localStorage.getItem('geekieThemes')) || ['theme-default'];
 let equippedTheme = localStorage.getItem('geekieEquipped') || 'theme-default';
 const iframeContainer = document.getElementById('geekieIframeContainer');
 
-// ===================== XP SYSTEM =====================
-let xp = parseInt(localStorage.getItem('geekieXP')) || 0;
-const xpEl = document.getElementById('xpCount');
-function updateXP() { xpEl.textContent = xp; localStorage.setItem('geekieXP', xp); }
-setInterval(() => { xp++; updateXP(); renderEventContent(); renderStore(); }, 6000);
-updateXP();
-
-// ===================== UBUNTU THEMES (XP-BASED) =====================
 const storeItems = [
-    { id: 'theme-default',         name: 'Padr\u00e3o',            xpReq: 0,    icon: 'fa-square',     desc: 'Sem borda especial. Simples e limpo.',           color: '#94a3b8' },
-    { id: 'theme-ubuntu-yaru',     name: 'Ubuntu Yaru',       xpReq: 50,   icon: 'fa-circle-dot', desc: 'Laranja canela vibrante \u2014 tema oficial Ubuntu.', color: '#E95420' },
-    { id: 'theme-ubuntu-radiance', name: 'Ubuntu Radiance',   xpReq: 100,  icon: 'fa-sun',        desc: 'Verde lima c\u00edtrico, energia m\u00e1xima.',           color: '#87B03D' },
-    { id: 'theme-ubuntu-ambiance', name: 'Ubuntu Ambiance',   xpReq: 200,  icon: 'fa-moon',       desc: 'Roxo noturno com pulsa\u00e7\u00e3o suave.',               color: '#5C3566' },
-    { id: 'theme-ubuntu-forest',   name: 'Ubuntu Forest',     xpReq: 350,  icon: 'fa-leaf',       desc: 'Verde floresta com respira\u00e7\u00e3o serena.',         color: '#16A34A' },
-    { id: 'theme-ubuntu-dark',     name: 'Ubuntu Dark',       xpReq: 500,  icon: 'fa-skull',      desc: 'Grafite escuro com brilho met\u00e1lico.',           color: '#3C3B37' },
-    { id: 'theme-ubuntu-snap',     name: 'Snap Neon',         xpReq: 750,  icon: 'fa-bolt',       desc: 'Azul neon estilo Communitheme.',                 color: '#1BA1E2' },
-    { id: 'theme-ubuntu-frost',    name: 'Ubuntu Frost',      xpReq: 1000, icon: 'fa-snowflake',  desc: 'Branco/gelo hologr\u00e1fico cristalino.',           color: '#C8E6FA' },
-    { id: 'theme-ubuntu-fire',     name: 'Ubuntu Fire',       xpReq: 1500, icon: 'fa-fire',       desc: 'Chama viva vermelho\u2192laranja\u2192amarelo.',          color: '#EF4444' },
-    { id: 'theme-ubuntu-sunset',   name: 'Ubuntu Sunset',     xpReq: 2000, icon: 'fa-palette',    desc: 'Ciclo laranja \u2192 rosa \u2192 roxo cont\u00ednuo.',         color: '#F97316' },
-    { id: 'theme-ubuntu-cosmic',   name: 'Ubuntu Cosmic',     xpReq: 3000, icon: 'fa-star',       desc: 'Deep space com aurora violeta.',                color: '#6D28D9' },
+    { id: 'theme-default',         name: 'Padrao',            xpReq: 0,    icon: 'fa-square',     desc: 'Sem borda especial. Simples e limpo.',           color: '#94a3b8', effect: 'Nenhum' },
+    { id: 'theme-ubuntu-yaru',     name: 'Ubuntu Yaru',       xpReq: 50,   icon: 'fa-circle-dot', desc: 'Laranja vibrante com efeito TREMOR.',             color: '#E95420', effect: 'Tremor' },
+    { id: 'theme-ubuntu-radiance', name: 'Ubuntu Radiance',   xpReq: 100,  icon: 'fa-sun',        desc: 'Verde lima com efeito de RESPIRACAO (scale).',    color: '#87B03D', effect: 'Respiracao' },
+    { id: 'theme-ubuntu-ambiance', name: 'Ubuntu Ambiance',   xpReq: 200,  icon: 'fa-moon',       desc: 'Roxo noturno com efeito FLUTUANTE.',              color: '#5C3566', effect: 'Flutuante' },
+    { id: 'theme-ubuntu-forest',   name: 'Ubuntu Forest',     xpReq: 350,  icon: 'fa-leaf',       desc: 'Verde floresta com respiracao serena.',           color: '#16A34A', effect: 'Pulso' },
+    { id: 'theme-ubuntu-dark',     name: 'Ubuntu Dark',       xpReq: 500,  icon: 'fa-skull',      desc: 'Grafite escuro com brilho metalico.',             color: '#3C3B37', effect: 'Metalico' },
+    { id: 'theme-ubuntu-snap',     name: 'Snap Neon',         xpReq: 750,  icon: 'fa-bolt',       desc: 'Azul neon com efeito GLITCH aleatorio.',          color: '#1BA1E2', effect: 'Glitch' },
+    { id: 'theme-ubuntu-frost',    name: 'Ubuntu Frost',      xpReq: 1000, icon: 'fa-snowflake',  desc: 'Gelo holografico com BALANCO suave.',             color: '#C8E6FA', effect: 'Balanco' },
+    { id: 'theme-ubuntu-fire',     name: 'Ubuntu Fire',       xpReq: 1500, icon: 'fa-fire',       desc: 'Chama viva com TREMOR de fogo.',                  color: '#EF4444', effect: 'Fogo' },
+    { id: 'theme-ubuntu-sunset',   name: 'Ubuntu Sunset',     xpReq: 2000, icon: 'fa-palette',    desc: 'Ciclo de cores com efeito ONDA 3D.',              color: '#F97316', effect: 'Onda 3D' },
+    { id: 'theme-ubuntu-cosmic',   name: 'Ubuntu Cosmic',     xpReq: 3000, icon: 'fa-star',       desc: 'Deep space com ROTACAO de matiz infinita.',       color: '#6D28D9', effect: 'Hue Spin' },
 ];
 
 function applyTheme(themeId) { storeItems.forEach(item => iframeContainer.classList.remove(item.id)); iframeContainer.classList.add(themeId); }
@@ -575,26 +596,306 @@ function renderStore() {
         if (isEquipped) btn = `<button class="btn btn-outline w-full" disabled><i class="fa-solid fa-check"></i> Equipado</button>`;
         else if (isOwned) btn = `<button class="btn btn-primary w-full" onclick="equipTheme('${item.id}')">Equipar</button>`;
         else if (isUnlocked) btn = `<button class="btn btn-primary w-full" onclick="unlockTheme('${item.id}')"><i class="fa-solid fa-lock-open"></i> Desbloquear</button>`;
-        else btn = `<button class="btn btn-disabled w-full" disabled><i class="fa-solid fa-lock"></i> ${item.xpReq} XP necess\u00e1rios</button>`;
-        grid.innerHTML += `<div class="store-item" style="${isEquipped ? `border-color:${item.color};box-shadow:0 0 15px ${item.color}44;` : ''}"><i class="fa-solid ${item.icon} preview-icon" style="color:${item.color};"></i><h4>${item.name}</h4><p style="font-size:0.8rem;color:var(--text-muted);flex:1;">${item.desc}</p><p style="font-size:0.75rem;color:${isUnlocked ? 'var(--primary)' : 'var(--text-muted)'};margin-bottom:4px;"><i class="fa-solid fa-star"></i> ${item.xpReq} XP ${isUnlocked ? '\u2705' : '\ud83d\udd12'}</p>${btn}</div>`;
+        else btn = `<button class="btn btn-disabled w-full" disabled><i class="fa-solid fa-lock"></i> ${item.xpReq} XP</button>`;
+        grid.innerHTML += `<div class="store-item" style="${isEquipped ? `border-color:${item.color};box-shadow:0 0 15px ${item.color}44;` : ''}"><i class="fa-solid ${item.icon} preview-icon" style="color:${item.color};"></i><h4>${item.name}</h4><p style="font-size:0.8rem;color:var(--text-muted);flex:1;">${item.desc}</p><p style="font-size:0.7rem;color:var(--accent);margin-bottom:2px;"><i class="fa-solid fa-wand-magic-sparkles"></i> Efeito: ${item.effect}</p><p style="font-size:0.75rem;color:${isUnlocked ? 'var(--primary)' : 'var(--text-muted)'};margin-bottom:4px;"><i class="fa-solid fa-star"></i> ${item.xpReq} XP ${isUnlocked ? '\u2705' : '\ud83d\udd12'}</p>${btn}</div>`;
     });
 }
 applyTheme(equippedTheme); renderStore();
 
+// ===================== TITLES SYSTEM =====================
+const titlesList = [
+    { id: 'title-novato',     name: '\ud83c\udf31 Novato',           xpReq: 0,    desc: 'Todo mundo comeca de algum lugar!', reward: null, rewardTheme: null },
+    { id: 'title-estudante',  name: '\ud83d\udcda Estudante',        xpReq: 100,  desc: 'Voce ja esta no caminho certo.', reward: null, rewardTheme: null },
+    { id: 'title-dedicado',   name: '\ud83d\udcaa Dedicado',         xpReq: 300,  desc: 'Persistencia e a chave!', reward: 'Tema Ubuntu Yaru', rewardTheme: 'theme-ubuntu-yaru' },
+    { id: 'title-scholar',    name: '\ud83c\udf93 Scholar',          xpReq: 600,  desc: 'Conhecimento em ascensao.', reward: 'Tema Radiance', rewardTheme: 'theme-ubuntu-radiance' },
+    { id: 'title-mestre',     name: '\u2b50 Mestre',                xpReq: 1000, desc: 'Dominio absoluto.', reward: 'Tema Snap Neon', rewardTheme: 'theme-ubuntu-snap' },
+    { id: 'title-sabio',      name: '\ud83e\uddd9 Sabio',            xpReq: 1500, desc: 'A sabedoria e sua aliada.', reward: 'Tema Frost', rewardTheme: 'theme-ubuntu-frost' },
+    { id: 'title-guru',       name: '\ud83d\udd2e Guru',             xpReq: 2000, desc: 'Iluminacao academica.', reward: 'Tema Fire', rewardTheme: 'theme-ubuntu-fire' },
+    { id: 'title-legend',     name: '\ud83c\udfc6 Lendario',         xpReq: 3000, desc: 'Poucos chegam tao longe!', reward: 'Tema Cosmic', rewardTheme: 'theme-ubuntu-cosmic' },
+    { id: 'title-mythic',     name: '\ud83d\udc51 Mitico',           xpReq: 5000, desc: 'Transcendeu os limites.', reward: 'Tema Sunset + Cosmic', rewardTheme: 'theme-ubuntu-sunset' },
+    { id: 'title-god',        name: '\ud83c\udf1f Divindade',        xpReq: 10000,desc: 'Nada pode pará-lo.', reward: 'TODOS os temas', rewardTheme: 'ALL' },
+];
+
+let equippedTitle = localStorage.getItem('geekieTitle') || 'title-novato';
+
+function getHighestTitle() {
+    let highest = titlesList[0];
+    for (const t of titlesList) { if (xp >= t.xpReq) highest = t; }
+    return highest;
+}
+
+function updatePlayerTitle() {
+    const equipped = titlesList.find(t => t.id === equippedTitle) || titlesList[0];
+    document.getElementById('playerTitleText').textContent = equipped.name;
+}
+
+function equipTitle(titleId) {
+    const t = titlesList.find(x => x.id === titleId);
+    if (!t || xp < t.xpReq) return;
+    equippedTitle = titleId;
+    localStorage.setItem('geekieTitle', titleId);
+    // Unlock reward theme
+    if (t.rewardTheme === 'ALL') {
+        storeItems.forEach(si => { if (!ownedThemes.includes(si.id)) { ownedThemes.push(si.id); } });
+        localStorage.setItem('geekieThemes', JSON.stringify(ownedThemes));
+    } else if (t.rewardTheme && !ownedThemes.includes(t.rewardTheme)) {
+        ownedThemes.push(t.rewardTheme);
+        localStorage.setItem('geekieThemes', JSON.stringify(ownedThemes));
+    }
+    updatePlayerTitle();
+    renderTitles();
+    renderStore();
+    showToast(`Titulo "${t.name}" equipado!`);
+}
+
+function renderTitles() {
+    const grid = document.getElementById('titlesGrid'); if (!grid) return; grid.innerHTML = '';
+    document.getElementById('titlesXpDisplay').textContent = xp;
+    titlesList.forEach(t => {
+        const unlocked = xp >= t.xpReq;
+        const isEquipped = equippedTitle === t.id;
+        let btnHtml = '';
+        if (isEquipped) btnHtml = `<button class="btn btn-outline w-full" disabled style="margin-top:8px;"><i class="fa-solid fa-check"></i> Usando</button>`;
+        else if (unlocked) btnHtml = `<button class="btn btn-primary w-full" onclick="equipTitle('${t.id}')" style="margin-top:8px;"><i class="fa-solid fa-crown"></i> Usar Titulo</button>`;
+        else btnHtml = `<button class="btn btn-disabled w-full" disabled style="margin-top:8px;"><i class="fa-solid fa-lock"></i> ${t.xpReq} XP</button>`;
+        grid.innerHTML += `<div class="title-card ${unlocked ? 'unlocked' : 'locked'} ${isEquipped ? 'equipped' : ''}">
+            <div class="title-card-inner">
+                ${unlocked ? '<span class="xp-tier-badge">\u2705 Conquistado</span>' : `<span class="locked-badge">\ud83d\udd12 ${t.xpReq} XP</span>`}
+                <div class="title-name">${t.name}</div>
+                <div class="title-desc">${t.desc}</div>
+                <div class="title-xp-req"><i class="fa-solid fa-star"></i> Requer: ${t.xpReq} XP</div>
+                ${t.reward ? `<div class="title-reward"><i class="fa-solid fa-gift"></i> Recompensa: ${t.reward}</div>` : ''}
+                ${btnHtml}
+            </div>
+        </div>`;
+    });
+}
+renderTitles(); updatePlayerTitle();
+
+// ===================== NOTE FONTS =====================
+const noteFonts = [
+    { family: 'Poppins', label: 'Poppins (Padrao)' },
+    { family: 'Caveat', label: 'Caveat (Manuscrita)' },
+    { family: 'Patrick Hand', label: 'Patrick Hand' },
+    { family: 'Indie Flower', label: 'Indie Flower' },
+    { family: 'Shadows Into Light', label: 'Shadows Into Light' },
+    { family: 'Kalam', label: 'Kalam' },
+    { family: 'Architects Daughter', label: 'Architects Daughter' },
+    { family: 'Fira Code', label: 'Fira Code (Mono)' },
+];
+let currentNoteFont = localStorage.getItem('geekieNoteFont') || 'Poppins';
+function buildNoteFontPicker() {
+    const picker = document.getElementById('noteFontPicker'); picker.innerHTML = '';
+    noteFonts.forEach(f => {
+        const btn = document.createElement('button');
+        btn.className = `note-font-btn ${currentNoteFont === f.family ? 'active' : ''}`;
+        btn.style.fontFamily = f.family;
+        btn.textContent = f.label;
+        btn.onclick = () => { currentNoteFont = f.family; localStorage.setItem('geekieNoteFont', f.family); applyNoteFont(); buildNoteFontPicker(); };
+        picker.appendChild(btn);
+    });
+    applyNoteFont();
+}
+function applyNoteFont() {
+    document.getElementById('noteContent').style.fontFamily = currentNoteFont;
+    document.getElementById('noteTitle').style.fontFamily = currentNoteFont;
+}
+buildNoteFontPicker();
+
+// ===================== NOTAS =====================
+let savedNotes = JSON.parse(localStorage.getItem('geekieNotes')) || [];
+let currentNoteId = null;
+const noteSelect = document.getElementById('noteSelect'), noteTitleInput = document.getElementById('noteTitle'), noteContentInput = document.getElementById('noteContent');
+function renderNotesDropdown() { noteSelect.innerHTML = '<option value="new">+ Nova Anotacao...</option>'; savedNotes.forEach(note => { const opt = document.createElement('option'); opt.value = note.id; opt.textContent = note.title || 'Nota sem titulo'; if (note.id === currentNoteId) opt.selected = true; noteSelect.appendChild(opt); }); }
+function loadSelectedNote() { const id = noteSelect.value; if (id === 'new') { currentNoteId = null; noteTitleInput.value = ''; noteContentInput.value = ''; } else { const n = savedNotes.find(n => n.id == id); if (n) { currentNoteId = n.id; noteTitleInput.value = n.title; noteContentInput.value = n.content; } } }
+function saveNote() { const title = noteTitleInput.value.trim() || 'Nota sem titulo'; const content = noteContentInput.value; if (!content.trim() && !noteTitleInput.value.trim()) { showToast('A nota esta vazia!', true); return; } if (currentNoteId === null) { const nn = { id: Date.now().toString(), title, content, date: new Date().toLocaleDateString() }; savedNotes.push(nn); currentNoteId = nn.id; showToast('Nova anotacao salva!'); } else { const idx = savedNotes.findIndex(n => n.id === currentNoteId); if (idx !== -1) { savedNotes[idx].title = title; savedNotes[idx].content = content; showToast('Anotacao atualizada!'); } } localStorage.setItem('geekieNotes', JSON.stringify(savedNotes)); renderNotesDropdown(); }
+function deleteNote() { if (currentNoteId === null) { noteTitleInput.value = ''; noteContentInput.value = ''; return; } if (confirm('Excluir esta anotacao permanentemente?')) { savedNotes = savedNotes.filter(n => n.id !== currentNoteId); localStorage.setItem('geekieNotes', JSON.stringify(savedNotes)); currentNoteId = null; noteTitleInput.value = ''; noteContentInput.value = ''; renderNotesDropdown(); showToast('Anotacao excluida!'); } }
+function copyNoteContent() { if (!noteContentInput.value) { showToast('Nada para copiar!', true); return; } navigator.clipboard.writeText(noteContentInput.value).then(() => showToast('Conteudo copiado!')).catch(() => showToast('Erro ao copiar.', true)); }
+async function pasteNoteContent() { try { const text = await navigator.clipboard.readText(); const s = noteContentInput.selectionStart, e = noteContentInput.selectionEnd; noteContentInput.value = noteContentInput.value.substring(0, s) + text + noteContentInput.value.substring(e); showToast('Colado!'); } catch { showToast('Use Ctrl+V para colar.', true); } }
+function exportNote() { if (!noteContentInput.value) { showToast('Nota vazia!', true); return; } const blob = new Blob([noteContentInput.value], { type: 'text/plain;charset=utf-8' }); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `${noteTitleInput.value.trim() || 'Anotacao'}.txt`; a.click(); showToast('Exportado!'); }
+function importNote(event) { const file = event.target.files[0]; if (!file) return; const reader = new FileReader(); reader.onload = e => { currentNoteId = null; noteTitleInput.value = file.name.replace('.txt', ''); noteContentInput.value = e.target.result; document.getElementById('importNoteFile').value = ''; noteSelect.value = 'new'; showToast('Importado! Lembre de salvar.'); }; reader.readAsText(file); }
+renderNotesDropdown();
+
+// ===================== POMODORO =====================
+let timerInterval, timeLeft = 25*60, isTimerRunning = false, isBreak = false, cycles = 0;
+const timerDisplay = document.getElementById('timerDisplay'), timerMode = document.getElementById('timerMode'), btnStartTimer = document.getElementById('btnStartTimer'), alarmSound = document.getElementById('alarmSound'), pomodoroCount = document.getElementById('pomodoroCount');
+function updateTimerDisplay() { timerDisplay.textContent = `${Math.floor(timeLeft/60).toString().padStart(2,'0')}:${(timeLeft%60).toString().padStart(2,'0')}`; document.title = `${timerDisplay.textContent} - ${savedTitle}`; }
+function setCustomTimer(mins) { clearInterval(timerInterval); isTimerRunning = false; isBreak = false; timeLeft = mins * 60; timerMode.textContent = `Modo: Foco (${mins} min)`; timerMode.style.color = 'var(--text-muted)'; btnStartTimer.innerHTML = '<i class="fa-solid fa-play"></i> Iniciar'; updateTimerDisplay(); showToast(`Timer ajustado para ${mins} minutos!`); }
+function startTimer() { if (isTimerRunning) return; isTimerRunning = true; btnStartTimer.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Rodando'; timerInterval = setInterval(() => { timeLeft--; updateTimerDisplay(); if (timeLeft <= 0) { clearInterval(timerInterval); isTimerRunning = false; alarmSound.play(); if (!isBreak) { cycles++; pomodoroCount.textContent = cycles; isBreak = true; timeLeft = 5*60; timerMode.textContent = 'Modo: Pausa Curta (5 min)'; timerMode.style.color = 'var(--accent)'; alert('Foco concluido! Pausa de 5 min.'); } else { isBreak = false; timeLeft = 25*60; timerMode.textContent = 'Modo: Foco (25 min)'; timerMode.style.color = 'var(--text-muted)'; alert('Pausa concluida! Hora de focar.'); } btnStartTimer.innerHTML = '<i class="fa-solid fa-play"></i> Iniciar'; updateTimerDisplay(); } }, 1000); }
+function pauseTimer() { clearInterval(timerInterval); isTimerRunning = false; btnStartTimer.innerHTML = '<i class="fa-solid fa-play"></i> Continuar'; }
+function resetTimer() { clearInterval(timerInterval); isTimerRunning = false; isBreak = false; timeLeft = 25*60; timerMode.textContent = 'Modo: Foco (25 min)'; timerMode.style.color = 'var(--text-muted)'; btnStartTimer.innerHTML = '<i class="fa-solid fa-play"></i> Iniciar'; updateTimerDisplay(); }
+updateTimerDisplay();
+
+// ===================== GOALS/TODO =====================
+const todoListEl = document.getElementById('todoList');
+let todos = JSON.parse(localStorage.getItem('geekieTodos')) || [];
+let todoFilter = 'all';
+function renderTodos() {
+    todoListEl.innerHTML = '';
+    let filtered = todos;
+    if (todoFilter === 'pending') filtered = todos.filter(t => !t.completed);
+    if (todoFilter === 'done') filtered = todos.filter(t => t.completed);
+    filtered.forEach((todo, idx) => {
+        const realIdx = todos.indexOf(todo);
+        const li = document.createElement('li'); li.className = `todo-item ${todo.completed ? 'completed' : ''}`;
+        li.innerHTML = `<span>${todo.text}</span><div class="todo-actions"><i class="fa-solid fa-check check" onclick="toggleTodo(${realIdx})"></i><i class="fa-solid fa-trash delete" onclick="deleteTodo(${realIdx})"></i></div>`;
+        todoListEl.appendChild(li);
+    });
+    localStorage.setItem('geekieTodos', JSON.stringify(todos));
+    const total = todos.length, done = todos.filter(t => t.completed).length;
+    document.getElementById('todoProgress').textContent = `${done}/${total}`;
+    document.getElementById('todoProgressBar').style.width = total > 0 ? `${(done/total)*100}%` : '0%';
+}
+function filterTodos(f) { todoFilter = f; renderTodos(); }
+function addTodo() { const t = document.getElementById('todoInput').value.trim(); if (t) { todos.push({text:t,completed:false}); document.getElementById('todoInput').value=''; renderTodos(); } }
+function handleTodoKeyPress(e) { if (e.key==='Enter') addTodo(); }
+function toggleTodo(i) { todos[i].completed = !todos[i].completed; renderTodos(); }
+function deleteTodo(i) { todos.splice(i,1); renderTodos(); }
+renderTodos();
+
+// ===================== FLASHCARDS =====================
+let flashcardsData = JSON.parse(localStorage.getItem('geekieFlashcards'));
+if (!flashcardsData || !flashcardsData.length) { flashcardsData = [{ front: 'O que e a Mitocondria?', back: 'Organela responsavel pela respiracao celular (energia).' }]; localStorage.setItem('geekieFlashcards', JSON.stringify(flashcardsData)); }
+let currentCardIndex = 0;
+const flashcardEl = document.getElementById('flashcard'), cardFront = document.getElementById('cardFront'), cardBack = document.getElementById('cardBack'), cardCounter = document.getElementById('cardCounter');
+function saveFlashcards() { localStorage.setItem('geekieFlashcards', JSON.stringify(flashcardsData)); }
+function updateCardDisplay() { flashcardEl.classList.remove('is-flipped'); setTimeout(() => { if (!flashcardsData.length) { cardFront.textContent = 'Nenhum flashcard.'; cardBack.textContent = 'Adicione acima!'; cardCounter.textContent = '0 / 0'; } else { if (currentCardIndex >= flashcardsData.length) currentCardIndex = Math.max(0, flashcardsData.length-1); cardFront.textContent = flashcardsData[currentCardIndex].front; cardBack.textContent = flashcardsData[currentCardIndex].back; cardCounter.textContent = `${currentCardIndex+1} / ${flashcardsData.length}`; } }, 150); }
+function flipCard() { if (flashcardsData.length) flashcardEl.classList.toggle('is-flipped'); }
+function nextCard() { if (currentCardIndex < flashcardsData.length-1) { currentCardIndex++; updateCardDisplay(); } }
+function prevCard() { if (currentCardIndex > 0) { currentCardIndex--; updateCardDisplay(); } }
+function addFlashcard() { const f = document.getElementById('newCardFront'), b = document.getElementById('newCardBack'); if (f.value.trim() && b.value.trim()) { flashcardsData.push({front:f.value.trim(),back:b.value.trim()}); saveFlashcards(); f.value=''; b.value=''; currentCardIndex=flashcardsData.length-1; updateCardDisplay(); showToast('Flashcard Criado!'); } else alert('Preencha frente e verso!'); }
+function deleteCurrentCard() { if (!flashcardsData.length) return; if (confirm('Excluir este flashcard?')) { flashcardsData.splice(currentCardIndex,1); saveFlashcards(); if (currentCardIndex >= flashcardsData.length) currentCardIndex = Math.max(0, flashcardsData.length-1); updateCardDisplay(); showToast('Excluido!'); } }
+updateCardDisplay();
+
+// ===================== ENHANCED AMBIENT AUDIO =====================
+const ambientSounds = [
+    { id: 'brown-noise', label: 'Ruido Marrom', icon: '\ud83c\udf0a', category: 'noise', url: 'https://cdn.pixabay.com/download/audio/2022/03/15/audio_24a56d9595.mp3?filename=brown-noise-9005.mp3' },
+    { id: 'rain', label: 'Chuva Suave', icon: '\ud83c\udf27\ufe0f', category: 'nature', url: 'https://cdn.pixabay.com/download/audio/2021/08/04/audio_0625c1539c.mp3?filename=light-rain-109591.mp3' },
+    { id: 'thunder', label: 'Trovao', icon: '\u26a1', category: 'nature', url: 'https://cdn.pixabay.com/download/audio/2022/10/30/audio_711e25aff7.mp3?filename=thunder-and-rain-116349.mp3' },
+    { id: 'fire', label: 'Fogueira', icon: '\ud83d\udd25', category: 'nature', url: 'https://cdn.pixabay.com/download/audio/2022/01/18/audio_d0a13f69d2.mp3?filename=fireplace-crackling-7363.mp3' },
+    { id: 'wind', label: 'Vento', icon: '\ud83d\udca8', category: 'nature', url: 'https://cdn.pixabay.com/download/audio/2022/03/19/audio_56edb8e833.mp3?filename=wind-sound-effect-1-9156.mp3' },
+    { id: 'birds', label: 'Passaros', icon: '\ud83d\udc26', category: 'nature', url: 'https://cdn.pixabay.com/download/audio/2022/02/07/audio_5f2eb39ab5.mp3?filename=birds-chirping-calm-20934.mp3' },
+    { id: 'ocean', label: 'Oceano', icon: '\ud83c\udf0a', category: 'nature', url: 'https://cdn.pixabay.com/download/audio/2022/06/01/audio_be774f9d86.mp3?filename=calm-sea-ambience-10028.mp3' },
+    { id: 'cafe', label: 'Cafeteria', icon: '\u2615', category: 'urban', url: 'https://cdn.pixabay.com/download/audio/2022/04/27/audio_1aa0564223.mp3?filename=crowd-talking-cafeteria-6263.mp3' },
+];
+
+let ambientAudios = {};
+let ambientVolumes = {};
+let masterVol = 0.5;
+
+function initAmbient() {
+    ambientSounds.forEach(s => {
+        const audio = new Audio();
+        audio.loop = true;
+        audio.preload = 'none';
+        audio.src = s.url;
+        audio.volume = masterVol;
+        ambientAudios[s.id] = audio;
+        ambientVolumes[s.id] = 0.5;
+    });
+    renderAmbientGrid();
+    renderAmbientMixer();
+}
+
+function renderAmbientGrid() {
+    const grid = document.getElementById('ambientGrid'); grid.innerHTML = '';
+    ambientSounds.forEach(s => {
+        const isPlaying = ambientAudios[s.id] && !ambientAudios[s.id].paused;
+        grid.innerHTML += `<div class="ambient-card ${isPlaying ? 'playing' : ''}" onclick="toggleAmbientSound('${s.id}')" id="ambient-card-${s.id}">
+            <span class="ambient-icon">${s.icon}</span>
+            <span class="ambient-label">${s.label}</span>
+            ${isPlaying ? '<span style="font-size:0.7rem;color:var(--accent);margin-top:4px;">\u25b6 Tocando</span>' : ''}
+        </div>`;
+    });
+}
+
+function renderAmbientMixer() {
+    const rows = document.getElementById('ambientMixerRows'); rows.innerHTML = '';
+    ambientSounds.forEach(s => {
+        const isPlaying = ambientAudios[s.id] && !ambientAudios[s.id].paused;
+        const vol = Math.round((ambientVolumes[s.id] || 0.5) * 100);
+        rows.innerHTML += `<div class="ambient-mixer-row" style="opacity:${isPlaying ? 1 : 0.4}">
+            <span>${s.icon} ${s.label}</span>
+            <input type="range" min="0" max="1" step="0.05" value="${ambientVolumes[s.id] || 0.5}" onchange="setAmbientVolume('${s.id}', this.value)" style="accent-color:var(--accent);">
+            <span class="vol-value">${vol}%</span>
+        </div>`;
+    });
+}
+
+function toggleAmbientSound(id) {
+    const audio = ambientAudios[id];
+    if (audio.paused) { audio.volume = (ambientVolumes[id] || 0.5) * masterVol; audio.play().catch(() => {}); }
+    else { audio.pause(); }
+    renderAmbientGrid();
+    renderAmbientMixer();
+}
+
+function setAmbientVolume(id, val) {
+    ambientVolumes[id] = parseFloat(val);
+    ambientAudios[id].volume = parseFloat(val) * masterVol;
+    renderAmbientMixer();
+}
+
+function changeMasterVolume(val) {
+    masterVol = parseFloat(val);
+    document.getElementById('masterVolLabel').textContent = Math.round(masterVol * 100) + '%';
+    Object.keys(ambientAudios).forEach(id => {
+        ambientAudios[id].volume = (ambientVolumes[id] || 0.5) * masterVol;
+    });
+}
+
+function stopAllAmbient() {
+    Object.values(ambientAudios).forEach(a => { a.pause(); a.currentTime = 0; });
+    renderAmbientGrid(); renderAmbientMixer();
+    showToast('Todos os sons parados!');
+}
+
+function presetRelax() {
+    stopAllAmbient();
+    setTimeout(() => {
+        ['rain', 'fire'].forEach(id => { ambientVolumes[id] = 0.4; ambientAudios[id].volume = 0.4 * masterVol; ambientAudios[id].play().catch(() => {}); });
+        renderAmbientGrid(); renderAmbientMixer();
+        showToast('Preset Relaxar ativado!');
+    }, 200);
+}
+
+function presetFocus() {
+    stopAllAmbient();
+    setTimeout(() => {
+        ['brown-noise'].forEach(id => { ambientVolumes[id] = 0.6; ambientAudios[id].volume = 0.6 * masterVol; ambientAudios[id].play().catch(() => {}); });
+        renderAmbientGrid(); renderAmbientMixer();
+        showToast('Preset Foco ativado!');
+    }, 200);
+}
+
+function presetNature() {
+    stopAllAmbient();
+    setTimeout(() => {
+        ['rain', 'birds', 'wind'].forEach(id => { ambientVolumes[id] = 0.35; ambientAudios[id].volume = 0.35 * masterVol; ambientAudios[id].play().catch(() => {}); });
+        renderAmbientGrid(); renderAmbientMixer();
+        showToast('Preset Natureza ativado!');
+    }, 200);
+}
+
+initAmbient();
+
+// ===================== COPY CHAR =====================
+function copyChar(char) { const fallback = (t) => { const ta = document.createElement('textarea'); ta.value = t; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); showToast(`Simbolo ${t} copiado!`); } catch(e) {} document.body.removeChild(ta); }; if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(char).then(() => showToast(`Simbolo ${char} copiado!`)).catch(() => fallback(char)); } else fallback(char); }
+
 // ===================== EVENTOS MENSAIS =====================
 const monthlyEvents = [
-    { month: 1, name: 'Janeiro: In\u00edcio de Jornada', icon: '\ud83d\ude80', desc: 'Novo ano, nova energia!', colorA: '#E95420', colorB: '#F97316', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'\ud83c\udf31'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'\ud83d\udcda'},{label:'Expert',xpReq:1500,reward:'Tema Yaru desbloqueado',icon:'\u2b50'},{label:'Lend\u00e1rio',xpReq:3000,reward:'Tema Cosmic desbloqueado',icon:'\ud83c\udfc6'}]},
-    { month: 2, name: 'Fevereiro: Amor ao Saber', icon: '\u2764\ufe0f', desc: 'Apaixone-se por aprender!', colorA: '#EC4899', colorB: '#F43F5E', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'\ud83d\udc9b'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'\ud83d\udc96'},{label:'Expert',xpReq:1500,reward:'Tema Sunset desbloqueado',icon:'\ud83c\udf38'},{label:'Lend\u00e1rio',xpReq:3000,reward:'XP Duplo por 7 dias',icon:'\ud83d\udc51'}]},
-    { month: 3, name: 'Mar\u00e7o: For\u00e7a Total', icon: '\ud83d\udcaa', desc: 'Sprint de estudos!', colorA: '#16A34A', colorB: '#4ADE80', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'\ud83c\udf3f'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'\ud83c\udf31'},{label:'Expert',xpReq:1500,reward:'Tema Forest desbloqueado',icon:'\ud83c\udf32'},{label:'Lend\u00e1rio',xpReq:3000,reward:'Tema Radiance desbloqueado',icon:'\ud83c\udfc6'}]},
-    { month: 4, name: 'Abril: Despertar Digital', icon: '\ud83c\udf10', desc: 'Tecnologia e estudo juntos!', colorA: '#1BA1E2', colorB: '#44CCFF', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'\ud83d\udce1'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'\ud83d\udcbb'},{label:'Expert',xpReq:1500,reward:'Tema Snap desbloqueado',icon:'\u26a1'},{label:'Lend\u00e1rio',xpReq:3000,reward:'Tema Frost desbloqueado',icon:'\ud83c\udfc6'}]},
-    { month: 5, name: 'Maio: Maratona do Foco', icon: '\u23f1\ufe0f', desc: 'Foco m\u00e1ximo!', colorA: '#8B5CF6', colorB: '#A78BFA', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'\ud83e\udde0'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'\u23f0'},{label:'Expert',xpReq:1500,reward:'Tema Ambiance desbloqueado',icon:'\ud83c\udf19'},{label:'Lend\u00e1rio',xpReq:3000,reward:'Tema Cosmic desbloqueado',icon:'\ud83c\udfc6'}]},
-    { month: 6, name: 'Junho: Meio do Ano', icon: '\ud83c\udf1f', desc: 'Metade da jornada!', colorA: '#FBBF24', colorB: '#F59E0B', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'\ud83c\udf3b'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'\ud83c\udf1f'},{label:'Expert',xpReq:1500,reward:'Tema Fire desbloqueado',icon:'\ud83d\udd25'},{label:'Lend\u00e1rio',xpReq:3000,reward:'Todos os temas liberados',icon:'\ud83c\udfc6'}]},
-    { month: 7, name: 'Julho: Inverno Produtivo', icon: '\u2744\ufe0f', desc: 'Aquece com conhecimento!', colorA: '#0EA5E9', colorB: '#38BDF8', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'\ud83e\uddca'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'\u2603\ufe0f'},{label:'Expert',xpReq:1500,reward:'Tema Frost desbloqueado',icon:'\ud83d\udc8e'},{label:'Lend\u00e1rio',xpReq:3000,reward:'Badge Especial',icon:'\ud83c\udfc6'}]},
-    { month: 8, name: 'Agosto: Acelera\u00e7\u00e3o Final', icon: '\ud83d\udd25', desc: 'Sprint para o ENEM!', colorA: '#EF4444', colorB: '#F97316', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'\u2694\ufe0f'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'\ud83d\udd25'},{label:'Expert',xpReq:1500,reward:'Tema Fire desbloqueado',icon:'\ud83d\udca5'},{label:'Lend\u00e1rio',xpReq:3000,reward:'Modo Turbo (XP x2)',icon:'\ud83c\udfc6'}]},
-    { month: 9, name: 'Setembro: M\u00eas da Ci\u00eancia', icon: '\ud83d\udd2c', desc: 'Explore ci\u00eancias!', colorA: '#059669', colorB: '#10B981', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'\u2697\ufe0f'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'\ud83d\udd2d'},{label:'Expert',xpReq:1500,reward:'Tema Forest desbloqueado',icon:'\ud83c\udf3f'},{label:'Lend\u00e1rio',xpReq:3000,reward:'Tema Radiance desbloqueado',icon:'\ud83c\udfc6'}]},
-    { month: 10, name: 'Outubro: V\u00e9spera do ENEM', icon: '\ud83c\udfaf', desc: 'Revis\u00e3o total!', colorA: '#D97706', colorB: '#FBBF24', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'\ud83c\udfaf'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'\ud83d\udcdd'},{label:'Expert',xpReq:1500,reward:'Tema Sunset desbloqueado',icon:'\ud83c\udf05'},{label:'Lend\u00e1rio',xpReq:3000,reward:'Badge Especial',icon:'\ud83c\udfc6'}]},
-    { month: 11, name: 'Novembro: Hora da Verdade', icon: '\u26a1', desc: 'ENEM chegou!', colorA: '#7C3AED', colorB: '#A78BFA', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'\ud83e\udd81'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'\u2728'},{label:'Expert',xpReq:1500,reward:'Tema Ambiance desbloqueado',icon:'\ud83c\udf19'},{label:'Lend\u00e1rio',xpReq:3000,reward:'Tema Cosmic desbloqueado',icon:'\ud83c\udfc6'}]},
-    { month: 12, name: 'Dezembro: Celebra\u00e7\u00e3o!', icon: '\ud83c\udf89', desc: 'Celebre cada minuto de estudo!', colorA: '#DC2626', colorB: '#16A34A', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'\ud83c\udf81'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'\ud83c\udf84'},{label:'Expert',xpReq:1500,reward:'Pack completo de temas',icon:'\ud83c\udf8a'},{label:'Lend\u00e1rio',xpReq:3000,reward:'XP x3 em Janeiro',icon:'\ud83c\udfc6'}]},
+    { month: 1, name: 'Janeiro: Inicio de Jornada', icon: '\ud83d\ude80', desc: 'Novo ano, nova energia!', colorA: '#E95420', colorB: '#F97316', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'\ud83c\udf31'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'\ud83d\udcda'},{label:'Expert',xpReq:1500,reward:'Tema Yaru desbloqueado',icon:'\u2b50'},{label:'Lendario',xpReq:3000,reward:'Tema Cosmic desbloqueado',icon:'\ud83c\udfc6'}]},
+    { month: 2, name: 'Fevereiro: Amor ao Saber', icon: '\u2764\ufe0f', desc: 'Apaixone-se por aprender!', colorA: '#EC4899', colorB: '#F43F5E', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'\ud83d\udc9b'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'\ud83d\udc96'},{label:'Expert',xpReq:1500,reward:'Tema Sunset desbloqueado',icon:'\ud83c\udf38'},{label:'Lendario',xpReq:3000,reward:'XP Duplo por 7 dias',icon:'\ud83d\udc51'}]},
+    { month: 3, name: 'Marco: Forca Total', icon: '\ud83d\udcaa', desc: 'Sprint de estudos!', colorA: '#16A34A', colorB: '#4ADE80', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'\ud83c\udf3f'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'\ud83c\udf31'},{label:'Expert',xpReq:1500,reward:'Tema Forest desbloqueado',icon:'\ud83c\udf32'},{label:'Lendario',xpReq:3000,reward:'Tema Radiance desbloqueado',icon:'\ud83c\udfc6'}]},
+    { month: 4, name: 'Abril: Despertar Digital', icon: '\ud83c\udf10', desc: 'Tecnologia e estudo juntos!', colorA: '#1BA1E2', colorB: '#44CCFF', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'\ud83d\udce1'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'\ud83d\udcbb'},{label:'Expert',xpReq:1500,reward:'Tema Snap desbloqueado',icon:'\u26a1'},{label:'Lendario',xpReq:3000,reward:'Tema Frost desbloqueado',icon:'\ud83c\udfc6'}]},
+    { month: 5, name: 'Maio: Maratona do Foco', icon: '\u23f1\ufe0f', desc: 'Foco maximo!', colorA: '#8B5CF6', colorB: '#A78BFA', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'\ud83e\udde0'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'\u23f0'},{label:'Expert',xpReq:1500,reward:'Tema Ambiance desbloqueado',icon:'\ud83c\udf19'},{label:'Lendario',xpReq:3000,reward:'Tema Cosmic desbloqueado',icon:'\ud83c\udfc6'}]},
+    { month: 6, name: 'Junho: Meio do Ano', icon: '\ud83c\udf1f', desc: 'Metade da jornada!', colorA: '#FBBF24', colorB: '#F59E0B', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'\ud83c\udf3b'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'\ud83c\udf1f'},{label:'Expert',xpReq:1500,reward:'Tema Fire desbloqueado',icon:'\ud83d\udd25'},{label:'Lendario',xpReq:3000,reward:'Todos os temas liberados',icon:'\ud83c\udfc6'}]},
+    { month: 7, name: 'Julho: Inverno Produtivo', icon: '\u2744\ufe0f', desc: 'Aquece com conhecimento!', colorA: '#0EA5E9', colorB: '#38BDF8', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'\ud83e\uddca'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'\u2603\ufe0f'},{label:'Expert',xpReq:1500,reward:'Tema Frost desbloqueado',icon:'\ud83d\udc8e'},{label:'Lendario',xpReq:3000,reward:'Badge Especial',icon:'\ud83c\udfc6'}]},
+    { month: 8, name: 'Agosto: Aceleracao Final', icon: '\ud83d\udd25', desc: 'Sprint para o ENEM!', colorA: '#EF4444', colorB: '#F97316', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'\u2694\ufe0f'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'\ud83d\udd25'},{label:'Expert',xpReq:1500,reward:'Tema Fire desbloqueado',icon:'\ud83d\udca5'},{label:'Lendario',xpReq:3000,reward:'Modo Turbo (XP x2)',icon:'\ud83c\udfc6'}]},
+    { month: 9, name: 'Setembro: Mes da Ciencia', icon: '\ud83d\udd2c', desc: 'Explore ciencias!', colorA: '#059669', colorB: '#10B981', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'\u2697\ufe0f'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'\ud83d\udd2d'},{label:'Expert',xpReq:1500,reward:'Tema Forest desbloqueado',icon:'\ud83c\udf3f'},{label:'Lendario',xpReq:3000,reward:'Tema Radiance desbloqueado',icon:'\ud83c\udfc6'}]},
+    { month: 10, name: 'Outubro: Vespera do ENEM', icon: '\ud83c\udfaf', desc: 'Revisao total!', colorA: '#D97706', colorB: '#FBBF24', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'\ud83c\udfaf'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'\ud83d\udcdd'},{label:'Expert',xpReq:1500,reward:'Tema Sunset desbloqueado',icon:'\ud83c\udf05'},{label:'Lendario',xpReq:3000,reward:'Badge Especial',icon:'\ud83c\udfc6'}]},
+    { month: 11, name: 'Novembro: Hora da Verdade', icon: '\u26a1', desc: 'ENEM chegou!', colorA: '#7C3AED', colorB: '#A78BFA', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'\ud83e\udd81'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'\u2728'},{label:'Expert',xpReq:1500,reward:'Tema Ambiance desbloqueado',icon:'\ud83c\udf19'},{label:'Lendario',xpReq:3000,reward:'Tema Cosmic desbloqueado',icon:'\ud83c\udfc6'}]},
+    { month: 12, name: 'Dezembro: Celebracao!', icon: '\ud83c\udf89', desc: 'Celebre cada minuto de estudo!', colorA: '#DC2626', colorB: '#16A34A', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'\ud83c\udf81'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'\ud83c\udf84'},{label:'Expert',xpReq:1500,reward:'Pack completo de temas',icon:'\ud83c\udf8a'},{label:'Lendario',xpReq:3000,reward:'XP x3 em Janeiro',icon:'\ud83c\udfc6'}]},
 ];
 
 function renderEventContent() {
@@ -607,16 +908,16 @@ function renderEventContent() {
         const unlocked = xp >= tier.xpReq;
         return `<div class="xp-tier-card ${unlocked ? 'unlocked' : 'locked'}">${unlocked ? `<span class="xp-tier-badge">\u2705 Desbloqueado</span>` : `<span class="locked-badge">\ud83d\udd12 ${tier.xpReq} XP</span>`}<h4>${tier.icon} ${tier.label}</h4><p>${tier.reward}</p></div>`;
     }).join('');
-    container.innerHTML = `<div class="event-banner" style="--event-color-a:${ev.colorA}; --event-color-b:${ev.colorB};"><div class="event-banner-icon">${ev.icon}</div><div class="event-banner-text"><div class="event-banner-title">${ev.name}</div><div class="event-banner-desc">${ev.desc}</div><div class="xp-progress-wrap"><div style="display:flex;justify-content:space-between;font-size:0.8rem;margin-bottom:4px;opacity:0.9;"><span>Seu XP: <strong>${xp}</strong></span><span>${pct}% do tier m\u00e1ximo</span></div><div class="xp-bar-outer"><div class="xp-bar-inner" style="width:${pct}%;--event-color-a:${ev.colorA};--event-color-b:${ev.colorB};"></div></div></div></div><div class="event-banner-xp"><strong>${xp}</strong><span>XP total</span></div></div><div style="margin-top:4px;margin-bottom:8px;font-size:0.85rem;color:var(--text-muted);"><i class="fa-solid fa-info-circle"></i> XP \u00e9 ganho automaticamente ao usar o Geekie (+1 XP a cada 6 segundos)</div><div class="xp-tier-grid">${tiersHTML}</div>`;
+    container.innerHTML = `<div class="event-banner" style="--event-color-a:${ev.colorA}; --event-color-b:${ev.colorB};"><div class="event-banner-icon">${ev.icon}</div><div class="event-banner-text"><div class="event-banner-title">${ev.name}</div><div class="event-banner-desc">${ev.desc}</div><div class="xp-progress-wrap"><div style="display:flex;justify-content:space-between;font-size:0.8rem;margin-bottom:4px;opacity:0.9;"><span>Seu XP: <strong>${xp}</strong></span><span>${pct}% do tier maximo</span></div><div class="xp-bar-outer"><div class="xp-bar-inner" style="width:${pct}%;--event-color-a:${ev.colorA};--event-color-b:${ev.colorB};"></div></div></div></div><div class="event-banner-xp"><strong>${xp}</strong><span>XP total</span></div></div><div style="margin-top:4px;margin-bottom:8px;font-size:0.85rem;color:var(--text-muted);"><i class="fa-solid fa-info-circle"></i> XP e ganho automaticamente ao usar o Geekie (+1 XP a cada 6 segundos)</div><div class="xp-tier-grid">${tiersHTML}</div>`;
 }
 renderEventContent();
 
-// ===================== T\u00cdTULO DA P\u00c1GINA =====================
+// ===================== TITULO DA PAGINA =====================
 const availableFonts = [{family:'Poppins',label:'Poppins',sample:'Geekie Ultra'},{family:'Ubuntu',label:'Ubuntu',sample:'Geekie Ultra'},{family:'Orbitron',label:'Orbitron',sample:'Geekie Ultra'},{family:'Space Grotesk',label:'Space Grotesk',sample:'Geekie Ultra'},{family:'Fira Code',label:'Fira Code',sample:'Geekie Ultra'},{family:'Rajdhani',label:'Rajdhani',sample:'Geekie Ultra'},{family:'JetBrains Mono',label:'JetBrains Mono',sample:'Geekie Ultra'}];
 const availableIcons = ['fa-graduation-cap','fa-book-open','fa-brain','fa-fire','fa-star','fa-bolt','fa-rocket','fa-laptop-code','fa-atom','fa-dna','fa-flask','fa-calculator','fa-infinity','fa-pencil','fa-trophy','fa-crown','fa-heart','fa-globe','fa-satellite','fa-moon'];
 let selectedFont = localStorage.getItem('geekieTitleFont') || 'Poppins';
 let selectedIcon = localStorage.getItem('geekieTitleIcon') || 'fa-graduation-cap';
-let savedTitle = localStorage.getItem('geekieTitleName') || 'Geekie One Ultra v8.1';
+let savedTitle = localStorage.getItem('geekieTitleName') || 'Geekie One Ultra v9.0';
 function buildTitleUI() {
     const fontGrid = document.getElementById('fontGrid'), iconGrid = document.getElementById('iconGrid'); fontGrid.innerHTML = ''; iconGrid.innerHTML = '';
     availableFonts.forEach(f => { const el = document.createElement('div'); el.className = `font-option ${selectedFont === f.family ? 'selected' : ''}`; el.style.fontFamily = f.family; el.innerHTML = `<div style="font-size:1.1rem;font-weight:700;">${f.sample}</div><div class="font-name">${f.label}</div>`; el.onclick = () => { selectedFont = f.family; buildTitleUI(); updateTitlePreview(); }; fontGrid.appendChild(el); });
@@ -624,65 +925,8 @@ function buildTitleUI() {
     document.getElementById('pageTitleInput').value = savedTitle; updateTitlePreview();
 }
 function updateTitlePreview() { const name = document.getElementById('pageTitleInput').value || savedTitle; document.getElementById('titlePreviewBox').style.fontFamily = selectedFont; document.getElementById('previewIconEl').className = `fa-solid ${selectedIcon}`; document.getElementById('previewNameEl').textContent = name; }
-function applyPageTitle() { const name = document.getElementById('pageTitleInput').value.trim() || 'Geekie One Ultra v8.1'; savedTitle = name; localStorage.setItem('geekieTitleName', name); localStorage.setItem('geekieTitleFont', selectedFont); localStorage.setItem('geekieTitleIcon', selectedIcon); document.title = name; document.querySelector('.brand').style.fontFamily = selectedFont; showToast('T\u00edtulo atualizado!'); }
+function applyPageTitle() { const name = document.getElementById('pageTitleInput').value.trim() || 'Geekie One Ultra v9.0'; savedTitle = name; localStorage.setItem('geekieTitleName', name); localStorage.setItem('geekieTitleFont', selectedFont); localStorage.setItem('geekieTitleIcon', selectedIcon); document.title = name; document.querySelector('.brand').style.fontFamily = selectedFont; showToast('Titulo atualizado!'); }
 (function() { document.title = savedTitle; document.querySelector('.brand').style.fontFamily = selectedFont; buildTitleUI(); })();
-
-// ===================== NOTAS =====================
-let savedNotes = JSON.parse(localStorage.getItem('geekieNotes')) || [];
-let currentNoteId = null;
-const noteSelect = document.getElementById('noteSelect'), noteTitleInput = document.getElementById('noteTitle'), noteContentInput = document.getElementById('noteContent');
-function renderNotesDropdown() { noteSelect.innerHTML = '<option value="new">+ Nova Anota\u00e7\u00e3o...</option>'; savedNotes.forEach(note => { const opt = document.createElement('option'); opt.value = note.id; opt.textContent = note.title || 'Nota sem t\u00edtulo'; if (note.id === currentNoteId) opt.selected = true; noteSelect.appendChild(opt); }); }
-function loadSelectedNote() { const id = noteSelect.value; if (id === 'new') { currentNoteId = null; noteTitleInput.value = ''; noteContentInput.value = ''; } else { const n = savedNotes.find(n => n.id == id); if (n) { currentNoteId = n.id; noteTitleInput.value = n.title; noteContentInput.value = n.content; } } }
-function saveNote() { const title = noteTitleInput.value.trim() || 'Nota sem t\u00edtulo'; const content = noteContentInput.value; if (!content.trim() && !noteTitleInput.value.trim()) { showToast('A nota est\u00e1 vazia!', true); return; } if (currentNoteId === null) { const nn = { id: Date.now().toString(), title, content, date: new Date().toLocaleDateString() }; savedNotes.push(nn); currentNoteId = nn.id; showToast('Nova anota\u00e7\u00e3o salva!'); } else { const idx = savedNotes.findIndex(n => n.id === currentNoteId); if (idx !== -1) { savedNotes[idx].title = title; savedNotes[idx].content = content; showToast('Anota\u00e7\u00e3o atualizada!'); } } localStorage.setItem('geekieNotes', JSON.stringify(savedNotes)); renderNotesDropdown(); }
-function deleteNote() { if (currentNoteId === null) { noteTitleInput.value = ''; noteContentInput.value = ''; return; } if (confirm('Excluir esta anota\u00e7\u00e3o permanentemente?')) { savedNotes = savedNotes.filter(n => n.id !== currentNoteId); localStorage.setItem('geekieNotes', JSON.stringify(savedNotes)); currentNoteId = null; noteTitleInput.value = ''; noteContentInput.value = ''; renderNotesDropdown(); showToast('Anota\u00e7\u00e3o exclu\u00edda!'); } }
-function copyNoteContent() { if (!noteContentInput.value) { showToast('Nada para copiar!', true); return; } navigator.clipboard.writeText(noteContentInput.value).then(() => showToast('Conte\u00fado copiado!')).catch(() => showToast('Erro ao copiar.', true)); }
-async function pasteNoteContent() { try { const text = await navigator.clipboard.readText(); const s = noteContentInput.selectionStart, e = noteContentInput.selectionEnd; noteContentInput.value = noteContentInput.value.substring(0, s) + text + noteContentInput.value.substring(e); showToast('Colado!'); } catch { showToast('Use Ctrl+V para colar.', true); } }
-function exportNote() { if (!noteContentInput.value) { showToast('Nota vazia!', true); return; } const blob = new Blob([noteContentInput.value], { type: 'text/plain;charset=utf-8' }); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `${noteTitleInput.value.trim() || 'Anotacao'}.txt`; a.click(); showToast('Exportado!'); }
-function importNote(event) { const file = event.target.files[0]; if (!file) return; const reader = new FileReader(); reader.onload = e => { currentNoteId = null; noteTitleInput.value = file.name.replace('.txt', ''); noteContentInput.value = e.target.result; document.getElementById('importNoteFile').value = ''; noteSelect.value = 'new'; showToast('Importado! Lembre de salvar.'); }; reader.readAsText(file); }
-renderNotesDropdown();
-
-// ===================== POMODORO =====================
-let timerInterval, timeLeft = 25*60, isTimerRunning = false, isBreak = false, cycles = 0;
-const timerDisplay = document.getElementById('timerDisplay'), timerMode = document.getElementById('timerMode'), btnStartTimer = document.getElementById('btnStartTimer'), alarmSound = document.getElementById('alarmSound'), pomodoroCount = document.getElementById('pomodoroCount');
-function updateTimerDisplay() { timerDisplay.textContent = `${Math.floor(timeLeft/60).toString().padStart(2,'0')}:${(timeLeft%60).toString().padStart(2,'0')}`; document.title = `${timerDisplay.textContent} - ${savedTitle}`; }
-function startTimer() { if (isTimerRunning) return; isTimerRunning = true; btnStartTimer.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Rodando'; timerInterval = setInterval(() => { timeLeft--; updateTimerDisplay(); if (timeLeft <= 0) { clearInterval(timerInterval); isTimerRunning = false; alarmSound.play(); if (!isBreak) { cycles++; pomodoroCount.textContent = cycles; isBreak = true; timeLeft = 5*60; timerMode.textContent = 'Modo: Pausa Curta (5 min)'; timerMode.style.color = 'var(--accent)'; alert('Foco conclu\u00eddo! Pausa de 5 min.'); } else { isBreak = false; timeLeft = 25*60; timerMode.textContent = 'Modo: Foco (25 min)'; timerMode.style.color = 'var(--text-muted)'; alert('Pausa conclu\u00edda! Hora de focar.'); } btnStartTimer.innerHTML = '<i class="fa-solid fa-play"></i> Iniciar'; updateTimerDisplay(); } }, 1000); }
-function pauseTimer() { clearInterval(timerInterval); isTimerRunning = false; btnStartTimer.innerHTML = '<i class="fa-solid fa-play"></i> Continuar'; }
-function resetTimer() { clearInterval(timerInterval); isTimerRunning = false; isBreak = false; timeLeft = 25*60; timerMode.textContent = 'Modo: Foco (25 min)'; timerMode.style.color = 'var(--text-muted)'; btnStartTimer.innerHTML = '<i class="fa-solid fa-play"></i> Iniciar'; updateTimerDisplay(); }
-updateTimerDisplay();
-
-// ===================== TODO =====================
-const todoListEl = document.getElementById('todoList');
-let todos = JSON.parse(localStorage.getItem('geekieTodos')) || [];
-function renderTodos() { todoListEl.innerHTML = ''; todos.forEach((todo, i) => { const li = document.createElement('li'); li.className = `todo-item ${todo.completed ? 'completed' : ''}`; li.innerHTML = `<span>${todo.text}</span><div class="todo-actions"><i class="fa-solid fa-check check" onclick="toggleTodo(${i})"></i><i class="fa-solid fa-trash delete" onclick="deleteTodo(${i})"></i></div>`; todoListEl.appendChild(li); }); localStorage.setItem('geekieTodos', JSON.stringify(todos)); }
-function addTodo() { const t = document.getElementById('todoInput').value.trim(); if (t) { todos.push({text:t,completed:false}); document.getElementById('todoInput').value=''; renderTodos(); } }
-function handleTodoKeyPress(e) { if (e.key==='Enter') addTodo(); }
-function toggleTodo(i) { todos[i].completed = !todos[i].completed; renderTodos(); }
-function deleteTodo(i) { todos.splice(i,1); renderTodos(); }
-renderTodos();
-
-// ===================== FLASHCARDS =====================
-let flashcardsData = JSON.parse(localStorage.getItem('geekieFlashcards'));
-if (!flashcardsData || !flashcardsData.length) { flashcardsData = [{ front: 'O que \u00e9 a Mitoc\u00f4ndria?', back: 'Organela respons\u00e1vel pela respira\u00e7\u00e3o celular (energia).' }]; localStorage.setItem('geekieFlashcards', JSON.stringify(flashcardsData)); }
-let currentCardIndex = 0;
-const flashcardEl = document.getElementById('flashcard'), cardFront = document.getElementById('cardFront'), cardBack = document.getElementById('cardBack'), cardCounter = document.getElementById('cardCounter');
-function saveFlashcards() { localStorage.setItem('geekieFlashcards', JSON.stringify(flashcardsData)); }
-function updateCardDisplay() { flashcardEl.classList.remove('is-flipped'); setTimeout(() => { if (!flashcardsData.length) { cardFront.textContent = 'Nenhum flashcard.'; cardBack.textContent = 'Adicione acima!'; cardCounter.textContent = '0 / 0'; } else { if (currentCardIndex >= flashcardsData.length) currentCardIndex = Math.max(0, flashcardsData.length-1); cardFront.textContent = flashcardsData[currentCardIndex].front; cardBack.textContent = flashcardsData[currentCardIndex].back; cardCounter.textContent = `${currentCardIndex+1} / ${flashcardsData.length}`; } }, 150); }
-function flipCard() { if (flashcardsData.length) flashcardEl.classList.toggle('is-flipped'); }
-function nextCard() { if (currentCardIndex < flashcardsData.length-1) { currentCardIndex++; updateCardDisplay(); } }
-function prevCard() { if (currentCardIndex > 0) { currentCardIndex--; updateCardDisplay(); } }
-function addFlashcard() { const f = document.getElementById('newCardFront'), b = document.getElementById('newCardBack'); if (f.value.trim() && b.value.trim()) { flashcardsData.push({front:f.value.trim(),back:b.value.trim()}); saveFlashcards(); f.value=''; b.value=''; currentCardIndex=flashcardsData.length-1; updateCardDisplay(); showToast('Flashcard Criado!'); } else alert('Preencha frente e verso!'); }
-function deleteCurrentCard() { if (!flashcardsData.length) return; if (confirm('Excluir este flashcard?')) { flashcardsData.splice(currentCardIndex,1); saveFlashcards(); if (currentCardIndex >= flashcardsData.length) currentCardIndex = Math.max(0, flashcardsData.length-1); updateCardDisplay(); showToast('Exclu\u00eddo!'); } }
-updateCardDisplay();
-
-// ===================== AMBIENT AUDIO =====================
-const audios = { noise: document.getElementById('audio-noise'), rain: document.getElementById('audio-rain') };
-const audioBtns = { noise: document.getElementById('btn-noise'), rain: document.getElementById('btn-rain') };
-function toggleAudio(type) { if (audios[type].paused) { audios[type].play(); audioBtns[type].classList.add('active'); } else { audios[type].pause(); audioBtns[type].classList.remove('active'); } }
-function changeVolume(val) { Object.values(audios).forEach(a => a.volume = val); }
-changeVolume(0.5);
-
-// ===================== COPY CHAR =====================
-function copyChar(char) { const fallback = (t) => { const ta = document.createElement('textarea'); ta.value = t; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); showToast(`S\u00edmbolo ${t} copiado!`); } catch(e) {} document.body.removeChild(ta); }; if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(char).then(() => showToast(`S\u00edmbolo ${char} copiado!`)).catch(() => fallback(char)); } else fallback(char); }
 </script>
 </body>
 </html>
