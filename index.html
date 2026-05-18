@@ -561,8 +561,8 @@ document.addEventListener('fullscreenchange', () => { if (!document.fullscreenEl
 // ===================== XP SYSTEM =====================
 let xp = parseInt(localStorage.getItem('geekieXP')) || 0;
 const xpEl = document.getElementById('xpCount');
-function updateXP() { xpEl.textContent = xp; localStorage.setItem('geekieXP', xp); document.getElementById('titlesXpDisplay').textContent = xp; updatePlayerTitle(); }
-setInterval(() => { xp++; updateXP(); renderEventContent(); renderStore(); renderTitles(); }, 6000);
+function updateXP() { xpEl.textContent = xp; localStorage.setItem('geekieXP', xp); var _td=document.getElementById('titlesXpDisplay');if(_td)_td.textContent=xp;if(typeof updatePlayerTitle==='function')updatePlayerTitle(); }
+setInterval(() => { xp++; updateXP(); try{renderEventContent()}catch(e){} try{renderStore()}catch(e){} try{renderTitles()}catch(e){} }, 6000);
 updateXP();
 
 // ===================== THEMES =====================
