@@ -95,6 +95,12 @@
         .theme-ubuntu-fire { border: 2px solid #EF4444 !important; animation: ubuntuFire 1.8s ease-in-out infinite, fireShake 0.15s ease-in-out infinite; }
         @keyframes ubuntuFire { 0%,100% { box-shadow: 0 0 20px #EF4444; } 33% { box-shadow: 0 0 30px #F97316; border-color: #F97316; } 66% { box-shadow: 0 0 25px #FBBF24; border-color: #FBBF24; } }
         @keyframes fireShake { 0% { transform: translate(0, 0); } 25% { transform: translate(0.5px, -0.5px); } 50% { transform: translate(-0.5px, 0.5px); } 75% { transform: translate(0.5px, 0.5px); } 100% { transform: translate(0, 0); } }
+        
+        .theme-ubuntu-pulsar { border: 2px solid #756ad2 !important; animation: ubuntuPulsar 1.8s ease-in-out infinite, PulsarShake 0.15s ease-in-out infinite, pulsarSway 7s ease-in-out infinite; }
+        @keyframes ubuntuPulsar { 0%,100% { box-shadow: 0 0 20px #756ad2; } 33% { box-shadow: 0 0 30px #756ad2; border-color: #756ad2; } 66% { box-shadow: 0 0 25px #756ad2; border-color: #756ad2; } }
+        @keyframes PulsarShake { 0% { transform: translate(0, 0); } 25% { transform: translate(0.5px, -0.5px); } 50% { transform: translate(-0.5px, 0.5px); } 75% { transform: translate(0.5px, 0.5px); } 100% { transform: translate(0, 0); } }
+        @keyframes PulsarSway { 0%,100% { transform: rotate(0deg); } 25% { transform: rotate(0.3deg); } 75% { transform: rotate(-0.3deg); } } 
+        
 
         .wallpaper-wrap { position: absolute; inset: 0; z-index: 0; overflow: hidden; border-radius: 10px; pointer-events: none; }
         .wallpaper-canvas { width: 100%; height: 100%; display: block; }
@@ -597,7 +603,8 @@ const titlesList = [
     { id: 'title-guru',       name: '\ud83d\udd2e Guru',             xpReq: 2000, desc: 'Iluminacao academica.', reward: 'Tema Fire', rewardTheme: 'theme-ubuntu-fire' },
     { id: 'title-legend',     name: '\ud83c\udfc6 Lendario',         xpReq: 3000, desc: 'Poucos chegam tao longe!', reward: 'Tema Cosmic', rewardTheme: 'theme-ubuntu-cosmic' },
     { id: 'title-mythic',     name: '\ud83d\udc51 Mitico',           xpReq: 5000, desc: 'Transcendeu os limites.', reward: 'Tema Sunset + Cosmic', rewardTheme: 'theme-ubuntu-sunset' },
-    { id: 'title-god',        name: '\ud83c\udf1f Divindade',        xpReq: 10000,desc: 'Nada pode pará-lo.', reward: 'TODOS os temas', rewardTheme: 'ALL' },
+    { id: 'title-god',        name: '\ud83c\udf1f Divindade',        xpReq: 10000,desc: 'Nada pode pará-lo.', reward: 'Tema Pulsar', rewardTheme: 'theme-ubuntu-pulsar' },
+    { id: 'title-transcendent',      name: '\ud83c\udf1f Transcendente',    xpReq: 10000,desc: 'Ao infinito do foco.', reward: 'TODOS os temas', rewardTheme: 'ALL' },
 ];
 let equippedTitle = localStorage.getItem('geekieTitle') || 'title-novato';
 
@@ -625,6 +632,8 @@ const storeItems = [
     { id: 'theme-ubuntu-fire',     name: 'Ubuntu Fire',       xpReq: 1500, icon: 'fa-fire',       desc: 'Chama viva com TREMOR de fogo.',                  color: '#EF4444', effect: 'Fogo' },
     { id: 'theme-ubuntu-sunset',   name: 'Ubuntu Sunset',     xpReq: 2000, icon: 'fa-palette',    desc: 'Ciclo de cores com efeito ONDA 3D.',              color: '#F97316', effect: 'Onda 3D' },
     { id: 'theme-ubuntu-cosmic',   name: 'Ubuntu Cosmic',     xpReq: 3000, icon: 'fa-star',       desc: 'Deep space com ROTACAO de matiz infinita.',       color: '#6D28D9', effect: 'Hue Spin' },
+    { id: 'theme-ubuntu-pulsar',   name: 'Ubuntu Pulsar',     xpReq: 6000, icon: 'fa-pulsar',     desc: 'Deep black hole com TREMOR de matéria escura.',   color: '#756ad2', effect: 'Hole Tremor' },
+
 ];
 
 function applyTheme(themeId) { storeItems.forEach(item => iframeContainer.classList.remove(item.id)); iframeContainer.classList.add(themeId); }
@@ -637,13 +646,13 @@ function renderStore() {
         const isUnlocked = xp >= item.xpReq, isOwned = ownedThemes.includes(item.id), isEquipped = equippedTheme === item.id;
         let btn = '';
         if (isEquipped) btn = `<button class="btn btn-outline w-full" disabled><i class="fa-solid fa-check"></i> Equipado</button>`;
-        else if (isOwned) btn = `<button class="btn btn-primary w-full" onclick="equipTheme('${item.id}')">Equipar</button>`;
-        else if (isUnlocked) btn = `<button class="btn btn-primary w-full" onclick="unlockTheme('${item.id}')"><i class="fa-solid fa-lock-open"></i> Desbloquear</button>`;
+        else if (isOwned) btn = `<button class="btn btn-primary w-full" onclick="equip('${item.id}')">Equipar</button>`;
+        else if (isUnlocked) btn = `<button class="btn btn-primary w-full" onclick="unlock('${item.id}')"><i class="fa-solid fa-lock-open"></i> Desbloquear</button>`;
         else btn = `<button class="btn btn-disabled w-full" disabled><i class="fa-solid fa-lock"></i> ${item.xpReq} XP</button>`;
         grid.innerHTML += `<div class="store-item" style="${isEquipped ? `border-color:${item.color};box-shadow:0 0 15px ${item.color}44;` : ''}"><i class="fa-solid ${item.icon} preview-icon" style="color:${item.color};"></i><h4>${item.name}</h4><p style="font-size:0.8rem;color:var(--text-muted);flex:1;">${item.desc}</p><p style="font-size:0.7rem;color:var(--accent);margin-bottom:2px;"><i class="fa-solid fa-wand-magic-sparkles"></i> Efeito: ${item.effect}</p><p style="font-size:0.75rem;color:${isUnlocked ? 'var(--primary)' : 'var(--text-muted)'};margin-bottom:4px;"><i class="fa-solid fa-star"></i> ${item.xpReq} XP ${isUnlocked ? '\u2705' : '\ud83d\udd12'}</p>${btn}</div>`;
     });
 }
-applyTheme(equippedTheme); renderStore();
+apply(equipped); renderStore();
 
 // ===================== TITLES SYSTEM =====================
 function getHighestTitle() {
