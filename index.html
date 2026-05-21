@@ -96,10 +96,10 @@
         @keyframes ubuntuFire { 0%,100% { box-shadow: 0 0 20px #EF4444; } 33% { box-shadow: 0 0 30px #F97316; border-color: #F97316; } 66% { box-shadow: 0 0 25px #FBBF24; border-color: #FBBF24; } }
         @keyframes fireShake { 0% { transform: translate(0, 0); } 25% { transform: translate(0.5px, -0.5px); } 50% { transform: translate(-0.5px, 0.5px); } 75% { transform: translate(0.5px, 0.5px); } 100% { transform: translate(0, 0); } }
         
-        .theme-ubuntu-pulsar { border: 2px solid #756ad2 !important; animation: ubuntuPulsar 1.8s ease-in-out infinite, PulsarShake 0.15s ease-in-out infinite, pulsarSway 7s ease-in-out infinite; }
-        @keyframes ubuntuPulsar { 0%,100% { box-shadow: 0 0 20px #756ad2; } 33% { box-shadow: 0 0 30px #756ad2; border-color: #756ad2; } 66% { box-shadow: 0 0 25px #756ad2; border-color: #756ad2; } }
-        @keyframes PulsarShake { 0% { transform: translate(0, 0); } 25% { transform: translate(0.5px, -0.5px); } 50% { transform: translate(-0.5px, 0.5px); } 75% { transform: translate(0.5px, 0.5px); } 100% { transform: translate(0, 0); } }
-        @keyframes PulsarSway { 0%,100% { transform: rotate(0deg); } 25% { transform: rotate(0.3deg); } 75% { transform: rotate(-0.3deg); } } 
+        .theme-ubuntu-pulsar { border: 2px solid #756ad2 !important; animation: ubuntuPulsar 1.8s ease-in-out infinite, pulsarShake 0.15s ease-in-out infinite, pulsarSway 7s ease-in-out infinite; }
+        @keyframes ubuntuPulsar { 0%,100% { box-shadow: 0 0 20px #756ad2, 0 0 50px rgba(117,106,210,0.3); } 33% { box-shadow: 0 0 35px #a78bfa, 0 0 70px rgba(167,139,250,0.4); border-color: #a78bfa; } 66% { box-shadow: 0 0 25px #756ad2, 0 0 55px rgba(117,106,210,0.25); border-color: #756ad2; } }
+        @keyframes pulsarShake { 0% { transform: translate(0, 0); } 25% { transform: translate(0.5px, -0.5px); } 50% { transform: translate(-0.5px, 0.5px); } 75% { transform: translate(0.5px, 0.5px); } 100% { transform: translate(0, 0); } }
+        @keyframes pulsarSway { 0%,100% { transform: rotate(0deg); } 25% { transform: rotate(0.3deg); } 75% { transform: rotate(-0.3deg); } }
         
 
         .wallpaper-wrap { position: absolute; inset: 0; z-index: 0; overflow: hidden; border-radius: 10px; pointer-events: none; }
@@ -231,6 +231,8 @@
         .title-card.equipped { border-color: var(--primary); box-shadow: 0 0 20px rgba(0,255,136,0.2); }
         .title-card-inner { position: relative; z-index: 1; }
         .title-card .title-name { font-size: 1.1rem; font-weight: 700; color: var(--gold); margin-bottom: 4px; }
+        .title-card .title-name.gradient-pulsar { background: linear-gradient(135deg, #756ad2, #a78bfa, #00d4ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .title-card.equipped .title-name.gradient-pulsar { background: linear-gradient(135deg, #a78bfa, #00d4ff, #756ad2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
         .title-card .title-desc { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px; }
         .title-card .title-xp-req { font-size: 0.75rem; color: var(--accent); }
         .title-card .title-reward { font-size: 0.75rem; color: var(--primary); margin-top: 4px; }
@@ -603,8 +605,8 @@ const titlesList = [
     { id: 'title-guru',       name: '\ud83d\udd2e Guru',             xpReq: 2000, desc: 'Iluminacao academica.', reward: 'Tema Fire', rewardTheme: 'theme-ubuntu-fire' },
     { id: 'title-legend',     name: '\ud83c\udfc6 Lendario',         xpReq: 3000, desc: 'Poucos chegam tao longe!', reward: 'Tema Cosmic', rewardTheme: 'theme-ubuntu-cosmic' },
     { id: 'title-mythic',     name: '\ud83d\udc51 Mitico',           xpReq: 5000, desc: 'Transcendeu os limites.', reward: 'Tema Sunset + Cosmic', rewardTheme: 'theme-ubuntu-sunset' },
-    { id: 'title-god',        name: '\ud83c\udf1f Divindade',        xpReq: 10000,desc: 'Nada pode pará-lo.', reward: 'Tema Pulsar', rewardTheme: 'theme-ubuntu-pulsar' },
-    { id: 'title-transcendent',      name: '\ud83c\udf1f Transcendente',    xpReq: 10000,desc: 'Ao infinito do foco.', reward: 'TODOS os temas', rewardTheme: 'ALL' },
+    { id: 'title-god',        name: '\ud83c\udf0c Divindade',        xpReq: 10000, desc: 'Nada pode pará-lo.', reward: 'Tema Pulsar', rewardTheme: 'theme-ubuntu-pulsar', gradient: true },
+    { id: 'title-transcendent',      name: '\u26a1 Transcendente',    xpReq: 15000, desc: 'Ao infinito do foco.', reward: 'TODOS os temas', rewardTheme: 'ALL', gradient: true },
 ];
 let equippedTitle = localStorage.getItem('geekieTitle') || 'title-novato';
 
@@ -632,7 +634,7 @@ const storeItems = [
     { id: 'theme-ubuntu-fire',     name: 'Ubuntu Fire',       xpReq: 1500, icon: 'fa-fire',       desc: 'Chama viva com TREMOR de fogo.',                  color: '#EF4444', effect: 'Fogo' },
     { id: 'theme-ubuntu-sunset',   name: 'Ubuntu Sunset',     xpReq: 2000, icon: 'fa-palette',    desc: 'Ciclo de cores com efeito ONDA 3D.',              color: '#F97316', effect: 'Onda 3D' },
     { id: 'theme-ubuntu-cosmic',   name: 'Ubuntu Cosmic',     xpReq: 3000, icon: 'fa-star',       desc: 'Deep space com ROTACAO de matiz infinita.',       color: '#6D28D9', effect: 'Hue Spin' },
-    { id: 'theme-ubuntu-pulsar',   name: 'Ubuntu Pulsar',     xpReq: 6000, icon: 'fa-pulsar',     desc: 'Deep black hole com TREMOR de matéria escura.',   color: '#756ad2', effect: 'Hole Tremor' },
+    { id: 'theme-ubuntu-pulsar',   name: 'Ubuntu Pulsar',     xpReq: 6000, icon: 'fa-circle-nodes', desc: 'Deep black hole com TREMOR de matéria escura.',   color: '#756ad2', effect: 'Hole Tremor' },
 
 ];
 
@@ -646,13 +648,13 @@ function renderStore() {
         const isUnlocked = xp >= item.xpReq, isOwned = ownedThemes.includes(item.id), isEquipped = equippedTheme === item.id;
         let btn = '';
         if (isEquipped) btn = `<button class="btn btn-outline w-full" disabled><i class="fa-solid fa-check"></i> Equipado</button>`;
-        else if (isOwned) btn = `<button class="btn btn-primary w-full" onclick="equip('${item.id}')">Equipar</button>`;
-        else if (isUnlocked) btn = `<button class="btn btn-primary w-full" onclick="unlock('${item.id}')"><i class="fa-solid fa-lock-open"></i> Desbloquear</button>`;
+        else if (isOwned) btn = `<button class="btn btn-primary w-full" onclick="equipTheme('${item.id}')">Equipar</button>`;
+        else if (isUnlocked) btn = `<button class="btn btn-primary w-full" onclick="unlockTheme('${item.id}')"><i class="fa-solid fa-lock-open"></i> Desbloquear</button>`;
         else btn = `<button class="btn btn-disabled w-full" disabled><i class="fa-solid fa-lock"></i> ${item.xpReq} XP</button>`;
         grid.innerHTML += `<div class="store-item" style="${isEquipped ? `border-color:${item.color};box-shadow:0 0 15px ${item.color}44;` : ''}"><i class="fa-solid ${item.icon} preview-icon" style="color:${item.color};"></i><h4>${item.name}</h4><p style="font-size:0.8rem;color:var(--text-muted);flex:1;">${item.desc}</p><p style="font-size:0.7rem;color:var(--accent);margin-bottom:2px;"><i class="fa-solid fa-wand-magic-sparkles"></i> Efeito: ${item.effect}</p><p style="font-size:0.75rem;color:${isUnlocked ? 'var(--primary)' : 'var(--text-muted)'};margin-bottom:4px;"><i class="fa-solid fa-star"></i> ${item.xpReq} XP ${isUnlocked ? '\u2705' : '\ud83d\udd12'}</p>${btn}</div>`;
     });
 }
-apply(equipped); renderStore();
+applyTheme(equippedTheme); renderStore();
 
 // ===================== TITLES SYSTEM =====================
 function getHighestTitle() {
@@ -695,10 +697,12 @@ function renderTitles() {
         if (isEquipped) btnHtml = `<button class="btn btn-outline w-full" disabled style="margin-top:8px;"><i class="fa-solid fa-check"></i> Usando</button>`;
         else if (unlocked) btnHtml = `<button class="btn btn-primary w-full" onclick="equipTitle('${t.id}')" style="margin-top:8px;"><i class="fa-solid fa-crown"></i> Usar Titulo</button>`;
         else btnHtml = `<button class="btn btn-disabled w-full" disabled style="margin-top:8px;"><i class="fa-solid fa-lock"></i> ${t.xpReq} XP</button>`;
+        const gradClass = t.gradient ? 'gradient-pulsar' : '';
         grid.innerHTML += `<div class="title-card ${unlocked ? 'unlocked' : 'locked'} ${isEquipped ? 'equipped' : ''}">
             <div class="title-card-inner">
                 ${unlocked ? '<span class="xp-tier-badge">\u2705 Conquistado</span>' : `<span class="locked-badge">\ud83d\udd12 ${t.xpReq} XP</span>`}
-                <div class="title-name">${t.name}</div>
+                ${t.gradient ? `<div style="text-align:center;margin-bottom:6px;font-size:1.6rem;"><i class="fa-solid fa-circle-nodes" style="background:linear-gradient(135deg,#756ad2,#a78bfa,#00d4ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;"></i></div>` : ''}
+                <div class="title-name ${gradClass}">${t.name}</div>
                 <div class="title-desc">${t.desc}</div>
                 <div class="title-xp-req"><i class="fa-solid fa-star"></i> Requer: ${t.xpReq} XP</div>
                 ${t.reward ? `<div class="title-reward"><i class="fa-solid fa-gift"></i> Recompensa: ${t.reward}</div>` : ''}
@@ -735,10 +739,12 @@ function buildNoteFontPicker() {
     applyNoteFont();
 }
 function applyNoteFont() {
-    document.getElementById('noteContent').style.fontFamily = currentNoteFont;
-    document.getElementById('noteTitle').style.fontFamily = currentNoteFont;
+    const nc = document.getElementById('noteContent');
+    const nt = document.getElementById('noteTitle');
+    if (nc) nc.style.fontFamily = `'${currentNoteFont}', sans-serif`;
+    if (nt) nt.style.fontFamily = `'${currentNoteFont}', sans-serif`;
 }
-buildNoteFontPicker();
+document.fonts.ready.then(() => buildNoteFontPicker());
 
 // ===================== NOTAS =====================
 let savedNotes = JSON.parse(localStorage.getItem('geekieNotes')) || [];
@@ -768,6 +774,7 @@ updateTimerDisplay();
 // ===================== GOALS/TODO =====================
 function renderTodos() {
     const todoListEl = document.getElementById('todoList'); if (!todoListEl) return;
+    todoListEl.innerHTML = '';
     let filtered = todos;
     if (todoFilter === 'pending') filtered = todos.filter(t => !t.completed);
     if (todoFilter === 'done') filtered = todos.filter(t => t.completed);
