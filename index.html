@@ -496,7 +496,20 @@
             <p style="color: var(--text-muted); margin-bottom: 30px;">Histórico de atualizações e novas funcionalidades.</p>
             <div class="timeline" id="devlogTimeline">
                 <div class="timeline-item">
-                    <div class="version-header"><span class="version-tag">v9.0.0</span><h3>Mega Update — Títulos, Fontes, Efeitos & Mixer</h3><span class="version-date">Atualização Atual</span></div>
+                    <div class="version-header"><span class="version-tag">v9.1.0</span><h3>Hotfix & Polishing — Bugs Críticos, Gradientes & XP</h3><span class="version-date">Atualização Atual</span></div>
+                    <ul>
+                        <li><strong>Correção Crítica — Loja de Temas:</strong> Funções <code>equip()</code> e <code>unlock()</code> não existiam; corrigido para <code>equipTheme()</code> e <code>unlockTheme()</code>. Botões da loja agora funcionam corretamente.</li>
+                        <li><strong>Correção Crítica — Inicialização:</strong> Chamada <code>apply(equipped)</code> substituída por <code>applyTheme(equippedTheme)</code>, eliminando erro fatal ao carregar a página.</li>
+                        <li><strong>Bloco de Notas — Fontes:</strong> Seletor de fontes agora aguarda o carregamento das Google Fonts via <code>document.fonts.ready</code> antes de renderizar. Fonte aplicada com fallback correto.</li>
+                        <li><strong>Metas de Estudo — Duplicatas:</strong> Lista de tarefas era acumulada a cada re-render; adicionado <code>innerHTML = ''</code> para limpar antes de redesenhar.</li>
+                        <li><strong>Tema Pulsar — Animação:</strong> Nome do keyframe <code>PulsarSway</code> estava com case incorreto; padronizado para <code>pulsarSway</code>. Efeito de brilho aprimorado com transição de cor para <code>#a78bfa</code>.</li>
+                        <li><strong>Tema Pulsar — Ícone:</strong> Ícone <code>fa-pulsar</code> (inválido no Font Awesome) substituído por <code>fa-circle-nodes</code>.</li>
+                        <li><strong>Títulos Divindade & Transcendente:</strong> Aplicado gradiente roxo→lilás→ciano (paleta Pulsar) nos nomes. Adicionado ícone <code>fa-circle-nodes</code> com o mesmo gradiente nos cards.</li>
+                        <li><strong>XP dos Títulos:</strong> Divindade mantido em 10.000 XP; Transcendente ajustado para 15.000 XP.</li>
+                    </ul>
+                </div>
+                <div class="timeline-item">
+                    <div class="version-header"><span class="version-tag">v9.0.0</span><h3>Mega Update — Títulos, Fontes, Efeitos & Mixer</h3><span class="version-date"></span></div>
                     <ul>
                         <li><strong>Sistema de Títulos:</strong> Nova aba com 10 títulos conquistados por XP, com temas exclusivos como recompensa.</li>
                         <li><strong>Fontes no Bloco de Notas:</strong> 6 fontes personalizadas para o editor (Caveat, Kalam, Indie Flower, etc).</li>
