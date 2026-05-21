@@ -506,6 +506,7 @@
                         <li><strong>Tema Pulsar — Ícone:</strong> Ícone <code>fa-pulsar</code> (inválido no Font Awesome) substituído por <code>fa-circle-nodes</code>.</li>
                         <li><strong>Títulos Divindade & Transcendente:</strong> Aplicado gradiente roxo→lilás→ciano (paleta Pulsar) nos nomes. Adicionado ícone <code>fa-circle-nodes</code> com o mesmo gradiente nos cards.</li>
                         <li><strong>XP dos Títulos:</strong> Divindade mantido em 10.000 XP; Transcendente ajustado para 15.000 XP.</li>
+                        <li><strong>Ícone do Título Divindade:</strong> Emoji corrigido de 🌌 para ✨ e ícone exclusivo <code>fa-sun</code> com gradiente Pulsar; Transcendente mantém <code>fa-circle-nodes</code>. Cada título agora tem seu próprio ícone diferenciado.</li>
                     </ul>
                 </div>
                 <div class="timeline-item">
@@ -618,8 +619,8 @@ const titlesList = [
     { id: 'title-guru',       name: '\ud83d\udd2e Guru',             xpReq: 2000, desc: 'Iluminacao academica.', reward: 'Tema Fire', rewardTheme: 'theme-ubuntu-fire' },
     { id: 'title-legend',     name: '\ud83c\udfc6 Lendario',         xpReq: 3000, desc: 'Poucos chegam tao longe!', reward: 'Tema Cosmic', rewardTheme: 'theme-ubuntu-cosmic' },
     { id: 'title-mythic',     name: '\ud83d\udc51 Mitico',           xpReq: 5000, desc: 'Transcendeu os limites.', reward: 'Tema Sunset + Cosmic', rewardTheme: 'theme-ubuntu-sunset' },
-    { id: 'title-god',        name: '\ud83c\udf0c Divindade',        xpReq: 10000, desc: 'Nada pode pará-lo.', reward: 'Tema Pulsar', rewardTheme: 'theme-ubuntu-pulsar', gradient: true },
-    { id: 'title-transcendent',      name: '\u26a1 Transcendente',    xpReq: 15000, desc: 'Ao infinito do foco.', reward: 'TODOS os temas', rewardTheme: 'ALL', gradient: true },
+    { id: 'title-god',        name: '\u2728 Divindade',        xpReq: 10000, desc: 'Nada pode pará-lo.', reward: 'Tema Pulsar', rewardTheme: 'theme-ubuntu-pulsar', gradient: true, gradientIcon: 'fa-sun' },
+    { id: 'title-transcendent',      name: '\u26a1 Transcendente',    xpReq: 15000, desc: 'Ao infinito do foco.', reward: 'TODOS os temas', rewardTheme: 'ALL', gradient: true, gradientIcon: 'fa-circle-nodes' },
 ];
 let equippedTitle = localStorage.getItem('geekieTitle') || 'title-novato';
 
@@ -714,7 +715,7 @@ function renderTitles() {
         grid.innerHTML += `<div class="title-card ${unlocked ? 'unlocked' : 'locked'} ${isEquipped ? 'equipped' : ''}">
             <div class="title-card-inner">
                 ${unlocked ? '<span class="xp-tier-badge">\u2705 Conquistado</span>' : `<span class="locked-badge">\ud83d\udd12 ${t.xpReq} XP</span>`}
-                ${t.gradient ? `<div style="text-align:center;margin-bottom:6px;font-size:1.6rem;"><i class="fa-solid fa-circle-nodes" style="background:linear-gradient(135deg,#756ad2,#a78bfa,#00d4ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;"></i></div>` : ''}
+                ${t.gradient ? `<div style="text-align:center;margin-bottom:6px;font-size:1.6rem;"><i class="fa-solid ${t.gradientIcon || 'fa-star'}" style="background:linear-gradient(135deg,#756ad2,#a78bfa,#00d4ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;"></i></div>` : ''}
                 <div class="title-name ${gradClass}">${t.name}</div>
                 <div class="title-desc">${t.desc}</div>
                 <div class="title-xp-req"><i class="fa-solid fa-star"></i> Requer: ${t.xpReq} XP</div>
