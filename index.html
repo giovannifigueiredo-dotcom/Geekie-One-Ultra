@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Geekie One Ultra v9.0 - Study Hub</title>
+    <title>Geekie One Ultra v10.0 - Study Hub</title>
     <link rel="icon" id="pageIcon" href="https://i.postimg.cc/gcHHYqtC/fire-geekie.png">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&family=Orbitron:wght@400;700&family=Ubuntu:wght@400;500;700&family=Space+Grotesk:wght@400;600;700&family=Rajdhani:wght@400;600;700&family=JetBrains+Mono:wght@400;600&family=Caveat:wght@400;600;700&family=Patrick+Hand&family=Indie+Flower&family=Shadows+Into+Light&family=Kalam:wght@400;700&family=Architects+Daughter&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -15,7 +15,7 @@
             --bg-glass-hover: rgba(26, 35, 58, 0.9);
             --text-main: #f0f4f8; --text-muted: #94a3b8;
             --border: rgba(255, 255, 255, 0.1); --danger: #ff4757;
-            --success: #2ed573; --gold: #ffd700;
+            --success: #2ed573; --gold: #ffd700; --coin: #f59e0b;
             --sidebar-width: 260px;
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
@@ -39,14 +39,17 @@
         .nav-item.store-link.active { border-left-color: var(--gold); background: linear-gradient(90deg, rgba(255,215,0,0.1), transparent); }
         .nav-item.titles-link { color: #a78bfa; }
         .nav-item.titles-link.active { border-left-color: #a78bfa; background: linear-gradient(90deg, rgba(167,139,250,0.1), transparent); }
+        .nav-item.pets-link { color: #fb923c; }
+        .nav-item.pets-link.active { border-left-color: #fb923c; background: linear-gradient(90deg, rgba(251,146,60,0.1), transparent); }
 
         .main-content { flex: 1; display: flex; flex-direction: column; position: relative; }
         .topbar { height: 60px; background: var(--bg-glass); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; padding: 0 20px; }
         .btn-icon { background: transparent; border: 1px solid var(--border); color: var(--text-main); width: 40px; height: 40px; border-radius: 8px; cursor: pointer; transition: var(--transition); display: flex; align-items: center; justify-content: center; }
         .btn-icon:hover { background: var(--primary); color: var(--bg-base); border-color: var(--primary); box-shadow: 0 0 15px var(--primary-glow); }
-        .topbar-right { display: flex; gap: 15px; align-items: center; }
+        .topbar-right { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
         .clock-widget { font-family: 'Fira Code', monospace; font-weight: 600; color: var(--accent); background: rgba(0, 212, 255, 0.1); padding: 5px 15px; border-radius: 20px; }
         .xp-display { display: flex; align-items: center; gap: 8px; background: rgba(139, 92, 246, 0.15); border: 1px solid rgba(139, 92, 246, 0.4); color: #a78bfa; padding: 5px 15px; border-radius: 20px; font-weight: 600; font-size: 0.9rem; cursor: pointer; }
+        .coin-display { display: flex; align-items: center; gap: 8px; background: rgba(245,158,11,0.12); border: 1px solid rgba(245,158,11,0.4); color: var(--coin); padding: 5px 14px; border-radius: 20px; font-weight: 600; font-size: 0.9rem; cursor: pointer; }
         .title-display { display: flex; align-items: center; gap: 6px; background: rgba(255,215,0,0.1); border: 1px solid rgba(255,215,0,0.3); color: var(--gold); padding: 5px 12px; border-radius: 20px; font-weight: 600; font-size: 0.8rem; }
 
         .tab-content { flex: 1; display: none; padding: 20px; overflow-y: auto; animation: fadeIn 0.4s ease; }
@@ -61,46 +64,35 @@
         .theme-ubuntu-yaru { border: 2px solid #E95420 !important; animation: yaruGlow 4s ease-in-out infinite, yaruShake 8s ease-in-out infinite; }
         @keyframes yaruGlow { 0%,100% { box-shadow: 0 0 20px rgba(233,84,32,0.5), 0 0 60px rgba(233,84,32,0.2); border-color: #E95420; } 50% { box-shadow: 0 0 35px rgba(250,140,20,0.6), 0 0 80px rgba(250,140,20,0.3); border-color: #FA8C14; } }
         @keyframes yaruShake { 0%,90%,100% { transform: translateX(0); } 92% { transform: translateX(-3px) rotate(-0.5deg); } 94% { transform: translateX(3px) rotate(0.5deg); } 96% { transform: translateX(-2px) rotate(-0.3deg); } 98% { transform: translateX(2px) rotate(0.3deg); } }
-
         .theme-ubuntu-ambiance { border: 2px solid #5C3566 !important; animation: ambianceShift 5s ease-in-out infinite, ambianceFloat 6s ease-in-out infinite; }
         @keyframes ambianceShift { 0%,100% { box-shadow: 0 0 25px rgba(92,53,102,0.6), inset 0 0 30px rgba(92,53,102,0.1); } 33% { box-shadow: 0 0 30px rgba(143,65,179,0.6), inset 0 0 30px rgba(143,65,179,0.1); border-color: #8F41B3; } 66% { box-shadow: 0 0 25px rgba(92,53,102,0.5), inset 0 0 20px rgba(92,53,102,0.1); border-color: #5C3566; } }
         @keyframes ambianceFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
-
         .theme-ubuntu-radiance { border: 2px solid #87B03D !important; animation: radiancePulse 3s ease-in-out infinite, radianceScale 5s ease-in-out infinite; }
         @keyframes radiancePulse { 0%,100% { box-shadow: 0 0 20px rgba(135,176,61,0.5), 0 0 40px rgba(135,176,61,0.15); } 50% { box-shadow: 0 0 30px rgba(185,220,80,0.6), 0 0 60px rgba(185,220,80,0.25); border-color: #B9DC50; } }
         @keyframes radianceScale { 0%,100% { transform: scale(1); } 50% { transform: scale(1.003); } }
-
         .theme-ubuntu-snap { border: 2px solid #1BA1E2 !important; animation: snapNeon 2.5s linear infinite, snapGlitch 10s ease-in-out infinite; }
         @keyframes snapNeon { 0%,100% { box-shadow: 0 0 15px #1BA1E2, 0 0 30px rgba(27,161,226,0.3); } 50% { box-shadow: 0 0 25px #44CCFF, 0 0 50px rgba(68,204,255,0.4); border-color: #44CCFF; } }
         @keyframes snapGlitch { 0%,95%,100% { transform: translate(0); filter: none; } 96% { transform: translate(-2px, 1px); filter: hue-rotate(90deg); } 97% { transform: translate(2px, -1px); filter: hue-rotate(-90deg); } 98% { transform: translate(-1px, -1px); filter: hue-rotate(45deg); } }
-
         .theme-ubuntu-dark { border: 2px solid #3C3B37 !important; animation: darkPulse 6s ease-in-out infinite; }
         @keyframes darkPulse { 0%,100% { box-shadow: 0 0 20px rgba(60,59,55,0.8), inset 0 0 40px rgba(255,255,255,0.02); border-color: #3C3B37; } 50% { box-shadow: 0 0 35px rgba(100,98,90,0.6), inset 0 0 40px rgba(255,255,255,0.04); border-color: #64625A; } }
-
         .theme-ubuntu-frost { border: 2px solid #C8E6FA !important; animation: frostShine 3.5s ease-in-out infinite, frostSway 7s ease-in-out infinite; }
         @keyframes frostShine { 0%,100% { box-shadow: 0 0 20px rgba(200,230,250,0.4), inset 0 0 40px rgba(200,230,250,0.08); } 50% { box-shadow: 0 0 35px rgba(255,255,255,0.6), inset 0 0 50px rgba(200,230,250,0.15); border-color: #fff; } }
         @keyframes frostSway { 0%,100% { transform: rotate(0deg); } 25% { transform: rotate(0.3deg); } 75% { transform: rotate(-0.3deg); } }
-
         .theme-ubuntu-sunset { border: 2px solid #F97316 !important; animation: ubuntuSunset 6s linear infinite, sunsetWave 4s ease-in-out infinite; }
         @keyframes ubuntuSunset { 0% { border-color: #F97316; box-shadow: 0 0 25px #F97316; } 33% { border-color: #EC4899; box-shadow: 0 0 25px #EC4899; } 66% { border-color: #8B5CF6; box-shadow: 0 0 25px #8B5CF6; } 100% { border-color: #F97316; box-shadow: 0 0 25px #F97316; } }
         @keyframes sunsetWave { 0%,100% { transform: perspective(800px) rotateX(0deg); } 50% { transform: perspective(800px) rotateX(0.5deg); } }
-
         .theme-ubuntu-forest { border: 2px solid #16A34A !important; animation: forestBreath 4s ease-in-out infinite; }
         @keyframes forestBreath { 0%,100% { box-shadow: 0 0 20px rgba(22,163,74,0.4), 0 0 50px rgba(22,163,74,0.1); } 50% { box-shadow: 0 0 35px rgba(74,222,128,0.5), 0 0 70px rgba(74,222,128,0.2); border-color: #4ADE80; } }
-
         .theme-ubuntu-cosmic { border: 2px solid #6D28D9 !important; animation: cosmicPulse 4s ease-in-out infinite, cosmicSpin 20s linear infinite; }
         @keyframes cosmicPulse { 0%,100% { box-shadow: 0 0 20px #6D28D9, 0 0 50px rgba(109,40,217,0.2); } 50% { box-shadow: 0 0 35px #A78BFA, 0 0 70px rgba(167,139,250,0.3); border-color: #A78BFA; } }
         @keyframes cosmicSpin { 0% { filter: hue-rotate(0deg); } 100% { filter: hue-rotate(360deg); } }
-
         .theme-ubuntu-fire { border: 2px solid #EF4444 !important; animation: ubuntuFire 1.8s ease-in-out infinite, fireShake 0.15s ease-in-out infinite; }
         @keyframes ubuntuFire { 0%,100% { box-shadow: 0 0 20px #EF4444; } 33% { box-shadow: 0 0 30px #F97316; border-color: #F97316; } 66% { box-shadow: 0 0 25px #FBBF24; border-color: #FBBF24; } }
         @keyframes fireShake { 0% { transform: translate(0, 0); } 25% { transform: translate(0.5px, -0.5px); } 50% { transform: translate(-0.5px, 0.5px); } 75% { transform: translate(0.5px, 0.5px); } 100% { transform: translate(0, 0); } }
-        
         .theme-ubuntu-pulsar { border: 2px solid #756ad2 !important; animation: ubuntuPulsar 1.8s ease-in-out infinite, pulsarShake 0.15s ease-in-out infinite, pulsarSway 7s ease-in-out infinite; }
         @keyframes ubuntuPulsar { 0%,100% { box-shadow: 0 0 20px #756ad2, 0 0 50px rgba(117,106,210,0.3); } 33% { box-shadow: 0 0 35px #a78bfa, 0 0 70px rgba(167,139,250,0.4); border-color: #a78bfa; } 66% { box-shadow: 0 0 25px #756ad2, 0 0 55px rgba(117,106,210,0.25); border-color: #756ad2; } }
         @keyframes pulsarShake { 0% { transform: translate(0, 0); } 25% { transform: translate(0.5px, -0.5px); } 50% { transform: translate(-0.5px, 0.5px); } 75% { transform: translate(0.5px, 0.5px); } 100% { transform: translate(0, 0); } }
         @keyframes pulsarSway { 0%,100% { transform: rotate(0deg); } 25% { transform: rotate(0.3deg); } 75% { transform: rotate(-0.3deg); } }
-        
 
         .wallpaper-wrap { position: absolute; inset: 0; z-index: 0; overflow: hidden; border-radius: 10px; pointer-events: none; }
         .wallpaper-canvas { width: 100%; height: 100%; display: block; }
@@ -111,6 +103,8 @@
         .btn { padding: 10px 20px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: var(--transition); display: flex; align-items: center; justify-content: center; gap: 8px; }
         .btn-primary { background: var(--primary); color: var(--bg-base); }
         .btn-primary:hover { box-shadow: 0 0 15px var(--primary-glow); }
+        .btn-coin { background: var(--coin); color: var(--bg-base); }
+        .btn-coin:hover { box-shadow: 0 0 15px rgba(245,158,11,0.5); }
         .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text-main); }
         .btn-outline:hover { background: rgba(255,255,255,0.1); }
         .btn-disabled { background: #333; color: #777; cursor: not-allowed; }
@@ -140,7 +134,6 @@
         .card-back { background: linear-gradient(135deg, var(--bg-glass), rgba(0, 212, 255, 0.2)); transform: rotateY(180deg); }
         .flashcard-controls { display: flex; justify-content: center; gap: 15px; }
 
-        /* Ambient Sounds - Enhanced */
         .ambient-grid-v2 { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
         .ambient-card { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 20px 15px; border-radius: 12px; cursor: pointer; text-align: center; transition: var(--transition); position: relative; overflow: hidden; }
         .ambient-card:hover { background: rgba(255,255,255,0.08); border-color: var(--accent); transform: translateY(-3px); }
@@ -246,6 +239,39 @@
         .modal-box h2 { color: var(--primary); margin-bottom: 8px; }
         .modal-close { position: absolute; top: 15px; right: 15px; background: transparent; border: none; color: var(--text-muted); font-size: 1.2rem; cursor: pointer; }
         .modal-close:hover { color: var(--danger); }
+
+        /* ========== PET SYSTEM STYLES ========== */
+        .pet-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 18px; }
+        .pet-card { background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: 14px; padding: 22px; transition: var(--transition); position: relative; overflow: hidden; }
+        .pet-card.pet-unlocked { border-color: #fb923c; }
+        .pet-card.pet-active { border-color: var(--primary); box-shadow: 0 0 20px rgba(0,255,136,0.2); }
+        .pet-card.pet-locked { opacity: 0.55; }
+        .pet-card.pet-special { border-color: #a78bfa; }
+        .pet-card.pet-special.pet-unlocked { background: linear-gradient(135deg, rgba(167,139,250,0.08), rgba(0,212,255,0.05)); }
+        .pet-card.pet-legendary { border-color: var(--gold); }
+        .pet-card.pet-legendary.pet-unlocked { background: linear-gradient(135deg, rgba(255,215,0,0.08), rgba(251,146,60,0.05)); }
+        .pet-emoji { font-size: 3.5rem; text-align: center; margin-bottom: 10px; display: block; animation: petBounce 2s ease-in-out infinite; }
+        .pet-card.pet-locked .pet-emoji { animation: none; filter: grayscale(1); }
+        @keyframes petBounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+        .pet-name { font-size: 1.1rem; font-weight: 700; text-align: center; margin-bottom: 4px; }
+        .pet-name.gradient-legend { background: linear-gradient(135deg, #ffd700, #fb923c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .pet-name.gradient-astral { background: linear-gradient(135deg, #a78bfa, #00d4ff, #00ff88); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .pet-motivation { font-size: 0.82rem; color: var(--accent); text-align: center; font-style: italic; min-height: 36px; margin-bottom: 10px; background: rgba(0,212,255,0.06); border-radius: 8px; padding: 6px 10px; }
+        .pet-xp-req { text-align: center; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 14px; }
+        .pet-level-badge { display: inline-block; background: rgba(251,146,60,0.15); color: #fb923c; border: 1px solid rgba(251,146,60,0.35); font-size: 0.75rem; padding: 2px 10px; border-radius: 10px; margin-bottom: 8px; }
+        .pet-divider { border: none; border-top: 1px solid rgba(255,255,255,0.07); margin: 14px 0; }
+        .pet-upgrade-section { margin-top: 4px; }
+        .pet-upgrade-title { font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+        .pet-upgrade-row { display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.03); border-radius: 8px; padding: 8px 10px; margin-bottom: 6px; }
+        .pet-upgrade-row .upg-label { font-size: 0.82rem; color: var(--text-main); flex: 1; }
+        .pet-upgrade-row .upg-cost { font-size: 0.78rem; color: var(--coin); margin-right: 8px; }
+        .pet-upgrade-row .upg-badge-done { font-size: 0.75rem; color: var(--success); }
+        .pet-special-reward { margin-top: 10px; background: rgba(167,139,250,0.1); border: 1px solid rgba(167,139,250,0.3); border-radius: 8px; padding: 10px; font-size: 0.8rem; color: #a78bfa; text-align: center; }
+        .pet-legendary-reward { margin-top: 10px; background: rgba(255,215,0,0.1); border: 1px solid rgba(255,215,0,0.3); border-radius: 8px; padding: 10px; font-size: 0.8rem; color: var(--gold); text-align: center; }
+        .pet-active-indicator { position: absolute; top: 12px; right: 12px; background: var(--primary); color: var(--bg-base); font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 10px; }
+        .pet-coins-info { background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.3); border-radius: 10px; padding: 14px 18px; margin-bottom: 20px; display: flex; align-items: center; gap: 14px; }
+        .pet-coins-info .coin-big { font-size: 1.8rem; }
+        .pet-auto-badge { display: inline-block; background: rgba(0,212,255,0.15); color: var(--accent); border: 1px solid rgba(0,212,255,0.3); font-size: 0.7rem; padding: 1px 7px; border-radius: 8px; margin-left: 4px; }
     </style>
 </head>
 
@@ -253,13 +279,14 @@
 <aside class="sidebar" id="sidebar">
     <div class="brand">
         <i class="fa-solid fa-graduation-cap"></i>
-        Geekie Ultra <span style="font-size:0.6em; background:var(--primary); color:#000; padding:2px 5px; border-radius:4px; margin-left:auto;">v9.0</span>
+        Geekie Ultra <span style="font-size:0.6em; background:var(--primary); color:#000; padding:2px 5px; border-radius:4px; margin-left:auto;">v10.0</span>
     </div>
     <nav class="nav-menu">
         <div class="nav-item active" onclick="switchTab('tab-geekie', this)"><i class="fa-solid fa-book-open"></i> Portal Geekie</div>
         <div class="nav-item" onclick="switchTab('tab-notes', this)"><i class="fa-solid fa-book-journal-whills"></i> Bloco de Notas</div>
         <div class="nav-item store-link" onclick="switchTab('tab-store', this)"><i class="fa-solid fa-store"></i> Loja de Temas</div>
         <div class="nav-item titles-link" onclick="switchTab('tab-titles', this)"><i class="fa-solid fa-crown"></i> Títulos</div>
+        <div class="nav-item pets-link" onclick="switchTab('tab-pets', this)"><i class="fa-solid fa-paw"></i> Pets</div>
         <div class="nav-item" onclick="switchTab('tab-timer', this)"><i class="fa-solid fa-stopwatch"></i> Pomodoro Timer</div>
         <div class="nav-item" onclick="switchTab('tab-goals', this)"><i class="fa-solid fa-list-check"></i> Metas de Estudo</div>
         <div class="nav-item" onclick="switchTab('tab-flashcards', this)"><i class="fa-solid fa-clone"></i> Flashcards</div>
@@ -277,6 +304,7 @@
         <div class="topbar-right">
             <div class="title-display" id="playerTitleDisplay" title="Seu Título"><i class="fa-solid fa-crown"></i> <span id="playerTitleText">Novato</span></div>
             <div class="xp-display" id="xpContainer" title="Seu XP Geekie"><i class="fa-solid fa-star"></i> <span id="xpCount">0</span> XP</div>
+            <div class="coin-display" id="coinContainer" title="Suas Moedas" onclick="switchTab('tab-pets', document.querySelector('.pets-link'))"><i class="fa-solid fa-coins"></i> <span id="coinCount">0</span></div>
             <div class="clock-widget" id="realTimeClock">00:00:00</div>
             <button class="btn-icon" id="btnZenMode" title="Modo Zen" onclick="toggleZenMode()"><i class="fa-solid fa-expand"></i></button>
         </div>
@@ -333,7 +361,31 @@
         </div>
     </section>
 
-    <!-- TAB: TIMER (separated) -->
+    <!-- TAB: PETS -->
+    <section id="tab-pets" class="tab-content">
+        <div class="glass-card w-full" style="max-width: 1000px; margin: 0 auto;">
+            <h3 style="color: #fb923c;"><i class="fa-solid fa-paw"></i> Seus Pets de Estudo</h3>
+            <p style="color: var(--text-muted); margin-bottom: 16px;">Desbloqueie pets com XP! Eles te motivam conforme você evolui. Use moedas para aprimoramentos e auto-coleta.</p>
+
+            <div class="pet-coins-info">
+                <span class="coin-big">🪙</span>
+                <div>
+                    <div style="font-size:0.85rem; color:var(--text-muted);">Moedas disponíveis</div>
+                    <strong style="font-size:1.4rem; color:var(--coin);" id="petsCoinsDisplay">0</strong>
+                    <div style="font-size:0.75rem; color:var(--text-muted); margin-top:2px;">+1 moeda a cada 20s base · Pets com Auto-Coleta aumentam o ganho · +5 ao concluir tarefa · +10 ao terminar Pomodoro</div>
+                </div>
+            </div>
+
+            <div style="margin-bottom:16px; display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+                <div style="font-size:0.85rem; color:var(--text-muted);"><i class="fa-solid fa-paw" style="color:#fb923c;"></i> Pet ativo: <strong style="color:#fb923c;" id="activePetName">Nenhum</strong></div>
+                <div style="font-size:0.85rem; color:var(--text-muted);">| Taxa de moedas: <strong style="color:var(--coin);" id="coinRateDisplay">+1/20s</strong></div>
+            </div>
+
+            <div class="pet-grid" id="petGrid"></div>
+        </div>
+    </section>
+
+    <!-- TAB: TIMER -->
     <section id="tab-timer" class="tab-content">
         <div class="glass-card" style="max-width: 500px; margin: 0 auto; width: 100%;">
             <h3><i class="fa-solid fa-brain"></i> Pomodoro Inteligente</h3>
@@ -354,10 +406,13 @@
                     <button class="btn btn-outline" onclick="setCustomTimer(60)" style="font-size:0.85rem;">60 min</button>
                 </div>
             </div>
+            <div style="margin-top:20px; background:rgba(245,158,11,0.08); border:1px solid rgba(245,158,11,0.25); border-radius:10px; padding:12px; text-align:center; font-size:0.85rem; color:var(--coin);">
+                <i class="fa-solid fa-coins"></i> Concluir um Pomodoro rende <strong>+10 moedas</strong>!
+            </div>
         </div>
     </section>
 
-    <!-- TAB: GOALS (separated) -->
+    <!-- TAB: GOALS -->
     <section id="tab-goals" class="tab-content">
         <div class="glass-card" style="max-width: 600px; margin: 0 auto; width: 100%;">
             <h3><i class="fa-solid fa-list-check"></i> Metas de Estudo</h3>
@@ -377,6 +432,9 @@
                 <div style="margin-top:8px; background: rgba(255,255,255,0.1); border-radius: 10px; height: 8px; overflow: hidden;">
                     <div id="todoProgressBar" style="height: 100%; background: var(--primary); border-radius: 10px; transition: width 0.5s ease; width: 0%;"></div>
                 </div>
+            </div>
+            <div style="margin-top:12px; background:rgba(245,158,11,0.08); border:1px solid rgba(245,158,11,0.25); border-radius:10px; padding:10px; text-align:center; font-size:0.83rem; color:var(--coin);">
+                <i class="fa-solid fa-coins"></i> Concluir uma meta rende <strong>+5 moedas</strong>!
             </div>
         </div>
     </section>
@@ -411,7 +469,7 @@
         </div>
     </section>
 
-    <!-- TAB: AMBIENT SOUNDS (ENHANCED) -->
+    <!-- TAB: AMBIENT SOUNDS -->
     <section id="tab-ambient" class="tab-content">
         <div class="glass-card" style="max-width: 700px; margin: 0 auto; width: 100%;">
             <h3><i class="fa-solid fa-headphones"></i> Sons Ambiente</h3>
@@ -468,7 +526,7 @@
             <h3><i class="fa-solid fa-pen-nib"></i> Personalizar Título da Página</h3>
             <p style="color: var(--text-muted); margin-bottom: 20px;">Altere o nome, ícone e a fonte exibidos na aba do navegador.</p>
             <div class="section-label">Preview</div>
-            <div class="title-preview-box" id="titlePreviewBox"><i id="previewIconEl" class="fa-solid fa-graduation-cap"></i><span id="previewNameEl">Geekie One Ultra v9.0</span></div>
+            <div class="title-preview-box" id="titlePreviewBox"><i id="previewIconEl" class="fa-solid fa-graduation-cap"></i><span id="previewNameEl">Geekie One Ultra v10.0</span></div>
             <div style="display:flex;gap:12px;margin-top:16px;flex-wrap:wrap;align-items:center;">
                 <div style="flex:1;min-width:200px;"><div class="section-label">Nome da Página</div><input type="text" id="pageTitleInput" placeholder="Ex: Meu Portal de Estudos" style="width:100%" oninput="updateTitlePreview()"></div>
                 <div><div class="section-label">Aplicar</div><button class="btn btn-primary" onclick="applyPageTitle()" style="height:42px;margin-top:0px"><i class="fa-solid fa-check"></i> Salvar Título</button></div>
@@ -495,44 +553,59 @@
             <h3><i class="fa-solid fa-laptop-code"></i> Developer Changelog</h3>
             <p style="color: var(--text-muted); margin-bottom: 30px;">Histórico de atualizações e novas funcionalidades.</p>
             <div class="timeline" id="devlogTimeline">
+
+                <!-- v10.0 -->
                 <div class="timeline-item">
-                    <div class="version-header"><span class="version-tag">v9.1.0</span><h3>Hotfix & Polishing — Bugs Críticos, Gradientes & XP</h3><span class="version-date">Atualização Atual</span></div>
+                    <div class="version-header">
+                        <span class="version-tag">v10.0.0</span>
+                        <h3>Sistema de Pets, Moedas & Recompensas Exclusivas</h3>
+                        <span class="version-date">Atualização Atual</span>
+                    </div>
                     <ul>
-                        <li><strong>Correção Crítica — Loja de Temas:</strong> Funções <code>equip()</code> e <code>unlock()</code> não existiam; corrigido para <code>equipTheme()</code> e <code>unlockTheme()</code>. Botões da loja agora funcionam corretamente.</li>
-                        <li><strong>Correção Crítica — Inicialização:</strong> Chamada <code>apply(equipped)</code> substituída por <code>applyTheme(equippedTheme)</code>, eliminando erro fatal ao carregar a página.</li>
-                        <li><strong>Bloco de Notas — Fontes:</strong> Seletor de fontes agora aguarda o carregamento das Google Fonts via <code>document.fonts.ready</code> antes de renderizar. Fonte aplicada com fallback correto.</li>
-                        <li><strong>Metas de Estudo — Duplicatas:</strong> Lista de tarefas era acumulada a cada re-render; adicionado <code>innerHTML = ''</code> para limpar antes de redesenhar.</li>
-                        <li><strong>Tema Pulsar — Animação:</strong> Nome do keyframe <code>PulsarSway</code> estava com case incorreto; padronizado para <code>pulsarSway</code>. Efeito de brilho aprimorado com transição de cor para <code>#a78bfa</code>.</li>
-                        <li><strong>Tema Pulsar — Ícone:</strong> Ícone <code>fa-pulsar</code> (inválido no Font Awesome) substituído por <code>fa-circle-nodes</code>.</li>
-                        <li><strong>Títulos Divindade & Transcendente:</strong> Aplicado gradiente roxo→lilás→ciano (paleta Pulsar) nos nomes. Adicionado ícone <code>fa-circle-nodes</code> com o mesmo gradiente nos cards.</li>
-                        <li><strong>XP dos Títulos:</strong> Divindade mantido em 10.000 XP; Transcendente ajustado para 15.000 XP.</li>
-                        <li><strong>Ícone do Título Divindade:</strong> Emoji corrigido de 🌌 para ✨ e ícone exclusivo <code>fa-sun</code> com gradiente Pulsar; Transcendente mantém <code>fa-circle-nodes</code>. Cada título agora tem seu próprio ícone diferenciado.</li>
+                        <li><strong>Sistema de Moedas (🪙):</strong> Nova moeda "Geekie Coin" ganha passivamente a cada 20s. Bônus de +5 ao concluir metas e +10 ao terminar Pomodoro. Exibida na topbar ao lado do XP.</li>
+                        <li><strong>Aba de Pets:</strong> 7 pets desbloqueáveis por XP progressivo — cada um mais exigente que o anterior, criando uma progressão gradual e motivante.</li>
+                        <li><strong>Motivação por Nível:</strong> Cada pet exibe mensagens motivacionais diferentes conforme o nível de XP do jogador (Iniciante / Estudioso / Mestre / Lenda).</li>
+                        <li><strong>Aprimoramentos com Moedas:</strong> Cada pet tem 3 upgrades compráveis com moedas — Vigor, Ânimo e Brilho — que melhoram o nível e motivação do pet.</li>
+                        <li><strong>Auto-Coleta por Pet:</strong> Cada pet desbloqueado tem uma opção de Auto-Coleta (comprável com moedas) que aumenta a taxa passiva de ganho de moedas.</li>
+                        <li><strong>Pets Especiais com Títulos:</strong> Dragão Sábio (3000 XP) concede o Título Exclusivo "🐉 Domador de Dragões" e o Tema Ubuntu Sunset.</li>
+                        <li><strong>Pets Lendários com Temas:</strong> Unicórnio Astral (6000 XP) concede Título "🦄 Mestre dos Mitos" + Tema Ubuntu Cosmic. Ser Dimensional (12000 XP) concede Título "✨ Ser Dimensional" + TODOS os temas.</li>
+                        <li><strong>Pet Ativo:</strong> O pet selecionado aparece como ativo na topbar de informações do tab Pets, com indicação visual de nome e taxa de moedas atual.</li>
+                        <li><strong>Persistência Completa:</strong> Todos os dados de pets, upgrades, auto-coleta e moedas são salvos no localStorage.</li>
                     </ul>
                 </div>
+
+                <!-- v9.1 -->
                 <div class="timeline-item">
-                    <div class="version-header"><span class="version-tag">v9.0.0</span><h3>Mega Update — Títulos, Fontes, Efeitos & Mixer</h3><span class="version-date"></span></div>
+                    <div class="version-header"><span class="version-tag">v9.1.0</span><h3>Hotfix & Polishing — Bugs Críticos, Gradientes & XP</h3><span class="version-date"></span></div>
                     <ul>
-                        <li><strong>Sistema de Títulos:</strong> Nova aba com 10 títulos conquistados por XP, com temas exclusivos como recompensa.</li>
-                        <li><strong>Fontes no Bloco de Notas:</strong> 6 fontes personalizadas para o editor (Caveat, Kalam, Indie Flower, etc).</li>
-                        <li><strong>Efeitos Especiais nos Temas:</strong> Cada tema Ubuntu agora tem efeito único (shake, float, glitch, spin, sway).</li>
-                        <li><strong>Timer Separado:</strong> Pomodoro agora tem sua própria aba com timers customizáveis.</li>
-                        <li><strong>Metas Separadas:</strong> Metas de Estudo com filtros e barra de progresso em aba dedicada.</li>
-                        <li><strong>Sons Ambiente 2.0:</strong> 8 sons, mixer individual, presets e controle master.</li>
+                        <li><strong>Correção Crítica — Loja de Temas:</strong> Funções <code>equip()</code> e <code>unlock()</code> não existiam; corrigido para <code>equipTheme()</code> e <code>unlockTheme()</code>.</li>
+                        <li><strong>Correção Crítica — Inicialização:</strong> Chamada <code>apply(equipped)</code> substituída por <code>applyTheme(equippedTheme)</code>, eliminando erro fatal.</li>
+                        <li><strong>Títulos Divindade & Transcendente:</strong> Gradiente roxo→lilás→ciano. Ícones exclusivos diferenciados.</li>
+                        <li><strong>XP dos Títulos:</strong> Divindade em 10.000 XP; Transcendente em 15.000 XP.</li>
                     </ul>
                 </div>
+
+                <div class="timeline-item">
+                    <div class="version-header"><span class="version-tag">v9.0.0</span><h3>Mega Update — Títulos, Fontes, Efeitos & Mixer</h3></div>
+                    <ul>
+                        <li><strong>Sistema de Títulos:</strong> 10 títulos conquistados por XP com temas exclusivos.</li>
+                        <li><strong>Fontes no Bloco de Notas:</strong> 6+ fontes personalizadas.</li>
+                        <li><strong>Efeitos Especiais nos Temas:</strong> Cada tema Ubuntu com efeito único.</li>
+                        <li><strong>Timer Separado:</strong> Pomodoro em aba própria.</li>
+                        <li><strong>Sons Ambiente 2.0:</strong> 8 sons, mixer individual, presets.</li>
+                    </ul>
+                </div>
+
                 <div class="timeline-item">
                     <div class="version-header"><span class="version-tag">v8.1.0</span><h3>Economia Simplificada — Tudo por XP</h3></div>
-                    <ul>
-                        <li>Sistema de Moedas removido. Temas baseados em XP.</li>
-                        <li>Progressão unificada. UI limpa.</li>
-                    </ul>
+                    <ul><li>Sistema de Moedas removido. Temas baseados em XP. Progressão unificada.</li></ul>
                 </div>
+
                 <div class="timeline-item">
                     <div class="version-header"><span class="version-tag">v8.0.0</span><h3>Ubuntu Themes, Eventos XP & Personalização</h3></div>
-                    <ul>
-                        <li>10 temas Ubuntu animados. Sistema de XP. Eventos mensais.</li>
-                    </ul>
+                    <ul><li>10 temas Ubuntu animados. Sistema de XP. Eventos mensais.</li></ul>
                 </div>
+
                 <div class="timeline-item old-version">
                     <div class="version-header"><span class="version-tag" style="background: rgba(148, 163, 184, 0.2); color: var(--text-muted);">v7.x</span><h3 style="color: var(--text-muted);">Versões Anteriores</h3></div>
                     <ul><li>Flashcards, Caracteres, Bloco de Notas, Glassmorphism, Modo Zen, Pomodoro.</li></ul>
@@ -546,27 +619,35 @@
 <div id="appToast" class="toast"><i class="fa-solid fa-check"></i> <span>Ação Realizada!</span></div>
 
 <script>
-// ===================== DATA DECLARATIONS (must be first to avoid TDZ errors) =====================
+// ===================== DATA DECLARATIONS =====================
 let todos = JSON.parse(localStorage.getItem('geekieTodos')) || [];
 let todoFilter = 'all';
-let savedTitle = localStorage.getItem('geekieTitleName') || 'Geekie One Ultra v9.0';
+let savedTitle = localStorage.getItem('geekieTitleName') || 'Geekie One Ultra v10.0';
 let selectedFont = localStorage.getItem('geekieTitleFont') || 'Poppins';
 let selectedIcon = localStorage.getItem('geekieTitleIcon') || 'fa-graduation-cap';
-const availableFonts = [{family:'Poppins',label:'Poppins',sample:'Geekie Ultra'},{family:'Ubuntu',label:'Ubuntu',sample:'Geekie Ultra'},{family:'Orbitron',label:'Orbitron',sample:'Geekie Ultra'},{family:'Space Grotesk',label:'Space Grotesk',sample:'Geekie Ultra'},{family:'Fira Code',label:'Fira Code',sample:'Geekie Ultra'},{family:'Rajdhani',label:'Rajdhani',sample:'Geekie Ultra'},{family:'JetBrains Mono',label:'JetBrains Mono',sample:'Geekie Ultra'}];
+const availableFonts = [
+    {family:'Poppins',label:'Poppins',sample:'Geekie Ultra'},
+    {family:'Ubuntu',label:'Ubuntu',sample:'Geekie Ultra'},
+    {family:'Orbitron',label:'Orbitron',sample:'Geekie Ultra'},
+    {family:'Space Grotesk',label:'Space Grotesk',sample:'Geekie Ultra'},
+    {family:'Fira Code',label:'Fira Code',sample:'Geekie Ultra'},
+    {family:'Rajdhani',label:'Rajdhani',sample:'Geekie Ultra'},
+    {family:'JetBrains Mono',label:'JetBrains Mono',sample:'Geekie Ultra'}
+];
 const availableIcons = ['fa-graduation-cap','fa-book-open','fa-brain','fa-fire','fa-star','fa-bolt','fa-rocket','fa-laptop-code','fa-atom','fa-dna','fa-flask','fa-calculator','fa-infinity','fa-pencil','fa-trophy','fa-crown','fa-heart','fa-globe','fa-satellite','fa-moon'];
 const monthlyEvents = [
-    { month: 1, name: 'Janeiro: Inicio de Jornada', icon: '\ud83d\ude80', desc: 'Novo ano, nova energia!', colorA: '#E95420', colorB: '#F97316', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'\ud83c\udf31'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'\ud83d\udcda'},{label:'Expert',xpReq:1500,reward:'Tema Yaru desbloqueado',icon:'\u2b50'},{label:'Lendario',xpReq:3000,reward:'Tema Cosmic desbloqueado',icon:'\ud83c\udfc6'}]},
-    { month: 2, name: 'Fevereiro: Amor ao Saber', icon: '\u2764\ufe0f', desc: 'Apaixone-se por aprender!', colorA: '#EC4899', colorB: '#F43F5E', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'\ud83d\udc9b'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'\ud83d\udc96'},{label:'Expert',xpReq:1500,reward:'Tema Sunset desbloqueado',icon:'\ud83c\udf38'},{label:'Lendario',xpReq:3000,reward:'XP Duplo por 7 dias',icon:'\ud83d\udc51'}]},
-    { month: 3, name: 'Marco: Forca Total', icon: '\ud83d\udcaa', desc: 'Sprint de estudos!', colorA: '#16A34A', colorB: '#4ADE80', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'\ud83c\udf3f'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'\ud83c\udf31'},{label:'Expert',xpReq:1500,reward:'Tema Forest desbloqueado',icon:'\ud83c\udf32'},{label:'Lendario',xpReq:3000,reward:'Tema Radiance desbloqueado',icon:'\ud83c\udfc6'}]},
-    { month: 4, name: 'Abril: Despertar Digital', icon: '\ud83c\udf10', desc: 'Tecnologia e estudo juntos!', colorA: '#1BA1E2', colorB: '#44CCFF', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'\ud83d\udce1'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'\ud83d\udcbb'},{label:'Expert',xpReq:1500,reward:'Tema Snap desbloqueado',icon:'\u26a1'},{label:'Lendario',xpReq:3000,reward:'Tema Frost desbloqueado',icon:'\ud83c\udfc6'}]},
-    { month: 5, name: 'Maio: Maratona do Foco', icon: '\u23f1\ufe0f', desc: 'Foco maximo!', colorA: '#8B5CF6', colorB: '#A78BFA', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'\ud83e\udde0'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'\u23f0'},{label:'Expert',xpReq:1500,reward:'Tema Ambiance desbloqueado',icon:'\ud83c\udf19'},{label:'Lendario',xpReq:3000,reward:'Tema Cosmic desbloqueado',icon:'\ud83c\udfc6'}]},
-    { month: 6, name: 'Junho: Meio do Ano', icon: '\ud83c\udf1f', desc: 'Metade da jornada!', colorA: '#FBBF24', colorB: '#F59E0B', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'\ud83c\udf3b'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'\ud83c\udf1f'},{label:'Expert',xpReq:1500,reward:'Tema Fire desbloqueado',icon:'\ud83d\udd25'},{label:'Lendario',xpReq:3000,reward:'Todos os temas liberados',icon:'\ud83c\udfc6'}]},
-    { month: 7, name: 'Julho: Inverno Produtivo', icon: '\u2744\ufe0f', desc: 'Aquece com conhecimento!', colorA: '#0EA5E9', colorB: '#38BDF8', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'\ud83e\uddca'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'\u2603\ufe0f'},{label:'Expert',xpReq:1500,reward:'Tema Frost desbloqueado',icon:'\ud83d\udc8e'},{label:'Lendario',xpReq:3000,reward:'Badge Especial',icon:'\ud83c\udfc6'}]},
-    { month: 8, name: 'Agosto: Aceleracao Final', icon: '\ud83d\udd25', desc: 'Sprint para o ENEM!', colorA: '#EF4444', colorB: '#F97316', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'\u2694\ufe0f'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'\ud83d\udd25'},{label:'Expert',xpReq:1500,reward:'Tema Fire desbloqueado',icon:'\ud83d\udca5'},{label:'Lendario',xpReq:3000,reward:'Modo Turbo (XP x2)',icon:'\ud83c\udfc6'}]},
-    { month: 9, name: 'Setembro: Mes da Ciencia', icon: '\ud83d\udd2c', desc: 'Explore ciencias!', colorA: '#059669', colorB: '#10B981', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'\u2697\ufe0f'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'\ud83d\udd2d'},{label:'Expert',xpReq:1500,reward:'Tema Forest desbloqueado',icon:'\ud83c\udf3f'},{label:'Lendario',xpReq:3000,reward:'Tema Radiance desbloqueado',icon:'\ud83c\udfc6'}]},
-    { month: 10, name: 'Outubro: Vespera do ENEM', icon: '\ud83c\udfaf', desc: 'Revisao total!', colorA: '#D97706', colorB: '#FBBF24', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'\ud83c\udfaf'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'\ud83d\udcdd'},{label:'Expert',xpReq:1500,reward:'Tema Sunset desbloqueado',icon:'\ud83c\udf05'},{label:'Lendario',xpReq:3000,reward:'Badge Especial',icon:'\ud83c\udfc6'}]},
-    { month: 11, name: 'Novembro: Hora da Verdade', icon: '\u26a1', desc: 'ENEM chegou!', colorA: '#7C3AED', colorB: '#A78BFA', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'\ud83e\udd81'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'\u2728'},{label:'Expert',xpReq:1500,reward:'Tema Ambiance desbloqueado',icon:'\ud83c\udf19'},{label:'Lendario',xpReq:3000,reward:'Tema Cosmic desbloqueado',icon:'\ud83c\udfc6'}]},
-    { month: 12, name: 'Dezembro: Celebracao!', icon: '\ud83c\udf89', desc: 'Celebre cada minuto de estudo!', colorA: '#DC2626', colorB: '#16A34A', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'\ud83c\udf81'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'\ud83c\udf84'},{label:'Expert',xpReq:1500,reward:'Pack completo de temas',icon:'\ud83c\udf8a'},{label:'Lendario',xpReq:3000,reward:'XP x3 em Janeiro',icon:'\ud83c\udfc6'}]},
+    { month: 1, name: 'Janeiro: Inicio de Jornada', icon: '🚀', desc: 'Novo ano, nova energia!', colorA: '#E95420', colorB: '#F97316', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'🌱'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'📚'},{label:'Expert',xpReq:1500,reward:'Tema Yaru desbloqueado',icon:'⭐'},{label:'Lendario',xpReq:3000,reward:'Tema Cosmic desbloqueado',icon:'🏆'}]},
+    { month: 2, name: 'Fevereiro: Amor ao Saber', icon: '❤️', desc: 'Apaixone-se por aprender!', colorA: '#EC4899', colorB: '#F43F5E', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'💛'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'💖'},{label:'Expert',xpReq:1500,reward:'Tema Sunset desbloqueado',icon:'🌸'},{label:'Lendario',xpReq:3000,reward:'XP Duplo por 7 dias',icon:'👑'}]},
+    { month: 3, name: 'Marco: Forca Total', icon: '💪', desc: 'Sprint de estudos!', colorA: '#16A34A', colorB: '#4ADE80', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'🌿'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'🌱'},{label:'Expert',xpReq:1500,reward:'Tema Forest desbloqueado',icon:'🌲'},{label:'Lendario',xpReq:3000,reward:'Tema Radiance desbloqueado',icon:'🏆'}]},
+    { month: 4, name: 'Abril: Despertar Digital', icon: '🌐', desc: 'Tecnologia e estudo juntos!', colorA: '#1BA1E2', colorB: '#44CCFF', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'📡'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'💻'},{label:'Expert',xpReq:1500,reward:'Tema Snap desbloqueado',icon:'⚡'},{label:'Lendario',xpReq:3000,reward:'Tema Frost desbloqueado',icon:'🏆'}]},
+    { month: 5, name: 'Maio: Maratona do Foco', icon: '⏱️', desc: 'Foco maximo!', colorA: '#8B5CF6', colorB: '#A78BFA', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'🧠'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'⏰'},{label:'Expert',xpReq:1500,reward:'Tema Ambiance desbloqueado',icon:'🌙'},{label:'Lendario',xpReq:3000,reward:'Tema Cosmic desbloqueado',icon:'🏆'}]},
+    { month: 6, name: 'Junho: Meio do Ano', icon: '🌟', desc: 'Metade da jornada!', colorA: '#FBBF24', colorB: '#F59E0B', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'🌻'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'🌟'},{label:'Expert',xpReq:1500,reward:'Tema Fire desbloqueado',icon:'🔥'},{label:'Lendario',xpReq:3000,reward:'Todos os temas liberados',icon:'🏆'}]},
+    { month: 7, name: 'Julho: Inverno Produtivo', icon: '❄️', desc: 'Aquece com conhecimento!', colorA: '#0EA5E9', colorB: '#38BDF8', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'🧊'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'☃️'},{label:'Expert',xpReq:1500,reward:'Tema Frost desbloqueado',icon:'💎'},{label:'Lendario',xpReq:3000,reward:'Badge Especial',icon:'🏆'}]},
+    { month: 8, name: 'Agosto: Aceleracao Final', icon: '🔥', desc: 'Sprint para o ENEM!', colorA: '#EF4444', colorB: '#F97316', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'⚔️'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'🔥'},{label:'Expert',xpReq:1500,reward:'Tema Fire desbloqueado',icon:'💥'},{label:'Lendario',xpReq:3000,reward:'Modo Turbo (XP x2)',icon:'🏆'}]},
+    { month: 9, name: 'Setembro: Mes da Ciencia', icon: '🔬', desc: 'Explore ciencias!', colorA: '#059669', colorB: '#10B981', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'⚗️'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'🔭'},{label:'Expert',xpReq:1500,reward:'Tema Forest desbloqueado',icon:'🌿'},{label:'Lendario',xpReq:3000,reward:'Tema Radiance desbloqueado',icon:'🏆'}]},
+    { month: 10, name: 'Outubro: Vespera do ENEM', icon: '🎯', desc: 'Revisao total!', colorA: '#D97706', colorB: '#FBBF24', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'🎯'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'📝'},{label:'Expert',xpReq:1500,reward:'Tema Sunset desbloqueado',icon:'🌅'},{label:'Lendario',xpReq:3000,reward:'Badge Especial',icon:'🏆'}]},
+    { month: 11, name: 'Novembro: Hora da Verdade', icon: '⚡', desc: 'ENEM chegou!', colorA: '#7C3AED', colorB: '#A78BFA', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'🦁'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'✨'},{label:'Expert',xpReq:1500,reward:'Tema Ambiance desbloqueado',icon:'🌙'},{label:'Lendario',xpReq:3000,reward:'Tema Cosmic desbloqueado',icon:'🏆'}]},
+    { month: 12, name: 'Dezembro: Celebracao!', icon: '🎉', desc: 'Celebre cada minuto de estudo!', colorA: '#DC2626', colorB: '#16A34A', tiers: [{label:'Iniciante',xpReq:0,reward:'Badge Especial',icon:'🎁'},{label:'Estudioso',xpReq:500,reward:'Badge Especial',icon:'🎄'},{label:'Expert',xpReq:1500,reward:'Pack completo de temas',icon:'🎊'},{label:'Lendario',xpReq:3000,reward:'XP x3 em Janeiro',icon:'🏆'}]},
 ];
 
 // ===================== CLOCK =====================
@@ -578,15 +659,16 @@ const sidebar = document.getElementById('sidebar');
 document.getElementById('toggleSidebar').addEventListener('click', () => sidebar.classList.toggle('collapsed'));
 function switchTab(tabId, element) {
     document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-    element.classList.add('active');
+    if (element) element.classList.add('active');
     document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-    document.getElementById(tabId).classList.add('active');
+    const tab = document.getElementById(tabId);
+    if (tab) tab.classList.add('active');
     if (window.innerWidth < 768) sidebar.classList.add('collapsed');
-    // Re-render dynamic tabs when opened so they always show current data
     if (tabId === 'tab-titles') { try { renderTitles(); } catch(e) {} }
     if (tabId === 'tab-store') { try { renderStore(); } catch(e) {} }
     if (tabId === 'tab-title') { try { buildTitleUI(); } catch(e) {} }
     if (tabId === 'tab-events') { try { renderEventContent(); } catch(e) {} }
+    if (tabId === 'tab-pets') { try { renderPetGrid(); } catch(e) {} }
 }
 
 // ===================== TOAST =====================
@@ -608,28 +690,443 @@ function toggleZenMode() {
 }
 document.addEventListener('fullscreenchange', () => { if (!document.fullscreenElement && isZen) toggleZenMode(); });
 
-// ===================== TITLES LIST (must be declared before XP system) =====================
+// ===================== TITLES LIST =====================
 const titlesList = [
-    { id: 'title-novato',     name: '\ud83c\udf31 Novato',           xpReq: 0,    desc: 'Todo mundo comeca de algum lugar!', reward: null, rewardTheme: null },
-    { id: 'title-estudante',  name: '\ud83d\udcda Estudante',        xpReq: 100,  desc: 'Voce ja esta no caminho certo.', reward: null, rewardTheme: null },
-    { id: 'title-dedicado',   name: '\ud83d\udcaa Dedicado',         xpReq: 300,  desc: 'Persistencia e a chave!', reward: 'Tema Ubuntu Yaru', rewardTheme: 'theme-ubuntu-yaru' },
-    { id: 'title-scholar',    name: '\ud83c\udf93 Scholar',          xpReq: 600,  desc: 'Conhecimento em ascensao.', reward: 'Tema Radiance', rewardTheme: 'theme-ubuntu-radiance' },
-    { id: 'title-mestre',     name: '\u2b50 Mestre',                xpReq: 1000, desc: 'Dominio absoluto.', reward: 'Tema Snap Neon', rewardTheme: 'theme-ubuntu-snap' },
-    { id: 'title-sabio',      name: '\ud83e\uddd9 Sabio',            xpReq: 1500, desc: 'A sabedoria e sua aliada.', reward: 'Tema Frost', rewardTheme: 'theme-ubuntu-frost' },
-    { id: 'title-guru',       name: '\ud83d\udd2e Guru',             xpReq: 2000, desc: 'Iluminacao academica.', reward: 'Tema Fire', rewardTheme: 'theme-ubuntu-fire' },
-    { id: 'title-legend',     name: '\ud83c\udfc6 Lendario',         xpReq: 3000, desc: 'Poucos chegam tao longe!', reward: 'Tema Cosmic', rewardTheme: 'theme-ubuntu-cosmic' },
-    { id: 'title-mythic',     name: '\ud83d\udc51 Mitico',           xpReq: 5000, desc: 'Transcendeu os limites.', reward: 'Tema Sunset + Cosmic', rewardTheme: 'theme-ubuntu-sunset' },
-    { id: 'title-god',        name: '\u2728 Divindade',        xpReq: 10000, desc: 'Nada pode pará-lo.', reward: 'Tema Pulsar', rewardTheme: 'theme-ubuntu-pulsar', gradient: true, gradientIcon: 'fa-sun' },
-    { id: 'title-transcendent',      name: '\u26a1 Transcendente',    xpReq: 15000, desc: 'Ao infinito do foco.', reward: 'TODOS os temas', rewardTheme: 'ALL', gradient: true, gradientIcon: 'fa-circle-nodes' },
+    { id: 'title-novato',       name: '🌱 Novato',         xpReq: 0,     desc: 'Todo mundo começa de algum lugar!', reward: null, rewardTheme: null },
+    { id: 'title-estudante',    name: '📚 Estudante',       xpReq: 100,   desc: 'Você já está no caminho certo.', reward: null, rewardTheme: null },
+    { id: 'title-dedicado',     name: '💪 Dedicado',        xpReq: 300,   desc: 'Persistência é a chave!', reward: 'Tema Ubuntu Yaru', rewardTheme: 'theme-ubuntu-yaru' },
+    { id: 'title-scholar',      name: '🎓 Scholar',         xpReq: 600,   desc: 'Conhecimento em ascensão.', reward: 'Tema Radiance', rewardTheme: 'theme-ubuntu-radiance' },
+    { id: 'title-mestre',       name: '⭐ Mestre',          xpReq: 1000,  desc: 'Domínio absoluto.', reward: 'Tema Snap Neon', rewardTheme: 'theme-ubuntu-snap' },
+    { id: 'title-sabio',        name: '🧙 Sábio',           xpReq: 1500,  desc: 'A sabedoria é sua aliada.', reward: 'Tema Frost', rewardTheme: 'theme-ubuntu-frost' },
+    { id: 'title-guru',         name: '🔮 Guru',            xpReq: 2000,  desc: 'Iluminação acadêmica.', reward: 'Tema Fire', rewardTheme: 'theme-ubuntu-fire' },
+    { id: 'title-legend',       name: '🏆 Lendário',        xpReq: 3000,  desc: 'Poucos chegam tão longe!', reward: 'Tema Cosmic', rewardTheme: 'theme-ubuntu-cosmic' },
+    { id: 'title-pet-dragon',   name: '🐉 Domador de Dragões', xpReq: 3000, desc: 'Conquistado ao desbloquear o Dragão Sábio.', reward: 'Tema Sunset', rewardTheme: 'theme-ubuntu-sunset', petTitle: true },
+    { id: 'title-pet-unicorn',  name: '🦄 Mestre dos Mitos', xpReq: 6000, desc: 'Conquistado ao desbloquear o Unicórnio Astral.', reward: 'Tema Cosmic', rewardTheme: 'theme-ubuntu-cosmic', petTitle: true },
+    { id: 'title-mythic',       name: '👑 Mítico',          xpReq: 5000,  desc: 'Transcendeu os limites.', reward: 'Tema Sunset + Cosmic', rewardTheme: 'theme-ubuntu-sunset' },
+    { id: 'title-god',          name: '✨ Divindade',       xpReq: 10000, desc: 'Nada pode pará-lo.', reward: 'Tema Pulsar', rewardTheme: 'theme-ubuntu-pulsar', gradient: true, gradientIcon: 'fa-sun' },
+    { id: 'title-pet-astral',   name: '🌌 Ser Dimensional', xpReq: 12000, desc: 'Conquistado ao desbloquear o Ser Dimensional.', reward: 'TODOS os temas', rewardTheme: 'ALL', petTitle: true, gradient: true, gradientIcon: 'fa-circle-nodes' },
+    { id: 'title-transcendent', name: '⚡ Transcendente',   xpReq: 15000, desc: 'Ao infinito do foco.', reward: 'TODOS os temas', rewardTheme: 'ALL', gradient: true, gradientIcon: 'fa-circle-nodes' },
 ];
 let equippedTitle = localStorage.getItem('geekieTitle') || 'title-novato';
 
 // ===================== XP SYSTEM =====================
 let xp = parseInt(localStorage.getItem('geekieXP')) || 0;
 const xpEl = document.getElementById('xpCount');
-function updateXP() { xpEl.textContent = xp; localStorage.setItem('geekieXP', xp); var _td=document.getElementById('titlesXpDisplay');if(_td)_td.textContent=xp;if(typeof updatePlayerTitle==='function')updatePlayerTitle(); }
-setInterval(() => { xp++; updateXP(); try{renderEventContent()}catch(e){} try{renderStore()}catch(e){} try{renderTitles()}catch(e){} }, 6000);
+function updateXP() {
+    xpEl.textContent = xp;
+    localStorage.setItem('geekieXP', xp);
+    const _td = document.getElementById('titlesXpDisplay');
+    if (_td) _td.textContent = xp;
+    if (typeof updatePlayerTitle === 'function') updatePlayerTitle();
+}
+setInterval(() => {
+    xp++;
+    updateXP();
+    try { renderEventContent(); } catch(e) {}
+    try { renderStore(); } catch(e) {}
+    try { renderTitles(); } catch(e) {}
+}, 6000);
 updateXP();
+
+// ===================== COIN SYSTEM =====================
+let coins = parseInt(localStorage.getItem('geekieCoins')) || 0;
+const coinEl = document.getElementById('coinCount');
+const petsCoinsEl = document.getElementById('petsCoinsDisplay');
+
+function updateCoins() {
+    coinEl.textContent = coins;
+    localStorage.setItem('geekieCoins', coins);
+    if (petsCoinsEl) petsCoinsEl.textContent = coins;
+}
+
+function earnCoins(amount, reason) {
+    coins += amount;
+    updateCoins();
+    if (reason) showToast(`+${amount} 🪙 ${reason}`);
+}
+
+function spendCoins(amount) {
+    if (coins < amount) { showToast('Moedas insuficientes!', true); return false; }
+    coins -= amount;
+    updateCoins();
+    return true;
+}
+
+// Passive coin income — base rate boosted by pet auto-collect upgrades
+function getCoinRate() {
+    let rate = 1;
+    const petData = JSON.parse(localStorage.getItem('geekiePets')) || {};
+    petsData.forEach(p => {
+        const state = petData[p.id];
+        if (state && state.owned && state.autoCollect) rate += p.autoCollectBonus;
+    });
+    return rate;
+}
+
+function updateCoinRateDisplay() {
+    const el = document.getElementById('coinRateDisplay');
+    if (el) { const r = getCoinRate(); el.textContent = `+${r}/20s`; }
+}
+
+setInterval(() => {
+    const rate = getCoinRate();
+    coins += rate;
+    updateCoins();
+}, 20000);
+
+updateCoins();
+
+// ===================== PET SYSTEM DATA =====================
+const petsData = [
+    {
+        id: 'pet-pintinho',
+        name: 'Pintinho Piu',
+        emoji: '🐣',
+        xpReq: 0,
+        desc: 'Seu primeiro companheiro! Sempre animado para começar.',
+        rarity: 'common',
+        autoCollectBonus: 1,
+        autoCollectCost: 30,
+        upgrades: [
+            { id: 'vigor',  label: 'Vigor',  desc: '+1 nível de motivação',  cost: 20 },
+            { id: 'animo',  label: 'Ânimo',  desc: 'Mensagens mais energéticas', cost: 40 },
+            { id: 'brilho', label: 'Brilho', desc: 'Animação especial',        cost: 80 },
+        ],
+        motivations: {
+            0:    ["Vamos começar! Cada minuto conta!", "Piu piu! Hora de estudar!", "Você consegue! Dê o primeiro passo!"],
+            500:  ["Ótimo progresso! Continue assim!", "Piu! Você está crescendo rápido!", "Cada página lida é uma vitória!"],
+            1500: ["Incrível evolução! Você é dedicado!", "Piu piu! Que estudante fantástico!", "Não pare agora — você está voando!"],
+            3000: ["Lendário! Você é inspiração para todos!", "Piu! Orgulho de ser seu pet!", "Imparável! Nada te detém!"],
+        }
+    },
+    {
+        id: 'pet-gatinho',
+        name: 'Gatinho Ninja',
+        emoji: '🐱',
+        xpReq: 300,
+        desc: 'Silencioso e focado. Um mestre da concentração.',
+        rarity: 'common',
+        autoCollectBonus: 2,
+        autoCollectCost: 60,
+        upgrades: [
+            { id: 'vigor',  label: 'Vigor',  desc: '+1 nível de motivação',  cost: 40 },
+            { id: 'animo',  label: 'Ânimo',  desc: 'Mensagens mais inteligentes', cost: 70 },
+            { id: 'brilho', label: 'Brilho', desc: 'Garras de conhecimento',   cost: 130 },
+        ],
+        motivations: {
+            0:    ["Nyaa~ Foco total!", "Silêncio é poder. Estude!", "Um ninja nunca desiste!"],
+            500:  ["Seus reflexos de estudo estão afiados!", "Miau... você está evoluindo rápido!", "Sombra e foco — sua combinação perfeita!"],
+            1500: ["Você domina as artes do conhecimento!", "Ninja de elite! Continue sua missão!", "Nenhum obstáculo escapa de você!"],
+            3000: ["Grão-mestre! Sua sabedoria é imensa!", "Você transcendeu o treinamento ninja!", "Invencível! O conhecimento é sua katana!"],
+        }
+    },
+    {
+        id: 'pet-cachorro',
+        name: 'Rex Fiel',
+        emoji: '🐶',
+        xpReq: 700,
+        desc: 'Leal e entusiasmado. Nunca deixa você desanimar!',
+        rarity: 'uncommon',
+        autoCollectBonus: 2,
+        autoCollectCost: 90,
+        upgrades: [
+            { id: 'vigor',  label: 'Vigor',  desc: '+1 nível de motivação',  cost: 60 },
+            { id: 'animo',  label: 'Ânimo',  desc: 'Latidos de encorajamento', cost: 100 },
+            { id: 'brilho', label: 'Brilho', desc: 'Rabo de energia infinita',  cost: 180 },
+        ],
+        motivations: {
+            0:    ["Au au! Vamos lá! Você consegue!", "Sou seu maior fã! Estude mais!", "Fiel até o fim — e você também será!"],
+            500:  ["Au! Que progresso incrível!", "Seu esforço me deixa feliz!", "Correndo junto com você até o topo!"],
+            1500: ["Au au AU! Você é fantástico!", "Nenhum cachorro é mais leal que você ao estudo!", "Alegria e determinação — perfeito!"],
+            3000: ["O melhor humano estudioso do mundo!", "Você é minha inspiração! Au!", "Imbatível! Meu herói de estudos!"],
+        }
+    },
+    {
+        id: 'pet-raposa',
+        name: 'Foxy Esperta',
+        emoji: '🦊',
+        xpReq: 1500,
+        desc: 'Astuta e estratégica. Sabe como vencer qualquer desafio.',
+        rarity: 'uncommon',
+        autoCollectBonus: 3,
+        autoCollectCost: 130,
+        upgrades: [
+            { id: 'vigor',  label: 'Vigor',  desc: '+1 nível de motivação',  cost: 90 },
+            { id: 'animo',  label: 'Ânimo',  desc: 'Dicas estratégicas',      cost: 150 },
+            { id: 'brilho', label: 'Brilho', desc: 'Cauda de sabedoria',       cost: 250 },
+        ],
+        motivations: {
+            0:    ["Estratégia é tudo. Planeje e execute!", "Cada hora de estudo é um passo à frente!", "A raposa sempre encontra o caminho!"],
+            500:  ["Sua estratégia está funcionando!", "Astúcia + dedicação = sucesso!", "Muito impressionante seu ritmo!"],
+            1500: ["Você superou minha esperteza!", "Estrategista de elite! Continue!", "Nada escapa da sua inteligência!"],
+            3000: ["Gênio! Sua mente é extraordinária!", "A raposa mais sábia me inclina diante de você!", "Perfeição estratégica atingida!"],
+        }
+    },
+    {
+        id: 'pet-dragao',
+        name: 'Dragão Sábio',
+        emoji: '🐉',
+        xpReq: 3000,
+        desc: 'Antigo e poderoso. Guarda segredos do conhecimento eterno.',
+        rarity: 'special',
+        autoCollectBonus: 4,
+        autoCollectCost: 200,
+        grantsTitleId: 'title-pet-dragon',
+        grantsTheme: 'theme-ubuntu-sunset',
+        exclusiveTitle: '🐉 Domador de Dragões',
+        exclusiveThemeLabel: 'Tema Ubuntu Sunset',
+        upgrades: [
+            { id: 'vigor',  label: 'Vigor',  desc: '+1 nível de motivação',   cost: 150 },
+            { id: 'animo',  label: 'Ânimo',  desc: 'Chamas de inspiração',    cost: 250 },
+            { id: 'brilho', label: 'Brilho', desc: 'Escamas de diamante',     cost: 400 },
+        ],
+        motivations: {
+            0:    ["O fogo do conhecimento queima em você!", "Jovem estudante — o caminho é longo mas glorioso!", "Aprenda com a paciência milenar do dragão!"],
+            500:  ["Suas chamas de sabedoria crescem!", "Digno de cruzar as montanhas do saber!", "O dragão reconhece seu esforço — continue!"],
+            1500: ["Dragão de ouro! Sua sabedoria é profunda!", "Você domou os conhecimentos mais difíceis!", "Raro e poderoso — assim como seu estudo!"],
+            3000: ["Ancião do saber! Poucas almas chegam aqui!", "Você igualou a sabedoria dos dragões eternos!", "Lenda viva! O universo reconhece seu esforço!"],
+        }
+    },
+    {
+        id: 'pet-unicornio',
+        name: 'Unicórnio Astral',
+        emoji: '🦄',
+        xpReq: 6000,
+        desc: 'Místico e radiante. Traz magia e sorte para seus estudos.',
+        rarity: 'legendary',
+        autoCollectBonus: 6,
+        autoCollectCost: 350,
+        grantsTitleId: 'title-pet-unicorn',
+        grantsTheme: 'theme-ubuntu-cosmic',
+        exclusiveTitle: '🦄 Mestre dos Mitos',
+        exclusiveThemeLabel: 'Tema Ubuntu Cosmic',
+        upgrades: [
+            { id: 'vigor',  label: 'Vigor',  desc: '+1 nível de motivação',   cost: 250 },
+            { id: 'animo',  label: 'Ânimo',  desc: 'Bênção arcana',           cost: 400 },
+            { id: 'brilho', label: 'Brilho', desc: 'Chifre de luz divina',    cost: 600 },
+        ],
+        motivations: {
+            0:    ["A magia do saber transborda em você!", "Cada estudo ilumina sua aura!", "Você foi escolhido pelo cosmos para aprender!"],
+            500:  ["Sua luz de conhecimento brilha forte!", "Os astros se alinham em seu favor!", "Místico e dedicado — uma combinação perfeita!"],
+            1500: ["Ser de luz! Seu aprendizado é divino!", "A galáxia testemunha sua evolução!", "Unicórnio de ouro — você vai além das estrelas!"],
+            3000: ["Transcendência total! Você virou lenda!", "Nem os mitos antigos descrevem tal sabedoria!", "Ser cósmico! Sua mente alcançou o infinito!"],
+        }
+    },
+    {
+        id: 'pet-astral',
+        name: 'Ser Dimensional',
+        emoji: '✨',
+        xpReq: 12000,
+        desc: 'Uma entidade além do tempo. Existe em múltiplas dimensões de conhecimento.',
+        rarity: 'legendary',
+        autoCollectBonus: 10,
+        autoCollectCost: 600,
+        grantsTitleId: 'title-pet-astral',
+        grantsTheme: 'ALL',
+        exclusiveTitle: '🌌 Ser Dimensional',
+        exclusiveThemeLabel: 'TODOS os temas desbloqueados',
+        upgrades: [
+            { id: 'vigor',  label: 'Vigor',  desc: '+1 nível de motivação',   cost: 500 },
+            { id: 'animo',  label: 'Ânimo',  desc: 'Consciência dimensional', cost: 800 },
+            { id: 'brilho', label: 'Brilho', desc: 'Forma de energia pura',   cost: 1200 },
+        ],
+        motivations: {
+            0:    ["Você existe além das dimensões do saber!", "O tempo não te limita — nem o conhecimento!", "Realidades paralelas observam sua jornada!"],
+            500:  ["Múltiplas versões de você já alcançaram a excelência!", "Você rompe as barreiras do aprendizado!", "Dimensional e imparável!"],
+            1500: ["Entidade de conhecimento puro!", "Cada pensamento seu cria novos universos de sabedoria!", "Você superou os limites do possível!"],
+            3000: ["Onisciente! Todo saber do cosmos é seu!", "O universo em si aprende com você!", "Absoluto. Perfeito. Eterno."],
+        }
+    },
+];
+
+// Pet state: { ownedPetId: { owned: bool, active: bool, autoCollect: bool, upgrades: {vigor:bool,animo:bool,brilho:bool} } }
+let petState = JSON.parse(localStorage.getItem('geekiePets')) || {};
+let activePetId = localStorage.getItem('geekieActivePet') || null;
+
+function savePetState() { localStorage.setItem('geekiePets', JSON.stringify(petState)); }
+
+function getPetMotivation(pet) {
+    const state = petState[pet.id];
+    const upgradeCount = state ? Object.values(state.upgrades || {}).filter(Boolean).length : 0;
+    const levelKeys = Object.keys(pet.motivations).map(Number).sort((a,b) => a - b);
+    let selectedKey = levelKeys[0];
+    for (const k of levelKeys) { if (xp >= k) selectedKey = k; }
+    const msgs = pet.motivations[selectedKey];
+    // Pick message influenced by upgrade level
+    const idx = Math.min(upgradeCount, msgs.length - 1);
+    return msgs[idx] || msgs[0];
+}
+
+function unlockPet(petId) {
+    const pet = petsData.find(p => p.id === petId);
+    if (!pet) return;
+    if (xp < pet.xpReq) { showToast(`Precisa de ${pet.xpReq} XP!`, true); return; }
+    if (!petState[petId]) petState[petId] = { owned: true, active: false, autoCollect: false, upgrades: {} };
+    petState[petId].owned = true;
+    savePetState();
+    // Grant title and theme if applicable
+    if (pet.grantsTitleId) {
+        const tEntry = titlesList.find(t => t.id === pet.grantsTitleId);
+        if (tEntry) {
+            if (tEntry.rewardTheme === 'ALL') {
+                storeItems.forEach(si => { if (!ownedThemes.includes(si.id)) ownedThemes.push(si.id); });
+            } else if (tEntry.rewardTheme && !ownedThemes.includes(tEntry.rewardTheme)) {
+                ownedThemes.push(tEntry.rewardTheme);
+            }
+            localStorage.setItem('geekieThemes', JSON.stringify(ownedThemes));
+        }
+    }
+    setActivePet(petId);
+    showToast(`🎉 ${pet.name} desbloqueado!`);
+    renderPetGrid();
+    try { renderStore(); } catch(e) {}
+    try { renderTitles(); } catch(e) {}
+}
+
+function setActivePet(petId) {
+    activePetId = petId;
+    localStorage.setItem('geekieActivePet', petId);
+    petsData.forEach(p => { if (petState[p.id]) petState[p.id].active = (p.id === petId); });
+    savePetState();
+    updateActivePetDisplay();
+    renderPetGrid();
+}
+
+function updateActivePetDisplay() {
+    const el = document.getElementById('activePetName');
+    const pet = petsData.find(p => p.id === activePetId);
+    if (el) el.textContent = pet ? `${pet.emoji} ${pet.name}` : 'Nenhum';
+    updateCoinRateDisplay();
+}
+
+function buyAutoCollect(petId) {
+    const pet = petsData.find(p => p.id === petId);
+    if (!pet || !petState[petId] || !petState[petId].owned) return;
+    if (petState[petId].autoCollect) { showToast('Auto-Coleta já ativa!', true); return; }
+    if (!spendCoins(pet.autoCollectCost)) return;
+    petState[petId].autoCollect = true;
+    savePetState();
+    showToast(`🪙 Auto-Coleta de ${pet.name} ativada! +${pet.autoCollectBonus}/20s`);
+    updateCoinRateDisplay();
+    renderPetGrid();
+}
+
+function buyPetUpgrade(petId, upgradeId) {
+    const pet = petsData.find(p => p.id === petId);
+    if (!pet || !petState[petId] || !petState[petId].owned) return;
+    const upg = pet.upgrades.find(u => u.id === upgradeId);
+    if (!upg) return;
+    if (petState[petId].upgrades && petState[petId].upgrades[upgradeId]) { showToast('Upgrade já comprado!', true); return; }
+    if (!spendCoins(upg.cost)) return;
+    if (!petState[petId].upgrades) petState[petId].upgrades = {};
+    petState[petId].upgrades[upgradeId] = true;
+    savePetState();
+    showToast(`✨ ${upg.label} de ${pet.name} aprimorado!`);
+    renderPetGrid();
+}
+
+function renderPetGrid() {
+    const grid = document.getElementById('petGrid');
+    if (!grid) return;
+    grid.innerHTML = '';
+    updateActivePetDisplay();
+
+    petsData.forEach(pet => {
+        const state = petState[pet.id] || { owned: false, active: false, autoCollect: false, upgrades: {} };
+        const isOwned = state.owned;
+        const isActive = activePetId === pet.id;
+        const isUnlockable = xp >= pet.xpReq && !isOwned;
+        const isSpecial = pet.rarity === 'special';
+        const isLegendary = pet.rarity === 'legendary';
+
+        let cardClass = 'pet-card';
+        if (isLegendary) cardClass += ' pet-legendary';
+        else if (isSpecial) cardClass += ' pet-special';
+        if (isOwned) cardClass += (isLegendary ? ' pet-unlocked' : isSpecial ? ' pet-unlocked' : ' pet-unlocked');
+        if (isActive) cardClass += ' pet-active';
+        if (!isOwned) cardClass += ' pet-locked';
+
+        let nameClass = 'pet-name';
+        if (isLegendary && pet.id === 'pet-astral') nameClass += ' gradient-astral';
+        else if (isLegendary) nameClass += ' gradient-legend';
+
+        // Rarity label
+        let rarityLabel = 'Comum';
+        let rarityColor = '#94a3b8';
+        if (pet.rarity === 'uncommon') { rarityLabel = 'Incomum'; rarityColor = '#4ade80'; }
+        if (pet.rarity === 'special') { rarityLabel = 'Especial'; rarityColor = '#a78bfa'; }
+        if (pet.rarity === 'legendary') { rarityLabel = 'Lendário'; rarityColor = '#ffd700'; }
+
+        // Upgrades HTML
+        let upgradesHTML = '';
+        if (isOwned) {
+            const upgRows = pet.upgrades.map(u => {
+                const done = state.upgrades && state.upgrades[u.id];
+                return `<div class="pet-upgrade-row">
+                    <span class="upg-label">${u.label} <span style="font-size:0.75rem;color:var(--text-muted);">— ${u.desc}</span></span>
+                    ${done
+                        ? `<span class="upg-badge-done">✅ Ativo</span>`
+                        : `<span class="upg-cost">🪙 ${u.cost}</span><button class="btn btn-coin" style="padding:4px 10px;font-size:0.75rem;" onclick="buyPetUpgrade('${pet.id}','${u.id}')">Comprar</button>`
+                    }
+                </div>`;
+            }).join('');
+
+            const autoHTML = state.autoCollect
+                ? `<div class="pet-upgrade-row"><span class="upg-label">Auto-Coleta <span class="pet-auto-badge">ATIVO</span></span><span class="upg-badge-done">+${pet.autoCollectBonus}/20s ✅</span></div>`
+                : `<div class="pet-upgrade-row"><span class="upg-label">Auto-Coleta <span style="font-size:0.75rem;color:var(--text-muted);">— +${pet.autoCollectBonus} moedas/20s</span></span><span class="upg-cost">🪙 ${pet.autoCollectCost}</span><button class="btn btn-coin" style="padding:4px 10px;font-size:0.75rem;" onclick="buyAutoCollect('${pet.id}')">Comprar</button></div>`;
+
+            upgradesHTML = `
+                <hr class="pet-divider">
+                <div class="pet-upgrade-section">
+                    <div class="pet-upgrade-title"><i class="fa-solid fa-arrow-up" style="color:var(--primary);"></i> Aprimoramentos</div>
+                    ${upgRows}
+                    <div class="pet-upgrade-title" style="margin-top:10px;"><i class="fa-solid fa-robot" style="color:var(--accent);"></i> Auto-Coleta de Moedas</div>
+                    ${autoHTML}
+                </div>`;
+        }
+
+        // Special reward section
+        let rewardHTML = '';
+        if (pet.grantsTitleId && isSpecial && isOwned) {
+            rewardHTML = `<div class="pet-special-reward"><i class="fa-solid fa-gift"></i> Título desbloqueado: <strong>${pet.exclusiveTitle}</strong><br><i class="fa-solid fa-palette"></i> Tema: ${pet.exclusiveThemeLabel}</div>`;
+        }
+        if (pet.grantsTitleId && isLegendary && isOwned) {
+            rewardHTML = `<div class="pet-legendary-reward"><i class="fa-solid fa-crown"></i> Título desbloqueado: <strong>${pet.exclusiveTitle}</strong><br><i class="fa-solid fa-wand-magic-sparkles"></i> ${pet.exclusiveThemeLabel}</div>`;
+        }
+
+        // Action buttons
+        let actionHTML = '';
+        if (!isOwned) {
+            if (isUnlockable) {
+                actionHTML = `<button class="btn btn-primary w-full" onclick="unlockPet('${pet.id}')"><i class="fa-solid fa-lock-open"></i> Desbloquear (${pet.xpReq} XP)</button>`;
+            } else {
+                actionHTML = `<button class="btn btn-disabled w-full" disabled><i class="fa-solid fa-lock"></i> ${pet.xpReq} XP necessários</button>`;
+            }
+        } else if (!isActive) {
+            actionHTML = `<button class="btn btn-outline w-full" onclick="setActivePet('${pet.id}')"><i class="fa-solid fa-paw"></i> Ativar Pet</button>`;
+        } else {
+            actionHTML = `<button class="btn btn-outline w-full" disabled style="border-color:var(--primary);color:var(--primary);"><i class="fa-solid fa-check"></i> Pet Ativo</button>`;
+        }
+
+        const motivationLine = isOwned
+            ? `<div class="pet-motivation">"${getPetMotivation(pet)}"</div>`
+            : `<div class="pet-motivation" style="color:var(--text-muted);font-style:normal;">Desbloqueie para ver sua motivação!</div>`;
+
+        grid.innerHTML += `
+        <div class="${cardClass}">
+            ${isActive ? `<div class="pet-active-indicator">ATIVO</div>` : ''}
+            <span class="pet-emoji">${pet.emoji}</span>
+            <div class="${nameClass}">${pet.name}</div>
+            <div style="text-align:center;margin-bottom:8px;"><span style="font-size:0.72rem;color:${rarityColor};border:1px solid ${rarityColor}44;padding:2px 8px;border-radius:8px;">${rarityLabel}</span></div>
+            ${motivationLine}
+            <div class="pet-xp-req"><i class="fa-solid fa-star" style="color:#a78bfa;"></i> ${pet.xpReq} XP necessários · ${isOwned ? '<span style="color:var(--success);">✅ Desbloqueado</span>' : '<span style="color:var(--text-muted);">🔒 Bloqueado</span>'}</div>
+            <div style="font-size:0.78rem;color:var(--text-muted);text-align:center;margin-bottom:12px;">${pet.desc}</div>
+            ${rewardHTML}
+            ${actionHTML}
+            ${upgradesHTML}
+        </div>`;
+    });
+}
 
 // ===================== THEMES =====================
 let ownedThemes = JSON.parse(localStorage.getItem('geekieThemes')) || ['theme-default'];
@@ -637,19 +1134,18 @@ let equippedTheme = localStorage.getItem('geekieEquipped') || 'theme-default';
 const iframeContainer = document.getElementById('geekieIframeContainer');
 
 const storeItems = [
-    { id: 'theme-default',         name: 'Padrao',            xpReq: 0,    icon: 'fa-square',     desc: 'Sem borda especial. Simples e limpo.',           color: '#94a3b8', effect: 'Nenhum' },
-    { id: 'theme-ubuntu-yaru',     name: 'Ubuntu Yaru',       xpReq: 50,   icon: 'fa-circle-dot', desc: 'Laranja vibrante com efeito TREMOR.',             color: '#E95420', effect: 'Tremor' },
-    { id: 'theme-ubuntu-radiance', name: 'Ubuntu Radiance',   xpReq: 100,  icon: 'fa-sun',        desc: 'Verde lima com efeito de RESPIRACAO (scale).',    color: '#87B03D', effect: 'Respiracao' },
-    { id: 'theme-ubuntu-ambiance', name: 'Ubuntu Ambiance',   xpReq: 200,  icon: 'fa-moon',       desc: 'Roxo noturno com efeito FLUTUANTE.',              color: '#5C3566', effect: 'Flutuante' },
-    { id: 'theme-ubuntu-forest',   name: 'Ubuntu Forest',     xpReq: 350,  icon: 'fa-leaf',       desc: 'Verde floresta com respiracao serena.',           color: '#16A34A', effect: 'Pulso' },
-    { id: 'theme-ubuntu-dark',     name: 'Ubuntu Dark',       xpReq: 500,  icon: 'fa-skull',      desc: 'Grafite escuro com brilho metalico.',             color: '#3C3B37', effect: 'Metalico' },
-    { id: 'theme-ubuntu-snap',     name: 'Snap Neon',         xpReq: 750,  icon: 'fa-bolt',       desc: 'Azul neon com efeito GLITCH aleatorio.',          color: '#1BA1E2', effect: 'Glitch' },
-    { id: 'theme-ubuntu-frost',    name: 'Ubuntu Frost',      xpReq: 1000, icon: 'fa-snowflake',  desc: 'Gelo holografico com BALANCO suave.',             color: '#C8E6FA', effect: 'Balanco' },
-    { id: 'theme-ubuntu-fire',     name: 'Ubuntu Fire',       xpReq: 1500, icon: 'fa-fire',       desc: 'Chama viva com TREMOR de fogo.',                  color: '#EF4444', effect: 'Fogo' },
-    { id: 'theme-ubuntu-sunset',   name: 'Ubuntu Sunset',     xpReq: 2000, icon: 'fa-palette',    desc: 'Ciclo de cores com efeito ONDA 3D.',              color: '#F97316', effect: 'Onda 3D' },
-    { id: 'theme-ubuntu-cosmic',   name: 'Ubuntu Cosmic',     xpReq: 3000, icon: 'fa-star',       desc: 'Deep space com ROTACAO de matiz infinita.',       color: '#6D28D9', effect: 'Hue Spin' },
-    { id: 'theme-ubuntu-pulsar',   name: 'Ubuntu Pulsar',     xpReq: 6000, icon: 'fa-circle-nodes', desc: 'Deep black hole com TREMOR de matéria escura.',   color: '#756ad2', effect: 'Hole Tremor' },
-
+    { id: 'theme-default',         name: 'Padrão',           xpReq: 0,    icon: 'fa-square',       desc: 'Sem borda especial. Simples e limpo.',           color: '#94a3b8', effect: 'Nenhum' },
+    { id: 'theme-ubuntu-yaru',     name: 'Ubuntu Yaru',      xpReq: 50,   icon: 'fa-circle-dot',   desc: 'Laranja vibrante com efeito TREMOR.',             color: '#E95420', effect: 'Tremor' },
+    { id: 'theme-ubuntu-radiance', name: 'Ubuntu Radiance',  xpReq: 100,  icon: 'fa-sun',          desc: 'Verde lima com efeito de RESPIRAÇÃO (scale).',    color: '#87B03D', effect: 'Respiração' },
+    { id: 'theme-ubuntu-ambiance', name: 'Ubuntu Ambiance',  xpReq: 200,  icon: 'fa-moon',         desc: 'Roxo noturno com efeito FLUTUANTE.',              color: '#5C3566', effect: 'Flutuante' },
+    { id: 'theme-ubuntu-forest',   name: 'Ubuntu Forest',    xpReq: 350,  icon: 'fa-leaf',         desc: 'Verde floresta com respiração serena.',           color: '#16A34A', effect: 'Pulso' },
+    { id: 'theme-ubuntu-dark',     name: 'Ubuntu Dark',      xpReq: 500,  icon: 'fa-skull',        desc: 'Grafite escuro com brilho metálico.',             color: '#3C3B37', effect: 'Metálico' },
+    { id: 'theme-ubuntu-snap',     name: 'Snap Neon',        xpReq: 750,  icon: 'fa-bolt',         desc: 'Azul neon com efeito GLITCH aleatório.',          color: '#1BA1E2', effect: 'Glitch' },
+    { id: 'theme-ubuntu-frost',    name: 'Ubuntu Frost',     xpReq: 1000, icon: 'fa-snowflake',    desc: 'Gelo holográfico com BALANÇO suave.',             color: '#C8E6FA', effect: 'Balanço' },
+    { id: 'theme-ubuntu-fire',     name: 'Ubuntu Fire',      xpReq: 1500, icon: 'fa-fire',         desc: 'Chama viva com TREMOR de fogo.',                  color: '#EF4444', effect: 'Fogo' },
+    { id: 'theme-ubuntu-sunset',   name: 'Ubuntu Sunset',    xpReq: 2000, icon: 'fa-palette',      desc: 'Ciclo de cores com efeito ONDA 3D.',              color: '#F97316', effect: 'Onda 3D' },
+    { id: 'theme-ubuntu-cosmic',   name: 'Ubuntu Cosmic',    xpReq: 3000, icon: 'fa-star',         desc: 'Deep space com ROTAÇÃO de matiz infinita.',       color: '#6D28D9', effect: 'Hue Spin' },
+    { id: 'theme-ubuntu-pulsar',   name: 'Ubuntu Pulsar',    xpReq: 6000, icon: 'fa-circle-nodes', desc: 'Buraco negro com TREMOR de matéria escura.',      color: '#756ad2', effect: 'Hole Tremor' },
 ];
 
 function applyTheme(themeId) { storeItems.forEach(item => iframeContainer.classList.remove(item.id)); iframeContainer.classList.add(themeId); }
@@ -665,7 +1161,7 @@ function renderStore() {
         else if (isOwned) btn = `<button class="btn btn-primary w-full" onclick="equipTheme('${item.id}')">Equipar</button>`;
         else if (isUnlocked) btn = `<button class="btn btn-primary w-full" onclick="unlockTheme('${item.id}')"><i class="fa-solid fa-lock-open"></i> Desbloquear</button>`;
         else btn = `<button class="btn btn-disabled w-full" disabled><i class="fa-solid fa-lock"></i> ${item.xpReq} XP</button>`;
-        grid.innerHTML += `<div class="store-item" style="${isEquipped ? `border-color:${item.color};box-shadow:0 0 15px ${item.color}44;` : ''}"><i class="fa-solid ${item.icon} preview-icon" style="color:${item.color};"></i><h4>${item.name}</h4><p style="font-size:0.8rem;color:var(--text-muted);flex:1;">${item.desc}</p><p style="font-size:0.7rem;color:var(--accent);margin-bottom:2px;"><i class="fa-solid fa-wand-magic-sparkles"></i> Efeito: ${item.effect}</p><p style="font-size:0.75rem;color:${isUnlocked ? 'var(--primary)' : 'var(--text-muted)'};margin-bottom:4px;"><i class="fa-solid fa-star"></i> ${item.xpReq} XP ${isUnlocked ? '\u2705' : '\ud83d\udd12'}</p>${btn}</div>`;
+        grid.innerHTML += `<div class="store-item" style="${isEquipped ? `border-color:${item.color};box-shadow:0 0 15px ${item.color}44;` : ''}"><i class="fa-solid ${item.icon} preview-icon" style="color:${item.color};"></i><h4>${item.name}</h4><p style="font-size:0.8rem;color:var(--text-muted);flex:1;">${item.desc}</p><p style="font-size:0.7rem;color:var(--accent);margin-bottom:2px;"><i class="fa-solid fa-wand-magic-sparkles"></i> Efeito: ${item.effect}</p><p style="font-size:0.75rem;color:${isUnlocked ? 'var(--primary)' : 'var(--text-muted)'};margin-bottom:4px;"><i class="fa-solid fa-star"></i> ${item.xpReq} XP ${isUnlocked ? '✅' : '🔒'}</p>${btn}</div>`;
     });
 }
 applyTheme(equippedTheme); renderStore();
@@ -682,14 +1178,28 @@ function updatePlayerTitle() {
     document.getElementById('playerTitleText').textContent = equipped.name;
 }
 
+function isPetTitleUnlocked(titleId) {
+    const mapping = {
+        'title-pet-dragon': 'pet-dragao',
+        'title-pet-unicorn': 'pet-unicornio',
+        'title-pet-astral': 'pet-astral',
+    };
+    const petId = mapping[titleId];
+    return petId && petState[petId] && petState[petId].owned;
+}
+
 function equipTitle(titleId) {
     const t = titlesList.find(x => x.id === titleId);
-    if (!t || xp < t.xpReq) return;
+    if (!t) return;
+    if (t.petTitle) {
+        if (!isPetTitleUnlocked(titleId)) { showToast('Desbloqueie o pet correspondente primeiro!', true); return; }
+    } else {
+        if (xp < t.xpReq) return;
+    }
     equippedTitle = titleId;
     localStorage.setItem('geekieTitle', titleId);
-    // Unlock reward theme
     if (t.rewardTheme === 'ALL') {
-        storeItems.forEach(si => { if (!ownedThemes.includes(si.id)) { ownedThemes.push(si.id); } });
+        storeItems.forEach(si => { if (!ownedThemes.includes(si.id)) ownedThemes.push(si.id); });
         localStorage.setItem('geekieThemes', JSON.stringify(ownedThemes));
     } else if (t.rewardTheme && !ownedThemes.includes(t.rewardTheme)) {
         ownedThemes.push(t.rewardTheme);
@@ -698,27 +1208,36 @@ function equipTitle(titleId) {
     updatePlayerTitle();
     renderTitles();
     renderStore();
-    showToast(`Titulo "${t.name}" equipado!`);
+    showToast(`Título "${t.name}" equipado!`);
 }
 
 function renderTitles() {
     const grid = document.getElementById('titlesGrid'); if (!grid) return; grid.innerHTML = '';
     const xpDisp = document.getElementById('titlesXpDisplay'); if (xpDisp) xpDisp.textContent = xp;
     titlesList.forEach(t => {
-        const unlocked = xp >= t.xpReq;
+        let unlocked = false;
+        if (t.petTitle) {
+            unlocked = isPetTitleUnlocked(t.id);
+        } else {
+            unlocked = xp >= t.xpReq;
+        }
         const isEquipped = equippedTitle === t.id;
         let btnHtml = '';
         if (isEquipped) btnHtml = `<button class="btn btn-outline w-full" disabled style="margin-top:8px;"><i class="fa-solid fa-check"></i> Usando</button>`;
-        else if (unlocked) btnHtml = `<button class="btn btn-primary w-full" onclick="equipTitle('${t.id}')" style="margin-top:8px;"><i class="fa-solid fa-crown"></i> Usar Titulo</button>`;
-        else btnHtml = `<button class="btn btn-disabled w-full" disabled style="margin-top:8px;"><i class="fa-solid fa-lock"></i> ${t.xpReq} XP</button>`;
+        else if (unlocked) btnHtml = `<button class="btn btn-primary w-full" onclick="equipTitle('${t.id}')" style="margin-top:8px;"><i class="fa-solid fa-crown"></i> Usar Título</button>`;
+        else {
+            const lockLabel = t.petTitle ? `🐾 Pet Especial` : `${t.xpReq} XP`;
+            btnHtml = `<button class="btn btn-disabled w-full" disabled style="margin-top:8px;"><i class="fa-solid fa-lock"></i> ${lockLabel}</button>`;
+        }
         const gradClass = t.gradient ? 'gradient-pulsar' : '';
+        const petBadge = t.petTitle ? `<span style="font-size:0.72rem;color:#fb923c;border:1px solid rgba(251,146,60,0.4);padding:2px 8px;border-radius:8px;margin-left:4px;">🐾 Pet</span>` : '';
         grid.innerHTML += `<div class="title-card ${unlocked ? 'unlocked' : 'locked'} ${isEquipped ? 'equipped' : ''}">
             <div class="title-card-inner">
-                ${unlocked ? '<span class="xp-tier-badge">\u2705 Conquistado</span>' : `<span class="locked-badge">\ud83d\udd12 ${t.xpReq} XP</span>`}
+                ${unlocked ? '<span class="xp-tier-badge">✅ Conquistado</span>' : (t.petTitle ? `<span class="locked-badge">🐾 Desbloqueie o Pet</span>` : `<span class="locked-badge">🔒 ${t.xpReq} XP</span>`)}
                 ${t.gradient ? `<div style="text-align:center;margin-bottom:6px;font-size:1.6rem;"><i class="fa-solid ${t.gradientIcon || 'fa-star'}" style="background:linear-gradient(135deg,#756ad2,#a78bfa,#00d4ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;"></i></div>` : ''}
-                <div class="title-name ${gradClass}">${t.name}</div>
+                <div class="title-name ${gradClass}">${t.name} ${petBadge}</div>
                 <div class="title-desc">${t.desc}</div>
-                <div class="title-xp-req"><i class="fa-solid fa-star"></i> Requer: ${t.xpReq} XP</div>
+                <div class="title-xp-req"><i class="fa-solid fa-star"></i> Requer: ${t.petTitle ? 'Pet Especial' : `${t.xpReq} XP`}</div>
                 ${t.reward ? `<div class="title-reward"><i class="fa-solid fa-gift"></i> Recompensa: ${t.reward}</div>` : ''}
                 ${btnHtml}
             </div>
@@ -729,7 +1248,7 @@ renderTitles(); updatePlayerTitle();
 
 // ===================== NOTE FONTS =====================
 const noteFonts = [
-    { family: 'Poppins', label: 'Poppins (Padrao)' },
+    { family: 'Poppins', label: 'Poppins (Padrão)' },
     { family: 'Caveat', label: 'Caveat (Manuscrita)' },
     { family: 'Patrick Hand', label: 'Patrick Hand' },
     { family: 'Indie Flower', label: 'Indie Flower' },
@@ -764,13 +1283,13 @@ document.fonts.ready.then(() => buildNoteFontPicker());
 let savedNotes = JSON.parse(localStorage.getItem('geekieNotes')) || [];
 let currentNoteId = null;
 function getNoteEls() { return { noteSelect: document.getElementById('noteSelect'), noteTitleInput: document.getElementById('noteTitle'), noteContentInput: document.getElementById('noteContent') }; }
-function renderNotesDropdown() { const {noteSelect} = getNoteEls(); if (!noteSelect) return; noteSelect.innerHTML = '<option value="new">+ Nova Anotacao...</option>'; savedNotes.forEach(note => { const opt = document.createElement('option'); opt.value = note.id; opt.textContent = note.title || 'Nota sem titulo'; if (note.id === currentNoteId) opt.selected = true; noteSelect.appendChild(opt); }); }
+function renderNotesDropdown() { const {noteSelect} = getNoteEls(); if (!noteSelect) return; noteSelect.innerHTML = '<option value="new">+ Nova Anotação...</option>'; savedNotes.forEach(note => { const opt = document.createElement('option'); opt.value = note.id; opt.textContent = note.title || 'Nota sem título'; if (note.id === currentNoteId) opt.selected = true; noteSelect.appendChild(opt); }); }
 function loadSelectedNote() { const {noteSelect, noteTitleInput, noteContentInput} = getNoteEls(); if (!noteSelect) return; const id = noteSelect.value; if (id === 'new') { currentNoteId = null; noteTitleInput.value = ''; noteContentInput.value = ''; } else { const n = savedNotes.find(n => n.id == id); if (n) { currentNoteId = n.id; noteTitleInput.value = n.title; noteContentInput.value = n.content; } } }
-function saveNote() { const {noteTitleInput, noteContentInput} = getNoteEls(); if (!noteTitleInput) return; const title = noteTitleInput.value.trim() || 'Nota sem titulo'; const content = noteContentInput.value; if (!content.trim() && !noteTitleInput.value.trim()) { showToast('A nota esta vazia!', true); return; } if (currentNoteId === null) { const nn = { id: Date.now().toString(), title, content, date: new Date().toLocaleDateString() }; savedNotes.push(nn); currentNoteId = nn.id; showToast('Nova anotacao salva!'); } else { const idx = savedNotes.findIndex(n => n.id === currentNoteId); if (idx !== -1) { savedNotes[idx].title = title; savedNotes[idx].content = content; showToast('Anotacao atualizada!'); } } localStorage.setItem('geekieNotes', JSON.stringify(savedNotes)); renderNotesDropdown(); }
-function deleteNote() { const {noteTitleInput, noteContentInput} = getNoteEls(); if (!noteTitleInput) return; if (currentNoteId === null) { noteTitleInput.value = ''; noteContentInput.value = ''; return; } if (confirm('Excluir esta anotacao permanentemente?')) { savedNotes = savedNotes.filter(n => n.id !== currentNoteId); localStorage.setItem('geekieNotes', JSON.stringify(savedNotes)); currentNoteId = null; noteTitleInput.value = ''; noteContentInput.value = ''; renderNotesDropdown(); showToast('Anotacao excluida!'); } }
-function copyNoteContent() { const {noteContentInput} = getNoteEls(); if (!noteContentInput || !noteContentInput.value) { showToast('Nada para copiar!', true); return; } navigator.clipboard.writeText(noteContentInput.value).then(() => showToast('Conteudo copiado!')).catch(() => showToast('Erro ao copiar.', true)); }
+function saveNote() { const {noteTitleInput, noteContentInput} = getNoteEls(); if (!noteTitleInput) return; const title = noteTitleInput.value.trim() || 'Nota sem título'; const content = noteContentInput.value; if (!content.trim() && !noteTitleInput.value.trim()) { showToast('A nota está vazia!', true); return; } if (currentNoteId === null) { const nn = { id: Date.now().toString(), title, content, date: new Date().toLocaleDateString() }; savedNotes.push(nn); currentNoteId = nn.id; showToast('Nova anotação salva!'); } else { const idx = savedNotes.findIndex(n => n.id === currentNoteId); if (idx !== -1) { savedNotes[idx].title = title; savedNotes[idx].content = content; showToast('Anotação atualizada!'); } } localStorage.setItem('geekieNotes', JSON.stringify(savedNotes)); renderNotesDropdown(); }
+function deleteNote() { const {noteTitleInput, noteContentInput} = getNoteEls(); if (!noteTitleInput) return; if (currentNoteId === null) { noteTitleInput.value = ''; noteContentInput.value = ''; return; } if (confirm('Excluir esta anotação permanentemente?')) { savedNotes = savedNotes.filter(n => n.id !== currentNoteId); localStorage.setItem('geekieNotes', JSON.stringify(savedNotes)); currentNoteId = null; noteTitleInput.value = ''; noteContentInput.value = ''; renderNotesDropdown(); showToast('Anotação excluída!'); } }
+function copyNoteContent() { const {noteContentInput} = getNoteEls(); if (!noteContentInput || !noteContentInput.value) { showToast('Nada para copiar!', true); return; } navigator.clipboard.writeText(noteContentInput.value).then(() => showToast('Conteúdo copiado!')).catch(() => showToast('Erro ao copiar.', true)); }
 async function pasteNoteContent() { const {noteContentInput} = getNoteEls(); if (!noteContentInput) return; try { const text = await navigator.clipboard.readText(); const s = noteContentInput.selectionStart, e = noteContentInput.selectionEnd; noteContentInput.value = noteContentInput.value.substring(0, s) + text + noteContentInput.value.substring(e); showToast('Colado!'); } catch { showToast('Use Ctrl+V para colar.', true); } }
-function exportNote() { const {noteTitleInput, noteContentInput} = getNoteEls(); if (!noteContentInput || !noteContentInput.value) { showToast('Nota vazia!', true); return; } const blob = new Blob([noteContentInput.value], { type: 'text/plain;charset=utf-8' }); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `${noteTitleInput.value.trim() || 'Anotacao'}.txt`; a.click(); showToast('Exportado!'); }
+function exportNote() { const {noteTitleInput, noteContentInput} = getNoteEls(); if (!noteContentInput || !noteContentInput.value) { showToast('Nota vazia!', true); return; } const blob = new Blob([noteContentInput.value], { type: 'text/plain;charset=utf-8' }); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `${noteTitleInput.value.trim() || 'Anotação'}.txt`; a.click(); showToast('Exportado!'); }
 function importNote(event) { const {noteTitleInput, noteContentInput, noteSelect} = getNoteEls(); const file = event.target.files[0]; if (!file) return; const reader = new FileReader(); reader.onload = e => { currentNoteId = null; if(noteTitleInput) noteTitleInput.value = file.name.replace('.txt', ''); if(noteContentInput) noteContentInput.value = e.target.result; document.getElementById('importNoteFile').value = ''; if(noteSelect) noteSelect.value = 'new'; showToast('Importado! Lembre de salvar.'); }; reader.readAsText(file); }
 renderNotesDropdown();
 
@@ -780,7 +1299,7 @@ const alarmSound = document.getElementById('alarmSound');
 function getTimerEls() { return { timerDisplay: document.getElementById('timerDisplay'), timerMode: document.getElementById('timerMode'), btnStartTimer: document.getElementById('btnStartTimer'), pomodoroCount: document.getElementById('pomodoroCount') }; }
 function updateTimerDisplay() { const {timerDisplay} = getTimerEls(); if (!timerDisplay) return; const t = `${Math.floor(timeLeft/60).toString().padStart(2,'0')}:${(timeLeft%60).toString().padStart(2,'0')}`; timerDisplay.textContent = t; document.title = `${t} - ${savedTitle}`; }
 function setCustomTimer(mins) { const {timerMode, btnStartTimer} = getTimerEls(); clearInterval(timerInterval); isTimerRunning = false; isBreak = false; timeLeft = mins * 60; if(timerMode) { timerMode.textContent = `Modo: Foco (${mins} min)`; timerMode.style.color = 'var(--text-muted)'; } if(btnStartTimer) btnStartTimer.innerHTML = '<i class="fa-solid fa-play"></i> Iniciar'; updateTimerDisplay(); showToast(`Timer ajustado para ${mins} minutos!`); }
-function startTimer() { const {btnStartTimer, timerMode, pomodoroCount} = getTimerEls(); if (isTimerRunning) return; isTimerRunning = true; if(btnStartTimer) btnStartTimer.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Rodando'; timerInterval = setInterval(() => { timeLeft--; updateTimerDisplay(); if (timeLeft <= 0) { clearInterval(timerInterval); isTimerRunning = false; if(alarmSound) alarmSound.play(); if (!isBreak) { cycles++; if(pomodoroCount) pomodoroCount.textContent = cycles; isBreak = true; timeLeft = 5*60; if(timerMode) { timerMode.textContent = 'Modo: Pausa Curta (5 min)'; timerMode.style.color = 'var(--accent)'; } alert('Foco concluido! Pausa de 5 min.'); } else { isBreak = false; timeLeft = 25*60; if(timerMode) { timerMode.textContent = 'Modo: Foco (25 min)'; timerMode.style.color = 'var(--text-muted)'; } alert('Pausa concluida! Hora de focar.'); } const {btnStartTimer: b2} = getTimerEls(); if(b2) b2.innerHTML = '<i class="fa-solid fa-play"></i> Iniciar'; updateTimerDisplay(); } }, 1000); }
+function startTimer() { const {btnStartTimer, timerMode, pomodoroCount} = getTimerEls(); if (isTimerRunning) return; isTimerRunning = true; if(btnStartTimer) btnStartTimer.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Rodando'; timerInterval = setInterval(() => { timeLeft--; updateTimerDisplay(); if (timeLeft <= 0) { clearInterval(timerInterval); isTimerRunning = false; if(alarmSound) alarmSound.play(); if (!isBreak) { cycles++; if(pomodoroCount) pomodoroCount.textContent = cycles; isBreak = true; timeLeft = 5*60; if(timerMode) { timerMode.textContent = 'Modo: Pausa Curta (5 min)'; timerMode.style.color = 'var(--accent)'; } earnCoins(10, 'Pomodoro concluído!'); alert('Foco concluído! Pausa de 5 min. +10 🪙'); } else { isBreak = false; timeLeft = 25*60; if(timerMode) { timerMode.textContent = 'Modo: Foco (25 min)'; timerMode.style.color = 'var(--text-muted)'; } alert('Pausa concluída! Hora de focar.'); } const {btnStartTimer: b2} = getTimerEls(); if(b2) b2.innerHTML = '<i class="fa-solid fa-play"></i> Iniciar'; updateTimerDisplay(); } }, 1000); }
 function pauseTimer() { const {btnStartTimer} = getTimerEls(); clearInterval(timerInterval); isTimerRunning = false; if(btnStartTimer) btnStartTimer.innerHTML = '<i class="fa-solid fa-play"></i> Continuar'; }
 function resetTimer() { const {timerMode, btnStartTimer} = getTimerEls(); clearInterval(timerInterval); isTimerRunning = false; isBreak = false; timeLeft = 25*60; if(timerMode) { timerMode.textContent = 'Modo: Foco (25 min)'; timerMode.style.color = 'var(--text-muted)'; } if(btnStartTimer) btnStartTimer.innerHTML = '<i class="fa-solid fa-play"></i> Iniciar'; updateTimerDisplay(); }
 updateTimerDisplay();
@@ -806,13 +1325,18 @@ function renderTodos() {
 function filterTodos(f) { todoFilter = f; renderTodos(); }
 function addTodo() { const t = document.getElementById('todoInput').value.trim(); if (t) { todos.push({text:t,completed:false}); document.getElementById('todoInput').value=''; renderTodos(); } }
 function handleTodoKeyPress(e) { if (e.key==='Enter') addTodo(); }
-function toggleTodo(i) { todos[i].completed = !todos[i].completed; renderTodos(); }
+function toggleTodo(i) {
+    const wasCompleted = todos[i].completed;
+    todos[i].completed = !todos[i].completed;
+    if (!wasCompleted && todos[i].completed) earnCoins(5, 'Meta concluída!');
+    renderTodos();
+}
 function deleteTodo(i) { todos.splice(i,1); renderTodos(); }
 renderTodos();
 
 // ===================== FLASHCARDS =====================
 let flashcardsData = JSON.parse(localStorage.getItem('geekieFlashcards'));
-if (!flashcardsData || !flashcardsData.length) { flashcardsData = [{ front: 'O que e a Mitocondria?', back: 'Organela responsavel pela respiracao celular (energia).' }]; localStorage.setItem('geekieFlashcards', JSON.stringify(flashcardsData)); }
+if (!flashcardsData || !flashcardsData.length) { flashcardsData = [{ front: 'O que é a Mitocôndria?', back: 'Organela responsável pela respiração celular (energia).' }]; localStorage.setItem('geekieFlashcards', JSON.stringify(flashcardsData)); }
 let currentCardIndex = 0;
 function getFlashEls() { return { flashcardEl: document.getElementById('flashcard'), cardFront: document.getElementById('cardFront'), cardBack: document.getElementById('cardBack'), cardCounter: document.getElementById('cardCounter') }; }
 function saveFlashcards() { localStorage.setItem('geekieFlashcards', JSON.stringify(flashcardsData)); }
@@ -821,125 +1345,40 @@ function flipCard() { const {flashcardEl} = getFlashEls(); if (flashcardEl && fl
 function nextCard() { if (currentCardIndex < flashcardsData.length-1) { currentCardIndex++; updateCardDisplay(); } }
 function prevCard() { if (currentCardIndex > 0) { currentCardIndex--; updateCardDisplay(); } }
 function addFlashcard() { const f = document.getElementById('newCardFront'), b = document.getElementById('newCardBack'); if (f.value.trim() && b.value.trim()) { flashcardsData.push({front:f.value.trim(),back:b.value.trim()}); saveFlashcards(); f.value=''; b.value=''; currentCardIndex=flashcardsData.length-1; updateCardDisplay(); showToast('Flashcard Criado!'); } else alert('Preencha frente e verso!'); }
-function deleteCurrentCard() { if (!flashcardsData.length) return; if (confirm('Excluir este flashcard?')) { flashcardsData.splice(currentCardIndex,1); saveFlashcards(); if (currentCardIndex >= flashcardsData.length) currentCardIndex = Math.max(0, flashcardsData.length-1); updateCardDisplay(); showToast('Excluido!'); } }
+function deleteCurrentCard() { if (!flashcardsData.length) return; if (confirm('Excluir este flashcard?')) { flashcardsData.splice(currentCardIndex,1); saveFlashcards(); if (currentCardIndex >= flashcardsData.length) currentCardIndex = Math.max(0, flashcardsData.length-1); updateCardDisplay(); showToast('Excluído!'); } }
 updateCardDisplay();
 
-// ===================== ENHANCED AMBIENT AUDIO =====================
+// ===================== AMBIENT AUDIO =====================
 const ambientSounds = [
-    { id: 'brown-noise', label: 'Ruido Marrom', icon: '\ud83c\udf0a', category: 'noise', url: 'https://cdn.pixabay.com/download/audio/2022/03/15/audio_24a56d9595.mp3?filename=brown-noise-9005.mp3' },
-    { id: 'rain', label: 'Chuva Suave', icon: '\ud83c\udf27\ufe0f', category: 'nature', url: 'https://cdn.pixabay.com/download/audio/2021/08/04/audio_0625c1539c.mp3?filename=light-rain-109591.mp3' },
-    { id: 'thunder', label: 'Trovao', icon: '\u26a1', category: 'nature', url: 'https://cdn.pixabay.com/download/audio/2022/10/30/audio_711e25aff7.mp3?filename=thunder-and-rain-116349.mp3' },
-    { id: 'fire', label: 'Fogueira', icon: '\ud83d\udd25', category: 'nature', url: 'https://cdn.pixabay.com/download/audio/2022/01/18/audio_d0a13f69d2.mp3?filename=fireplace-crackling-7363.mp3' },
-    { id: 'wind', label: 'Vento', icon: '\ud83d\udca8', category: 'nature', url: 'https://cdn.pixabay.com/download/audio/2022/03/19/audio_56edb8e833.mp3?filename=wind-sound-effect-1-9156.mp3' },
-    { id: 'birds', label: 'Passaros', icon: '\ud83d\udc26', category: 'nature', url: 'https://cdn.pixabay.com/download/audio/2022/02/07/audio_5f2eb39ab5.mp3?filename=birds-chirping-calm-20934.mp3' },
-    { id: 'ocean', label: 'Oceano', icon: '\ud83c\udf0a', category: 'nature', url: 'https://cdn.pixabay.com/download/audio/2022/06/01/audio_be774f9d86.mp3?filename=calm-sea-ambience-10028.mp3' },
-    { id: 'cafe', label: 'Cafeteria', icon: '\u2615', category: 'urban', url: 'https://cdn.pixabay.com/download/audio/2022/04/27/audio_1aa0564223.mp3?filename=crowd-talking-cafeteria-6263.mp3' },
+    { id: 'brown-noise', label: 'Ruído Marrom', icon: '🌊', category: 'noise', url: 'https://cdn.pixabay.com/download/audio/2022/03/15/audio_24a56d9595.mp3?filename=brown-noise-9005.mp3' },
+    { id: 'rain', label: 'Chuva Suave', icon: '🌧️', category: 'nature', url: 'https://cdn.pixabay.com/download/audio/2021/08/04/audio_0625c1539c.mp3?filename=light-rain-109591.mp3' },
+    { id: 'thunder', label: 'Trovão', icon: '⚡', category: 'nature', url: 'https://cdn.pixabay.com/download/audio/2022/10/30/audio_711e25aff7.mp3?filename=thunder-and-rain-116349.mp3' },
+    { id: 'fire', label: 'Fogueira', icon: '🔥', category: 'nature', url: 'https://cdn.pixabay.com/download/audio/2022/01/18/audio_d0a13f69d2.mp3?filename=fireplace-crackling-7363.mp3' },
+    { id: 'wind', label: 'Vento', icon: '💨', category: 'nature', url: 'https://cdn.pixabay.com/download/audio/2022/03/19/audio_56edb8e833.mp3?filename=wind-sound-effect-1-9156.mp3' },
+    { id: 'birds', label: 'Pássaros', icon: '🐦', category: 'nature', url: 'https://cdn.pixabay.com/download/audio/2022/02/07/audio_5f2eb39ab5.mp3?filename=birds-chirping-calm-20934.mp3' },
+    { id: 'ocean', label: 'Oceano', icon: '🌊', category: 'nature', url: 'https://cdn.pixabay.com/download/audio/2022/06/01/audio_be774f9d86.mp3?filename=calm-sea-ambience-10028.mp3' },
+    { id: 'cafe', label: 'Cafeteria', icon: '☕', category: 'urban', url: 'https://cdn.pixabay.com/download/audio/2022/04/27/audio_1aa0564223.mp3?filename=crowd-talking-cafeteria-6263.mp3' },
 ];
-
-let ambientAudios = {};
-let ambientVolumes = {};
-let masterVol = 0.5;
-
+let ambientAudios = {}, ambientVolumes = {}, masterVol = 0.5;
 function initAmbient() {
-    ambientSounds.forEach(s => {
-        const audio = new Audio();
-        audio.loop = true;
-        audio.preload = 'none';
-        audio.src = s.url;
-        audio.volume = masterVol;
-        ambientAudios[s.id] = audio;
-        ambientVolumes[s.id] = 0.5;
-    });
-    renderAmbientGrid();
-    renderAmbientMixer();
-}
-
-function renderAmbientGrid() {
-    const grid = document.getElementById('ambientGrid'); if (!grid) return; grid.innerHTML = '';
-    ambientSounds.forEach(s => {
-        const isPlaying = ambientAudios[s.id] && !ambientAudios[s.id].paused;
-        grid.innerHTML += `<div class="ambient-card ${isPlaying ? 'playing' : ''}" onclick="toggleAmbientSound('${s.id}')" id="ambient-card-${s.id}">
-            <span class="ambient-icon">${s.icon}</span>
-            <span class="ambient-label">${s.label}</span>
-            ${isPlaying ? '<span style="font-size:0.7rem;color:var(--accent);margin-top:4px;">\u25b6 Tocando</span>' : ''}
-        </div>`;
-    });
-}
-
-function renderAmbientMixer() {
-    const rows = document.getElementById('ambientMixerRows'); if (!rows) return; rows.innerHTML = '';
-    ambientSounds.forEach(s => {
-        const isPlaying = ambientAudios[s.id] && !ambientAudios[s.id].paused;
-        const vol = Math.round((ambientVolumes[s.id] || 0.5) * 100);
-        rows.innerHTML += `<div class="ambient-mixer-row" style="opacity:${isPlaying ? 1 : 0.4}">
-            <span>${s.icon} ${s.label}</span>
-            <input type="range" min="0" max="1" step="0.05" value="${ambientVolumes[s.id] || 0.5}" onchange="setAmbientVolume('${s.id}', this.value)" style="accent-color:var(--accent);">
-            <span class="vol-value">${vol}%</span>
-        </div>`;
-    });
-}
-
-function toggleAmbientSound(id) {
-    const audio = ambientAudios[id];
-    if (audio.paused) { audio.volume = (ambientVolumes[id] || 0.5) * masterVol; audio.play().catch(() => {}); }
-    else { audio.pause(); }
-    renderAmbientGrid();
-    renderAmbientMixer();
-}
-
-function setAmbientVolume(id, val) {
-    ambientVolumes[id] = parseFloat(val);
-    ambientAudios[id].volume = parseFloat(val) * masterVol;
-    renderAmbientMixer();
-}
-
-function changeMasterVolume(val) {
-    masterVol = parseFloat(val);
-    document.getElementById('masterVolLabel').textContent = Math.round(masterVol * 100) + '%';
-    Object.keys(ambientAudios).forEach(id => {
-        ambientAudios[id].volume = (ambientVolumes[id] || 0.5) * masterVol;
-    });
-}
-
-function stopAllAmbient() {
-    Object.values(ambientAudios).forEach(a => { a.pause(); a.currentTime = 0; });
+    ambientSounds.forEach(s => { const audio = new Audio(); audio.loop = true; audio.preload = 'none'; audio.src = s.url; audio.volume = masterVol; ambientAudios[s.id] = audio; ambientVolumes[s.id] = 0.5; });
     renderAmbientGrid(); renderAmbientMixer();
-    showToast('Todos os sons parados!');
 }
-
-function presetRelax() {
-    stopAllAmbient();
-    setTimeout(() => {
-        ['rain', 'fire'].forEach(id => { ambientVolumes[id] = 0.4; ambientAudios[id].volume = 0.4 * masterVol; ambientAudios[id].play().catch(() => {}); });
-        renderAmbientGrid(); renderAmbientMixer();
-        showToast('Preset Relaxar ativado!');
-    }, 200);
-}
-
-function presetFocus() {
-    stopAllAmbient();
-    setTimeout(() => {
-        ['brown-noise'].forEach(id => { ambientVolumes[id] = 0.6; ambientAudios[id].volume = 0.6 * masterVol; ambientAudios[id].play().catch(() => {}); });
-        renderAmbientGrid(); renderAmbientMixer();
-        showToast('Preset Foco ativado!');
-    }, 200);
-}
-
-function presetNature() {
-    stopAllAmbient();
-    setTimeout(() => {
-        ['rain', 'birds', 'wind'].forEach(id => { ambientVolumes[id] = 0.35; ambientAudios[id].volume = 0.35 * masterVol; ambientAudios[id].play().catch(() => {}); });
-        renderAmbientGrid(); renderAmbientMixer();
-        showToast('Preset Natureza ativado!');
-    }, 200);
-}
-
+function renderAmbientGrid() { const grid = document.getElementById('ambientGrid'); if (!grid) return; grid.innerHTML = ''; ambientSounds.forEach(s => { const isPlaying = ambientAudios[s.id] && !ambientAudios[s.id].paused; grid.innerHTML += `<div class="ambient-card ${isPlaying ? 'playing' : ''}" onclick="toggleAmbientSound('${s.id}')" id="ambient-card-${s.id}"><span class="ambient-icon">${s.icon}</span><span class="ambient-label">${s.label}</span>${isPlaying ? '<span style="font-size:0.7rem;color:var(--accent);margin-top:4px;">▶ Tocando</span>' : ''}</div>`; }); }
+function renderAmbientMixer() { const rows = document.getElementById('ambientMixerRows'); if (!rows) return; rows.innerHTML = ''; ambientSounds.forEach(s => { const isPlaying = ambientAudios[s.id] && !ambientAudios[s.id].paused; const vol = Math.round((ambientVolumes[s.id] || 0.5) * 100); rows.innerHTML += `<div class="ambient-mixer-row" style="opacity:${isPlaying ? 1 : 0.4}"><span>${s.icon} ${s.label}</span><input type="range" min="0" max="1" step="0.05" value="${ambientVolumes[s.id] || 0.5}" onchange="setAmbientVolume('${s.id}', this.value)" style="accent-color:var(--accent);"><span class="vol-value">${vol}%</span></div>`; }); }
+function toggleAmbientSound(id) { const audio = ambientAudios[id]; if (audio.paused) { audio.volume = (ambientVolumes[id] || 0.5) * masterVol; audio.play().catch(() => {}); } else { audio.pause(); } renderAmbientGrid(); renderAmbientMixer(); }
+function setAmbientVolume(id, val) { ambientVolumes[id] = parseFloat(val); ambientAudios[id].volume = parseFloat(val) * masterVol; renderAmbientMixer(); }
+function changeMasterVolume(val) { masterVol = parseFloat(val); document.getElementById('masterVolLabel').textContent = Math.round(masterVol * 100) + '%'; Object.keys(ambientAudios).forEach(id => { ambientAudios[id].volume = (ambientVolumes[id] || 0.5) * masterVol; }); }
+function stopAllAmbient() { Object.values(ambientAudios).forEach(a => { a.pause(); a.currentTime = 0; }); renderAmbientGrid(); renderAmbientMixer(); showToast('Todos os sons parados!'); }
+function presetRelax() { stopAllAmbient(); setTimeout(() => { ['rain', 'fire'].forEach(id => { ambientVolumes[id] = 0.4; ambientAudios[id].volume = 0.4 * masterVol; ambientAudios[id].play().catch(() => {}); }); renderAmbientGrid(); renderAmbientMixer(); showToast('Preset Relaxar ativado!'); }, 200); }
+function presetFocus() { stopAllAmbient(); setTimeout(() => { ['brown-noise'].forEach(id => { ambientVolumes[id] = 0.6; ambientAudios[id].volume = 0.6 * masterVol; ambientAudios[id].play().catch(() => {}); }); renderAmbientGrid(); renderAmbientMixer(); showToast('Preset Foco ativado!'); }, 200); }
+function presetNature() { stopAllAmbient(); setTimeout(() => { ['rain', 'birds', 'wind'].forEach(id => { ambientVolumes[id] = 0.35; ambientAudios[id].volume = 0.35 * masterVol; ambientAudios[id].play().catch(() => {}); }); renderAmbientGrid(); renderAmbientMixer(); showToast('Preset Natureza ativado!'); }, 200); }
 initAmbient();
 
 // ===================== COPY CHAR =====================
-function copyChar(char) { const fallback = (t) => { const ta = document.createElement('textarea'); ta.value = t; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); showToast(`Simbolo ${t} copiado!`); } catch(e) {} document.body.removeChild(ta); }; if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(char).then(() => showToast(`Simbolo ${char} copiado!`)).catch(() => fallback(char)); } else fallback(char); }
+function copyChar(char) { const fallback = (t) => { const ta = document.createElement('textarea'); ta.value = t; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); showToast(`Símbolo ${t} copiado!`); } catch(e) {} document.body.removeChild(ta); }; if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(char).then(() => showToast(`Símbolo ${char} copiado!`)).catch(() => fallback(char)); } else fallback(char); }
 
-// ===================== EVENTOS MENSAIS =====================
+// ===================== MONTHLY EVENTS =====================
 function renderEventContent() {
     const container = document.getElementById('eventContainer'); if (!container) return;
     const month = new Date().getMonth();
@@ -948,13 +1387,13 @@ function renderEventContent() {
     const pct = maxXP > 0 ? Math.min(100, Math.round((xp / maxXP) * 100)) : 100;
     let tiersHTML = ev.tiers.map(tier => {
         const unlocked = xp >= tier.xpReq;
-        return `<div class="xp-tier-card ${unlocked ? 'unlocked' : 'locked'}">${unlocked ? `<span class="xp-tier-badge">\u2705 Desbloqueado</span>` : `<span class="locked-badge">\ud83d\udd12 ${tier.xpReq} XP</span>`}<h4>${tier.icon} ${tier.label}</h4><p>${tier.reward}</p></div>`;
+        return `<div class="xp-tier-card ${unlocked ? 'unlocked' : 'locked'}">${unlocked ? `<span class="xp-tier-badge">✅ Desbloqueado</span>` : `<span class="locked-badge">🔒 ${tier.xpReq} XP</span>`}<h4>${tier.icon} ${tier.label}</h4><p>${tier.reward}</p></div>`;
     }).join('');
-    container.innerHTML = `<div class="event-banner" style="--event-color-a:${ev.colorA}; --event-color-b:${ev.colorB};"><div class="event-banner-icon">${ev.icon}</div><div class="event-banner-text"><div class="event-banner-title">${ev.name}</div><div class="event-banner-desc">${ev.desc}</div><div class="xp-progress-wrap"><div style="display:flex;justify-content:space-between;font-size:0.8rem;margin-bottom:4px;opacity:0.9;"><span>Seu XP: <strong>${xp}</strong></span><span>${pct}% do tier maximo</span></div><div class="xp-bar-outer"><div class="xp-bar-inner" style="width:${pct}%;--event-color-a:${ev.colorA};--event-color-b:${ev.colorB};"></div></div></div></div><div class="event-banner-xp"><strong>${xp}</strong><span>XP total</span></div></div><div style="margin-top:4px;margin-bottom:8px;font-size:0.85rem;color:var(--text-muted);"><i class="fa-solid fa-info-circle"></i> XP e ganho automaticamente ao usar o Geekie (+1 XP a cada 6 segundos)</div><div class="xp-tier-grid">${tiersHTML}</div>`;
+    container.innerHTML = `<div class="event-banner" style="--event-color-a:${ev.colorA}; --event-color-b:${ev.colorB};"><div class="event-banner-icon">${ev.icon}</div><div class="event-banner-text"><div class="event-banner-title">${ev.name}</div><div class="event-banner-desc">${ev.desc}</div><div class="xp-progress-wrap"><div style="display:flex;justify-content:space-between;font-size:0.8rem;margin-bottom:4px;opacity:0.9;"><span>Seu XP: <strong>${xp}</strong></span><span>${pct}% do tier máximo</span></div><div class="xp-bar-outer"><div class="xp-bar-inner" style="width:${pct}%;--event-color-a:${ev.colorA};--event-color-b:${ev.colorB};"></div></div></div></div><div class="event-banner-xp"><strong>${xp}</strong><span>XP total</span></div></div><div style="margin-top:4px;margin-bottom:8px;font-size:0.85rem;color:var(--text-muted);"><i class="fa-solid fa-info-circle"></i> XP é ganho automaticamente ao usar o Geekie (+1 XP a cada 6 segundos)</div><div class="xp-tier-grid">${tiersHTML}</div>`;
 }
 renderEventContent();
 
-// ===================== TITULO DA PAGINA =====================
+// ===================== TITLE SETTINGS =====================
 function buildTitleUI() {
     const fontGrid = document.getElementById('fontGrid'), iconGrid = document.getElementById('iconGrid'); if (!fontGrid || !iconGrid) return; fontGrid.innerHTML = ''; iconGrid.innerHTML = '';
     availableFonts.forEach(f => { const el = document.createElement('div'); el.className = `font-option ${selectedFont === f.family ? 'selected' : ''}`; el.style.fontFamily = f.family; el.innerHTML = `<div style="font-size:1.1rem;font-weight:700;">${f.sample}</div><div class="font-name">${f.label}</div>`; el.onclick = () => { selectedFont = f.family; buildTitleUI(); updateTitlePreview(); }; fontGrid.appendChild(el); });
@@ -962,8 +1401,12 @@ function buildTitleUI() {
     document.getElementById('pageTitleInput').value = savedTitle; updateTitlePreview();
 }
 function updateTitlePreview() { const name = document.getElementById('pageTitleInput').value || savedTitle; document.getElementById('titlePreviewBox').style.fontFamily = selectedFont; document.getElementById('previewIconEl').className = `fa-solid ${selectedIcon}`; document.getElementById('previewNameEl').textContent = name; }
-function applyPageTitle() { const name = document.getElementById('pageTitleInput').value.trim() || 'Geekie One Ultra v9.0'; savedTitle = name; localStorage.setItem('geekieTitleName', name); localStorage.setItem('geekieTitleFont', selectedFont); localStorage.setItem('geekieTitleIcon', selectedIcon); document.title = name; document.querySelector('.brand').style.fontFamily = selectedFont; showToast('Titulo atualizado!'); }
+function applyPageTitle() { const name = document.getElementById('pageTitleInput').value.trim() || 'Geekie One Ultra v10.0'; savedTitle = name; localStorage.setItem('geekieTitleName', name); localStorage.setItem('geekieTitleFont', selectedFont); localStorage.setItem('geekieTitleIcon', selectedIcon); document.title = name; document.querySelector('.brand').style.fontFamily = selectedFont; showToast('Título atualizado!'); }
 (function() { document.title = savedTitle; document.querySelector('.brand').style.fontFamily = selectedFont; buildTitleUI(); })();
+
+// ===================== INIT PET GRID =====================
+renderPetGrid();
+updateActivePetDisplay();
 </script>
 </body>
 </html>
