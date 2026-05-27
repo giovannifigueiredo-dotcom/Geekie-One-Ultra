@@ -229,6 +229,14 @@
         .title-card .title-desc { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px; }
         .title-card .title-xp-req { font-size: 0.75rem; color: var(--accent); }
         .title-card .title-reward { font-size: 0.75rem; color: var(--primary); margin-top: 4px; }
+        .title-card.prestige-card { border-color: #ffd700 !important; background: linear-gradient(135deg, rgba(255,215,0,0.06), rgba(251,191,36,0.03)); }
+        .title-card.prestige-card::after { content: 'PRESTÍGIO MÁXIMO'; position: absolute; top: 10px; right: 10px; font-size: 0.6rem; font-weight: 700; letter-spacing: 1px; color: #ffd700; border: 1px solid rgba(255,215,0,0.5); padding: 2px 6px; border-radius: 6px; background: rgba(255,215,0,0.1); }
+
+        /* Prestige title topbar effect */
+        @keyframes prestigeGlow { 0%,100% { box-shadow: 0 0 8px rgba(255,215,0,0.6), 0 0 20px rgba(255,215,0,0.2); border-color: #ffd700; } 50% { box-shadow: 0 0 16px rgba(255,215,0,0.9), 0 0 35px rgba(251,191,36,0.4); border-color: #fbbf24; } }
+        @keyframes prestigeText { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+        .prestige-active { animation: prestigeGlow 2s ease-in-out infinite !important; background: rgba(255,215,0,0.12) !important; }
+        .prestige-active #playerTitleText { background: linear-gradient(90deg, #ffd700, #fbbf24, #f59e0b, #ffd700); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: prestigeText 2s linear infinite; }
 
         .w-full { width: 100%; }
         .mt-4 { margin-top: 1rem; }
@@ -705,7 +713,7 @@ const titlesList = [
     { id: 'title-mythic',       name: '👑 Mítico',          xpReq: 5000,  desc: 'Transcendeu os limites.', reward: 'Tema Sunset + Cosmic', rewardTheme: 'theme-ubuntu-sunset' },
     { id: 'title-god',          name: '✨ Divindade',       xpReq: 10000, desc: 'Nada pode pará-lo.', reward: 'Tema Pulsar', rewardTheme: 'theme-ubuntu-pulsar', gradient: true, gradientIcon: 'fa-sun' },
     { id: 'title-pet-astral',   name: '🌌 Ser Dimensional', xpReq: 12000, desc: 'Conquistado ao desbloquear o Ser Dimensional.', reward: 'TODOS os temas', rewardTheme: 'ALL', petTitle: true, gradient: true, gradientIcon: 'fa-circle-nodes' },
-    { id: 'title-transcendent', name: '⚡ Transcendente',   xpReq: 15000, desc: 'Ao infinito do foco.', reward: 'TODOS os temas', rewardTheme: 'ALL', gradient: true, gradientIcon: 'fa-circle-nodes' },
+    { id: 'title-transcendent', name: '⚡ Transcendente',   xpReq: 15000, desc: 'O pináculo absoluto. Pouquíssimos chegam aqui.', reward: 'Prestígio Máximo — coroa dourada exclusiva na topbar', rewardTheme: null, gradient: true, gradientIcon: 'fa-infinity', prestige: true },
 ];
 let equippedTitle = localStorage.getItem('geekieTitle') || 'title-novato';
 
@@ -1176,6 +1184,14 @@ function getHighestTitle() {
 function updatePlayerTitle() {
     const equipped = titlesList.find(t => t.id === equippedTitle) || titlesList[0];
     document.getElementById('playerTitleText').textContent = equipped.name;
+    const display = document.getElementById('playerTitleDisplay');
+    if (equipped.prestige) {
+        display.classList.add('prestige-active');
+        display.title = '⚡ Prestígio Máximo';
+    } else {
+        display.classList.remove('prestige-active');
+        display.title = 'Seu Título';
+    }
 }
 
 function isPetTitleUnlocked(titleId) {
@@ -1231,14 +1247,21 @@ function renderTitles() {
         }
         const gradClass = t.gradient ? 'gradient-pulsar' : '';
         const petBadge = t.petTitle ? `<span style="font-size:0.72rem;color:#fb923c;border:1px solid rgba(251,146,60,0.4);padding:2px 8px;border-radius:8px;margin-left:4px;">🐾 Pet</span>` : '';
-        grid.innerHTML += `<div class="title-card ${unlocked ? 'unlocked' : 'locked'} ${isEquipped ? 'equipped' : ''}">
+        const prestigeBadge = t.prestige ? `<span style="font-size:0.72rem;color:#ffd700;border:1px solid rgba(255,215,0,0.5);padding:2px 8px;border-radius:8px;margin-left:4px;">👑 Elite</span>` : '';
+        const iconGradient = t.prestige
+            ? 'background:linear-gradient(135deg,#ffd700,#fbbf24,#f59e0b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;'
+            : 'background:linear-gradient(135deg,#756ad2,#a78bfa,#00d4ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;';
+        const rewardIcon = t.prestige ? 'fa-crown' : 'fa-gift';
+        const rewardColor = t.prestige ? 'color:var(--gold);' : '';
+        grid.innerHTML += `<div class="title-card ${unlocked ? 'unlocked' : 'locked'} ${isEquipped ? 'equipped' : ''} ${t.prestige ? 'prestige-card' : ''}">
             <div class="title-card-inner">
                 ${unlocked ? '<span class="xp-tier-badge">✅ Conquistado</span>' : (t.petTitle ? `<span class="locked-badge">🐾 Desbloqueie o Pet</span>` : `<span class="locked-badge">🔒 ${t.xpReq} XP</span>`)}
-                ${t.gradient ? `<div style="text-align:center;margin-bottom:6px;font-size:1.6rem;"><i class="fa-solid ${t.gradientIcon || 'fa-star'}" style="background:linear-gradient(135deg,#756ad2,#a78bfa,#00d4ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;"></i></div>` : ''}
-                <div class="title-name ${gradClass}">${t.name} ${petBadge}</div>
+                ${t.gradient ? `<div style="text-align:center;margin-bottom:6px;font-size:1.6rem;"><i class="fa-solid ${t.gradientIcon || 'fa-star'}" style="${iconGradient}"></i></div>` : ''}
+                <div class="title-name ${gradClass}">${t.name} ${petBadge}${prestigeBadge}</div>
                 <div class="title-desc">${t.desc}</div>
                 <div class="title-xp-req"><i class="fa-solid fa-star"></i> Requer: ${t.petTitle ? 'Pet Especial' : `${t.xpReq} XP`}</div>
-                ${t.reward ? `<div class="title-reward"><i class="fa-solid fa-gift"></i> Recompensa: ${t.reward}</div>` : ''}
+                ${t.reward ? `<div class="title-reward" style="${rewardColor}"><i class="fa-solid ${rewardIcon}"></i> ${t.reward}</div>` : ''}
+                ${t.prestige && unlocked ? `<div style="margin-top:8px;background:rgba(255,215,0,0.08);border:1px solid rgba(255,215,0,0.3);border-radius:8px;padding:8px;font-size:0.78rem;color:var(--gold);text-align:center;"><i class="fa-solid fa-wand-magic-sparkles"></i> Efeito dourado exclusivo ativo na topbar</div>` : ''}
                 ${btnHtml}
             </div>
         </div>`;
