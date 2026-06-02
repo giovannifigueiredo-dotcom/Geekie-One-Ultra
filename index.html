@@ -302,6 +302,7 @@
         <div class="nav-item" onclick="switchTab('tab-chars', this)"><i class="fa-solid fa-keyboard"></i> Caracteres Úteis</div>
         <div class="nav-item" onclick="switchTab('tab-title', this)"><i class="fa-solid fa-pen-nib"></i> Título da Página</div>
         <div class="nav-item" onclick="switchTab('tab-events', this)"><i class="fa-solid fa-calendar-star"></i> Eventos do Mês</div>
+        <div class="nav-item" onclick="switchTab('tab-google', this)"><i class="fa-brands fa-google"></i> Google</div>
         <div class="nav-item" onclick="switchTab('tab-devlog', this)" style="margin-top: 20px; border-top: 1px solid var(--border); border-radius: 0; padding-top: 15px;"><i class="fa-solid fa-clock-rotate-left"></i> Dev Log</div>
     </nav>
 </aside>
@@ -322,6 +323,13 @@
     <section id="tab-geekie" class="tab-content active" style="padding: 20px;">
         <div class="iframe-container theme-default" id="geekieIframeContainer">
             <iframe id="geekieIframe" src="https://dx1website.pages.dev/resumao/geekieoneplus/" title="Geekie One Portal" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation"></iframe>
+        </div>
+    </section>
+
+    <!-- TAB: GOOGLE -->
+    <section id="tab-google" class="tab-content" style="padding: 20px;">
+        <div class="iframe-container theme-default" id="googleIframeContainer">
+            <iframe id="googleIframe" src="https://www.google.com/webhp?igu=1&safe=active&ssui=on" title="Google" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation"></iframe>
         </div>
     </section>
 
@@ -562,12 +570,26 @@
             <p style="color: var(--text-muted); margin-bottom: 30px;">Histórico de atualizações e novas funcionalidades.</p>
             <div class="timeline" id="devlogTimeline">
 
+                <!-- v10.0.1 -->
+                <div class="timeline-item">
+                    <div class="version-header">
+                        <span class="version-tag">v10.0.1</span>
+                        <h3>Nova Aba — Google Search Integrado</h3>
+                        <span class="version-date">02 Jun 2026 — Atualização Atual</span>
+                    </div>
+                    <ul>
+                        <li><strong>Aba Google:</strong> Adicionada nova aba "Google" no menu lateral com ícone oficial, abrindo o Google Search (<code>webhp?igu=1&safe=active</code>) em iframe integrado ao hub.</li>
+                        <li><strong>Navegação alternativa:</strong> Permite pesquisar no Google sem sair do Geekie Ultra, mantendo todos os recursos do hub acessíveis.</li>
+                        <li><strong>Estilo consistente:</strong> O iframe do Google segue o mesmo padrão visual das demais abas (borda, border-radius, tema aplicável).</li>
+                    </ul>
+                </div>
+
                 <!-- v10.0 -->
                 <div class="timeline-item">
                     <div class="version-header">
                         <span class="version-tag">v10.0.0</span>
                         <h3>Sistema de Pets, Moedas & Recompensas Exclusivas</h3>
-                        <span class="version-date">Atualização Atual</span>
+                        <span class="version-date"></span>
                     </div>
                     <ul>
                         <li><strong>Sistema de Moedas (🪙):</strong> Nova moeda "Geekie Coin" ganha passivamente a cada 20s. Bônus de +5 ao concluir metas e +10 ao terminar Pomodoro. Exibida na topbar ao lado do XP.</li>
