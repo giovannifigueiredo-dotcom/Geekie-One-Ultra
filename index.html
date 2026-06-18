@@ -94,6 +94,36 @@
         @keyframes pulsarShake { 0% { transform: translate(0, 0); } 25% { transform: translate(0.5px, -0.5px); } 50% { transform: translate(-0.5px, 0.5px); } 75% { transform: translate(0.5px, 0.5px); } 100% { transform: translate(0, 0); } }
         @keyframes pulsarSway { 0%,100% { transform: rotate(0deg); } 25% { transform: rotate(0.3deg); } 75% { transform: rotate(-0.3deg); } }
 
+        /* New Themes */
+        .theme-ubuntu-neon { border: 2px solid #FF006E !important; animation: neonPulse 2s ease-in-out infinite; }
+        @keyframes neonPulse { 0%,100% { box-shadow: 0 0 15px #FF006E, 0 0 40px rgba(255,0,110,0.3); } 50% { box-shadow: 0 0 30px #FF77B8, 0 0 70px rgba(255,119,184,0.5); border-color: #FF77B8; } }
+        .theme-ubuntu-ocean { border: 2px solid #0891B2 !important; animation: oceanWave 5s ease-in-out infinite; }
+        @keyframes oceanWave { 0%,100% { box-shadow: 0 0 20px #0891B2, 0 0 50px rgba(8,145,178,0.2); } 50% { box-shadow: 0 0 30px #22D3EE, 0 0 70px rgba(34,211,238,0.3); border-color: #22D3EE; transform: translateY(-3px); } }
+        .theme-ubuntu-aurora { border: 2px solid #34D399 !important; animation: auroraShift 8s linear infinite; }
+        @keyframes auroraShift { 0% { border-color: #34D399; box-shadow: 0 0 20px #34D399; } 25% { border-color: #60A5FA; box-shadow: 0 0 25px #60A5FA; } 50% { border-color: #A78BFA; box-shadow: 0 0 20px #A78BFA; } 75% { border-color: #F472B6; box-shadow: 0 0 25px #F472B6; } 100% { border-color: #34D399; box-shadow: 0 0 20px #34D399; } }
+
+        /* Calculator */
+        .calc-btn { padding: 16px 8px; border: 1px solid var(--border); background: rgba(255,255,255,0.05); color: var(--text-main); border-radius: 10px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: var(--transition); font-family: 'Fira Code', monospace; }
+        .calc-btn:hover { background: rgba(255,255,255,0.15); transform: scale(1.06); }
+        .calc-btn:active { transform: scale(0.93); }
+        .calc-op { color: var(--accent); border-color: rgba(0,212,255,0.3); background: rgba(0,212,255,0.08); }
+        .calc-op:hover { background: rgba(0,212,255,0.2); }
+        .calc-eq { background: var(--primary); color: var(--bg-base); border-color: var(--primary); font-size: 1.3rem; }
+        .calc-eq:hover { box-shadow: 0 0 20px var(--primary-glow); background: var(--primary); }
+        .calc-clr { color: var(--danger); background: rgba(255,71,87,0.08); border-color: rgba(255,71,87,0.3); }
+        .calc-clr:hover { background: rgba(255,71,87,0.2); }
+        .calc-sci { color: #a78bfa; background: rgba(167,139,250,0.08); border-color: rgba(167,139,250,0.3); font-size: 0.88rem; }
+        .calc-sci:hover { background: rgba(167,139,250,0.2); }
+
+        /* Char search */
+        .char-search-input { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--border); color: var(--text-main); padding: 11px 16px; border-radius: 10px; outline: none; font-size: 1rem; transition: border-color 0.3s; }
+        .char-search-input:focus { border-color: var(--accent); }
+
+        /* Note font size buttons */
+        .note-size-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--border); padding: 5px 11px; border-radius: 6px; color: var(--text-muted); cursor: pointer; font-size: 0.8rem; transition: var(--transition); }
+        .note-size-btn:hover { border-color: var(--accent); color: var(--accent); }
+        .note-size-btn.active { border-color: var(--primary); color: var(--primary); background: rgba(0,255,136,0.1); }
+
         .wallpaper-wrap { position: absolute; inset: 0; z-index: 0; overflow: hidden; border-radius: 10px; pointer-events: none; }
         .wallpaper-canvas { width: 100%; height: 100%; display: block; }
 
@@ -160,7 +190,7 @@
         .note-select option { background: #0a0e17; color: white; }
         .note-title-input { width: 100%; background: rgba(0,0,0,0.2); border: 1px solid var(--border); color: var(--primary); padding: 10px 15px; border-radius: 8px; outline: none; margin-bottom: 10px; font-size: 1.2rem; font-weight: bold; transition: var(--transition); }
         .note-title-input:focus { border-color: var(--primary); }
-        .note-editor { width: 100%; min-height: 400px; background: rgba(0,0,0,0.2); border: 1px solid var(--border); color: var(--text-main); padding: 15px; border-radius: 8px; resize: vertical; outline: none; transition: var(--transition); line-height: 1.6; }
+        .note-editor { width: 100%; min-height: 400px; background: rgba(0,0,0,0.2); border: 1px solid var(--border); color: var(--text-main); padding: 15px; border-radius: 8px; resize: vertical; outline: none; transition: var(--transition); line-height: 1.75; font-size: 1.05rem; }
         .note-editor:focus { border-color: var(--accent); }
         .note-font-picker { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
         .note-font-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--border); padding: 6px 12px; border-radius: 6px; color: var(--text-muted); cursor: pointer; font-size: 0.8rem; transition: var(--transition); }
@@ -299,6 +329,7 @@
         <div class="nav-item" onclick="switchTab('tab-goals', this)"><i class="fa-solid fa-list-check"></i> Metas de Estudo</div>
         <div class="nav-item" onclick="switchTab('tab-flashcards', this)"><i class="fa-solid fa-clone"></i> Flashcards</div>
         <div class="nav-item" onclick="switchTab('tab-ambient', this)"><i class="fa-solid fa-headphones"></i> Sons Ambiente</div>
+        <div class="nav-item" onclick="switchTab('tab-calculator', this)"><i class="fa-solid fa-calculator"></i> Calculadora</div>
         <div class="nav-item" onclick="switchTab('tab-chars', this)"><i class="fa-solid fa-keyboard"></i> Caracteres Úteis</div>
         <div class="nav-item" onclick="switchTab('tab-title', this)"><i class="fa-solid fa-pen-nib"></i> Título da Página</div>
         <div class="nav-item" onclick="switchTab('tab-events', this)"><i class="fa-solid fa-calendar-star"></i> Eventos do Mês</div>
@@ -350,6 +381,14 @@
             </div>
             <div class="section-label">Fonte do Editor</div>
             <div class="note-font-picker" id="noteFontPicker"></div>
+            <div class="section-label" style="margin-top:8px;">Tamanho da Fonte</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;" id="noteSizePicker">
+                <button class="note-size-btn" onclick="setNoteSize(13)" data-size="13">A− Pequeno</button>
+                <button class="note-size-btn active" onclick="setNoteSize(16)" data-size="16">A Médio</button>
+                <button class="note-size-btn" onclick="setNoteSize(19)" data-size="19">A+ Grande</button>
+                <button class="note-size-btn" onclick="setNoteSize(22)" data-size="22">A++ Maior</button>
+                <button class="note-size-btn" onclick="setNoteSize(26)" data-size="26">A+++ Máximo</button>
+            </div>
             <input type="text" id="noteTitle" class="note-title-input" placeholder="Título da Anotação">
             <textarea id="noteContent" class="note-editor" placeholder="Digite suas anotações aqui..."></textarea>
         </div>
@@ -509,10 +548,54 @@
         </div>
     </section>
 
+    <!-- TAB: CALCULATOR -->
+    <section id="tab-calculator" class="tab-content">
+        <div class="glass-card" style="max-width: 420px; margin: 0 auto; width: 100%;">
+            <h3><i class="fa-solid fa-calculator"></i> Calculadora</h3>
+            <div style="background:rgba(0,0,0,0.45);border:1px solid var(--border);border-radius:12px;padding:16px 20px;margin-bottom:16px;">
+                <div id="calcExpr" style="font-size:0.85rem;color:var(--text-muted);min-height:1.3em;font-family:'Fira Code',monospace;text-align:right;"></div>
+                <div id="calcVal" style="font-size:2.8rem;font-family:'Fira Code',monospace;color:var(--primary);font-weight:700;word-break:break-all;text-align:right;letter-spacing:-1px;">0</div>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:8px;">
+                <button class="calc-btn calc-clr" onclick="calcAction('clear')" style="grid-column:span 2;font-size:1rem;">AC</button>
+                <button class="calc-btn calc-clr" onclick="calcAction('back')" style="font-size:1.1rem;">⌫</button>
+                <button class="calc-btn calc-op" onclick="calcAction('÷')">÷</button>
+                <button class="calc-btn" onclick="calcAction('7')">7</button>
+                <button class="calc-btn" onclick="calcAction('8')">8</button>
+                <button class="calc-btn" onclick="calcAction('9')">9</button>
+                <button class="calc-btn calc-op" onclick="calcAction('×')">×</button>
+                <button class="calc-btn" onclick="calcAction('4')">4</button>
+                <button class="calc-btn" onclick="calcAction('5')">5</button>
+                <button class="calc-btn" onclick="calcAction('6')">6</button>
+                <button class="calc-btn calc-op" onclick="calcAction('-')">−</button>
+                <button class="calc-btn" onclick="calcAction('1')">1</button>
+                <button class="calc-btn" onclick="calcAction('2')">2</button>
+                <button class="calc-btn" onclick="calcAction('3')">3</button>
+                <button class="calc-btn calc-op" onclick="calcAction('+')">+</button>
+                <button class="calc-btn calc-clr" onclick="calcAction('±')" style="font-size:0.95rem;">±</button>
+                <button class="calc-btn" onclick="calcAction('0')">0</button>
+                <button class="calc-btn" onclick="calcAction('.')">.</button>
+                <button class="calc-btn calc-eq" onclick="calcAction('=')">=</button>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">
+                <button class="calc-btn calc-sci" onclick="calcAction('√')">√x</button>
+                <button class="calc-btn calc-sci" onclick="calcAction('x²')">x²</button>
+                <button class="calc-btn calc-sci" onclick="calcAction('%')">%</button>
+                <button class="calc-btn calc-sci" onclick="calcAction('1/x')">1/x</button>
+            </div>
+            <div style="margin-top:12px;text-align:center;font-size:0.78rem;color:var(--text-muted);">
+                <i class="fa-solid fa-keyboard"></i> Teclado numérico suportado
+            </div>
+        </div>
+    </section>
+
     <!-- TAB: CHARS -->
     <section id="tab-chars" class="tab-content">
-        <div class="glass-card w-full" style="max-width: 900px; margin: 0 auto;">
+        <div class="glass-card w-full" style="max-width: 1100px; margin: 0 auto;">
             <h3><i class="fa-solid fa-keyboard"></i> Teclado de Caracteres Úteis</h3>
+            <div style="margin-bottom:16px;">
+                <input class="char-search-input" id="charSearch" type="text" placeholder="🔍 Pesquisar caractere ou símbolo..." oninput="filterChars(this.value)">
+            </div>
             <h4 class="char-category">Matemática Básica e Operadores</h4>
             <div class="char-grid">
                 <button class="char-btn" onclick="copyChar('±')">±</button><button class="char-btn" onclick="copyChar('×')">×</button><button class="char-btn" onclick="copyChar('÷')">÷</button><button class="char-btn" onclick="copyChar('≈')">≈</button><button class="char-btn" onclick="copyChar('≠')">≠</button><button class="char-btn" onclick="copyChar('≤')">≤</button><button class="char-btn" onclick="copyChar('≥')">≥</button><button class="char-btn" onclick="copyChar('∞')">∞</button><button class="char-btn" onclick="copyChar('√')">√</button><button class="char-btn" onclick="copyChar('∛')">∛</button><button class="char-btn" onclick="copyChar('°')">°</button><button class="char-btn" onclick="copyChar('²')">²</button><button class="char-btn" onclick="copyChar('³')">³</button><button class="char-btn" onclick="copyChar('½')">½</button><button class="char-btn" onclick="copyChar('¼')">¼</button>
@@ -531,7 +614,23 @@
             </div>
             <h4 class="char-category">Química, Física & Biologia</h4>
             <div class="char-grid">
-                <button class="char-btn" onclick="copyChar('H₂O')">H₂O</button><button class="char-btn" onclick="copyChar('CO₂')">CO₂</button><button class="char-btn" onclick="copyChar('E=mc²')">E=mc²</button><button class="char-btn" onclick="copyChar('F=ma')">F=ma</button><button class="char-btn" onclick="copyChar('DNA')">DNA</button><button class="char-btn" onclick="copyChar('RNA')">RNA</button><button class="char-btn" onclick="copyChar('ATP')">ATP</button><button class="char-btn" onclick="copyChar('♀')">♀</button><button class="char-btn" onclick="copyChar('♂')">♂</button><button class="char-btn" onclick="copyChar('ΔH')">ΔH</button><button class="char-btn" onclick="copyChar('pH')">pH</button>
+                <button class="char-btn" onclick="copyChar('H₂O')">H₂O</button><button class="char-btn" onclick="copyChar('CO₂')">CO₂</button><button class="char-btn" onclick="copyChar('E=mc²')">E=mc²</button><button class="char-btn" onclick="copyChar('F=ma')">F=ma</button><button class="char-btn" onclick="copyChar('DNA')">DNA</button><button class="char-btn" onclick="copyChar('RNA')">RNA</button><button class="char-btn" onclick="copyChar('ATP')">ATP</button><button class="char-btn" onclick="copyChar('♀')">♀</button><button class="char-btn" onclick="copyChar('♂')">♂</button><button class="char-btn" onclick="copyChar('ΔH')">ΔH</button><button class="char-btn" onclick="copyChar('pH')">pH</button><button class="char-btn" onclick="copyChar('mol')">mol</button><button class="char-btn" onclick="copyChar('J/mol')">J/mol</button><button class="char-btn" onclick="copyChar('kJ')">kJ</button><button class="char-btn" onclick="copyChar('cal')">cal</button>
+            </div>
+            <h4 class="char-category">Pontuação & Tipografia</h4>
+            <div class="char-grid">
+                <button class="char-btn" onclick="copyChar('«')">«</button><button class="char-btn" onclick="copyChar('»')">»</button><button class="char-btn" onclick="copyChar('"')">‟</button><button class="char-btn" onclick="copyChar('"')">‟</button><button class="char-btn" onclick="copyChar(''')">‛</button><button class="char-btn" onclick="copyChar(''')">‛</button><button class="char-btn" onclick="copyChar('—')">—</button><button class="char-btn" onclick="copyChar('–')">–</button><button class="char-btn" onclick="copyChar('…')">…</button><button class="char-btn" onclick="copyChar('·')">·</button><button class="char-btn" onclick="copyChar('•')">•</button><button class="char-btn" onclick="copyChar('†')">†</button><button class="char-btn" onclick="copyChar('‡')">‡</button><button class="char-btn" onclick="copyChar('§')">§</button><button class="char-btn" onclick="copyChar('¶')">¶</button><button class="char-btn" onclick="copyChar('©')">©</button><button class="char-btn" onclick="copyChar('®')">®</button><button class="char-btn" onclick="copyChar('™')">™</button>
+            </div>
+            <h4 class="char-category">Subscrito & Sobrescrito</h4>
+            <div class="char-grid">
+                <button class="char-btn" onclick="copyChar('₀')">₀</button><button class="char-btn" onclick="copyChar('₁')">₁</button><button class="char-btn" onclick="copyChar('₂')">₂</button><button class="char-btn" onclick="copyChar('₃')">₃</button><button class="char-btn" onclick="copyChar('₄')">₄</button><button class="char-btn" onclick="copyChar('₅')">₅</button><button class="char-btn" onclick="copyChar('₆')">₆</button><button class="char-btn" onclick="copyChar('₇')">₇</button><button class="char-btn" onclick="copyChar('₈')">₈</button><button class="char-btn" onclick="copyChar('₉')">₉</button><button class="char-btn" onclick="copyChar('⁰')">⁰</button><button class="char-btn" onclick="copyChar('¹')">¹</button><button class="char-btn" onclick="copyChar('²')">²</button><button class="char-btn" onclick="copyChar('³')">³</button><button class="char-btn" onclick="copyChar('⁴')">⁴</button><button class="char-btn" onclick="copyChar('⁵')">⁵</button><button class="char-btn" onclick="copyChar('⁶')">⁶</button><button class="char-btn" onclick="copyChar('⁷')">⁷</button><button class="char-btn" onclick="copyChar('⁸')">⁸</button><button class="char-btn" onclick="copyChar('⁹')">⁹</button>
+            </div>
+            <h4 class="char-category">Formas & Símbolos Geométricos</h4>
+            <div class="char-grid">
+                <button class="char-btn" onclick="copyChar('△')">△</button><button class="char-btn" onclick="copyChar('□')">□</button><button class="char-btn" onclick="copyChar('○')">○</button><button class="char-btn" onclick="copyChar('◇')">◇</button><button class="char-btn" onclick="copyChar('▲')">▲</button><button class="char-btn" onclick="copyChar('■')">■</button><button class="char-btn" onclick="copyChar('●')">●</button><button class="char-btn" onclick="copyChar('◆')">◆</button><button class="char-btn" onclick="copyChar('⊥')">⊥</button><button class="char-btn" onclick="copyChar('∥')">∥</button><button class="char-btn" onclick="copyChar('∠')">∠</button><button class="char-btn" onclick="copyChar('⌀')">⌀</button><button class="char-btn" onclick="copyChar('≅')">≅</button><button class="char-btn" onclick="copyChar('∼')">∼</button><button class="char-btn" onclick="copyChar('∝')">∝</button>
+            </div>
+            <h4 class="char-category">Moedas & Economia</h4>
+            <div class="char-grid">
+                <button class="char-btn" onclick="copyChar('R$')">R$</button><button class="char-btn" onclick="copyChar('$')">$</button><button class="char-btn" onclick="copyChar('€')">€</button><button class="char-btn" onclick="copyChar('£')">£</button><button class="char-btn" onclick="copyChar('¥')">¥</button><button class="char-btn" onclick="copyChar('₿')">₿</button><button class="char-btn" onclick="copyChar('¢')">¢</button><button class="char-btn" onclick="copyChar('%')">%</button><button class="char-btn" onclick="copyChar('‰')">‰</button>
             </div>
         </div>
     </section>
@@ -722,20 +821,24 @@ document.addEventListener('fullscreenchange', () => { if (!document.fullscreenEl
 
 // ===================== TITLES LIST =====================
 const titlesList = [
-    { id: 'title-novato',       name: '🌱 Novato',         xpReq: 0,     desc: 'Todo mundo começa de algum lugar!', reward: null, rewardTheme: null },
-    { id: 'title-estudante',    name: '📚 Estudante',       xpReq: 100,   desc: 'Você já está no caminho certo.', reward: null, rewardTheme: null },
-    { id: 'title-dedicado',     name: '💪 Dedicado',        xpReq: 300,   desc: 'Persistência é a chave!', reward: 'Tema Ubuntu Yaru', rewardTheme: 'theme-ubuntu-yaru' },
-    { id: 'title-scholar',      name: '🎓 Scholar',         xpReq: 600,   desc: 'Conhecimento em ascensão.', reward: 'Tema Radiance', rewardTheme: 'theme-ubuntu-radiance' },
-    { id: 'title-mestre',       name: '⭐ Mestre',          xpReq: 1000,  desc: 'Domínio absoluto.', reward: 'Tema Snap Neon', rewardTheme: 'theme-ubuntu-snap' },
-    { id: 'title-sabio',        name: '🧙 Sábio',           xpReq: 1500,  desc: 'A sabedoria é sua aliada.', reward: 'Tema Frost', rewardTheme: 'theme-ubuntu-frost' },
-    { id: 'title-guru',         name: '🔮 Guru',            xpReq: 2000,  desc: 'Iluminação acadêmica.', reward: 'Tema Fire', rewardTheme: 'theme-ubuntu-fire' },
-    { id: 'title-legend',       name: '🏆 Lendário',        xpReq: 3000,  desc: 'Poucos chegam tão longe!', reward: 'Tema Cosmic', rewardTheme: 'theme-ubuntu-cosmic' },
-    { id: 'title-pet-dragon',   name: '🐉 Domador de Dragões', xpReq: 3000, desc: 'Conquistado ao desbloquear o Dragão Sábio.', reward: 'Tema Sunset', rewardTheme: 'theme-ubuntu-sunset', petTitle: true },
-    { id: 'title-pet-unicorn',  name: '🦄 Mestre dos Mitos', xpReq: 6000, desc: 'Conquistado ao desbloquear o Unicórnio Astral.', reward: 'Tema Cosmic', rewardTheme: 'theme-ubuntu-cosmic', petTitle: true },
-    { id: 'title-mythic',       name: '👑 Mítico',          xpReq: 5000,  desc: 'Transcendeu os limites.', reward: 'Tema Sunset + Cosmic', rewardTheme: 'theme-ubuntu-sunset' },
-    { id: 'title-god',          name: '✨ Divindade',       xpReq: 10000, desc: 'Nada pode pará-lo.', reward: 'Tema Pulsar', rewardTheme: 'theme-ubuntu-pulsar', gradient: true, gradientIcon: 'fa-sun' },
-    { id: 'title-pet-astral',   name: '🌌 Ser Dimensional', xpReq: 12000, desc: 'Conquistado ao desbloquear o Ser Dimensional.', reward: 'TODOS os temas', rewardTheme: 'ALL', petTitle: true, gradient: true, gradientIcon: 'fa-circle-nodes' },
-    { id: 'title-transcendent', name: '⚡ Transcendente',   xpReq: 15000, desc: 'O pináculo absoluto. Pouquíssimos chegam aqui.', reward: 'Prestígio Máximo — coroa dourada exclusiva na topbar', rewardTheme: null, gradient: true, gradientIcon: 'fa-infinity', prestige: true },
+    { id: 'title-novato',       name: '🌱 Novato',            xpReq: 0,     desc: 'Todo mundo começa de algum lugar!', reward: null, rewardTheme: null },
+    { id: 'title-estudante',    name: '📚 Estudante',          xpReq: 100,   desc: 'Você já está no caminho certo.', reward: null, rewardTheme: null },
+    { id: 'title-erudito',      name: '📜 Erudito',            xpReq: 200,   desc: 'Você sabe mais do que a média!', reward: null, rewardTheme: null },
+    { id: 'title-dedicado',     name: '💪 Dedicado',           xpReq: 300,   desc: 'Persistência é a chave!', reward: 'Tema Ubuntu Yaru', rewardTheme: 'theme-ubuntu-yaru' },
+    { id: 'title-scholar',      name: '🎓 Scholar',            xpReq: 600,   desc: 'Conhecimento em ascensão.', reward: 'Tema Radiance', rewardTheme: 'theme-ubuntu-radiance' },
+    { id: 'title-explorador',   name: '🧭 Explorador',         xpReq: 800,   desc: 'Sempre em busca de novos conhecimentos.', reward: 'Tema Dark', rewardTheme: 'theme-ubuntu-dark' },
+    { id: 'title-mestre',       name: '⭐ Mestre',             xpReq: 1000,  desc: 'Domínio absoluto.', reward: 'Tema Snap Neon', rewardTheme: 'theme-ubuntu-snap' },
+    { id: 'title-sabio',        name: '🧙 Sábio',              xpReq: 1500,  desc: 'A sabedoria é sua aliada.', reward: 'Tema Frost', rewardTheme: 'theme-ubuntu-frost' },
+    { id: 'title-guru',         name: '🔮 Guru',               xpReq: 2000,  desc: 'Iluminação acadêmica.', reward: 'Tema Fire', rewardTheme: 'theme-ubuntu-fire' },
+    { id: 'title-legend',       name: '🏆 Lendário',           xpReq: 3000,  desc: 'Poucos chegam tão longe!', reward: 'Tema Cosmic', rewardTheme: 'theme-ubuntu-cosmic' },
+    { id: 'title-pet-dragon',   name: '🐉 Domador de Dragões', xpReq: 3000,  desc: 'Conquistado ao desbloquear o Dragão Sábio.', reward: 'Tema Sunset', rewardTheme: 'theme-ubuntu-sunset', petTitle: true },
+    { id: 'title-oraculo',      name: '🔭 Oráculo',            xpReq: 4000,  desc: 'Seus conhecimentos iluminam outros.', reward: 'Tema Aurora', rewardTheme: 'theme-ubuntu-aurora' },
+    { id: 'title-mythic',       name: '👑 Mítico',             xpReq: 5000,  desc: 'Transcendeu os limites.', reward: 'Tema Sunset + Neon', rewardTheme: 'theme-ubuntu-neon' },
+    { id: 'title-pet-unicorn',  name: '🦄 Mestre dos Mitos',   xpReq: 6000,  desc: 'Conquistado ao desbloquear o Unicórnio Astral.', reward: 'Tema Cosmic', rewardTheme: 'theme-ubuntu-cosmic', petTitle: true },
+    { id: 'title-cosmico',      name: '🌌 Cósmico',            xpReq: 8000,  desc: 'Você alcançou o cosmos do saber!', reward: 'Tema Ocean', rewardTheme: 'theme-ubuntu-ocean' },
+    { id: 'title-god',          name: '✨ Divindade',          xpReq: 10000, desc: 'Nada pode pará-lo.', reward: 'Tema Pulsar', rewardTheme: 'theme-ubuntu-pulsar', gradient: true, gradientIcon: 'fa-sun' },
+    { id: 'title-pet-astral',   name: '🌌 Ser Dimensional',    xpReq: 12000, desc: 'Conquistado ao desbloquear o Ser Dimensional.', reward: 'TODOS os temas', rewardTheme: 'ALL', petTitle: true, gradient: true, gradientIcon: 'fa-circle-nodes' },
+    { id: 'title-transcendent', name: '⚡ Transcendente',      xpReq: 15000, desc: 'O pináculo absoluto. Pouquíssimos chegam aqui.', reward: 'Prestígio Máximo — coroa dourada exclusiva na topbar', rewardTheme: null, gradient: true, gradientIcon: 'fa-infinity', prestige: true },
 ];
 let equippedTitle = localStorage.getItem('geekieTitle') || 'title-novato';
 
@@ -872,6 +975,27 @@ const petsData = [
         }
     },
     {
+        id: 'pet-coruja',
+        name: 'Coruja Sábia',
+        emoji: '🦉',
+        xpReq: 1000,
+        desc: 'Guardiã do conhecimento noturno. Enxerga o que outros não veem.',
+        rarity: 'uncommon',
+        autoCollectBonus: 3,
+        autoCollectCost: 110,
+        upgrades: [
+            { id: 'vigor',  label: 'Vigor',  desc: '+1 nível de motivação',   cost: 70 },
+            { id: 'animo',  label: 'Ânimo',  desc: 'Hoots de sabedoria',      cost: 120 },
+            { id: 'brilho', label: 'Brilho', desc: 'Olhos all-seeing',        cost: 200 },
+        ],
+        motivations: {
+            0:    ["Hoot! O conhecimento aguarda!", "Veja além do óbvio. Estude!", "A noite é sua aliada para aprender!"],
+            500:  ["Seus olhos se abrem para novos saberes!", "Hoot hoot! Progresso sólido!", "A sabedoria noturna é sua!"],
+            1500: ["Olhos de sábio! Você vê tudo!", "Hoot! Conhecimento elevado ao máximo!", "Guardião do saber! Continue!"],
+            3000: ["Mestre da sabedoria eterna! Hoot!", "Você transcendeu o conhecimento comum!", "All-seeing! Nada escapa à sua mente!"],
+        }
+    },
+    {
         id: 'pet-raposa',
         name: 'Foxy Esperta',
         emoji: '🦊',
@@ -915,6 +1039,27 @@ const petsData = [
             500:  ["Suas chamas de sabedoria crescem!", "Digno de cruzar as montanhas do saber!", "O dragão reconhece seu esforço — continue!"],
             1500: ["Dragão de ouro! Sua sabedoria é profunda!", "Você domou os conhecimentos mais difíceis!", "Raro e poderoso — assim como seu estudo!"],
             3000: ["Ancião do saber! Poucas almas chegam aqui!", "Você igualou a sabedoria dos dragões eternos!", "Lenda viva! O universo reconhece seu esforço!"],
+        }
+    },
+    {
+        id: 'pet-fenix',
+        name: 'Fênix Renascida',
+        emoji: '🔥',
+        xpReq: 4500,
+        desc: 'Das cinzas nasce a sabedoria infinita. Renasce mais forte a cada derrota.',
+        rarity: 'special',
+        autoCollectBonus: 6,
+        autoCollectCost: 300,
+        upgrades: [
+            { id: 'chamas',    label: 'Chamas',    desc: 'Aura de fogo eterno',        cost: 150 },
+            { id: 'renascer',  label: 'Renascer',  desc: '+2 XP em cada sessão Pomodoro', cost: 280 },
+            { id: 'ascensao',  label: 'Ascensão',  desc: 'Partículas douradas ao redor', cost: 500 },
+        ],
+        motivations: {
+            0:    ["Das cinzas nasce o conhecimento!", "Cada falha é um renascimento!", "O fogo da sabedoria nunca se apaga!"],
+            500:  ["Você está renascendo mais forte!", "Chamas de determinação! Continue!", "Fênix em pleno voo de conhecimento!"],
+            1500: ["Sua chama ilumina o caminho!", "Renascer após renascer — imparável!", "A fênix do saber está em chamas!"],
+            3000: ["Imortal! Sua sabedoria transcende tudo!", "Fênix eterna! Nada pode apagar sua chama!", "O cosmos reconhece sua ascensão!"],
         }
     },
     {
@@ -1176,6 +1321,9 @@ const storeItems = [
     { id: 'theme-ubuntu-sunset',   name: 'Ubuntu Sunset',    xpReq: 2000, icon: 'fa-palette',      desc: 'Ciclo de cores com efeito ONDA 3D.',              color: '#F97316', effect: 'Onda 3D' },
     { id: 'theme-ubuntu-cosmic',   name: 'Ubuntu Cosmic',    xpReq: 3000, icon: 'fa-star',         desc: 'Deep space com ROTAÇÃO de matiz infinita.',       color: '#6D28D9', effect: 'Hue Spin' },
     { id: 'theme-ubuntu-pulsar',   name: 'Ubuntu Pulsar',    xpReq: 6000, icon: 'fa-circle-nodes', desc: 'Buraco negro com TREMOR de matéria escura.',      color: '#756ad2', effect: 'Hole Tremor' },
+    { id: 'theme-ubuntu-neon',    name: 'Ubuntu Neon',      xpReq: 800,  icon: 'fa-wand-sparkles', desc: 'Magenta vibrante com pulsação neon intensa.',    color: '#FF006E', effect: 'Neon Pulse' },
+    { id: 'theme-ubuntu-ocean',   name: 'Ubuntu Ocean',     xpReq: 1200, icon: 'fa-water',          desc: 'Azul oceânico com efeito de onda e mergulho.',  color: '#0891B2', effect: 'Onda Oceânica' },
+    { id: 'theme-ubuntu-aurora',  name: 'Ubuntu Aurora',    xpReq: 2500, icon: 'fa-rainbow',        desc: 'Ciclo aurora boreal — 4 cores em sequência.',   color: '#34D399', effect: 'Aurora Boreal' },
 ];
 
 function applyTheme(themeId) { storeItems.forEach(item => iframeContainer.classList.remove(item.id)); iframeContainer.classList.add(themeId); }
@@ -1446,12 +1594,119 @@ function buildTitleUI() {
     document.getElementById('pageTitleInput').value = savedTitle; updateTitlePreview();
 }
 function updateTitlePreview() { const name = document.getElementById('pageTitleInput').value || savedTitle; document.getElementById('titlePreviewBox').style.fontFamily = selectedFont; document.getElementById('previewIconEl').className = `fa-solid ${selectedIcon}`; document.getElementById('previewNameEl').textContent = name; }
-function applyPageTitle() { const name = document.getElementById('pageTitleInput').value.trim() || 'Geekie One Ultra v10.0'; savedTitle = name; localStorage.setItem('geekieTitleName', name); localStorage.setItem('geekieTitleFont', selectedFont); localStorage.setItem('geekieTitleIcon', selectedIcon); document.title = name; document.querySelector('.brand').style.fontFamily = selectedFont; showToast('Título atualizado!'); }
-(function() { document.title = savedTitle; document.querySelector('.brand').style.fontFamily = selectedFont; buildTitleUI(); })();
+const iconEmojiMap = {
+    'fa-graduation-cap': '🎓', 'fa-book': '📖', 'fa-star': '⭐', 'fa-brain': '🧠', 'fa-fire': '🔥',
+    'fa-rocket': '🚀', 'fa-heart': '❤️', 'fa-bolt': '⚡', 'fa-crown': '👑', 'fa-moon': '🌙',
+    'fa-sun': '☀️', 'fa-infinity': '♾️', 'fa-circle-nodes': '🔮', 'fa-wand-sparkles': '✨',
+    'fa-flask': '⚗️', 'fa-atom': '⚛️', 'fa-music': '🎵', 'fa-gamepad': '🎮', 'fa-coffee': '☕',
+    'fa-laptop': '💻', 'fa-pencil': '✏️', 'fa-palette': '🎨', 'fa-trophy': '🏆', 'fa-seedling': '🌱',
+    'fa-calculator': '🧮', 'fa-compass': '🧭', 'fa-globe': '🌐', 'fa-dna': '🧬', 'fa-microscope': '🔬',
+};
+function applyFavicon(iconName) {
+    const emoji = iconEmojiMap[iconName] || '📚';
+    const svg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>${emoji}</text></svg>`;
+    const link = document.getElementById('pageIcon');
+    if (link) link.href = `data:image/svg+xml,${encodeURIComponent(svg)}`;
+}
+function applyPageTitle() { const name = document.getElementById('pageTitleInput').value.trim() || 'Geekie One Ultra v10.0'; savedTitle = name; localStorage.setItem('geekieTitleName', name); localStorage.setItem('geekieTitleFont', selectedFont); localStorage.setItem('geekieTitleIcon', selectedIcon); document.title = name; document.querySelector('.brand').style.fontFamily = selectedFont; applyFavicon(selectedIcon); showToast('Título atualizado!'); }
+(function() { document.title = savedTitle; document.querySelector('.brand').style.fontFamily = selectedFont; applyFavicon(selectedIcon); buildTitleUI(); })();
 
 // ===================== INIT PET GRID =====================
 renderPetGrid();
 updateActivePetDisplay();
+
+// ===================== CALCULATOR =====================
+const calcState = { val: '0', expr: '', hasResult: false };
+function calcRender() {
+    document.getElementById('calcVal').textContent = calcState.val;
+    document.getElementById('calcExpr').textContent = calcState.expr;
+}
+function calcAction(a) {
+    const ops = ['+', '-', '×', '÷'];
+    if (a === 'clear') { calcState.val = '0'; calcState.expr = ''; calcState.hasResult = false; }
+    else if (a === 'back') { if (calcState.hasResult) { calcState.val = '0'; calcState.hasResult = false; } else { calcState.val = calcState.val.length > 1 ? calcState.val.slice(0, -1) : '0'; } }
+    else if (a === '±') { calcState.val = calcState.val.startsWith('-') ? calcState.val.slice(1) : '-' + calcState.val; }
+    else if (a === '%') { calcState.val = String(parseFloat(calcState.val) / 100); calcState.hasResult = true; }
+    else if (a === '√') { const n = parseFloat(calcState.val); calcState.expr = `√(${calcState.val})`; calcState.val = n < 0 ? 'Erro' : String(Math.sqrt(n)); calcState.hasResult = true; }
+    else if (a === 'x²') { calcState.expr = `(${calcState.val})²`; calcState.val = String(parseFloat(calcState.val) ** 2); calcState.hasResult = true; }
+    else if (a === '1/x') { const n = parseFloat(calcState.val); calcState.expr = `1/${calcState.val}`; calcState.val = n === 0 ? 'Erro' : String(1 / n); calcState.hasResult = true; }
+    else if (ops.includes(a)) { calcState.expr = calcState.val + ' ' + a; calcState.hasResult = false; }
+    else if (a === '=') { calcCompute(); }
+    else if (a === '.') { if (calcState.hasResult) { calcState.val = '0.'; calcState.hasResult = false; } else if (!calcState.val.includes('.')) calcState.val += '.'; }
+    else {
+        if (calcState.hasResult || calcState.val === '0') { calcState.val = a; calcState.hasResult = false; }
+        else { if (calcState.val.replace('-', '').replace('.', '').length < 15) calcState.val += a; }
+    }
+    calcRender();
+}
+function calcCompute() {
+    if (!calcState.expr) return;
+    const parts = calcState.expr.split(' ');
+    if (parts.length < 2) return;
+    const a = parseFloat(parts[0]), op = parts[1], b = parseFloat(calcState.val);
+    let res;
+    if (op === '+') res = a + b;
+    else if (op === '-') res = a - b;
+    else if (op === '×') res = a * b;
+    else if (op === '÷') res = b === 0 ? 'Erro' : a / b;
+    const resultStr = typeof res === 'number' ? (Number.isFinite(res) ? (String(parseFloat(res.toPrecision(12)))) : 'Erro') : res;
+    calcState.expr = `${parts[0]} ${op} ${calcState.val} =`;
+    calcState.val = resultStr;
+    calcState.hasResult = true;
+    calcRender();
+}
+document.addEventListener('keydown', (e) => {
+    const active = document.getElementById('tab-calculator');
+    if (!active || !active.classList.contains('active')) return;
+    if (e.key >= '0' && e.key <= '9') calcAction(e.key);
+    else if (e.key === '+') calcAction('+');
+    else if (e.key === '-') calcAction('-');
+    else if (e.key === '*') calcAction('×');
+    else if (e.key === '/') { e.preventDefault(); calcAction('÷'); }
+    else if (e.key === 'Enter' || e.key === '=') calcAction('=');
+    else if (e.key === 'Backspace') calcAction('back');
+    else if (e.key === 'Escape') calcAction('clear');
+    else if (e.key === '.') calcAction('.');
+});
+
+// ===================== CHAR SEARCH =====================
+function filterChars(query) {
+    const q = query.toLowerCase().trim();
+    const cats = document.querySelectorAll('#tab-chars .char-category');
+    const grids = document.querySelectorAll('#tab-chars .char-grid');
+    if (!q) {
+        cats.forEach(c => c.style.display = '');
+        grids.forEach(g => { g.style.display = ''; g.querySelectorAll('.char-btn').forEach(b => b.style.display = ''); });
+        return;
+    }
+    cats.forEach((cat, i) => {
+        const grid = grids[i];
+        if (!grid) return;
+        const btns = grid.querySelectorAll('.char-btn');
+        let any = false;
+        btns.forEach(b => {
+            const text = b.textContent.toLowerCase();
+            const match = text.includes(q);
+            b.style.display = match ? '' : 'none';
+            if (match) any = true;
+        });
+        cat.style.display = any ? '' : 'none';
+        grid.style.display = any ? '' : 'none';
+    });
+}
+
+// ===================== NOTE FONT SIZE =====================
+function setNoteSize(px) {
+    document.getElementById('noteContent').style.fontSize = px + 'px';
+    localStorage.setItem('geekieNoteSize', px);
+    document.querySelectorAll('#noteSizePicker .note-size-btn').forEach(b => {
+        b.classList.toggle('active', parseInt(b.dataset.size) === px);
+    });
+}
+(function() {
+    const saved = parseInt(localStorage.getItem('geekieNoteSize') || '16');
+    setNoteSize(saved);
+})();
 </script>
 </body>
 </html>
