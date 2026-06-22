@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Geekie One Ultra v10.0 - Study Hub</title>
+    <title>Geekie One Ultra v11.1.0 - Study Hub</title>
     <link rel="icon" id="pageIcon" href="https://i.postimg.cc/gcHHYqtC/fire-geekie.png">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&family=Orbitron:wght@400;700&family=Ubuntu:wght@400;500;700&family=Space+Grotesk:wght@400;600;700&family=Rajdhani:wght@400;600;700&family=JetBrains+Mono:wght@400;600&family=Caveat:wght@400;600;700&family=Patrick+Hand&family=Indie+Flower&family=Shadows+Into+Light&family=Kalam:wght@400;700&family=Architects+Daughter&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&family=Orbitron:wght@400;700&family=Ubuntu:wght@400;500;700&family=Space+Grotesk:wght@400;600;700&family=Rajdhani:wght@400;600;700&family=JetBrains+Mono:wght@400;600&family=Caveat:wght@400;600;700&family=Patrick+Hand&family=Indie+Flower&family=Shadows+Into+Light&family=Kalam:wght@400;700&family=Architects+Daughter&family=Source+Code+Pro:wght@400;600&family=Comfortaa:wght@400;600;700&family=Quicksand:wght@400;600;700&family=Dancing+Script:wght@400;600;700&family=Nunito:wght@400;600;700&family=Josefin+Sans:wght@400;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -101,6 +101,49 @@
         @keyframes oceanWave { 0%,100% { box-shadow: 0 0 20px #0891B2, 0 0 50px rgba(8,145,178,0.2); } 50% { box-shadow: 0 0 30px #22D3EE, 0 0 70px rgba(34,211,238,0.3); border-color: #22D3EE; transform: translateY(-3px); } }
         .theme-ubuntu-aurora { border: 2px solid #34D399 !important; animation: auroraShift 8s linear infinite; }
         @keyframes auroraShift { 0% { border-color: #34D399; box-shadow: 0 0 20px #34D399; } 25% { border-color: #60A5FA; box-shadow: 0 0 25px #60A5FA; } 50% { border-color: #A78BFA; box-shadow: 0 0 20px #A78BFA; } 75% { border-color: #F472B6; box-shadow: 0 0 25px #F472B6; } 100% { border-color: #34D399; box-shadow: 0 0 20px #34D399; } }
+
+        /* === BACKGROUND THEMES (tab + border) === */
+        /* Matrix Rain */
+        .theme-bg-matrix { border: 2px solid #00ff41 !important; animation: matrixBorder 2s linear infinite; }
+        @keyframes matrixBorder { 0%,100% { box-shadow: 0 0 20px #00ff41, 0 0 50px rgba(0,255,65,0.25); border-color: #00ff41; } 50% { box-shadow: 0 0 35px #39ff14, 0 0 80px rgba(57,255,20,0.35); border-color: #39ff14; } }
+        #tab-geekie.bg-matrix { position: relative; background: #000800 !important; }
+        #tab-geekie.bg-matrix::before { content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 0;
+            background-image: repeating-linear-gradient(0deg, transparent, transparent 30px, rgba(0,255,65,0.04) 30px, rgba(0,255,65,0.04) 31px), repeating-linear-gradient(90deg, transparent, transparent 30px, rgba(0,255,65,0.03) 30px, rgba(0,255,65,0.03) 31px);
+            animation: matrixScan 4s linear infinite; }
+        #tab-geekie.bg-matrix::after { content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 0;
+            background: linear-gradient(180deg, rgba(0,255,65,0.06) 0%, transparent 30%, transparent 70%, rgba(0,255,65,0.06) 100%);
+            animation: matrixGlow 3s ease-in-out infinite; }
+        #tab-geekie.bg-matrix .iframe-container { position: relative; z-index: 1; }
+        @keyframes matrixScan { 0% { background-position: 0 0, 0 0; } 100% { background-position: 0 60px, 60px 0; } }
+        @keyframes matrixGlow { 0%,100% { opacity: 0.5; } 50% { opacity: 1; } }
+
+        /* Nebula */
+        .theme-bg-nebula { border: 2px solid #a855f7 !important; animation: nebulaBorder 5s ease-in-out infinite; }
+        @keyframes nebulaBorder { 0%,100% { box-shadow: 0 0 20px #a855f7, 0 0 50px rgba(168,85,247,0.3); border-color: #a855f7; } 33% { box-shadow: 0 0 30px #38bdf8, 0 0 70px rgba(56,189,248,0.3); border-color: #38bdf8; } 66% { box-shadow: 0 0 25px #ec4899, 0 0 60px rgba(236,72,153,0.25); border-color: #ec4899; } }
+        #tab-geekie.bg-nebula { position: relative; background: #050010 !important; }
+        #tab-geekie.bg-nebula::before { content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 0;
+            background: radial-gradient(ellipse 70% 50% at 20% 40%, rgba(168,85,247,0.18) 0%, transparent 60%), radial-gradient(ellipse 60% 60% at 80% 60%, rgba(56,189,248,0.14) 0%, transparent 60%), radial-gradient(ellipse 50% 40% at 50% 80%, rgba(236,72,153,0.12) 0%, transparent 60%);
+            animation: nebulaDrift 10s ease-in-out infinite; }
+        #tab-geekie.bg-nebula::after { content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 0;
+            background-image: radial-gradient(circle 1px at 15% 25%, rgba(255,255,255,0.7) 0%, transparent 1px), radial-gradient(circle 1px at 75% 15%, rgba(255,255,255,0.5) 0%, transparent 1px), radial-gradient(circle 1px at 45% 70%, rgba(255,255,255,0.6) 0%, transparent 1px), radial-gradient(circle 1px at 90% 55%, rgba(255,255,255,0.4) 0%, transparent 1px), radial-gradient(circle 1px at 30% 85%, rgba(255,255,255,0.5) 0%, transparent 1px), radial-gradient(circle 1.5px at 60% 40%, rgba(168,85,247,0.9) 0%, transparent 2px), radial-gradient(circle 1.5px at 25% 60%, rgba(56,189,248,0.9) 0%, transparent 2px);
+            animation: nebulaStars 6s ease-in-out infinite; }
+        #tab-geekie.bg-nebula .iframe-container { position: relative; z-index: 1; }
+        @keyframes nebulaDrift { 0%,100% { transform: scale(1) translate(0,0); opacity: 0.8; } 50% { transform: scale(1.05) translate(1%, -1%); opacity: 1; } }
+        @keyframes nebulaStars { 0%,100% { opacity: 0.6; } 50% { opacity: 1; } }
+
+        /* Synthwave */
+        .theme-bg-synthwave { border: 2px solid #f0abfc !important; animation: synthBorder 3s ease-in-out infinite; }
+        @keyframes synthBorder { 0%,100% { box-shadow: 0 0 20px #f0abfc, 0 0 50px rgba(240,171,252,0.3); border-color: #f0abfc; } 50% { box-shadow: 0 0 30px #fb7185, 0 0 70px rgba(251,113,133,0.4); border-color: #fb7185; } }
+        #tab-geekie.bg-synthwave { position: relative; overflow: hidden; background: linear-gradient(180deg, #0d0015 0%, #1a0030 50%, #0d001a 100%) !important; }
+        #tab-geekie.bg-synthwave::before { content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 0;
+            background: linear-gradient(0deg, rgba(240,171,252,0.12) 0%, transparent 40%), radial-gradient(ellipse 80% 30% at 50% 110%, rgba(251,113,133,0.3) 0%, transparent 70%);
+            animation: synthSun 4s ease-in-out infinite; }
+        #tab-geekie.bg-synthwave::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 55%; pointer-events: none; z-index: 0;
+            background-image: repeating-linear-gradient(0deg, transparent, transparent 28px, rgba(240,171,252,0.18) 28px, rgba(240,171,252,0.18) 29px), repeating-linear-gradient(90deg, transparent, transparent 28px, rgba(240,171,252,0.1) 28px, rgba(240,171,252,0.1) 29px);
+            animation: synthGrid 1.5s linear infinite; transform-origin: bottom center; transform: perspective(300px) rotateX(50deg); }
+        #tab-geekie.bg-synthwave .iframe-container { position: relative; z-index: 1; }
+        @keyframes synthSun { 0%,100% { opacity: 0.7; } 50% { opacity: 1; } }
+        @keyframes synthGrid { 0% { background-position: 0 0, 0 0; } 100% { background-position: 0 29px, 0 0; } }
 
         /* Calculator */
         .calc-btn { padding: 16px 8px; border: 1px solid var(--border); background: rgba(255,255,255,0.05); color: var(--text-main); border-radius: 10px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: var(--transition); font-family: 'Fira Code', monospace; }
@@ -317,7 +360,7 @@
 <aside class="sidebar" id="sidebar">
     <div class="brand">
         <i class="fa-solid fa-graduation-cap"></i>
-        Geekie Ultra <span style="font-size:0.6em; background:var(--primary); color:#000; padding:2px 5px; border-radius:4px; margin-left:auto;">v10.0</span>
+        Geekie Ultra <span style="font-size:0.6em; background:var(--primary); color:#000; padding:2px 5px; border-radius:4px; margin-left:auto;">v11.1.0</span>
     </div>
     <nav class="nav-menu">
         <div class="nav-item active" onclick="switchTab('tab-geekie', this)"><i class="fa-solid fa-book-open"></i> Portal Geekie</div>
@@ -666,8 +709,48 @@
     <section id="tab-devlog" class="tab-content">
         <div class="glass-card w-full" style="max-width: 900px; margin: 0 auto;">
             <h3><i class="fa-solid fa-laptop-code"></i> Developer Changelog</h3>
-            <p style="color: var(--text-muted); margin-bottom: 30px;">Histórico de atualizações e novas funcionalidades.</p>
+            <p style="color: var(--text-muted); margin-bottom: 16px;">Histórico de atualizações e novas funcionalidades.</p>
+            <div style="margin-bottom: 24px; position: relative;">
+                <input type="text" id="devlogSearch" placeholder="🔍 Pesquisar versão ou funcionalidade..." oninput="filterDevlog(this.value)" style="width:100%; background:rgba(0,0,0,0.3); border:1px solid var(--border); color:var(--text-main); padding:11px 16px 11px 42px; border-radius:10px; outline:none; font-size:1rem; transition:border-color 0.3s;">
+                <i class="fa-solid fa-search" style="position:absolute; left:14px; top:50%; transform:translateY(-50%); color:var(--text-muted); pointer-events:none;"></i>
+            </div>
+            <div id="devlogNoResults" style="display:none; text-align:center; color:var(--text-muted); padding:30px 0;"><i class="fa-solid fa-circle-xmark" style="font-size:2rem; margin-bottom:8px; display:block;"></i>Nenhum resultado encontrado.</div>
             <div class="timeline" id="devlogTimeline">
+
+                <!-- v11.1.0 -->
+                <div class="timeline-item" data-version="v11.1.0">
+                    <div class="version-header">
+                        <span class="version-tag" style="background:linear-gradient(135deg,rgba(0,255,136,0.2),rgba(0,212,255,0.2));border:1px solid rgba(0,255,136,0.4);">v11.1.0</span>
+                        <h3>Barra de Pesquisa no Dev Log, Novas Fontes & Temas com Plano de Fundo</h3>
+                        <span class="version-date">22 Jun 2026 — Atualização Atual</span>
+                    </div>
+                    <ul>
+                        <li><strong>Barra de Pesquisa no Dev Log:</strong> Campo de busca em tempo real adicionado ao Changelog — filtra entradas por número de versão, título ou qualquer texto nos itens da lista.</li>
+                        <li><strong>Novas Fontes no Bloco de Notas:</strong> 7 novas fontes adicionadas ao editor — Source Code Pro, Comfortaa, Quicksand, Dancing Script, Nunito, Josefin Sans e Playfair Display, totalizando 16 fontes disponíveis.</li>
+                        <li><strong>Temas com Plano de Fundo (BG Themes):</strong> 3 novos temas que animam todo o espaço ao redor do iframe da aba Geekie, não apenas a borda — criando um ambiente visual imersivo e interativo.</li>
+                        <li><strong>Matrix Rain:</strong> Fundo escuro com grade animada verde neon estilo "chuva de código", varredura de scanlines e brilho pulsante.</li>
+                        <li><strong>Nebula:</strong> Fundo cósmico com nebulosas coloridas animadas (roxo, ciano, rosa) e estrelas cintilantes ao redor do iframe.</li>
+                        <li><strong>Synthwave Grid:</strong> Estética retrô dos anos 80 com grade em perspectiva animada e gradiente neon magenta/rosa brilhando ao redor do conteúdo.</li>
+                        <li><strong>Versão Atualizada:</strong> Número de versão atualizado para v11.1.0 no título da página, barra lateral e no título padrão.</li>
+                    </ul>
+                </div>
+
+                <!-- v11.0.0 -->
+                <div class="timeline-item" data-version="v11.0.0">
+                    <div class="version-header">
+                        <span class="version-tag">v11.0.0</span>
+                        <h3>Novos Temas Ubuntu — Neon, Ocean, Aurora & Pulsar</h3>
+                        <span class="version-date">Jun 2026</span>
+                    </div>
+                    <ul>
+                        <li><strong>Tema Ubuntu Neon:</strong> Borda magenta vibrante (#FF006E) com pulsação neon intensa — alterna entre rosa e magenta em ciclo de 2 segundos.</li>
+                        <li><strong>Tema Ubuntu Ocean:</strong> Borda azul oceânico (#0891B2) com efeito de onda e translação vertical suave — evoca profundidade e movimento aquático.</li>
+                        <li><strong>Tema Ubuntu Aurora:</strong> Ciclo aurora boreal com 4 cores em sequência (verde → azul → roxo → rosa) ao longo de 8 segundos — inspirado na aurora polar.</li>
+                        <li><strong>Tema Ubuntu Pulsar:</strong> Buraco negro com tremor de matéria escura, balanço pendular e pulsação lilás profunda — efeito triplo combinado.</li>
+                        <li><strong>Loja de Temas:</strong> Todos os 4 novos temas adicionados à loja com requisitos de XP próprios e descrições de efeito.</li>
+                        <li><strong>Títulos & Pets:</strong> Aba Google mantida; sistema de moedas e pets continua funcionando com todos os novos temas disponíveis como recompensa.</li>
+                    </ul>
+                </div>
 
                 <!-- v10.0.1 -->
                 <div class="timeline-item">
@@ -751,7 +834,7 @@
 // ===================== DATA DECLARATIONS =====================
 let todos = JSON.parse(localStorage.getItem('geekieTodos')) || [];
 let todoFilter = 'all';
-let savedTitle = localStorage.getItem('geekieTitleName') || 'Geekie One Ultra v10.0';
+let savedTitle = localStorage.getItem('geekieTitleName') || 'Geekie One Ultra v11.1.0';
 let selectedFont = localStorage.getItem('geekieTitleFont') || 'Poppins';
 let selectedIcon = localStorage.getItem('geekieTitleIcon') || 'fa-graduation-cap';
 const availableFonts = [
@@ -1324,9 +1407,21 @@ const storeItems = [
     { id: 'theme-ubuntu-neon',    name: 'Ubuntu Neon',      xpReq: 800,  icon: 'fa-wand-sparkles', desc: 'Magenta vibrante com pulsação neon intensa.',    color: '#FF006E', effect: 'Neon Pulse' },
     { id: 'theme-ubuntu-ocean',   name: 'Ubuntu Ocean',     xpReq: 1200, icon: 'fa-water',          desc: 'Azul oceânico com efeito de onda e mergulho.',  color: '#0891B2', effect: 'Onda Oceânica' },
     { id: 'theme-ubuntu-aurora',  name: 'Ubuntu Aurora',    xpReq: 2500, icon: 'fa-rainbow',        desc: 'Ciclo aurora boreal — 4 cores em sequência.',   color: '#34D399', effect: 'Aurora Boreal' },
+    { id: 'theme-bg-matrix',      name: '🖥️ Matrix Rain',   xpReq: 1800, icon: 'fa-terminal',       desc: 'Fundo escuro com grade verde animada estilo chuva de código. Transforma todo o espaço ao redor do Geekie.', color: '#00ff41', effect: 'BG: Grade + Scanline', isBgTheme: true },
+    { id: 'theme-bg-nebula',      name: '🌌 Nebula',         xpReq: 3500, icon: 'fa-circle-nodes',   desc: 'Fundo cósmico com nebulosas coloridas animadas e estrelas cintilantes ao redor do iframe.', color: '#a855f7', effect: 'BG: Nebulosa + Estrelas', isBgTheme: true },
+    { id: 'theme-bg-synthwave',   name: '🌆 Synthwave',      xpReq: 4500, icon: 'fa-music',          desc: 'Estética retrô dos anos 80 — grade em perspectiva animada com neon magenta/rosa ao redor do conteúdo.', color: '#f0abfc', effect: 'BG: Grade 3D + Neon', isBgTheme: true },
 ];
 
-function applyTheme(themeId) { storeItems.forEach(item => iframeContainer.classList.remove(item.id)); iframeContainer.classList.add(themeId); }
+const bgThemeMap = { 'theme-bg-matrix': 'bg-matrix', 'theme-bg-nebula': 'bg-nebula', 'theme-bg-synthwave': 'bg-synthwave' };
+function applyTheme(themeId) {
+    storeItems.forEach(item => iframeContainer.classList.remove(item.id));
+    iframeContainer.classList.add(themeId);
+    const tabGeekie = document.getElementById('tab-geekie');
+    if (tabGeekie) {
+        Object.values(bgThemeMap).forEach(cls => tabGeekie.classList.remove(cls));
+        if (bgThemeMap[themeId]) tabGeekie.classList.add(bgThemeMap[themeId]);
+    }
+}
 function equipTheme(themeId) { equippedTheme = themeId; localStorage.setItem('geekieEquipped', equippedTheme); applyTheme(themeId); renderStore(); showToast('Tema equipado!'); }
 function unlockTheme(themeId) { if (!ownedThemes.includes(themeId)) { ownedThemes.push(themeId); localStorage.setItem('geekieThemes', JSON.stringify(ownedThemes)); } equipTheme(themeId); showToast('Tema desbloqueado!'); }
 
@@ -1442,14 +1537,21 @@ renderTitles(); updatePlayerTitle();
 // ===================== NOTE FONTS =====================
 const noteFonts = [
     { family: 'Poppins', label: 'Poppins (Padrão)' },
+    { family: 'Nunito', label: 'Nunito (Arredondada)' },
+    { family: 'Comfortaa', label: 'Comfortaa (Suave)' },
+    { family: 'Quicksand', label: 'Quicksand (Geométrica)' },
+    { family: 'Josefin Sans', label: 'Josefin Sans (Fina)' },
+    { family: 'Playfair Display', label: 'Playfair Display (Serifada)' },
     { family: 'Caveat', label: 'Caveat (Manuscrita)' },
+    { family: 'Dancing Script', label: 'Dancing Script (Cursiva)' },
     { family: 'Patrick Hand', label: 'Patrick Hand' },
     { family: 'Indie Flower', label: 'Indie Flower' },
     { family: 'Shadows Into Light', label: 'Shadows Into Light' },
     { family: 'Kalam', label: 'Kalam' },
     { family: 'Architects Daughter', label: 'Architects Daughter' },
     { family: 'Fira Code', label: 'Fira Code (Mono)' },
-    { family: 'Orbitron', label: 'Orbitron' },
+    { family: 'Source Code Pro', label: 'Source Code Pro (Mono)' },
+    { family: 'Orbitron', label: 'Orbitron (Sci-Fi)' },
 ];
 let currentNoteFont = localStorage.getItem('geekieNoteFont') || 'Poppins';
 function buildNoteFontPicker() {
@@ -1668,6 +1770,24 @@ document.addEventListener('keydown', (e) => {
     else if (e.key === 'Escape') calcAction('clear');
     else if (e.key === '.') calcAction('.');
 });
+
+// ===================== DEVLOG SEARCH =====================
+function filterDevlog(query) {
+    const q = query.toLowerCase().trim();
+    const items = document.querySelectorAll('#devlogTimeline .timeline-item');
+    let anyVisible = false;
+    items.forEach(item => {
+        const text = item.textContent.toLowerCase();
+        const version = (item.dataset.version || '').toLowerCase();
+        const match = !q || text.includes(q) || version.includes(q);
+        item.style.display = match ? '' : 'none';
+        if (match) anyVisible = true;
+    });
+    const noResults = document.getElementById('devlogNoResults');
+    if (noResults) noResults.style.display = anyVisible ? 'none' : 'block';
+    const searchEl = document.getElementById('devlogSearch');
+    if (searchEl) searchEl.style.borderColor = (!q || anyVisible) ? '' : 'var(--danger)';
+}
 
 // ===================== CHAR SEARCH =====================
 function filterChars(query) {
