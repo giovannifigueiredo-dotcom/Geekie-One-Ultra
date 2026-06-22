@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Geekie One Ultra v11.1.0 - Study Hub</title>
+    <title>Geekie One Ultra v11.2.0 - Study Hub</title>
     <link rel="icon" id="pageIcon" href="https://i.postimg.cc/gcHHYqtC/fire-geekie.png">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&family=Orbitron:wght@400;700&family=Ubuntu:wght@400;500;700&family=Space+Grotesk:wght@400;600;700&family=Rajdhani:wght@400;600;700&family=JetBrains+Mono:wght@400;600&family=Caveat:wght@400;600;700&family=Patrick+Hand&family=Indie+Flower&family=Shadows+Into+Light&family=Kalam:wght@400;700&family=Architects+Daughter&family=Source+Code+Pro:wght@400;600&family=Comfortaa:wght@400;600;700&family=Quicksand:wght@400;600;700&family=Dancing+Script:wght@400;600;700&family=Nunito:wght@400;600;700&family=Josefin+Sans:wght@400;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -353,6 +353,50 @@
         .pet-coins-info { background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.3); border-radius: 10px; padding: 14px 18px; margin-bottom: 20px; display: flex; align-items: center; gap: 14px; }
         .pet-coins-info .coin-big { font-size: 1.8rem; }
         .pet-auto-badge { display: inline-block; background: rgba(0,212,255,0.15); color: var(--accent); border: 1px solid rgba(0,212,255,0.3); font-size: 0.7rem; padding: 1px 7px; border-radius: 8px; margin-left: 4px; }
+
+        /* ========== CODES TAB ========== */
+        .codes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; margin-top: 20px; }
+        .code-card { background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: 12px; padding: 20px; display: flex; flex-direction: column; gap: 8px; transition: var(--transition); position: relative; }
+        .code-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+        .code-card.redeemed { border-color: var(--success); opacity: 0.6; pointer-events: none; }
+        .code-card .code-label { font-family: 'Fira Code', monospace; font-size: 1.1rem; color: var(--primary); font-weight: 700; letter-spacing: 2px; }
+        .code-card .code-desc { font-size: 0.82rem; color: var(--text-muted); flex: 1; }
+        .code-card .code-reward { font-size: 0.8rem; color: var(--coin); display: flex; align-items: center; gap: 6px; }
+        .code-card.redeemed::after { content: '✅ RESGATADO'; position: absolute; top: 10px; right: 10px; font-size: 0.68rem; font-weight: 700; letter-spacing: 1px; color: var(--success); border: 1px solid rgba(46,213,115,0.4); padding: 2px 6px; border-radius: 6px; background: rgba(46,213,115,0.1); }
+        .code-input-wrap { display: flex; gap: 10px; margin-bottom: 8px; }
+        .code-input-wrap input { flex: 1; font-family: 'Fira Code', monospace; letter-spacing: 2px; }
+        .code-hint { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 20px; }
+
+        /* ========== ADMIN PANEL ========== */
+        .admin-panel { position: fixed; inset: 0; background: rgba(0,0,0,0.88); z-index: 99999; display: none; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
+        .admin-panel.open { display: flex; }
+        .admin-box { background: #0a0e17; border: 2px solid var(--danger); border-radius: 16px; padding: 30px; max-width: 600px; width: 95%; max-height: 85vh; overflow-y: auto; position: relative; animation: fadeIn 0.3s ease; box-shadow: 0 0 40px rgba(255,71,87,0.3); }
+        .admin-box h2 { color: var(--danger); margin-bottom: 4px; display: flex; align-items: center; gap: 10px; font-size: 1.3rem; }
+        .admin-badge { display: inline-block; background: rgba(255,71,87,0.15); color: var(--danger); border: 1px solid rgba(255,71,87,0.4); font-size: 0.7rem; padding: 2px 8px; border-radius: 8px; margin-left: 4px; letter-spacing: 1px; vertical-align: middle; }
+        .admin-close { position: absolute; top: 15px; right: 15px; background: transparent; border: none; color: var(--text-muted); font-size: 1.2rem; cursor: pointer; }
+        .admin-close:hover { color: var(--danger); }
+        .admin-section { margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 16px; }
+        .admin-section h4 { color: var(--accent); margin-bottom: 12px; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
+        .admin-row { display: flex; gap: 10px; align-items: center; margin-bottom: 10px; flex-wrap: wrap; }
+        .admin-row input[type="number"] { background: rgba(0,0,0,0.4); border: 1px solid var(--border); color: var(--text-main); padding: 8px 12px; border-radius: 8px; outline: none; width: 120px; font-family: 'Fira Code', monospace; }
+        .admin-row input[type="number"]:focus { border-color: var(--accent); }
+        .admin-danger-zone { margin-top: 20px; border-top: 1px solid rgba(255,71,87,0.3); padding-top: 16px; }
+        .admin-danger-zone h4 { color: var(--danger); margin-bottom: 12px; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
+        .admin-key-hint { font-size: 0.78rem; color: var(--text-muted); margin-top: 4px; text-align: center; }
+        kbd { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; padding: 1px 6px; font-family: 'Fira Code', monospace; font-size: 0.85em; color: var(--text-main); }
+
+        /* ========== GENERIC SEARCH BAR FOR TABS ========== */
+        .tab-search-wrap { position: relative; margin-bottom: 16px; }
+        .tab-search-wrap i.search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-muted); pointer-events: none; }
+        .tab-search-bar { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--border); color: var(--text-main); padding: 11px 16px 11px 42px; border-radius: 10px; outline: none; font-size: 0.95rem; transition: border-color 0.3s; }
+        .tab-search-bar:focus { border-color: var(--accent); }
+
+        /* ========== KEYBOARD SHORTCUT HINT ========== */
+        .shortcut-hint { position: fixed; bottom: 60px; right: 20px; background: rgba(0,0,0,0.85); border: 1px solid var(--border); border-radius: 10px; padding: 14px 18px; font-size: 0.78rem; color: var(--text-muted); z-index: 9000; display: none; backdrop-filter: blur(8px); min-width: 200px; }
+        .shortcut-hint.show { display: block; animation: fadeIn 0.3s ease; }
+        .shortcut-hint h4 { color: var(--accent); margin-bottom: 8px; font-size: 0.82rem; }
+        .shortcut-row { display: flex; justify-content: space-between; gap: 10px; padding: 3px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+        .shortcut-row:last-child { border-bottom: none; }
     </style>
 </head>
 
@@ -360,7 +404,7 @@
 <aside class="sidebar" id="sidebar">
     <div class="brand">
         <i class="fa-solid fa-graduation-cap"></i>
-        Geekie Ultra <span style="font-size:0.6em; background:var(--primary); color:#000; padding:2px 5px; border-radius:4px; margin-left:auto;">v11.1.0</span>
+        Geekie Ultra <span style="font-size:0.6em; background:var(--primary); color:#000; padding:2px 5px; border-radius:4px; margin-left:auto;">v11.2.0</span>
     </div>
     <nav class="nav-menu">
         <div class="nav-item active" onclick="switchTab('tab-geekie', this)"><i class="fa-solid fa-book-open"></i> Portal Geekie</div>
@@ -377,6 +421,7 @@
         <div class="nav-item" onclick="switchTab('tab-title', this)"><i class="fa-solid fa-pen-nib"></i> Título da Página</div>
         <div class="nav-item" onclick="switchTab('tab-events', this)"><i class="fa-solid fa-calendar-star"></i> Eventos do Mês</div>
         <div class="nav-item" onclick="switchTab('tab-google', this)"><i class="fa-brands fa-google"></i> Google</div>
+        <div class="nav-item" onclick="switchTab('tab-codes', this)" style="color:#00d4ff;"><i class="fa-solid fa-code"></i> Códigos</div>
         <div class="nav-item" onclick="switchTab('tab-devlog', this)" style="margin-top: 20px; border-top: 1px solid var(--border); border-radius: 0; padding-top: 15px;"><i class="fa-solid fa-clock-rotate-left"></i> Dev Log</div>
     </nav>
 </aside>
@@ -441,7 +486,12 @@
     <section id="tab-store" class="tab-content">
         <div class="glass-card w-full" style="max-width: 900px; margin: 0 auto;">
             <h3 style="color: var(--gold);"><i class="fa-solid fa-store"></i> Loja de Temas Ubuntu</h3>
-            <p style="color: var(--text-muted); margin-bottom: 20px;">Temas com efeitos especiais animados. Desbloqueie com seu XP de estudo!</p>
+            <p style="color: var(--text-muted); margin-bottom: 16px;">Temas com efeitos especiais animados. Desbloqueie com seu XP de estudo!</p>
+            <div class="tab-search-wrap">
+                <i class="fa-solid fa-search search-icon"></i>
+                <input class="tab-search-bar" type="text" id="storeSearchBar" placeholder="Pesquisar tema..." oninput="filterStore(this.value)">
+            </div>
+            <div id="storeNoResults" style="display:none;text-align:center;color:var(--text-muted);padding:20px 0;"><i class="fa-solid fa-circle-xmark" style="font-size:1.5rem;display:block;margin-bottom:6px;"></i>Nenhum tema encontrado.</div>
             <div class="grid-dashboard mt-4" id="storeGrid"></div>
         </div>
     </section>
@@ -451,10 +501,15 @@
         <div class="glass-card w-full" style="max-width: 900px; margin: 0 auto;">
             <h3 style="color: var(--gold);"><i class="fa-solid fa-crown"></i> Sistema de Títulos</h3>
             <p style="color: var(--text-muted); margin-bottom: 8px;">Conquiste títulos com seu XP de estudo! Cada título desbloqueia recompensas exclusivas.</p>
-            <div style="background: rgba(139,92,246,0.1); border: 1px solid rgba(139,92,246,0.3); border-radius: 10px; padding: 15px; margin-bottom: 20px; display: flex; align-items: center; gap: 12px;">
+            <div style="background: rgba(139,92,246,0.1); border: 1px solid rgba(139,92,246,0.3); border-radius: 10px; padding: 15px; margin-bottom: 16px; display: flex; align-items: center; gap: 12px;">
                 <i class="fa-solid fa-star" style="font-size: 1.5rem; color: #a78bfa;"></i>
                 <div><span style="font-size: 0.85rem; color: var(--text-muted);">Seu XP atual:</span><br><strong style="font-size: 1.3rem; color: #a78bfa;" id="titlesXpDisplay">0</strong></div>
             </div>
+            <div class="tab-search-wrap">
+                <i class="fa-solid fa-search search-icon"></i>
+                <input class="tab-search-bar" type="text" id="titlesSearchBar" placeholder="Pesquisar título..." oninput="filterTitles(this.value)">
+            </div>
+            <div id="titlesNoResults" style="display:none;text-align:center;color:var(--text-muted);padding:20px 0;"><i class="fa-solid fa-circle-xmark" style="font-size:1.5rem;display:block;margin-bottom:6px;"></i>Nenhum título encontrado.</div>
             <div class="titles-grid" id="titlesGrid"></div>
         </div>
     </section>
@@ -463,7 +518,12 @@
     <section id="tab-pets" class="tab-content">
         <div class="glass-card w-full" style="max-width: 1000px; margin: 0 auto;">
             <h3 style="color: #fb923c;"><i class="fa-solid fa-paw"></i> Seus Pets de Estudo</h3>
-            <p style="color: var(--text-muted); margin-bottom: 16px;">Desbloqueie pets com XP! Eles te motivam conforme você evolui. Use moedas para aprimoramentos e auto-coleta.</p>
+            <p style="color: var(--text-muted); margin-bottom: 12px;">Desbloqueie pets com XP! Eles te motivam conforme você evolui. Use moedas para aprimoramentos e auto-coleta.</p>
+            <div class="tab-search-wrap">
+                <i class="fa-solid fa-search search-icon"></i>
+                <input class="tab-search-bar" type="text" id="petsSearchBar" placeholder="Pesquisar pet..." oninput="filterPets(this.value)">
+            </div>
+            <div id="petsNoResults" style="display:none;text-align:center;color:var(--text-muted);padding:20px 0;"><i class="fa-solid fa-circle-xmark" style="font-size:1.5rem;display:block;margin-bottom:6px;"></i>Nenhum pet encontrado.</div>
 
             <div class="pet-coins-info">
                 <span class="coin-big">🪙</span>
@@ -705,6 +765,30 @@
         </div>
     </section>
 
+    <!-- TAB: CODES -->
+    <section id="tab-codes" class="tab-content">
+        <div class="glass-card w-full" style="max-width: 900px; margin: 0 auto;">
+            <h3 style="color: var(--accent);"><i class="fa-solid fa-code"></i> Códigos de Resgate</h3>
+            <p style="color: var(--text-muted); margin-bottom: 16px;">Insira um código especial para resgatar recompensas exclusivas. Cada código pode ser usado uma vez.</p>
+            <div class="code-input-wrap">
+                <input type="text" id="codeInput" placeholder="Digite o código..." style="text-transform:uppercase;" oninput="this.value=this.value.toUpperCase()" onkeypress="if(event.key==='Enter')redeemCode()">
+                <button class="btn btn-primary" onclick="redeemCode()"><i class="fa-solid fa-gift"></i> Resgatar</button>
+            </div>
+            <p class="code-hint"><i class="fa-solid fa-info-circle"></i> Códigos são insensíveis a letras minúsculas. Você verá os códigos disponíveis abaixo para referência.</p>
+
+            <div class="section-label" style="margin-bottom:12px;">Códigos Disponíveis</div>
+            <div class="codes-grid" id="codesGrid"></div>
+
+            <div style="margin-top:24px; background:rgba(0,212,255,0.06); border:1px solid rgba(0,212,255,0.2); border-radius:10px; padding:14px 18px; font-size:0.82rem; color:var(--text-muted);">
+                <i class="fa-solid fa-shield-halved" style="color:var(--accent);"></i>
+                <strong style="color:var(--accent);"> Código Secreto:</strong>
+                Existe um código oculto de administrador. Ao ser adicionado, ele desbloqueia o
+                <strong style="color:var(--danger);">Painel de Admin</strong> — acessível depois com
+                <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>A</kbd>.
+            </div>
+        </div>
+    </section>
+
     <!-- TAB: DEVLOG -->
     <section id="tab-devlog" class="tab-content">
         <div class="glass-card w-full" style="max-width: 900px; margin: 0 auto;">
@@ -717,12 +801,31 @@
             <div id="devlogNoResults" style="display:none; text-align:center; color:var(--text-muted); padding:30px 0;"><i class="fa-solid fa-circle-xmark" style="font-size:2rem; margin-bottom:8px; display:block;"></i>Nenhum resultado encontrado.</div>
             <div class="timeline" id="devlogTimeline">
 
-                <!-- v11.1.0 -->
-                <div class="timeline-item" data-version="v11.1.0">
+                <!-- v11.2.0 -->
+                <div class="timeline-item" data-version="v11.2.0">
                     <div class="version-header">
-                        <span class="version-tag" style="background:linear-gradient(135deg,rgba(0,255,136,0.2),rgba(0,212,255,0.2));border:1px solid rgba(0,255,136,0.4);">v11.1.0</span>
-                        <h3>Barra de Pesquisa no Dev Log, Novas Fontes & Temas com Plano de Fundo</h3>
+                        <span class="version-tag" style="background:linear-gradient(135deg,rgba(0,255,136,0.2),rgba(0,212,255,0.2));border:1px solid rgba(0,255,136,0.4);">v11.2.0</span>
+                        <h3>Aba de Códigos, Painel de Admin, Atalhos de Teclado & Barras de Pesquisa</h3>
                         <span class="version-date">22 Jun 2026 — Atualização Atual</span>
+                    </div>
+                    <ul>
+                        <li><strong>Aba de Códigos:</strong> Nova seção dedicada ao resgate de códigos especiais com 5 códigos de recompensa (XP, moedas e temas) exibidos em cards visuais com status de resgatado.</li>
+                        <li><strong>Código Secreto ADM2026:</strong> Código oculto de administrador que, ao ser resgatado, desbloqueia o Painel de Admin com acesso a recursos avançados de gerenciamento.</li>
+                        <li><strong>Painel de Admin:</strong> Painel exclusivo ativado com Ctrl+Shift+A após resgatar o código ADM2026 — permite adicionar XP/Moedas manualmente, desbloquear todos os temas/títulos/pets e resetar o progresso.</li>
+                        <li><strong>Sistema de Atalhos de Teclado:</strong> Navegação rápida entre abas com Alt+1 a Alt+9 e Alt+0 — cada número corresponde a uma aba do menu (ex.: Alt+1 vai para Portal Geekie, Alt+3 para Loja de Temas).</li>
+                        <li><strong>Barra de Pesquisa — Loja de Temas:</strong> Campo de busca em tempo real adicionado à aba Loja de Temas, filtrando por nome e descrição do tema.</li>
+                        <li><strong>Barra de Pesquisa — Títulos:</strong> Campo de busca em tempo real adicionado à aba Títulos, filtrando cards por nome e descrição.</li>
+                        <li><strong>Barra de Pesquisa — Pets:</strong> Campo de busca em tempo real adicionado à aba Pets, filtrando cards por nome e descrição do pet.</li>
+                        <li><strong>Versão Atualizada:</strong> Número de versão atualizado para v11.2.0 no título da página e na barra lateral.</li>
+                    </ul>
+                </div>
+
+                <!-- v11.1.0 -->
+                <div class="timeline-item old-version" data-version="v11.1.0">
+                    <div class="version-header">
+                        <span class="version-tag">v11.1.0</span>
+                        <h3>Barra de Pesquisa no Dev Log, Novas Fontes & Temas com Plano de Fundo</h3>
+                        <span class="version-date">22 Jun 2026</span>
                     </div>
                     <ul>
                         <li><strong>Barra de Pesquisa no Dev Log:</strong> Campo de busca em tempo real adicionado ao Changelog — filtra entradas por número de versão, título ou qualquer texto nos itens da lista.</li>
@@ -826,6 +929,81 @@
         </div>
     </section>
 </main>
+
+<!-- ========== ADMIN PANEL ========== -->
+<div class="admin-panel" id="adminPanel">
+    <div class="admin-box">
+        <button class="admin-close" onclick="closeAdminPanel()"><i class="fa-solid fa-xmark"></i></button>
+        <h2><i class="fa-solid fa-shield-halved"></i> Painel de Admin <span class="admin-badge">ADM2026</span></h2>
+        <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:4px;">Acesso exclusivo via código secreto. Use com responsabilidade.</p>
+        <p class="admin-key-hint"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>A</kbd> para abrir/fechar</p>
+
+        <div class="admin-section">
+            <h4><i class="fa-solid fa-star" style="color:#a78bfa;"></i> Adicionar XP</h4>
+            <div class="admin-row">
+                <input type="number" id="adminXpAmount" value="100" min="1" max="99999" placeholder="XP">
+                <button class="btn btn-primary" onclick="adminAddXP()"><i class="fa-solid fa-plus"></i> Adicionar XP</button>
+            </div>
+        </div>
+
+        <div class="admin-section">
+            <h4><i class="fa-solid fa-coins" style="color:var(--coin);"></i> Adicionar Moedas</h4>
+            <div class="admin-row">
+                <input type="number" id="adminCoinAmount" value="100" min="1" max="99999" placeholder="Moedas">
+                <button class="btn btn-coin" onclick="adminAddCoins()"><i class="fa-solid fa-plus"></i> Adicionar Moedas</button>
+            </div>
+        </div>
+
+        <div class="admin-section">
+            <h4><i class="fa-solid fa-wand-magic-sparkles" style="color:var(--gold);"></i> Desbloqueios em Massa</h4>
+            <div class="admin-row" style="flex-wrap:wrap;">
+                <button class="btn btn-outline" onclick="adminUnlockAllThemes()" style="font-size:0.85rem;"><i class="fa-solid fa-palette"></i> Todos os Temas</button>
+                <button class="btn btn-outline" onclick="adminUnlockAllTitles()" style="font-size:0.85rem;"><i class="fa-solid fa-crown"></i> Todos os Títulos</button>
+                <button class="btn btn-outline" onclick="adminUnlockAllPets()" style="font-size:0.85rem;"><i class="fa-solid fa-paw"></i> Todos os Pets</button>
+                <button class="btn btn-outline" onclick="adminUnlockAll()" style="font-size:0.85rem;color:var(--primary);border-color:var(--primary);"><i class="fa-solid fa-unlock"></i> Tudo de Uma Vez</button>
+            </div>
+        </div>
+
+        <div class="admin-section">
+            <h4><i class="fa-solid fa-keyboard" style="color:var(--accent);"></i> Atalhos de Teclado (Alt + Número)</h4>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px 16px;font-size:0.8rem;color:var(--text-muted);">
+                <div><kbd>Alt</kbd>+<kbd>1</kbd> Portal Geekie</div>
+                <div><kbd>Alt</kbd>+<kbd>2</kbd> Bloco de Notas</div>
+                <div><kbd>Alt</kbd>+<kbd>3</kbd> Loja de Temas</div>
+                <div><kbd>Alt</kbd>+<kbd>4</kbd> Títulos</div>
+                <div><kbd>Alt</kbd>+<kbd>5</kbd> Pets</div>
+                <div><kbd>Alt</kbd>+<kbd>6</kbd> Pomodoro</div>
+                <div><kbd>Alt</kbd>+<kbd>7</kbd> Metas</div>
+                <div><kbd>Alt</kbd>+<kbd>8</kbd> Flashcards</div>
+                <div><kbd>Alt</kbd>+<kbd>9</kbd> Sons Ambiente</div>
+                <div><kbd>Alt</kbd>+<kbd>0</kbd> Calculadora</div>
+            </div>
+        </div>
+
+        <div class="admin-danger-zone">
+            <h4><i class="fa-solid fa-triangle-exclamation"></i> Zona de Perigo</h4>
+            <div class="admin-row">
+                <button class="btn" style="background:rgba(255,71,87,0.15);border:1px solid var(--danger);color:var(--danger);font-size:0.85rem;" onclick="adminResetAll()"><i class="fa-solid fa-rotate-left"></i> Resetar Todo o Progresso</button>
+            </div>
+            <p style="font-size:0.75rem;color:var(--text-muted);margin-top:4px;"><i class="fa-solid fa-circle-info"></i> Isso apaga XP, moedas, pets, temas, títulos e notas.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Keyboard shortcuts hint -->
+<div class="shortcut-hint" id="shortcutHint">
+    <h4><i class="fa-solid fa-keyboard"></i> Atalhos de Teclado</h4>
+    <div class="shortcut-row"><span><kbd>Alt</kbd>+<kbd>1</kbd></span><span>Portal Geekie</span></div>
+    <div class="shortcut-row"><span><kbd>Alt</kbd>+<kbd>2</kbd></span><span>Bloco de Notas</span></div>
+    <div class="shortcut-row"><span><kbd>Alt</kbd>+<kbd>3</kbd></span><span>Loja de Temas</span></div>
+    <div class="shortcut-row"><span><kbd>Alt</kbd>+<kbd>4</kbd></span><span>Títulos</span></div>
+    <div class="shortcut-row"><span><kbd>Alt</kbd>+<kbd>5</kbd></span><span>Pets</span></div>
+    <div class="shortcut-row"><span><kbd>Alt</kbd>+<kbd>6</kbd></span><span>Pomodoro</span></div>
+    <div class="shortcut-row"><span><kbd>Alt</kbd>+<kbd>7</kbd></span><span>Metas</span></div>
+    <div class="shortcut-row"><span><kbd>Alt</kbd>+<kbd>8</kbd></span><span>Flashcards</span></div>
+    <div class="shortcut-row"><span><kbd>Alt</kbd>+<kbd>9</kbd></span><span>Sons Ambiente</span></div>
+    <div class="shortcut-row"><span><kbd>Alt</kbd>+<kbd>0</kbd></span><span>Calculadora</span></div>
+</div>
 
 <audio id="alarmSound" src="https://cdn.pixabay.com/download/audio/2021/08/04/audio_c6ccf3232f.mp3?filename=bell-ringing-05-43026.mp3" preload="auto"></audio>
 <div id="appToast" class="toast"><i class="fa-solid fa-check"></i> <span>Ação Realizada!</span></div>
@@ -1814,6 +1992,230 @@ function filterChars(query) {
         grid.style.display = any ? '' : 'none';
     });
 }
+
+// ===================== CODES SYSTEM =====================
+const codesData = [
+    { code: 'ESTUDA2026',  label: 'ESTUDA2026',  desc: 'Bônus de XP para quem estuda com dedicação!',       reward: '+50 XP',         icon: 'fa-star',       action: () => { gainXP(50); } },
+    { code: 'GEEKIE100',   label: 'GEEKIE100',   desc: '100 moedas para investir nos seus pets favoritos.',  reward: '+100 Moedas',    icon: 'fa-coins',      action: () => { earnCoins(100, 'Código GEEKIE100!'); } },
+    { code: 'FOCUSMODE',   label: 'FOCUSMODE',   desc: 'Desbloqueia o tema Ubuntu Forest exclusivamente.',   reward: 'Tema Forest',    icon: 'fa-leaf',       action: () => { if(!ownedThemes.includes('theme-ubuntu-forest')){ownedThemes.push('theme-ubuntu-forest');localStorage.setItem('geekieThemes',JSON.stringify(ownedThemes));} renderStore(); } },
+    { code: 'NOVAERA25',   label: 'NOVAERA25',   desc: 'Celebre a nova era com 25 XP de bônus instantâneo.', reward: '+25 XP',        icon: 'fa-rocket',     action: () => { gainXP(25); } },
+    { code: 'STUDYHUB',    label: 'STUDYHUB',    desc: 'Hub de estudos te recompensa com moedas extras.',    reward: '+30 Moedas',    icon: 'fa-graduation-cap', action: () => { earnCoins(30, 'Código STUDYHUB!'); } },
+];
+const secretCode = { code: 'ADM2026', action: () => { adminUnlocked = true; localStorage.setItem('geekieAdminUnlocked', '1'); showToast('🔐 Painel de Admin desbloqueado! Use Ctrl+Shift+A.'); } };
+
+let redeemedCodes = JSON.parse(localStorage.getItem('geekieRedeemedCodes') || '[]');
+let adminUnlocked = localStorage.getItem('geekieAdminUnlocked') === '1';
+
+function gainXP(amount) {
+    xp += amount;
+    localStorage.setItem('geekieXP', xp);
+    document.getElementById('xpCount').textContent = xp;
+    try { renderTitles(); updatePlayerTitle(); renderStore(); renderPetGrid(); renderEventContent(); } catch(e) {}
+}
+
+function redeemCode() {
+    const input = document.getElementById('codeInput');
+    if (!input) return;
+    const val = input.value.trim().toUpperCase();
+    if (!val) { showToast('Digite um código!', true); return; }
+
+    if (redeemedCodes.includes(val)) { showToast('Código já resgatado!', true); input.value = ''; return; }
+
+    const found = codesData.find(c => c.code === val);
+    if (found) {
+        redeemedCodes.push(val);
+        localStorage.setItem('geekieRedeemedCodes', JSON.stringify(redeemedCodes));
+        found.action();
+        showToast(`🎁 Código ${val} resgatado! ${found.reward}`);
+        input.value = '';
+        renderCodesGrid();
+        return;
+    }
+
+    if (val === secretCode.code) {
+        if (adminUnlocked) { showToast('Código ADM2026 já ativo!', true); input.value = ''; return; }
+        redeemedCodes.push(val);
+        localStorage.setItem('geekieRedeemedCodes', JSON.stringify(redeemedCodes));
+        secretCode.action();
+        input.value = '';
+        renderCodesGrid();
+        return;
+    }
+
+    showToast('Código inválido!', true);
+    input.value = '';
+}
+
+function renderCodesGrid() {
+    const grid = document.getElementById('codesGrid');
+    if (!grid) return;
+    grid.innerHTML = '';
+    codesData.forEach(c => {
+        const redeemed = redeemedCodes.includes(c.code);
+        grid.innerHTML += `
+        <div class="code-card ${redeemed ? 'redeemed' : ''}">
+            <div class="code-label"><i class="fa-solid ${c.icon}" style="margin-right:8px;font-size:0.9rem;"></i>${c.label}</div>
+            <div class="code-desc">${c.desc}</div>
+            <div class="code-reward"><i class="fa-solid fa-coins"></i> ${c.reward}</div>
+            ${!redeemed ? `<button class="btn btn-primary" style="margin-top:4px;font-size:0.82rem;padding:8px 14px;" onclick="document.getElementById('codeInput').value='${c.code}';redeemCode()"><i class="fa-solid fa-gift"></i> Usar Código</button>` : ''}
+        </div>`;
+    });
+}
+renderCodesGrid();
+
+// ===================== ADMIN PANEL =====================
+function openAdminPanel() {
+    if (!adminUnlocked) { showToast('Você precisa resgatar o código ADM2026 primeiro!', true); return; }
+    document.getElementById('adminPanel').classList.add('open');
+}
+function closeAdminPanel() { document.getElementById('adminPanel').classList.remove('open'); }
+
+function adminAddXP() {
+    const amount = parseInt(document.getElementById('adminXpAmount').value) || 0;
+    if (amount <= 0) { showToast('Digite uma quantidade válida!', true); return; }
+    gainXP(amount);
+    showToast(`⚡ Admin: +${amount} XP adicionado!`);
+}
+function adminAddCoins() {
+    const amount = parseInt(document.getElementById('adminCoinAmount').value) || 0;
+    if (amount <= 0) { showToast('Digite uma quantidade válida!', true); return; }
+    earnCoins(amount, `Admin: +${amount} moedas`);
+    showToast(`🪙 Admin: +${amount} moedas adicionadas!`);
+}
+function adminUnlockAllThemes() {
+    storeItems.forEach(si => { if (!ownedThemes.includes(si.id)) ownedThemes.push(si.id); });
+    localStorage.setItem('geekieThemes', JSON.stringify(ownedThemes));
+    renderStore(); showToast('🎨 Todos os temas desbloqueados!');
+}
+function adminUnlockAllTitles() {
+    xp = Math.max(xp, 15000);
+    localStorage.setItem('geekieXP', xp);
+    document.getElementById('xpCount').textContent = xp;
+    renderTitles(); updatePlayerTitle(); renderEventContent();
+    showToast('👑 Todos os títulos desbloqueados!');
+}
+function adminUnlockAllPets() {
+    petsData.forEach(pet => {
+        if (!petState[pet.id]) petState[pet.id] = { owned: true, active: false, autoCollect: false, upgrades: {} };
+        petState[pet.id].owned = true;
+    });
+    savePetState();
+    renderPetGrid(); showToast('🐾 Todos os pets desbloqueados!');
+}
+function adminUnlockAll() {
+    adminUnlockAllThemes(); adminUnlockAllPets();
+    setTimeout(adminUnlockAllTitles, 100);
+}
+function adminResetAll() {
+    if (!confirm('ATENÇÃO: Isso apagará TODO o seu progresso permanentemente. Tem certeza?')) return;
+    localStorage.clear();
+    location.reload();
+}
+
+// ===================== KEYBOARD SHORTCUTS =====================
+const tabShortcuts = {
+    '1': 'tab-geekie',
+    '2': 'tab-notes',
+    '3': 'tab-store',
+    '4': 'tab-titles',
+    '5': 'tab-pets',
+    '6': 'tab-timer',
+    '7': 'tab-goals',
+    '8': 'tab-flashcards',
+    '9': 'tab-ambient',
+    '0': 'tab-calculator',
+};
+
+let shortcutHintTimeout;
+function showShortcutHint() {
+    const hint = document.getElementById('shortcutHint');
+    if (!hint) return;
+    hint.classList.add('show');
+    clearTimeout(shortcutHintTimeout);
+    shortcutHintTimeout = setTimeout(() => hint.classList.remove('show'), 3000);
+}
+
+document.addEventListener('keydown', (e) => {
+    if (e.ctrlKey && e.shiftKey && e.key === 'A') {
+        e.preventDefault();
+        if (adminUnlocked) { const panel = document.getElementById('adminPanel'); panel.classList.toggle('open'); }
+        else showToast('Resgate o código ADM2026 primeiro!', true);
+        return;
+    }
+
+    if (e.altKey && tabShortcuts[e.key]) {
+        e.preventDefault();
+        const tabId = tabShortcuts[e.key];
+        const navItems = document.querySelectorAll('.nav-item');
+        let targetNavItem = null;
+        navItems.forEach(item => {
+            const onclick = item.getAttribute('onclick') || '';
+            if (onclick.includes(`'${tabId}'`)) targetNavItem = item;
+        });
+        switchTab(tabId, targetNavItem || navItems[0]);
+        showShortcutHint();
+        return;
+    }
+
+    if (e.altKey && e.key === '?') {
+        e.preventDefault();
+        showShortcutHint();
+    }
+});
+
+// ===================== SEARCH BARS (Store / Titles / Pets) =====================
+function filterStore(query) {
+    const q = query.toLowerCase().trim();
+    const items = document.querySelectorAll('#storeGrid .store-item');
+    let any = false;
+    items.forEach(item => {
+        const h4 = item.querySelector('h4');
+        const p = item.querySelectorAll('p');
+        let text = (h4 ? h4.textContent : '') + ' ';
+        p.forEach(el => text += el.textContent + ' ');
+        const match = !q || text.toLowerCase().includes(q);
+        item.style.display = match ? '' : 'none';
+        if (match) any = true;
+    });
+    const noRes = document.getElementById('storeNoResults');
+    if (noRes) noRes.style.display = (q && !any) ? 'block' : 'none';
+}
+
+function filterTitles(query) {
+    const q = query.toLowerCase().trim();
+    const items = document.querySelectorAll('#titlesGrid .title-card');
+    let any = false;
+    items.forEach(item => {
+        const text = item.textContent.toLowerCase();
+        const match = !q || text.includes(q);
+        item.style.display = match ? '' : 'none';
+        if (match) any = true;
+    });
+    const noRes = document.getElementById('titlesNoResults');
+    if (noRes) noRes.style.display = (q && !any) ? 'block' : 'none';
+}
+
+function filterPets(query) {
+    const q = query.toLowerCase().trim();
+    const items = document.querySelectorAll('#petGrid .pet-card');
+    let any = false;
+    items.forEach(item => {
+        const text = item.textContent.toLowerCase();
+        const match = !q || text.includes(q);
+        item.style.display = match ? '' : 'none';
+        if (match) any = true;
+    });
+    const noRes = document.getElementById('petsNoResults');
+    if (noRes) noRes.style.display = (q && !any) ? 'block' : 'none';
+}
+
+// Re-apply search after renders that clear innerHTML
+const _origRenderStore = renderStore;
+renderStore = function() { _origRenderStore(); const sb = document.getElementById('storeSearchBar'); if (sb && sb.value) filterStore(sb.value); };
+const _origRenderTitles = renderTitles;
+renderTitles = function() { _origRenderTitles(); const sb = document.getElementById('titlesSearchBar'); if (sb && sb.value) filterTitles(sb.value); };
+const _origRenderPetGrid = renderPetGrid;
+renderPetGrid = function() { _origRenderPetGrid(); const sb = document.getElementById('petsSearchBar'); if (sb && sb.value) filterPets(sb.value); };
 
 // ===================== NOTE FONT SIZE =====================
 function setNoteSize(px) {
