@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Geekie One Ultra v11.2.0 - Study Hub</title>
+    <title>Geekie One Ultra v11.3.0 - Study Hub</title>
     <link rel="icon" id="pageIcon" href="https://i.postimg.cc/gcHHYqtC/fire-geekie.png">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&family=Orbitron:wght@400;700&family=Ubuntu:wght@400;500;700&family=Space+Grotesk:wght@400;600;700&family=Rajdhani:wght@400;600;700&family=JetBrains+Mono:wght@400;600&family=Caveat:wght@400;600;700&family=Patrick+Hand&family=Indie+Flower&family=Shadows+Into+Light&family=Kalam:wght@400;700&family=Architects+Daughter&family=Source+Code+Pro:wght@400;600&family=Comfortaa:wght@400;600;700&family=Quicksand:wght@400;600;700&family=Dancing+Script:wght@400;600;700&family=Nunito:wght@400;600;700&family=Josefin+Sans:wght@400;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -397,6 +397,70 @@
         .shortcut-hint h4 { color: var(--accent); margin-bottom: 8px; font-size: 0.82rem; }
         .shortcut-row { display: flex; justify-content: space-between; gap: 10px; padding: 3px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
         .shortcut-row:last-child { border-bottom: none; }
+
+        /* ========== ABA DE COMANDOS (COMMAND PALETTE) ========== */
+        .cmd-palette-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 99998; display: none; align-items: flex-start; justify-content: center; padding-top: 80px; backdrop-filter: blur(6px); }
+        .cmd-palette-overlay.open { display: flex; animation: fadeIn 0.2s ease; }
+        .cmd-palette-box { background: #0d1422; border: 1px solid rgba(0,212,255,0.3); border-radius: 16px; width: 100%; max-width: 680px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.7), 0 0 40px rgba(0,212,255,0.08); }
+        .cmd-palette-search { display: flex; align-items: center; gap: 12px; padding: 16px 20px; border-bottom: 1px solid rgba(255,255,255,0.07); }
+        .cmd-palette-search i { color: var(--accent); font-size: 1.1rem; }
+        .cmd-palette-input { flex: 1; background: transparent; border: none; outline: none; color: var(--text-main); font-size: 1.05rem; font-family: 'Poppins', sans-serif; }
+        .cmd-palette-input::placeholder { color: var(--text-muted); }
+        .cmd-palette-hint { font-size: 0.72rem; color: var(--text-muted); white-space: nowrap; }
+        .cmd-palette-list { max-height: 420px; overflow-y: auto; padding: 8px 0; }
+        .cmd-item { display: flex; align-items: center; gap: 14px; padding: 12px 20px; cursor: pointer; transition: background 0.15s; border-radius: 0; }
+        .cmd-item:hover, .cmd-item.cmd-active { background: rgba(0,212,255,0.08); }
+        .cmd-item.cmd-active { border-left: 3px solid var(--accent); }
+        .cmd-item-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 0.95rem; flex-shrink: 0; }
+        .cmd-item-body { flex: 1; }
+        .cmd-item-label { font-size: 0.95rem; font-weight: 500; color: var(--text-main); }
+        .cmd-item-desc { font-size: 0.76rem; color: var(--text-muted); margin-top: 2px; }
+        .cmd-item-shortcut { font-size: 0.72rem; color: var(--accent); font-family: 'Fira Code', monospace; white-space: nowrap; }
+        .cmd-group-label { padding: 10px 20px 4px; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted); }
+        .cmd-empty { text-align: center; padding: 40px 20px; color: var(--text-muted); font-size: 0.9rem; }
+        .cmd-footer { padding: 10px 20px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; gap: 20px; font-size: 0.72rem; color: var(--text-muted); }
+        .cmd-footer kbd { font-size: 0.68rem; }
+
+        /* ========== CRIADOR DE TEMA PERSONALIZADO ========== */
+        .custom-theme-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 9999; display: none; align-items: center; justify-content: center; backdrop-filter: blur(6px); }
+        .custom-theme-modal.open { display: flex; animation: fadeIn 0.3s ease; }
+        .custom-theme-box { background: #0d1422; border: 1px solid rgba(255,215,0,0.3); border-radius: 18px; padding: 30px; max-width: 560px; width: 95%; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.6); }
+        .custom-theme-box h2 { color: var(--gold); margin-bottom: 6px; display: flex; align-items: center; gap: 10px; }
+        .ct-close { position: absolute; background: transparent; border: none; color: var(--text-muted); font-size: 1.2rem; cursor: pointer; top: 15px; right: 15px; }
+        .ct-close:hover { color: var(--danger); }
+        .ct-section { margin-top: 18px; }
+        .ct-section label { font-size: 0.82rem; color: var(--text-muted); display: block; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 1px; }
+        .ct-color-row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+        .ct-color-btn { width: 36px; height: 36px; border-radius: 8px; cursor: pointer; border: 2px solid transparent; transition: transform 0.2s; }
+        .ct-color-btn.selected { border-color: white; transform: scale(1.15); }
+        .ct-input-color { width: 44px; height: 36px; border: 1px solid var(--border); border-radius: 8px; cursor: pointer; background: transparent; }
+        .ct-effect-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 8px; margin-top: 8px; }
+        .ct-effect-btn { background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 8px; padding: 10px; cursor: pointer; text-align: center; font-size: 0.8rem; color: var(--text-muted); transition: var(--transition); }
+        .ct-effect-btn:hover { border-color: var(--accent); color: var(--accent); }
+        .ct-effect-btn.selected { border-color: var(--gold); color: var(--gold); background: rgba(255,215,0,0.08); }
+        .ct-preview { margin-top: 16px; border-radius: 12px; padding: 16px; height: 80px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1rem; transition: all 0.4s; }
+        .ct-name-input { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--border); color: var(--text-main); padding: 10px 14px; border-radius: 8px; outline: none; font-size: 0.95rem; transition: border-color 0.3s; margin-top: 6px; }
+        .ct-name-input:focus { border-color: var(--gold); }
+
+        /* Tema personalizado dinâmico */
+        .theme-custom-user { border: 2px solid var(--custom-color, #00ff88) !important; }
+
+        /* ========== MARKDOWN VIEWER (Nova ferramenta da Notepad) ========== */
+        .md-preview { background: rgba(0,0,0,0.2); border: 1px solid var(--border); border-radius: 8px; padding: 16px; min-height: 200px; color: var(--text-main); line-height: 1.7; overflow-y: auto; }
+        .md-preview h1,.md-preview h2,.md-preview h3 { color: var(--primary); margin: 12px 0 6px; }
+        .md-preview code { background: rgba(0,0,0,0.4); padding: 2px 6px; border-radius: 4px; font-family: 'Fira Code', monospace; color: var(--accent); }
+        .md-preview pre { background: rgba(0,0,0,0.4); padding: 12px; border-radius: 8px; overflow-x: auto; }
+        .md-preview blockquote { border-left: 3px solid var(--accent); padding-left: 12px; color: var(--text-muted); margin: 8px 0; }
+        .md-preview ul,.md-preview ol { padding-left: 20px; }
+        .md-preview hr { border: none; border-top: 1px solid var(--border); margin: 12px 0; }
+        .md-preview strong { color: var(--primary); }
+        .md-preview em { color: var(--accent); }
+        .md-preview a { color: var(--accent); }
+
+        /* ========== CONTADOR DE PALAVRAS ========== */
+        .word-counter { display: flex; gap: 16px; font-size: 0.78rem; color: var(--text-muted); padding: 6px 0; flex-wrap: wrap; }
+        .word-counter span { background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 6px; padding: 3px 10px; }
+        .word-counter span strong { color: var(--accent); }
     </style>
 </head>
 
@@ -404,7 +468,7 @@
 <aside class="sidebar" id="sidebar">
     <div class="brand">
         <i class="fa-solid fa-graduation-cap"></i>
-        Geekie Ultra <span style="font-size:0.6em; background:var(--primary); color:#000; padding:2px 5px; border-radius:4px; margin-left:auto;">v11.2.0</span>
+        Geekie Ultra <span style="font-size:0.6em; background:var(--primary); color:#000; padding:2px 5px; border-radius:4px; margin-left:auto;">v11.3.0</span>
     </div>
     <nav class="nav-menu">
         <div class="nav-item active" onclick="switchTab('tab-geekie', this)"><i class="fa-solid fa-book-open"></i> Portal Geekie</div>
@@ -422,6 +486,7 @@
         <div class="nav-item" onclick="switchTab('tab-events', this)"><i class="fa-solid fa-calendar-star"></i> Eventos do Mês</div>
         <div class="nav-item" onclick="switchTab('tab-google', this)"><i class="fa-brands fa-google"></i> Google</div>
         <div class="nav-item" onclick="switchTab('tab-codes', this)" style="color:#00d4ff;"><i class="fa-solid fa-code"></i> Códigos</div>
+        <div class="nav-item" onclick="openCmdPalette()" style="color: var(--accent);"><i class="fa-solid fa-terminal"></i> Aba de Comandos <kbd style="font-size:0.65em;background:rgba(0,212,255,0.15);border:1px solid rgba(0,212,255,0.3);border-radius:4px;padding:1px 5px;margin-left:4px;">Ctrl+B</kbd></div>
         <div class="nav-item" onclick="switchTab('tab-devlog', this)" style="margin-top: 20px; border-top: 1px solid var(--border); border-radius: 0; padding-top: 15px;"><i class="fa-solid fa-clock-rotate-left"></i> Dev Log</div>
     </nav>
 </aside>
@@ -478,7 +543,18 @@
                 <button class="note-size-btn" onclick="setNoteSize(26)" data-size="26">A+++ Máximo</button>
             </div>
             <input type="text" id="noteTitle" class="note-title-input" placeholder="Título da Anotação">
-            <textarea id="noteContent" class="note-editor" placeholder="Digite suas anotações aqui..."></textarea>
+            <!-- Barra de ferramentas extra da Notepad v11.3.0 -->
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;align-items:center;">
+                <button class="btn btn-outline" onclick="toggleNoteMarkdown()" id="btnMdPreview" style="font-size:0.8rem;"><i class="fa-brands fa-markdown"></i> Preview MD</button>
+                <button class="btn btn-outline" onclick="clearNoteContent()" style="font-size:0.8rem;color:var(--danger);border-color:var(--danger);"><i class="fa-solid fa-eraser"></i> Limpar</button>
+                <button class="btn btn-outline" onclick="insertNoteTimestamp()" style="font-size:0.8rem;"><i class="fa-solid fa-clock"></i> Inserir Data/Hora</button>
+                <button class="btn btn-outline" onclick="insertBulletList()" style="font-size:0.8rem;"><i class="fa-solid fa-list-ul"></i> Lista</button>
+                <button class="btn btn-outline" onclick="insertSeparator()" style="font-size:0.8rem;"><i class="fa-solid fa-minus"></i> Separador</button>
+                <button class="btn btn-outline" onclick="countNoteWords()" style="font-size:0.8rem;"><i class="fa-solid fa-font"></i> Contar</button>
+            </div>
+            <div class="word-counter" id="noteWordCounter" style="display:none;"></div>
+            <textarea id="noteContent" class="note-editor" placeholder="Digite suas anotações aqui..." oninput="liveNoteCounter()"></textarea>
+            <div id="noteMarkdownPreview" class="md-preview" style="display:none; margin-top:8px; max-height:400px;"></div>
         </div>
     </section>
 
@@ -487,6 +563,10 @@
         <div class="glass-card w-full" style="max-width: 900px; margin: 0 auto;">
             <h3 style="color: var(--gold);"><i class="fa-solid fa-store"></i> Loja de Temas Ubuntu</h3>
             <p style="color: var(--text-muted); margin-bottom: 16px;">Temas com efeitos especiais animados. Desbloqueie com seu XP de estudo!</p>
+            <div style="display:flex;gap:10px;align-items:center;margin-bottom:16px;flex-wrap:wrap;">
+                <button class="btn btn-outline" onclick="openCustomThemeModal()" style="color:var(--gold);border-color:var(--gold);font-size:0.88rem;"><i class="fa-solid fa-wand-magic-sparkles"></i> Criar Tema Personalizado</button>
+                <div id="customThemeEquippedBadge" style="display:none;font-size:0.8rem;color:var(--gold);background:rgba(255,215,0,0.1);border:1px solid rgba(255,215,0,0.3);padding:5px 12px;border-radius:20px;"><i class="fa-solid fa-palette"></i> Tema Personalizado Ativo</div>
+            </div>
             <div class="tab-search-wrap">
                 <i class="fa-solid fa-search search-icon"></i>
                 <input class="tab-search-bar" type="text" id="storeSearchBar" placeholder="Pesquisar tema..." oninput="filterStore(this.value)">
@@ -801,6 +881,27 @@
             <div id="devlogNoResults" style="display:none; text-align:center; color:var(--text-muted); padding:30px 0;"><i class="fa-solid fa-circle-xmark" style="font-size:2rem; margin-bottom:8px; display:block;"></i>Nenhum resultado encontrado.</div>
             <div class="timeline" id="devlogTimeline">
 
+                <!-- v11.3.0 -->
+                <div class="timeline-item" data-version="v11.3.0">
+                    <div class="version-header">
+                        <span class="version-tag" style="background:linear-gradient(135deg,rgba(0,255,136,0.2),rgba(255,215,0,0.2));border:1px solid rgba(0,255,136,0.4);">v11.3.0</span>
+                        <h3>Aba de Comandos, Tema Personalizado, Novos Códigos & Melhorias da Notepad</h3>
+                        <span class="version-date">23 Jun 2026 — Atualização Atual</span>
+                    </div>
+                    <ul>
+                        <li><strong>Aba de Comandos (Command Palette):</strong> Nova paleta de comandos ativada com <kbd>Ctrl</kbd>+<kbd>B</kbd> — centraliza TODAS as funcionalidades do app em um só lugar. Navegação por teclado (↑↓ Enter), pesquisa em tempo real, agrupada por categoria (Navegação, Notas, Pomodoro, Sons, Temas, Calculadora, Sistema).</li>
+                        <li><strong>Criador de Tema Personalizado:</strong> Novo botão "Criar Tema Personalizado" na Loja de Temas — escolha cor de borda (8 presets + seletor livre), efeito de animação (Pulso, Brilho, Neon, Flutuante, Tremor, Rotação, Arco-Íris, Sem efeito) e nomeie o tema. Preview ao vivo antes de aplicar. Salva na loja para uso futuro.</li>
+                        <li><strong>Preview Markdown na Notepad:</strong> Botão "Preview MD" renderiza a anotação como Markdown — suporte a títulos, negrito, itálico, código, listas, citações, links e separadores.</li>
+                        <li><strong>Inserir Data/Hora:</strong> Botão na barra de ferramentas da Notepad insere timestamp formatado na posição do cursor.</li>
+                        <li><strong>Inserir Lista de Tópicos:</strong> Insere modelo de lista com bullets Markdown na nota.</li>
+                        <li><strong>Inserir Separador:</strong> Adiciona linha divisória --- na nota.</li>
+                        <li><strong>Contar Palavras:</strong> Exibe contagem de palavras, caracteres, caracteres sem espaços e linhas da nota.</li>
+                        <li><strong>Limpar Nota:</strong> Botão para apagar todo o conteúdo do editor com confirmação.</li>
+                        <li><strong>10 Novos Códigos:</strong> ULTRAXP500 (+500 XP), RICHGEEKIE (+250 moedas), NEONTHEME (Tema Neon), OCEANWAVE (Tema Ocean), MATRIX2026 (BG Matrix), GEEKIEPET (+150 moedas), TURBOBOOST (+200 XP +200 moedas), AURORA2026 (Tema Aurora), DARKMODE11 (Tema Dark), COMMANDS (+100 XP +50 moedas).</li>
+                        <li><strong>Versão Atualizada:</strong> Número de versão atualizado para v11.3.0 no título da página e na barra lateral.</li>
+                    </ul>
+                </div>
+
                 <!-- v11.2.0 -->
                 <div class="timeline-item" data-version="v11.2.0">
                     <div class="version-header">
@@ -1003,6 +1104,77 @@
     <div class="shortcut-row"><span><kbd>Alt</kbd>+<kbd>8</kbd></span><span>Flashcards</span></div>
     <div class="shortcut-row"><span><kbd>Alt</kbd>+<kbd>9</kbd></span><span>Sons Ambiente</span></div>
     <div class="shortcut-row"><span><kbd>Alt</kbd>+<kbd>0</kbd></span><span>Calculadora</span></div>
+</div>
+
+<!-- ========== COMMAND PALETTE (Aba de Comandos) ========== -->
+<div class="cmd-palette-overlay" id="cmdPaletteOverlay" onclick="if(event.target===this)closeCmdPalette()">
+    <div class="cmd-palette-box">
+        <div class="cmd-palette-search">
+            <i class="fa-solid fa-terminal"></i>
+            <input class="cmd-palette-input" id="cmdPaletteInput" type="text" placeholder="Digite um comando ou pesquise..." oninput="filterCmdPalette(this.value)" onkeydown="handleCmdKeys(event)" autocomplete="off" spellcheck="false">
+            <span class="cmd-palette-hint"><kbd>Esc</kbd> para fechar</span>
+        </div>
+        <div class="cmd-palette-list" id="cmdPaletteList"></div>
+        <div class="cmd-footer">
+            <span><kbd>↑</kbd><kbd>↓</kbd> navegar</span>
+            <span><kbd>Enter</kbd> executar</span>
+            <span><kbd>Ctrl</kbd>+<kbd>B</kbd> abrir/fechar</span>
+        </div>
+    </div>
+</div>
+
+<!-- ========== CRIADOR DE TEMA PERSONALIZADO ========== -->
+<div class="custom-theme-modal" id="customThemeModal">
+    <div class="custom-theme-box" style="position:relative;">
+        <button class="ct-close" onclick="closeCustomThemeModal()"><i class="fa-solid fa-xmark"></i></button>
+        <h2><i class="fa-solid fa-wand-magic-sparkles"></i> Criar Tema Personalizado</h2>
+        <p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:4px;">Escolha uma cor de borda, efeito de animação e nomeie seu tema.</p>
+
+        <div class="ct-section">
+            <label>Nome do Tema</label>
+            <input type="text" class="ct-name-input" id="ctThemeName" placeholder="Ex: Meu Tema Ultra" oninput="updateCtPreview()">
+        </div>
+
+        <div class="ct-section">
+            <label>Cor Principal da Borda</label>
+            <div class="ct-color-row">
+                <div class="ct-color-btn selected" style="background:#00ff88;" data-color="#00ff88" onclick="selectCtColor(this)"></div>
+                <div class="ct-color-btn" style="background:#00d4ff;" data-color="#00d4ff" onclick="selectCtColor(this)"></div>
+                <div class="ct-color-btn" style="background:#a78bfa;" data-color="#a78bfa" onclick="selectCtColor(this)"></div>
+                <div class="ct-color-btn" style="background:#ff4757;" data-color="#ff4757" onclick="selectCtColor(this)"></div>
+                <div class="ct-color-btn" style="background:#ffd700;" data-color="#ffd700" onclick="selectCtColor(this)"></div>
+                <div class="ct-color-btn" style="background:#f97316;" data-color="#f97316" onclick="selectCtColor(this)"></div>
+                <div class="ct-color-btn" style="background:#ec4899;" data-color="#ec4899" onclick="selectCtColor(this)"></div>
+                <div class="ct-color-btn" style="background:#34d399;" data-color="#34d399" onclick="selectCtColor(this)"></div>
+                <input type="color" class="ct-input-color" id="ctColorPicker" value="#00ff88" oninput="selectCtColorHex(this.value)" title="Cor personalizada">
+            </div>
+        </div>
+
+        <div class="ct-section">
+            <label>Efeito de Animação</label>
+            <div class="ct-effect-grid" id="ctEffectGrid">
+                <div class="ct-effect-btn selected" data-effect="pulse" onclick="selectCtEffect(this)">💓 Pulso</div>
+                <div class="ct-effect-btn" data-effect="glow" onclick="selectCtEffect(this)">✨ Brilho</div>
+                <div class="ct-effect-btn" data-effect="neon" onclick="selectCtEffect(this)">🌈 Neon</div>
+                <div class="ct-effect-btn" data-effect="float" onclick="selectCtEffect(this)">🌊 Flutuante</div>
+                <div class="ct-effect-btn" data-effect="shake" onclick="selectCtEffect(this)">⚡ Tremor</div>
+                <div class="ct-effect-btn" data-effect="spin" onclick="selectCtEffect(this)">🌀 Rotação</div>
+                <div class="ct-effect-btn" data-effect="rainbow" onclick="selectCtEffect(this)">🌈 Arco-Íris</div>
+                <div class="ct-effect-btn" data-effect="none" onclick="selectCtEffect(this)">⬜ Sem efeito</div>
+            </div>
+        </div>
+
+        <div class="ct-section">
+            <label>Preview do Tema</label>
+            <div class="ct-preview" id="ctPreview">Seu Tema Aparece Aqui</div>
+        </div>
+
+        <div style="display:flex;gap:10px;margin-top:20px;flex-wrap:wrap;">
+            <button class="btn btn-primary" onclick="applyCustomTheme()" style="flex:1;"><i class="fa-solid fa-check"></i> Aplicar Tema</button>
+            <button class="btn btn-outline" onclick="saveCustomThemeToStore()" style="flex:1;"><i class="fa-solid fa-floppy-disk"></i> Salvar na Loja</button>
+            <button class="btn btn-outline" onclick="closeCustomThemeModal()" style="color:var(--danger);border-color:var(--danger);"><i class="fa-solid fa-xmark"></i> Cancelar</button>
+        </div>
+    </div>
 </div>
 
 <audio id="alarmSound" src="https://cdn.pixabay.com/download/audio/2021/08/04/audio_c6ccf3232f.mp3?filename=bell-ringing-05-43026.mp3" preload="auto"></audio>
@@ -2000,6 +2172,17 @@ const codesData = [
     { code: 'FOCUSMODE',   label: 'FOCUSMODE',   desc: 'Desbloqueia o tema Ubuntu Forest exclusivamente.',   reward: 'Tema Forest',    icon: 'fa-leaf',       action: () => { if(!ownedThemes.includes('theme-ubuntu-forest')){ownedThemes.push('theme-ubuntu-forest');localStorage.setItem('geekieThemes',JSON.stringify(ownedThemes));} renderStore(); } },
     { code: 'NOVAERA25',   label: 'NOVAERA25',   desc: 'Celebre a nova era com 25 XP de bônus instantâneo.', reward: '+25 XP',        icon: 'fa-rocket',     action: () => { gainXP(25); } },
     { code: 'STUDYHUB',    label: 'STUDYHUB',    desc: 'Hub de estudos te recompensa com moedas extras.',    reward: '+30 Moedas',    icon: 'fa-graduation-cap', action: () => { earnCoins(30, 'Código STUDYHUB!'); } },
+    /* ===== 10 NOVOS CÓDIGOS v11.3.0 ===== */
+    { code: 'ULTRAXP500',  label: 'ULTRAXP500',  desc: 'Boost massivo de XP para acelerar sua progressão!',  reward: '+500 XP',        icon: 'fa-bolt',       action: () => { gainXP(500); } },
+    { code: 'RICHGEEKIE',  label: 'RICHGEEKIE',  desc: 'Encha o cofre — 250 moedas de presente!',            reward: '+250 Moedas',    icon: 'fa-coins',      action: () => { earnCoins(250, 'Código RICHGEEKIE!'); } },
+    { code: 'NEONTHEME',   label: 'NEONTHEME',   desc: 'Desbloqueia o tema vibrante Ubuntu Neon.',           reward: 'Tema Neon',      icon: 'fa-wand-sparkles', action: () => { if(!ownedThemes.includes('theme-ubuntu-neon')){ownedThemes.push('theme-ubuntu-neon');localStorage.setItem('geekieThemes',JSON.stringify(ownedThemes));} renderStore(); showToast('🌈 Tema Neon desbloqueado!'); } },
+    { code: 'OCEANWAVE',   label: 'OCEANWAVE',   desc: 'Libera o tema Ubuntu Ocean — calmo e poderoso.',     reward: 'Tema Ocean',     icon: 'fa-water',      action: () => { if(!ownedThemes.includes('theme-ubuntu-ocean')){ownedThemes.push('theme-ubuntu-ocean');localStorage.setItem('geekieThemes',JSON.stringify(ownedThemes));} renderStore(); showToast('🌊 Tema Ocean desbloqueado!'); } },
+    { code: 'MATRIX2026',  label: 'MATRIX2026',  desc: 'Acesse o fundo Matrix Rain sem gastar XP!',          reward: 'BG Matrix Rain', icon: 'fa-terminal',   action: () => { if(!ownedThemes.includes('theme-bg-matrix')){ownedThemes.push('theme-bg-matrix');localStorage.setItem('geekieThemes',JSON.stringify(ownedThemes));} renderStore(); showToast('🖥️ BG Matrix desbloqueado!'); } },
+    { code: 'GEEKIEPET',   label: 'GEEKIEPET',   desc: 'Turbina seu pet com 150 moedas extras para upgrades!', reward: '+150 Moedas',  icon: 'fa-paw',        action: () => { earnCoins(150, 'Código GEEKIEPET!'); } },
+    { code: 'TURBOBOOST',  label: 'TURBOBOOST',  desc: 'Pacote turbo — XP + moedas de uma vez!',             reward: '+200 XP +200 🪙', icon: 'fa-rocket',    action: () => { gainXP(200); earnCoins(200, 'Código TURBOBOOST!'); } },
+    { code: 'AURORA2026',  label: 'AURORA2026',  desc: 'Desbloqueia o espetacular tema Aurora Boreal.',       reward: 'Tema Aurora',   icon: 'fa-rainbow',    action: () => { if(!ownedThemes.includes('theme-ubuntu-aurora')){ownedThemes.push('theme-ubuntu-aurora');localStorage.setItem('geekieThemes',JSON.stringify(ownedThemes));} renderStore(); showToast('🌈 Tema Aurora desbloqueado!'); } },
+    { code: 'DARKMODE11',  label: 'DARKMODE11',  desc: 'Ativa o tema Ubuntu Dark — elegante e discreto.',    reward: 'Tema Dark',     icon: 'fa-skull',      action: () => { if(!ownedThemes.includes('theme-ubuntu-dark')){ownedThemes.push('theme-ubuntu-dark');localStorage.setItem('geekieThemes',JSON.stringify(ownedThemes));} renderStore(); showToast('🖤 Tema Dark desbloqueado!'); } },
+    { code: 'COMMANDS',    label: 'COMMANDS',    desc: 'Bônus especial por descobrir a Aba de Comandos!',    reward: '+100 XP +50 🪙', icon: 'fa-terminal',   action: () => { gainXP(100); earnCoins(50, 'Código COMMANDS!'); } },
 ];
 const secretCode = { code: 'ADM2026', action: () => { adminUnlocked = true; localStorage.setItem('geekieAdminUnlocked', '1'); showToast('🔐 Painel de Admin desbloqueado! Use Ctrl+Shift+A.'); } };
 
@@ -2229,6 +2412,355 @@ function setNoteSize(px) {
     const saved = parseInt(localStorage.getItem('geekieNoteSize') || '16');
     setNoteSize(saved);
 })();
+
+// ===================== NOVAS FUNCIONALIDADES DA NOTEPAD v11.3.0 =====================
+let mdPreviewActive = false;
+
+function toggleNoteMarkdown() {
+    mdPreviewActive = !mdPreviewActive;
+    const preview = document.getElementById('noteMarkdownPreview');
+    const editor = document.getElementById('noteContent');
+    const btn = document.getElementById('btnMdPreview');
+    if (mdPreviewActive) {
+        preview.style.display = 'block';
+        preview.innerHTML = renderMarkdown(editor.value);
+        btn.style.color = 'var(--primary)';
+        btn.style.borderColor = 'var(--primary)';
+    } else {
+        preview.style.display = 'none';
+        btn.style.color = '';
+        btn.style.borderColor = '';
+    }
+}
+
+function renderMarkdown(text) {
+    if (!text) return '<p style="color:var(--text-muted);">Nada para exibir.</p>';
+    let html = text
+        .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+        .replace(/```([\s\S]*?)```/g,'<pre><code>$1</code></pre>')
+        .replace(/`([^`]+)`/g,'<code>$1</code>')
+        .replace(/^### (.+)$/gm,'<h3>$1</h3>')
+        .replace(/^## (.+)$/gm,'<h2>$1</h2>')
+        .replace(/^# (.+)$/gm,'<h1>$1</h1>')
+        .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+        .replace(/\*(.+?)\*/g,'<em>$1</em>')
+        .replace(/^> (.+)$/gm,'<blockquote>$1</blockquote>')
+        .replace(/^---$/gm,'<hr>')
+        .replace(/^- (.+)$/gm,'<li>$1</li>')
+        .replace(/(<li>[\s\S]+?<\/li>)/g,'<ul>$1</ul>')
+        .replace(/\n\n/g,'<br><br>')
+        .replace(/\[([^\]]+)\]\(([^)]+)\)/g,'<a href="$2" target="_blank">$1</a>');
+    return html;
+}
+
+function liveNoteCounter() {
+    if (mdPreviewActive) {
+        const editor = document.getElementById('noteContent');
+        const preview = document.getElementById('noteMarkdownPreview');
+        if (preview) preview.innerHTML = renderMarkdown(editor.value);
+    }
+}
+
+function clearNoteContent() {
+    if (!confirm('Limpar todo o conteúdo desta nota?')) return;
+    const editor = document.getElementById('noteContent');
+    if (editor) { editor.value = ''; liveNoteCounter(); showToast('Conteúdo limpo!'); }
+}
+
+function insertNoteTimestamp() {
+    const editor = document.getElementById('noteContent');
+    if (!editor) return;
+    const now = new Date();
+    const stamp = `\n📅 ${now.toLocaleDateString('pt-BR')} às ${now.toLocaleTimeString('pt-BR')}\n`;
+    const pos = editor.selectionStart;
+    editor.value = editor.value.substring(0, pos) + stamp + editor.value.substring(editor.selectionEnd);
+    editor.selectionStart = editor.selectionEnd = pos + stamp.length;
+    editor.focus();
+    showToast('Data/hora inserida!');
+}
+
+function insertBulletList() {
+    const editor = document.getElementById('noteContent');
+    if (!editor) return;
+    const pos = editor.selectionStart;
+    const bullets = '\n- Item 1\n- Item 2\n- Item 3\n';
+    editor.value = editor.value.substring(0, pos) + bullets + editor.value.substring(editor.selectionEnd);
+    editor.selectionStart = editor.selectionEnd = pos + bullets.length;
+    editor.focus();
+    showToast('Lista inserida!');
+}
+
+function insertSeparator() {
+    const editor = document.getElementById('noteContent');
+    if (!editor) return;
+    const pos = editor.selectionStart;
+    const sep = '\n---\n';
+    editor.value = editor.value.substring(0, pos) + sep + editor.value.substring(editor.selectionEnd);
+    editor.selectionStart = editor.selectionEnd = pos + sep.length;
+    editor.focus();
+}
+
+function countNoteWords() {
+    const editor = document.getElementById('noteContent');
+    const counter = document.getElementById('noteWordCounter');
+    if (!editor || !counter) return;
+    const text = editor.value;
+    const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+    const chars = text.length;
+    const charsNoSpace = text.replace(/\s/g, '').length;
+    const lines = text.split('\n').length;
+    counter.style.display = 'flex';
+    counter.innerHTML = `<span><strong>${words}</strong> palavras</span><span><strong>${chars}</strong> caracteres</span><span><strong>${charsNoSpace}</strong> sem espaços</span><span><strong>${lines}</strong> linhas</span>`;
+    showToast('Contagem feita!');
+}
+
+// ===================== COMMAND PALETTE v11.3.0 =====================
+const cmdCommands = [
+    // Navegação
+    { group: 'Navegação', icon: 'fa-book-open', iconBg: 'rgba(0,212,255,0.15)', iconColor: '#00d4ff', label: 'Ir para Portal Geekie', desc: 'Abre o portal de estudos', shortcut: 'Alt+1', action: () => { switchTab('tab-geekie', document.querySelector('.nav-item')); closeCmdPalette(); } },
+    { group: 'Navegação', icon: 'fa-book-journal-whills', iconBg: 'rgba(0,255,136,0.15)', iconColor: '#00ff88', label: 'Ir para Bloco de Notas', desc: 'Editor de anotações com fontes e exportação', shortcut: 'Alt+2', action: () => { switchTab('tab-notes', null); closeCmdPalette(); } },
+    { group: 'Navegação', icon: 'fa-store', iconBg: 'rgba(255,215,0,0.15)', iconColor: '#ffd700', label: 'Ir para Loja de Temas', desc: 'Desbloqueie temas com seu XP', shortcut: 'Alt+3', action: () => { switchTab('tab-store', null); closeCmdPalette(); } },
+    { group: 'Navegação', icon: 'fa-crown', iconBg: 'rgba(167,139,250,0.15)', iconColor: '#a78bfa', label: 'Ir para Títulos', desc: 'Veja e equipe seus títulos', shortcut: 'Alt+4', action: () => { switchTab('tab-titles', null); closeCmdPalette(); } },
+    { group: 'Navegação', icon: 'fa-paw', iconBg: 'rgba(251,146,60,0.15)', iconColor: '#fb923c', label: 'Ir para Pets', desc: 'Gerencie seus pets de estudo', shortcut: 'Alt+5', action: () => { switchTab('tab-pets', null); closeCmdPalette(); } },
+    { group: 'Navegação', icon: 'fa-stopwatch', iconBg: 'rgba(0,212,255,0.15)', iconColor: '#00d4ff', label: 'Ir para Pomodoro Timer', desc: 'Timer de foco e pausas', shortcut: 'Alt+6', action: () => { switchTab('tab-timer', null); closeCmdPalette(); } },
+    { group: 'Navegação', icon: 'fa-list-check', iconBg: 'rgba(0,255,136,0.15)', iconColor: '#00ff88', label: 'Ir para Metas de Estudo', desc: 'Adicione e conclua metas', shortcut: 'Alt+7', action: () => { switchTab('tab-goals', null); closeCmdPalette(); } },
+    { group: 'Navegação', icon: 'fa-clone', iconBg: 'rgba(167,139,250,0.15)', iconColor: '#a78bfa', label: 'Ir para Flashcards', desc: 'Revisão ativa com cartões', shortcut: 'Alt+8', action: () => { switchTab('tab-flashcards', null); closeCmdPalette(); } },
+    { group: 'Navegação', icon: 'fa-headphones', iconBg: 'rgba(0,212,255,0.15)', iconColor: '#00d4ff', label: 'Ir para Sons Ambiente', desc: 'Ative sons para concentração', shortcut: 'Alt+9', action: () => { switchTab('tab-ambient', null); closeCmdPalette(); } },
+    { group: 'Navegação', icon: 'fa-calculator', iconBg: 'rgba(46,213,115,0.15)', iconColor: '#2ed573', label: 'Ir para Calculadora', desc: 'Calculadora científica', shortcut: 'Alt+0', action: () => { switchTab('tab-calculator', null); closeCmdPalette(); } },
+    { group: 'Navegação', icon: 'fa-keyboard', iconBg: 'rgba(0,212,255,0.15)', iconColor: '#00d4ff', label: 'Ir para Caracteres Úteis', desc: 'Símbolos matemáticos e científicos', shortcut: '', action: () => { switchTab('tab-chars', null); closeCmdPalette(); } },
+    { group: 'Navegação', icon: 'fa-calendar-star', iconBg: 'rgba(255,71,87,0.15)', iconColor: '#ff4757', label: 'Ir para Eventos do Mês', desc: 'Desafios e recompensas mensais', shortcut: '', action: () => { switchTab('tab-events', null); closeCmdPalette(); } },
+    { group: 'Navegação', icon: 'fa-code', iconBg: 'rgba(0,212,255,0.15)', iconColor: '#00d4ff', label: 'Ir para Códigos de Resgate', desc: 'Insira códigos para recompensas', shortcut: '', action: () => { switchTab('tab-codes', null); closeCmdPalette(); } },
+    { group: 'Navegação', icon: 'fa-clock-rotate-left', iconBg: 'rgba(148,163,184,0.15)', iconColor: '#94a3b8', label: 'Ir para Dev Log', desc: 'Histórico de versões', shortcut: '', action: () => { switchTab('tab-devlog', null); closeCmdPalette(); } },
+    // Notas
+    { group: 'Bloco de Notas', icon: 'fa-floppy-disk', iconBg: 'rgba(0,255,136,0.15)', iconColor: '#00ff88', label: 'Salvar Nota Atual', desc: 'Salva a anotação aberta', shortcut: '', action: () => { closeCmdPalette(); switchTab('tab-notes', null); setTimeout(saveNote, 200); } },
+    { group: 'Bloco de Notas', icon: 'fa-file-export', iconBg: 'rgba(0,212,255,0.15)', iconColor: '#00d4ff', label: 'Exportar Nota (.txt)', desc: 'Baixa a nota como arquivo de texto', shortcut: '', action: () => { closeCmdPalette(); switchTab('tab-notes', null); setTimeout(exportNote, 200); } },
+    { group: 'Bloco de Notas', icon: 'fa-brands fa-markdown', iconBg: 'rgba(167,139,250,0.15)', iconColor: '#a78bfa', label: 'Ativar Preview Markdown', desc: 'Renderiza a nota em Markdown', shortcut: '', action: () => { closeCmdPalette(); switchTab('tab-notes', null); setTimeout(toggleNoteMarkdown, 300); } },
+    { group: 'Bloco de Notas', icon: 'fa-clock', iconBg: 'rgba(251,146,60,0.15)', iconColor: '#fb923c', label: 'Inserir Data e Hora', desc: 'Insere timestamp na nota', shortcut: '', action: () => { closeCmdPalette(); switchTab('tab-notes', null); setTimeout(insertNoteTimestamp, 300); } },
+    { group: 'Bloco de Notas', icon: 'fa-list-ul', iconBg: 'rgba(0,255,136,0.15)', iconColor: '#00ff88', label: 'Inserir Lista de Tópicos', desc: 'Insere modelo de lista com bullets', shortcut: '', action: () => { closeCmdPalette(); switchTab('tab-notes', null); setTimeout(insertBulletList, 300); } },
+    { group: 'Bloco de Notas', icon: 'fa-font', iconBg: 'rgba(0,212,255,0.15)', iconColor: '#00d4ff', label: 'Contar Palavras/Caracteres', desc: 'Exibe estatísticas do texto', shortcut: '', action: () => { closeCmdPalette(); switchTab('tab-notes', null); setTimeout(countNoteWords, 300); } },
+    { group: 'Bloco de Notas', icon: 'fa-copy', iconBg: 'rgba(0,212,255,0.15)', iconColor: '#00d4ff', label: 'Copiar Conteúdo da Nota', desc: 'Copia o texto para área de transferência', shortcut: '', action: () => { closeCmdPalette(); switchTab('tab-notes', null); setTimeout(copyNoteContent, 300); } },
+    // Pomodoro
+    { group: 'Pomodoro', icon: 'fa-play', iconBg: 'rgba(0,255,136,0.15)', iconColor: '#00ff88', label: 'Iniciar Timer Pomodoro', desc: 'Começa a contagem de foco', shortcut: '', action: () => { closeCmdPalette(); switchTab('tab-timer', null); setTimeout(startTimer, 300); } },
+    { group: 'Pomodoro', icon: 'fa-pause', iconBg: 'rgba(255,71,87,0.15)', iconColor: '#ff4757', label: 'Pausar Timer', desc: 'Pausa o timer atual', shortcut: '', action: () => { closeCmdPalette(); pauseTimer(); } },
+    { group: 'Pomodoro', icon: 'fa-rotate-right', iconBg: 'rgba(148,163,184,0.15)', iconColor: '#94a3b8', label: 'Resetar Timer', desc: 'Volta ao início (25 min)', shortcut: '', action: () => { closeCmdPalette(); resetTimer(); } },
+    // Sons
+    { group: 'Sons Ambiente', icon: 'fa-stop', iconBg: 'rgba(255,71,87,0.15)', iconColor: '#ff4757', label: 'Parar Todos os Sons', desc: 'Silencia todos os sons ativos', shortcut: '', action: () => { closeCmdPalette(); stopAllAmbient(); } },
+    { group: 'Sons Ambiente', icon: 'fa-spa', iconBg: 'rgba(0,255,136,0.15)', iconColor: '#00ff88', label: 'Preset Relaxar', desc: 'Ativa sons de relaxamento', shortcut: '', action: () => { closeCmdPalette(); presetRelax(); } },
+    { group: 'Sons Ambiente', icon: 'fa-brain', iconBg: 'rgba(167,139,250,0.15)', iconColor: '#a78bfa', label: 'Preset Foco', desc: 'Ativa ruído marrom para foco', shortcut: '', action: () => { closeCmdPalette(); presetFocus(); } },
+    { group: 'Sons Ambiente', icon: 'fa-leaf', iconBg: 'rgba(22,163,74,0.15)', iconColor: '#16a34a', label: 'Preset Natureza', desc: 'Chuva, pássaros e vento', shortcut: '', action: () => { closeCmdPalette(); presetNature(); } },
+    // Temas
+    { group: 'Temas', icon: 'fa-wand-magic-sparkles', iconBg: 'rgba(255,215,0,0.15)', iconColor: '#ffd700', label: 'Criar Tema Personalizado', desc: 'Abre o criador de tema com cor e efeito', shortcut: '', action: () => { closeCmdPalette(); openCustomThemeModal(); } },
+    { group: 'Temas', icon: 'fa-square', iconBg: 'rgba(148,163,184,0.15)', iconColor: '#94a3b8', label: 'Aplicar Tema Padrão', desc: 'Remove qualquer tema ativo', shortcut: '', action: () => { closeCmdPalette(); equipTheme('theme-default'); } },
+    // Calculadora
+    { group: 'Calculadora', icon: 'fa-rotate-left', iconBg: 'rgba(255,71,87,0.15)', iconColor: '#ff4757', label: 'Limpar Calculadora', desc: 'Apaga a expressão atual (AC)', shortcut: '', action: () => { closeCmdPalette(); switchTab('tab-calculator', null); setTimeout(() => calcAction('clear'), 300); } },
+    // Sistema
+    { group: 'Sistema', icon: 'fa-expand', iconBg: 'rgba(0,212,255,0.15)', iconColor: '#00d4ff', label: 'Ativar Modo Zen', desc: 'Tela cheia sem distrações', shortcut: '', action: () => { closeCmdPalette(); toggleZenMode(); } },
+    { group: 'Sistema', icon: 'fa-bars', iconBg: 'rgba(148,163,184,0.15)', iconColor: '#94a3b8', label: 'Alternar Menu Lateral', desc: 'Mostra ou oculta a sidebar', shortcut: '', action: () => { closeCmdPalette(); sidebar.classList.toggle('collapsed'); } },
+    { group: 'Sistema', icon: 'fa-google', iconBg: 'rgba(234,67,53,0.15)', iconColor: '#ea4335', label: 'Ir para Google', desc: 'Abre o Google integrado', shortcut: '', action: () => { switchTab('tab-google', null); closeCmdPalette(); } },
+    { group: 'Sistema', icon: 'fa-pen-nib', iconBg: 'rgba(0,212,255,0.15)', iconColor: '#00d4ff', label: 'Personalizar Título da Página', desc: 'Muda nome, ícone e fonte da aba', shortcut: '', action: () => { switchTab('tab-title', null); closeCmdPalette(); } },
+    { group: 'Sistema', icon: 'fa-shield-halved', iconBg: 'rgba(255,71,87,0.15)', iconColor: '#ff4757', label: 'Abrir Painel de Admin', desc: 'Requer código ADM2026', shortcut: 'Ctrl+Shift+A', action: () => { closeCmdPalette(); openAdminPanel(); } },
+];
+
+let cmdActiveIndex = -1;
+let cmdFiltered = [...cmdCommands];
+
+function openCmdPalette() {
+    const overlay = document.getElementById('cmdPaletteOverlay');
+    const input = document.getElementById('cmdPaletteInput');
+    overlay.classList.add('open');
+    cmdActiveIndex = -1;
+    cmdFiltered = [...cmdCommands];
+    renderCmdPalette('');
+    setTimeout(() => { if(input) { input.value = ''; input.focus(); } }, 50);
+}
+
+function closeCmdPalette() {
+    document.getElementById('cmdPaletteOverlay').classList.remove('open');
+}
+
+function renderCmdPalette(query) {
+    const list = document.getElementById('cmdPaletteList');
+    if (!list) return;
+    const q = query.toLowerCase().trim();
+    if (q) {
+        cmdFiltered = cmdCommands.filter(c => c.label.toLowerCase().includes(q) || c.desc.toLowerCase().includes(q) || c.group.toLowerCase().includes(q));
+    } else {
+        cmdFiltered = [...cmdCommands];
+    }
+    if (!cmdFiltered.length) {
+        list.innerHTML = `<div class="cmd-empty"><i class="fa-solid fa-circle-xmark" style="display:block;font-size:2rem;margin-bottom:8px;color:var(--text-muted);"></i>Nenhum comando encontrado.</div>`;
+        return;
+    }
+    list.innerHTML = '';
+    let lastGroup = '';
+    cmdFiltered.forEach((cmd, idx) => {
+        if (cmd.group !== lastGroup) {
+            list.innerHTML += `<div class="cmd-group-label">${cmd.group}</div>`;
+            lastGroup = cmd.group;
+        }
+        const isActive = idx === cmdActiveIndex;
+        list.innerHTML += `<div class="cmd-item ${isActive ? 'cmd-active' : ''}" id="cmd-item-${idx}" onclick="executeCmdItem(${idx})">
+            <div class="cmd-item-icon" style="background:${cmd.iconBg};color:${cmd.iconColor};"><i class="fa-solid ${cmd.icon}"></i></div>
+            <div class="cmd-item-body">
+                <div class="cmd-item-label">${cmd.label}</div>
+                <div class="cmd-item-desc">${cmd.desc}</div>
+            </div>
+            ${cmd.shortcut ? `<div class="cmd-item-shortcut">${cmd.shortcut}</div>` : ''}
+        </div>`;
+    });
+}
+
+function filterCmdPalette(query) {
+    cmdActiveIndex = -1;
+    renderCmdPalette(query);
+}
+
+function handleCmdKeys(e) {
+    if (e.key === 'Escape') { closeCmdPalette(); return; }
+    if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        cmdActiveIndex = Math.min(cmdActiveIndex + 1, cmdFiltered.length - 1);
+        renderCmdPalette(document.getElementById('cmdPaletteInput').value);
+        scrollCmdItem(cmdActiveIndex);
+    } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        cmdActiveIndex = Math.max(cmdActiveIndex - 1, 0);
+        renderCmdPalette(document.getElementById('cmdPaletteInput').value);
+        scrollCmdItem(cmdActiveIndex);
+    } else if (e.key === 'Enter') {
+        if (cmdActiveIndex >= 0 && cmdFiltered[cmdActiveIndex]) {
+            cmdFiltered[cmdActiveIndex].action();
+        } else if (cmdFiltered.length > 0) {
+            cmdFiltered[0].action();
+        }
+    }
+}
+
+function scrollCmdItem(idx) {
+    const el = document.getElementById(`cmd-item-${idx}`);
+    if (el) el.scrollIntoView({ block: 'nearest' });
+}
+
+function executeCmdItem(idx) {
+    if (cmdFiltered[idx]) cmdFiltered[idx].action();
+}
+
+// ===================== CRIADOR DE TEMA PERSONALIZADO v11.3.0 =====================
+let ctSelectedColor = '#00ff88';
+let ctSelectedEffect = 'pulse';
+let customThemeActive = false;
+
+const ctAnimations = {
+    pulse: `@keyframes ctPulse{0%,100%{box-shadow:0 0 15px var(--custom-color,#00ff88),0 0 40px rgba(0,255,136,0.3);}50%{box-shadow:0 0 30px var(--custom-color,#00ff88),0 0 70px rgba(0,255,136,0.5);border-color:var(--custom-color,#00ff88);}} .theme-custom-user{animation:ctPulse 2s ease-in-out infinite;}`,
+    glow: `@keyframes ctGlow{0%,100%{box-shadow:0 0 20px var(--custom-color,#00ff88),0 0 50px rgba(0,255,136,0.2);}50%{box-shadow:0 0 40px var(--custom-color,#00ff88),0 0 90px rgba(0,255,136,0.4);}} .theme-custom-user{animation:ctGlow 3s ease-in-out infinite;}`,
+    neon: `@keyframes ctNeon{0%,100%{box-shadow:0 0 10px var(--custom-color,#00ff88),0 0 30px var(--custom-color,#00ff88),0 0 80px var(--custom-color,#00ff88);}50%{box-shadow:0 0 20px var(--custom-color,#00ff88),0 0 60px var(--custom-color,#00ff88),0 0 120px var(--custom-color,#00ff88);}} .theme-custom-user{animation:ctNeon 1.5s ease-in-out infinite;}`,
+    float: `@keyframes ctFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-5px);}} .theme-custom-user{animation:ctFloat 3s ease-in-out infinite;}`,
+    shake: `@keyframes ctShake{0%{transform:translate(0,0);}25%{transform:translate(0.7px,-0.7px);}50%{transform:translate(-0.7px,0.7px);}75%{transform:translate(0.7px,0.7px);}100%{transform:translate(0,0);}} .theme-custom-user{animation:ctShake 0.15s ease-in-out infinite;}`,
+    spin: `@keyframes ctSpin{0%{filter:hue-rotate(0deg);}100%{filter:hue-rotate(360deg);}} .theme-custom-user{animation:ctSpin 8s linear infinite;}`,
+    rainbow: `@keyframes ctRainbow{0%{border-color:#ff0000;box-shadow:0 0 15px #ff0000;}16%{border-color:#ff8800;box-shadow:0 0 15px #ff8800;}33%{border-color:#ffff00;box-shadow:0 0 15px #ffff00;}50%{border-color:#00ff00;box-shadow:0 0 15px #00ff00;}66%{border-color:#0088ff;box-shadow:0 0 15px #0088ff;}83%{border-color:#8800ff;box-shadow:0 0 15px #8800ff;}100%{border-color:#ff0000;box-shadow:0 0 15px #ff0000;}} .theme-custom-user{animation:ctRainbow 4s linear infinite;}`,
+    none: `.theme-custom-user{box-shadow:0 0 15px var(--custom-color,#00ff88);animation:none;}`
+};
+
+function openCustomThemeModal() {
+    document.getElementById('customThemeModal').classList.add('open');
+    updateCtPreview();
+}
+
+function closeCustomThemeModal() {
+    document.getElementById('customThemeModal').classList.remove('open');
+}
+
+function selectCtColor(el) {
+    document.querySelectorAll('.ct-color-btn').forEach(b => b.classList.remove('selected'));
+    el.classList.add('selected');
+    ctSelectedColor = el.dataset.color;
+    document.getElementById('ctColorPicker').value = ctSelectedColor;
+    updateCtPreview();
+}
+
+function selectCtColorHex(hex) {
+    ctSelectedColor = hex;
+    document.querySelectorAll('.ct-color-btn').forEach(b => b.classList.remove('selected'));
+    updateCtPreview();
+}
+
+function selectCtEffect(el) {
+    document.querySelectorAll('.ct-effect-btn').forEach(b => b.classList.remove('selected'));
+    el.classList.add('selected');
+    ctSelectedEffect = el.dataset.effect;
+    updateCtPreview();
+}
+
+function updateCtPreview() {
+    const preview = document.getElementById('ctPreview');
+    if (!preview) return;
+    const name = document.getElementById('ctThemeName').value || 'Meu Tema';
+    preview.style.border = `2px solid ${ctSelectedColor}`;
+    preview.style.boxShadow = `0 0 20px ${ctSelectedColor}66, 0 0 50px ${ctSelectedColor}22`;
+    preview.style.color = ctSelectedColor;
+    preview.textContent = name;
+}
+
+function injectCustomThemeStyle() {
+    let style = document.getElementById('customThemeStyle');
+    if (!style) { style = document.createElement('style'); style.id = 'customThemeStyle'; document.head.appendChild(style); }
+    style.textContent = `:root{--custom-color:${ctSelectedColor};} .theme-custom-user{border:2px solid ${ctSelectedColor} !important;} ${ctAnimations[ctSelectedEffect] || ctAnimations.pulse}`;
+}
+
+function applyCustomTheme() {
+    injectCustomThemeStyle();
+    const container = document.getElementById('geekieIframeContainer');
+    storeItems.forEach(item => container.classList.remove(item.id));
+    container.classList.remove('theme-custom-user');
+    void container.offsetWidth;
+    container.classList.add('theme-custom-user');
+    equippedTheme = 'theme-custom-user';
+    localStorage.setItem('geekieEquipped', 'theme-custom-user');
+    localStorage.setItem('geekieCustomColor', ctSelectedColor);
+    localStorage.setItem('geekieCustomEffect', ctSelectedEffect);
+    customThemeActive = true;
+    const badge = document.getElementById('customThemeEquippedBadge');
+    if (badge) badge.style.display = 'inline-flex';
+    closeCustomThemeModal();
+    showToast(`🎨 Tema "${document.getElementById('ctThemeName').value || 'Personalizado'}" aplicado!`);
+}
+
+function saveCustomThemeToStore() {
+    const name = document.getElementById('ctThemeName').value.trim() || 'Meu Tema';
+    const customId = 'theme-custom-user';
+    const existing = storeItems.find(s => s.id === customId);
+    const entry = { id: customId, name: `🎨 ${name}`, xpReq: 0, icon: 'fa-palette', desc: `Tema personalizado com cor ${ctSelectedColor} e efeito ${ctSelectedEffect}.`, color: ctSelectedColor, effect: 'Personalizado' };
+    if (existing) { Object.assign(existing, entry); } else { storeItems.push(entry); }
+    if (!ownedThemes.includes(customId)) ownedThemes.push(customId);
+    localStorage.setItem('geekieThemes', JSON.stringify(ownedThemes));
+    injectCustomThemeStyle();
+    applyCustomTheme();
+    renderStore();
+}
+
+// Restaurar tema personalizado ao carregar
+(function() {
+    const savedColor = localStorage.getItem('geekieCustomColor');
+    const savedEffect = localStorage.getItem('geekieCustomEffect');
+    if (savedColor) ctSelectedColor = savedColor;
+    if (savedEffect) ctSelectedEffect = savedEffect;
+    if (equippedTheme === 'theme-custom-user') {
+        injectCustomThemeStyle();
+        document.getElementById('geekieIframeContainer').classList.add('theme-custom-user');
+        const badge = document.getElementById('customThemeEquippedBadge');
+        if (badge) badge.style.display = 'inline-flex';
+    }
+})();
+
+// ===================== ATALHO Ctrl+B para Aba de Comandos =====================
+document.addEventListener('keydown', function(e) {
+    if (e.ctrlKey && e.key === 'b') {
+        e.preventDefault();
+        const overlay = document.getElementById('cmdPaletteOverlay');
+        if (overlay.classList.contains('open')) { closeCmdPalette(); }
+        else { openCmdPalette(); }
+    }
+});
 </script>
 </body>
 </html>
