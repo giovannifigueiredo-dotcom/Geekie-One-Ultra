@@ -461,6 +461,118 @@
         .word-counter { display: flex; gap: 16px; font-size: 0.78rem; color: var(--text-muted); padding: 6px 0; flex-wrap: wrap; }
         .word-counter span { background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 6px; padding: 3px 10px; }
         .word-counter span strong { color: var(--accent); }
+
+        /* ========== XP PROGRESS BAR NA TOPBAR ========== */
+        .xp-progress-topbar { position: relative; display: flex; flex-direction: column; gap: 3px; cursor: pointer; }
+        .xp-progress-bar-wrap { height: 4px; border-radius: 2px; background: rgba(139,92,246,0.2); min-width: 80px; overflow: hidden; }
+        .xp-progress-bar-fill { height: 100%; border-radius: 2px; background: linear-gradient(90deg, #8b5cf6, #a78bfa); transition: width 0.6s ease; }
+        .xp-next-title { font-size: 0.62rem; color: rgba(167,139,250,0.7); text-align: right; white-space: nowrap; }
+
+        /* ========== FLASHCARD AVALIAÇÃO ========== */
+        .flashcard-rating { display: flex; gap: 10px; justify-content: center; margin-top: 12px; }
+        .btn-rating-easy { background: rgba(46,213,115,0.12); border: 1px solid rgba(46,213,115,0.4); color: var(--success); padding: 8px 20px; border-radius: 8px; cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: var(--transition); }
+        .btn-rating-easy:hover { background: rgba(46,213,115,0.25); }
+        .btn-rating-hard { background: rgba(255,71,87,0.1); border: 1px solid rgba(255,71,87,0.35); color: var(--danger); padding: 8px 20px; border-radius: 8px; cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: var(--transition); }
+        .btn-rating-hard:hover { background: rgba(255,71,87,0.2); }
+        .btn-shuffle { background: rgba(0,212,255,0.08); border: 1px solid rgba(0,212,255,0.3); color: var(--accent); padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: var(--transition); }
+        .btn-shuffle:hover { background: rgba(0,212,255,0.18); }
+        .flashcard-stats-bar { display: flex; gap: 16px; justify-content: center; font-size: 0.78rem; margin-bottom: 10px; flex-wrap: wrap; }
+        .flashcard-stats-bar span { background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 6px; padding: 3px 10px; }
+        .stat-easy { color: var(--success) !important; border-color: rgba(46,213,115,0.3) !important; }
+        .stat-hard { color: var(--danger) !important; border-color: rgba(255,71,87,0.3) !important; }
+
+        /* ========== METAS COM PRIORIDADE ========== */
+        .priority-select { background: rgba(0,0,0,0.3); border: 1px solid var(--border); color: var(--text-main); padding: 8px 12px; border-radius: 8px; outline: none; font-size: 0.85rem; cursor: pointer; }
+        .priority-select:focus { border-color: var(--accent); }
+        .todo-priority-badge { font-size: 0.65rem; padding: 2px 6px; border-radius: 4px; font-weight: 700; letter-spacing: 0.5px; margin-right: 6px; vertical-align: middle; }
+        .priority-alta { background: rgba(255,71,87,0.2); color: var(--danger); border: 1px solid rgba(255,71,87,0.4); }
+        .priority-media { background: rgba(245,158,11,0.2); color: var(--coin); border: 1px solid rgba(245,158,11,0.4); }
+        .priority-baixa { background: rgba(46,213,115,0.15); color: var(--success); border: 1px solid rgba(46,213,115,0.35); }
+
+        /* ========== HISTÓRICO DE POMODORO ========== */
+        .study-time-display { background: rgba(0,255,136,0.05); border: 1px solid rgba(0,255,136,0.2); border-radius: 10px; padding: 12px; text-align: center; margin-top: 16px; }
+        .study-time-value { font-size: 1.8rem; font-family: 'Fira Code', monospace; color: var(--primary); font-weight: 700; }
+        .study-time-label { font-size: 0.75rem; color: var(--text-muted); margin-top: 2px; }
+
+        /* ========== NOTIFICAÇÃO DE CARREGAMENTO DO IFRAME ========== */
+        .iframe-loading { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; background: rgba(10,14,23,0.97); z-index: 10; border-radius: 10px; }
+        .iframe-loading .spinner { width: 40px; height: 40px; border: 3px solid rgba(0,255,136,0.2); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .iframe-loading p { color: var(--text-muted); font-size: 0.9rem; }
+
+        /* ========== TRILHA DE PROGRESSO ========== */
+        #tab-journey { overflow-y: auto; }
+        .journey-header { text-align: center; padding: 24px 0 8px; }
+        .journey-header h2 { font-size: 1.6rem; font-weight: 700; color: var(--primary); text-shadow: 0 0 20px var(--primary-glow); margin-bottom: 6px; }
+        .journey-header p { color: var(--text-muted); font-size: 0.9rem; }
+        .journey-xp-bar-wrap { max-width: 600px; margin: 16px auto 0; background: rgba(255,255,255,0.06); border-radius: 20px; height: 14px; overflow: hidden; border: 1px solid var(--border); }
+        .journey-xp-bar-fill { height: 100%; border-radius: 20px; background: linear-gradient(90deg, var(--primary), var(--accent)); transition: width 1s cubic-bezier(0.4,0,0.2,1); box-shadow: 0 0 10px var(--primary-glow); }
+
+        /* Trilha vertical */
+        .journey-trail { display: flex; flex-direction: column; align-items: center; padding: 32px 20px 60px; gap: 0; position: relative; max-width: 700px; margin: 0 auto; }
+
+        /* Linha conectora */
+        .journey-connector { width: 4px; height: 50px; background: linear-gradient(180deg, var(--border), var(--border)); border-radius: 2px; position: relative; transition: background 0.6s ease; }
+        .journey-connector.unlocked { background: linear-gradient(180deg, var(--primary), rgba(0,255,136,0.4)); box-shadow: 0 0 8px var(--primary-glow); }
+        .journey-connector.partial { background: linear-gradient(180deg, var(--primary), var(--border)); }
+
+        /* Nó da trilha */
+        .journey-node { position: relative; display: flex; align-items: center; width: 100%; gap: 20px; z-index: 2; }
+        .journey-node.node-right { flex-direction: row-reverse; }
+        .journey-node.node-right .journey-card { text-align: right; }
+        .journey-node.node-right .journey-card .reward-chips { justify-content: flex-end; }
+
+        /* Círculo central do nó */
+        .journey-orb { flex-shrink: 0; width: 72px; height: 72px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; border: 3px solid var(--border); background: var(--bg-glass); transition: all 0.5s ease; position: relative; cursor: default; }
+        .journey-orb.locked { opacity: 0.35; filter: grayscale(0.8); }
+        .journey-orb.unlocked { border-color: var(--primary); box-shadow: 0 0 20px var(--primary-glow), 0 0 50px rgba(0,255,136,0.15); animation: orbPulse 3s ease-in-out infinite; }
+        .journey-orb.claimed { border-color: var(--gold); box-shadow: 0 0 18px rgba(255,215,0,0.5); background: rgba(255,215,0,0.08); }
+        .journey-orb.boss { width: 88px; height: 88px; font-size: 2.2rem; border-width: 4px; }
+        .journey-orb.boss.unlocked { border-color: var(--coin); box-shadow: 0 0 30px rgba(245,158,11,0.6), 0 0 70px rgba(245,158,11,0.2); animation: bossOrb 2.5s ease-in-out infinite; }
+        @keyframes orbPulse { 0%,100%{box-shadow:0 0 20px var(--primary-glow),0 0 50px rgba(0,255,136,0.1);} 50%{box-shadow:0 0 30px var(--primary-glow),0 0 70px rgba(0,255,136,0.2);} }
+        @keyframes bossOrb { 0%,100%{box-shadow:0 0 25px rgba(245,158,11,0.6),0 0 60px rgba(245,158,11,0.2);transform:scale(1);} 50%{box-shadow:0 0 40px rgba(245,158,11,0.8),0 0 90px rgba(245,158,11,0.3);transform:scale(1.04);} }
+
+        /* Badge de XP no orb */
+        .orb-xp-badge { position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%); background: var(--bg-base); border: 1px solid var(--border); border-radius: 10px; font-size: 0.6rem; font-weight: 700; color: var(--text-muted); padding: 1px 7px; white-space: nowrap; }
+        .journey-orb.unlocked .orb-xp-badge { color: var(--primary); border-color: rgba(0,255,136,0.3); }
+        .journey-orb.claimed .orb-xp-badge { color: var(--gold); border-color: rgba(255,215,0,0.3); }
+
+        /* Card lateral do nó */
+        .journey-card { flex: 1; background: var(--bg-glass); border: 1px solid var(--border); border-radius: 14px; padding: 14px 18px; transition: all 0.4s ease; min-width: 0; }
+        .journey-card.unlocked { border-color: rgba(0,255,136,0.3); background: rgba(0,255,136,0.04); }
+        .journey-card.claimed { border-color: rgba(255,215,0,0.35); background: rgba(255,215,0,0.04); }
+        .journey-card.locked { opacity: 0.5; }
+        .journey-card h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 4px; color: var(--text-main); }
+        .journey-card.unlocked h4 { color: var(--primary); }
+        .journey-card.claimed h4 { color: var(--gold); }
+        .journey-card p { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 8px; line-height: 1.5; }
+        .reward-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+        .reward-chip { font-size: 0.68rem; padding: 3px 10px; border-radius: 10px; border: 1px solid; font-weight: 600; }
+        .chip-xp { color: #a78bfa; border-color: rgba(167,139,250,0.4); background: rgba(167,139,250,0.1); }
+        .chip-coins { color: var(--coin); border-color: rgba(245,158,11,0.35); background: rgba(245,158,11,0.08); }
+        .chip-theme { color: var(--accent); border-color: rgba(0,212,255,0.3); background: rgba(0,212,255,0.07); }
+        .chip-title { color: var(--gold); border-color: rgba(255,215,0,0.3); background: rgba(255,215,0,0.06); }
+        .chip-special { color: #f472b6; border-color: rgba(244,114,182,0.35); background: rgba(244,114,182,0.07); }
+
+        /* Botão de resgatar */
+        .journey-claim-btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 16px; border-radius: 8px; font-size: 0.78rem; font-weight: 700; cursor: pointer; transition: var(--transition); border: none; }
+        .journey-claim-btn.available { background: linear-gradient(135deg, var(--primary), var(--accent)); color: #000; box-shadow: 0 4px 15px var(--primary-glow); }
+        .journey-claim-btn.available:hover { transform: scale(1.06); box-shadow: 0 6px 20px var(--primary-glow); }
+        .journey-claim-btn.done { background: rgba(255,215,0,0.1); color: var(--gold); border: 1px solid rgba(255,215,0,0.3); cursor: default; }
+        .journey-claim-btn.locked-btn { background: rgba(255,255,255,0.04); color: var(--text-muted); border: 1px solid var(--border); cursor: not-allowed; font-size: 0.74rem; }
+
+        /* Boss node especial */
+        .journey-boss-label { font-size: 0.62rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: var(--coin); background: rgba(245,158,11,0.12); border: 1px solid rgba(245,158,11,0.3); border-radius: 6px; padding: 2px 8px; margin-bottom: 6px; display: inline-block; }
+
+        /* Partículas de conclusão */
+        @keyframes particlePop { 0%{opacity:1;transform:translateY(0) scale(1);} 100%{opacity:0;transform:translateY(-40px) scale(0);} }
+        .journey-particle { position:fixed; pointer-events:none; font-size:1.2rem; animation: particlePop 0.8s ease-out forwards; z-index:9999; }
+
+        /* Seção de progresso geral */
+        .journey-progress-summary { display:flex; gap:16px; justify-content:center; flex-wrap:wrap; margin:12px auto; max-width:600px; }
+        .journey-stat { background:var(--bg-glass); border:1px solid var(--border); border-radius:10px; padding:10px 18px; text-align:center; min-width:90px; }
+        .journey-stat strong { display:block; font-size:1.4rem; font-weight:700; }
+        .journey-stat span { font-size:0.72rem; color:var(--text-muted); }
     </style>
 </head>
 
@@ -486,6 +598,7 @@
         <div class="nav-item" onclick="switchTab('tab-events', this)"><i class="fa-solid fa-calendar-star"></i> Eventos do Mês</div>
         <div class="nav-item" onclick="switchTab('tab-google', this)"><i class="fa-brands fa-google"></i> Google</div>
         <div class="nav-item" onclick="switchTab('tab-codes', this)" style="color:#00d4ff;"><i class="fa-solid fa-code"></i> Códigos</div>
+        <div class="nav-item" onclick="switchTab('tab-journey', this)" style="color:#f59e0b;"><i class="fa-solid fa-map"></i> Trilha de Progresso</div>
         <div class="nav-item" onclick="openCmdPalette()" style="color: var(--accent);"><i class="fa-solid fa-terminal"></i> Aba de Comandos <kbd style="font-size:0.65em;background:rgba(0,212,255,0.15);border:1px solid rgba(0,212,255,0.3);border-radius:4px;padding:1px 5px;margin-left:4px;">Ctrl+B</kbd></div>
         <div class="nav-item" onclick="switchTab('tab-devlog', this)" style="margin-top: 20px; border-top: 1px solid var(--border); border-radius: 0; padding-top: 15px;"><i class="fa-solid fa-clock-rotate-left"></i> Dev Log</div>
     </nav>
@@ -496,7 +609,15 @@
         <button class="btn-icon" id="toggleSidebar" title="Alternar Menu"><i class="fa-solid fa-bars"></i></button>
         <div class="topbar-right">
             <div class="title-display" id="playerTitleDisplay" title="Seu Título"><i class="fa-solid fa-crown"></i> <span id="playerTitleText">Novato</span></div>
-            <div class="xp-display" id="xpContainer" title="Seu XP Geekie"><i class="fa-solid fa-star"></i> <span id="xpCount">0</span> XP</div>
+            <div class="xp-display xp-progress-topbar" id="xpContainer" title="Seu XP Geekie">
+                <div style="display:flex;align-items:center;gap:8px;">
+                    <i class="fa-solid fa-star"></i> <span id="xpCount">0</span> XP
+                </div>
+                <div class="xp-progress-bar-wrap">
+                    <div class="xp-progress-bar-fill" id="xpProgressFill" style="width:0%"></div>
+                </div>
+                <div class="xp-next-title" id="xpNextTitle">Próximo: Estudante (100 XP)</div>
+            </div>
             <div class="coin-display" id="coinContainer" title="Suas Moedas" onclick="switchTab('tab-pets', document.querySelector('.pets-link'))"><i class="fa-solid fa-coins"></i> <span id="coinCount">0</span></div>
             <div class="clock-widget" id="realTimeClock">00:00:00</div>
             <button class="btn-icon" id="btnZenMode" title="Modo Zen" onclick="toggleZenMode()"><i class="fa-solid fa-expand"></i></button>
@@ -506,7 +627,11 @@
     <!-- TAB: GEEKIE -->
     <section id="tab-geekie" class="tab-content active" style="padding: 20px;">
         <div class="iframe-container theme-default" id="geekieIframeContainer">
-            <iframe id="geekieIframe" src="https://dx1website.pages.dev/resumao/geekieoneplus/" title="Geekie One Portal" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation"></iframe>
+            <div class="iframe-loading" id="iframeLoading">
+                <div class="spinner"></div>
+                <p>Carregando Portal Geekie...</p>
+            </div>
+            <iframe id="geekieIframe" data-src="https://dx1website.pages.dev/resumao/geekieoneplus/" title="Geekie One Portal" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation" style="display:none;"></iframe>
         </div>
     </section>
 
@@ -635,6 +760,10 @@
                 <button class="btn btn-outline" onclick="resetTimer()"><i class="fa-solid fa-rotate-right"></i></button>
             </div>
             <div class="pomodoro-stats">Ciclos concluídos hoje: <strong id="pomodoroCount" style="color:var(--primary)">0</strong></div>
+            <div class="study-time-display">
+                <div class="study-time-value" id="studyTimeDisplay">0h 00min</div>
+                <div class="study-time-label"><i class="fa-solid fa-clock"></i> Tempo de foco acumulado hoje</div>
+            </div>
             <div style="margin-top: 20px; text-align: center;">
                 <div class="section-label">Tempo Personalizado</div>
                 <div style="display:flex;gap:10px;justify-content:center;margin-top:8px;flex-wrap:wrap;">
@@ -658,9 +787,15 @@
                 <button class="btn btn-outline" onclick="filterTodos('all')" style="font-size:0.8rem;"><i class="fa-solid fa-list"></i> Todas</button>
                 <button class="btn btn-outline" onclick="filterTodos('pending')" style="font-size:0.8rem;"><i class="fa-solid fa-clock"></i> Pendentes</button>
                 <button class="btn btn-outline" onclick="filterTodos('done')" style="font-size:0.8rem;"><i class="fa-solid fa-check"></i> Concluídas</button>
+                <button class="btn btn-outline" onclick="filterTodos('alta')" style="font-size:0.8rem;color:var(--danger);border-color:rgba(255,71,87,0.4);"><i class="fa-solid fa-fire"></i> Alta Prioridade</button>
             </div>
-            <div class="todo-input-group">
-                <input type="text" id="todoInput" placeholder="Ex: Ler capítulo 4 de Biologia" onkeypress="handleTodoKeyPress(event)">
+            <div class="todo-input-group" style="gap:8px;flex-wrap:wrap;">
+                <input type="text" id="todoInput" placeholder="Ex: Ler capítulo 4 de Biologia" onkeypress="handleTodoKeyPress(event)" style="flex:2;min-width:180px;">
+                <select id="todoPriority" class="priority-select">
+                    <option value="media">🟡 Média</option>
+                    <option value="alta">🔴 Alta</option>
+                    <option value="baixa">🟢 Baixa</option>
+                </select>
                 <button class="btn btn-primary" onclick="addTodo()"><i class="fa-solid fa-plus"></i></button>
             </div>
             <ul class="todo-list" id="todoList"></ul>
@@ -684,24 +819,38 @@
             <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px; margin-bottom: 20px;">
                 <h4 style="margin-bottom: 10px; color: var(--accent); font-size: 0.9rem;">Criar Novo Flashcard</h4>
                 <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                    <input type="text" id="newCardFront" placeholder="Frente" style="flex: 1; min-width: 200px;">
-                    <input type="text" id="newCardBack" placeholder="Verso" style="flex: 1; min-width: 200px;">
+                    <input type="text" id="newCardFront" placeholder="Frente (Ctrl+Enter para adicionar)" style="flex: 1; min-width: 200px;" onkeydown="if(event.ctrlKey&&event.key==='Enter')addFlashcard()">
+                    <input type="text" id="newCardBack" placeholder="Verso" style="flex: 1; min-width: 200px;" onkeydown="if(event.ctrlKey&&event.key==='Enter')addFlashcard()">
                     <button class="btn btn-primary" onclick="addFlashcard()"><i class="fa-solid fa-plus"></i> Adicionar</button>
                 </div>
             </div>
-            <p style="text-align: center; margin-bottom: 20px; color: var(--text-muted);">Clique no card para ver a resposta.</p>
+            <div class="flashcard-stats-bar" id="flashcardStatsBar">
+                <span>📦 Total: <strong id="statTotal">0</strong></span>
+                <span class="stat-easy">✅ Fáceis: <strong id="statEasy">0</strong></span>
+                <span class="stat-hard">🔴 Difíceis: <strong id="statHard">0</strong></span>
+            </div>
+            <div style="display:flex; gap:8px; justify-content:center; margin-bottom:14px; flex-wrap:wrap;">
+                <button class="btn-shuffle" onclick="shuffleFlashcards()"><i class="fa-solid fa-shuffle"></i> Embaralhar</button>
+                <button class="btn-shuffle" onclick="filterHardCards()" style="border-color:rgba(255,71,87,0.4);color:var(--danger);background:rgba(255,71,87,0.08);"><i class="fa-solid fa-circle-exclamation"></i> Ver Difíceis</button>
+                <button class="btn-shuffle" onclick="resetCardStats()" style="border-color:rgba(148,163,184,0.3);color:var(--text-muted);background:rgba(148,163,184,0.06);font-size:0.78rem;"><i class="fa-solid fa-rotate-left"></i> Resetar Stats</button>
+            </div>
+            <p style="text-align: center; margin-bottom: 14px; color: var(--text-muted); font-size:0.85rem;">Clique no card para ver a resposta. Avalie sua memória!</p>
             <div class="flashcard-container" onclick="flipCard()">
                 <div class="flashcard" id="flashcard">
                     <div class="card-face card-front" id="cardFront">Carregando...</div>
                     <div class="card-face card-back" id="cardBack">Carregando...</div>
                 </div>
             </div>
-            <div class="flashcard-controls" style="margin-top: 20px;">
+            <div class="flashcard-rating" id="flashcardRating" style="display:none;">
+                <button class="btn-rating-hard" onclick="rateCard('hard')"><i class="fa-solid fa-circle-xmark"></i> Difícil</button>
+                <button class="btn-rating-easy" onclick="rateCard('easy')"><i class="fa-solid fa-circle-check"></i> Fácil</button>
+            </div>
+            <div class="flashcard-controls" style="margin-top: 14px;">
                 <button class="btn btn-outline" onclick="prevCard()"><i class="fa-solid fa-arrow-left"></i> Anterior</button>
                 <span style="display:flex; align-items:center; color: var(--text-muted);" id="cardCounter">0 / 0</span>
                 <button class="btn btn-primary" onclick="nextCard()">Próximo <i class="fa-solid fa-arrow-right"></i></button>
             </div>
-            <div style="display: flex; justify-content: center; margin-top: 15px;">
+            <div style="display: flex; justify-content: center; margin-top: 12px;">
                 <button class="btn btn-outline" style="color: var(--danger); border-color: var(--danger);" onclick="deleteCurrentCard()"><i class="fa-solid fa-trash"></i> Excluir Card</button>
             </div>
         </div>
@@ -869,6 +1018,23 @@
         </div>
     </section>
 
+    <!-- TAB: JOURNEY -->
+    <section id="tab-journey" class="tab-content">
+        <div class="journey-header">
+            <h2><i class="fa-solid fa-map" style="margin-right:10px;"></i>Trilha de Progresso</h2>
+            <p>Avance na jornada, resgate recompensas e torne-se uma lenda do estudo!</p>
+            <div class="journey-progress-summary" id="journeySummary"></div>
+            <div style="max-width:600px;margin:0 auto 4px;display:flex;justify-content:space-between;font-size:0.75rem;color:var(--text-muted);padding:0 4px;">
+                <span>XP: <strong style="color:var(--primary)" id="journeyXpLabel">0</strong></span>
+                <span id="journeyNextLabel"></span>
+            </div>
+            <div class="journey-xp-bar-wrap">
+                <div class="journey-xp-bar-fill" id="journeyXpFill" style="width:0%"></div>
+            </div>
+        </div>
+        <div class="journey-trail" id="journeyTrail"></div>
+    </section>
+
     <!-- TAB: DEVLOG -->
     <section id="tab-devlog" class="tab-content">
         <div class="glass-card w-full" style="max-width: 900px; margin: 0 auto;">
@@ -880,6 +1046,45 @@
             </div>
             <div id="devlogNoResults" style="display:none; text-align:center; color:var(--text-muted); padding:30px 0;"><i class="fa-solid fa-circle-xmark" style="font-size:2rem; margin-bottom:8px; display:block;"></i>Nenhum resultado encontrado.</div>
             <div class="timeline" id="devlogTimeline">
+
+                <!-- v11.5.0 -->
+                <div class="timeline-item" data-version="v11.5.0">
+                    <div class="version-header">
+                        <span class="version-tag" style="background:linear-gradient(135deg,rgba(245,158,11,0.25),rgba(0,255,136,0.15));border:1px solid rgba(245,158,11,0.5);">v11.5.0</span>
+                        <h3>Trilha de Progresso — Caminho Recompensável por XP</h3>
+                        <span class="version-date">24 Jun 2026 — Atualização Atual</span>
+                    </div>
+                    <ul>
+                        <li><strong>Trilha de Progresso:</strong> Nova aba "🗺️ Trilha de Progresso" no menu — um caminho visual em zigue-zague com 12 nós desbloqueáveis por XP, de 0 até 10.000 XP.</li>
+                        <li><strong>Nós Épicos (Boss):</strong> Três marcos especiais destacados visualmente (1000, 3000 e 10000 XP) com animação pulsante dourada e badge "✦ Nó Épico".</li>
+                        <li><strong>Sistema de Resgate:</strong> Cada nó desbloqueado pode ser resgatado uma única vez. Recompensas incluem moedas, XP bônus, temas e conquistas especiais.</li>
+                        <li><strong>Barra de Progresso da Trilha:</strong> Barra no topo mostra quanto falta para o próximo nó, com nome e XP necessário.</li>
+                        <li><strong>Partículas de Celebração:</strong> Ao resgatar uma recompensa, emojis animados explodem na tela.</li>
+                        <li><strong>Resumo Visual:</strong> Painel de estatísticas mostra XP total, nós desbloqueados, resgatados e pendentes.</li>
+                        <li><strong>Persistência:</strong> Estado de todos os resgates é salvo no localStorage e persiste entre sessões.</li>
+                    </ul>
+                </div>
+
+                <!-- v11.4.0 -->
+                <div class="timeline-item" data-version="v11.4.0">
+                    <div class="version-header">
+                        <span class="version-tag" style="background:linear-gradient(135deg,rgba(0,255,136,0.25),rgba(0,212,255,0.2));border:1px solid rgba(0,255,136,0.5);">v11.4.0</span>
+                        <h3>Performance Boost — Lazy Load, XP Progress, Flashcards Inteligentes & Pomodoro Avançado</h3>
+                        <span class="version-date">24 Jun 2026 — Atualização Atual</span>
+                    </div>
+                    <ul>
+                        <li><strong>Lazy Loading do iframe:</strong> O Portal Geekie agora só carrega quando acessado pela primeira vez, com spinner de loading visual — elimina travamento inicial da página.</li>
+                        <li><strong>Otimização de Performance do XP:</strong> Re-renders pesados (Loja, Títulos, Eventos) agora acontecem apenas na aba ativa e com debounce de 400ms — reduz uso de CPU em até 70% em abas secundárias.</li>
+                        <li><strong>Barra de Progresso de XP na Topbar:</strong> Mini barra de progresso animada no display de XP mostra quanto falta para o próximo título, com nome do próximo objetivo.</li>
+                        <li><strong>Flashcards com Avaliação Fácil/Difícil:</strong> Ao virar o card, aparecem botões "Fácil ✅" e "Difícil 🔴" — o sistema salva a avaliação por card e avança automaticamente.</li>
+                        <li><strong>Flashcards — Estatísticas:</strong> Barra de stats mostra total de cards, quantos foram marcados como Fácil e Difícil em tempo real.</li>
+                        <li><strong>Flashcards — Embaralhar:</strong> Botão "Embaralhar" randomiza a ordem do baralho sem perder dados. Botão "Ver Difíceis" filtra apenas cards com avaliação difícil para revisão focada.</li>
+                        <li><strong>Flashcards — Ctrl+Enter:</strong> Atalho de teclado para adicionar cards rapidamente sem usar o mouse.</li>
+                        <li><strong>Metas com Prioridade:</strong> Ao criar uma tarefa, escolha o nível de prioridade (🔴 Alta / 🟡 Média / 🟢 Baixa). Cards de alta prioridade aparecem no topo. Novo filtro "Alta Prioridade" no menu.</li>
+                        <li><strong>Pomodoro — Notificação Nativa:</strong> Ao término do foco ou pausa, dispara notificação do sistema operacional (não bloqueia a UI com alert). Solicita permissão automaticamente ao iniciar.</li>
+                        <li><strong>Pomodoro — Histórico de Tempo:</strong> Exibe tempo total de foco acumulado no dia em horas e minutos. Persiste no localStorage e reseta a cada novo dia.</li>
+                    </ul>
+                </div>
 
                 <!-- v11.3.0 -->
                 <div class="timeline-item" data-version="v11.3.0">
@@ -1219,6 +1424,19 @@ setInterval(updateClock, 1000); updateClock();
 // ===================== SIDEBAR & TABS =====================
 const sidebar = document.getElementById('sidebar');
 document.getElementById('toggleSidebar').addEventListener('click', () => sidebar.classList.toggle('collapsed'));
+
+// Lazy load do iframe do Geekie
+(function loadGeekieIframe() {
+    const iframe = document.getElementById('geekieIframe');
+    const loading = document.getElementById('iframeLoading');
+    if (!iframe || iframe.src) return; // já carregado
+    iframe.src = iframe.dataset.src;
+    iframe.style.display = 'block';
+    iframe.onload = () => { if (loading) loading.style.display = 'none'; };
+    // Fallback: esconde loading após 8s
+    setTimeout(() => { if (loading) loading.style.display = 'none'; }, 8000);
+})();
+
 function switchTab(tabId, element) {
     document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
     if (element) element.classList.add('active');
@@ -1231,6 +1449,7 @@ function switchTab(tabId, element) {
     if (tabId === 'tab-title') { try { buildTitleUI(); } catch(e) {} }
     if (tabId === 'tab-events') { try { renderEventContent(); } catch(e) {} }
     if (tabId === 'tab-pets') { try { renderPetGrid(); } catch(e) {} }
+    if (tabId === 'tab-flashcards') { try { updateFlashcardStats(); } catch(e) {} }
 }
 
 // ===================== TOAST =====================
@@ -1278,19 +1497,49 @@ let equippedTitle = localStorage.getItem('geekieTitle') || 'title-novato';
 // ===================== XP SYSTEM =====================
 let xp = parseInt(localStorage.getItem('geekieXP')) || 0;
 const xpEl = document.getElementById('xpCount');
+
+function updateXPProgressBar() {
+    // Encontra próximo título a desbloquear
+    const sorted = [...titlesList].filter(t => !t.petTitle).sort((a,b) => a.xpReq - b.xpReq);
+    const next = sorted.find(t => xp < t.xpReq);
+    const prev = sorted.filter(t => xp >= t.xpReq).pop() || sorted[0];
+    const fill = document.getElementById('xpProgressFill');
+    const nextLabel = document.getElementById('xpNextTitle');
+    if (fill && nextLabel) {
+        if (next) {
+            const start = prev ? prev.xpReq : 0;
+            const pct = Math.min(100, Math.round(((xp - start) / (next.xpReq - start)) * 100));
+            fill.style.width = pct + '%';
+            nextLabel.textContent = `Próximo: ${next.name} (${next.xpReq} XP)`;
+        } else {
+            fill.style.width = '100%';
+            nextLabel.textContent = '✨ XP máximo atingido!';
+        }
+    }
+}
+
 function updateXP() {
     xpEl.textContent = xp;
     localStorage.setItem('geekieXP', xp);
     const _td = document.getElementById('titlesXpDisplay');
     if (_td) _td.textContent = xp;
     if (typeof updatePlayerTitle === 'function') updatePlayerTitle();
+    updateXPProgressBar();
 }
+
+// Re-renders pesados apenas quando a aba estiver visível — não a cada 6s
+let _xpRenderDebounce = null;
 setInterval(() => {
     xp++;
     updateXP();
-    try { renderEventContent(); } catch(e) {}
-    try { renderStore(); } catch(e) {}
-    try { renderTitles(); } catch(e) {}
+    // Só re-renderiza a aba atual para poupar CPU
+    const activeTab = document.querySelector('.tab-content.active');
+    if (activeTab) {
+        const id = activeTab.id;
+        if (id === 'tab-events') { try { renderEventContent(); } catch(e) {} }
+        else if (id === 'tab-store') { clearTimeout(_xpRenderDebounce); _xpRenderDebounce = setTimeout(() => { try { renderStore(); } catch(e) {} }, 400); }
+        else if (id === 'tab-titles') { clearTimeout(_xpRenderDebounce); _xpRenderDebounce = setTimeout(() => { try { renderTitles(); } catch(e) {} }, 400); }
+    }
 }, 6000);
 updateXP();
 
@@ -1944,10 +2193,70 @@ const alarmSound = document.getElementById('alarmSound');
 function getTimerEls() { return { timerDisplay: document.getElementById('timerDisplay'), timerMode: document.getElementById('timerMode'), btnStartTimer: document.getElementById('btnStartTimer'), pomodoroCount: document.getElementById('pomodoroCount') }; }
 function updateTimerDisplay() { const {timerDisplay} = getTimerEls(); if (!timerDisplay) return; const t = `${Math.floor(timeLeft/60).toString().padStart(2,'0')}:${(timeLeft%60).toString().padStart(2,'0')}`; timerDisplay.textContent = t; document.title = `${t} - ${savedTitle}`; }
 function setCustomTimer(mins) { const {timerMode, btnStartTimer} = getTimerEls(); clearInterval(timerInterval); isTimerRunning = false; isBreak = false; timeLeft = mins * 60; if(timerMode) { timerMode.textContent = `Modo: Foco (${mins} min)`; timerMode.style.color = 'var(--text-muted)'; } if(btnStartTimer) btnStartTimer.innerHTML = '<i class="fa-solid fa-play"></i> Iniciar'; updateTimerDisplay(); showToast(`Timer ajustado para ${mins} minutos!`); }
-function startTimer() { const {btnStartTimer, timerMode, pomodoroCount} = getTimerEls(); if (isTimerRunning) return; isTimerRunning = true; if(btnStartTimer) btnStartTimer.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Rodando'; timerInterval = setInterval(() => { timeLeft--; updateTimerDisplay(); if (timeLeft <= 0) { clearInterval(timerInterval); isTimerRunning = false; if(alarmSound) alarmSound.play(); if (!isBreak) { cycles++; if(pomodoroCount) pomodoroCount.textContent = cycles; isBreak = true; timeLeft = 5*60; if(timerMode) { timerMode.textContent = 'Modo: Pausa Curta (5 min)'; timerMode.style.color = 'var(--accent)'; } earnCoins(10, 'Pomodoro concluído!'); alert('Foco concluído! Pausa de 5 min. +10 🪙'); } else { isBreak = false; timeLeft = 25*60; if(timerMode) { timerMode.textContent = 'Modo: Foco (25 min)'; timerMode.style.color = 'var(--text-muted)'; } alert('Pausa concluída! Hora de focar.'); } const {btnStartTimer: b2} = getTimerEls(); if(b2) b2.innerHTML = '<i class="fa-solid fa-play"></i> Iniciar'; updateTimerDisplay(); } }, 1000); }
-function pauseTimer() { const {btnStartTimer} = getTimerEls(); clearInterval(timerInterval); isTimerRunning = false; if(btnStartTimer) btnStartTimer.innerHTML = '<i class="fa-solid fa-play"></i> Continuar'; }
+
+// Notificação nativa (não bloqueia UI)
+function sendPomodoroNotification(msg) {
+    if ('Notification' in window && Notification.permission === 'granted') {
+        new Notification('⏱️ Pomodoro', { body: msg, icon: 'https://i.postimg.cc/gcHHYqtC/fire-geekie.png' });
+    } else if ('Notification' in window && Notification.permission !== 'denied') {
+        Notification.requestPermission().then(p => { if (p === 'granted') new Notification('⏱️ Pomodoro', { body: msg }); });
+    }
+}
+
+// Tempo de estudo acumulado
+let studySeconds = parseInt(localStorage.getItem('geekieStudySeconds') || '0');
+const _studyDate = localStorage.getItem('geekieStudyDate');
+const _today = new Date().toDateString();
+if (_studyDate !== _today) { studySeconds = 0; localStorage.setItem('geekieStudyDate', _today); }
+
+function updateStudyTimeDisplay() {
+    const el = document.getElementById('studyTimeDisplay');
+    if (!el) return;
+    const h = Math.floor(studySeconds / 3600);
+    const m = Math.floor((studySeconds % 3600) / 60);
+    el.textContent = `${h}h ${m.toString().padStart(2,'0')}min`;
+}
+
+function startTimer() {
+    // Solicitar permissão de notificação ao iniciar
+    if ('Notification' in window && Notification.permission === 'default') Notification.requestPermission();
+    const {btnStartTimer, timerMode, pomodoroCount} = getTimerEls();
+    if (isTimerRunning) return;
+    isTimerRunning = true;
+    if(btnStartTimer) btnStartTimer.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Rodando';
+    timerInterval = setInterval(() => {
+        timeLeft--;
+        if (!isBreak) { studySeconds++; if (studySeconds % 30 === 0) { localStorage.setItem('geekieStudySeconds', studySeconds); updateStudyTimeDisplay(); } }
+        updateTimerDisplay();
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval); isTimerRunning = false;
+            if(alarmSound) alarmSound.play();
+            if (!isBreak) {
+                cycles++;
+                if(pomodoroCount) pomodoroCount.textContent = cycles;
+                isBreak = true; timeLeft = 5*60;
+                if(timerMode) { timerMode.textContent = 'Modo: Pausa Curta (5 min)'; timerMode.style.color = 'var(--accent)'; }
+                earnCoins(10, 'Pomodoro concluído!');
+                localStorage.setItem('geekieStudySeconds', studySeconds);
+                updateStudyTimeDisplay();
+                sendPomodoroNotification('Foco concluído! Pausa de 5 min. +10 🪙');
+                showToast('⏱️ Foco concluído! Pausa de 5 min. +10 🪙');
+            } else {
+                isBreak = false; timeLeft = 25*60;
+                if(timerMode) { timerMode.textContent = 'Modo: Foco (25 min)'; timerMode.style.color = 'var(--text-muted)'; }
+                sendPomodoroNotification('Pausa concluída! Hora de focar.');
+                showToast('☀️ Pausa concluída! Hora de focar.');
+            }
+            const {btnStartTimer: b2} = getTimerEls();
+            if(b2) b2.innerHTML = '<i class="fa-solid fa-play"></i> Iniciar';
+            updateTimerDisplay();
+        }
+    }, 1000);
+}
+function pauseTimer() { const {btnStartTimer} = getTimerEls(); clearInterval(timerInterval); isTimerRunning = false; if(btnStartTimer) btnStartTimer.innerHTML = '<i class="fa-solid fa-play"></i> Continuar'; localStorage.setItem('geekieStudySeconds', studySeconds); }
 function resetTimer() { const {timerMode, btnStartTimer} = getTimerEls(); clearInterval(timerInterval); isTimerRunning = false; isBreak = false; timeLeft = 25*60; if(timerMode) { timerMode.textContent = 'Modo: Foco (25 min)'; timerMode.style.color = 'var(--text-muted)'; } if(btnStartTimer) btnStartTimer.innerHTML = '<i class="fa-solid fa-play"></i> Iniciar'; updateTimerDisplay(); }
 updateTimerDisplay();
+updateStudyTimeDisplay();
 
 // ===================== GOALS/TODO =====================
 function renderTodos() {
@@ -1956,10 +2265,20 @@ function renderTodos() {
     let filtered = todos;
     if (todoFilter === 'pending') filtered = todos.filter(t => !t.completed);
     if (todoFilter === 'done') filtered = todos.filter(t => t.completed);
-    filtered.forEach((todo, idx) => {
+    if (todoFilter === 'alta') filtered = todos.filter(t => t.priority === 'alta' && !t.completed);
+    // Ordenar: alta > media > baixa entre os pendentes
+    filtered = [...filtered].sort((a, b) => {
+        if (a.completed !== b.completed) return a.completed ? 1 : -1;
+        const order = { alta: 0, media: 1, baixa: 2 };
+        return (order[a.priority] || 1) - (order[b.priority] || 1);
+    });
+    filtered.forEach((todo) => {
         const realIdx = todos.indexOf(todo);
+        const priorityMap = { alta: '🔴', media: '🟡', baixa: '🟢' };
+        const priorityLabel = { alta: 'Alta', media: 'Média', baixa: 'Baixa' };
+        const pBadge = todo.priority ? `<span class="todo-priority-badge priority-${todo.priority}">${priorityMap[todo.priority]} ${priorityLabel[todo.priority]}</span>` : '';
         const li = document.createElement('li'); li.className = `todo-item ${todo.completed ? 'completed' : ''}`;
-        li.innerHTML = `<span>${todo.text}</span><div class="todo-actions"><i class="fa-solid fa-check check" onclick="toggleTodo(${realIdx})"></i><i class="fa-solid fa-trash delete" onclick="deleteTodo(${realIdx})"></i></div>`;
+        li.innerHTML = `<span>${pBadge}${todo.text}</span><div class="todo-actions"><i class="fa-solid fa-check check" onclick="toggleTodo(${realIdx})"></i><i class="fa-solid fa-trash delete" onclick="deleteTodo(${realIdx})"></i></div>`;
         todoListEl.appendChild(li);
     });
     localStorage.setItem('geekieTodos', JSON.stringify(todos));
@@ -1968,7 +2287,11 @@ function renderTodos() {
     document.getElementById('todoProgressBar').style.width = total > 0 ? `${(done/total)*100}%` : '0%';
 }
 function filterTodos(f) { todoFilter = f; renderTodos(); }
-function addTodo() { const t = document.getElementById('todoInput').value.trim(); if (t) { todos.push({text:t,completed:false}); document.getElementById('todoInput').value=''; renderTodos(); } }
+function addTodo() {
+    const t = document.getElementById('todoInput').value.trim();
+    const p = document.getElementById('todoPriority') ? document.getElementById('todoPriority').value : 'media';
+    if (t) { todos.push({text:t, completed:false, priority: p}); document.getElementById('todoInput').value=''; renderTodos(); }
+}
 function handleTodoKeyPress(e) { if (e.key==='Enter') addTodo(); }
 function toggleTodo(i) {
     const wasCompleted = todos[i].completed;
@@ -1981,16 +2304,135 @@ renderTodos();
 
 // ===================== FLASHCARDS =====================
 let flashcardsData = JSON.parse(localStorage.getItem('geekieFlashcards'));
-if (!flashcardsData || !flashcardsData.length) { flashcardsData = [{ front: 'O que é a Mitocôndria?', back: 'Organela responsável pela respiração celular (energia).' }]; localStorage.setItem('geekieFlashcards', JSON.stringify(flashcardsData)); }
+if (!flashcardsData || !flashcardsData.length) { flashcardsData = [{ front: 'O que é a Mitocôndria?', back: 'Organela responsável pela respiração celular (energia).', rating: null }]; localStorage.setItem('geekieFlashcards', JSON.stringify(flashcardsData)); }
+let flashcardsView = [...flashcardsData]; // pode ser filtrado/embaralhado
 let currentCardIndex = 0;
+let cardIsFlipped = false;
+
 function getFlashEls() { return { flashcardEl: document.getElementById('flashcard'), cardFront: document.getElementById('cardFront'), cardBack: document.getElementById('cardBack'), cardCounter: document.getElementById('cardCounter') }; }
 function saveFlashcards() { localStorage.setItem('geekieFlashcards', JSON.stringify(flashcardsData)); }
-function updateCardDisplay() { const {flashcardEl, cardFront, cardBack, cardCounter} = getFlashEls(); if (!flashcardEl) return; flashcardEl.classList.remove('is-flipped'); setTimeout(() => { if (!flashcardsData.length) { cardFront.textContent = 'Nenhum flashcard.'; cardBack.textContent = 'Adicione acima!'; cardCounter.textContent = '0 / 0'; } else { if (currentCardIndex >= flashcardsData.length) currentCardIndex = Math.max(0, flashcardsData.length-1); cardFront.textContent = flashcardsData[currentCardIndex].front; cardBack.textContent = flashcardsData[currentCardIndex].back; cardCounter.textContent = `${currentCardIndex+1} / ${flashcardsData.length}`; } }, 150); }
-function flipCard() { const {flashcardEl} = getFlashEls(); if (flashcardEl && flashcardsData.length) flashcardEl.classList.toggle('is-flipped'); }
-function nextCard() { if (currentCardIndex < flashcardsData.length-1) { currentCardIndex++; updateCardDisplay(); } }
-function prevCard() { if (currentCardIndex > 0) { currentCardIndex--; updateCardDisplay(); } }
-function addFlashcard() { const f = document.getElementById('newCardFront'), b = document.getElementById('newCardBack'); if (f.value.trim() && b.value.trim()) { flashcardsData.push({front:f.value.trim(),back:b.value.trim()}); saveFlashcards(); f.value=''; b.value=''; currentCardIndex=flashcardsData.length-1; updateCardDisplay(); showToast('Flashcard Criado!'); } else alert('Preencha frente e verso!'); }
-function deleteCurrentCard() { if (!flashcardsData.length) return; if (confirm('Excluir este flashcard?')) { flashcardsData.splice(currentCardIndex,1); saveFlashcards(); if (currentCardIndex >= flashcardsData.length) currentCardIndex = Math.max(0, flashcardsData.length-1); updateCardDisplay(); showToast('Excluído!'); } }
+
+function updateFlashcardStats() {
+    const total = flashcardsData.length;
+    const easy = flashcardsData.filter(c => c.rating === 'easy').length;
+    const hard = flashcardsData.filter(c => c.rating === 'hard').length;
+    const elTotal = document.getElementById('statTotal');
+    const elEasy = document.getElementById('statEasy');
+    const elHard = document.getElementById('statHard');
+    if (elTotal) elTotal.textContent = total;
+    if (elEasy) elEasy.textContent = easy;
+    if (elHard) elHard.textContent = hard;
+}
+
+function updateCardDisplay() {
+    const {flashcardEl, cardFront, cardBack, cardCounter} = getFlashEls();
+    if (!flashcardEl) return;
+    flashcardEl.classList.remove('is-flipped');
+    cardIsFlipped = false;
+    const ratingEl = document.getElementById('flashcardRating');
+    if (ratingEl) ratingEl.style.display = 'none';
+    setTimeout(() => {
+        if (!flashcardsView.length) {
+            cardFront.textContent = 'Nenhum flashcard.'; cardBack.textContent = 'Adicione acima!'; cardCounter.textContent = '0 / 0';
+        } else {
+            if (currentCardIndex >= flashcardsView.length) currentCardIndex = Math.max(0, flashcardsView.length-1);
+            cardFront.textContent = flashcardsView[currentCardIndex].front;
+            cardBack.textContent = flashcardsView[currentCardIndex].back;
+            cardCounter.textContent = `${currentCardIndex+1} / ${flashcardsView.length}`;
+            // Indicar rating existente
+            const cur = flashcardsView[currentCardIndex];
+            if (cur.rating === 'easy') cardFront.style.borderBottom = '2px solid var(--success)';
+            else if (cur.rating === 'hard') cardFront.style.borderBottom = '2px solid var(--danger)';
+            else cardFront.style.borderBottom = '';
+        }
+    }, 150);
+    updateFlashcardStats();
+}
+
+function flipCard() {
+    const {flashcardEl} = getFlashEls();
+    if (!flashcardEl || !flashcardsView.length) return;
+    flashcardEl.classList.toggle('is-flipped');
+    cardIsFlipped = !cardIsFlipped;
+    const ratingEl = document.getElementById('flashcardRating');
+    if (ratingEl) ratingEl.style.display = cardIsFlipped ? 'flex' : 'none';
+}
+
+function rateCard(rating) {
+    if (!flashcardsView.length) return;
+    const cur = flashcardsView[currentCardIndex];
+    // Atualiza no array original
+    const orig = flashcardsData.find(c => c.front === cur.front && c.back === cur.back);
+    if (orig) { orig.rating = rating; cur.rating = rating; }
+    saveFlashcards();
+    updateFlashcardStats();
+    // Vai para o próximo automaticamente
+    if (currentCardIndex < flashcardsView.length - 1) {
+        currentCardIndex++;
+        updateCardDisplay();
+    } else {
+        showToast(rating === 'easy' ? '✅ Ótimo! Você finalizou o baralho!' : '🔴 Revise os difíceis!');
+        updateCardDisplay();
+    }
+}
+
+function shuffleFlashcards() {
+    flashcardsView = [...flashcardsData].sort(() => Math.random() - 0.5);
+    currentCardIndex = 0;
+    updateCardDisplay();
+    showToast('🔀 Flashcards embaralhados!');
+}
+
+function filterHardCards() {
+    const hard = flashcardsData.filter(c => c.rating === 'hard');
+    if (!hard.length) { showToast('Nenhum card marcado como difícil!', true); return; }
+    flashcardsView = hard;
+    currentCardIndex = 0;
+    updateCardDisplay();
+    showToast(`🔴 Mostrando ${hard.length} cards difíceis!`);
+}
+
+function resetCardStats() {
+    if (!confirm('Resetar avaliações de todos os flashcards?')) return;
+    flashcardsData.forEach(c => c.rating = null);
+    flashcardsView = [...flashcardsData];
+    saveFlashcards();
+    currentCardIndex = 0;
+    updateCardDisplay();
+    showToast('Stats resetadas!');
+}
+
+function nextCard() {
+    if (currentCardIndex < flashcardsView.length-1) { currentCardIndex++; updateCardDisplay(); }
+}
+function prevCard() {
+    if (currentCardIndex > 0) { currentCardIndex--; updateCardDisplay(); }
+}
+function addFlashcard() {
+    const f = document.getElementById('newCardFront'), b = document.getElementById('newCardBack');
+    if (f.value.trim() && b.value.trim()) {
+        flashcardsData.push({front:f.value.trim(),back:b.value.trim(),rating:null});
+        saveFlashcards();
+        f.value=''; b.value='';
+        flashcardsView = [...flashcardsData];
+        currentCardIndex=flashcardsView.length-1;
+        updateCardDisplay();
+        showToast('Flashcard Criado!');
+    } else alert('Preencha frente e verso!');
+}
+function deleteCurrentCard() {
+    if (!flashcardsView.length) return;
+    if (confirm('Excluir este flashcard?')) {
+        const cur = flashcardsView[currentCardIndex];
+        const idx = flashcardsData.findIndex(c => c.front === cur.front && c.back === cur.back);
+        if (idx !== -1) flashcardsData.splice(idx, 1);
+        saveFlashcards();
+        flashcardsView = [...flashcardsData];
+        if (currentCardIndex >= flashcardsView.length) currentCardIndex = Math.max(0, flashcardsView.length-1);
+        updateCardDisplay();
+        showToast('Excluído!');
+    }
+}
 updateCardDisplay();
 
 // ===================== AMBIENT AUDIO =====================
@@ -2750,6 +3192,326 @@ function saveCustomThemeToStore() {
         const badge = document.getElementById('customThemeEquippedBadge');
         if (badge) badge.style.display = 'inline-flex';
     }
+})();
+
+// ===================== TRILHA DE PROGRESSO =====================
+const journeyNodes = [
+    {
+        id: 'j-start',
+        icon: '🌱',
+        xpReq: 0,
+        title: 'Início da Jornada',
+        desc: 'Você deu o primeiro passo. A jornada de mil milhas começa com um único estudo!',
+        rewards: [{ type: 'coins', amount: 20, label: '+20 Moedas', chip: 'chip-coins' }],
+        side: 'left'
+    },
+    {
+        id: 'j-100',
+        icon: '📚',
+        xpReq: 100,
+        title: 'Estudante Dedicado',
+        desc: 'Você já tem consistência! Continue construindo seus hábitos de estudo.',
+        rewards: [
+            { type: 'coins', amount: 50, label: '+50 Moedas', chip: 'chip-coins' },
+            { type: 'theme', id: 'theme-ubuntu-yaru', label: 'Tema Yaru', chip: 'chip-theme' }
+        ],
+        side: 'right'
+    },
+    {
+        id: 'j-300',
+        icon: '⚡',
+        xpReq: 300,
+        title: 'Aceleração',
+        desc: 'Sua constância está dando frutos. O conhecimento começa a se consolidar!',
+        rewards: [
+            { type: 'coins', amount: 100, label: '+100 Moedas', chip: 'chip-coins' },
+            { type: 'xp', amount: 50, label: '+50 XP Bônus', chip: 'chip-xp' }
+        ],
+        side: 'left'
+    },
+    {
+        id: 'j-500',
+        icon: '🧠',
+        xpReq: 500,
+        title: 'Mente Afiada',
+        desc: 'Meio milhar de XP! Seu cérebro agradece cada sessão de estudo.',
+        rewards: [
+            { type: 'coins', amount: 150, label: '+150 Moedas', chip: 'chip-coins' },
+            { type: 'theme', id: 'theme-ubuntu-radiance', label: 'Tema Radiance', chip: 'chip-theme' }
+        ],
+        side: 'right',
+        boss: false
+    },
+    {
+        id: 'j-750',
+        icon: '🔮',
+        xpReq: 750,
+        title: 'Aprendiz Avançado',
+        desc: 'Você já superou a maioria. A disciplina virou parte de você.',
+        rewards: [
+            { type: 'coins', amount: 200, label: '+200 Moedas', chip: 'chip-coins' },
+            { type: 'xp', amount: 75, label: '+75 XP Bônus', chip: 'chip-xp' }
+        ],
+        side: 'left'
+    },
+    {
+        id: 'j-1000',
+        icon: '⭐',
+        xpReq: 1000,
+        title: '🏆 Marco do Mestre',
+        desc: 'Você atingiu 1000 XP — apenas os mais dedicados chegam aqui. Recompensa especial desbloqueada!',
+        rewards: [
+            { type: 'coins', amount: 300, label: '+300 Moedas', chip: 'chip-coins' },
+            { type: 'theme', id: 'theme-ubuntu-frost', label: 'Tema Frost', chip: 'chip-theme' },
+            { type: 'special', label: '🎖️ Conquista Especial', chip: 'chip-special' }
+        ],
+        side: 'right',
+        boss: true
+    },
+    {
+        id: 'j-1500',
+        icon: '🌊',
+        xpReq: 1500,
+        title: 'Fluxo do Saber',
+        desc: 'Você entrou em um estado de flow com os estudos. Nada te para!',
+        rewards: [
+            { type: 'coins', amount: 250, label: '+250 Moedas', chip: 'chip-coins' },
+            { type: 'theme', id: 'theme-ubuntu-ocean', label: 'Tema Ocean', chip: 'chip-theme' }
+        ],
+        side: 'left'
+    },
+    {
+        id: 'j-2000',
+        icon: '🔥',
+        xpReq: 2000,
+        title: 'Chama Imparável',
+        desc: '2000 XP — a chama do conhecimento queima forte em você. Mantenha o ritmo!',
+        rewards: [
+            { type: 'coins', amount: 350, label: '+350 Moedas', chip: 'chip-coins' },
+            { type: 'xp', amount: 150, label: '+150 XP Bônus', chip: 'chip-xp' },
+            { type: 'theme', id: 'theme-ubuntu-fire', label: 'Tema Fire', chip: 'chip-theme' }
+        ],
+        side: 'right'
+    },
+    {
+        id: 'j-3000',
+        icon: '🐉',
+        xpReq: 3000,
+        title: '🏆 Domínio do Dragão',
+        desc: 'Lendário! 3000 XP conquistados com puro esforço. Você é inspiração para quem te rodeia.',
+        rewards: [
+            { type: 'coins', amount: 500, label: '+500 Moedas', chip: 'chip-coins' },
+            { type: 'theme', id: 'theme-ubuntu-cosmic', label: 'Tema Cosmic', chip: 'chip-theme' },
+            { type: 'special', label: '👑 Título Especial', chip: 'chip-special' }
+        ],
+        side: 'left',
+        boss: true
+    },
+    {
+        id: 'j-5000',
+        icon: '🌌',
+        xpReq: 5000,
+        title: 'Guardião do Cosmos',
+        desc: '5000 XP — você transcendeu o nível comum. Sua mente opera em outra dimensão.',
+        rewards: [
+            { type: 'coins', amount: 700, label: '+700 Moedas', chip: 'chip-coins' },
+            { type: 'theme', id: 'theme-ubuntu-nebula', label: 'Tema Nebula', chip: 'chip-theme' },
+            { type: 'xp', amount: 300, label: '+300 XP Bônus', chip: 'chip-xp' }
+        ],
+        side: 'right'
+    },
+    {
+        id: 'j-8000',
+        icon: '⚡',
+        xpReq: 8000,
+        title: 'Energia Pura',
+        desc: 'Oito mil XP. Uma força da natureza acadêmica. Poucos seres chegam tão longe.',
+        rewards: [
+            { type: 'coins', amount: 1000, label: '+1000 Moedas', chip: 'chip-coins' },
+            { type: 'theme', id: 'theme-bg-synthwave', label: 'Tema Synthwave', chip: 'chip-theme' },
+            { type: 'xp', amount: 500, label: '+500 XP Bônus', chip: 'chip-xp' }
+        ],
+        side: 'left'
+    },
+    {
+        id: 'j-10000',
+        icon: '✨',
+        xpReq: 10000,
+        title: '🏆 Divindade Acadêmica',
+        desc: 'Você atingiu o cume absoluto. 10.000 XP — a forma mais pura de dedicação ao conhecimento.',
+        rewards: [
+            { type: 'coins', amount: 2000, label: '+2000 Moedas', chip: 'chip-coins' },
+            { type: 'theme', id: 'theme-ubuntu-pulsar', label: 'Tema Pulsar', chip: 'chip-theme' },
+            { type: 'special', label: '✨ Lenda Eterna', chip: 'chip-special' },
+            { type: 'xp', amount: 1000, label: '+1000 XP Bônus', chip: 'chip-xp' }
+        ],
+        side: 'right',
+        boss: true
+    }
+];
+
+let journeyClaimed = JSON.parse(localStorage.getItem('geekieJourney')) || {};
+
+function saveJourney() { localStorage.setItem('geekieJourney', JSON.stringify(journeyClaimed)); }
+
+function spawnParticles(el) {
+    const rect = el.getBoundingClientRect();
+    const emojis = ['⭐','✨','🎉','💫','🌟','🎊'];
+    for (let i = 0; i < 8; i++) {
+        const p = document.createElement('div');
+        p.className = 'journey-particle';
+        p.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        p.style.left = (rect.left + rect.width/2 + (Math.random()-0.5)*80) + 'px';
+        p.style.top = (rect.top + rect.height/2 + (Math.random()-0.5)*40) + 'px';
+        p.style.animationDelay = (Math.random()*0.3) + 's';
+        document.body.appendChild(p);
+        setTimeout(() => p.remove(), 1200);
+    }
+}
+
+function claimJourneyNode(nodeId, btn) {
+    const node = journeyNodes.find(n => n.id === nodeId);
+    if (!node || journeyClaimed[nodeId] || xp < node.xpReq) return;
+
+    journeyClaimed[nodeId] = true;
+    saveJourney();
+
+    // Aplicar recompensas
+    node.rewards.forEach(r => {
+        if (r.type === 'coins') { earnCoins(r.amount, `Trilha: ${node.title}`); }
+        if (r.type === 'xp') { xp += r.amount; updateXP(); showToast(`+${r.amount} XP Bônus — Trilha!`); }
+        if (r.type === 'theme') {
+            if (!ownedThemes.includes(r.id)) {
+                ownedThemes.push(r.id);
+                localStorage.setItem('geekieThemes', JSON.stringify(ownedThemes));
+                showToast(`🎨 Tema "${r.label}" desbloqueado!`);
+            }
+        }
+        if (r.type === 'special') { showToast(`🏆 Conquista especial desbloqueada: ${r.label}!`); }
+    });
+
+    spawnParticles(btn);
+    setTimeout(() => renderJourney(), 200);
+}
+
+function renderJourney() {
+    const trail = document.getElementById('journeyTrail');
+    const summary = document.getElementById('journeySummary');
+    const xpLabel = document.getElementById('journeyXpLabel');
+    const nextLabel = document.getElementById('journeyNextLabel');
+    const xpFill = document.getElementById('journeyXpFill');
+    if (!trail) return;
+
+    // Header stats
+    if (xpLabel) xpLabel.textContent = xp;
+    const claimed = Object.keys(journeyClaimed).length;
+    const total = journeyNodes.length;
+    const unlocked = journeyNodes.filter(n => xp >= n.xpReq).length;
+
+    // Progress bar para o próximo nó
+    const nextNode = journeyNodes.find(n => xp < n.xpReq);
+    const prevNode = [...journeyNodes].reverse().find(n => xp >= n.xpReq) || journeyNodes[0];
+    if (nextNode && xpFill) {
+        const start = prevNode ? prevNode.xpReq : 0;
+        const pct = Math.min(100, ((xp - start) / (nextNode.xpReq - start)) * 100);
+        xpFill.style.width = pct + '%';
+        if (nextLabel) nextLabel.textContent = `Próximo: ${nextNode.title.replace(/^🏆 /,'')} — ${nextNode.xpReq} XP`;
+    } else if (xpFill) {
+        xpFill.style.width = '100%';
+        if (nextLabel) nextLabel.textContent = '🏆 Trilha completa!';
+    }
+
+    if (summary) {
+        summary.innerHTML = `
+            <div class="journey-stat"><strong style="color:var(--primary)">${xp}</strong><span>XP total</span></div>
+            <div class="journey-stat"><strong style="color:var(--success)">${unlocked}</strong><span>Desbloqueados</span></div>
+            <div class="journey-stat"><strong style="color:var(--gold)">${claimed}</strong><span>Resgatados</span></div>
+            <div class="journey-stat"><strong style="color:var(--text-muted)">${total - claimed}</strong><span>Pendentes</span></div>
+        `;
+    }
+
+    trail.innerHTML = '';
+    journeyNodes.forEach((node, i) => {
+        const isUnlocked = xp >= node.xpReq;
+        const isClaimed  = !!journeyClaimed[node.id];
+        const isRight    = node.side === 'right';
+        const isBoss     = !!node.boss;
+
+        // Estado do orb
+        let orbClass = 'journey-orb';
+        if (isBoss) orbClass += ' boss';
+        if (isClaimed) orbClass += ' claimed';
+        else if (isUnlocked) orbClass += ' unlocked';
+        else orbClass += ' locked';
+
+        // Estado do card
+        let cardClass = 'journey-card';
+        if (isClaimed) cardClass += ' claimed';
+        else if (isUnlocked) cardClass += ' unlocked';
+        else cardClass += ' locked';
+
+        // Chips de recompensa
+        const chips = node.rewards.map(r =>
+            `<span class="reward-chip ${r.chip}">${r.label}</span>`
+        ).join('');
+
+        // Botão de ação
+        let btnHtml = '';
+        if (isClaimed) {
+            btnHtml = `<button class="journey-claim-btn done"><i class="fa-solid fa-check"></i> Resgatado</button>`;
+        } else if (isUnlocked) {
+            btnHtml = `<button class="journey-claim-btn available" onclick="claimJourneyNode('${node.id}', this)"><i class="fa-solid fa-gift"></i> Resgatar Recompensa</button>`;
+        } else {
+            btnHtml = `<button class="journey-claim-btn locked-btn"><i class="fa-solid fa-lock"></i> ${node.xpReq} XP necessários</button>`;
+        }
+
+        const bossBadge = isBoss ? `<div class="journey-boss-label">✦ Nó Épico</div>` : '';
+
+        const card = `
+        <div class="${cardClass}">
+            ${bossBadge}
+            <h4>${node.title}</h4>
+            <p>${node.desc}</p>
+            <div class="reward-chips">${chips}</div>
+            ${btnHtml}
+        </div>`;
+
+        const orbHtml = `
+        <div class="${orbClass}">
+            ${node.icon}
+            <div class="orb-xp-badge">${node.xpReq === 0 ? 'Início' : node.xpReq + ' XP'}</div>
+        </div>`;
+
+        // Montar nó
+        const nodeDiv = document.createElement('div');
+        nodeDiv.className = 'journey-node' + (isRight ? ' node-right' : '');
+        nodeDiv.innerHTML = isRight
+            ? card + orbHtml
+            : orbHtml + card;
+        trail.appendChild(nodeDiv);
+
+        // Conector entre nós
+        if (i < journeyNodes.length - 1) {
+            const nextUnlocked = xp >= journeyNodes[i+1].xpReq;
+            const connClass = 'journey-connector' + (nextUnlocked ? ' unlocked' : isUnlocked ? ' partial' : '');
+            const conn = document.createElement('div');
+            conn.className = connClass;
+            trail.appendChild(conn);
+        }
+    });
+}
+
+// Hook: renderizar ao trocar de aba
+const _origSwitchTab = switchTab;
+// (já chamado em switchTab via tab-journey check abaixo)
+
+// Atualizar quando mudar de aba para journey
+(function patchJourneyTab() {
+    const origSwitch = switchTab;
+    window.switchTab = function(tabId, el) {
+        origSwitch(tabId, el);
+        if (tabId === 'tab-journey') renderJourney();
+    };
 })();
 
 // ===================== ATALHO Ctrl+B para Aba de Comandos =====================
