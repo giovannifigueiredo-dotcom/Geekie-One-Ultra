@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Geekie One Ultra v12.0.0 - Study Hub</title>
+    <title>Geekie One Ultra v13.1.2 - Study Hub</title>
     <link rel="icon" id="pageIcon" href="https://i.postimg.cc/gcHHYqtC/fire-geekie.png">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&family=Orbitron:wght@400;700&family=Ubuntu:wght@400;500;700&family=Space+Grotesk:wght@400;600;700&family=Rajdhani:wght@400;600;700&family=JetBrains+Mono:wght@400;600&family=Caveat:wght@400;600;700&family=Patrick+Hand&family=Indie+Flower&family=Shadows+Into+Light&family=Kalam:wght@400;700&family=Architects+Daughter&family=Source+Code+Pro:wght@400;600&family=Comfortaa:wght@400;600;700&family=Quicksand:wght@400;600;700&family=Dancing+Script:wght@400;600;700&family=Nunito:wght@400;600;700&family=Josefin+Sans:wght@400;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -573,6 +573,31 @@
         .journey-stat { background:var(--bg-glass); border:1px solid var(--border); border-radius:10px; padding:10px 18px; text-align:center; min-width:90px; }
         .journey-stat strong { display:block; font-size:1.4rem; font-weight:700; }
         .journey-stat span { font-size:0.72rem; color:var(--text-muted); }
+
+        /* ========== JOURNEY HEADER (fix) ========== */
+        .journey-header { background: linear-gradient(135deg, rgba(0,255,136,0.06), rgba(0,212,255,0.04)); border-bottom: 1px solid rgba(0,255,136,0.12); padding: 24px 20px 18px; text-align: center; }
+        .journey-header h2 { font-size: 1.6rem; font-weight: 700; color: var(--primary); margin-bottom: 6px; text-shadow: 0 0 20px var(--primary-glow); }
+        .journey-header p { color: var(--text-muted); font-size: 0.88rem; margin-bottom: 14px; }
+        .journey-xp-bar-wrap { max-width: 600px; margin: 8px auto 0; height: 8px; background: rgba(0,255,136,0.1); border-radius: 10px; overflow: hidden; border: 1px solid rgba(0,255,136,0.15); }
+        .journey-xp-bar-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--accent)); border-radius: 10px; transition: width 1s cubic-bezier(0.4,0,0.2,1); box-shadow: 0 0 8px var(--primary-glow); }
+
+        /* ========== KEYBOARD SOUNDS TAB ========== */
+        .ks-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(185px, 1fr)); gap: 14px; margin-top: 18px; }
+        .ks-card { background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: 12px; padding: 18px; text-align: center; transition: var(--transition); display: flex; flex-direction: column; gap: 8px; position: relative; overflow: hidden; }
+        .ks-card::before { content:''; position:absolute; inset:0; background: linear-gradient(135deg, transparent, rgba(0,212,255,0.02)); pointer-events:none; }
+        .ks-card:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0,0,0,0.3); }
+        .ks-card.ks-active { border-color: var(--primary); background: rgba(0,255,136,0.05); box-shadow: 0 0 20px rgba(0,255,136,0.1), 0 8px 25px rgba(0,0,0,0.3); }
+        .ks-card.ks-active::after { content:''; position:absolute; bottom:0; left:0; right:0; height:3px; background: var(--primary); animation: ambientBar 1.5s ease-in-out infinite; }
+        .ks-card.ks-owned:not(.ks-active) { border-color: rgba(0,212,255,0.25); }
+        .ks-card.ks-locked { opacity: 0.6; }
+        .ks-icon { font-size: 2.2rem; display:block; }
+        .ks-card.ks-active .ks-icon { animation: petBounce 2s ease-in-out infinite; }
+        .ks-name { font-size: 0.95rem; font-weight: 700; color: var(--text-main); }
+        .ks-card.ks-active .ks-name { color: var(--primary); }
+        .ks-desc { font-size: 0.75rem; color: var(--text-muted); flex: 1; line-height:1.4; }
+        .ks-xp-req { font-size: 0.78rem; color: var(--text-muted); }
+        .ks-status-bar { background: rgba(0,255,136,0.06); border: 1px solid rgba(0,255,136,0.15); border-radius: 10px; padding: 12px 18px; margin-bottom: 18px; display: flex; align-items: center; gap: 12px; }
+        .ks-test-note { background:rgba(0,212,255,0.06); border:1px solid rgba(0,212,255,0.18); border-radius:10px; padding:12px 16px; margin-bottom:16px; font-size:0.82rem; color:var(--accent); }
 
         /* ========== FAB NAVIGATION BUTTON ========== */
         .fab-wrapper {
@@ -1502,12 +1527,30 @@
             <div id="devlogNoResults" style="display:none; text-align:center; color:var(--text-muted); padding:30px 0;"><i class="fa-solid fa-circle-xmark" style="font-size:2rem; margin-bottom:8px; display:block;"></i>Nenhum resultado encontrado.</div>
             <div class="timeline" id="devlogTimeline">
 
+                <!-- v13.1.2 -->
+                <div class="timeline-item" data-version="v13.1.2">
+                    <div class="version-header">
+                        <span class="version-tag" style="background:linear-gradient(135deg,rgba(0,255,136,0.38),rgba(0,212,255,0.3));border:1px solid rgba(0,255,136,0.75);font-size:1rem;box-shadow:0 0 18px rgba(0,255,136,0.25);">v13.1.2</span>
+                        <h3>Sons de Teclado, Correções de Abas &amp; Polimento Visual</h3>
+                        <span class="version-date">03 Ago 2026 — Atualização Atual</span>
+                    </div>
+                    <ul>
+                        <li><strong>🎹 Sons de Teclado (Nova Aba):</strong> Nova aba "Sons de Teclado" no menu Ferramentas. Sons magnéticos relaxantes inspirados nos teclados do Roblox (+1 Speed Keyboard Escape Candy and Chocolate) são tocados a cada pressionamento de tecla e clique do mouse. 10 sons únicos com texturas diferentes — Click Magnético, Toque Veludo, Cristal, Eco Profundo, Pop Magnético, Mola Suave, Bambu, Vidro, Gota de Chuva e Sino Zen. Todos gerados via Web Audio API, sem arquivos externos.</li>
+                        <li><strong>💰 XP para Desbloquear Sons:</strong> Cada som tem um custo em XP que é deduzido do total ao desbloquear (Click Magnético é gratuito). Custos variam de 50 XP (Toque Veludo) a 1000 XP (Sino Zen). Throttle de 28ms garante que sons não se sobreponham em digitação rápida. Painel Admin recebeu botão "Desbloquear Todos os Sons de Teclado" na aba Desbloqueios.</li>
+                        <li><strong>🗺️ Correção: Trilha de Progresso:</strong> Adicionados estilos CSS ausentes para <code>.journey-header</code>, <code>.journey-xp-bar-wrap</code> e <code>.journey-xp-bar-fill</code>. O cabeçalho com gradiente, XP label e barra de progresso visual agora exibem corretamente. Também corrigido para chamar <code>renderJourney()</code> no carregamento inicial.</li>
+                        <li><strong>⌨️ Correção: Aba de Comandos:</strong> Adicionada filtragem de teclas no ouvinte de sons para não interferir com atalhos Ctrl/Alt do sistema. Sons de teclado são ignorados quando Ctrl ou Alt estão pressionados, garantindo plena compatibilidade com Ctrl+B, Ctrl+Shift+A e Alt+0–9.</li>
+                        <li><strong>🔢 Correção: Aba de Códigos:</strong> Adicionado hook em <code>switchTab</code> para chamar <code>renderCodesGrid()</code> ao navegar para a aba, garantindo que a grade sempre exiba atualizada ao ser acessada pelo FAB ou pela Paleta de Comandos.</li>
+                        <li><strong>📋 Paleta de Comandos Expandida:</strong> Adicionados 3 comandos do grupo "Sons de Teclado" à paleta — "Ir para Sons de Teclado", "Desativar Som de Teclado" e "Ativar Click Magnético".</li>
+                        <li><strong>🔄 Versão Atualizada:</strong> Título da página, badge do FAB menu e savedTitle atualizados para v13.1.2.</li>
+                    </ul>
+                </div>
+
                 <!-- v12.0.0 -->
                 <div class="timeline-item" data-version="v12.0.0">
                     <div class="version-header">
                         <span class="version-tag" style="background:linear-gradient(135deg,rgba(0,255,136,0.3),rgba(0,212,255,0.25));border:1px solid rgba(0,255,136,0.6);font-size:1rem;">v12.0.0</span>
                         <h3>FAB Navigation, 4 Novas Ferramentas de Estudo & Painel ADM Expandido</h3>
-                        <span class="version-date">02 Jul 2026 — Atualização Atual</span>
+                        <span class="version-date">02 Jul 2026</span>
                     </div>
                     <ul>
                         <li><strong>Botão Flutuante (FAB) de Navegação:</strong> O painel lateral foi completamente substituído por um botão flutuante animado no canto inferior direito com estilo minimalista tecnológico. Ao passar o mouse, o ícone realiza um giro suave de 360°. Ao clicar, um menu expansível com todas as abas e funcionalidades se abre com animação de escala e fade. O botão possui um anel pulsante de fundo e efeito de brilho neon ao hover.</li>
@@ -1835,6 +1878,32 @@
         </div>
     </section>
 
+    <!-- TAB: SONS DE TECLADO -->
+    <section id="tab-keysounds" class="tab-content">
+        <div class="glass-card w-full" style="max-width: 900px; margin: 0 auto;">
+            <h3 style="color: var(--accent);"><i class="fa-solid fa-keyboard"></i> Sons de Teclado <span class="new-badge">NOVO</span></h3>
+            <p style="color: var(--text-muted); margin-bottom: 16px;">Sons magnéticos relaxantes ativados a cada tecla e clique — inspirados nos teclados do Roblox. Desbloqueie novos sons com XP!</p>
+
+            <div class="ks-status-bar">
+                <i class="fa-solid fa-music" style="color:var(--primary);font-size:1.3rem;flex-shrink:0;"></i>
+                <div style="flex:1;min-width:0;">
+                    <div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:2px;">Som Ativo</div>
+                    <div id="keySoundStatus" style="font-size:0.88rem;color:var(--text-main);">🔇 Sons desativados — selecione um som abaixo para ativar</div>
+                </div>
+                <button class="btn btn-outline" onclick="ksDeactivate()" style="font-size:0.78rem;color:var(--danger);border-color:rgba(255,71,87,0.4);flex-shrink:0;">
+                    <i class="fa-solid fa-volume-xmark"></i> Silenciar
+                </button>
+            </div>
+
+            <div class="ks-test-note">
+                <i class="fa-solid fa-info-circle"></i>
+                Sons suaves inspirados em teclados magnéticos do Roblox (+1 Speed Keyboard Escape). Cada som tem textura única, todos no mesmo registro relaxante. Sons custam XP para desbloquear — o primeiro é de graça!
+            </div>
+
+            <div id="keySoundsGrid" class="ks-grid"></div>
+        </div>
+    </section>
+
 </main>
 
 <!-- ========== ADMIN PANEL ========== -->
@@ -1923,6 +1992,10 @@
             <div class="admin-section">
                 <h4><i class="fa-solid fa-map" style="color:#f59e0b;"></i> Trilha de Progresso</h4>
                 <button class="btn btn-outline" onclick="adminClaimAllJourney()" style="font-size:0.82rem;color:#f59e0b;border-color:rgba(245,158,11,0.4);"><i class="fa-solid fa-gift"></i> Resgatar Todos os Nós da Trilha</button>
+            </div>
+            <div class="admin-section">
+                <h4><i class="fa-solid fa-keyboard" style="color:var(--primary);"></i> Sons de Teclado</h4>
+                <button class="btn btn-outline" onclick="adminUnlockAllSounds()" style="font-size:0.82rem;color:var(--primary);border-color:rgba(0,255,136,0.4);"><i class="fa-solid fa-unlock"></i> Desbloquear Todos os Sons de Teclado</button>
             </div>
         </div>
 
@@ -2073,7 +2146,7 @@
 // ===================== DATA DECLARATIONS =====================
 let todos = JSON.parse(localStorage.getItem('geekieTodos')) || [];
 let todoFilter = 'all';
-let savedTitle = localStorage.getItem('geekieTitleName') || 'Geekie One Ultra v12.0.0';
+let savedTitle = localStorage.getItem('geekieTitleName') || 'Geekie One Ultra v13.1.2';
 let selectedFont = localStorage.getItem('geekieTitleFont') || 'Poppins';
 let selectedIcon = localStorage.getItem('geekieTitleIcon') || 'fa-graduation-cap';
 const availableFonts = [
@@ -2133,6 +2206,8 @@ function switchTab(tabId, element) {
     if (tabId === 'tab-events') { try { renderEventContent(); } catch(e) {} }
     if (tabId === 'tab-pets') { try { renderPetGrid(); } catch(e) {} }
     if (tabId === 'tab-flashcards') { try { updateFlashcardStats(); } catch(e) {} }
+    if (tabId === 'tab-keysounds') { try { renderKeySoundsTab(); } catch(e) {} }
+    if (tabId === 'tab-codes') { try { renderCodesGrid(); } catch(e) {} }
 }
 
 // ===================== TOAST =====================
@@ -3684,6 +3759,10 @@ const cmdCommands = [
     { group: 'Sistema', icon: 'fa-google', iconBg: 'rgba(234,67,53,0.15)', iconColor: '#ea4335', label: 'Ir para Google', desc: 'Abre o Google integrado', shortcut: '', action: () => { switchTab('tab-google', null); closeCmdPalette(); } },
     { group: 'Sistema', icon: 'fa-pen-nib', iconBg: 'rgba(0,212,255,0.15)', iconColor: '#00d4ff', label: 'Personalizar Título da Página', desc: 'Muda nome, ícone e fonte da aba', shortcut: '', action: () => { switchTab('tab-title', null); closeCmdPalette(); } },
     { group: 'Sistema', icon: 'fa-shield-halved', iconBg: 'rgba(255,71,87,0.15)', iconColor: '#ff4757', label: 'Abrir Painel de Admin', desc: 'Requer código ADM2026', shortcut: 'Ctrl+Shift+A', action: () => { closeCmdPalette(); openAdminPanel(); } },
+    // Sons de Teclado
+    { group: 'Sons de Teclado', icon: 'fa-keyboard', iconBg: 'rgba(0,255,136,0.15)', iconColor: '#00ff88', label: 'Ir para Sons de Teclado', desc: 'Sons magnéticos relaxantes a cada tecla e clique', shortcut: '', action: () => { switchTab('tab-keysounds', null); closeCmdPalette(); setTimeout(renderKeySoundsTab, 50); } },
+    { group: 'Sons de Teclado', icon: 'fa-volume-xmark', iconBg: 'rgba(255,71,87,0.15)', iconColor: '#ff4757', label: 'Desativar Som de Teclado', desc: 'Silencia os sons de tecla', shortcut: '', action: () => { closeCmdPalette(); ksDeactivate(); } },
+    { group: 'Sons de Teclado', icon: 'fa-play', iconBg: 'rgba(0,212,255,0.15)', iconColor: '#00d4ff', label: 'Ativar Click Magnético (grátis)', desc: 'Som padrão de teclado magnético', shortcut: '', action: () => { closeCmdPalette(); ksSelectSound('ks-click'); } },
 ];
 
 let cmdActiveIndex = -1;
@@ -4188,13 +4267,268 @@ function renderJourney() {
 const _origSwitchTab = switchTab;
 // (já chamado em switchTab via tab-journey check abaixo)
 
-// Atualizar quando mudar de aba para journey
+// ===================== SONS DE TECLADO =====================
+const keySoundsData = [
+    { id: 'ks-click',  name: 'Click Magnético', desc: 'Som clássico de teclado magnético — suave e relaxante',      icon: '⌨️', xpCost: 0    },
+    { id: 'ks-soft',   name: 'Toque Veludo',    desc: 'Toque macio e acolchoado, ideal para sessões longas',          icon: '🌸', xpCost: 50   },
+    { id: 'ks-crystal',name: 'Cristal',          desc: 'Tom cristalino e etéreo que limpa a mente',                   icon: '💎', xpCost: 100  },
+    { id: 'ks-deep',   name: 'Eco Profundo',    desc: 'Click grave e ressonante, como uma câmara escura',             icon: '🔊', xpCost: 150  },
+    { id: 'ks-pop',    name: 'Pop Magnético',   desc: 'Pop satisfatório de tecla magnética de alta qualidade',        icon: '🧲', xpCost: 200  },
+    { id: 'ks-spring', name: 'Mola Suave',      desc: 'Vibração leve como uma mola — ritmo perfeito de escrita',      icon: '🌀', xpCost: 300  },
+    { id: 'ks-bamboo', name: 'Bambu',           desc: 'Toque orgânico e natural de bambu, tom quente e acolhedor',    icon: '🎋', xpCost: 400  },
+    { id: 'ks-glass',  name: 'Vidro',           desc: 'Tintinar delicado de vidro fino, suave e elegante',            icon: '🔮', xpCost: 500  },
+    { id: 'ks-rain',   name: 'Gota de Chuva',  desc: 'Som relaxante de gota d\'água sobre uma superfície suave',      icon: '💧', xpCost: 700  },
+    { id: 'ks-zen',    name: 'Sino Zen',        desc: 'Sino tibetano para foco e meditação profunda',                 icon: '🔔', xpCost: 1000 },
+];
+
+let keySoundActive = localStorage.getItem('geekieKeySound') || 'none';
+let keySoundUnlocked = JSON.parse(localStorage.getItem('geekieKeySoundsUnlocked') || '["ks-click"]');
+let ksAudioCtx = null;
+let ksLastSoundTime = 0;
+const KS_THROTTLE_MS = 28;
+
+function ksGetCtx() {
+    if (!ksAudioCtx || ksAudioCtx.state === 'closed') {
+        ksAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if (ksAudioCtx.state === 'suspended') ksAudioCtx.resume();
+    return ksAudioCtx;
+}
+
+const ksSoundGenerators = {
+    'ks-click': function(ctx) {
+        var o = ctx.createOscillator(), g = ctx.createGain();
+        o.connect(g); g.connect(ctx.destination);
+        o.type = 'square';
+        var t = ctx.currentTime;
+        o.frequency.setValueAtTime(1400, t);
+        o.frequency.exponentialRampToValueAtTime(380, t + 0.025);
+        g.gain.setValueAtTime(0.13, t);
+        g.gain.exponentialRampToValueAtTime(0.001, t + 0.07);
+        o.start(t); o.stop(t + 0.07);
+    },
+    'ks-soft': function(ctx) {
+        var o = ctx.createOscillator(), g = ctx.createGain(), f = ctx.createBiquadFilter();
+        o.connect(f); f.connect(g); g.connect(ctx.destination);
+        f.type = 'lowpass'; f.frequency.value = 700;
+        o.type = 'sine';
+        var t = ctx.currentTime;
+        o.frequency.setValueAtTime(550, t);
+        o.frequency.exponentialRampToValueAtTime(180, t + 0.07);
+        g.gain.setValueAtTime(0.18, t);
+        g.gain.exponentialRampToValueAtTime(0.001, t + 0.12);
+        o.start(t); o.stop(t + 0.12);
+    },
+    'ks-crystal': function(ctx) {
+        var o1 = ctx.createOscillator(), o2 = ctx.createOscillator(), g = ctx.createGain();
+        o1.connect(g); o2.connect(g); g.connect(ctx.destination);
+        o1.type = 'sine'; o2.type = 'sine';
+        var t = ctx.currentTime;
+        o1.frequency.value = 2100; o2.frequency.value = 4200;
+        g.gain.setValueAtTime(0.07, t);
+        g.gain.exponentialRampToValueAtTime(0.001, t + 0.3);
+        o1.start(t); o1.stop(t + 0.3); o2.start(t); o2.stop(t + 0.3);
+    },
+    'ks-deep': function(ctx) {
+        var o = ctx.createOscillator(), g = ctx.createGain();
+        o.connect(g); g.connect(ctx.destination);
+        o.type = 'sawtooth';
+        var t = ctx.currentTime;
+        o.frequency.setValueAtTime(210, t);
+        o.frequency.exponentialRampToValueAtTime(55, t + 0.12);
+        g.gain.setValueAtTime(0.18, t);
+        g.gain.exponentialRampToValueAtTime(0.001, t + 0.18);
+        o.start(t); o.stop(t + 0.18);
+    },
+    'ks-pop': function(ctx) {
+        var o = ctx.createOscillator(), g = ctx.createGain();
+        o.connect(g); g.connect(ctx.destination);
+        o.type = 'square';
+        var t = ctx.currentTime;
+        o.frequency.setValueAtTime(820, t);
+        o.frequency.exponentialRampToValueAtTime(280, t + 0.035);
+        g.gain.setValueAtTime(0.11, t);
+        g.gain.exponentialRampToValueAtTime(0.001, t + 0.055);
+        o.start(t); o.stop(t + 0.055);
+    },
+    'ks-spring': function(ctx) {
+        var o = ctx.createOscillator(), g = ctx.createGain();
+        o.connect(g); g.connect(ctx.destination);
+        o.type = 'sine';
+        var t = ctx.currentTime;
+        o.frequency.setValueAtTime(350, t);
+        o.frequency.linearRampToValueAtTime(750, t + 0.018);
+        o.frequency.exponentialRampToValueAtTime(180, t + 0.14);
+        g.gain.setValueAtTime(0.14, t);
+        g.gain.exponentialRampToValueAtTime(0.001, t + 0.16);
+        o.start(t); o.stop(t + 0.16);
+    },
+    'ks-bamboo': function(ctx) {
+        var sr = ctx.sampleRate;
+        var buf = ctx.createBuffer(1, Math.ceil(sr * 0.07), sr);
+        var d = buf.getChannelData(0);
+        for (var i = 0; i < d.length; i++) d[i] = (Math.random()*2-1) * Math.pow(1 - i/d.length, 6);
+        var src = ctx.createBufferSource(), bp = ctx.createBiquadFilter(), g = ctx.createGain();
+        src.buffer = buf; src.connect(bp); bp.connect(g); g.connect(ctx.destination);
+        bp.type = 'bandpass'; bp.frequency.value = 1100; bp.Q.value = 2.2;
+        g.gain.setValueAtTime(2.0, ctx.currentTime);
+        src.start(ctx.currentTime);
+    },
+    'ks-glass': function(ctx) {
+        var o = ctx.createOscillator(), g = ctx.createGain();
+        o.connect(g); g.connect(ctx.destination);
+        o.type = 'sine';
+        var t = ctx.currentTime;
+        o.frequency.value = 3600;
+        g.gain.setValueAtTime(0.06, t);
+        g.gain.exponentialRampToValueAtTime(0.001, t + 0.35);
+        o.start(t); o.stop(t + 0.35);
+    },
+    'ks-rain': function(ctx) {
+        var o = ctx.createOscillator(), g = ctx.createGain();
+        o.connect(g); g.connect(ctx.destination);
+        o.type = 'sine';
+        var t = ctx.currentTime;
+        o.frequency.setValueAtTime(1900, t);
+        o.frequency.exponentialRampToValueAtTime(500, t + 0.09);
+        g.gain.setValueAtTime(0.11, t);
+        g.gain.exponentialRampToValueAtTime(0.001, t + 0.11);
+        o.start(t); o.stop(t + 0.11);
+    },
+    'ks-zen': function(ctx) {
+        var o1 = ctx.createOscillator(), o2 = ctx.createOscillator(), g = ctx.createGain();
+        o1.connect(g); o2.connect(g); g.connect(ctx.destination);
+        o1.type = 'sine'; o2.type = 'sine';
+        var t = ctx.currentTime;
+        o1.frequency.value = 432; o2.frequency.value = 540;
+        g.gain.setValueAtTime(0.0, t);
+        g.gain.linearRampToValueAtTime(0.1, t + 0.015);
+        g.gain.exponentialRampToValueAtTime(0.001, t + 0.9);
+        o1.start(t); o1.stop(t + 0.9); o2.start(t); o2.stop(t + 0.9);
+    },
+};
+
+function ksPlaySound() {
+    if (keySoundActive === 'none') return;
+    var now = performance.now();
+    if (now - ksLastSoundTime < KS_THROTTLE_MS) return;
+    ksLastSoundTime = now;
+    try {
+        var ctx = ksGetCtx();
+        var gen = ksSoundGenerators[keySoundActive];
+        if (gen) gen(ctx);
+    } catch(e) {}
+}
+
+document.addEventListener('keydown', function(e) {
+    // Skip pure modifier keys, function keys — don't interfere with system shortcuts
+    if (['Control','Shift','Alt','Meta','CapsLock','Tab',
+         'F1','F2','F3','F4','F5','F6','F7','F8','F9','F10','F11','F12'].includes(e.key)) return;
+    // Skip Ctrl/Alt combos (app shortcuts like Ctrl+B, Ctrl+Shift+A, Alt+1..9)
+    if (e.ctrlKey || e.altKey) return;
+    ksPlaySound();
+});
+
+document.addEventListener('mousedown', function() {
+    ksPlaySound();
+});
+
+function ksSelectSound(id) {
+    keySoundActive = id;
+    localStorage.setItem('geekieKeySound', id);
+    renderKeySoundsTab();
+    setTimeout(ksPlaySound, 60);
+}
+
+function ksDeactivate() {
+    keySoundActive = 'none';
+    localStorage.setItem('geekieKeySound', 'none');
+    try { renderKeySoundsTab(); } catch(e) {}
+    showToast('🔇 Sons de teclado desativados.');
+}
+
+function ksUnlock(id) {
+    var s = keySoundsData.find(function(x){ return x.id === id; });
+    if (!s) return;
+    if (xp < s.xpCost) { showToast('XP insuficiente! Precisa de ' + s.xpCost + ' XP.', true); return; }
+    if (!keySoundUnlocked.includes(id)) {
+        xp -= s.xpCost;
+        updateXP();
+        keySoundUnlocked.push(id);
+        localStorage.setItem('geekieKeySoundsUnlocked', JSON.stringify(keySoundUnlocked));
+        try { adminLog('Som desbloqueado: ' + s.name + ' (−' + s.xpCost + ' XP)'); } catch(e) {}
+    }
+    ksSelectSound(id);
+    showToast('🎹 "' + s.name + '" desbloqueado e ativado!');
+}
+
+function adminUnlockAllSounds() {
+    keySoundsData.forEach(function(s) {
+        if (!keySoundUnlocked.includes(s.id)) keySoundUnlocked.push(s.id);
+    });
+    localStorage.setItem('geekieKeySoundsUnlocked', JSON.stringify(keySoundUnlocked));
+    try { renderKeySoundsTab(); } catch(e) {}
+    showToast('🎹 Todos os sons de teclado desbloqueados!');
+    try { adminLog('Admin: Todos os sons de teclado desbloqueados'); } catch(e) {}
+}
+
+function renderKeySoundsTab() {
+    var grid = document.getElementById('keySoundsGrid');
+    if (!grid) return;
+    // Ensure free sound is always owned
+    if (!keySoundUnlocked.includes('ks-click')) {
+        keySoundUnlocked.push('ks-click');
+        localStorage.setItem('geekieKeySoundsUnlocked', JSON.stringify(keySoundUnlocked));
+    }
+    var html = '';
+    keySoundsData.forEach(function(s) {
+        var isOwned = keySoundUnlocked.includes(s.id) || s.xpCost === 0;
+        var isActive = keySoundActive === s.id;
+        var canBuy = !isOwned && xp >= s.xpCost;
+        var btnHtml = '';
+        if (isActive) {
+            btnHtml = '<button class="btn btn-outline w-full" disabled style="border-color:var(--primary);color:var(--primary);margin-top:4px;width:100%;"><i class="fa-solid fa-check"></i> Ativo</button>' +
+                      '<button class="btn btn-outline w-full" onclick="ksDeactivate()" style="color:var(--danger);border-color:rgba(255,71,87,0.4);margin-top:4px;font-size:0.75rem;width:100%;"><i class="fa-solid fa-volume-xmark"></i> Desativar</button>';
+        } else if (isOwned) {
+            btnHtml = '<button class="btn btn-primary" onclick="ksSelectSound(\'' + s.id + '\')" style="margin-top:4px;width:100%;"><i class="fa-solid fa-play"></i> Ativar</button>';
+        } else if (canBuy) {
+            btnHtml = '<button class="btn btn-outline" onclick="ksUnlock(\'' + s.id + '\')" style="color:var(--accent);border-color:var(--accent);margin-top:4px;width:100%;"><i class="fa-solid fa-lock-open"></i> Desbloquear (−' + s.xpCost + ' XP)</button>';
+        } else {
+            btnHtml = '<button disabled style="width:100%;margin-top:4px;background:rgba(0,0,0,0.25);border:1px solid var(--border);color:var(--text-muted);border-radius:8px;padding:8px;cursor:not-allowed;font-size:0.82rem;"><i class="fa-solid fa-lock"></i> ' + s.xpCost + ' XP</button>';
+        }
+        html += '<div class="ks-card' + (isActive ? ' ks-active' : '') + (isOwned ? ' ks-owned' : ' ks-locked') + '">' +
+            '<span class="ks-icon">' + s.icon + '</span>' +
+            '<div class="ks-name">' + s.name + '</div>' +
+            '<div class="ks-desc">' + s.desc + '</div>' +
+            '<div class="ks-xp-req">' + (s.xpCost === 0 ? '<span style="color:var(--success);">✅ Grátis</span>' : '<i class="fa-solid fa-star" style="color:#a78bfa;font-size:0.72rem;"></i> Custa <strong>' + s.xpCost + '</strong> XP') + '</div>' +
+            btnHtml + '</div>';
+    });
+    grid.innerHTML = html;
+    var statusEl = document.getElementById('keySoundStatus');
+    if (statusEl) {
+        var active = keySoundsData.find(function(s){ return s.id === keySoundActive; });
+        statusEl.innerHTML = active
+            ? active.icon + ' <strong>' + active.name + '</strong> ativo — sons tocam a cada tecla e clique'
+            : '<strong>🔇 Sons desativados</strong> — selecione um som abaixo para ativar';
+    }
+}
+
+// Initialize
+keySoundActive = localStorage.getItem('geekieKeySound') || 'none';
+keySoundUnlocked = JSON.parse(localStorage.getItem('geekieKeySoundsUnlocked') || '["ks-click"]');
+
+// ===================== FIM DOS SONS DE TECLADO =====================
+
+// Atualizar quando mudar de aba para journey (e inicializar no carregamento)
 (function patchJourneyTab() {
     const origSwitch = switchTab;
     window.switchTab = function(tabId, el) {
         origSwitch(tabId, el);
         if (tabId === 'tab-journey') renderJourney();
+        if (tabId === 'tab-keysounds') renderKeySoundsTab();
     };
+    // Render journey on initial page load (para o caso de ir direto pela URL hash)
+    try { renderJourney(); } catch(e) {}
 })();
 
 // ===================== ATALHO Ctrl+B para Aba de Comandos =====================
@@ -4242,6 +4576,7 @@ function fabSwitch(tabId, fabId) {
     if (tabId === 'tab-stats') setTimeout(renderStudyStats, 50);
     if (tabId === 'tab-subjects') setTimeout(renderSubjectGrid, 50);
     if (tabId === 'tab-quiz') setTimeout(renderQuizSetup, 50);
+    if (tabId === 'tab-keysounds') setTimeout(renderKeySoundsTab, 50);
 }
 
 document.addEventListener('click', function(e) {
@@ -4999,13 +5334,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
 </script>
 
-<!-- ========== FAB NAVIGATION BUTTON v12.0.0 ========== -->
+<!-- ========== FAB NAVIGATION BUTTON v13.1.2 ========== -->
 <div class="fab-wrapper" id="fabWrapper">
     <div class="fab-menu" id="fabMenu">
         <div class="fab-menu-header">
             <i class="fa-solid fa-graduation-cap" style="color:var(--primary);font-size:0.95rem;"></i>
             <span class="fab-brand">Geekie Ultra</span>
-            <span class="fab-version">v12.0.0</span>
+            <span class="fab-version">v13.1.2</span>
         </div>
 
         <div class="fab-section-label">Principal</div>
@@ -5056,6 +5391,9 @@ document.addEventListener('DOMContentLoaded', function() {
         <div class="fab-section-label">Ferramentas</div>
         <button class="fab-nav-item" id="fab-nav-ambient" onclick="fabSwitch('tab-ambient','fab-nav-ambient')">
             <span class="fab-nav-icon"><i class="fa-solid fa-headphones"></i></span>Sons Ambiente
+        </button>
+        <button class="fab-nav-item new-fab" id="fab-nav-keysounds" onclick="fabSwitch('tab-keysounds','fab-nav-keysounds')">
+            <span class="fab-nav-icon"><i class="fa-solid fa-keyboard"></i></span>Sons de Teclado <span class="new-badge">NOVO</span>
         </button>
         <button class="fab-nav-item" id="fab-nav-calculator" onclick="fabSwitch('tab-calculator','fab-nav-calculator')">
             <span class="fab-nav-icon"><i class="fa-solid fa-calculator"></i></span>Calculadora
