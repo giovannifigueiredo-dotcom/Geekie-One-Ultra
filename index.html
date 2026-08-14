@@ -1107,6 +1107,39 @@
         .clicker-upgrade button { min-width:104px; }
         @media (max-width:760px) { .clicker-hero { flex-direction:column; } .clicker-grid { grid-template-columns:1fr; } .clicker-stage { min-height:350px; } }
 
+
+        /* ========== v13.3.0 CHARACTER WORKSPACE ========== */
+        .chars-workspace { max-width:1280px !important; }
+        .chars-hero { display:flex; justify-content:space-between; align-items:flex-start; gap:18px; margin-bottom:18px; }
+        .chars-hero h3 { margin-bottom:6px !important; background:linear-gradient(90deg,var(--primary),var(--accent)); -webkit-background-clip:text; background-clip:text; color:transparent; }
+        .chars-hero p { color:var(--text-muted); max-width:700px; line-height:1.55; }
+        .chars-count { white-space:nowrap; color:var(--accent); border:1px solid rgba(0,212,255,.25); background:rgba(0,212,255,.07); border-radius:999px; padding:8px 12px; font-size:.78rem; }
+        .chars-toolbar { display:grid; grid-template-columns:minmax(220px,1fr) auto auto; gap:10px; align-items:center; margin-bottom:14px; }
+        .chars-search-wrap { position:relative; }
+        .chars-search-wrap i { position:absolute; left:14px; top:50%; transform:translateY(-50%); color:var(--text-muted); pointer-events:none; }
+        .chars-search-wrap input { width:100%; padding-left:42px !important; }
+        .chars-toolbar select { min-width:145px; padding:11px 12px; color:var(--text-main); }
+        .chars-quick { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px; }
+        .chars-quick button { border:1px solid rgba(255,255,255,.1); background:rgba(255,255,255,.04); color:var(--text-muted); border-radius:999px; padding:7px 11px; cursor:pointer; font-size:.75rem; transition:var(--transition); }
+        .chars-quick button:hover, .chars-quick button.active { color:var(--primary); border-color:rgba(0,255,136,.45); background:rgba(0,255,136,.08); }
+        .chars-compose { display:grid; grid-template-columns:1fr auto; gap:10px; background:linear-gradient(135deg,rgba(0,212,255,.07),rgba(0,255,136,.05)); border:1px solid rgba(0,212,255,.18); border-radius:14px; padding:13px; margin-bottom:18px; }
+        .chars-compose input { min-width:0; }
+        .chars-compose small { grid-column:1/-1; color:var(--text-muted); font-size:.72rem; }
+        .chars-category-block { border:1px solid rgba(255,255,255,.08); border-radius:15px; background:rgba(255,255,255,.018); padding:15px; margin-bottom:14px; }
+        .chars-category-block .char-category { margin:0 0 12px !important; border:0; display:flex; justify-content:space-between; align-items:center; color:var(--primary); }
+        .chars-category-block .char-category::after { content:'⌄'; color:var(--text-muted); font-size:.9rem; }
+        .chars-category-block.collapsed .char-grid { display:none; }
+        .chars-category-block.collapsed .char-category::after { content:'›'; }
+        .char-grid { grid-template-columns:repeat(auto-fill,minmax(72px,1fr)); gap:9px; margin-bottom:0; }
+        .char-btn { height:68px; flex-direction:column; gap:3px; position:relative; font-size:1.48rem; }
+        .char-btn small { font-family:'Poppins',sans-serif; color:var(--text-muted); font-size:.58rem; max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+        .char-btn .char-star { position:absolute; right:5px; top:3px; font-size:.62rem; color:var(--coin); opacity:.55; }
+        .char-btn.is-favorite .char-star { opacity:1; }
+        .char-empty { display:none; text-align:center; color:var(--text-muted); padding:34px 12px; border:1px dashed rgba(255,255,255,.12); border-radius:12px; }
+        .char-empty.show { display:block; }
+        @media(max-width:800px){ .chars-toolbar { grid-template-columns:1fr 1fr; } .chars-search-wrap { grid-column:1/-1; } .chars-hero { flex-direction:column; } }
+        @media(max-width:520px){ .chars-toolbar { grid-template-columns:1fr; } .chars-toolbar select,.chars-toolbar button { width:100%; } .chars-compose { grid-template-columns:1fr; } }
+
     </style>
 </head>
 
@@ -1452,49 +1485,32 @@
         </div>
     </section>
 
+
     <!-- TAB: CHARS -->
     <section id="tab-chars" class="tab-content">
-        <div class="glass-card w-full" style="max-width: 1100px; margin: 0 auto;">
-            <h3><i class="fa-solid fa-keyboard"></i> Teclado de Caracteres Úteis</h3>
-            <div style="margin-bottom:16px;">
-                <input class="char-search-input" id="charSearch" type="text" placeholder="🔍 Pesquisar caractere ou símbolo..." oninput="filterChars(this.value)">
+        <div class="glass-card w-full chars-workspace" style="margin:0 auto;">
+            <div class="chars-hero">
+                <div>
+                    <h3><i class="fa-solid fa-keyboard"></i> Laboratório de Caracteres</h3>
+                    <p>Encontre, combine e copie símbolos para suas anotações, fórmulas, trabalhos e flashcards. Pesquise por símbolo, nome, categoria ou código Unicode.</p>
+                </div>
+                <div class="chars-count" id="charsCount">0 caracteres</div>
             </div>
-            <h4 class="char-category">Matemática Básica e Operadores</h4>
-            <div class="char-grid">
-                <button class="char-btn" onclick="copyChar('±')">±</button><button class="char-btn" onclick="copyChar('×')">×</button><button class="char-btn" onclick="copyChar('÷')">÷</button><button class="char-btn" onclick="copyChar('≈')">≈</button><button class="char-btn" onclick="copyChar('≠')">≠</button><button class="char-btn" onclick="copyChar('≤')">≤</button><button class="char-btn" onclick="copyChar('≥')">≥</button><button class="char-btn" onclick="copyChar('∞')">∞</button><button class="char-btn" onclick="copyChar('√')">√</button><button class="char-btn" onclick="copyChar('∛')">∛</button><button class="char-btn" onclick="copyChar('°')">°</button><button class="char-btn" onclick="copyChar('²')">²</button><button class="char-btn" onclick="copyChar('³')">³</button><button class="char-btn" onclick="copyChar('½')">½</button><button class="char-btn" onclick="copyChar('¼')">¼</button>
+            <div class="chars-toolbar">
+                <div class="chars-search-wrap"><i class="fa-solid fa-magnifying-glass"></i><input class="char-search-input" id="charSearch" type="search" placeholder="Pesquisar símbolo, nome ou categoria..." oninput="filterChars(this.value)"></div>
+                <select id="charCategoryFilter" onchange="filterCharCategory(this.value)" aria-label="Filtrar categoria"><option value="all">Todas as categorias</option><option value="math">Matemática</option><option value="logic">Lógica e conjuntos</option><option value="arrows">Setas</option><option value="greek">Alfabeto grego</option><option value="science">Ciências</option><option value="typography">Tipografia</option><option value="currency">Moedas</option><option value="shapes">Formas</option><option value="music">Música</option><option value="weather">Clima</option><option value="hands">Gestos</option><option value="misc">Diversos</option></select>
+                <button class="btn btn-outline" onclick="toggleCharFavorites()" id="charFavoritesBtn" style="font-size:.8rem;"><i class="fa-solid fa-star"></i> Favoritos</button>
             </div>
-            <h4 class="char-category">Álgebra, Lógica e Conjuntos</h4>
-            <div class="char-grid">
-                <button class="char-btn" onclick="copyChar('∀')">∀</button><button class="char-btn" onclick="copyChar('∃')">∃</button><button class="char-btn" onclick="copyChar('∈')">∈</button><button class="char-btn" onclick="copyChar('∉')">∉</button><button class="char-btn" onclick="copyChar('⊂')">⊂</button><button class="char-btn" onclick="copyChar('⊃')">⊃</button><button class="char-btn" onclick="copyChar('∪')">∪</button><button class="char-btn" onclick="copyChar('∩')">∩</button><button class="char-btn" onclick="copyChar('∅')">∅</button><button class="char-btn" onclick="copyChar('∫')">∫</button><button class="char-btn" onclick="copyChar('∑')">∑</button><button class="char-btn" onclick="copyChar('∏')">∏</button><button class="char-btn" onclick="copyChar('∴')">∴</button>
+            <div class="chars-quick" id="charQuickFilters">
+                <button class="active" onclick="setCharQuick('all',this)">Tudo</button><button onclick="setCharQuick('recent',this)">Recentes</button><button onclick="setCharQuick('favorites',this)">Favoritos</button><button onclick="setCharQuick('math',this)">Fórmulas</button><button onclick="setCharQuick('science',this)">Ciências</button><button onclick="setCharQuick('typography',this)">Redação</button>
             </div>
-            <h4 class="char-category">Setas</h4>
-            <div class="char-grid">
-                <button class="char-btn" onclick="copyChar('→')">→</button><button class="char-btn" onclick="copyChar('←')">←</button><button class="char-btn" onclick="copyChar('↑')">↑</button><button class="char-btn" onclick="copyChar('↓')">↓</button><button class="char-btn" onclick="copyChar('↔')">↔</button><button class="char-btn" onclick="copyChar('⇒')">⇒</button><button class="char-btn" onclick="copyChar('⇔')">⇔</button><button class="char-btn" onclick="copyChar('⇌')">⇌</button><button class="char-btn" onclick="copyChar('⥰')">⥰</button><button class="char-btn" onclick="copyChar('➼')">➼</button><button class="char-btn" onclick="copyChar('⤞')">⤞</button><button class="char-btn" onclick="copyChar('⤗')"></button><button class="char-btn" onclick="copyChar('⬼')"></button>
+            <div class="chars-compose">
+                <input id="charComposer" type="text" placeholder="Monte uma sequência aqui: ∑ α → ∞" aria-label="Compositor de caracteres">
+                <div style="display:flex;gap:7px;flex-wrap:wrap;"><button class="btn btn-primary" onclick="copyCharComposer()"><i class="fa-solid fa-copy"></i> Copiar sequência</button><button class="btn btn-outline" onclick="clearCharComposer()"><i class="fa-solid fa-eraser"></i></button></div>
+                <small><i class="fa-solid fa-circle-info" style="color:var(--accent);"></i> Clique em qualquer caractere para adicioná-lo ao compositor. Use <kbd>Shift</kbd> + clique para copiar diretamente.</small>
             </div>
-            <h4 class="char-category">Alfabeto Grego</h4>
-            <div class="char-grid">
-                <button class="char-btn" onclick="copyChar('α')">α</button><button class="char-btn" onclick="copyChar('β')">β</button><button class="char-btn" onclick="copyChar('γ')">γ</button><button class="char-btn" onclick="copyChar('Δ')">Δ</button><button class="char-btn" onclick="copyChar('ε')">ε</button><button class="char-btn" onclick="copyChar('θ')">θ</button><button class="char-btn" onclick="copyChar('λ')">λ</button><button class="char-btn" onclick="copyChar('μ')">μ</button><button class="char-btn" onclick="copyChar('π')">π</button><button class="char-btn" onclick="copyChar('σ')">σ</button><button class="char-btn" onclick="copyChar('φ')">φ</button><button class="char-btn" onclick="copyChar('Ω')">Ω</button>
-            </div>
-            <h4 class="char-category">Química, Física & Biologia</h4>
-            <div class="char-grid">
-                <button class="char-btn" onclick="copyChar('H₂O')">H₂O</button><button class="char-btn" onclick="copyChar('CO₂')">CO₂</button><button class="char-btn" onclick="copyChar('E=mc²')">E=mc²</button><button class="char-btn" onclick="copyChar('F=ma')">F=ma</button><button class="char-btn" onclick="copyChar('DNA')">DNA</button><button class="char-btn" onclick="copyChar('RNA')">RNA</button><button class="char-btn" onclick="copyChar('ATP')">ATP</button><button class="char-btn" onclick="copyChar('♀')">♀</button><button class="char-btn" onclick="copyChar('♂')">♂</button><button class="char-btn" onclick="copyChar('ΔH')">ΔH</button><button class="char-btn" onclick="copyChar('pH')">pH</button><button class="char-btn" onclick="copyChar('mol')">mol</button><button class="char-btn" onclick="copyChar('J/mol')">J/mol</button><button class="char-btn" onclick="copyChar('kJ')">kJ</button><button class="char-btn" onclick="copyChar('cal')">cal</button>
-            </div>
-            <h4 class="char-category">Pontuação & Tipografia</h4>
-            <div class="char-grid">
-                <button class="char-btn" onclick="copyChar('«')">«</button><button class="char-btn" onclick="copyChar('»')">»</button><button class="char-btn" onclick="copyChar('"')">‟</button><button class="char-btn" onclick="copyChar('"')">‟</button><button class="char-btn" onclick="copyChar(''')">‛</button><button class="char-btn" onclick="copyChar(''')">‛</button><button class="char-btn" onclick="copyChar('—')">—</button><button class="char-btn" onclick="copyChar('–')">–</button><button class="char-btn" onclick="copyChar('…')">…</button><button class="char-btn" onclick="copyChar('·')">·</button><button class="char-btn" onclick="copyChar('•')">•</button><button class="char-btn" onclick="copyChar('†')">†</button><button class="char-btn" onclick="copyChar('‡')">‡</button><button class="char-btn" onclick="copyChar('§')">§</button><button class="char-btn" onclick="copyChar('¶')">¶</button><button class="char-btn" onclick="copyChar('©')">©</button><button class="char-btn" onclick="copyChar('®')">®</button><button class="char-btn" onclick="copyChar('™')">™</button>
-            </div>
-            <h4 class="char-category">Subscrito & Sobrescrito</h4>
-            <div class="char-grid">
-                <button class="char-btn" onclick="copyChar('₀')">₀</button><button class="char-btn" onclick="copyChar('₁')">₁</button><button class="char-btn" onclick="copyChar('₂')">₂</button><button class="char-btn" onclick="copyChar('₃')">₃</button><button class="char-btn" onclick="copyChar('₄')">₄</button><button class="char-btn" onclick="copyChar('₅')">₅</button><button class="char-btn" onclick="copyChar('₆')">₆</button><button class="char-btn" onclick="copyChar('₇')">₇</button><button class="char-btn" onclick="copyChar('₈')">₈</button><button class="char-btn" onclick="copyChar('₉')">₉</button><button class="char-btn" onclick="copyChar('⁰')">⁰</button><button class="char-btn" onclick="copyChar('¹')">¹</button><button class="char-btn" onclick="copyChar('²')">²</button><button class="char-btn" onclick="copyChar('³')">³</button><button class="char-btn" onclick="copyChar('⁴')">⁴</button><button class="char-btn" onclick="copyChar('⁵')">⁵</button><button class="char-btn" onclick="copyChar('⁶')">⁶</button><button class="char-btn" onclick="copyChar('⁷')">⁷</button><button class="char-btn" onclick="copyChar('⁸')">⁸</button><button class="char-btn" onclick="copyChar('⁹')">⁹</button>
-            </div>
-            <h4 class="char-category">Formas & Símbolos Geométricos</h4>
-            <div class="char-grid">
-                <button class="char-btn" onclick="copyChar('△')">△</button><button class="char-btn" onclick="copyChar('□')">□</button><button class="char-btn" onclick="copyChar('○')">○</button><button class="char-btn" onclick="copyChar('◇')">◇</button><button class="char-btn" onclick="copyChar('▲')">▲</button><button class="char-btn" onclick="copyChar('■')">■</button><button class="char-btn" onclick="copyChar('●')">●</button><button class="char-btn" onclick="copyChar('◆')">◆</button><button class="char-btn" onclick="copyChar('⊥')">⊥</button><button class="char-btn" onclick="copyChar('∥')">∥</button><button class="char-btn" onclick="copyChar('∠')">∠</button><button class="char-btn" onclick="copyChar('⌀')">⌀</button><button class="char-btn" onclick="copyChar('≅')">≅</button><button class="char-btn" onclick="copyChar('∼')">∼</button><button class="char-btn" onclick="copyChar('∝')">∝</button>
-            </div>
-            <h4 class="char-category">Moedas & Economia</h4>
-            <div class="char-grid">
-                <button class="char-btn" onclick="copyChar('R$')">R$</button><button class="char-btn" onclick="copyChar('$')">$</button><button class="char-btn" onclick="copyChar('€')">€</button><button class="char-btn" onclick="copyChar('£')">£</button><button class="char-btn" onclick="copyChar('¥')">¥</button><button class="char-btn" onclick="copyChar('₿')">₿</button><button class="char-btn" onclick="copyChar('¢')">¢</button><button class="char-btn" onclick="copyChar('%')">%</button><button class="char-btn" onclick="copyChar('‰')">‰</button>
-            </div>
+            <div id="charCollections"></div>
+            <div id="charEmpty" class="char-empty"><i class="fa-solid fa-filter-circle-xmark" style="font-size:1.8rem;display:block;margin-bottom:8px;"></i>Nenhum caractere encontrado com esses filtros.</div>
         </div>
     </section>
 
@@ -1579,6 +1595,23 @@
             <div class="timeline" id="devlogTimeline">
 
 
+
+
+                <!-- v13.3.0 -->
+                <div class="timeline-item" data-version="v13.3.0 caracteres laboratório símbolos">
+                    <div class="version-header">
+                        <span class="version-tag" style="background:linear-gradient(135deg,rgba(0,212,255,0.45),rgba(0,255,136,0.35));border:1px solid rgba(0,212,255,0.85);font-size:1rem;box-shadow:0 0 22px rgba(0,212,255,0.28);">v13.3.0</span>
+                        <h3>Laboratório de Caracteres — Expansão da Ferramenta de Símbolos</h3>
+                        <span class="version-date">14 Ago 2026 — Atualização Atual</span>
+                    </div>
+                    <ul>
+                        <li><strong>Biblioteca ampliada:</strong> A antiga lista compacta foi substituída por uma biblioteca organizada com matemática, lógica, setas, grego, ciências, tipografia, moedas, geometria, música, clima, gestos e símbolos diversos.</li>
+                        <li><strong>Pesquisa inteligente:</strong> A busca agora encontra caracteres pelo próprio símbolo, nome descritivo ou categoria.</li>
+                        <li><strong>Compositor:</strong> Clique nos caracteres para montar sequências e copie a composição completa em um único passo; Shift+clique copia diretamente.</li>
+                        <li><strong>Favoritos e recentes:</strong> Símbolos podem ser favoritados e os caracteres usados recentemente são preservados no navegador.</li>
+                        <li><strong>Filtros e organização:</strong> Filtros rápidos, seletor de categoria, contagem dinâmica e blocos recolhíveis tornam a aba muito mais navegável.</li>
+                    </ul>
+                </div>
 
                 <!-- v13.2.0 -->
                 <div class="timeline-item" data-version="v13.2.0 clicker minigame ui refresh">
@@ -2331,6 +2364,7 @@ function switchTab(tabId, element) {
     if (tabId === 'tab-pets') { try { renderPetGrid(); } catch(e) {} }
     if (tabId === 'tab-flashcards') { try { updateFlashcardStats(); } catch(e) {} }
     if (tabId === 'tab-keysounds') { try { renderKeySoundsTab(); } catch(e) {} }
+    if (tabId === 'tab-chars') { try { renderCharWorkspace(); } catch(e) {} }
     if (tabId === 'tab-clicker') { try { renderClicker(); } catch(e) {} }
     if (tabId === 'tab-codes') { try { renderCodesGrid(); } catch(e) {} }
 }
@@ -3463,6 +3497,49 @@ function filterDevlog(query) {
     const searchEl = document.getElementById('devlogSearch');
     if (searchEl) searchEl.style.borderColor = (!q || anyVisible) ? '' : 'var(--danger)';
 }
+
+
+// ===================== CHARACTER WORKSPACE v13.3.0 =====================
+const charLibrary = [
+ {id:'math',name:'Matemática e operadores',icon:'fa-square-root-variable',items:[['±','mais ou menos'],['×','multiplicação'],['÷','divisão'],['≈','aproximadamente'],['≠','diferente'],['≤','menor ou igual'],['≥','maior ou igual'],['∞','infinito'],['√','raiz quadrada'],['∛','raiz cúbica'],['∜','raiz quarta'],['∑','somatório'],['∏','produtório'],['∫','integral'],['∮','integral de contorno'],['∂','derivada parcial'],['∆','delta'],['∇','nabla'],['∝','proporcional'],['∴','portanto'],['∵','porque'],['∼','semelhante'],['≅','congruente'],['≡','idêntico'],['∓','menos ou mais'],['½','meio'],['⅓','um terço'],['¼','um quarto'],['⅔','dois terços'],['¾','três quartos'],['ⁿ','potência n'],['ₓ','subscrito x']]},
+ {id:'logic',name:'Lógica, conjuntos e relações',icon:'fa-diagram-project',items:[['∀','para todo'],['∃','existe'],['∄','não existe'],['∈','pertence'],['∉','não pertence'],['⊂','subconjunto'],['⊃','superconjunto'],['⊆','subconjunto ou igual'],['⊇','superconjunto ou igual'],['∪','união'],['∩','interseção'],['∅','conjunto vazio'],['¬','negação'],['∧','e lógico'],['∨','ou lógico'],['⊻','ou exclusivo'],['⇒','implica'],['⇔','se e somente se'],['⊥','perpendicular'],['∥','paralelo'],['⊤','verdadeiro'],['⊢','prova'],['⊨','satisfaz']]},
+ {id:'arrows',name:'Setas e direções',icon:'fa-arrow-right',items:[['→','direita'],['←','esquerda'],['↑','cima'],['↓','baixo'],['↔','dupla'],['↕','vertical'],['⇒','implicação'],['⇐','implicação reversa'],['⇔','equivalência'],['↦','mapeia'],['↗','diagonal nordeste'],['↘','diagonal sudeste'],['↙','diagonal sudoeste'],['↖','diagonal noroeste'],['➜','seta cheia'],['➤','seta triangular'],['➔','seta longa'],['⟶','seta matemática'],['⟷','seta dupla longa'],['⇢','seta pontilhada'],['⤴','curva para cima'],['⤵','curva para baixo']]},
+ {id:'greek',name:'Alfabeto grego',icon:'fa-alpha',items:[['α','alfa'],['β','beta'],['γ','gama'],['δ','delta'],['Δ','delta maiúsculo'],['ε','épsilon'],['ζ','zeta'],['η','eta'],['θ','teta'],['λ','lambda'],['μ','mi'],['ν','ni'],['ξ','xi'],['π','pi'],['ρ','rô'],['σ','sigma'],['τ','tau'],['φ','fi'],['χ','qui'],['ψ','psi'],['ω','ômega'],['Ω','ômega maiúsculo'],['Γ','gama maiúsculo'],['Θ','teta maiúsculo'],['Λ','lambda maiúsculo'],['Σ','sigma maiúsculo'],['Φ','fi maiúsculo'],['Ψ','psi maiúsculo']]},
+ {id:'science',name:'Química, física e biologia',icon:'fa-atom',items:[['H₂O','água'],['CO₂','dióxido de carbono'],['O₂','oxigênio'],['NaCl','cloreto de sódio'],['E=mc²','equação de Einstein'],['F=ma','segunda lei de Newton'],['ΔH','variação de entalpia'],['pH','potencial hidrogeniônico'],['DNA','ácido desoxirribonucleico'],['RNA','ácido ribonucleico'],['ATP','adenosina trifosfato'],['♀','feminino'],['♂','masculino'],['⚛','átomo'],['⚗','química'],['☢','radioatividade'],['☣','risco biológico'],['°C','graus Celsius'],['K','kelvin'],['mol','mol'],['J/mol','joule por mol'],['kJ','quilojoule'],['μm','micrômetro'],['Ω','ohm']]},
+ {id:'typography',name:'Tipografia e redação',icon:'fa-quote-left',items:[['«','aspas angulares esquerda'],['»','aspas angulares direita'],['“','aspas curvas esquerda'],['”','aspas curvas direita'],['‘','apóstrofo curvo esquerdo'],['’','apóstrofo curvo direito'],['—','travessão'],['–','meio-traço'],['…','reticências'],['·','ponto médio'],['•','marcador'],['§','seção'],['¶','parágrafo'],['†','adaga'],['‡','adaga dupla'],['©','direitos autorais'],['®','registrado'],['™','marca'],['№','número'],['¿','interrogação invertida'],['¡','exclamação invertida'],['※','referência'],['※','asterisco japonês']]},
+ {id:'currency',name:'Moedas e economia',icon:'fa-coins',items:[['R$','real brasileiro'],['$','dólar'],['€','euro'],['£','libra'],['¥','iene'],['₿','bitcoin'],['¢','centavo'],['₽','rublo'],['₹','rúpia'],['₩','won'],['₺','lira turca'],['₴','hryvnia'],['‰','por mil'],['‱','por dez mil']]},
+ {id:'shapes',name:'Formas e geometria',icon:'fa-shapes',items:[['△','triângulo vazio'],['▲','triângulo cheio'],['▽','triângulo invertido'],['□','quadrado vazio'],['■','quadrado cheio'],['○','círculo vazio'],['●','círculo cheio'],['◇','losango vazio'],['◆','losango cheio'],['☆','estrela vazia'],['★','estrela cheia'],['⬡','hexágono'],['⬢','hexágono cheio'],['⌂','casa'],['⌘','comando'],['⌖','alvo'],['◐','meia lua'],['◑','meia lua invertida']]},
+ {id:'music',name:'Música e áudio',icon:'fa-music',items:[['♩','semínima'],['♪','colcheia'],['♫','duas colcheias'],['♬','duas semicolcheias'],['♭','bemol'],['♯','sustenido'],['♮','bequadro'],['𝄞','clave de sol'],['𝄢','clave de fá'],['𝄐','pausa'],['◉','nota marcada']]},
+ {id:'weather',name:'Clima e natureza',icon:'fa-cloud-sun',items:[['☀','sol'],['☼','sol radiante'],['☁','nuvem'],['☂','guarda-chuva'],['☃','boneco de neve'],['❄','neve'],['☔','chuva'],['⚡','raio'],['☄','cometa'],['☾','lua crescente'],['☽','lua minguante'],['✦','estrela brilhante'],['✧','estrela vazia'],['♨','vapor']]},
+ {id:'hands',name:'Gestos e marcadores',icon:'fa-hand',items:[['✓','confirmado'],['✔','confirmado cheio'],['✕','cancelado'],['✖','cancelado cheio'],['⚠','atenção'],['ⓘ','informação'],['☑','caixa marcada'],['☒','caixa cancelada'],['☐','caixa vazia'],['➕','adicionar'],['➖','remover'],['❗','importante'],['❓','dúvida'],['‼','dupla exclamação'],['⁉','exclamação e dúvida']]},
+ {id:'misc',name:'Diversos e símbolos úteis',icon:'fa-sparkles',items:[['♥','coração'],['♡','coração vazio'],['★','estrela'],['☆','estrela vazia'],['♣','paus'],['♦','ouro'],['♥','copas'],['♠','espadas'],['☯','yin yang'],['☮','paz'],['☢','radiação'],['⚙','configuração'],['⚙️','engrenagem'],['⌁','onda'],['⌘','comando'],['⌫','apagar'],['⏎','enter'],['␣','espaço'],['©','copyright'],['∞','infinito']]}
+];
+let charFavorites = JSON.parse(localStorage.getItem('geekieCharFavorites') || '[]');
+let charRecent = JSON.parse(localStorage.getItem('geekieCharRecent') || '[]');
+let charQuickMode = 'all';
+let charShowingFavorites = false;
+function charAllItems() { return charLibrary.flatMap(c => c.items.map(([symbol,label]) => ({symbol,label,category:c.id,categoryName:c.name}))); }
+function charIsFavorite(symbol) { return charFavorites.includes(symbol); }
+function charSave() { localStorage.setItem('geekieCharFavorites', JSON.stringify(charFavorites)); localStorage.setItem('geekieCharRecent', JSON.stringify(charRecent)); }
+function charToggleFavorite(event, symbol) { event.stopPropagation(); charFavorites = charIsFavorite(symbol) ? charFavorites.filter(x=>x!==symbol) : [...charFavorites, symbol]; charSave(); renderCharWorkspace(); }
+function charUse(symbol, event) { if (event && event.shiftKey) { copyChar(symbol); return; } const input = document.getElementById('charComposer'); if (input) { input.value += symbol; input.focus(); } charRecent = [symbol, ...charRecent.filter(x=>x!==symbol)].slice(0,24); charSave(); }
+function renderCharWorkspace() {
+ const root=document.getElementById('charCollections'); if(!root) return; const query=(document.getElementById('charSearch')?.value||'').toLowerCase().trim(); const cat=(document.getElementById('charCategoryFilter')?.value||'all');
+ let source = charLibrary;
+ if (charQuickMode==='recent') { source=[{id:'recent',name:'Usados recentemente',icon:'fa-clock-rotate-left',items:charRecent.map(s=>{const x=charAllItems().find(i=>i.symbol===s)||{symbol:s,label:'caractere recente'};return [x.symbol,x.label]})}]; }
+ if (charQuickMode==='favorites' || charShowingFavorites) { source=[{id:'favorites',name:'Meus favoritos',icon:'fa-star',items:charAllItems().filter(i=>charIsFavorite(i.symbol)).map(i=>[i.symbol,i.label])}]; }
+ let total=0; root.innerHTML='';
+ source.forEach(c=>{ if(cat!=='all' && c.id!==cat && charQuickMode==='all') return; const items=c.items.filter(([s,l])=>!query || (s+' '+l+' '+c.name).toLowerCase().includes(query)); if(!items.length)return; total+=items.length; const block=document.createElement('div'); block.className='chars-category-block'; block.dataset.category=c.id; block.innerHTML=`<h4 class="char-category"><span><i class="fa-solid ${c.icon}" style="margin-right:8px;"></i>${c.name} <small style="color:var(--text-muted);font-size:.7rem;font-weight:400;">${items.length}</small></span></h4><div class="char-grid"></div>`; block.querySelector('.char-category').onclick=()=>block.classList.toggle('collapsed'); const grid=block.querySelector('.char-grid'); items.forEach(([symbol,label])=>{const b=document.createElement('button'); b.className='char-btn'+(charIsFavorite(symbol)?' is-favorite':''); b.title=`${label} · Clique para inserir · Shift+clique para copiar`; b.onclick=(e)=>charUse(symbol,e); b.innerHTML=`<span>${symbol}</span><small>${label}</small><span class="char-star" onclick="charToggleFavorite(event, '${symbol.replace(/'/g,"\\'")}')">★</span>`; grid.appendChild(b);}); root.appendChild(block); });
+ const counter=document.getElementById('charsCount'); if(counter) counter.textContent=`${total} caracteres${charFavorites.length?` · ${charFavorites.length} favoritos`:''}`;
+ const empty=document.getElementById('charEmpty'); if(empty) empty.classList.toggle('show',total===0);
+}
+function filterChars(query) { charQuickMode='all'; charShowingFavorites=false; const q=document.getElementById('charCategoryFilter'); if(q) q.value='all'; renderCharWorkspace(); }
+function filterCharCategory(value) { charQuickMode='all'; charShowingFavorites=false; renderCharWorkspace(); }
+function setCharQuick(mode, btn) { charQuickMode=mode; charShowingFavorites=mode==='favorites'; document.querySelectorAll('#charQuickFilters button').forEach(b=>b.classList.remove('active')); if(btn)btn.classList.add('active'); const q=document.getElementById('charCategoryFilter'); if(q)q.value='all'; renderCharWorkspace(); }
+function toggleCharFavorites() { charShowingFavorites=!charShowingFavorites; charQuickMode=charShowingFavorites?'favorites':'all'; const b=document.getElementById('charFavoritesBtn'); if(b)b.classList.toggle('active',charShowingFavorites); renderCharWorkspace(); }
+function copyCharComposer() { const value=document.getElementById('charComposer')?.value||''; if(value.trim()) copyChar(value); else showToast('O compositor está vazio',true); }
+function clearCharComposer() { const input=document.getElementById('charComposer'); if(input)input.value=''; }
+document.addEventListener('DOMContentLoaded',()=>{ renderCharWorkspace(); });
 
 // ===================== CHAR SEARCH =====================
 function filterChars(query) {
