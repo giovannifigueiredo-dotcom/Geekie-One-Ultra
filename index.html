@@ -265,6 +265,86 @@
         .char-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); gap: 10px; margin-bottom: 20px; }
         .char-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 8px; font-size: 1.4rem; color: var(--text-main); cursor: pointer; transition: var(--transition); height: 60px; display: flex; align-items: center; justify-content: center; font-family: 'Fira Code', monospace; }
         .char-btn:hover { background: rgba(0, 212, 255, 0.2); border-color: var(--accent); color: var(--accent); transform: scale(1.05); }
+        /* ===== ENHANCED CHAR TAB STYLES ===== */
+        .chars-container { max-width: 1200px; margin: 0 auto; }
+        .chars-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
+        .chars-stats { display: flex; gap: 15px; flex-wrap: wrap; }
+        .char-stat-item { background: rgba(0,212,255,0.08); border: 1px solid rgba(0,212,255,0.2); border-radius: 8px; padding: 8px 14px; font-size: 0.82rem; color: var(--accent); }
+        .char-stat-item span { color: var(--text-main); font-weight: 700; font-family: 'Fira Code', monospace; }
+        .chars-search-wrapper { position: relative; margin-bottom: 20px; }
+        .chars-search-input { width: 100%; background: rgba(0,0,0,0.4); border: 2px solid var(--border); color: var(--text-main); padding: 14px 20px 14px 50px; border-radius: 12px; outline: none; font-size: 1rem; transition: all 0.3s ease; }
+        .chars-search-input:focus { border-color: var(--accent); box-shadow: 0 0 20px rgba(0,212,255,0.2); }
+        .chars-search-icon { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 1.1rem; }
+        .chars-search-clear { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 1.2rem; padding: 4px 8px; border-radius: 6px; transition: all 0.2s; }
+        .chars-search-clear:hover { color: var(--danger); background: rgba(255,107,107,0.1); }
+        .chars-filter-bar { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+        .char-filter-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: var(--text-muted); padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 0.85rem; transition: all 0.25s ease; display: flex; align-items: center; gap: 6px; }
+        .char-filter-btn:hover { background: rgba(0,212,255,0.1); border-color: var(--accent); color: var(--accent); }
+        .char-filter-btn.active { background: rgba(0,212,255,0.15); border-color: var(--accent); color: var(--accent); }
+        .char-filter-btn .filter-count { background: rgba(0,0,0,0.3); padding: 2px 7px; border-radius: 10px; font-size: 0.75rem; font-family: 'Fira Code', monospace; }
+        .chars-actions { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+        .char-action-btn { background: linear-gradient(135deg, rgba(0,255,136,0.1), rgba(0,212,255,0.1)); border: 1px solid rgba(0,255,136,0.3); color: var(--primary); padding: 10px 18px; border-radius: 10px; cursor: pointer; font-size: 0.85rem; transition: all 0.25s ease; display: flex; align-items: center; gap: 8px; }
+        .char-action-btn:hover { background: linear-gradient(135deg, rgba(0,255,136,0.2), rgba(0,212,255,0.2)); box-shadow: 0 4px 15px rgba(0,255,136,0.2); transform: translateY(-2px); }
+        .char-accordion { margin-bottom: 12px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); background: rgba(0,0,0,0.2); transition: all 0.3s ease; }
+        .char-accordion:hover { border-color: rgba(0,212,255,0.3); }
+        .char-accordion-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; cursor: pointer; user-select: none; transition: all 0.25s ease; background: rgba(255,255,255,0.02); }
+        .char-accordion-header:hover { background: rgba(0,212,255,0.06); }
+        .char-accordion-left { display: flex; align-items: center; gap: 12px; }
+        .char-accordion-icon { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+        .char-accordion-title { font-size: 1rem; font-weight: 600; color: var(--text-heading); }
+        .char-accordion-count { font-size: 0.78rem; color: var(--text-muted); background: rgba(0,0,0,0.3); padding: 3px 9px; border-radius: 12px; font-family: 'Fira Code', monospace; }
+        .char-accordion-arrow { color: var(--text-muted); transition: transform 0.3s ease; font-size: 0.85rem; }
+        .char-accordion.open .char-accordion-arrow { transform: rotate(180deg); }
+        .char-accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        .char-accordion.open .char-accordion-content { max-height: 800px; }
+        .char-accordion-inner { padding: 16px 18px; }
+        .char-grid-enhanced { display: grid; grid-template-columns: repeat(auto-fill, minmax(65px, 1fr)); gap: 8px; }
+        .char-btn-enhanced { position: relative; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; font-size: 1.5rem; color: var(--text-main); cursor: pointer; transition: all 0.2s ease; height: 64px; display: flex; align-items: center; justify-content: center; font-family: 'Fira Code', 'Segoe UI Emoji', sans-serif; overflow: hidden; }
+        .char-btn-enhanced:hover { background: rgba(0,212,255,0.15); border-color: var(--accent); color: var(--accent); transform: scale(1.1); z-index: 10; box-shadow: 0 6px 20px rgba(0,212,255,0.25); }
+        .char-btn-enhanced:active { transform: scale(0.95); }
+        .char-btn-enhanced.favorited { background: rgba(255,215,0,0.08); border-color: rgba(255,215,0,0.3); }
+        .char-btn-enhanced.favorited::after { content: '\2605'; position: absolute; top: 3px; right: 4px; font-size: 0.6rem; color: #ffd700; }
+        .char-fav-overlay { position: absolute; top: 2px; right: 3px; font-size: 0.55rem; color: transparent; transition: color 0.2s; pointer-events: none; }
+        .char-btn-enhanced:hover .char-fav-overlay { color: rgba(255,215,0,0.7); }
+        .char-btn-enhanced.favorited .char-fav-overlay { color: #ffd700; }
+        .char-tooltip { position: fixed; background: linear-gradient(135deg, #1a1f35, #0d1117); border: 1px solid var(--accent); border-radius: 10px; padding: 12px 16px; z-index: 10000; pointer-events: none; opacity: 0; transform: translateY(8px); transition: all 0.2s ease; box-shadow: 0 10px 40px rgba(0,0,0,0.5), 0 0 20px rgba(0,212,255,0.15); min-width: 180px; }
+        .char-tooltip.visible { opacity: 1; transform: translateY(0); }
+        .char-tooltip-preview { font-size: 2.5rem; text-align: center; margin-bottom: 8px; }
+        .char-tooltip-name { font-size: 0.95rem; color: var(--text-heading); text-align: center; font-weight: 600; margin-bottom: 6px; }
+        .char-tooltip-code { font-size: 0.8rem; color: var(--accent); text-align: center; font-family: 'Fira Code', monospace; background: rgba(0,212,255,0.1); padding: 4px 10px; border-radius: 6px; }
+        .char-tooltip-hint { font-size: 0.72rem; color: var(--text-muted); text-align: center; margin-top: 6px; }
+        .chars-favorites-section { background: linear-gradient(135deg, rgba(255,215,0,0.05), rgba(255,165,0,0.03)); border: 1px solid rgba(255,215,0,0.2); border-radius: 14px; padding: 18px; margin-bottom: 24px; }
+        .chars-favorites-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+        .chars-favorites-title { font-size: 1.05rem; font-weight: 700; color: #ffd700; display: flex; align-items: center; gap: 10px; }
+        .chars-favorites-empty { text-align: center; color: var(--text-muted); font-size: 0.9rem; padding: 20px; }
+        .chars-favorites-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); gap: 8px; }
+        .chars-history-section { background: linear-gradient(135deg, rgba(0,212,255,0.05), rgba(123,44,191,0.03)); border: 1px solid rgba(0,212,255,0.2); border-radius: 14px; padding: 18px; margin-bottom: 24px; }
+        .chars-history-title { font-size: 1.05rem; font-weight: 700; color: var(--accent); display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+        .chars-history-list { display: flex; gap: 8px; flex-wrap: wrap; }
+        .char-history-item { background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: 8px; padding: 8px 12px; font-size: 1.2rem; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px; }
+        .char-history-item:hover { background: rgba(0,212,255,0.15); border-color: var(--accent); transform: translateY(-2px); }
+        .char-history-time { font-size: 0.68rem; color: var(--text-muted); }
+        .char-copy-category { background: none; border: 1px solid rgba(0,255,136,0.3); color: var(--primary); padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.78rem; transition: all 0.2s; display: flex; align-items: center; gap: 5px; opacity: 0; }
+        .char-accordion:hover .char-copy-category { opacity: 1; }
+        .char-copy-category:hover { background: rgba(0,255,136,0.15); }
+        .chars-search-results { text-align: center; padding: 30px; color: var(--text-muted); display: none; }
+        .chars-search-results.visible { display: block; }
+        .chars-no-results { font-size: 1.1rem; }
+        @keyframes charCopyPulse {
+            0% { box-shadow: 0 0 0 0 rgba(0,255,136,0.5); }
+            70% { box-shadow: 0 0 0 15px rgba(0,255,136,0); }
+            100% { box-shadow: 0 0 0 0 rgba(0,255,136,0); }
+        }
+        .char-copied { animation: charCopyPulse 0.5s ease-out; border-color: var(--primary) !important; background: rgba(0,255,136,0.15) !important; }
+        @media (max-width: 768px) {
+            .char-grid-enhanced { grid-template-columns: repeat(auto-fill, minmax(55px, 1fr)); gap: 6px; }
+            .char-btn-enhanced { height: 56px; font-size: 1.3rem; }
+            .chars-filter-bar { justify-content: center; }
+            .char-filter-btn { padding: 6px 12px; font-size: 0.8rem; }
+            .chars-header { flex-direction: column; align-items: stretch; }
+            .chars-stats { justify-content: center; }
+        }
+
 
         .notes-toolbar { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; align-items: center; }
         .note-select { background: rgba(0,0,0,0.4); color: white; border: 1px solid var(--border); padding: 10px; border-radius: 8px; flex: 1; min-width: 200px; outline: none; }
@@ -2019,47 +2099,54 @@
     </section>
 
     <!-- TAB: CHARS -->
-    <section id="tab-chars" class="tab-content">
-        <div class="glass-card w-full" style="max-width: 1100px; margin: 0 auto;">
-            <h3><i class="fa-solid fa-keyboard"></i> Teclado de Caracteres Úteis</h3>
-            <div style="margin-bottom:16px;">
-                <input class="char-search-input" id="charSearch" type="text" placeholder="🔍 Pesquisar caractere ou símbolo..." oninput="filterChars(this.value)">
+        <section id="tab-chars" class="tab-content">
+        <div class="glass-card w-full chars-container">
+            <h3><i class="fa-solid fa-keyboard"></i> Teclado de Caracteres <span class="new-badge">ULTRA</span></h3>
+            
+            <div class="chars-header">
+                <div class="chars-stats">
+                    <div class="char-stat-item"><i class="fa-solid fa-font"></i> Símbolos: <span id="totalCharsCount">0</span></div>
+                    <div class="char-stat-item"><i class="fa-solid fa-folder"></i> Categorias: <span id="totalCatsCount">0</span></div>
+                    <div class="char-stat-item"><i class="fa-solid fa-star"></i> Favoritos: <span id="favCount">0</span></div>
+                </div>
+                <div style="display:flex;gap:8px;">
+                    <button class="char-action-btn" onclick="clearCharHistory()"><i class="fa-solid fa-trash-can"></i> Limpar Histórico</button>
+                    <button class="char-action-btn fav-action" onclick="toggleFavoritesPanel()"><i class="fa-solid fa-star"></i> Favoritos</button>
+                </div>
             </div>
-            <h4 class="char-category">Matemática Básica e Operadores</h4>
-            <div class="char-grid">
-                <button class="char-btn" onclick="copyChar('±')">±</button><button class="char-btn" onclick="copyChar('×')">×</button><button class="char-btn" onclick="copyChar('÷')">÷</button><button class="char-btn" onclick="copyChar('≈')">≈</button><button class="char-btn" onclick="copyChar('≠')">≠</button><button class="char-btn" onclick="copyChar('≤')">≤</button><button class="char-btn" onclick="copyChar('≥')">≥</button><button class="char-btn" onclick="copyChar('∞')">∞</button><button class="char-btn" onclick="copyChar('√')">√</button><button class="char-btn" onclick="copyChar('∛')">∛</button><button class="char-btn" onclick="copyChar('°')">°</button><button class="char-btn" onclick="copyChar('²')">²</button><button class="char-btn" onclick="copyChar('³')">³</button><button class="char-btn" onclick="copyChar('½')">½</button><button class="char-btn" onclick="copyChar('¼')">¼</button>
+
+            <div class="chars-search-wrapper">
+                <i class="fa-solid fa-magnifying-glass chars-search-icon"></i>
+                <input class="chars-search-input" id="charSearchEnhanced" type="text" placeholder="🔍 Pesquisar símbolos: matemática, setas, emojis, grego..." oninput="enhancedFilterChars(this.value)">
+                <button class="chars-search-clear" onclick="document.getElementById('charSearchEnhanced').value=''; enhancedFilterChars('');" style="display:none;" id="charSearchClear"><i class="fa-solid fa-xmark"></i></button>
             </div>
-            <h4 class="char-category">Álgebra, Lógica e Conjuntos</h4>
-            <div class="char-grid">
-                <button class="char-btn" onclick="copyChar('∀')">∀</button><button class="char-btn" onclick="copyChar('∃')">∃</button><button class="char-btn" onclick="copyChar('∈')">∈</button><button class="char-btn" onclick="copyChar('∉')">∉</button><button class="char-btn" onclick="copyChar('⊂')">⊂</button><button class="char-btn" onclick="copyChar('⊃')">⊃</button><button class="char-btn" onclick="copyChar('∪')">∪</button><button class="char-btn" onclick="copyChar('∩')">∩</button><button class="char-btn" onclick="copyChar('∅')">∅</button><button class="char-btn" onclick="copyChar('∫')">∫</button><button class="char-btn" onclick="copyChar('∑')">∑</button><button class="char-btn" onclick="copyChar('∏')">∏</button><button class="char-btn" onclick="copyChar('∴')">∴</button>
+
+            <div class="chars-filter-bar" id="charsFilterBar"></div>
+
+            <div class="chars-actions">
+                <button class="char-action-btn" onclick="expandAllCategories()"><i class="fa-solid fa-expand"></i> Expandir Todas</button>
+                <button class="char-action-btn" onclick="collapseAllCategories()"><i class="fa-solid fa-compress"></i> Colapsar Todas</button>
+                <button class="char-action-btn" onclick="copyAllVisibleChars()"><i class="fa-solid fa-copy"></i> Copiar Visíveis</button>
             </div>
-            <h4 class="char-category">Setas</h4>
-            <div class="char-grid">
-                <button class="char-btn" onclick="copyChar('→')">→</button><button class="char-btn" onclick="copyChar('←')">←</button><button class="char-btn" onclick="copyChar('↑')">↑</button><button class="char-btn" onclick="copyChar('↓')">↓</button><button class="char-btn" onclick="copyChar('↔')">↔</button><button class="char-btn" onclick="copyChar('⇒')">⇒</button><button class="char-btn" onclick="copyChar('⇔')">⇔</button><button class="char-btn" onclick="copyChar('⇌')">⇌</button><button class="char-btn" onclick="copyChar('⥰')">⥰</button><button class="char-btn" onclick="copyChar('➼')">➼</button><button class="char-btn" onclick="copyChar('⤞')">⤞</button><button class="char-btn" onclick="copyChar('⤗')"></button><button class="char-btn" onclick="copyChar('⬼')"></button>
+
+            <div class="chars-favorites-section" id="charsFavoritesSection" style="display:none;">
+                <div class="chars-favorites-header">
+                    <div class="chars-favorites-title"><i class="fa-solid fa-star"></i> Meus Favoritos</div>
+                    <button class="char-action-btn" style="padding:6px 12px;font-size:0.8rem;" onclick="copyAllFavorites()"><i class="fa-solid fa-copy"></i> Copiar Todos</button>
+                </div>
+                <div class="chars-favorites-grid" id="charsFavoritesGrid"></div>
+                <div class="chars-favorites-empty" id="charsFavoritesEmpty">⭐ Clique no ★ ao passar sobre um símbolo para adicionar aos favoritos!</div>
             </div>
-            <h4 class="char-category">Alfabeto Grego</h4>
-            <div class="char-grid">
-                <button class="char-btn" onclick="copyChar('α')">α</button><button class="char-btn" onclick="copyChar('β')">β</button><button class="char-btn" onclick="copyChar('γ')">γ</button><button class="char-btn" onclick="copyChar('Δ')">Δ</button><button class="char-btn" onclick="copyChar('ε')">ε</button><button class="char-btn" onclick="copyChar('θ')">θ</button><button class="char-btn" onclick="copyChar('λ')">λ</button><button class="char-btn" onclick="copyChar('μ')">μ</button><button class="char-btn" onclick="copyChar('π')">π</button><button class="char-btn" onclick="copyChar('σ')">σ</button><button class="char-btn" onclick="copyChar('φ')">φ</button><button class="char-btn" onclick="copyChar('Ω')">Ω</button>
+
+            <div class="chars-history-section" id="charsHistorySection" style="display:none;">
+                <div class="chars-history-title"><i class="fa-solid fa-clock-rotate-left"></i> Copiados Recentemente</div>
+                <div class="chars-history-list" id="charsHistoryList"></div>
             </div>
-            <h4 class="char-category">Química, Física & Biologia</h4>
-            <div class="char-grid">
-                <button class="char-btn" onclick="copyChar('H₂O')">H₂O</button><button class="char-btn" onclick="copyChar('CO₂')">CO₂</button><button class="char-btn" onclick="copyChar('E=mc²')">E=mc²</button><button class="char-btn" onclick="copyChar('F=ma')">F=ma</button><button class="char-btn" onclick="copyChar('DNA')">DNA</button><button class="char-btn" onclick="copyChar('RNA')">RNA</button><button class="char-btn" onclick="copyChar('ATP')">ATP</button><button class="char-btn" onclick="copyChar('♀')">♀</button><button class="char-btn" onclick="copyChar('♂')">♂</button><button class="char-btn" onclick="copyChar('ΔH')">ΔH</button><button class="char-btn" onclick="copyChar('pH')">pH</button><button class="char-btn" onclick="copyChar('mol')">mol</button><button class="char-btn" onclick="copyChar('J/mol')">J/mol</button><button class="char-btn" onclick="copyChar('kJ')">kJ</button><button class="char-btn" onclick="copyChar('cal')">cal</button>
-            </div>
-            <h4 class="char-category">Pontuação & Tipografia</h4>
-            <div class="char-grid">
-                <button class="char-btn" onclick="copyChar('«')">«</button><button class="char-btn" onclick="copyChar('»')">»</button><button class="char-btn" onclick="copyChar('"')">‟</button><button class="char-btn" onclick="copyChar('"')">‟</button><button class="char-btn" onclick="copyChar(''')">‛</button><button class="char-btn" onclick="copyChar(''')">‛</button><button class="char-btn" onclick="copyChar('—')">—</button><button class="char-btn" onclick="copyChar('–')">–</button><button class="char-btn" onclick="copyChar('…')">…</button><button class="char-btn" onclick="copyChar('·')">·</button><button class="char-btn" onclick="copyChar('•')">•</button><button class="char-btn" onclick="copyChar('†')">†</button><button class="char-btn" onclick="copyChar('‡')">‡</button><button class="char-btn" onclick="copyChar('§')">§</button><button class="char-btn" onclick="copyChar('¶')">¶</button><button class="char-btn" onclick="copyChar('©')">©</button><button class="char-btn" onclick="copyChar('®')">®</button><button class="char-btn" onclick="copyChar('™')">™</button>
-            </div>
-            <h4 class="char-category">Subscrito & Sobrescrito</h4>
-            <div class="char-grid">
-                <button class="char-btn" onclick="copyChar('₀')">₀</button><button class="char-btn" onclick="copyChar('₁')">₁</button><button class="char-btn" onclick="copyChar('₂')">₂</button><button class="char-btn" onclick="copyChar('₃')">₃</button><button class="char-btn" onclick="copyChar('₄')">₄</button><button class="char-btn" onclick="copyChar('₅')">₅</button><button class="char-btn" onclick="copyChar('₆')">₆</button><button class="char-btn" onclick="copyChar('₇')">₇</button><button class="char-btn" onclick="copyChar('₈')">₈</button><button class="char-btn" onclick="copyChar('₉')">₉</button><button class="char-btn" onclick="copyChar('⁰')">⁰</button><button class="char-btn" onclick="copyChar('¹')">¹</button><button class="char-btn" onclick="copyChar('²')">²</button><button class="char-btn" onclick="copyChar('³')">³</button><button class="char-btn" onclick="copyChar('⁴')">⁴</button><button class="char-btn" onclick="copyChar('⁵')">⁵</button><button class="char-btn" onclick="copyChar('⁶')">⁶</button><button class="char-btn" onclick="copyChar('⁷')">⁷</button><button class="char-btn" onclick="copyChar('⁸')">⁸</button><button class="char-btn" onclick="copyChar('⁹')">⁹</button>
-            </div>
-            <h4 class="char-category">Formas & Símbolos Geométricos</h4>
-            <div class="char-grid">
-                <button class="char-btn" onclick="copyChar('△')">△</button><button class="char-btn" onclick="copyChar('□')">□</button><button class="char-btn" onclick="copyChar('○')">○</button><button class="char-btn" onclick="copyChar('◇')">◇</button><button class="char-btn" onclick="copyChar('▲')">▲</button><button class="char-btn" onclick="copyChar('■')">■</button><button class="char-btn" onclick="copyChar('●')">●</button><button class="char-btn" onclick="copyChar('◆')">◆</button><button class="char-btn" onclick="copyChar('⊥')">⊥</button><button class="char-btn" onclick="copyChar('∥')">∥</button><button class="char-btn" onclick="copyChar('∠')">∠</button><button class="char-btn" onclick="copyChar('⌀')">⌀</button><button class="char-btn" onclick="copyChar('≅')">≅</button><button class="char-btn" onclick="copyChar('∼')">∼</button><button class="char-btn" onclick="copyChar('∝')">∝</button>
-            </div>
-            <h4 class="char-category">Moedas & Economia</h4>
-            <div class="char-grid">
-                <button class="char-btn" onclick="copyChar('R$')">R$</button><button class="char-btn" onclick="copyChar('$')">$</button><button class="char-btn" onclick="copyChar('€')">€</button><button class="char-btn" onclick="copyChar('£')">£</button><button class="char-btn" onclick="copyChar('¥')">¥</button><button class="char-btn" onclick="copyChar('₿')">₿</button><button class="char-btn" onclick="copyChar('¢')">¢</button><button class="char-btn" onclick="copyChar('%')">%</button><button class="char-btn" onclick="copyChar('‰')">‰</button>
+
+            <div id="charsCategoriesContainer"></div>
+
+            <div class="chars-search-results" id="charsNoResults">
+                <div class="chars-no-results"><i class="fa-solid fa-face-sad-tear" style="font-size:2rem;margin-bottom:10px;display:block;"></i>Nenhum símbolo encontrado para "<span id="searchQueryText"></span>"</div>
             </div>
         </div>
     </section>
@@ -2928,20 +3015,51 @@ const sidebar = { classList: { add: ()=>{}, remove: ()=>{}, toggle: ()=>{} } }; 
 })();
 
 function switchTab(tabId, element) {
+    // Remover active de todos os nav-items
     document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
     if (element) element.classList.add('active');
+    
+    // Remover active de todas as tabs e adicionar na selecionada
     document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
     const tab = document.getElementById(tabId);
     if (tab) tab.classList.add('active');
-    // sidebar removida v12
-    if (tabId === 'tab-titles') { try { renderTitles(); } catch(e) {} }
-    if (tabId === 'tab-store') { try { renderStore(); } catch(e) {} }
-    if (tabId === 'tab-title') { try { buildTitleUI(); } catch(e) {} }
-    if (tabId === 'tab-events') { try { renderEventContent(); } catch(e) {} }
-    if (tabId === 'tab-pets') { try { renderPetGrid(); } catch(e) {} }
-    if (tabId === 'tab-flashcards') { try { updateFlashcardStats(); } catch(e) {} }
-    if (tabId === 'tab-keysounds') { try { renderKeySoundsTab(); } catch(e) {} }
-    if (tabId === 'tab-codes') { try { renderCodesGrid(); } catch(e) {} }
+    
+    // Fechar menu FAB se estiver aberto
+    if (typeof closeFabMenu === 'function') closeFabMenu();
+    
+    // Atualizar FAB nav se existir
+    const fabId = 'fab-nav-' + tabId.replace('tab-', '');
+    document.querySelectorAll('.fab-nav-item').forEach(el => el.classList.remove('active'));
+    const fabEl = document.getElementById(fabId);
+    if (fabEl) fabEl.classList.add('active');
+    
+    // Inicializações específicas por tab (com tratamento de erro)
+    try {
+        switch(tabId) {
+            case 'tab-titles': if (typeof renderTitles === 'function') renderTitles(); break;
+            case 'tab-store': if (typeof renderStore === 'function') renderStore(); break;
+            case 'tab-title': if (typeof buildTitleUI === 'function') buildTitleUI(); break;
+            case 'tab-events': if (typeof renderEventContent === 'function') renderEventContent(); break;
+            case 'tab-pets': if (typeof renderPetGrid === 'function') renderPetGrid(); break;
+            case 'tab-flashcards': if (typeof updateFlashcardStats === 'function') updateFlashcardStats(); break;
+            case 'tab-keysounds': if (typeof renderKeySoundsTab === 'function') renderKeySoundsTab(); break;
+            case 'tab-codes': if (typeof renderCodesGrid === 'function') renderCodesGrid(); break;
+            case 'tab-chars': 
+                // Garantir que o sistema de caracteres foi inicializado
+                if (typeof initEnhancedCharsSystem === 'function' && !window.charsSystemInitialized) {
+                    initEnhancedCharsSystem();
+                    window.charsSystemInitialized = true;
+                }
+                break;
+            case 'tab-planner': setTimeout(() => { if (typeof renderPlanner === 'function') renderPlanner(); }, 50); break;
+            case 'tab-stats': setTimeout(() => { if (typeof renderStudyStats === 'function') renderStudyStats(); }, 50); break;
+            case 'tab-subjects': setTimeout(() => { if (typeof renderSubjectGrid === 'function') renderSubjectGrid(); }, 50); break;
+            case 'tab-quiz': setTimeout(() => { if (typeof renderQuizSetup === 'function') renderQuizSetup(); }, 50); break;
+            case 'tab-journey': setTimeout(() => { if (typeof renderJourney === 'function') renderJourney(); }, 50); break;
+        }
+    } catch(e) {
+        console.warn('Erro ao inicializar tab:', tabId, e);
+    }
 }
 
 // ===================== TOAST =====================
@@ -3625,6 +3743,166 @@ function renderTitles() {
 }
 renderTitles(); updatePlayerTitle();
 
+// ===================== EVENTOS DO MÊS =====================
+function renderEventContent() {
+    const container = document.getElementById('eventContainer');
+    if (!container) return;
+    
+    const month = new Date().getMonth();
+    const ev = monthlyEvents[month];
+    
+    if (!ev) {
+        container.innerHTML = '<div style="text-align:center;padding:40px;color:var(--text-muted);"><i class="fa-solid fa-calendar-xmark" style="font-size:3rem;margin-bottom:15px;display:block;"></i><p>Nenhum evento disponível para este mês.</p></div>';
+        return;
+    }
+    
+    const maxXP = ev.tiers[ev.tiers.length - 1].xpReq;
+    const pct = maxXP > 0 ? Math.min(100, Math.round((xp / maxXP) * 100)) : 100;
+    
+    let tiersHTML = ev.tiers.map(tier => {
+        const unlocked = xp >= tier.xpReq;
+        return `<div class="xp-tier-card ${unlocked ? 'unlocked' : 'locked'}">
+            ${unlocked 
+                ? `<span class="xp-tier-badge">✅ Desbloqueado</span>` 
+                : `<span class="locked-badge">🔒 ${tier.xpReq} XP</span>`
+            }
+            <h4>${tier.icon} ${tier.label}</h4>
+            <p>${tier.reward}</p>
+        </div>`;
+    }).join('');
+    
+    container.innerHTML = `
+        <div class="event-banner" style="--event-color-a:${ev.colorA}; --event-color-b:${ev.colorB};">
+            <div class="event-banner-icon">${ev.icon}</div>
+            <div class="event-banner-text">
+                <div class="event-banner-title">${ev.name}</div>
+                <div class="event-banner-desc">${ev.desc}</div>
+                <div class="xp-progress-wrap">
+                    <div style="display:flex;justify-content:space-between;font-size:0.8rem;margin-bottom:4px;opacity:0.9;">
+                        <span>Seu XP: <strong>${xp}</strong></span>
+                        <span>${pct}% do tier máximo</span>
+                    </div>
+                    <div class="xp-bar-outer">
+                        <div class="xp-bar-inner" style="width:${pct}%;--event-color-a:${ev.colorA};--event-color-b:${ev.colorB};"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="event-banner-xp">
+                <strong>${xp}</strong>
+                <span>XP total</span>
+            </div>
+        </div>
+        <div style="margin-top:4px;margin-bottom:8px;font-size:0.85rem;color:var(--text-muted);">
+            <i class="fa-solid fa-info-circle"></i> XP é ganho automaticamente ao usar o Geekie (+1 XP a cada 6 segundos)
+        </div>
+        <div class="xp-tier-grid">${tiersHTML}</div>
+    `;
+}
+
+// ===================== TÍTULO DA PÁGINA =====================
+// Variáveis já declaradas no escopo global (linha 2971-2982)
+// selectedFont, selectedIcon, savedTitle, availableFonts, availableIcons
+
+function buildTitleUI() {
+    const fontGrid = document.getElementById('fontGrid');
+    const iconGrid = document.getElementById('iconGrid');
+    
+    if (!fontGrid || !iconGrid) return;
+    
+    fontGrid.innerHTML = '';
+    iconGrid.innerHTML = '';
+    
+    // Renderizar fontes disponíveis
+    availableFonts.forEach(f => {
+        const el = document.createElement('div');
+        el.className = `font-option ${selectedFont === f.family ? 'selected' : ''}`;
+        el.style.fontFamily = f.family;
+        el.innerHTML = `<div style="font-size:1.1rem;font-weight:700;">${f.sample}</div><div class="font-name">${f.label}</div>`;
+        el.onclick = () => {
+            selectedFont = f.family;
+            buildTitleUI();
+            updateTitlePreview();
+        };
+        fontGrid.appendChild(el);
+    });
+    
+    // Renderizar ícones disponíveis
+    availableIcons.forEach(ic => {
+        const el = document.createElement('div');
+        el.className = `icon-option ${selectedIcon === ic ? 'selected' : ''}`;
+        el.innerHTML = `<i class="fa-solid ${ic}"></i>`;
+        el.onclick = () => {
+            selectedIcon = ic;
+            buildTitleUI();
+            updateTitlePreview();
+        };
+        iconGrid.appendChild(el);
+    });
+    
+    // Restaurar valores salvos
+    const titleInput = document.getElementById('pageTitleInput');
+    if (titleInput) titleInput.value = savedTitle;
+    
+    updateTitlePreview();
+}
+
+function updateTitlePreview() {
+    const nameEl = document.getElementById('previewNameEl');
+    const iconEl = document.getElementById('previewIconEl');
+    const titleInput = document.getElementById('pageTitleInput');
+    
+    if (nameEl) {
+        nameEl.textContent = titleInput ? titleInput.value : savedTitle;
+        nameEl.style.fontFamily = selectedFont;
+    }
+    
+    if (iconEl) iconEl.className = `fa-solid ${selectedIcon}`;
+}
+
+function applyPageTitle() {
+    const titleInput = document.getElementById('pageTitleInput');
+    if (!titleInput) return;
+    
+    const newTitle = titleInput.value.trim();
+    if (!newTitle) {
+        showToast('Digite um nome para o título!', true);
+        return;
+    }
+    
+    savedTitle = newTitle;
+    localStorage.setItem('geekiePageTitle', savedTitle);
+    localStorage.setItem('geekieTitleFont', selectedFont);
+    localStorage.setItem('geekieTitleIcon', selectedIcon);
+    
+    // Aplicar ao documento
+    document.title = savedTitle;
+    
+    // Atualizar favicon se houver mapeamento
+    const iconEmojiMap = {
+        'fa-graduation-cap': '🎓',
+        'fa-book-open': '📖',
+        'fa-star': '⭐',
+        'fa-brain': '🧠',
+        'fa-fire': '🔥',
+        'fa-bolt': '⚡',
+        'fa-rocket': '🚀',
+        'fa-laptop-code': '💻',
+        'fa-atom': '⚛️',
+        'fa-flask': '🧪',
+        'fa-calculator': '🔢',
+        'fa-infinity': '♾️',
+        'fa-pencil': '✏️',
+        'fa-trophy': '🏆',
+        'fa-crown': '👑',
+        'fa-heart': '❤️',
+        'fa-globe': '🌍',
+        'fa-satellite': '🛰️',
+        'fa-moon': '🌙'
+    };
+    
+    showToast(`✅ Título atualizado para "${savedTitle}"`);
+}
+
 // ===================== NOTE FONTS =====================
 const noteFonts = [
     { family: 'Poppins', label: 'Poppins (Padrão)' },
@@ -3954,150 +4232,486 @@ function presetFocus() { stopAllAmbient(); setTimeout(() => { ['brown-noise'].fo
 function presetNature() { stopAllAmbient(); setTimeout(() => { ['rain', 'birds', 'wind'].forEach(id => { ambientVolumes[id] = 0.35; ambientAudios[id].volume = 0.35 * masterVol; ambientAudios[id].play().catch(() => {}); }); renderAmbientGrid(); renderAmbientMixer(); showToast('Preset Natureza ativado!'); }, 200); }
 initAmbient();
 
-// ===================== COPY CHAR =====================
-function copyChar(char) { const fallback = (t) => { const ta = document.createElement('textarea'); ta.value = t; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); showToast(`Símbolo ${t} copiado!`); } catch(e) {} document.body.removeChild(ta); }; if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(char).then(() => showToast(`Símbolo ${char} copiado!`)).catch(() => fallback(char)); } else fallback(char); }
+// ===================== ENHANCED CHARACTER SYSTEM =====================
+const charsData = [
+    { group: 'Matemática', icon: 'fa-calculator', iconBg: 'rgba(0,255,136,0.15)', iconColor: '#00ff88',
+      categories: [
+        { name: 'Operadores Básicos', chars: ['±','×','÷','≈','≠','≤','≥','∞','√','∛','°','²','³','½','¼','¾','⅓','⅔','⅛','⅜'] },
+        { name: 'Álgebra & Lógica', chars: ['∀','∃','∈','∉','⊂','⊃','∪','∩','∅','∫','∑','∏','∴','∵','∇','∂','¬','∧','∨'] },
+        { name: 'Geometria', chars: ['△','□','○','◇','▲','■','●','◆','⊥','∥','∠','⌀','≅','∼','∝','∢','▱','▰','◯','⬡'] },
+        { name: 'Frações', chars: ['½','⅓','⅔','¼','¾','⅕','⅖','⅗','⅘','⅙','⅚','⅐','⅑','⅒','↉','%','‰','‱'] },
+        { name: 'Números Romanos', chars: ['Ⅰ','Ⅱ','Ⅲ','Ⅳ','Ⅴ','Ⅵ','Ⅶ','Ⅷ','Ⅸ','Ⅹ','Ⅺ','Ⅻ','Ⅼ','Ⅽ','Ⅾ','Ⅿ'] },
+        { name: 'Subscritos/Sobrescritos', chars: ['₀','₁','₂','₃','₄','₅','₆','₇','₈','₉','⁺','⁻','⁼','⁽','⁾','ⁿ','ᵃ','ᵇ','ᶜ','ᵈ'] }
+    ]},
+    { group: 'Letras & Alfabetos', icon: 'fa-font', iconBg: 'rgba(123,44,191,0.15)', iconColor: '#7b2cbf',
+      categories: [
+        { name: 'Alfabeto Grego', chars: ['α','β','γ','δ','ε','ζ','η','θ','ι','κ','λ','μ','ν','ξ','π','ρ','σ','τ','φ','χ','ψ','ω','Δ','Θ','Λ','Π','Σ','Φ','Ω'] },
+        { name: 'Grego Minúsculo', chars: ['α','β','γ','δ','ε','ζ','η','θ','ι','κ','λ','μ','ν','ξ','ο','π','ρ','σ','τ','υ','φ','χ','ψ','ω'] },
+        { name: 'Grego Maiúsculo', chars: ['Α','Β','Γ','Δ','Ε','Ζ','Η','Θ','Ι','Κ','Λ','Μ','Ν','Ξ','Ο','Π','Ρ','Σ','Τ','Υ','Φ','Χ','Ψ','Ω'] },
+        { name: 'Letras Circulares', chars: ['①','②','③','④','⑤','⑥','⑦','⑧','⑨','⑩','⑪','⑫','⑬','⑭','⑮','⑯','⑰','⑱','⑳','㉑','㉒'] },
+        { name: 'Negrito Circular', chars: ['❶','❷','❸','❹','❺','❻','❼','❽','❾','❿','⓫','⓬','⓭','⓮','⓯','⓰','⓱','⓲','⓳','⓴'] }
+    ]},
+    { group: 'Setas & Direção', icon: 'fa-arrows-alt', iconBg: 'rgba(0,212,255,0.15)', iconColor: '#00d4ff',
+      categories: [
+        { name: 'Setas Básicas', chars: ['→','←','↑','↓','↔','↕','⇒','⇐','⇑','⇓','⇔','⇕'] },
+        { name: 'Setas Estilizadas', chars: ['➜','➡','➞','➟','➠','➢','➣','➤','➥','➦','➧','➨','➩','➪','➫','➬'] },
+        { name: 'Setas Curvas', chars: ['↶','↷','↺','↻','⟲','⟳','➲','➳','➴','➵','➶','➷','➸','➹','➺','➻'] },
+        { name: 'Setas Longas', chars: ['⟵','⟶','⟷','⟸','⟹','⟺','⟻','⟼','⟽','⟾','⟿','⤀','⤁','⤂','⤃','⤄'] }
+    ]},
+    { group: 'Ciência & Acadêmico', icon: 'fa-flask', iconBg: 'rgba(255,107,107,0.15)', iconColor: '#ff6b6b',
+      categories: [
+        { name: 'Química & Física', chars: ['H₂O','CO₂','E=mc²','F=ma','DNA','RNA','ATP','♀','♂','ΔH','pH','mol','J/mol','kJ','cal','eV','Ω','Å','K','°C'] },
+        { name: 'Astronomia', chars: ['☀','☽','☾','★','☆','☉','☿','♀','♂','♃','♄','♅','♆','♇','⚳','⚴','⚵','⚶','⚷','⚸'] },
+        { name: 'Unidades SI', chars: ['㎜','㎝','㎞','㎎','㎏','㎡','㎢','㎣','㎤','㎥','㎦','㎧','㎨','㎩','㎪','㎫','㎬','㎭','㎮','㎯'] }
+    ]},
+    { group: 'Música & Som', icon: 'fa-music', iconBg: 'rgba(255,193,7,0.15)', iconColor: '#ffc107',
+      categories: [
+        { name: 'Notas Musicais', chars: ['♩','♪','♫','♬','♭','♯'] }
+    ]},
+    { group: 'Moedas & Economia', icon: 'fa-coins', iconBg: 'rgba(76,175,80,0.15)', iconColor: '#4caf50',
+      categories: [
+        { name: 'Moedas Mundiais', chars: ['R$','$','€','£','¥','₿','¢','₹','₽','₩','₪','₫','₭','₮'] },
+        { name: 'Símbolos Financeiros', chars: ['%','‰','‱'] }
+    ]},
+    { group: 'Pontuação & Tipografia', icon: 'fa-quote-right', iconBg: 'rgba(156,39,176,0.15)', iconColor: '#9c27b0',
+      categories: [
+        { name: 'Aspas Especiais', chars: ['«','»','„','‟','‛','\u2019','「','」','『','』','【','】'] },
+        { name: 'Travessões & Espaçamento', chars: ['—','–','…','·','•','‣','⁂','※','⁑','⁕','⁖','⁘','⁙','⁛','⁜','⁝'] },
+        { name: 'Marcadores & Referência', chars: ['†','‡','§','¶','©','®','™','℠','№','℗','℞','℮','⏎','⏻','⏼','⏽'] }
+    ]},
+    { group: 'Formas & Geométricos', icon: 'fa-shapes', iconBg: 'rgba(255,152,0,0.15)', iconColor: '#ff9800',
+      categories: [
+        { name: 'Quadrados & Retângulos', chars: ['□','▪','▫','◼','◻','◾','◽','▰','▱','◧','◨','◩','◪','◫','◬','◭'] },
+        { name: 'Triângulos', chars: ['△','▽','▲','▼','▷','◁','▶','◀','◢','◣','◤','◥','◸','◹','◺','◻'] },
+        { name: 'Círculos & Pontos', chars: ['○','●','◐','◑','◒','◓','◔','◕','◖','◗','◎','●','◉','◌','◍','◎'] },
+        { name: 'Diamantes', chars: ['◇','◆','⬡','⬢','⬣','⬤','⬥','⬦','⬧','⬨','⬩','⬪','⬫','⬬','⬭','⬮'] }
+    ]},
+    { group: 'Decorações & Ornamentos', icon: 'fa-wand-magic-sparkles', iconBg: 'rgba(233,30,99,0.15)', iconColor: '#e91e63',
+      categories: [
+        { name: 'Estrelas', chars: ['✦','✧','★','☆','⋆','✡','✶','✷','✸','✹','✺','✻','✼','✽','✾','✿'] },
+        { name: 'Flores & Natureza', chars: ['❀','❁','❂','❃','❄','❅','❆','❇','❈','❉','❊','❋','❍','❏','❐','❑'] }
+    ]},
+    { group: 'Coraçãos & Emoticons', icon: 'fa-heart', iconBg: 'rgba(244,67,54,0.15)', iconColor: '#f44336',
+      categories: [
+        { name: 'Corações', chars: ['♥','❤','💔','❣','❥','❦','❧','♡','💕','💞','💓','💗','💖','💘','💝','💟'] },
+        { name: 'Emoticons Texto', chars: ['☺','☹','☻','😐','😎','😕','😊','😃','😁','😂','😅','😆','😇','😈','😉','😋'] }
+    ]},
+    { group: 'Xadrez & Jogos', icon: 'fa-chess', iconBg: 'rgba(103,58,183,0.15)', iconColor: '#673ab7',
+      categories: [
+        { name: 'Peças de Xadrez', chars: ['♔','♕','♖','♗','♘','♙','♚','♛','♜','♝','♞','♟'] },
+        { name: 'Cartas & Naipes', chars: ['♠','♣','♥','♦','🂡','🂢','🂣','🂤','🂥','🂦','🂧','🂨'] },
+        { name: 'Dados & Jogos', chars: ['⚀','⦁','⚂','⚃','⚄','⚅','🎲','🎯','🎪','🎭','🎨','🎬'] }
+    ]},
+    { group: 'Tecnologia & Código', icon: 'fa-laptop-code', iconBg: 'rgba(0,188,212,0.15)', iconColor: '#00bcd4',
+      categories: [
+        { name: 'Teclado & Atalhos', chars: ['⌘','⌥','⇧','⌃','⎋','⇥','⇤','⌫','⌦','⎋','␣','⏎','⇤','⇥','⇪','⌧'] },
+        { name: 'Interface & UI', chars: ['☰','☱','☲','☳','☴','☵','☶','☷','▤','▥','▦','▧','▨','▩','▣','▢'] }
+    ]},
+    { group: 'Tempo & Clima', icon: 'fa-cloud-sun', iconBg: 'rgba(139,195,74,0.15)', iconColor: '#8bc34a',
+      categories: [
+        { name: 'Clima', chars: ['☀','☁','☂','☃','☄','⚡','❄','⛄','☔','☣','☤','☥','🌤','⛅','🌥','☈'] },
+        { name: 'Fases da Lua', chars: ['🌑','🌒','🌓','🌔','🌕','🌖','🌗','🌘','☽','☾','◐','◑','◒','◓','◔','◕'] }
+    ]},
+    { group: 'Religião & Símbolos', icon: 'fa-om', iconBg: 'rgba(121,85,72,0.15)', iconColor: '#795548',
+      categories: [
+        { name: 'Símbolos Religiosos', chars: ['☯','✡','☸','☪','✝','☦','☧','☨','☩','☪','☫','☬','☭','☮','☯','☰'] },
+        { name: 'Astrologia', chars: ['♈','♉','♊','♋','♌','♍','♎','♏','♐','♑','♒','♓','⛎','☌','☍','⚷'] }
+    ]},
+    { group: 'Marcadores & Checks', icon: 'fa-check-double', iconBg: 'rgba(0,150,136,0.15)', iconColor: '#009688',
+      categories: [
+        { name: 'Checks & Cruzados', chars: ['✓','✔','✗','✘','☐','☑','☒','⬚','⬛','⬜','▪','▫','◽','◾','▮','▯'] },
+        { name: 'Marcadores Lista', chars: ['•','◦','▪','▫','‣','⁃','⁌','⁍','∙','∘','·','※','⁂','⁎','⁏','⁕'] }
+    ]},
+    { group: 'Emojis Populares', icon: 'fa-face-smile', iconBg: 'rgba(255,87,34,0.15)', iconColor: '#ff5722',
+      categories: [
+        { name: 'Rostos Expressivos', chars: ['😀','😃','😄','😁','😆','😅','🤣','😂','🙂','🙃','😉','😊','😇','🥰','😍','🤩'] },
+        { name: 'Gestos & Mãos', chars: ['👋','🤚','🖐️','✋','🖖','👌','🤌','🤏','✌️','🤞','🤟','🤘','🤙','👈','👉','👆'] },
+        { name: 'Animais', chars: ['🐶','🐱','🐭','🐹','🐰','🦊','🐻','🐼','🐨','🐯','🦁','🐮','🐷','🐸','🐵','🐔'] },
+        { name: 'Comida & Bebida', chars: ['🍎','🍕','🍔','🍟','🌮','🌯','🍜','🍣','🍦','🍰','🎂','🍿','🍩','🍪','☕','🍷'] },
+        { name: 'Transporte', chars: ['🚗','🚕','🚙','🚌','🚎','🏎️','🚓','🚑','🚒','🚐','🛻','🚚','🚛','🚜','🛵','🏍️'] },
+        { name: 'Objetos', chars: ['📱','💻','⌨️','🖥️','🖨️','📷','📸','📺','📻','🔔','🔕','⏰','⌛','⏳','📁','📂'] }
+    ]}
+];
 
-// ===================== MONTHLY EVENTS =====================
-function renderEventContent() {
-    const container = document.getElementById('eventContainer'); if (!container) return;
-    const month = new Date().getMonth();
-    const ev = monthlyEvents[month];
-    const maxXP = ev.tiers[ev.tiers.length - 1].xpReq;
-    const pct = maxXP > 0 ? Math.min(100, Math.round((xp / maxXP) * 100)) : 100;
-    let tiersHTML = ev.tiers.map(tier => {
-        const unlocked = xp >= tier.xpReq;
-        return `<div class="xp-tier-card ${unlocked ? 'unlocked' : 'locked'}">${unlocked ? `<span class="xp-tier-badge">✅ Desbloqueado</span>` : `<span class="locked-badge">🔒 ${tier.xpReq} XP</span>`}<h4>${tier.icon} ${tier.label}</h4><p>${tier.reward}</p></div>`;
-    }).join('');
-    container.innerHTML = `<div class="event-banner" style="--event-color-a:${ev.colorA}; --event-color-b:${ev.colorB};"><div class="event-banner-icon">${ev.icon}</div><div class="event-banner-text"><div class="event-banner-title">${ev.name}</div><div class="event-banner-desc">${ev.desc}</div><div class="xp-progress-wrap"><div style="display:flex;justify-content:space-between;font-size:0.8rem;margin-bottom:4px;opacity:0.9;"><span>Seu XP: <strong>${xp}</strong></span><span>${pct}% do tier máximo</span></div><div class="xp-bar-outer"><div class="xp-bar-inner" style="width:${pct}%;--event-color-a:${ev.colorA};--event-color-b:${ev.colorB};"></div></div></div></div><div class="event-banner-xp"><strong>${xp}</strong><span>XP total</span></div></div><div style="margin-top:4px;margin-bottom:8px;font-size:0.85rem;color:var(--text-muted);"><i class="fa-solid fa-info-circle"></i> XP é ganho automaticamente ao usar o Geekie (+1 XP a cada 6 segundos)</div><div class="xp-tier-grid">${tiersHTML}</div>`;
-}
-renderEventContent();
+let charFavorites = JSON.parse(localStorage.getItem('charFavorites') || '[]');
+let charHistory = JSON.parse(localStorage.getItem('charHistory') || '[]');
+let activeGroupFilter = 'all';
+let expandedCategories = new Set();
+let tooltipEl = null;
 
-// ===================== TITLE SETTINGS =====================
-function buildTitleUI() {
-    const fontGrid = document.getElementById('fontGrid'), iconGrid = document.getElementById('iconGrid'); if (!fontGrid || !iconGrid) return; fontGrid.innerHTML = ''; iconGrid.innerHTML = '';
-    availableFonts.forEach(f => { const el = document.createElement('div'); el.className = `font-option ${selectedFont === f.family ? 'selected' : ''}`; el.style.fontFamily = f.family; el.innerHTML = `<div style="font-size:1.1rem;font-weight:700;">${f.sample}</div><div class="font-name">${f.label}</div>`; el.onclick = () => { selectedFont = f.family; buildTitleUI(); updateTitlePreview(); }; fontGrid.appendChild(el); });
-    availableIcons.forEach(ic => { const el = document.createElement('div'); el.className = `icon-option ${selectedIcon === ic ? 'selected' : ''}`; el.innerHTML = `<i class="fa-solid ${ic}"></i>`; el.onclick = () => { selectedIcon = ic; buildTitleUI(); updateTitlePreview(); }; iconGrid.appendChild(el); });
-    document.getElementById('pageTitleInput').value = savedTitle; updateTitlePreview();
+function initEnhancedCharsSystem() {
+    renderCharFilters();
+    renderAllCategories();
+    updateCharStats();
+    renderFavorites();
+    renderHistory();
+    createTooltip();
 }
-function updateTitlePreview() { const name = document.getElementById('pageTitleInput').value || savedTitle; document.getElementById('titlePreviewBox').style.fontFamily = selectedFont; document.getElementById('previewIconEl').className = `fa-solid ${selectedIcon}`; document.getElementById('previewNameEl').textContent = name; }
-const iconEmojiMap = {
-    'fa-graduation-cap': '🎓', 'fa-book': '📖', 'fa-star': '⭐', 'fa-brain': '🧠', 'fa-fire': '🔥',
-    'fa-rocket': '🚀', 'fa-heart': '❤️', 'fa-bolt': '⚡', 'fa-crown': '👑', 'fa-moon': '🌙',
-    'fa-sun': '☀️', 'fa-infinity': '♾️', 'fa-circle-nodes': '🔮', 'fa-wand-sparkles': '✨',
-    'fa-flask': '⚗️', 'fa-atom': '⚛️', 'fa-music': '🎵', 'fa-gamepad': '🎮', 'fa-coffee': '☕',
-    'fa-laptop': '💻', 'fa-pencil': '✏️', 'fa-palette': '🎨', 'fa-trophy': '🏆', 'fa-seedling': '🌱',
-    'fa-calculator': '🧮', 'fa-compass': '🧭', 'fa-globe': '🌐', 'fa-dna': '🧬', 'fa-microscope': '🔬',
-};
-function applyFavicon(iconName) {
-    const emoji = iconEmojiMap[iconName] || '📚';
-    const svg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>${emoji}</text></svg>`;
-    const link = document.getElementById('pageIcon');
-    if (link) link.href = `data:image/svg+xml,${encodeURIComponent(svg)}`;
-}
-function applyPageTitle() { const name = document.getElementById('pageTitleInput').value.trim() || 'Geekie One Ultra v10.0'; savedTitle = name; localStorage.setItem('geekieTitleName', name); localStorage.setItem('geekieTitleFont', selectedFont); localStorage.setItem('geekieTitleIcon', selectedIcon); document.title = name; var _b2 = document.querySelector('.brand'); if (_b2) _b2.style.fontFamily = selectedFont; applyFavicon(selectedIcon); showToast('Título atualizado!'); }
-(function() { document.title = savedTitle; var _b = document.querySelector('.brand'); if (_b) _b.style.fontFamily = selectedFont; applyFavicon(selectedIcon); buildTitleUI(); })();
 
-// ===================== INIT PET GRID =====================
-renderPetGrid();
-updateActivePetDisplay();
+function createTooltip() {
+    tooltipEl = document.createElement('div');
+    tooltipEl.className = 'char-tooltip';
+    tooltipEl.innerHTML = '<div class="char-tooltip-preview"></div><div class="char-tooltip-name"></div><div class="char-tooltip-code"></div><div class="char-tooltip-hint">Clique para copiar</div>';
+    document.body.appendChild(tooltipEl);
+}
 
-// ===================== CALCULATOR =====================
-const calcState = { val: '0', expr: '', hasResult: false };
-function calcRender() {
-    document.getElementById('calcVal').textContent = calcState.val;
-    document.getElementById('calcExpr').textContent = calcState.expr;
-}
-function calcAction(a) {
-    const ops = ['+', '-', '×', '÷'];
-    if (a === 'clear') { calcState.val = '0'; calcState.expr = ''; calcState.hasResult = false; }
-    else if (a === 'back') { if (calcState.hasResult) { calcState.val = '0'; calcState.hasResult = false; } else { calcState.val = calcState.val.length > 1 ? calcState.val.slice(0, -1) : '0'; } }
-    else if (a === '±') { calcState.val = calcState.val.startsWith('-') ? calcState.val.slice(1) : '-' + calcState.val; }
-    else if (a === '%') { calcState.val = String(parseFloat(calcState.val) / 100); calcState.hasResult = true; }
-    else if (a === '√') { const n = parseFloat(calcState.val); calcState.expr = `√(${calcState.val})`; calcState.val = n < 0 ? 'Erro' : String(Math.sqrt(n)); calcState.hasResult = true; }
-    else if (a === 'x²') { calcState.expr = `(${calcState.val})²`; calcState.val = String(parseFloat(calcState.val) ** 2); calcState.hasResult = true; }
-    else if (a === '1/x') { const n = parseFloat(calcState.val); calcState.expr = `1/${calcState.val}`; calcState.val = n === 0 ? 'Erro' : String(1 / n); calcState.hasResult = true; }
-    else if (ops.includes(a)) { calcState.expr = calcState.val + ' ' + a; calcState.hasResult = false; }
-    else if (a === '=') { calcCompute(); }
-    else if (a === '.') { if (calcState.hasResult) { calcState.val = '0.'; calcState.hasResult = false; } else if (!calcState.val.includes('.')) calcState.val += '.'; }
-    else {
-        if (calcState.hasResult || calcState.val === '0') { calcState.val = a; calcState.hasResult = false; }
-        else { if (calcState.val.replace('-', '').replace('.', '').length < 15) calcState.val += a; }
-    }
-    calcRender();
-}
-function calcCompute() {
-    if (!calcState.expr) return;
-    const parts = calcState.expr.split(' ');
-    if (parts.length < 2) return;
-    const a = parseFloat(parts[0]), op = parts[1], b = parseFloat(calcState.val);
-    let res;
-    if (op === '+') res = a + b;
-    else if (op === '-') res = a - b;
-    else if (op === '×') res = a * b;
-    else if (op === '÷') res = b === 0 ? 'Erro' : a / b;
-    const resultStr = typeof res === 'number' ? (Number.isFinite(res) ? (String(parseFloat(res.toPrecision(12)))) : 'Erro') : res;
-    calcState.expr = `${parts[0]} ${op} ${calcState.val} =`;
-    calcState.val = resultStr;
-    calcState.hasResult = true;
-    calcRender();
-}
-document.addEventListener('keydown', (e) => {
-    const active = document.getElementById('tab-calculator');
-    if (!active || !active.classList.contains('active')) return;
-    if (e.key >= '0' && e.key <= '9') calcAction(e.key);
-    else if (e.key === '+') calcAction('+');
-    else if (e.key === '-') calcAction('-');
-    else if (e.key === '*') calcAction('×');
-    else if (e.key === '/') { e.preventDefault(); calcAction('÷'); }
-    else if (e.key === 'Enter' || e.key === '=') calcAction('=');
-    else if (e.key === 'Backspace') calcAction('back');
-    else if (e.key === 'Escape') calcAction('clear');
-    else if (e.key === '.') calcAction('.');
-});
-
-// ===================== DEVLOG SEARCH =====================
-function filterDevlog(query) {
-    const q = query.toLowerCase().trim();
-    const items = document.querySelectorAll('#devlogTimeline .timeline-item');
-    let anyVisible = false;
-    items.forEach(item => {
-        const text = item.textContent.toLowerCase();
-        const version = (item.dataset.version || '').toLowerCase();
-        const match = !q || text.includes(q) || version.includes(q);
-        item.style.display = match ? '' : 'none';
-        if (match) anyVisible = true;
+function renderCharFilters() {
+    const container = document.getElementById('charsFilterBar');
+    if (!container) return;
+    
+    let html = '<button class="char-filter-btn active" data-group="all" onclick="setGroupFilter(\'all\')"><i class="fa-solid fa-border-all"></i> Todos <span class="filter-count" id="countAll">0</span></button>';
+    
+    charsData.forEach(function(group) {
+        const totalChars = group.categories.reduce(function(sum, cat) { return sum + cat.chars.length; }, 0);
+        html += '<button class="char-filter-btn" data-group="' + group.group + '" onclick="setGroupFilter(\'' + group.group + '\')"><i class="fa-solid ' + group.icon + '"></i> ' + group.group + ' <span class="filter-count">' + totalChars + '</span></button>';
     });
-    const noResults = document.getElementById('devlogNoResults');
-    if (noResults) noResults.style.display = anyVisible ? 'none' : 'block';
-    const searchEl = document.getElementById('devlogSearch');
-    if (searchEl) searchEl.style.borderColor = (!q || anyVisible) ? '' : 'var(--danger)';
+    
+    container.innerHTML = html;
+    document.getElementById('countAll').textContent = getTotalCharCount();
 }
 
-// ===================== CHAR SEARCH =====================
-function filterChars(query) {
-    const q = query.toLowerCase().trim();
-    const cats = document.querySelectorAll('#tab-chars .char-category');
-    const grids = document.querySelectorAll('#tab-chars .char-grid');
-    if (!q) {
-        cats.forEach(c => c.style.display = '');
-        grids.forEach(g => { g.style.display = ''; g.querySelectorAll('.char-btn').forEach(b => b.style.display = ''); });
+function getTotalCharCount() {
+    return charsData.reduce(function(sum, group) { 
+        return sum + group.categories.reduce(function(catSum, cat) { return catSum + cat.chars.length; }, 0); 
+    }, 0);
+}
+
+function updateCharStats() {
+    const totalEl = document.getElementById('totalCharsCount');
+    const catsEl = document.getElementById('totalCatsCount');
+    const favEl = document.getElementById('favCount');
+    
+    if (totalEl) totalEl.textContent = getTotalCharCount();
+    if (catsEl) catsEl.textContent = charsData.reduce(function(s, g) { return s + g.categories.length; }, 0);
+    if (favEl) favEl.textContent = charFavorites.length;
+}
+
+
+
+function renderAllCategories(filter, groupFilter) {
+    filter = filter || '';
+    groupFilter = groupFilter || 'all';
+    
+    const container = document.getElementById('charsCategoriesContainer');
+    if (!container) return;
+    
+    let html = '';
+    let hasVisibleContent = false;
+    const q = filter.toLowerCase().trim();
+    
+    charsData.forEach(function(group, gi) {
+        if (groupFilter !== 'all' && group.group !== groupFilter) return;
+        
+        group.categories.forEach(function(category, ci) {
+            let filteredChars = category.chars;
+            if (q) {
+                filteredChars = category.chars.filter(function(c) { 
+                    return c.toLowerCase().includes(q) || category.name.toLowerCase().includes(q);
+                });
+            }
+            
+            if (filteredChars.length === 0) return;
+            hasVisibleContent = true;
+            
+            const catId = 'cat-' + gi + '-' + ci;
+            const isOpen = expandedCategories.has(catId) || !q;
+            
+            html += '<div class="char-accordion ' + (isOpen ? 'open' : '') + '" data-cat="' + catId + '">' +
+                '<div class="char-accordion-header" onclick="toggleCategory(\'' + catId + '\')">' +
+                    '<div class="char-accordion-left">' +
+                        '<div class="char-accordion-icon" style="background:' + group.iconBg + ';color:' + group.iconColor + '">' +
+                            '<i class="fa-solid ' + group.icon + '"></i>' +
+                        '</div>' +
+                        '<div>' +
+                            '<div class="char-accordion-title">' + category.name + '</div>' +
+                            '<div class="char-accordion-count">' + filteredChars.length + ' símbolos</div>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div style="display:flex;align-items:center;gap:10px;">' +
+                        '<button class="char-copy-category" onclick="event.stopPropagation(); copyCategoryChars(' + gi + ', ' + ci + ');">' +
+                            '<i class="fa-solid fa-copy"></i> Copiar Todos' +
+                        '</button>' +
+                        '<i class="fa-solid fa-chevron-down char-accordion-arrow"></i>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="char-accordion-content">' +
+                    '<div class="char-accordion-inner">' +
+                        '<div class="char-grid-enhanced">';
+            
+            filteredChars.forEach(function(char) {
+                const safeChar = char.replace(/\\/g, '\\\\').replace(/'/g, "\'");
+                html += '<button class="char-btn-enhanced ' + (charFavorites.includes(char) ? 'favorited' : '') + '" ' +
+                    'data-char="' + safeChar + '" ' +
+                    'onmouseenter="showCharTooltip(event, \'' + safeChar + '\')" ' +
+                    'onmouseleave="hideCharTooltip()" ' +
+                    'onmousemove="moveCharTooltip(event)" ' +
+                    'onclick="copyCharEnhanced(\'' + safeChar + '\');">' +
+                    char +
+                    '<span class="char-fav-overlay">★</span>' +
+                '</button>';
+            });
+            
+            html += '</div></div></div></div>';
+        });
+    });
+    
+    container.innerHTML = html;
+    
+    const noResults = document.getElementById('charsNoResults');
+    if (noResults) {
+        noResults.classList.toggle('visible', !hasVisibleContent && q);
+        document.getElementById('searchQueryText').textContent = q;
+    }
+    
+    const clearBtn = document.getElementById('charSearchClear');
+    if (clearBtn) clearBtn.style.display = q ? 'block' : 'none';
+}
+
+function toggleCategory(catId) {
+    if (expandedCategories.has(catId)) {
+        expandedCategories.delete(catId);
+    } else {
+        expandedCategories.add(catId);
+    }
+    
+    const el = document.querySelector('[data-cat="' + catId + '"]');
+    if (el) el.classList.toggle('open');
+}
+
+function expandAllCategories() {
+    document.querySelectorAll('.char-accordion').forEach(function(el) { el.classList.add('open'); });
+    charsData.forEach(function(g, gi) {
+        g.categories.forEach(function(c, ci) {
+            expandedCategories.add('cat-' + gi + '-' + ci);
+        });
+    });
+}
+
+function collapseAllCategories() {
+    document.querySelectorAll('.char-accordion').forEach(function(el) { el.classList.remove('open'); });
+    expandedCategories.clear();
+}
+
+function setGroupFilter(group) {
+    activeGroupFilter = group;
+    
+    document.querySelectorAll('.char-filter-btn').forEach(function(btn) {
+        btn.classList.toggle('active', btn.dataset.group === group);
+    });
+    
+    const searchValue = document.getElementById('charSearchEnhanced') ? document.getElementById('charSearchEnhanced').value : '';
+    renderAllCategories(searchValue, group);
+}
+
+function enhancedFilterChars(query) {
+    renderAllCategories(query, activeGroupFilter);
+}
+
+function showCharTooltip(event, char) {
+    if (!tooltipEl) return;
+    
+    const codePoint = char.codePointAt(0).toString(16).toUpperCase().padStart(4, '0');
+    const unicodeName = getUnicodeName(char);
+    
+    tooltipEl.querySelector('.char-tooltip-preview').textContent = char;
+    tooltipEl.querySelector('.char-tooltip-name').textContent = unicodeName;
+    tooltipEl.querySelector('.char-tooltip-code').textContent = 'U+' + codePoint;
+    
+    tooltipEl.classList.add('visible');
+    moveCharTooltip(event);
+}
+
+function moveCharTooltip(event) {
+    if (!tooltipEl || !tooltipEl.classList.contains('visible')) return;
+    
+    const x = event.clientX + 15;
+    const y = event.clientY + 15;
+    
+    const rect = tooltipEl.getBoundingClientRect();
+    const maxX = window.innerWidth - rect.width - 20;
+    const maxY = window.innerHeight - rect.height - 20;
+    
+    tooltipEl.style.left = Math.min(x, maxX) + 'px';
+    tooltipEl.style.top = Math.min(y, maxY) + 'px';
+}
+
+function hideCharTooltip() {
+    if (tooltipEl) tooltipEl.classList.remove('visible');
+}
+
+function getUnicodeName(char) {
+    const names = {
+        '±': 'Mais-Menos', '×': 'Vezes', '÷': 'Dividido por', '≈': 'Aproximadamente',
+        '≠': 'Diferente', '≤': 'Menor ou Igual', '≥': 'Maior ou Igual', '∞': 'Infinito',
+        '√': 'Raiz Quadrada', '∛': 'Raiz Cúbica', 'π': 'Pi', 'α': 'Alfa', 'β': 'Beta',
+        '∑': 'Somatório', '∫': 'Integral', '→': 'Seta Direita', '←': 'Seta Esquerda',
+        '↑': 'Seta Para Cima', '↓': 'Seta Para Baixo', '♥': 'Coração', '★': 'Estrela',
+        '©': 'Copyright', '®': 'Registrado', '™': 'Marca Registrada', '€': 'Euro',
+        '£': 'Libra Esterlina', '¥': 'Yen', '$': 'Dólar', '☀': 'Sol', '☽': 'Lua'
+    };
+    return names[char] || 'Símbolo "' + char + '"';
+}
+
+
+
+function copyCharEnhanced(char) {
+    const fallback = function(t) {
+        const ta = document.createElement('textarea');
+        ta.value = t;
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); } catch(e) {}
+        document.body.removeChild(ta);
+    };
+    
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(char).then(function() { onCharCopied(char); }).catch(function() { fallback(char); onCharCopied(char); });
+    } else { fallback(char); onCharCopied(char); }
+}
+
+function onCharCopied(char) {
+    showToast('✅ "' + char + '" copiado!');
+    addToHistory(char);
+    
+    const safeChar = char.replace(/\\/g, '\\\\').replace(/'/g, "\'");
+    const btn = document.querySelector('[data-char="' + safeChar + '"]');
+    if (btn) {
+        btn.classList.add('char-copied');
+        setTimeout(function() { btn.classList.remove('char-copied'); }, 500);
+    }
+}
+
+function addToHistory(char) {
+    charHistory = charHistory.filter(function(h) { return h.char !== char; });
+    charHistory.unshift({ char: char, time: Date.now() });
+    charHistory = charHistory.slice(0, 30);
+    localStorage.setItem('charHistory', JSON.stringify(charHistory));
+    renderHistory();
+}
+
+function renderHistory() {
+    const section = document.getElementById('charsHistorySection');
+    const list = document.getElementById('charsHistoryList');
+    if (!section || !list) return;
+    
+    if (charHistory.length === 0) {
+        section.style.display = 'none';
         return;
     }
-    cats.forEach((cat, i) => {
-        const grid = grids[i];
-        if (!grid) return;
-        const btns = grid.querySelectorAll('.char-btn');
-        let any = false;
-        btns.forEach(b => {
-            const text = b.textContent.toLowerCase();
-            const match = text.includes(q);
-            b.style.display = match ? '' : 'none';
-            if (match) any = true;
-        });
-        cat.style.display = any ? '' : 'none';
-        grid.style.display = any ? '' : 'none';
+    
+    section.style.display = 'block';
+    let html = '';
+    charHistory.slice(0, 15).forEach(function(item) {
+        const safeChar = item.char.replace(/\\/g, '\\\\').replace(/'/g, "\'");
+        html += '<div class="char-history-item" onclick="copyCharEnhanced(\'' + safeChar + '\')" title="Copiar novamente">' +
+            item.char + '<span class="char-history-time">' + getTimeAgo(item.time) + '</span></div>';
     });
+    list.innerHTML = html;
 }
+
+function getTimeAgo(timestamp) {
+    const diff = Date.now() - timestamp;
+    const mins = Math.floor(diff / 60000);
+    if (mins < 1) return 'agora';
+    if (mins < 60) return mins + 'min';
+    const hours = Math.floor(mins / 60);
+    if (hours < 24) return hours + 'h';
+    return Math.floor(hours / 24) + 'd';
+}
+
+function clearCharHistory() {
+    charHistory = [];
+    localStorage.setItem('charHistory', JSON.stringify([]));
+    renderHistory();
+    showToast('🗑️ Histório limpo!');
+}
+
+function toggleFavorite(char) {
+    if (charFavorites.includes(char)) {
+        charFavorites = charFavorites.filter(function(f) { return f !== char; });
+        showToast('☆ "' + char + '" removido dos favoritos');
+    } else {
+        charFavorites.push(char);
+        showToast('★ "' + char + '" adicionado aos favoritos!');
+    }
+    localStorage.setItem('charFavorites', JSON.stringify(charFavorites));
+    updateCharStats();
+    renderFavorites();
+    
+    const safeChar = char.replace(/\\/g, '\\\\').replace(/'/g, "\'");
+    const btn = document.querySelector('[data-char="' + safeChar + '"]');
+    if (btn) btn.classList.toggle('favorited', charFavorites.includes(char));
+}
+
+function renderFavorites() {
+    const section = document.getElementById('charsFavoritesSection');
+    const grid = document.getElementById('charsFavoritesGrid');
+    const empty = document.getElementById('charsFavoritesEmpty');
+    if (!section || !grid) return;
+    
+    if (charFavorites.length === 0) {
+        grid.style.display = 'none';
+        if (empty) empty.style.display = 'block';
+        return;
+    }
+    
+    grid.style.display = 'grid';
+    if (empty) empty.style.display = 'none';
+    
+    let html = '';
+    charFavorites.forEach(function(char) {
+        const safeChar = char.replace(/\\/g, '\\\\').replace(/'/g, "\'");
+        html += '<button class="char-btn-enhanced favorited" data-char="' + safeChar + '" ' +
+            'onclick="copyCharEnhanced(\'' + safeChar + '\')" ' +
+            'oncontextmenu="event.preventDefault(); toggleFavorite(\'' + safeChar + '\');">' +
+            char + '</button>';
+    });
+    grid.innerHTML = html;
+}
+
+function toggleFavoritesPanel() {
+    const section = document.getElementById('charsFavoritesSection');
+    if (section) {
+        const isHidden = section.style.display === 'none';
+        section.style.display = isHidden ? 'block' : 'none';
+    }
+}
+
+function copyAllFavorites() {
+    if (charFavorites.length === 0) return;
+    const text = charFavorites.join(' ');
+    copyCharEnhanced(text);
+    showToast('📋 ' + charFavorites.length + ' favoritos copiados!');
+}
+
+function copyCategoryChars(groupIdx, catIdx) {
+    const cat = charsData[groupIdx] ? charsData[groupIdx].categories[catIdx] : null;
+    if (!cat) return;
+    const text = cat.chars.join(' ');
+    copyCharEnhanced(text);
+    showToast('📋 Categoria "' + cat.name + '" copiada (' + cat.chars.length + ' símbolos)');
+}
+
+function copyAllVisibleChars() {
+    const visibleBtns = document.querySelectorAll('.char-btn-enhanced');
+    const chars = Array.from(visibleBtns).map(function(b) { return b.dataset.char; }).filter(Boolean);
+    if (chars.length === 0) return;
+    copyCharEnhanced(chars.join(' '));
+    showToast('📋 ' + chars.length + ' símbolos visíveis copiados!');
+}
+
+// Funções legadas compatíveis
+function copyChar(char) { copyCharEnhanced(char); }
+function filterChars(query) { enhancedFilterChars(query); }
+
+// Inicializar quando DOM pronto
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initEnhancedCharsSystem);
+} else {
+    initEnhancedCharsSystem();
+}
+
+
 
 // ===================== CODES SYSTEM =====================
 const codesData = [
@@ -5258,17 +5872,8 @@ keySoundUnlocked = JSON.parse(localStorage.getItem('geekieKeySoundsUnlocked') ||
 
 // ===================== FIM DOS SONS DE TECLADO =====================
 
-// Atualizar quando mudar de aba para journey (e inicializar no carregamento)
-(function patchJourneyTab() {
-    const origSwitch = switchTab;
-    window.switchTab = function(tabId, el) {
-        origSwitch(tabId, el);
-        if (tabId === 'tab-journey') renderJourney();
-        if (tabId === 'tab-keysounds') renderKeySoundsTab();
-    };
-    // Render journey on initial page load (para o caso de ir direto pela URL hash)
-    try { renderJourney(); } catch(e) {}
-})();
+// Initialize journey on page load (for direct URL hash access)
+try { renderJourney(); } catch(e) {}
 
 // ===================== ATALHO Ctrl+B para Aba de Comandos =====================
 document.addEventListener('keydown', function(e) {
@@ -5755,16 +6360,16 @@ function closeFabMenu() {
 }
 
 function fabSwitch(tabId, fabId) {
+    // Atualizar estado visual do FAB nav
     document.querySelectorAll('.fab-nav-item').forEach(el => el.classList.remove('active'));
     const fabEl = document.getElementById(fabId);
     if (fabEl) fabEl.classList.add('active');
+    
+    // Delegar para switchTab que já trata tudo (incluindo inicializações)
     switchTab(tabId, null);
+    
+    // Fechar menu FAB
     closeFabMenu();
-    if (tabId === 'tab-planner') setTimeout(renderPlanner, 50);
-    if (tabId === 'tab-stats') setTimeout(renderStudyStats, 50);
-    if (tabId === 'tab-subjects') setTimeout(renderSubjectGrid, 50);
-    if (tabId === 'tab-quiz') setTimeout(renderQuizSetup, 50);
-    if (tabId === 'tab-keysounds') setTimeout(renderKeySoundsTab, 50);
 }
 
 document.addEventListener('click', function(e) {
