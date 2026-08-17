@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Geekie One Ultra v13.2.0 - Study Hub</title>
+    <title>Geekie One Ultra v13.1.3 - Study Hub</title>
     <link rel="icon" id="pageIcon" href="https://i.postimg.cc/gcHHYqtC/fire-geekie.png">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&family=Orbitron:wght@400;700&family=Ubuntu:wght@400;500;700&family=Space+Grotesk:wght@400;600;700&family=Rajdhani:wght@400;600;700&family=JetBrains+Mono:wght@400;600&family=Caveat:wght@400;600;700&family=Patrick+Hand&family=Indie+Flower&family=Shadows+Into+Light&family=Kalam:wght@400;700&family=Architects+Daughter&family=Source+Code+Pro:wght@400;600&family=Comfortaa:wght@400;600;700&family=Quicksand:wght@400;600;700&family=Dancing+Script:wght@400;600;700&family=Nunito:wght@400;600;700&family=Josefin+Sans:wght@400;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -1055,91 +1055,6 @@
             .admin-stats-row { grid-template-columns: repeat(2,1fr); }
         }
 
-
-        /* ========== v13.2.0 UI REFRESH ========== */
-        :root { --surface-1: rgba(18, 27, 46, .82); --surface-2: rgba(25, 36, 61, .72); --shadow-soft: 0 18px 48px rgba(0,0,0,.28); --radius-lg: 18px; }
-        body { background-attachment: fixed; background-size: 120% 120%; }
-        body::before { content:''; position:fixed; inset:0; pointer-events:none; z-index:-1; opacity:.32; background-image:linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px, transparent 1px); background-size:42px 42px; mask-image:linear-gradient(to bottom,rgba(0,0,0,.8),transparent 92%); }
-        .topbar { min-height:72px; height:auto; padding:12px 24px; box-shadow:0 10px 32px rgba(0,0,0,.16); position:relative; z-index:2; }
-        .topbar-right { gap:12px; }
-        .tab-content { padding:30px clamp(16px, 4vw, 48px); scroll-behavior:smooth; }
-        .glass-card { background:linear-gradient(145deg,rgba(21,31,53,.92),rgba(11,17,30,.84)); border:1px solid rgba(255,255,255,.12); border-radius:var(--radius-lg); box-shadow:var(--shadow-soft); padding:26px; position:relative; overflow:hidden; }
-        .glass-card::before { content:''; position:absolute; inset:0 0 auto; height:1px; background:linear-gradient(90deg,transparent,var(--primary),transparent); opacity:.7; }
-        .glass-card h3 { font-size:clamp(1.15rem,2vw,1.45rem); letter-spacing:-.02em; margin-bottom:8px; }
-        input, select, textarea { border-radius:10px !important; border-color:rgba(255,255,255,.14) !important; background:rgba(5,10,19,.48) !important; transition:box-shadow .2s,border-color .2s,transform .2s; }
-        input:focus, select:focus, textarea:focus { border-color:var(--accent) !important; box-shadow:0 0 0 3px rgba(0,212,255,.12); transform:translateY(-1px); }
-        .btn { border-radius:10px; font-weight:600; letter-spacing:.01em; box-shadow:0 6px 16px rgba(0,0,0,.16); }
-        .btn-primary { background:linear-gradient(135deg,var(--primary),#00cfff); color:#061017; border:none; }
-        .btn-primary:hover { filter:brightness(1.08); transform:translateY(-2px); box-shadow:0 10px 24px rgba(0,255,136,.2); }
-        .fab-menu { border-color:rgba(0,255,136,.28); box-shadow:0 24px 70px rgba(0,0,0,.8),0 0 45px rgba(0,255,136,.08); }
-        .new-badge { box-shadow:0 0 14px rgba(0,255,136,.14); }
-        @media (max-width:700px) { .topbar { padding:10px 14px; } .topbar-right { gap:6px; } .xp-display { max-width:145px; padding:5px 9px; } .xp-next-title { display:none; } .clock-widget { display:none; } .tab-content { padding:18px 12px 92px; } .glass-card { padding:18px; } .fab-wrapper { right:16px; bottom:16px; } }
-
-        /* ========== CLICKER MINIGAME ========== */
-        .clicker-shell { max-width:1080px; margin:0 auto; width:100%; }
-        .clicker-hero { display:flex; align-items:flex-start; justify-content:space-between; gap:18px; margin-bottom:22px; }
-        .clicker-kicker { color:var(--primary); text-transform:uppercase; letter-spacing:2px; font-size:.7rem; font-weight:700; }
-        .clicker-title { font-size:clamp(1.55rem,3vw,2.35rem); margin:4px 0 6px; background:linear-gradient(90deg,var(--primary),var(--accent)); -webkit-background-clip:text; background-clip:text; color:transparent; }
-        .clicker-subtitle { color:var(--text-muted); max-width:620px; line-height:1.6; }
-        .clicker-status-pill { border:1px solid rgba(0,255,136,.3); background:rgba(0,255,136,.08); color:var(--primary); border-radius:999px; padding:9px 13px; font-size:.78rem; white-space:nowrap; }
-        .clicker-grid { display:grid; grid-template-columns:minmax(280px,1.1fr) minmax(300px,.9fr); gap:18px; }
-        .clicker-card { background:linear-gradient(145deg,rgba(13,23,40,.96),rgba(16,27,49,.72)); border:1px solid rgba(255,255,255,.12); border-radius:18px; padding:22px; box-shadow:var(--shadow-soft); }
-        .clicker-stage { min-height:420px; display:grid; place-items:center; position:relative; overflow:hidden; background:radial-gradient(circle at center,rgba(0,255,136,.12),transparent 42%),linear-gradient(145deg,rgba(3,12,24,.92),rgba(12,25,44,.9)); }
-        .clicker-stage::before { content:''; position:absolute; inset:12%; border:1px dashed rgba(0,212,255,.18); border-radius:50%; animation:clickerOrbit 16s linear infinite; }
-        @keyframes clickerOrbit { to { transform:rotate(360deg); } }
-        .clicker-core { width:min(240px,68vw); aspect-ratio:1; border-radius:50%; border:2px solid rgba(0,255,136,.72); background:radial-gradient(circle at 35% 25%,#d7fff0 0 3%,#55ffb0 8%,#0bcf83 30%,#063d36 70%); color:#03140f; display:grid; place-items:center; cursor:pointer; user-select:none; box-shadow:0 0 28px rgba(0,255,136,.42),inset 0 0 36px rgba(255,255,255,.18); transition:transform .12s ease,box-shadow .2s ease; position:relative; z-index:1; }
-        .clicker-core:hover { box-shadow:0 0 45px rgba(0,255,136,.62),inset 0 0 42px rgba(255,255,255,.22); transform:scale(1.035); }
-        .clicker-core:active { transform:scale(.94); }
-        .clicker-core i { font-size:4.4rem; filter:drop-shadow(0 5px 10px rgba(0,0,0,.28)); }
-        .clicker-core span { position:absolute; bottom:29px; font-size:.72rem; font-weight:800; letter-spacing:1.2px; text-transform:uppercase; }
-        .clicker-float { position:absolute; pointer-events:none; color:var(--primary); font-weight:800; animation:clickerFloat .8s ease-out forwards; z-index:3; }
-        @keyframes clickerFloat { 0%{opacity:0;transform:translateY(10px) scale(.8)} 15%{opacity:1} 100%{opacity:0;transform:translateY(-80px) scale(1.1)} }
-        .clicker-stat-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:16px; }
-        .clicker-stat { padding:13px 10px; border:1px solid rgba(255,255,255,.1); background:rgba(255,255,255,.035); border-radius:12px; text-align:center; }
-        .clicker-stat strong { display:block; font-size:1.35rem; color:var(--text-main); }
-        .clicker-stat span { display:block; color:var(--text-muted); font-size:.7rem; margin-top:3px; }
-        .clicker-progress { height:9px; border-radius:999px; background:rgba(255,255,255,.08); overflow:hidden; margin:9px 0 18px; }
-        .clicker-progress > div { height:100%; width:0; background:linear-gradient(90deg,var(--primary),var(--accent)); border-radius:inherit; transition:width .3s ease; }
-        .clicker-upgrades { display:grid; gap:10px; }
-        .clicker-upgrade { display:flex; justify-content:space-between; align-items:center; gap:12px; border:1px solid rgba(255,255,255,.1); border-radius:12px; padding:13px; background:rgba(0,0,0,.18); }
-        .clicker-upgrade h4 { font-size:.88rem; margin-bottom:3px; }
-        .clicker-upgrade p { color:var(--text-muted); font-size:.72rem; }
-        .clicker-upgrade button { min-width:104px; }
-        @media (max-width:760px) { .clicker-hero { flex-direction:column; } .clicker-grid { grid-template-columns:1fr; } .clicker-stage { min-height:350px; } }
-
-
-        /* ========== v13.3.0 CHARACTER WORKSPACE ========== */
-        .chars-workspace { max-width:1280px !important; }
-        .chars-hero { display:flex; justify-content:space-between; align-items:flex-start; gap:18px; margin-bottom:18px; }
-        .chars-hero h3 { margin-bottom:6px !important; background:linear-gradient(90deg,var(--primary),var(--accent)); -webkit-background-clip:text; background-clip:text; color:transparent; }
-        .chars-hero p { color:var(--text-muted); max-width:700px; line-height:1.55; }
-        .chars-count { white-space:nowrap; color:var(--accent); border:1px solid rgba(0,212,255,.25); background:rgba(0,212,255,.07); border-radius:999px; padding:8px 12px; font-size:.78rem; }
-        .chars-toolbar { display:grid; grid-template-columns:minmax(220px,1fr) auto auto; gap:10px; align-items:center; margin-bottom:14px; }
-        .chars-search-wrap { position:relative; }
-        .chars-search-wrap i { position:absolute; left:14px; top:50%; transform:translateY(-50%); color:var(--text-muted); pointer-events:none; }
-        .chars-search-wrap input { width:100%; padding-left:42px !important; }
-        .chars-toolbar select { min-width:145px; padding:11px 12px; color:var(--text-main); }
-        .chars-quick { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px; }
-        .chars-quick button { border:1px solid rgba(255,255,255,.1); background:rgba(255,255,255,.04); color:var(--text-muted); border-radius:999px; padding:7px 11px; cursor:pointer; font-size:.75rem; transition:var(--transition); }
-        .chars-quick button:hover, .chars-quick button.active { color:var(--primary); border-color:rgba(0,255,136,.45); background:rgba(0,255,136,.08); }
-        .chars-compose { display:grid; grid-template-columns:1fr auto; gap:10px; background:linear-gradient(135deg,rgba(0,212,255,.07),rgba(0,255,136,.05)); border:1px solid rgba(0,212,255,.18); border-radius:14px; padding:13px; margin-bottom:18px; }
-        .chars-compose input { min-width:0; }
-        .chars-compose small { grid-column:1/-1; color:var(--text-muted); font-size:.72rem; }
-        .chars-category-block { border:1px solid rgba(255,255,255,.08); border-radius:15px; background:rgba(255,255,255,.018); padding:15px; margin-bottom:14px; }
-        .chars-category-block .char-category { margin:0 0 12px !important; border:0; display:flex; justify-content:space-between; align-items:center; color:var(--primary); }
-        .chars-category-block .char-category::after { content:'⌄'; color:var(--text-muted); font-size:.9rem; }
-        .chars-category-block.collapsed .char-grid { display:none; }
-        .chars-category-block.collapsed .char-category::after { content:'›'; }
-        .char-grid { grid-template-columns:repeat(auto-fill,minmax(72px,1fr)); gap:9px; margin-bottom:0; }
-        .char-btn { height:68px; flex-direction:column; gap:3px; position:relative; font-size:1.48rem; }
-        .char-btn small { font-family:'Poppins',sans-serif; color:var(--text-muted); font-size:.58rem; max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-        .char-btn .char-star { position:absolute; right:5px; top:3px; font-size:.62rem; color:var(--coin); opacity:.55; }
-        .char-btn.is-favorite .char-star { opacity:1; }
-        .char-empty { display:none; text-align:center; color:var(--text-muted); padding:34px 12px; border:1px dashed rgba(255,255,255,.12); border-radius:12px; }
-        .char-empty.show { display:block; }
-        @media(max-width:800px){ .chars-toolbar { grid-template-columns:1fr 1fr; } .chars-search-wrap { grid-column:1/-1; } .chars-hero { flex-direction:column; } }
-        @media(max-width:520px){ .chars-toolbar { grid-template-columns:1fr; } .chars-toolbar select,.chars-toolbar button { width:100%; } .chars-compose { grid-template-columns:1fr; } }
-
     </style>
 </head>
 
@@ -1485,32 +1400,49 @@
         </div>
     </section>
 
-
     <!-- TAB: CHARS -->
     <section id="tab-chars" class="tab-content">
-        <div class="glass-card w-full chars-workspace" style="margin:0 auto;">
-            <div class="chars-hero">
-                <div>
-                    <h3><i class="fa-solid fa-keyboard"></i> Laboratório de Caracteres</h3>
-                    <p>Encontre, combine e copie símbolos para suas anotações, fórmulas, trabalhos e flashcards. Pesquise por símbolo, nome, categoria ou código Unicode.</p>
-                </div>
-                <div class="chars-count" id="charsCount">0 caracteres</div>
+        <div class="glass-card w-full" style="max-width: 1100px; margin: 0 auto;">
+            <h3><i class="fa-solid fa-keyboard"></i> Teclado de Caracteres Úteis</h3>
+            <div style="margin-bottom:16px;">
+                <input class="char-search-input" id="charSearch" type="text" placeholder="🔍 Pesquisar caractere ou símbolo..." oninput="filterChars(this.value)">
             </div>
-            <div class="chars-toolbar">
-                <div class="chars-search-wrap"><i class="fa-solid fa-magnifying-glass"></i><input class="char-search-input" id="charSearch" type="search" placeholder="Pesquisar símbolo, nome ou categoria..." oninput="filterChars(this.value)"></div>
-                <select id="charCategoryFilter" onchange="filterCharCategory(this.value)" aria-label="Filtrar categoria"><option value="all">Todas as categorias</option><option value="math">Matemática</option><option value="logic">Lógica e conjuntos</option><option value="arrows">Setas</option><option value="greek">Alfabeto grego</option><option value="science">Ciências</option><option value="typography">Tipografia</option><option value="currency">Moedas</option><option value="shapes">Formas</option><option value="music">Música</option><option value="weather">Clima</option><option value="hands">Gestos</option><option value="misc">Diversos</option></select>
-                <button class="btn btn-outline" onclick="toggleCharFavorites()" id="charFavoritesBtn" style="font-size:.8rem;"><i class="fa-solid fa-star"></i> Favoritos</button>
+            <h4 class="char-category">Matemática Básica e Operadores</h4>
+            <div class="char-grid">
+                <button class="char-btn" onclick="copyChar('±')">±</button><button class="char-btn" onclick="copyChar('×')">×</button><button class="char-btn" onclick="copyChar('÷')">÷</button><button class="char-btn" onclick="copyChar('≈')">≈</button><button class="char-btn" onclick="copyChar('≠')">≠</button><button class="char-btn" onclick="copyChar('≤')">≤</button><button class="char-btn" onclick="copyChar('≥')">≥</button><button class="char-btn" onclick="copyChar('∞')">∞</button><button class="char-btn" onclick="copyChar('√')">√</button><button class="char-btn" onclick="copyChar('∛')">∛</button><button class="char-btn" onclick="copyChar('°')">°</button><button class="char-btn" onclick="copyChar('²')">²</button><button class="char-btn" onclick="copyChar('³')">³</button><button class="char-btn" onclick="copyChar('½')">½</button><button class="char-btn" onclick="copyChar('¼')">¼</button>
             </div>
-            <div class="chars-quick" id="charQuickFilters">
-                <button class="active" onclick="setCharQuick('all',this)">Tudo</button><button onclick="setCharQuick('recent',this)">Recentes</button><button onclick="setCharQuick('favorites',this)">Favoritos</button><button onclick="setCharQuick('math',this)">Fórmulas</button><button onclick="setCharQuick('science',this)">Ciências</button><button onclick="setCharQuick('typography',this)">Redação</button>
+            <h4 class="char-category">Álgebra, Lógica e Conjuntos</h4>
+            <div class="char-grid">
+                <button class="char-btn" onclick="copyChar('∀')">∀</button><button class="char-btn" onclick="copyChar('∃')">∃</button><button class="char-btn" onclick="copyChar('∈')">∈</button><button class="char-btn" onclick="copyChar('∉')">∉</button><button class="char-btn" onclick="copyChar('⊂')">⊂</button><button class="char-btn" onclick="copyChar('⊃')">⊃</button><button class="char-btn" onclick="copyChar('∪')">∪</button><button class="char-btn" onclick="copyChar('∩')">∩</button><button class="char-btn" onclick="copyChar('∅')">∅</button><button class="char-btn" onclick="copyChar('∫')">∫</button><button class="char-btn" onclick="copyChar('∑')">∑</button><button class="char-btn" onclick="copyChar('∏')">∏</button><button class="char-btn" onclick="copyChar('∴')">∴</button>
             </div>
-            <div class="chars-compose">
-                <input id="charComposer" type="text" placeholder="Monte uma sequência aqui: ∑ α → ∞" aria-label="Compositor de caracteres">
-                <div style="display:flex;gap:7px;flex-wrap:wrap;"><button class="btn btn-primary" onclick="copyCharComposer()"><i class="fa-solid fa-copy"></i> Copiar sequência</button><button class="btn btn-outline" onclick="clearCharComposer()"><i class="fa-solid fa-eraser"></i></button></div>
-                <small><i class="fa-solid fa-circle-info" style="color:var(--accent);"></i> Clique em qualquer caractere para adicioná-lo ao compositor. Use <kbd>Shift</kbd> + clique para copiar diretamente.</small>
+            <h4 class="char-category">Setas</h4>
+            <div class="char-grid">
+                <button class="char-btn" onclick="copyChar('→')">→</button><button class="char-btn" onclick="copyChar('←')">←</button><button class="char-btn" onclick="copyChar('↑')">↑</button><button class="char-btn" onclick="copyChar('↓')">↓</button><button class="char-btn" onclick="copyChar('↔')">↔</button><button class="char-btn" onclick="copyChar('⇒')">⇒</button><button class="char-btn" onclick="copyChar('⇔')">⇔</button><button class="char-btn" onclick="copyChar('⇌')">⇌</button><button class="char-btn" onclick="copyChar('⥰')">⥰</button><button class="char-btn" onclick="copyChar('➼')">➼</button><button class="char-btn" onclick="copyChar('⤞')">⤞</button><button class="char-btn" onclick="copyChar('⤗')"></button><button class="char-btn" onclick="copyChar('⬼')"></button>
             </div>
-            <div id="charCollections"></div>
-            <div id="charEmpty" class="char-empty"><i class="fa-solid fa-filter-circle-xmark" style="font-size:1.8rem;display:block;margin-bottom:8px;"></i>Nenhum caractere encontrado com esses filtros.</div>
+            <h4 class="char-category">Alfabeto Grego</h4>
+            <div class="char-grid">
+                <button class="char-btn" onclick="copyChar('α')">α</button><button class="char-btn" onclick="copyChar('β')">β</button><button class="char-btn" onclick="copyChar('γ')">γ</button><button class="char-btn" onclick="copyChar('Δ')">Δ</button><button class="char-btn" onclick="copyChar('ε')">ε</button><button class="char-btn" onclick="copyChar('θ')">θ</button><button class="char-btn" onclick="copyChar('λ')">λ</button><button class="char-btn" onclick="copyChar('μ')">μ</button><button class="char-btn" onclick="copyChar('π')">π</button><button class="char-btn" onclick="copyChar('σ')">σ</button><button class="char-btn" onclick="copyChar('φ')">φ</button><button class="char-btn" onclick="copyChar('Ω')">Ω</button>
+            </div>
+            <h4 class="char-category">Química, Física & Biologia</h4>
+            <div class="char-grid">
+                <button class="char-btn" onclick="copyChar('H₂O')">H₂O</button><button class="char-btn" onclick="copyChar('CO₂')">CO₂</button><button class="char-btn" onclick="copyChar('E=mc²')">E=mc²</button><button class="char-btn" onclick="copyChar('F=ma')">F=ma</button><button class="char-btn" onclick="copyChar('DNA')">DNA</button><button class="char-btn" onclick="copyChar('RNA')">RNA</button><button class="char-btn" onclick="copyChar('ATP')">ATP</button><button class="char-btn" onclick="copyChar('♀')">♀</button><button class="char-btn" onclick="copyChar('♂')">♂</button><button class="char-btn" onclick="copyChar('ΔH')">ΔH</button><button class="char-btn" onclick="copyChar('pH')">pH</button><button class="char-btn" onclick="copyChar('mol')">mol</button><button class="char-btn" onclick="copyChar('J/mol')">J/mol</button><button class="char-btn" onclick="copyChar('kJ')">kJ</button><button class="char-btn" onclick="copyChar('cal')">cal</button>
+            </div>
+            <h4 class="char-category">Pontuação & Tipografia</h4>
+            <div class="char-grid">
+                <button class="char-btn" onclick="copyChar('«')">«</button><button class="char-btn" onclick="copyChar('»')">»</button><button class="char-btn" onclick="copyChar('"')">‟</button><button class="char-btn" onclick="copyChar('"')">‟</button><button class="char-btn" onclick="copyChar(''')">‛</button><button class="char-btn" onclick="copyChar(''')">‛</button><button class="char-btn" onclick="copyChar('—')">—</button><button class="char-btn" onclick="copyChar('–')">–</button><button class="char-btn" onclick="copyChar('…')">…</button><button class="char-btn" onclick="copyChar('·')">·</button><button class="char-btn" onclick="copyChar('•')">•</button><button class="char-btn" onclick="copyChar('†')">†</button><button class="char-btn" onclick="copyChar('‡')">‡</button><button class="char-btn" onclick="copyChar('§')">§</button><button class="char-btn" onclick="copyChar('¶')">¶</button><button class="char-btn" onclick="copyChar('©')">©</button><button class="char-btn" onclick="copyChar('®')">®</button><button class="char-btn" onclick="copyChar('™')">™</button>
+            </div>
+            <h4 class="char-category">Subscrito & Sobrescrito</h4>
+            <div class="char-grid">
+                <button class="char-btn" onclick="copyChar('₀')">₀</button><button class="char-btn" onclick="copyChar('₁')">₁</button><button class="char-btn" onclick="copyChar('₂')">₂</button><button class="char-btn" onclick="copyChar('₃')">₃</button><button class="char-btn" onclick="copyChar('₄')">₄</button><button class="char-btn" onclick="copyChar('₅')">₅</button><button class="char-btn" onclick="copyChar('₆')">₆</button><button class="char-btn" onclick="copyChar('₇')">₇</button><button class="char-btn" onclick="copyChar('₈')">₈</button><button class="char-btn" onclick="copyChar('₉')">₉</button><button class="char-btn" onclick="copyChar('⁰')">⁰</button><button class="char-btn" onclick="copyChar('¹')">¹</button><button class="char-btn" onclick="copyChar('²')">²</button><button class="char-btn" onclick="copyChar('³')">³</button><button class="char-btn" onclick="copyChar('⁴')">⁴</button><button class="char-btn" onclick="copyChar('⁵')">⁵</button><button class="char-btn" onclick="copyChar('⁶')">⁶</button><button class="char-btn" onclick="copyChar('⁷')">⁷</button><button class="char-btn" onclick="copyChar('⁸')">⁸</button><button class="char-btn" onclick="copyChar('⁹')">⁹</button>
+            </div>
+            <h4 class="char-category">Formas & Símbolos Geométricos</h4>
+            <div class="char-grid">
+                <button class="char-btn" onclick="copyChar('△')">△</button><button class="char-btn" onclick="copyChar('□')">□</button><button class="char-btn" onclick="copyChar('○')">○</button><button class="char-btn" onclick="copyChar('◇')">◇</button><button class="char-btn" onclick="copyChar('▲')">▲</button><button class="char-btn" onclick="copyChar('■')">■</button><button class="char-btn" onclick="copyChar('●')">●</button><button class="char-btn" onclick="copyChar('◆')">◆</button><button class="char-btn" onclick="copyChar('⊥')">⊥</button><button class="char-btn" onclick="copyChar('∥')">∥</button><button class="char-btn" onclick="copyChar('∠')">∠</button><button class="char-btn" onclick="copyChar('⌀')">⌀</button><button class="char-btn" onclick="copyChar('≅')">≅</button><button class="char-btn" onclick="copyChar('∼')">∼</button><button class="char-btn" onclick="copyChar('∝')">∝</button>
+            </div>
+            <h4 class="char-category">Moedas & Economia</h4>
+            <div class="char-grid">
+                <button class="char-btn" onclick="copyChar('R$')">R$</button><button class="char-btn" onclick="copyChar('$')">$</button><button class="char-btn" onclick="copyChar('€')">€</button><button class="char-btn" onclick="copyChar('£')">£</button><button class="char-btn" onclick="copyChar('¥')">¥</button><button class="char-btn" onclick="copyChar('₿')">₿</button><button class="char-btn" onclick="copyChar('¢')">¢</button><button class="char-btn" onclick="copyChar('%')">%</button><button class="char-btn" onclick="copyChar('‰')">‰</button>
+            </div>
         </div>
     </section>
 
@@ -1594,40 +1526,6 @@
             <div id="devlogNoResults" style="display:none; text-align:center; color:var(--text-muted); padding:30px 0;"><i class="fa-solid fa-circle-xmark" style="font-size:2rem; margin-bottom:8px; display:block;"></i>Nenhum resultado encontrado.</div>
             <div class="timeline" id="devlogTimeline">
 
-
-
-
-                <!-- v13.3.0 -->
-                <div class="timeline-item" data-version="v13.3.0 caracteres laboratório símbolos">
-                    <div class="version-header">
-                        <span class="version-tag" style="background:linear-gradient(135deg,rgba(0,212,255,0.45),rgba(0,255,136,0.35));border:1px solid rgba(0,212,255,0.85);font-size:1rem;box-shadow:0 0 22px rgba(0,212,255,0.28);">v13.3.0</span>
-                        <h3>Laboratório de Caracteres — Expansão da Ferramenta de Símbolos</h3>
-                        <span class="version-date">14 Ago 2026 — Atualização Atual</span>
-                    </div>
-                    <ul>
-                        <li><strong>Biblioteca ampliada:</strong> A antiga lista compacta foi substituída por uma biblioteca organizada com matemática, lógica, setas, grego, ciências, tipografia, moedas, geometria, música, clima, gestos e símbolos diversos.</li>
-                        <li><strong>Pesquisa inteligente:</strong> A busca agora encontra caracteres pelo próprio símbolo, nome descritivo ou categoria.</li>
-                        <li><strong>Compositor:</strong> Clique nos caracteres para montar sequências e copie a composição completa em um único passo; Shift+clique copia diretamente.</li>
-                        <li><strong>Favoritos e recentes:</strong> Símbolos podem ser favoritados e os caracteres usados recentemente são preservados no navegador.</li>
-                        <li><strong>Filtros e organização:</strong> Filtros rápidos, seletor de categoria, contagem dinâmica e blocos recolhíveis tornam a aba muito mais navegável.</li>
-                    </ul>
-                </div>
-
-                <!-- v13.2.0 -->
-                <div class="timeline-item" data-version="v13.2.0 clicker minigame ui refresh">
-                    <div class="version-header">
-                        <span class="version-tag" style="background:linear-gradient(135deg,rgba(0,255,136,0.5),rgba(124,58,237,0.45));border:1px solid rgba(0,255,136,0.9);font-size:1rem;box-shadow:0 0 24px rgba(0,255,136,0.35);">v13.2.0</span>
-                        <h3>Núcleo do Conhecimento — Clicker Minigame &amp; UI Refresh</h3>
-                        <span class="version-date">14 Ago 2026 — Atualização Atual</span>
-                    </div>
-                    <ul>
-                        <li><strong>🎮 Novo Clicker Minigame:</strong> Adicionada a aba “Núcleo do Conhecimento”, com núcleo interativo, energia por clique, combo visual, nível, progressão e geração automática.</li>
-                        <li><strong>🪙 Economia integrada:</strong> Melhorias de Impulso de Foco e Drone de Revisão usam as moedas existentes; marcos de energia concedem XP sem criar um sistema paralelo.</li>
-                        <li><strong>💾 Persistência local:</strong> Estado do minigame, upgrades e progresso são salvos automaticamente em <code>localStorage</code>.</li>
-                        <li><strong>🎨 UI Refresh:</strong> Atualização visual transversal com maior contraste, hierarquia tipográfica, cards com profundidade, estados de foco, responsividade móvel e novo acabamento neon.</li>
-                        <li><strong>🧭 Navegação:</strong> O minigame foi incluído no menu FAB, na Paleta de Comandos e nos hooks de troca de abas.</li>
-                    </ul>
-                </div>
 
                 <!-- v13.1.3 -->
                 <div class="timeline-item" data-version="v13.1.3">
@@ -1998,43 +1896,6 @@
         </div>
     </section>
 
-
-    <!-- TAB: CLICKER MINIGAME -->
-    <section id="tab-clicker" class="tab-content">
-        <div class="clicker-shell">
-            <div class="clicker-hero">
-                <div>
-                    <div class="clicker-kicker"><i class="fa-solid fa-gamepad"></i> Área de recompensa</div>
-                    <h2 class="clicker-title">Núcleo do Conhecimento</h2>
-                    <p class="clicker-subtitle">Clique para transformar foco em energia. Use a energia acumulada para evoluir seu núcleo e gerar recompensas mesmo quando estiver estudando em outra aba.</p>
-                </div>
-                <div class="clicker-status-pill" id="clickerStatus"><i class="fa-solid fa-circle" style="font-size:.55rem;"></i> Sistema online</div>
-            </div>
-            <div class="clicker-grid">
-                <div class="clicker-card clicker-stage" id="clickerStage">
-                    <button class="clicker-core" id="clickerCore" onclick="clickerTap(event)" aria-label="Clique no Núcleo do Conhecimento">
-                        <i class="fa-solid fa-atom"></i><span>Toque para gerar</span>
-                    </button>
-                </div>
-                <div class="clicker-card">
-                    <div class="clicker-stat-grid">
-                        <div class="clicker-stat"><strong id="clickerEnergy">0</strong><span>Energia</span></div>
-                        <div class="clicker-stat"><strong id="clickerPerTap">1</strong><span>Por clique</span></div>
-                        <div class="clicker-stat"><strong id="clickerPerSec">0</strong><span>Por segundo</span></div>
-                    </div>
-                    <div style="display:flex;justify-content:space-between;align-items:center;font-size:.78rem;color:var(--text-muted);"><span>Nível do núcleo</span><strong id="clickerLevel" style="color:var(--accent);">1</strong></div>
-                    <div class="clicker-progress"><div id="clickerLevelFill"></div></div>
-                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;"><h3 style="font-size:1rem;"><i class="fa-solid fa-arrow-up-right-dots" style="color:var(--primary);"></i> Melhorias</h3><span id="clickerCombo" style="font-size:.75rem;color:var(--coin);">Combo x1</span></div>
-                    <div class="clicker-upgrades">
-                        <div class="clicker-upgrade"><div><h4>Impulso de foco</h4><p>Aumenta a energia gerada por clique.</p></div><button class="btn btn-primary" id="clickerPowerBtn" onclick="buyClickerPower()">+1 · 10 🪙</button></div>
-                        <div class="clicker-upgrade"><div><h4>Drone de revisão</h4><p>Gera energia automaticamente por segundo.</p></div><button class="btn btn-outline" id="clickerAutoBtn" onclick="buyClickerAuto()">+1/s · 50 🪙</button></div>
-                    </div>
-                    <div style="margin-top:16px;padding:12px;border-radius:12px;background:rgba(0,212,255,.06);border:1px solid rgba(0,212,255,.18);font-size:.76rem;color:var(--text-muted);line-height:1.55;"><i class="fa-solid fa-lightbulb" style="color:var(--accent);"></i> Cada marco de energia converte parte do seu esforço em <strong style="color:var(--primary);">XP</strong>. O progresso é salvo automaticamente neste navegador.</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- TAB: SONS DE TECLADO -->
     <section id="tab-keysounds" class="tab-content">
         <div class="glass-card w-full" style="max-width: 900px; margin: 0 auto;">
@@ -2303,7 +2164,7 @@
 // ===================== DATA DECLARATIONS =====================
 let todos = JSON.parse(localStorage.getItem('geekieTodos')) || [];
 let todoFilter = 'all';
-let savedTitle = localStorage.getItem('geekieTitleName') || 'Geekie One Ultra v13.2.0';
+let savedTitle = localStorage.getItem('geekieTitleName') || 'Geekie One Ultra v13.1.3';
 let selectedFont = localStorage.getItem('geekieTitleFont') || 'Poppins';
 let selectedIcon = localStorage.getItem('geekieTitleIcon') || 'fa-graduation-cap';
 const availableFonts = [
@@ -2364,8 +2225,6 @@ function switchTab(tabId, element) {
     if (tabId === 'tab-pets') { try { renderPetGrid(); } catch(e) {} }
     if (tabId === 'tab-flashcards') { try { updateFlashcardStats(); } catch(e) {} }
     if (tabId === 'tab-keysounds') { try { renderKeySoundsTab(); } catch(e) {} }
-    if (tabId === 'tab-chars') { try { renderCharWorkspace(); } catch(e) {} }
-    if (tabId === 'tab-clicker') { try { renderClicker(); } catch(e) {} }
     if (tabId === 'tab-codes') { try { renderCodesGrid(); } catch(e) {} }
 }
 
@@ -3498,49 +3357,6 @@ function filterDevlog(query) {
     if (searchEl) searchEl.style.borderColor = (!q || anyVisible) ? '' : 'var(--danger)';
 }
 
-
-// ===================== CHARACTER WORKSPACE v13.3.0 =====================
-const charLibrary = [
- {id:'math',name:'Matemática e operadores',icon:'fa-square-root-variable',items:[['±','mais ou menos'],['×','multiplicação'],['÷','divisão'],['≈','aproximadamente'],['≠','diferente'],['≤','menor ou igual'],['≥','maior ou igual'],['∞','infinito'],['√','raiz quadrada'],['∛','raiz cúbica'],['∜','raiz quarta'],['∑','somatório'],['∏','produtório'],['∫','integral'],['∮','integral de contorno'],['∂','derivada parcial'],['∆','delta'],['∇','nabla'],['∝','proporcional'],['∴','portanto'],['∵','porque'],['∼','semelhante'],['≅','congruente'],['≡','idêntico'],['∓','menos ou mais'],['½','meio'],['⅓','um terço'],['¼','um quarto'],['⅔','dois terços'],['¾','três quartos'],['ⁿ','potência n'],['ₓ','subscrito x']]},
- {id:'logic',name:'Lógica, conjuntos e relações',icon:'fa-diagram-project',items:[['∀','para todo'],['∃','existe'],['∄','não existe'],['∈','pertence'],['∉','não pertence'],['⊂','subconjunto'],['⊃','superconjunto'],['⊆','subconjunto ou igual'],['⊇','superconjunto ou igual'],['∪','união'],['∩','interseção'],['∅','conjunto vazio'],['¬','negação'],['∧','e lógico'],['∨','ou lógico'],['⊻','ou exclusivo'],['⇒','implica'],['⇔','se e somente se'],['⊥','perpendicular'],['∥','paralelo'],['⊤','verdadeiro'],['⊢','prova'],['⊨','satisfaz']]},
- {id:'arrows',name:'Setas e direções',icon:'fa-arrow-right',items:[['→','direita'],['←','esquerda'],['↑','cima'],['↓','baixo'],['↔','dupla'],['↕','vertical'],['⇒','implicação'],['⇐','implicação reversa'],['⇔','equivalência'],['↦','mapeia'],['↗','diagonal nordeste'],['↘','diagonal sudeste'],['↙','diagonal sudoeste'],['↖','diagonal noroeste'],['➜','seta cheia'],['➤','seta triangular'],['➔','seta longa'],['⟶','seta matemática'],['⟷','seta dupla longa'],['⇢','seta pontilhada'],['⤴','curva para cima'],['⤵','curva para baixo']]},
- {id:'greek',name:'Alfabeto grego',icon:'fa-alpha',items:[['α','alfa'],['β','beta'],['γ','gama'],['δ','delta'],['Δ','delta maiúsculo'],['ε','épsilon'],['ζ','zeta'],['η','eta'],['θ','teta'],['λ','lambda'],['μ','mi'],['ν','ni'],['ξ','xi'],['π','pi'],['ρ','rô'],['σ','sigma'],['τ','tau'],['φ','fi'],['χ','qui'],['ψ','psi'],['ω','ômega'],['Ω','ômega maiúsculo'],['Γ','gama maiúsculo'],['Θ','teta maiúsculo'],['Λ','lambda maiúsculo'],['Σ','sigma maiúsculo'],['Φ','fi maiúsculo'],['Ψ','psi maiúsculo']]},
- {id:'science',name:'Química, física e biologia',icon:'fa-atom',items:[['H₂O','água'],['CO₂','dióxido de carbono'],['O₂','oxigênio'],['NaCl','cloreto de sódio'],['E=mc²','equação de Einstein'],['F=ma','segunda lei de Newton'],['ΔH','variação de entalpia'],['pH','potencial hidrogeniônico'],['DNA','ácido desoxirribonucleico'],['RNA','ácido ribonucleico'],['ATP','adenosina trifosfato'],['♀','feminino'],['♂','masculino'],['⚛','átomo'],['⚗','química'],['☢','radioatividade'],['☣','risco biológico'],['°C','graus Celsius'],['K','kelvin'],['mol','mol'],['J/mol','joule por mol'],['kJ','quilojoule'],['μm','micrômetro'],['Ω','ohm']]},
- {id:'typography',name:'Tipografia e redação',icon:'fa-quote-left',items:[['«','aspas angulares esquerda'],['»','aspas angulares direita'],['“','aspas curvas esquerda'],['”','aspas curvas direita'],['‘','apóstrofo curvo esquerdo'],['’','apóstrofo curvo direito'],['—','travessão'],['–','meio-traço'],['…','reticências'],['·','ponto médio'],['•','marcador'],['§','seção'],['¶','parágrafo'],['†','adaga'],['‡','adaga dupla'],['©','direitos autorais'],['®','registrado'],['™','marca'],['№','número'],['¿','interrogação invertida'],['¡','exclamação invertida'],['※','referência'],['※','asterisco japonês']]},
- {id:'currency',name:'Moedas e economia',icon:'fa-coins',items:[['R$','real brasileiro'],['$','dólar'],['€','euro'],['£','libra'],['¥','iene'],['₿','bitcoin'],['¢','centavo'],['₽','rublo'],['₹','rúpia'],['₩','won'],['₺','lira turca'],['₴','hryvnia'],['‰','por mil'],['‱','por dez mil']]},
- {id:'shapes',name:'Formas e geometria',icon:'fa-shapes',items:[['△','triângulo vazio'],['▲','triângulo cheio'],['▽','triângulo invertido'],['□','quadrado vazio'],['■','quadrado cheio'],['○','círculo vazio'],['●','círculo cheio'],['◇','losango vazio'],['◆','losango cheio'],['☆','estrela vazia'],['★','estrela cheia'],['⬡','hexágono'],['⬢','hexágono cheio'],['⌂','casa'],['⌘','comando'],['⌖','alvo'],['◐','meia lua'],['◑','meia lua invertida']]},
- {id:'music',name:'Música e áudio',icon:'fa-music',items:[['♩','semínima'],['♪','colcheia'],['♫','duas colcheias'],['♬','duas semicolcheias'],['♭','bemol'],['♯','sustenido'],['♮','bequadro'],['𝄞','clave de sol'],['𝄢','clave de fá'],['𝄐','pausa'],['◉','nota marcada']]},
- {id:'weather',name:'Clima e natureza',icon:'fa-cloud-sun',items:[['☀','sol'],['☼','sol radiante'],['☁','nuvem'],['☂','guarda-chuva'],['☃','boneco de neve'],['❄','neve'],['☔','chuva'],['⚡','raio'],['☄','cometa'],['☾','lua crescente'],['☽','lua minguante'],['✦','estrela brilhante'],['✧','estrela vazia'],['♨','vapor']]},
- {id:'hands',name:'Gestos e marcadores',icon:'fa-hand',items:[['✓','confirmado'],['✔','confirmado cheio'],['✕','cancelado'],['✖','cancelado cheio'],['⚠','atenção'],['ⓘ','informação'],['☑','caixa marcada'],['☒','caixa cancelada'],['☐','caixa vazia'],['➕','adicionar'],['➖','remover'],['❗','importante'],['❓','dúvida'],['‼','dupla exclamação'],['⁉','exclamação e dúvida']]},
- {id:'misc',name:'Diversos e símbolos úteis',icon:'fa-sparkles',items:[['♥','coração'],['♡','coração vazio'],['★','estrela'],['☆','estrela vazia'],['♣','paus'],['♦','ouro'],['♥','copas'],['♠','espadas'],['☯','yin yang'],['☮','paz'],['☢','radiação'],['⚙','configuração'],['⚙️','engrenagem'],['⌁','onda'],['⌘','comando'],['⌫','apagar'],['⏎','enter'],['␣','espaço'],['©','copyright'],['∞','infinito']]}
-];
-let charFavorites = JSON.parse(localStorage.getItem('geekieCharFavorites') || '[]');
-let charRecent = JSON.parse(localStorage.getItem('geekieCharRecent') || '[]');
-let charQuickMode = 'all';
-let charShowingFavorites = false;
-function charAllItems() { return charLibrary.flatMap(c => c.items.map(([symbol,label]) => ({symbol,label,category:c.id,categoryName:c.name}))); }
-function charIsFavorite(symbol) { return charFavorites.includes(symbol); }
-function charSave() { localStorage.setItem('geekieCharFavorites', JSON.stringify(charFavorites)); localStorage.setItem('geekieCharRecent', JSON.stringify(charRecent)); }
-function charToggleFavorite(event, symbol) { event.stopPropagation(); charFavorites = charIsFavorite(symbol) ? charFavorites.filter(x=>x!==symbol) : [...charFavorites, symbol]; charSave(); renderCharWorkspace(); }
-function charUse(symbol, event) { if (event && event.shiftKey) { copyChar(symbol); return; } const input = document.getElementById('charComposer'); if (input) { input.value += symbol; input.focus(); } charRecent = [symbol, ...charRecent.filter(x=>x!==symbol)].slice(0,24); charSave(); }
-function renderCharWorkspace() {
- const root=document.getElementById('charCollections'); if(!root) return; const query=(document.getElementById('charSearch')?.value||'').toLowerCase().trim(); const cat=(document.getElementById('charCategoryFilter')?.value||'all');
- let source = charLibrary;
- if (charQuickMode==='recent') { source=[{id:'recent',name:'Usados recentemente',icon:'fa-clock-rotate-left',items:charRecent.map(s=>{const x=charAllItems().find(i=>i.symbol===s)||{symbol:s,label:'caractere recente'};return [x.symbol,x.label]})}]; }
- if (charQuickMode==='favorites' || charShowingFavorites) { source=[{id:'favorites',name:'Meus favoritos',icon:'fa-star',items:charAllItems().filter(i=>charIsFavorite(i.symbol)).map(i=>[i.symbol,i.label])}]; }
- let total=0; root.innerHTML='';
- source.forEach(c=>{ if(cat!=='all' && c.id!==cat && charQuickMode==='all') return; const items=c.items.filter(([s,l])=>!query || (s+' '+l+' '+c.name).toLowerCase().includes(query)); if(!items.length)return; total+=items.length; const block=document.createElement('div'); block.className='chars-category-block'; block.dataset.category=c.id; block.innerHTML=`<h4 class="char-category"><span><i class="fa-solid ${c.icon}" style="margin-right:8px;"></i>${c.name} <small style="color:var(--text-muted);font-size:.7rem;font-weight:400;">${items.length}</small></span></h4><div class="char-grid"></div>`; block.querySelector('.char-category').onclick=()=>block.classList.toggle('collapsed'); const grid=block.querySelector('.char-grid'); items.forEach(([symbol,label])=>{const b=document.createElement('button'); b.className='char-btn'+(charIsFavorite(symbol)?' is-favorite':''); b.title=`${label} · Clique para inserir · Shift+clique para copiar`; b.onclick=(e)=>charUse(symbol,e); b.innerHTML=`<span>${symbol}</span><small>${label}</small><span class="char-star" onclick="charToggleFavorite(event, '${symbol.replace(/'/g,"\\'")}')">★</span>`; grid.appendChild(b);}); root.appendChild(block); });
- const counter=document.getElementById('charsCount'); if(counter) counter.textContent=`${total} caracteres${charFavorites.length?` · ${charFavorites.length} favoritos`:''}`;
- const empty=document.getElementById('charEmpty'); if(empty) empty.classList.toggle('show',total===0);
-}
-function filterChars(query) { charQuickMode='all'; charShowingFavorites=false; const q=document.getElementById('charCategoryFilter'); if(q) q.value='all'; renderCharWorkspace(); }
-function filterCharCategory(value) { charQuickMode='all'; charShowingFavorites=false; renderCharWorkspace(); }
-function setCharQuick(mode, btn) { charQuickMode=mode; charShowingFavorites=mode==='favorites'; document.querySelectorAll('#charQuickFilters button').forEach(b=>b.classList.remove('active')); if(btn)btn.classList.add('active'); const q=document.getElementById('charCategoryFilter'); if(q)q.value='all'; renderCharWorkspace(); }
-function toggleCharFavorites() { charShowingFavorites=!charShowingFavorites; charQuickMode=charShowingFavorites?'favorites':'all'; const b=document.getElementById('charFavoritesBtn'); if(b)b.classList.toggle('active',charShowingFavorites); renderCharWorkspace(); }
-function copyCharComposer() { const value=document.getElementById('charComposer')?.value||''; if(value.trim()) copyChar(value); else showToast('O compositor está vazio',true); }
-function clearCharComposer() { const input=document.getElementById('charComposer'); if(input)input.value=''; }
-document.addEventListener('DOMContentLoaded',()=>{ renderCharWorkspace(); });
-
 // ===================== CHAR SEARCH =====================
 function filterChars(query) {
     const q = query.toLowerCase().trim();
@@ -3938,7 +3754,6 @@ const cmdCommands = [
     { group: 'Navegação', icon: 'fa-chart-bar', iconBg: 'rgba(0,212,255,0.15)', iconColor: '#00d4ff', label: 'Ir para Estatísticas', desc: 'Métricas e gráficos de estudo', shortcut: '', action: () => { switchTab('tab-stats', null); closeCmdPalette(); setTimeout(renderStudyStats, 50); } },
     { group: 'Navegação', icon: 'fa-clock-rotate-left', iconBg: 'rgba(167,139,250,0.15)', iconColor: '#a78bfa', label: 'Ir para Cronômetro por Matéria', desc: 'Tempo por disciplina', shortcut: '', action: () => { switchTab('tab-subjects', null); closeCmdPalette(); setTimeout(renderSubjectGrid, 50); } },
     { group: 'Navegação', icon: 'fa-brain', iconBg: 'rgba(255,71,87,0.15)', iconColor: '#ff4757', label: 'Ir para Quiz Rápido', desc: 'Teste seus conhecimentos', shortcut: '', action: () => { switchTab('tab-quiz', null); closeCmdPalette(); setTimeout(renderQuizSetup, 50); } },
-    { group: 'Navegação', icon: 'fa-gamepad', iconBg: 'rgba(0,255,136,0.15)', iconColor: '#00ff88', label: 'Ir para Núcleo do Conhecimento', desc: 'Clicker de energia, combos e upgrades', shortcut: '', action: () => { switchTab('tab-clicker', null); closeCmdPalette(); } },
     // Notas
     { group: 'Bloco de Notas', icon: 'fa-floppy-disk', iconBg: 'rgba(0,255,136,0.15)', iconColor: '#00ff88', label: 'Salvar Nota Atual', desc: 'Salva a anotação aberta', shortcut: '', action: () => { closeCmdPalette(); switchTab('tab-notes', null); setTimeout(saveNote, 200); } },
     { group: 'Bloco de Notas', icon: 'fa-file-export', iconBg: 'rgba(0,212,255,0.15)', iconColor: '#00d4ff', label: 'Exportar Nota (.txt)', desc: 'Baixa a nota como arquivo de texto', shortcut: '', action: () => { closeCmdPalette(); switchTab('tab-notes', null); setTimeout(exportNote, 200); } },
@@ -4748,48 +4563,6 @@ document.addEventListener('keydown', function(e) {
         else { openCmdPalette(); }
     }
 });
-
-// ===================== CLICKER MINIGAME v13.2.0 =====================
-const clickerKey = 'geekieClickerState';
-let clickerState = JSON.parse(localStorage.getItem(clickerKey) || 'null') || { energy: 0, total: 0, power: 1, auto: 0, level: 1, combo: 1, bestCombo: 1, lastTap: 0 };
-function clickerSave() { localStorage.setItem(clickerKey, JSON.stringify(clickerState)); }
-function clickerEnergyToNext() { return Math.max(25, clickerState.level * 100); }
-function clickerAwardProgress(amount) {
-    const before = Math.floor(clickerState.total / 100);
-    const after = Math.floor((clickerState.total + amount) / 100);
-    if (after > before) { const reward = (after - before) * 2; earnCoins(reward, 'marco do Núcleo'); updateXP(); }
-}
-function renderClicker() {
-    const s = clickerState, energy = Math.floor(s.energy);
-    const next = clickerEnergyToNext(), levelBase = Math.max(0, (s.level - 1) * 100);
-    const pct = Math.min(100, Math.round(((energy - levelBase) / Math.max(1, next)) * 100));
-    ['clickerEnergy','clickerPerTap','clickerPerSec','clickerLevel','clickerCombo'].forEach(id => {
-        const el = document.getElementById(id); if (!el) return;
-        if (id === 'clickerEnergy') el.textContent = energy.toLocaleString('pt-BR');
-        if (id === 'clickerPerTap') el.textContent = s.power * s.combo;
-        if (id === 'clickerPerSec') el.textContent = s.auto;
-        if (id === 'clickerLevel') el.textContent = s.level;
-        if (id === 'clickerCombo') el.textContent = `Combo x${s.combo}`;
-    });
-    const fill = document.getElementById('clickerLevelFill'); if (fill) fill.style.width = pct + '%';
-    const powerBtn = document.getElementById('clickerPowerBtn'); if (powerBtn) powerBtn.textContent = `+1 · ${10 * s.power} 🪙`;
-    const autoBtn = document.getElementById('clickerAutoBtn'); if (autoBtn) autoBtn.textContent = `+1/s · ${50 * (s.auto + 1)} 🪙`;
-}
-function clickerAdd(amount, event) {
-    const now = Date.now();
-    if (now - clickerState.lastTap < 900) clickerState.combo = Math.min(8, clickerState.combo + 1); else clickerState.combo = 1;
-    clickerState.lastTap = now; clickerState.bestCombo = Math.max(clickerState.bestCombo, clickerState.combo);
-    const gain = amount * clickerState.combo; clickerState.energy += gain; clickerState.total += gain;
-    clickerAwardProgress(gain);
-    if (event) { const stage = document.getElementById('clickerStage'); if (stage) { const f = document.createElement('span'); f.className='clicker-float'; f.textContent=`+${gain} energia`; f.style.left=(event.offsetX || stage.clientWidth/2)+'px'; f.style.top=(event.offsetY || stage.clientHeight/2)+'px'; stage.appendChild(f); setTimeout(()=>f.remove(),850); } }
-    clickerSave(); renderClicker();
-}
-function clickerTap(event) { clickerAdd(clickerState.power, event); }
-function buyClickerPower() { const cost = 10 * clickerState.power; if (!spendCoins(cost)) return; clickerState.power++; clickerSave(); renderClicker(); showToast('Impulso de foco aprimorado'); }
-function buyClickerAuto() { const cost = 50 * (clickerState.auto + 1); if (!spendCoins(cost)) return; clickerState.auto++; clickerSave(); renderClicker(); showToast('Drone de revisão ativado'); }
-setInterval(() => { if (clickerState.auto > 0) { const gain = clickerState.auto; clickerState.energy += gain; clickerState.total += gain; clickerAwardProgress(gain); clickerSave(); if (document.getElementById('tab-clicker')?.classList.contains('active')) renderClicker(); } }, 1000);
-renderClicker();
-
 </script>
 
 <script>
@@ -5583,7 +5356,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <div class="fab-menu-header">
             <i class="fa-solid fa-graduation-cap" style="color:var(--primary);font-size:0.95rem;"></i>
             <span class="fab-brand">Geekie Ultra</span>
-            <span class="fab-version">v13.2.0</span>
+            <span class="fab-version">v13.1.3</span>
         </div>
 
         <div class="fab-section-label">Principal</div>
@@ -5629,9 +5402,6 @@ document.addEventListener('DOMContentLoaded', function() {
         </button>
         <button class="fab-nav-item new-fab" id="fab-nav-quiz" onclick="fabSwitch('tab-quiz','fab-nav-quiz')">
             <span class="fab-nav-icon"><i class="fa-solid fa-brain"></i></span>Quiz Rápido <span class="new-badge">NOVO</span>
-        </button>
-        <button class="fab-nav-item new-fab" id="fab-nav-clicker" onclick="fabSwitch('tab-clicker','fab-nav-clicker')">
-            <span class="fab-nav-icon"><i class="fa-solid fa-gamepad"></i></span>Núcleo do Conhecimento <span class="new-badge">NOVO</span>
         </button>
 
         <div class="fab-section-label">Ferramentas</div>
