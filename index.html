@@ -3,21 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Geekie One Ultra v13.1.3 - Study Hub</title>
+    <title>Geekie One Ultra v14.0.0 - Study Hub</title>
     <link rel="icon" id="pageIcon" href="https://i.postimg.cc/gcHHYqtC/fire-geekie.png">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&family=Orbitron:wght@400;700&family=Ubuntu:wght@400;500;700&family=Space+Grotesk:wght@400;600;700&family=Rajdhani:wght@400;600;700&family=JetBrains+Mono:wght@400;600&family=Caveat:wght@400;600;700&family=Patrick+Hand&family=Indie+Flower&family=Shadows+Into+Light&family=Kalam:wght@400;700&family=Architects+Daughter&family=Source+Code+Pro:wght@400;600&family=Comfortaa:wght@400;600;700&family=Quicksand:wght@400;600;700&family=Dancing+Script:wght@400;600;700&family=Nunito:wght@400;600;700&family=Josefin+Sans:wght@400;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
+            /* Core Colors */
             --primary: #00ff88; --primary-glow: rgba(0, 255, 136, 0.4);
             --secondary: #7b2cbf; --accent: #00d4ff;
+            --clicker: #ff6b6b; --clicker-glow: rgba(255, 107, 107, 0.4);
+            
+            /* Backgrounds */
             --bg-base: #0a0e17; --bg-glass: rgba(16, 22, 38, 0.7);
             --bg-glass-hover: rgba(26, 35, 58, 0.9);
+            --bg-glass-strong: rgba(16, 22, 38, 0.85);
+            
+            /* Text */
             --text-main: #f0f4f8; --text-muted: #94a3b8;
-            --border: rgba(255, 255, 255, 0.1); --danger: #ff4757;
-            --success: #2ed573; --gold: #ffd700; --coin: #f59e0b;
+            --text-heading: #ffffff;
+            
+            /* Borders & Shadows */
+            --border: rgba(255, 255, 255, 0.1); --border-light: rgba(255, 255, 255, 0.05);
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.4);
+            --shadow-glow: 0 0 20px var(--primary-glow);
+            
+            /* Status Colors */
+            --danger: #ff4757; --danger-glow: rgba(255, 71, 87, 0.3);
+            --success: #2ed573; --success-glow: rgba(46, 213, 115, 0.3);
+            --gold: #ffd700; --gold-glow: rgba(255, 215, 0, 0.3);
+            --coin: #f59e0b; --warning: #ffa502;
+            --info: #00d4ff; --info-glow: rgba(0, 212, 255, 0.3);
+            
+            /* Layout */
             --sidebar-width: 260px;
+            --radius-sm: 6px; --radius-md: 10px; --radius-lg: 16px; --radius-xl: 24px;
+            --radius-full: 9999px;
+            
+            /* Spacing (8px grid) */
+            --space-1: 4px; --space-2: 8px; --space-3: 12px;
+            --space-4: 16px; --space-5: 20px; --space-6: 24px;
+            --space-8: 32px; --space-10: 40px;
+            
+            /* Transitions */
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-fast: all 0.15s ease;
+            --transition-slow: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            
+            /* Glassmorphism */
+            --glass-blur: blur(12px);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.08);
+            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
         body { background-color: var(--bg-base); color: var(--text-main); height: 100vh; overflow: hidden; display: flex; flex-direction: column;
@@ -1048,6 +1086,586 @@
         .calc-hist-entry:hover { color: var(--accent); }
         .calc-hist-entry:last-child { border-bottom: none; }
 
+        /* ========== v14.0.0 ENHANCED ANIMATIONS ========== */
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideLeft { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        @keyframes glow { 0%, 100% { box-shadow: 0 0 5px var(--primary-glow); } 50% { box-shadow: 0 0 25px var(--primary-glow), 0 0 50px rgba(0,255,136,0.2); } }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); } 20%, 40%, 60%, 80% { transform: translateX(5px); } }
+        @keyframes ripple { 0% { transform: scale(0); opacity: 1; } 100% { transform: scale(4); opacity: 0; } }
+        @keyframes numberFloat { 0% { opacity: 1; transform: translateY(0) scale(1); } 100% { opacity: 0; transform: translateY(-80px) scale(1.5); } }
+        @keyframes particleExplode { 0% { opacity: 1; transform: translate(0, 0) scale(1); } 100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(0); } }
+        @keyframes clickerPulse { 0%, 100% { box-shadow: 0 0 30px var(--clicker-glow), 0 0 60px rgba(255,107,107,0.2); transform: scale(1); } 50% { box-shadow: 0 0 50px var(--clicker-glow), 0 0 90px rgba(255,107,107,0.35); transform: scale(1.02); } }
+        @keyframes goldenShine { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
+        @keyframes achievementUnlock { 0% { transform: scale(0) rotate(-10deg); opacity: 0; } 50% { transform: scale(1.2) rotate(5deg); opacity: 1; } 100% { transform: scale(1) rotate(0deg); opacity: 1; } }
+        @keyframes progressFill { from { width: 0%; } }
+        @keyframes skeleton { 0% { background-position: -200px 0; } 100% { background-position: calc(200px + 100%) 0; } }
+        @keyframes neonFlicker { 0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { text-shadow: var(--shadow-glow), 0 0 10px var(--primary); } 20%, 24%, 55% { text-shadow: none; } }
+
+        /* ========== v14.0.0 GLASSMORPHISM ENHANCED ========== */
+        .glass-card-enhanced {
+            background: var(--bg-glass);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: var(--glass-border);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--glass-shadow);
+            transition: var(--transition);
+        }
+        .glass-card-enhanced:hover {
+            border-color: rgba(255, 255, 255, 0.15);
+            box-shadow: var(--glass-shadow), 0 0 30px rgba(0, 255, 136, 0.08);
+            transform: translateY(-2px);
+        }
+
+        /* ========== v14.0.0 COMPONENTS ENHANCED ========== */
+        .btn-enhanced {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            font-size: 0.88rem;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 1px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-enhanced::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
+            opacity: 0;
+            transition: var(--transition-fast);
+        }
+        .btn-enhanced:hover::after { opacity: 1; }
+        .btn-enhanced:active { transform: scale(0.97); }
+        
+        .btn-primary { background: linear-gradient(135deg, var(--primary), #00cc6a); color: #000; border-color: rgba(0,255,136,0.3); }
+        .btn-primary:hover { box-shadow: 0 0 25px var(--primary-glow); }
+        .btn-danger { background: linear-gradient(135deg, var(--danger), #e83e4f); color: #fff; border-color: rgba(255,71,87,0.3); }
+        .btn-danger:hover { box-shadow: 0 0 25px var(--danger-glow); }
+        .btn-gold { background: linear-gradient(135deg, var(--gold), #e6c200); color: #000; border-color: rgba(255,215,0,0.3); }
+        .btn-gold:hover { box-shadow: 0 0 25px var(--gold-glow); }
+        .btn-clicker { background: linear-gradient(135deg, var(--clicker), #ff8787); color: #fff; border-color: rgba(255,107,107,0.3); }
+        .btn-clicker:hover { box-shadow: 0 0 25px var(--clicker-glow); }
+
+        /* Enhanced Progress Bar */
+        .progress-bar-enhanced {
+            width: 100%;
+            height: 12px;
+            background: rgba(255,255,255,0.06);
+            border-radius: var(--radius-full);
+            overflow: hidden;
+            position: relative;
+            border: 1px solid var(--border-light);
+        }
+        .progress-bar-enhanced .fill {
+            height: 100%;
+            border-radius: var(--radius-full);
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            animation: progressFill 0.8s ease-out;
+        }
+        .progress-bar-enhanced .fill::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+        @keyframes shimmer { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+
+        /* Enhanced Badge */
+        .badge-enhanced {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            border-radius: var(--radius-full);
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+        .badge-primary { background: rgba(0,255,136,0.15); color: var(--primary); border: 1px solid rgba(0,255,136,0.25); }
+        .badge-danger { background: rgba(255,71,87,0.15); color: var(--danger); border: 1px solid rgba(255,71,87,0.25); }
+        .badge-gold { background: rgba(255,215,0,0.15); color: var(--gold); border: 1px solid rgba(255,215,0,0.25); }
+        .badge-clicker { background: rgba(255,107,107,0.15); color: var(--clicker); border: 1px solid rgba(255,107,107,0.25); }
+
+        /* Enhanced Input */
+        .input-enhanced {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            color: var(--text-main);
+            font-size: 0.9rem;
+            outline: none;
+            transition: var(--transition);
+        }
+        .input-enhanced:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0,255,136,0.15);
+        }
+        .input-enhanced::placeholder { color: var(--text-muted); }
+
+        /* Tooltip */
+        .tooltip-wrapper { position: relative; }
+        .tooltip-wrapper .tooltip {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(-8px);
+            padding: 8px 12px;
+            background: rgba(0,0,0,0.9);
+            color: var(--text-main);
+            font-size: 0.75rem;
+            border-radius: var(--radius-sm);
+            white-space: nowrap;
+            pointer-events: none;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition-fast);
+            z-index: 1000;
+        }
+        .tooltip-wrapper:hover .tooltip { opacity: 1; visibility: visible; }
+
+        /* Skeleton Loading */
+        .skeleton {
+            background: linear-gradient(90deg, rgba(255,255,255,0.04) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.04) 75%);
+            background-size: 200px 100%;
+            animation: skeleton 1.5s infinite;
+            border-radius: var(--radius-sm);
+        }
+
+        /* ========== CLICKER MINIGAME STYLES ========== */
+        #tab-clicker {
+            background: radial-gradient(circle at 50% 50%, rgba(255,107,107,0.08) 0%, transparent 50%);
+            position: relative;
+        }
+        #tab-clicker::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 300px;
+            background: radial-gradient(ellipse at 50% 0%, rgba(255,107,107,0.12) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .clicker-container {
+            display: flex;
+            gap: var(--space-6);
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--space-4);
+            position: relative;
+            z-index: 1;
+        }
+        @media (max-width: 900px) {
+            .clicker-container { flex-direction: column; }
+        }
+
+        /* Clicker Main Area */
+        .clicker-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-5);
+        }
+
+        .clicker-header {
+            text-align: center;
+            animation: slideDown 0.5s ease;
+        }
+        .clicker-header h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--clicker), #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: none;
+            margin-bottom: var(--space-2);
+        }
+        .clicker-header p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Stats Display */
+        .clicker-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-3);
+            width: 100%;
+            max-width: 500px;
+        }
+        .clicker-stat {
+            background: var(--bg-glass);
+            backdrop-filter: var(--glass-blur);
+            border: var(--glass-border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-3) var(--space-4);
+            text-align: center;
+            transition: var(--transition);
+        }
+        .clicker-stat:hover {
+            border-color: rgba(255,107,107,0.3);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+        .clicker-stat-value {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--clicker);
+            display: block;
+        }
+        .clicker-stat-label {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: var(--space-1);
+        }
+
+        /* Main Click Button */
+        .clicker-button-container {
+            position: relative;
+            margin: var(--space-4) 0;
+        }
+        .clicker-button {
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            border: 4px solid var(--clicker);
+            background: radial-gradient(circle at 40% 40%, #ff8787, var(--clicker) 60%, #e55555);
+            cursor: pointer;
+            position: relative;
+            transition: var(--transition-fast);
+            animation: clickerPulse 2s ease-in-out infinite;
+            box-shadow: 0 0 40px var(--clicker-glow), inset 0 -8px 20px rgba(0,0,0,0.3);
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .clicker-button:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 60px var(--clicker-glow), 0 0 100px rgba(255,107,107,0.2);
+        }
+        .clicker-button:active {
+            transform: scale(0.95);
+        }
+        .clicker-button-content {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+        .clicker-button-icon {
+            font-size: 3.5rem;
+            margin-bottom: var(--space-2);
+        }
+        .clicker-button-text {
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .clicker-button-power {
+            font-family: 'Orbitron', monospace;
+            font-size: 0.85rem;
+            opacity: 0.9;
+            margin-top: var(--space-1);
+        }
+
+        /* Ripple Effect */
+        .clicker-ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.4);
+            animation: ripple 0.6s ease-out forwards;
+            pointer-events: none;
+        }
+
+        /* Floating Numbers */
+        .float-number {
+            position: absolute;
+            font-family: 'Orbitron', monospace;
+            font-weight: 700;
+            font-size: 1.4rem;
+            pointer-events: none;
+            animation: numberFloat 1s ease-out forwards;
+            z-index: 100;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+        }
+        .float-number.normal { color: var(--clicker); }
+        .float-number.critical { color: var(--gold); font-size: 1.8rem; }
+        .float-number.golden { color: var(--gold); font-size: 1.7rem; }
+
+        /* Particles Container */
+        .particles-container {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+            border-radius: 50%;
+        }
+        .particle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            animation: particleExplode 0.8s ease-out forwards;
+        }
+
+        /* Clicker Sidebar / Upgrades Panel */
+        .clicker-sidebar {
+            width: 340px;
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-4);
+        }
+        @media (max-width: 900px) {
+            .clicker-sidebar { width: 100%; }
+        }
+
+        .clicker-panel {
+            background: var(--bg-glass);
+            backdrop-filter: var(--glass-blur);
+            border: var(--glass-border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-4);
+            animation: slideUp 0.4s ease;
+        }
+        .clicker-panel-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            margin-bottom: var(--space-4);
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+        .clicker-panel-title i { color: var(--clicker); }
+
+        /* Upgrade Items */
+        .upgrade-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-3);
+        }
+        .upgrade-item {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            padding: var(--space-3);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        .upgrade-item:hover:not(.maxed) {
+            border-color: var(--clicker);
+            background: rgba(255,107,107,0.08);
+            transform: translateX(4px);
+        }
+        .upgrade-item.maxed {
+            opacity: 0.6;
+            border-color: var(--gold);
+            background: rgba(255,215,0,0.08);
+        }
+        .upgrade-item.maxed .upgrade-cost { color: var(--gold); }
+        .upgrade-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-2);
+        }
+        .upgrade-name {
+            font-weight: 600;
+            font-size: 0.88rem;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+        .upgrade-name i { color: var(--clicker); font-size: 0.85rem; }
+        .upgrade-level {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.75rem;
+            color: var(--accent);
+            background: rgba(0,212,255,0.12);
+            padding: 2px 8px;
+            border-radius: var(--radius-sm);
+        }
+        .upgrade-desc {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: var(--space-2);
+        }
+        .upgrade-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .upgrade-cost {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.82rem;
+            color: var(--coin);
+            font-weight: 600;
+        }
+        .upgrade-btn {
+            padding: 6px 14px;
+            border-radius: var(--radius-sm);
+            font-size: 0.78rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            border: none;
+            background: linear-gradient(135deg, var(--clicker), #ff8787);
+            color: #fff;
+        }
+        .upgrade-btn:hover:not(:disabled) {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px var(--clicker-glow);
+        }
+        .upgrade-btn:disabled {
+            background: var(--border);
+            color: var(--text-muted);
+            cursor: not-allowed;
+        }
+        .upgrade-progress {
+            width: 100%;
+            height: 4px;
+            background: rgba(255,255,255,0.06);
+            border-radius: var(--radius-full);
+            overflow: hidden;
+            margin-top: var(--space-2);
+        }
+        .upgrade-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--clicker), var(--gold));
+            border-radius: var(--radius-full);
+            transition: width 0.3s ease;
+        }
+
+        /* Achievements Panel */
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-2);
+        }
+        .achievement-item {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            padding: var(--space-2) var(--space-3);
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            transition: var(--transition);
+            opacity: 0.45;
+        }
+        .achievement-item.unlocked {
+            opacity: 1;
+            border-color: var(--gold);
+            background: rgba(255,215,0,0.06);
+            animation: achievementUnlock 0.5s ease;
+        }
+        .achievement-icon {
+            font-size: 1.3rem;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.06);
+            border-radius: var(--radius-sm);
+        }
+        .achievement-info { flex: 1; }
+        .achievement-name {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+        .achievement-item.unlocked .achievement-name { color: var(--gold); }
+        .achievement-desc {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+        }
+
+        /* Action Buttons Row */
+        .clicker-actions {
+            display: flex;
+            gap: var(--space-2);
+            margin-top: var(--space-4);
+        }
+        .clicker-actions button {
+            flex: 1;
+        }
+
+        /* Next Achievement Progress */
+        .next-achievement {
+            background: var(--bg-glass);
+            backdrop-filter: var(--glass-blur);
+            border: var(--glass-border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-4);
+            margin-top: var(--space-4);
+        }
+        .next-achievement-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-2);
+        }
+        .next-achievement-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+        .next-achievement-progress {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.78rem;
+            color: var(--accent);
+        }
+
+        /* FAB Clicker Item Style */
+        .fab-nav-item.clicker-fab { color: var(--clicker); }
+        .fab-nav-item.clicker-fab .fab-nav-icon { color: var(--clicker); }
+        .fab-nav-item.clicker-fab.active { 
+            border-left-color: var(--clicker); 
+            background: linear-gradient(90deg, rgba(255,107,107,0.1), transparent); 
+            color: var(--clicker);
+        }
+        .fab-nav-item.clicker-fab.active .fab-nav-icon { 
+            background: rgba(255,107,107,0.12); 
+            border-color: rgba(255,107,107,0.28); 
+        }
+
+        /* Responsive for Clicker */
+        @media (max-width: 600px) {
+            .clicker-stats { grid-template-columns: repeat(3, 1fr); gap: var(--space-2); }
+            .clicker-stat-value { font-size: 1.2rem; }
+            .clicker-button { width: 180px; height: 180px; }
+            .clicker-button-icon { font-size: 2.5rem; }
+            .clicker-button-text { font-size: 0.9rem; }
+            .clicker-sidebar { width: 100%; }
+            .achievements-grid { grid-template-columns: 1fr; }
+            .clicker-header h2 { font-size: 1.5rem; }
+        }
+
         /* ========== RESPONSIVE ========== */
         @media (max-width: 600px) {
             .fab-menu { width: 262px; right: -6px; }
@@ -1527,6 +2145,27 @@
             <div class="timeline" id="devlogTimeline">
 
 
+                <!-- v14.0.0 -->
+                <div class="timeline-item" data-version="v14.0.0">
+                    <div class="version-header">
+                        <span class="version-tag" style="background:linear-gradient(135deg,rgba(255,107,107,0.4),rgba(255,165,0,0.35));border:1px solid rgba(255,107,107,0.8);font-size:1rem;box-shadow:0 0 20px rgba(255,107,107,0.3);">v14.0.0</span>
+                        <h3>Clicker Minigame & UI Revolution — Complete Visual Overhaul</h3>
+                        <span class="version-date">17 Ago 2026 — Atualização Atual</span>
+                    </div>
+                    <ul>
+                        <li><strong>🎮 Clicker Minigame (Nova Aba):</strong> Mini-jogo completo de clicking com botão interativo animado (220x220px), sistema de pontos, clicks por segundo (CPS) e total acumulado. Efeitos visuais incluem ripple no clique, números flutuantes (+1, CRITICAL!, GOLDEN!), partículas coloridas e animação pulse/glow no botão.</li>
+                        <li><strong>⬆️ Sistema de Upgrades:</strong> 5 categorias de melhorias com 10 níveis cada e custo escalonado — Auto-Clicker (cliques automáticos/seg), Multiplicador (x1.0 a x6.0 pontos), Critical Chance (0-30% chance de 2x-5x), Golden Clicks (0-20% chance de bônus +25-50) e Power Surge (+0 a +20 poder base). Cada upgrade com barra de progresso visual.</li>
+                        <li><strong>🏆 Sistema de Achievements:</strong> 8 conquistas desbloqueáveis com animação especial — First Click (1 clique), Century Club (100 cliques), Click Master (1.000 cliques), Click Legend (10.000 cliques), Auto Enthusiast (comprar auto-clicker), Multiplier Maniac (max multiplier), Golden Touch (50 golden clicks) e Speed Demon (100 CPS).</li>
+                        <li><strong>✨ Efeitos Visuais do Clicker:</strong> Partículas que explodem em 8 direções ao clicar, números flutuantes animados que sobem e somem, botão com efeito pulse/glow contínuo, ripple effect circular no click, cores diferentes para normal/critical/golden.</li>
+                        <li><strong>💾 Persistência de Dados:</strong> Estado completo do clicker salvo automaticamente no localStorage. Auto-save a cada 30 segundos. Reset disponível com confirmação via dialog.</li>
+                        <li><strong>🎨 UI Complete Redesign:</strong> Design system totalmente reconstruído com variáveis CSS expandidas (cores, sombras, bordas, espaçamento em grid de 8px, border-radius consistente), tipografia hierárquica clara, novo esquema de cores para o Clicker (#ff6b6b).</li>
+                        <li><strong>🔮 Glassmorphism Avançado:</strong> Efeitos de vidro refinados com backdrop-filter: blur(12px), bordas gradientes sutis, hover glow neon controlado, sistema de sombras em 3 níveis (sm/md/lg), cards com elevation hover.</li>
+                        <li><strong>🌊 Animações Fluidas:</strong> Biblioteca completa de keyframes CSS — fadeIn, slideUp/Down/Left, pulse, glow, float, shake, ripple, numberFloat, particleExplode, clickerPulse, goldenShine, achievementUnlock, progressFill, skeleton, neonFlicker. Micro-interactions em todos os botões (scale no active).</li>
+                        <li><strong>📱 Responsividade Total:</strong> Breakpoints otimizados para mobile (<600px), tablet (600-900px) e desktop (>900px). FAB menu adaptável, grids flexíveis, touch-friendly com tap-highlight desativado no botão do clicker.</li>
+                        <li><strong>🧩 Componentes Redesenhados:</strong> Novos componentes reutilizáveis — btn-enhanced (com variantes primary/danger/gold/clicker), progress-bar-enhanced (com shimmer animation), badge-enhanced (4 variantes), input-enhanced (focus states), tooltip-wrapper, skeleton loading. Todos com transições suaves de 0.3s.</li>
+                    </ul>
+                </div>
+
                 <!-- v13.1.3 -->
                 <div class="timeline-item" data-version="v13.1.3">
                     <div class="version-header">
@@ -1922,6 +2561,83 @@
         </div>
     </section>
 
+    <!-- TAB: CLICKER MINIGAME -->
+    <section id="tab-clicker" class="tab-content">
+        <div class="clicker-container">
+            <!-- Main Click Area -->
+            <div class="clicker-main">
+                <div class="clicker-header">
+                    <h2><i class="fa-solid fa-hand-pointer"></i> Clicker Game</h2>
+                    <p>Clique o botão, ganhe pontos, desbloqueie upgrades e conquistas!</p>
+                </div>
+
+                <!-- Stats Display -->
+                <div class="clicker-stats">
+                    <div class="clicker-stat">
+                        <span class="clicker-stat-value" id="clickerPoints">0</span>
+                        <span class="clicker-stat-label">Pontos</span>
+                    </div>
+                    <div class="clicker-stat">
+                        <span class="clicker-stat-value" id="clickerCPS">0.0</span>
+                        <span class="clicker-stat-label">CPS</span>
+                    </div>
+                    <div class="clicker-stat">
+                        <span class="clicker-stat-value" id="clickerTotal">0</span>
+                        <span class="clicker-stat-label">Total Cliques</span>
+                    </div>
+                </div>
+
+                <!-- Main Click Button -->
+                <div class="clicker-button-container" id="clickerButtonContainer">
+                    <button class="clicker-button" id="clickerButton" onclick="handleClick(event)">
+                        <div class="particles-container" id="particlesContainer"></div>
+                        <div class="clicker-button-content">
+                            <span class="clicker-button-icon"><i class="fa-solid fa-bolt"></i></span>
+                            <span class="clicker-button-text">CLICK!</span>
+                            <span class="clicker-button-power" id="clickerPower">+1 por clique</span>
+                        </div>
+                    </button>
+                </div>
+
+                <!-- Next Achievement Progress -->
+                <div class="next-achievement" id="nextAchievementBox" style="display:none;">
+                    <div class="next-achievement-header">
+                        <span class="next-achievement-title"><i class="fa-solid fa-trophy"></i> Próxima Conquista: <strong id="nextAchievementName">-</strong></span>
+                        <span class="next-achievement-progress" id="nextAchievementProgress">0/0</span>
+                    </div>
+                    <div class="progress-bar-enhanced">
+                        <div class="fill" id="nextAchievementBar" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="clicker-actions">
+                    <button class="btn-enhanced btn-clicker" onclick="saveClickerGame()">
+                        <i class="fa-solid fa-floppy-disk"></i> Salvar
+                    </button>
+                    <button class="btn-enhanced btn-danger" onclick="confirmResetClicker()">
+                        <i class="fa-solid fa-rotate-left"></i> Resetar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Sidebar with Upgrades & Achievements -->
+            <div class="clicker-sidebar">
+                <!-- Upgrades Panel -->
+                <div class="clicker-panel">
+                    <div class="clicker-panel-title"><i class="fa-solid fa-arrow-up"></i> Upgrades</div>
+                    <div class="upgrade-list" id="upgradeList"></div>
+                </div>
+
+                <!-- Achievements Panel -->
+                <div class="clicker-panel">
+                    <div class="clicker-panel-title"><i class="fa-solid fa-trophy"></i> Conquistas (<span id="achievementCount">0</span>/8)</div>
+                    <div class="achievements-grid" id="achievementsList"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
 </main>
 
 <!-- ========== ADMIN PANEL ========== -->
@@ -2164,7 +2880,7 @@
 // ===================== DATA DECLARATIONS =====================
 let todos = JSON.parse(localStorage.getItem('geekieTodos')) || [];
 let todoFilter = 'all';
-let savedTitle = localStorage.getItem('geekieTitleName') || 'Geekie One Ultra v13.1.3';
+let savedTitle = localStorage.getItem('geekieTitleName') || 'Geekie One Ultra v14.0.0';
 let selectedFont = localStorage.getItem('geekieTitleFont') || 'Poppins';
 let selectedIcon = localStorage.getItem('geekieTitleIcon') || 'fa-graduation-cap';
 const availableFonts = [
@@ -4563,6 +5279,455 @@ document.addEventListener('keydown', function(e) {
         else { openCmdPalette(); }
     }
 });
+
+// ===================== CLICKER MINIGAME v14.0.0 =====================
+const CLICKER_SAVE_KEY = 'geekieClickerGame';
+let clickerData = {
+    points: 0,
+    totalClicks: 0,
+    clicksPerSecond: 0,
+    clickHistory: [],
+    upgrades: {
+        autoclicker: { level: 0, baseCost: 10, costMult: 1.8, effect: 0 },
+        multiplier: { level: 0, baseCost: 50, costMult: 2.0, effect: 1 },
+        critical: { level: 0, baseCost: 100, costMult: 2.2, effect: 0 },
+        golden: { level: 0, baseCost: 200, costMult: 2.5, effect: 0 },
+        powersurge: { level: 0, baseCost: 500, costMult: 3.0, effect: 0 }
+    },
+    achievements: {},
+    goldenClicks: 0,
+    criticalClicks: 0
+};
+
+// Upgrade definitions
+const UPGRADE_DEFS = {
+    autoclicker: {
+        name: 'Auto-Clicker',
+        icon: 'fa-robot',
+        desc: 'Gera cliques automáticos a cada segundo',
+        maxLevel: 10,
+        getEffect: (lvl) => lvl * 1,
+        getDesc: (lvl) => `+${lvl} clique(s)/seg`
+    },
+    multiplier: {
+        name: 'Multiplicador',
+        icon: 'fa-times',
+        desc: 'Multiplica pontos por clique',
+        maxLevel: 10,
+        getEffect: (lvl) => 1 + (lvl * 0.5),
+        getDesc: (lvl) => `x${(1 + lvl * 0.5).toFixed(1)} pontos`
+    },
+    critical: {
+        name: 'Chance Crítica',
+        icon: 'fa-crosshairs',
+        desc: 'Chance de cliques críticos (2x-5x)',
+        maxLevel: 10,
+        getEffect: (lvl) => lvl * 3,
+        getDesc: (lvl) => `${lvl * 3}% chance`
+    },
+    golden: {
+        name: 'Golden Clicks',
+        icon: 'fa-star',
+        desc: 'Chance de golden clicks com bônus',
+        maxLevel: 10,
+        getEffect: (lvl) => lvl * 2,
+        getDesc: (lvl) => `${lvl * 2}% chance`
+    },
+    powersurge: {
+        name: 'Power Surge',
+        icon: 'fa-bolt',
+        desc: 'Aumenta poder base do clique',
+        maxLevel: 10,
+        getEffect: (lvl) => lvl * 2,
+        getDesc: (lvl) => `+${lvl * 2} poder base`
+    }
+};
+
+// Achievement definitions
+const ACHIEVEMENT_DEFS = [
+    { id: 'first_click', name: 'First Click', icon: 'fa-hand-pointer', desc: 'Faça seu primeiro clique', condition: (d) => d.totalClicks >= 1 },
+    { id: 'century_club', name: 'Century Club', icon: 'fa-100', desc: 'Alcance 100 cliques', condition: (d) => d.totalClicks >= 100 },
+    { id: 'click_master', name: 'Click Master', icon: 'fa-crown', desc: 'Alcance 1.000 cliques', condition: (d) => d.totalClicks >= 1000 },
+    { id: 'click_legend', name: 'Click Legend', icon: 'fa-fire', desc: 'Alcance 10.000 cliques', condition: (d) => d.totalClicks >= 10000 },
+    { id: 'auto_enthusiast', name: 'Auto Enthusiast', icon: 'fa-robot', desc: 'Compre Auto-Clicker nível 1', condition: (d) => d.upgrades.autoclicker.level >= 1 },
+    { id: 'multiplier_maniac', name: 'Multiplier Maniac', icon: 'fa-infinity', desc: 'Maximize o Multiplicador', condition: (d) => d.upgrades.multiplier.level >= 10 },
+    { id: 'golden_touch', name: 'Golden Touch', icon: 'fa-gem', desc: 'Faça 50 golden clicks', condition: (d) => d.goldenClicks >= 50 },
+    { id: 'speed_demon', name: 'Speed Demon', icon: 'fa-gauge-high', desc: 'Alcançar 100 CPS', condition: (d) => d.clicksPerSecond >= 100 }
+];
+
+// Initialize Clicker Game
+function initClickerGame() {
+    loadClickerGame();
+    renderUpgrades();
+    renderAchievements();
+    updateClickerDisplay();
+    startAutoClicker();
+    startCPSCounter();
+    
+    // Auto-save every 30 seconds
+    setInterval(saveClickerGame, 30000);
+}
+
+// Load game from localStorage
+function loadClickerGame() {
+    try {
+        const saved = localStorage.getItem(CLICKER_SAVE_KEY);
+        if (saved) {
+            const parsed = JSON.parse(saved);
+            clickerData = { ...clickerData, ...parsed };
+        }
+    } catch(e) {
+        console.error('Error loading clicker data:', e);
+    }
+}
+
+// Save game to localStorage
+function saveClickerGame() {
+    try {
+        localStorage.setItem(CLICKER_SAVE_KEY, JSON.stringify(clickerData));
+        showToast('<i class="fa-solid fa-floppy-disk"></i> Clicker salvo!');
+    } catch(e) {
+        console.error('Error saving clicker data:', e);
+    }
+}
+
+// Handle main button click
+function handleClick(event) {
+    const btn = document.getElementById('clickerButton');
+    const rect = btn.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    
+    // Calculate click power
+    const multEffect = UPGRADE_DEFS.multiplier.getEffect(clickerData.upgrades.multiplier.level);
+    const powerEffect = UPGRADE_DEFS.powersurge.getEffect(clickerData.upgrades.powersurge.level);
+    let basePoints = 1 + powerEffect;
+    let points = Math.floor(basePoints * multEffect);
+    let clickType = 'normal';
+    
+    // Check for critical hit
+    const critChance = UPGRADE_DEFS.critical.getEffect(clickerData.upgrades.critical.level);
+    if (critChance > 0 && Math.random() * 100 < critChance) {
+        const critMult = 2 + Math.floor(Math.random() * 4); // 2x-5x
+        points *= critMult;
+        clickType = 'critical';
+        clickerData.criticalClicks++;
+    }
+    
+    // Check for golden click
+    const goldChance = UPGRADE_DEFS.golden.getEffect(clickerData.upgrades.golden.level);
+    if (goldChance > 0 && Math.random() * 100 < goldChance) {
+        points += 25 + Math.floor(Math.random() * 26); // 25-50 bonus
+        clickType = 'golden';
+        clickerData.goldenClicks++;
+    }
+    
+    // Update stats
+    clickerData.points += points;
+    clickerData.totalClicks++;
+    
+    // Track clicks for CPS calculation
+    const now = Date.now();
+    clickerData.clickHistory.push(now);
+    clickerData.clickHistory = clickerData.clickHistory.filter(t => now - t < 1000);
+    
+    // Create visual effects
+    createRipple(event.clientX - rect.left, event.clientY - rect.top, rect);
+    createFloatNumber(x, y, points, clickType, rect);
+    createParticles(x, y, clickType);
+    
+    // Update display and check achievements
+    updateClickerDisplay();
+    checkAchievements();
+}
+
+// Create ripple effect
+function createRipple(x, y, containerRect) {
+    const container = document.getElementById('clickerButtonContainer');
+    const ripple = document.createElement('div');
+    ripple.className = 'clicker-ripple';
+    ripple.style.width = ripple.style.height = '80px';
+    ripple.style.left = (x - 40) + 'px';
+    ripple.style.top = (y - 40) + 'px';
+    container.appendChild(ripple);
+    setTimeout(() => ripple.remove(), 600);
+}
+
+// Create floating number
+function createFloatNumber(x, y, value, type, containerRect) {
+    const container = document.getElementById('clickerButtonContainer');
+    const floatNum = document.createElement('div');
+    floatNum.className = 'float-number ' + type;
+    floatNum.textContent = type === 'critical' ? 'CRITICAL! +' + value : type === 'golden' ? 'GOLDEN! +' + value : '+' + value;
+    floatNum.style.left = x + 'px';
+    floatNum.style.top = y + 'px';
+    container.appendChild(floatNum);
+    setTimeout(() => floatNum.remove(), 1000);
+}
+
+// Create particles on click
+function createParticles(x, y, type) {
+    const container = document.getElementById('particlesContainer');
+    const colors = type === 'critical' ? ['#ffd700', '#ffaa00', '#fff'] : 
+                    type === 'golden' ? ['#ffd700', '#ffec8b', '#fff'] :
+                    ['#ff6b6b', '#ff8787', '#ffa8a8'];
+    
+    for (let i = 0; i < 8; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        particle.style.left = x + 'px';
+        particle.style.top = y + 'px';
+        
+        const angle = (i / 8) * Math.PI * 2;
+        const distance = 60 + Math.random() * 40;
+        const tx = Math.cos(angle) * distance + 'px';
+        const ty = Math.sin(angle) * distance + 'px';
+        particle.style.setProperty('--tx', tx);
+        particle.style.setProperty('--ty', ty);
+        
+        container.appendChild(particle);
+        setTimeout(() => particle.remove(), 800);
+    }
+}
+
+// Render upgrades list
+function renderUpgrades() {
+    const list = document.getElementById('upgradeList');
+    if (!list) return;
+    
+    list.innerHTML = '';
+    
+    for (const [key, def] of Object.entries(UPGRADE_DEFS)) {
+        const upgrade = clickerData.upgrades[key];
+        const cost = Math.floor(upgrade.baseCost * Math.pow(upgrade.costMult, upgrade.level));
+        const isMaxed = upgrade.level >= def.maxLevel;
+        const canAfford = clickerData.points >= cost;
+        
+        const item = document.createElement('div');
+        item.className = 'upgrade-item' + (isMaxed ? ' maxed' : '');
+        item.innerHTML = `
+            <div class="upgrade-header">
+                <span class="upgrade-name"><i class="fa-solid ${def.icon}"></i> ${def.name}</span>
+                <span class="upgrade-level">${isMaxed ? 'MAX' : 'Lv.' + upgrade.level + '/' + def.maxLevel}</span>
+            </div>
+            <div class="upgrade-desc">${def.desc} — ${def.getDesc(upgrade.level)}</div>
+            <div class="upgrade-footer">
+                <span class="upgrade-cost">${isMaxed ? '✓ Completo' : '💰 ' + formatNumber(cost)}</span>
+                <button class="upgrade-btn" ${isMaxed || !canAfford ? 'disabled' : ''} 
+                    onclick="buyUpgrade('${key}')">${isMaxed ? 'Max' : 'Comprar'}</button>
+            </div>
+            <div class="upgrade-progress">
+                <div class="upgrade-progress-bar" style="width: ${(upgrade.level / def.maxLevel) * 100}%"></div>
+            </div>
+        `;
+        list.appendChild(item);
+    }
+}
+
+// Buy an upgrade
+function buyUpgrade(key) {
+    const upgrade = clickerData.upgrades[key];
+    const def = UPGRADE_DEFS[key];
+    const cost = Math.floor(upgrade.baseCost * Math.pow(upgrade.costMult, upgrade.level));
+    
+    if (upgrade.level >= def.maxLevel) return;
+    if (clickerData.points < cost) return;
+    
+    clickerData.points -= cost;
+    upgrade.level++;
+    
+    // Apply effects immediately
+    if (key === 'autoclicker') {
+        upgrade.effect = def.getEffect(upgrade.level);
+    }
+    
+    updateClickerDisplay();
+    renderUpgrades();
+    checkAchievements();
+    showToast(`<i class="fa-solid ${def.icon}"></i> ${def.name} nível ${upgrade.level}!`);
+}
+
+// Render achievements
+function renderAchievements() {
+    const list = document.getElementById('achievementsList');
+    const countEl = document.getElementById('achievementCount');
+    if (!list) return;
+    
+    list.innerHTML = '';
+    let unlockedCount = 0;
+    
+    ACHIEVEMENT_DEFS.forEach(ach => {
+        const isUnlocked = clickerData.achievements[ach.id];
+        if (isUnlocked) unlockedCount++;
+        
+        const item = document.createElement('div');
+        item.className = 'achievement-item' + (isUnlocked ? ' unlocked' : '');
+        item.id = 'ach-' + ach.id;
+        item.innerHTML = `
+            <span class="achievement-icon"><i class="fa-solid ${ach.icon}"></i></span>
+            <div class="achievement-info">
+                <div class="achievement-name">${ach.name}</div>
+                <div class="achievement-desc">${ach.desc}</div>
+            </div>
+        `;
+        list.appendChild(item);
+    });
+    
+    if (countEl) countEl.textContent = unlockedCount + '/' + ACHIEVEMENT_DEFS.length;
+}
+
+// Check and unlock achievements
+function checkAchievements() {
+    ACHIEVEMENT_DEFS.forEach(ach => {
+        if (!clickerData.achievements[ach.id] && ach.condition(clickerData)) {
+            clickerData.achievements[ach.id] = true;
+            
+            // Visual feedback
+            const el = document.getElementById('ach-' + ach.id);
+            if (el) {
+                el.classList.add('unlocked');
+                el.style.animation = 'none';
+                void el.offsetWidth; // Trigger reflow
+                el.style.animation = 'achievementUnlock 0.5s ease';
+            }
+            
+            showToast(`🏆 Conquista desbloqueada: ${ach.name}!`);
+        }
+    });
+    
+    renderAchievements();
+    updateNextAchievementProgress();
+}
+
+// Update next achievement progress bar
+function updateNextAchievementProgress() {
+    const box = document.getElementById('nextAchievementBox');
+    const nameEl = document.getElementById('nextAchievementName');
+    const progressEl = document.getElementById('nextAchievementProgress');
+    const barEl = document.getElementById('nextAchievementBar');
+    
+    if (!box) return;
+    
+    // Find next locked achievement based on total clicks
+    const nextAch = ACHIEVEMENT_DEFS.find(a => !clickerData.achievements[a.id] && 
+        ['first_click', 'century_club', 'click_master', 'click_legend'].includes(a.id));
+    
+    if (nextAch && nextAch.id === 'first_click') {
+        box.style.display = 'none';
+        return;
+    }
+    
+    if (nextAch) {
+        box.style.display = 'block';
+        nameEl.textContent = nextAch.name;
+        
+        let current = clickerData.totalClicks;
+        let target = 0;
+        if (nextAch.id === 'century_club') target = 100;
+        else if (nextAch.id === 'click_master') target = 1000;
+        else if (nextAch.id === 'click_legend') target = 10000;
+        
+        progressEl.textContent = formatNumber(current) + '/' + formatNumber(target);
+        barEl.style.width = Math.min((current / target) * 100, 100) + '%';
+    } else {
+        box.style.display = 'none';
+    }
+}
+
+// Update all displays
+function updateClickerDisplay() {
+    const pointsEl = document.getElementById('clickerPoints');
+    const cpsEl = document.getElementById('clickerCPS');
+    const totalEl = document.getElementById('clickerTotal');
+    const powerEl = document.getElementById('clickerPower');
+    
+    if (pointsEl) pointsEl.textContent = formatNumber(clickerData.points);
+    if (cpsEl) cpsEl.textContent = clickerData.clicksPerSecond.toFixed(1);
+    if (totalEl) totalEl.textContent = formatNumber(clickerData.totalClicks);
+    
+    if (powerEl) {
+        const mult = UPGRADE_DEFS.multiplier.getEffect(clickerData.upgrades.multiplier.level);
+        const power = UPGRADE_DEFS.powersurge.getEffect(clickerData.upgrades.powersurge.level);
+        powerEl.textContent = `+${Math.floor((1 + power) * mult)} por clique`;
+    }
+    
+    // Re-render upgrades to update costs/affordability
+    renderUpgrades();
+}
+
+// Format large numbers
+function formatNumber(num) {
+    if (num >= 1000000) return (num / 1000000).toFixed(2) + 'M';
+    if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+    return num.toString();
+}
+
+// Start auto-clicker interval
+function startAutoClicker() {
+    setInterval(() => {
+        const autoLevel = clickerData.upgrades.autoclicker.level;
+        if (autoLevel <= 0) return;
+        
+        const autoClicks = UPGRADE_DEFS.autoclicker.getEffect(autoLevel);
+        const multEffect = UPGRADE_DEFS.multiplier.getEffect(clickerData.upgrades.multiplier.level);
+        const powerEffect = UPGRADE_DEFS.powersurge.getEffect(clickerData.upgrades.powersurge.level);
+        const pointsPerClick = Math.floor((1 + powerEffect) * multEffect);
+        
+        clickerData.points += autoClicks * pointsPerClick;
+        clickerData.totalClicks += autoClicks;
+        
+        updateClickerDisplay();
+        checkAchievements();
+    }, 1000);
+}
+
+// Track CPS
+function startCPSCounter() {
+    setInterval(() => {
+        const now = Date.now();
+        clickerData.clickHistory = clickerData.clickHistory.filter(t => now - t < 1000);
+        clickerData.clicksPerSecond = clickerData.clickHistory.length;
+        
+        const cpsEl = document.getElementById('clickerCPS');
+        if (cpsEl) cpsEl.textContent = clickerData.clicksPerSecond.toFixed(1);
+        
+        checkAchievements();
+    }, 500);
+}
+
+// Confirm reset with dialog
+function confirmResetClicker() {
+    if (confirm('⚠️ Tem certeza que deseja resetar todo o progresso do Clicker?\n\nEssa ação não pode ser desfeita!')) {
+        localStorage.removeItem(CLICKER_SAVE_KEY);
+        clickerData = {
+            points: 0,
+            totalClicks: 0,
+            clicksPerSecond: 0,
+            clickHistory: [],
+            upgrades: {
+                autoclicker: { level: 0, baseCost: 10, costMult: 1.8, effect: 0 },
+                multiplier: { level: 0, baseCost: 50, costMult: 2.0, effect: 1 },
+                critical: { level: 0, baseCost: 100, costMult: 2.2, effect: 0 },
+                golden: { level: 0, baseCost: 200, costMult: 2.5, effect: 0 },
+                powersurge: { level: 0, baseCost: 500, costMult: 3.0, effect: 0 }
+            },
+            achievements: {},
+            goldenClicks: 0,
+            criticalClicks: 0
+        };
+        renderUpgrades();
+        renderAchievements();
+        updateClickerDisplay();
+        showToast('<i class="fa-solid fa-rotate-left"></i> Clicker resetado!');
+    }
+}
+
+// Initialize clicker when DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+    initClickerGame();
+});
+
 </script>
 
 <script>
@@ -5356,7 +6521,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <div class="fab-menu-header">
             <i class="fa-solid fa-graduation-cap" style="color:var(--primary);font-size:0.95rem;"></i>
             <span class="fab-brand">Geekie Ultra</span>
-            <span class="fab-version">v13.1.3</span>
+            <span class="fab-version">v14.0.0</span>
         </div>
 
         <div class="fab-section-label">Principal</div>
@@ -5402,6 +6567,9 @@ document.addEventListener('DOMContentLoaded', function() {
         </button>
         <button class="fab-nav-item new-fab" id="fab-nav-quiz" onclick="fabSwitch('tab-quiz','fab-nav-quiz')">
             <span class="fab-nav-icon"><i class="fa-solid fa-brain"></i></span>Quiz Rápido <span class="new-badge">NOVO</span>
+        </button>
+        <button class="fab-nav-item clicker-fab" id="fab-nav-clicker" onclick="fabSwitch('tab-clicker','fab-nav-clicker')">
+            <span class="fab-nav-icon"><i class="fa-solid fa-hand-pointer"></i></span>Clicker Game <span class="new-badge" style="background:linear-gradient(135deg,rgba(255,107,107,0.2),rgba(255,165,0,0.15));color:#ff6b6b;border-color:rgba(255,107,107,0.3);">NOVO</span>
         </button>
 
         <div class="fab-section-label">Ferramentas</div>
