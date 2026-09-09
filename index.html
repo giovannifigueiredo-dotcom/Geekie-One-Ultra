@@ -2434,6 +2434,33 @@
 .portal-quick-btn i { font-size: 1.4rem; color: var(--primary); }
 .portal-quick-btn span { font-size: 0.72rem; color: var(--text-main); text-align: center; }
 
+        /* WebLLM local AI chat */
+        .chat-page { width: 100%; max-width: 1000px; height: 100%; min-height: 0; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
+        .chat-header { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
+        .chat-header h2 { color: var(--accent); display: flex; align-items: center; gap: 10px; font-size: 1.25rem; }
+        .chat-header p { color: var(--text-muted); font-size: 0.8rem; margin-top: 4px; }
+        .chat-clear-btn { flex: 0 0 auto; padding: 8px 12px; font-size: 0.78rem; }
+        .chat-messages { flex: 1; min-height: 220px; overflow-y: auto; padding: 18px; border: 1px solid var(--border); border-radius: 14px; background: rgba(0,0,0,0.18); display: flex; flex-direction: column; gap: 12px; }
+        .chat-empty { margin: auto; max-width: 420px; text-align: center; color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; }
+        .chat-message { display: flex; gap: 10px; max-width: 86%; align-items: flex-start; }
+        .chat-message.user { align-self: flex-end; flex-direction: row-reverse; }
+        .chat-avatar { width: 32px; height: 32px; flex: 0 0 32px; border-radius: 10px; display: grid; place-items: center; color: var(--bg-base); background: linear-gradient(135deg, var(--primary), var(--accent)); font-size: 0.78rem; }
+        .chat-message.user .chat-avatar { background: linear-gradient(135deg, #7b2cbf, #00d4ff); color: #fff; }
+        .chat-bubble { padding: 11px 14px; border-radius: 14px; background: rgba(255,255,255,0.06); border: 1px solid var(--border); color: var(--text-main); line-height: 1.55; font-size: 0.88rem; white-space: pre-wrap; overflow-wrap: anywhere; }
+        .chat-message.user .chat-bubble { background: rgba(0,212,255,0.12); border-color: rgba(0,212,255,0.25); }
+        .chat-composer { display: flex; gap: 10px; align-items: flex-end; }
+        .chat-input { flex: 1; min-height: 46px; max-height: 130px; resize: vertical; background: rgba(0,0,0,0.25); border: 1px solid var(--border); border-radius: 12px; color: var(--text-main); padding: 12px 14px; outline: none; font: inherit; line-height: 1.4; }
+        .chat-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,212,255,0.08); }
+        .chat-send-btn { min-height: 46px; padding: 10px 16px; }
+        .chat-send-btn:disabled { opacity: 0.55; cursor: wait; }
+        .chat-status { min-height: 18px; color: var(--text-muted); font-size: 0.75rem; }
+        .chat-status.error { color: var(--danger); }
+        @media (max-width: 600px) {
+            .chat-message { max-width: 96%; }
+            .chat-composer { align-items: stretch; flex-direction: column; }
+            .chat-send-btn { width: 100%; }
+        }
+
 /* Google search: Suggestions */
 .search-suggestions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
 .search-suggestion { background: var(--bg-glass); border: 1px solid var(--border); color: var(--text-muted); border-radius: var(--radius-full); padding: 5px 14px; cursor: pointer; font-size: 0.78rem; transition: var(--transition); }
@@ -2596,7 +2623,7 @@
 .tutorial-btn-next:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(0,255,136,0.3); }
 
 .tutorial-dots { display: flex; gap: 5px; justify-content: center; padding: 0 24px 12px; }
-.tutorial-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--border); transition: var(--transition); cursor: pointer; }
+.tutorial-dot { width: 7px; height: 7px; padding: 0; border: 0; border-radius: 50%; background: var(--border); transition: var(--transition); cursor: pointer; }
 .tutorial-dot.active { background: var(--primary); width: 20px; border-radius: 4px; }
 .tutorial-dot:hover { background: var(--text-muted); }
 
@@ -2674,7 +2701,7 @@
                     <p>Aba 1 de 26</p>
                 </div>
             </div>
-            <span class="tutorial-progress" id="tutorialProgress">1 / 26</span>
+            <span class="tutorial-progress" id="tutorialProgress">1 / 27</span>
         </div>
 
         <div class="tutorial-progress-bar">
@@ -2693,10 +2720,10 @@
         <div class="tutorial-dots" id="tutorialDots"></div>
 
         <div class="tutorial-footer">
-            <button class="tutorial-btn tutorial-btn-skip" onclick="skipTutorial()">Pular Tutorial</button>
+            <button type="button" class="tutorial-btn tutorial-btn-skip" data-tutorial-action="skip">Pular Tutorial</button>
             <div style="display:flex;gap:8px;">
-                <button class="tutorial-btn tutorial-btn-prev" id="tutorialBtnPrev" onclick="prevTutorialStep()" disabled>← Anterior</button>
-                <button class="tutorial-btn tutorial-btn-next" id="tutorialBtnNext" onclick="nextTutorialStep()">Próximo →</button>
+                <button type="button" class="tutorial-btn tutorial-btn-prev" id="tutorialBtnPrev" data-tutorial-action="prev" disabled>← Anterior</button>
+                <button type="button" class="tutorial-btn tutorial-btn-next" id="tutorialBtnNext" data-tutorial-action="next">Próximo →</button>
             </div>
         </div>
     </div>
@@ -2744,6 +2771,34 @@
                 <p>Carregando Portal Geekie...</p>
             </div>
             <iframe id="geekieIframe" data-src="https://dx1website.pages.dev/resumao/geekieoneplus/" title="Geekie One Portal" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation" style="display:none;"></iframe>
+        </div>
+    </section>
+
+    <!-- TAB: CHAT IA -->
+    <section id="tab-chat" class="tab-content" style="padding: 20px;">
+        <div class="glass-card chat-page">
+            <div class="chat-header">
+                <div>
+                    <h2><i class="fa-solid fa-comments"></i> Chat IA</h2>
+                    <p>Converse com um assistente local usando WebLLM e WebGPU.</p>
+                </div>
+                <button type="button" class="btn btn-outline chat-clear-btn" id="chatClearBtn">
+                    <i class="fa-solid fa-trash"></i> Limpar conversa
+                </button>
+            </div>
+            <div class="chat-messages" id="chatMessages" aria-live="polite">
+                <div class="chat-empty" id="chatEmptyState">
+                    <i class="fa-solid fa-wand-magic-sparkles" style="font-size:2rem;color:var(--primary);display:block;margin-bottom:10px;"></i>
+                    Escreva uma pergunta para começar sua conversa.
+                </div>
+            </div>
+            <div class="chat-status" id="chatStatus" role="status"></div>
+            <form class="chat-composer" id="chatForm">
+                <textarea class="chat-input" id="chatInput" rows="2" maxlength="4000" placeholder="Digite sua mensagem..." aria-label="Mensagem para o chat"></textarea>
+                <button type="submit" class="btn btn-primary chat-send-btn" id="chatSendBtn">
+                    <i class="fa-solid fa-paper-plane"></i> Enviar
+                </button>
+            </form>
         </div>
     </section>
 
@@ -3194,12 +3249,15 @@
                     </div>
                     <ul>
                         <li><strong>🔑 Sistema de Login:</strong> Tela de login/registro com nome de usuário e senha, modo convidado, dados salvos no localStorage. Badge de usuário no topo com avatar e botão de logout.</li>
-                        <li><strong>📚 Tutorial Interativo:</strong> Tutorial de 26 passos que aparece automaticamente no primeiro acesso. Cada passo explica uma aba com ícone, descrição e dicas. Botões Próximo/Anterior/Pular, barra de progresso e dots navegáveis.</li>
+                        <li><strong>📚 Tutorial Interativo:</strong> Tutorial de 27 passos que aparece automaticamente no primeiro acesso. Cada passo explica uma aba com ícone, descrição e dicas. Botões Próximo/Anterior/Pular, barra de progresso e dots navegáveis.</li>
                         <li><strong>🔧 Correções:</strong> Corrigida exibição de tab-content (display none/block), previnido fechamento indevido do FAB menu ao clicar dentro, garantia de função showToast disponível, proteção contra tabId nulo no switchTab, keyframes de animação de toast garantidos.</li>
                         <li><strong>🛠️ Correções de Bugs Críticos:</strong> Renomeada função duplicada renderAchievements → renderStatsAchievements (conflito com clicker), criadas funções do calculador (calcAction, calcCompute, calcRender, calcState) que estavam faltando, criada função copyText (botões de copiar não funcionavam), criada função filterDevlog (busca do devlog não funcionava), criado alias addXP para gainXP (XP de registro/diário não era creditado), corrigida referência do tutorial tab-commands → cmdPalette.</li>
                         <li><strong>🐛 Bug Fix — Portal Geekie:</strong> Corrigida a renderização da aba Geekie. A regra de visibilidade das abas não sobrescreve mais o layout flex, permitindo que o container e o iframe do portal ocupem corretamente toda a área disponível.</li>
+                        <li><strong>🖱️ Bug Fix — Tutorial:</strong> Corrigidos os cliques dos botões Próximo, Anterior, Pular Tutorial e dos indicadores de etapa, com eventos dedicados e validação do passo selecionado.</li>
+                        <li><strong>💬 Nova Aba — Chat IA:</strong> Adicionada uma página de conversa com histórico local, envio por Enter, limpeza de conversa e integração com WebLLM.</li>
+                        <li><strong>🔄 Migração do Chat:</strong> Removido o Puter.js e substituído por um modelo local carregado no navegador, sem verificação de telefone, conta ou chave de API.</li>
                         <li><strong>💻 UX:</strong> Badge de usuário com iniciais e logout, opção de rejogar tutorial, responsividade melhorada para tablet (880px).</li>
-                        <li><strong>📊 Total de abas:</strong> 25 abas funcionais + sistema de login + tutorial.</li>
+                        <li><strong>📊 Total de abas:</strong> 26 abas funcionais + sistema de login + tutorial.</li>
                     </ul>
                 </div>
 
@@ -4158,6 +4216,7 @@ function switchTab(tabId, element) {
             case 'tab-titles': if (typeof renderTitles === 'function') renderTitles(); break;
             case 'tab-store': if (typeof renderStore === 'function') renderStore(); break;
             case 'tab-title': if (typeof buildTitleUI === 'function') buildTitleUI(); break;
+            case 'tab-chat': if (typeof initChatPage === 'function') initChatPage(); break;
             case 'tab-events': if (typeof renderEventContent === 'function') renderEventContent(); break;
             case 'tab-pets': if (typeof renderPetGrid === 'function') renderPetGrid(); break;
             case 'tab-flashcards': if (typeof updateFlashcardStats === 'function') updateFlashcardStats(); break;
@@ -4179,6 +4238,210 @@ function switchTab(tabId, element) {
     } catch(e) {
         console.warn('Erro ao inicializar tab:', tabId, e);
     }
+}
+
+// ===================== WEBLLM LOCAL AI CHAT =====================
+const CHAT_STORAGE_KEY = 'geekie_chat_messages';
+const WEBLLM_MODEL_PREFERENCES = [
+    'Qwen2.5-0.5B-Instruct-q4f16_1-MLC',
+    'Qwen2.5-1.5B-Instruct-q4f16_1-MLC',
+    'Llama-3.2-1B-Instruct-q4f16_1-MLC',
+    'Llama-3.1-8B-Instruct'
+];
+let webLLMModulePromise = null;
+let webLLMEngine = null;
+let webLLMModelId = '';
+
+function getChatHistory() {
+    try {
+        const saved = JSON.parse(localStorage.getItem(CHAT_STORAGE_KEY) || '[]');
+        return Array.isArray(saved) ? saved.slice(-50) : [];
+    } catch (e) {
+        return [];
+    }
+}
+
+function saveChatHistory(history) {
+    localStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(history.slice(-50)));
+}
+
+function setChatStatus(message, isError) {
+    const status = document.getElementById('chatStatus');
+    if (!status) return;
+    status.textContent = message || '';
+    status.classList.toggle('error', !!isError);
+}
+
+function appendChatMessage(role, content) {
+    const messages = document.getElementById('chatMessages');
+    const emptyState = document.getElementById('chatEmptyState');
+    if (!messages || !content) return;
+    if (emptyState) emptyState.remove();
+
+    const item = document.createElement('div');
+    item.className = 'chat-message ' + (role === 'user' ? 'user' : 'assistant');
+
+    const avatar = document.createElement('div');
+    avatar.className = 'chat-avatar';
+    avatar.innerHTML = role === 'user'
+        ? '<i class="fa-solid fa-user"></i>'
+        : '<i class="fa-solid fa-sparkles"></i>';
+
+    const bubble = document.createElement('div');
+    bubble.className = 'chat-bubble';
+    bubble.textContent = content;
+
+    item.appendChild(avatar);
+    item.appendChild(bubble);
+    messages.appendChild(item);
+    messages.scrollTop = messages.scrollHeight;
+}
+
+function renderChatHistory() {
+    const messages = document.getElementById('chatMessages');
+    if (!messages) return;
+    messages.innerHTML = '';
+    const history = getChatHistory();
+    if (!history.length) {
+        messages.innerHTML = '<div class="chat-empty" id="chatEmptyState"><i class="fa-solid fa-wand-magic-sparkles" style="font-size:2rem;color:var(--primary);display:block;margin-bottom:10px;"></i>Escreva uma pergunta para começar sua conversa.</div>';
+        return;
+    }
+    history.forEach(function(message) {
+        appendChatMessage(message.role, message.content);
+    });
+}
+
+function getWebLLMResponseText(response) {
+    if (typeof response === 'string') return response;
+    const message = response && response.choices && response.choices[0] && response.choices[0].message;
+    if (message && typeof message.content === 'string') return message.content;
+    if (message && Array.isArray(message.content)) {
+        return message.content.map(function(part) {
+            return typeof part === 'string' ? part : (part && part.text) || '';
+        }).join('');
+    }
+    if (response && typeof response.content === 'string') return response.content;
+    try {
+        return JSON.stringify(response);
+    } catch (e) {
+        return 'Não foi possível interpretar a resposta do assistente.';
+    }
+}
+
+function chooseWebLLMModel(webllm) {
+    const records = webllm && webllm.prebuiltAppConfig && webllm.prebuiltAppConfig.model_list;
+    const availableIds = Array.isArray(records)
+        ? records.map(function(record) { return record && record.model_id; }).filter(Boolean)
+        : [];
+    for (const preferred of WEBLLM_MODEL_PREFERENCES) {
+        if (availableIds.includes(preferred)) return preferred;
+    }
+    return availableIds.find(function(id) {
+        return /instruct/i.test(id) && /(0\.5b|1b)/i.test(id);
+    }) || availableIds.find(function(id) {
+        return /instruct/i.test(id);
+    });
+}
+
+async function getWebLLMEngine() {
+    if (webLLMEngine) return webLLMEngine;
+    if (!navigator.gpu) {
+        throw new Error('WebGPU não está disponível neste navegador. Abra o app no Chrome ou Edge atualizado.');
+    }
+
+    setChatStatus('Carregando a biblioteca do modelo local…');
+    if (!webLLMModulePromise) {
+        webLLMModulePromise = import('https://esm.run/@mlc-ai/web-llm');
+    }
+    const webllm = await webLLMModulePromise;
+    const modelId = chooseWebLLMModel(webllm);
+    if (!modelId || typeof webllm.CreateMLCEngine !== 'function') {
+        throw new Error('Não foi encontrado um modelo WebLLM compatível para este navegador.');
+    }
+
+    setChatStatus('Baixando o modelo local pela primeira vez…');
+    webLLMEngine = await webllm.CreateMLCEngine(modelId, {
+        initProgressCallback: function(progress) {
+            const percent = progress && typeof progress.progress === 'number'
+                ? ' ' + Math.round(progress.progress * 100) + '%'
+                : '';
+            setChatStatus('Preparando modelo local…' + percent);
+        }
+    });
+    webLLMModelId = modelId;
+    return webLLMEngine;
+}
+
+async function sendChatMessage(event) {
+    if (event) event.preventDefault();
+    const input = document.getElementById('chatInput');
+    const sendButton = document.getElementById('chatSendBtn');
+    if (!input || !sendButton) return;
+
+    const message = input.value.trim();
+    if (!message || sendButton.disabled) return;
+
+    const history = getChatHistory();
+    history.push({ role: 'user', content: message });
+    saveChatHistory(history);
+    appendChatMessage('user', message);
+    input.value = '';
+    sendButton.disabled = true;
+    setChatStatus('Pensando…');
+
+    try {
+        const engine = await getWebLLMEngine();
+        const context = getChatHistory().slice(-12).map(function(item) {
+            return { role: item.role, content: item.content };
+        });
+        const response = await engine.chat.completions.create({
+            messages: [
+                { role: 'system', content: 'Você é um assistente de estudos claro, paciente e objetivo. Responda em português do Brasil quando o usuário escrever em português.' }
+            ].concat(context),
+            temperature: 0.7
+        });
+        const answer = getWebLLMResponseText(response).trim() || 'Não recebi uma resposta válida.';
+        const updatedHistory = getChatHistory();
+        updatedHistory.push({ role: 'assistant', content: answer });
+        saveChatHistory(updatedHistory);
+        appendChatMessage('assistant', answer);
+        setChatStatus(webLLMModelId ? 'Modelo local: ' + webLLMModelId : '');
+    } catch (error) {
+        const detail = error && error.message ? error.message : 'Não foi possível acessar o assistente.';
+        setChatStatus(detail, true);
+        if (typeof showToast === 'function') showToast(detail, true);
+    } finally {
+        sendButton.disabled = false;
+        input.focus();
+    }
+}
+
+function clearChatHistory() {
+    localStorage.removeItem(CHAT_STORAGE_KEY);
+    renderChatHistory();
+    setChatStatus('');
+}
+
+function initChatPage() {
+    const form = document.getElementById('chatForm');
+    const clearButton = document.getElementById('chatClearBtn');
+    if (!form || form.dataset.bound === '1') {
+        renderChatHistory();
+        return;
+    }
+    form.dataset.bound = '1';
+    form.addEventListener('submit', sendChatMessage);
+    if (clearButton) clearButton.addEventListener('click', clearChatHistory);
+    const input = document.getElementById('chatInput');
+    if (input) {
+        input.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                form.requestSubmit();
+            }
+        });
+    }
+    renderChatHistory();
 }
 
 // ===================== TOAST =====================
@@ -9566,6 +9829,7 @@ function initAllEnhancements() {
     try { initPetsHappiness(); } catch(e) {}
     try { initPortalQuickActions(); } catch(e) {}
     try { initSearchSuggestions(); } catch(e) {}
+    try { initChatPage(); } catch(e) {}
 }
 
 // Run after DOM is ready
@@ -9597,6 +9861,9 @@ if (typeof _originalSwitchTab === 'function') {
         <div class="fab-section-label">Principal</div>
         <button class="fab-nav-item active" id="fab-nav-geekie" onclick="fabSwitch('tab-geekie','fab-nav-geekie')">
             <span class="fab-nav-icon"><i class="fa-solid fa-book-open"></i></span>Portal Geekie
+        </button>
+        <button class="fab-nav-item new-fab" id="fab-nav-chat" onclick="fabSwitch('tab-chat','fab-nav-chat')">
+            <span class="fab-nav-icon"><i class="fa-solid fa-comments"></i></span>Chat IA <span class="new-badge">NOVO</span>
         </button>
         <button class="fab-nav-item" id="fab-nav-notes" onclick="fabSwitch('tab-notes','fab-nav-notes')">
             <span class="fab-nav-icon"><i class="fa-solid fa-book-journal-whills"></i></span>Bloco de Notas
@@ -9888,6 +10155,7 @@ function updateUserBadge() {
 // ----- TUTORIAL SYSTEM -----
 var tutorialSteps = [
     { icon: 'fa-book-open', tab: 'tab-geekie', title: 'Portal Geekie', desc: 'Aba principal com o portal Geekie One Plus integrado. Aqui você acessa o resumo das matérias e o conteúdo de estudo diretamente da Geekie.', tips: ['Use o menu FAB (botão flutuante) para navegar entre as abas', 'O portal carrega automaticamente ao abrir o app'] },
+    { icon: 'fa-comments', tab: 'tab-chat', title: 'Chat IA', desc: 'Converse com um assistente de IA usando WebLLM diretamente no navegador. O histórico da conversa fica salvo neste navegador.', tips: ['O primeiro envio baixa o modelo e pode demorar', 'Pressione Enter para enviar e Shift+Enter para quebrar linha'] },
     { icon: 'fa-magnifying-glass', tab: 'tab-google', title: 'Google', desc: 'Busca rápida no Google integrada. Digite o termo e pesquise sem sair do app. Tem sugestões de matérias prontas para clicar.', tips: ['Clique nas sugestões para pesquisar matérias rapidamente', 'Útil para tirar dúvidas enquanto estuda'] },
     { icon: 'fa-book-journal-whills', tab: 'tab-notes', title: 'Bloco de Notas', desc: 'Escreva e salve notas de estudo. Tem auto-save, contador de palavras/caracteres/linhas ao vivo, e tudo fica salvo no navegador.', tips: ['O auto-save salva automaticamente após 1.5s de inatividade', 'O contador mostra palavras, caracteres e linhas em tempo real'] },
     { icon: 'fa-store', tab: 'tab-store', title: 'Loja de Temas', desc: 'Gaste suas moedas em temas visuais, pets, títulos e sons. Use o filtro por categoria para encontrar o que quer comprar.', tips: ['Ganhe moedas estudando e jogando o Clicker', 'Use o filtro de categoria para navegar mais fácil'] },
@@ -9920,9 +10188,31 @@ var currentTutorialStep = 0;
 function startTutorial() {
     var overlay = document.getElementById('tutorialOverlay');
     if (!overlay) return;
+    bindTutorialControls();
     overlay.classList.remove('hidden');
     currentTutorialStep = 0;
     renderTutorialStep();
+}
+
+function bindTutorialControls() {
+    var overlay = document.getElementById('tutorialOverlay');
+    if (!overlay || overlay.dataset.controlsBound === '1') return;
+    overlay.dataset.controlsBound = '1';
+    overlay.addEventListener('click', function(event) {
+        var actionTarget = event.target.closest('[data-tutorial-action]');
+        if (actionTarget) {
+            var action = actionTarget.getAttribute('data-tutorial-action');
+            if (action === 'next') nextTutorialStep();
+            if (action === 'prev') prevTutorialStep();
+            if (action === 'skip') skipTutorial();
+            return;
+        }
+
+        var dotTarget = event.target.closest('[data-tutorial-step]');
+        if (dotTarget) {
+            goToTutorialStep(dotTarget.getAttribute('data-tutorial-step'));
+        }
+    });
 }
 
 function renderTutorialStep() {
@@ -9961,7 +10251,7 @@ function renderTutorialStep() {
     if (dotsContainer) {
         var dotsHtml = '';
         for (var i = 0; i < tutorialSteps.length; i++) {
-            dotsHtml += '<span class="tutorial-dot' + (i === currentTutorialStep ? ' active' : '') + '" onclick="goToTutorialStep(' + i + ')"></span>';
+            dotsHtml += '<button type="button" class="tutorial-dot' + (i === currentTutorialStep ? ' active' : '') + '" data-tutorial-step="' + i + '" aria-label="Ir para o passo ' + (i + 1) + '"></button>';
         }
         dotsContainer.innerHTML = dotsHtml;
     }
@@ -9997,6 +10287,8 @@ function prevTutorialStep() {
 }
 
 function goToTutorialStep(idx) {
+    idx = Number(idx);
+    if (!Number.isInteger(idx) || idx < 0 || idx >= tutorialSteps.length) return;
     currentTutorialStep = idx;
     renderTutorialStep();
 }
@@ -10052,13 +10344,13 @@ if (typeof showToast !== 'function') {
 }
 
 // Fix 4: Ensure switchTab handles edge cases
-var _origSwitchTab = window.switchTab;
-if (typeof _origSwitchTab === 'function') {
+var _tutorialSwitchTabGuard = window.switchTab;
+if (typeof _tutorialSwitchTabGuard === 'function') {
     window.switchTab = function(tabId, element) {
         if (!tabId) return;
         var tab = document.getElementById(tabId);
         if (!tab) return;
-        return _origSwitchTab.apply(this, arguments);
+        return _tutorialSwitchTabGuard.apply(this, arguments);
     };
 }
 
@@ -10073,17 +10365,19 @@ function fixToastAnimation() {
 
 // ----- INIT LOGIN + TUTORIAL -----
 function initLoginAndTutorial() {
+    if (window.__geekieLoginTutorialInitialized) return;
+    window.__geekieLoginTutorialInitialized = true;
     fixTabDisplay();
     fixFabMenuClicks();
     fixToastAnimation();
+    bindTutorialControls();
     initLoginSystem();
 }
 
 // Run after DOM is ready
+setTimeout(initLoginAndTutorial, 100);
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', function() { setTimeout(initLoginAndTutorial, 100); });
-} else {
-    setTimeout(initLoginAndTutorial, 100);
 }
 
 // ===================== END v15.8.0 =====================
