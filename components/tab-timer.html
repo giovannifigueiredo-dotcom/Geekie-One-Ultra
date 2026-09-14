@@ -1,0 +1,16 @@
+<section id="tab-timer" class="tab-content">
+  <div class="glass-card">
+    <h3><i class="fa-solid fa-brain"></i> Pomodoro Inteligente</h3>
+    <div class="pomo-modes">
+      <div class="pomo-mode active" onclick="setPomodoroMode('focus',25)">🧠 Foco 25min</div>
+      <div class="pomo-mode" onclick="setPomodoroMode('short',5)">☕ Pausa 5min</div>
+      <div class="pomo-mode" onclick="setPomodoroMode('long',15)">🌿 Pausa 15min</div>
+    </div>
+    <div class="timer-display" id="timerDisplay">25:00</div>
+    <div class="timer-controls">
+      <button class="btn btn-primary" onclick="startTimer()"><i class="fa-solid fa-play"></i> Iniciar</button>
+      <button class="btn btn-outline" onclick="pauseTimer()"><i class="fa-solid fa-pause"></i></button>
+      <button class="btn btn-outline" onclick="resetTimer()"><i class="fa-solid fa-rotate-right"></i></button>
+    </div>
+  </div>
+</section>
