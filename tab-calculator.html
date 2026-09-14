@@ -1,0 +1,15 @@
+<section id="tab-calculator" class="tab-content">
+  <div class="glass-card">
+    <h3><i class="fa-solid fa-calculator"></i> Calculadora</h3>
+    <div class="calc-hist" id="calcHistory"></div>
+    <div id="calcExpr"></div>
+    <div id="calcVal">0</div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">
+      <button class="calc-btn calc-clr" onclick="calcAction('clear')">AC</button>
+      <button class="calc-btn" onclick="calcAction('7')">7</button>
+      <button class="calc-btn calc-op" onclick="calcAction('÷')">÷</button>
+      <!-- ... mais botões -->
+      <button class="calc-btn calc-eq" onclick="calcAction('=')">=</button>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,11 @@
+<section id="tab-store" class="tab-content">
+  <div class="glass-card w-full">
+    <h3 style="color: var(--gold);"><i class="fa-solid fa-store"></i> Loja de Temas Ubuntu</h3>
+    <button class="btn btn-outline" onclick="openCustomThemeModal()">
+      <i class="fa-solid fa-wand-magic-sparkles"></i> Criar Tema Personalizado
+    </button>
+    <input class="tab-search-bar" type="text" id="storeSearchBar" placeholder="Pesquisar tema..."
+      oninput="filterStore(this.value)">
+    <div class="grid-dashboard mt-4" id="storeGrid"></div>
+  </div>
+</section>

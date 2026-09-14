@@ -1,0 +1,16 @@
+<section id="tab-diary" class="tab-content">
+  <div class="diary-container">
+    <h2><i class="fa-solid fa-book-heart"></i> Diário de Estudos</h2>
+    <div class="diary-stats" id="diaryStats"></div>
+    <div class="diary-editor">
+      <textarea class="diary-textarea" id="diaryText" placeholder="Como foi seu dia?"></textarea>
+      <div class="diary-mood-row">
+        <span>Humor:</span>
+        <button class="diary-mood-btn" data-mood="1" onclick="selectDiaryMood(1)">😞</button>
+        <button class="diary-mood-btn" data-mood="5" onclick="selectDiaryMood(5)">😄</button>
+      </div>
+      <button onclick="saveDiaryEntry()">Salvar Entrada</button>
+    </div>
+    <div id="diaryEntries"></div>
+  </div>
+</section>
