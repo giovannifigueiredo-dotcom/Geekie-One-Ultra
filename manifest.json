@@ -1,0 +1,473 @@
+{
+  "source": "index-2026-09-14.html",
+  "version": "v17.0.0",
+  "exportedAt": "2026-09-14T13:04:42.285Z",
+  "totalTabs": 26,
+  "totalGroups": 5,
+  "groups": [
+    {
+      "id": "Principal",
+      "label": "Principal",
+      "tabCount": 4
+    },
+    {
+      "id": "Progressão",
+      "label": "Progressão",
+      "tabCount": 4
+    },
+    {
+      "id": "Estudo",
+      "label": "Estudo",
+      "tabCount": 8
+    },
+    {
+      "id": "Ferramentas",
+      "label": "Ferramentas",
+      "tabCount": 5
+    },
+    {
+      "id": "Extras",
+      "label": "Extras",
+      "tabCount": 5
+    }
+  ],
+  "tabs": [
+    {
+      "id": "tab-geekie",
+      "name": "Portal Geekie",
+      "group": "Principal",
+      "description": "Iframe com o portal Geekie One Plus integrado para acesso direto aos resumos de matérias.",
+      "dependencies": [
+        "iframe-container",
+        "theme-default",
+        "geekieIframe"
+      ],
+      "files": {
+        "html": "components/tab-geekie.html",
+        "css": "styles/tab-geekie.css",
+        "js": "scripts/tab-geekie.js"
+      }
+    },
+    {
+      "id": "tab-chat",
+      "name": "Tutor IA",
+      "group": "Principal",
+      "description": "Chat com tutor IA local via WebLLM. Suporta modos de estudo, anexo de imagem e histórico persistente.",
+      "dependencies": [
+        "WebLLM",
+        "chat-messages",
+        "chat-composer",
+        "chat-attachment"
+      ],
+      "files": {
+        "html": "components/tab-chat.html",
+        "css": "styles/tab-chat.css",
+        "js": "scripts/tab-chat.js"
+      }
+    },
+    {
+      "id": "tab-google",
+      "name": "Pesquisa Google",
+      "group": "Principal",
+      "description": "Iframe com Google Search integrado (webhp?igu=1&safe=active) para pesquisa sem sair do hub.",
+      "dependencies": [
+        "iframe-container",
+        "googleIframe"
+      ],
+      "files": {
+        "html": "components/tab-google.html",
+        "css": "styles/tab-google.css",
+        "js": "scripts/tab-google.js"
+      }
+    },
+    {
+      "id": "tab-notes",
+      "name": "Bloco de Notas",
+      "group": "Principal",
+      "description": "Editor de notas com auto-save, 16 fontes, preview Markdown, contador de palavras, importar/exportar .txt.",
+      "dependencies": [
+        "note-editor",
+        "note-font-picker",
+        "md-preview",
+        "word-counter"
+      ],
+      "files": {
+        "html": "components/tab-notes.html",
+        "css": "styles/tab-notes.css",
+        "js": "scripts/tab-notes.js"
+      }
+    },
+    {
+      "id": "tab-store",
+      "name": "Loja de Temas",
+      "group": "Progressão",
+      "description": "18 temas Ubuntu animados (Yaru, Radiance, Cosmic, Matrix, Synthwave...) desbloqueados por XP. Inclui criador de tema personalizado.",
+      "dependencies": [
+        "storeItems",
+        "ownedThemes",
+        "equippedTheme",
+        "custom-theme-modal"
+      ],
+      "files": {
+        "html": "components/tab-store.html",
+        "css": "styles/tab-store.css",
+        "js": "scripts/tab-store.js"
+      }
+    },
+    {
+      "id": "tab-titles",
+      "name": "Títulos",
+      "group": "Progressão",
+      "description": "18 títulos desbloqueados por XP (Novato → Transcendente) com recompensas de temas e efeito prestige.",
+      "dependencies": [
+        "titlesList",
+        "equippedTitle",
+        "title-card",
+        "prestige"
+      ],
+      "files": {
+        "html": "components/tab-titles.html",
+        "css": "styles/tab-titles.css",
+        "js": "scripts/tab-titles.js"
+      }
+    },
+    {
+      "id": "tab-pets",
+      "name": "Pets",
+      "group": "Progressão",
+      "description": "9 pets desbloqueados por XP (Pintinho → Ser Dimensional) com upgrades, auto-coleta de moedas e motivações por nível.",
+      "dependencies": [
+        "petsData",
+        "petState",
+        "activePetId",
+        "auto-collect"
+      ],
+      "files": {
+        "html": "components/tab-pets.html",
+        "css": "styles/tab-pets.css",
+        "js": "scripts/tab-pets.js"
+      }
+    },
+    {
+      "id": "tab-journey",
+      "name": "Trilha de Progresso",
+      "group": "Progressão",
+      "description": "12 nós de jornada (0 → 10.000 XP) em zigue-zague com 3 boss nodes, recompensas e partículas de celebração.",
+      "dependencies": [
+        "journeyNodes",
+        "journeyClaimed",
+        "journey-trail",
+        "particles"
+      ],
+      "files": {
+        "html": "components/tab-journey.html",
+        "css": "styles/tab-journey.css",
+        "js": "scripts/tab-journey.js"
+      }
+    },
+    {
+      "id": "tab-timer",
+      "name": "Pomodoro",
+      "group": "Estudo",
+      "description": "Timer Pomodoro com 3 modos (Foco 25min, Pausa Curta 5min, Pausa Longa 15min), notificação nativa e tempo acumulado.",
+      "dependencies": [
+        "timerInterval",
+        "studySeconds",
+        "alarmSound",
+        "pomo-modes"
+      ],
+      "files": {
+        "html": "components/tab-timer.html",
+        "css": "styles/tab-timer.css",
+        "js": "scripts/tab-timer.js"
+      }
+    },
+    {
+      "id": "tab-goals",
+      "name": "Metas",
+      "group": "Estudo",
+      "description": "Lista de metas com prioridade (Alta/Média/Baixa), filtros, barra de progresso e recompensa de +5 moedas por meta concluída.",
+      "dependencies": [
+        "todos",
+        "todoFilter",
+        "priority-select",
+        "todo-progress"
+      ],
+      "files": {
+        "html": "components/tab-goals.html",
+        "css": "styles/tab-goals.css",
+        "js": "scripts/tab-goals.js"
+      }
+    },
+    {
+      "id": "tab-flashcards",
+      "name": "Flashcards",
+      "group": "Estudo",
+      "description": "Revisão ativa com cartões frente/verso, avaliação Fácil/Difícil, embaralhar, filtrar difíceis e estatísticas.",
+      "dependencies": [
+        "flashcardsData",
+        "flashcard",
+        "card-face",
+        "flashcard-rating"
+      ],
+      "files": {
+        "html": "components/tab-flashcards.html",
+        "css": "styles/tab-flashcards.css",
+        "js": "scripts/tab-flashcards.js"
+      }
+    },
+    {
+      "id": "tab-planner",
+      "name": "Planner Semanal",
+      "group": "Estudo",
+      "description": "Grade de 7 dias com navegação entre semanas, adicionar/concluir/excluir tarefas por dia e resumo semanal.",
+      "dependencies": [
+        "plannerData",
+        "plannerWeekOffset",
+        "planner-grid",
+        "planner-day"
+      ],
+      "files": {
+        "html": "components/tab-planner.html",
+        "css": "styles/tab-planner.css",
+        "js": "scripts/tab-planner.js"
+      }
+    },
+    {
+      "id": "tab-stats",
+      "name": "Estatísticas",
+      "group": "Estudo",
+      "description": "Métricas de estudo: XP, moedas, pomodoros, metas, flashcards, tempo de foco + gráfico de barras 7 dias + conquistas.",
+      "dependencies": [
+        "studySeconds",
+        "studyBarChart",
+        "streakDisplay",
+        "achievementsDisplay"
+      ],
+      "files": {
+        "html": "components/tab-stats.html",
+        "css": "styles/tab-stats.css",
+        "js": "scripts/tab-stats.js"
+      }
+    },
+    {
+      "id": "tab-subjects",
+      "name": "Timer por Matéria",
+      "group": "Estudo",
+      "description": "Cronômetro por disciplina com emoji personalizado, apenas um timer ativo por vez, tempo acumulado salvo no localStorage.",
+      "dependencies": [
+        "subjectData",
+        "subjectIntervals",
+        "activeSubjectId",
+        "subject-grid"
+      ],
+      "files": {
+        "html": "components/tab-subjects.html",
+        "css": "styles/tab-subjects.css",
+        "js": "scripts/tab-subjects.js"
+      }
+    },
+    {
+      "id": "tab-quiz",
+      "name": "Quiz Rápido",
+      "group": "Estudo",
+      "description": "Quiz com 6 categorias (Math, Science, History, Geo, Portuguese, Trivia), 5-15 questões, feedback imediato e recompensa em XP/moedas.",
+      "dependencies": [
+        "quizQuestions",
+        "quizState",
+        "quiz-cat-grid",
+        "quiz-options"
+      ],
+      "files": {
+        "html": "components/tab-quiz.html",
+        "css": "styles/tab-quiz.css",
+        "js": "scripts/tab-quiz.js"
+      }
+    },
+    {
+      "id": "tab-clicker",
+      "name": "Clicker Game",
+      "group": "Estudo",
+      "description": "Mini-jogo clicker com 5 upgrades (Auto-Clicker, Multiplicador, Critical, Golden, Power Surge), 8 conquistas e efeitos visuais.",
+      "dependencies": [
+        "clickerData",
+        "UPGRADE_DEFS",
+        "ACHIEVEMENT_DEFS",
+        "particles"
+      ],
+      "files": {
+        "html": "components/tab-clicker.html",
+        "css": "styles/tab-clicker.css",
+        "js": "scripts/tab-clicker.js"
+      }
+    },
+    {
+      "id": "tab-ambient",
+      "name": "Sons Ambiente",
+      "group": "Ferramentas",
+      "description": "8 sons ambientes (chuva, fogueira, oceano, café...) com mixer individual, volume master, presets e timer de sono.",
+      "dependencies": [
+        "ambientSounds",
+        "ambientAudios",
+        "ambientVolumes",
+        "masterVol"
+      ],
+      "files": {
+        "html": "components/tab-ambient.html",
+        "css": "styles/tab-ambient.css",
+        "js": "scripts/tab-ambient.js"
+      }
+    },
+    {
+      "id": "tab-keysounds",
+      "name": "Sons de Teclado",
+      "group": "Ferramentas",
+      "description": "10 sons de teclado magnéticos gerados via Web Audio API, tocados a cada tecla/clique, desbloqueados com XP.",
+      "dependencies": [
+        "keySoundsData",
+        "ksAudioCtx",
+        "ksSoundGenerators",
+        "KS_THROTTLE_MS"
+      ],
+      "files": {
+        "html": "components/tab-keysounds.html",
+        "css": "styles/tab-keysounds.css",
+        "js": "scripts/tab-keysounds.js"
+      }
+    },
+    {
+      "id": "tab-calculator",
+      "name": "Calculadora",
+      "group": "Ferramentas",
+      "description": "Calculadora com operações básicas, científicas (√, x², %, 1/x), histórico de 10 operações e suporte a teclado numérico.",
+      "dependencies": [
+        "calcState",
+        "calcHistory",
+        "calc-btn",
+        "calc-hist"
+      ],
+      "files": {
+        "html": "components/tab-calculator.html",
+        "css": "styles/tab-calculator.css",
+        "js": "scripts/tab-calculator.js"
+      }
+    },
+    {
+      "id": "tab-chars",
+      "name": "Caracteres Úteis",
+      "group": "Ferramentas",
+      "description": "Biblioteca de símbolos especiais (matemática, grego, setas, emojis) com busca, favoritos, histórico e tooltip com código Unicode.",
+      "dependencies": [
+        "charsData",
+        "charFavorites",
+        "charHistory",
+        "char-tooltip"
+      ],
+      "files": {
+        "html": "components/tab-chars.html",
+        "css": "styles/tab-chars.css",
+        "js": "scripts/tab-chars.js"
+      }
+    },
+    {
+      "id": "tab-title",
+      "name": "Título da Página",
+      "group": "Ferramentas",
+      "description": "Personaliza nome, ícone (20 opções) e fonte (7 opções) da aba do navegador com preview ao vivo.",
+      "dependencies": [
+        "savedTitle",
+        "selectedFont",
+        "selectedIcon",
+        "availableFonts"
+      ],
+      "files": {
+        "html": "components/tab-title.html",
+        "css": "styles/tab-title.css",
+        "js": "scripts/tab-title.js"
+      }
+    },
+    {
+      "id": "tab-events",
+      "name": "Eventos do Mês",
+      "group": "Extras",
+      "description": "12 eventos mensais com 4 tiers cada (Iniciante → Lendário), banner animado e recompensas por XP.",
+      "dependencies": [
+        "monthlyEvents",
+        "event-banner",
+        "xp-tier-grid"
+      ],
+      "files": {
+        "html": "components/tab-events.html",
+        "css": "styles/tab-events.css",
+        "js": "scripts/tab-events.js"
+      }
+    },
+    {
+      "id": "tab-codes",
+      "name": "Códigos",
+      "group": "Extras",
+      "description": "15 códigos de resgate + 1 código secreto (ADM2026) que desbloqueia o painel admin. Recompensas em XP, moedas e temas.",
+      "dependencies": [
+        "codesData",
+        "secretCode",
+        "redeemedCodes",
+        "adminUnlocked"
+      ],
+      "files": {
+        "html": "components/tab-codes.html",
+        "css": "styles/tab-codes.css",
+        "js": "scripts/tab-codes.js"
+      }
+    },
+    {
+      "id": "tab-devlog",
+      "name": "Dev Log",
+      "group": "Extras",
+      "description": "Timeline de 14 versões (v7.x → v17.0.0) com busca, tags coloridas e lista de mudanças de cada release.",
+      "dependencies": [
+        "devlogTimeline",
+        "filterDevlog",
+        "timeline-item"
+      ],
+      "files": {
+        "html": "components/tab-devlog.html",
+        "css": "styles/tab-devlog.css",
+        "js": "scripts/tab-devlog.js"
+      }
+    },
+    {
+      "id": "tab-diary",
+      "name": "Diário",
+      "group": "Extras",
+      "description": "Diário de estudos com humor (5 emojis), estatísticas (entradas, palavras, humor médio), exportar .txt e +5 XP por entrada.",
+      "dependencies": [
+        "diaryEntries",
+        "diaryMood",
+        "diary-textarea",
+        "diary-mood-btn"
+      ],
+      "files": {
+        "html": "components/tab-diary.html",
+        "css": "styles/tab-diary.css",
+        "js": "scripts/tab-diary.js"
+      }
+    },
+    {
+      "id": "tab-password",
+      "name": "Gerador de Senhas",
+      "group": "Extras",
+      "description": "Gerador de senhas com comprimento 8-32, toggles (maiúsculas, minúsculas, números, símbolos), medidor de entropia e histórico.",
+      "dependencies": [
+        "pwdHistory",
+        "pwdLength",
+        "pwdStrengthFill",
+        "crypto.getRandomValues"
+      ],
+      "files": {
+        "html": "components/tab-password.html",
+        "css": "styles/tab-password.css",
+        "js": "scripts/tab-password.js"
+      }
+    }
+  ]
+}
