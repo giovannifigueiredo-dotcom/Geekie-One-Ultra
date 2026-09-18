@@ -1,7 +1,9 @@
 /* ============================================================
- * Geekie Study Hub — script.js (v18.0.0)
+ * Geekie Study Hub — script.js (v18.1.0)
  * Todo o comportamento do hub, extraído do HTML original
  * e ampliado com o Feature Lab v18 (26 ferramentas).
+ * v18.0.1: Cockpit do portal recolhível — iframe em tela grande.
+ * v18.1.0: Modo Multi-Tarefa — split view com painel recolhível.
  * ============================================================ */
 
 
@@ -6580,8 +6582,9 @@ if (document.readyState === 'loading') {
     }
 
     // ========================================================================
-    // 1) PORTAL GEEKIE — Cockpit de Estudo
+    // 1) PORTAL GEEKIE — Cockpit de Estudo (v18.0.1: recolhível)
     //    Objetivo da sessão, retomada do último foco e stats rápidos.
+    //    Recolhido por padrão para o portal Geekie ocupar a tela inteira.
     // ========================================================================
     function initCockpit() {
         var tab = document.getElementById('tab-geekie');
@@ -6589,7 +6592,16 @@ if (document.readyState === 'loading') {
         tab.dataset.flCockpit = '1';
 
         var panel = flPanel('Cockpit de Estudo', 'novo');
+        panel.classList.add('fl-collapsible');
+
+        // v18.0.1 — toggle de recolher/expandir dentro do título + resumo do objetivo
+        var titleEl = panel.querySelector('.fl-title');
+        titleEl.insertAdjacentHTML('beforeend',
+            '<span class="fl-cockpit-summary" id="flCockpitSummary" title=""></span>' +
+            '<span class="fl-collapse-toggle" id="flCockpitToggle" role="button" tabindex="0" aria-expanded="false" title="Expandir / recolher cockpit"><i class="fa-solid fa-chevron-down"></i></span>');
+
         panel.insertAdjacentHTML('beforeend',
+            '<div class="fl-panel-body">' +
             '<div class="fl-row">' +
                 '<input type="text" class="fl-input" id="flCockpitGoal" maxlength="80" placeholder="Qual é o objetivo desta sessão? Ex: terminar os exercícios de física">' +
             '</div>' +
@@ -6598,13 +6610,37 @@ if (document.readyState === 'loading') {
                 '<button type="button" class="fl-btn" id="flCockpitResume" style="display:none;"><i class="fa-solid fa-rotate-left"></i> Retomar último foco</button>' +
             '</div>' +
             '<div class="fl-cockpit-goal" id="flCockpitCurrent" style="margin-top:10px; display:none;"></div>' +
-            '<div class="fl-stat-row" id="flCockpitStats"></div>');
+            '<div class="fl-stat-row" id="flCockpitStats"></div>' +
+            '</div>');
 
         flInsertBefore(tab, panel, '.iframe-container');
 
         var input = panel.querySelector('#flCockpitGoal');
         var current = panel.querySelector('#flCockpitCurrent');
         var resumeBtn = panel.querySelector('#flCockpitResume');
+        var summary = panel.querySelector('#flCockpitSummary');
+        var toggleBtn = panel.querySelector('#flCockpitToggle');
+
+        // v18.0.1 — estado recolhido persistente (padrão: recolhido = portal em tela grande)
+        var COLLAPSE_KEY = 'fl_cockpit_collapsed';
+        var startCollapsed = true;
+        try { if (localStorage.getItem(COLLAPSE_KEY) === '0') startCollapsed = false; } catch (e) {}
+
+        function setCollapsed(collapsed) {
+            panel.classList.toggle('is-collapsed', collapsed);
+            toggleBtn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+            toggleBtn.title = collapsed ? 'Expandir cockpit' : 'Recolher cockpit (portal em tela grande)';
+            try { localStorage.setItem(COLLAPSE_KEY, collapsed ? '1' : '0'); } catch (e) {}
+        }
+
+        function toggleHandler(e) {
+            if (e.type === 'keydown' && e.key !== 'Enter' && e.key !== ' ') return;
+            e.preventDefault();
+            e.stopPropagation();
+            setCollapsed(!panel.classList.contains('is-collapsed'));
+        }
+        titleEl.addEventListener('click', toggleHandler);
+        titleEl.addEventListener('keydown', toggleHandler);
 
         function renderCurrent() {
             var goal = flLS('fl_session_goal', null);
@@ -6618,6 +6654,18 @@ if (document.readyState === 'loading') {
             }
             var hist = flLS('geekie_focus_history', []);
             resumeBtn.style.display = (hist && hist.length) ? 'inline-flex' : 'none';
+        }
+
+        // v18.0.1 — resumo do objetivo visível mesmo com o painel recolhido
+        function renderSummary() {
+            var goal = flLS('fl_session_goal', null);
+            if (goal && goal.text) {
+                summary.innerHTML = '<i class="fa-solid fa-flag-checkered"></i>' + flEsc(goal.text);
+                summary.title = 'Objetivo da sessão: ' + goal.text;
+            } else {
+                summary.textContent = 'toque para definir o objetivo da sessão';
+                summary.title = '';
+            }
         }
 
         function renderStats() {
@@ -6646,6 +6694,9 @@ if (document.readyState === 'loading') {
             }
             input.value = '';
             renderCurrent();
+            renderSummary();
+            // v18.0.1 — fecha o painel sozinho para o portal voltar à tela grande
+            setCollapsed(true);
         });
 
         resumeBtn.addEventListener('click', function() {
@@ -6660,8 +6711,9 @@ if (document.readyState === 'loading') {
             }, 120);
         });
 
-        renderCurrent(); renderStats();
-        flOnRefresh('tab-geekie', function() { renderCurrent(); renderStats(); });
+        setCollapsed(startCollapsed);
+        renderCurrent(); renderStats(); renderSummary();
+        flOnRefresh('tab-geekie', function() { renderCurrent(); renderStats(); renderSummary(); });
     }
 
     // ========================================================================
@@ -8458,3 +8510,319 @@ if (document.readyState === 'loading') {
     }
 })();
 // ===================== FIM v18.0.0 FEATURE LAB =====================
+
+
+// ============================================================================
+// v18.1.0 — MODO MULTI-TAREFA (SPLIT VIEW)
+// Portal Geekie em tela grande à esquerda + qualquer outra aba num painel
+// lateral recolhível (vira uma tira fina) e redimensionável (arraste a borda).
+// Estado persistente: aba escolhida, largura e recolhimento.
+// Atalho: Alt+M liga/desliga. Clicar na aba Geekie no menu desliga o modo.
+// ============================================================================
+(function() {
+    'use strict';
+    if (window.__flSplitView) return;
+    window.__flSplitView = true;
+
+    var LS_KEY = 'fl_split_state';
+    var GEEKIE_ID = 'tab-geekie';
+    var state = { on: false, guest: null, width: 460, collapsed: false, lastGuest: 'tab-timer' };
+
+    function load() {
+        try {
+            var v = JSON.parse(localStorage.getItem(LS_KEY));
+            if (v && typeof v === 'object') {
+                state.on = !!v.on;
+                state.guest = (typeof v.guest === 'string' && v.guest !== GEEKIE_ID) ? v.guest : null;
+                var w = parseInt(v.width, 10);
+                state.width = (w >= 320 && w <= 920) ? w : 460;
+                state.collapsed = !!v.collapsed;
+                state.lastGuest = (typeof v.lastGuest === 'string' && v.lastGuest !== GEEKIE_ID) ? v.lastGuest : 'tab-timer';
+            }
+        } catch (e) {}
+    }
+    function save() {
+        try { localStorage.setItem(LS_KEY, JSON.stringify(state)); } catch (e) {}
+    }
+    function flToast(msg) { if (typeof window.showToast === 'function') window.showToast(msg); }
+
+    var stage = null, panel = null, splitBody = null, tabSelect = null, btnTopbar = null;
+    var CATALOG = [];
+    var origSwitch = (typeof window.switchTab === 'function') ? window.switchTab : null;
+
+    // ---------- catálogo de abas (do FAB) ----------
+    function buildCatalog() {
+        CATALOG = [];
+        document.querySelectorAll('.fab-nav-item').forEach(function(b) {
+            var id = (b.id || '').replace('fab-nav-', '');
+            if (!id) return;
+            var label = (b.textContent || '').trim().replace(/\s+/g, ' ') || id;
+            var ic = b.querySelector('i');
+            CATALOG.push({
+                tabId: 'tab-' + id,
+                label: label,
+                icon: ic ? (ic.className || 'fa-solid fa-window-maximize') : 'fa-solid fa-window-maximize'
+            });
+        });
+        if (!CATALOG.length) CATALOG.push({ tabId: 'tab-timer', label: 'Pomodoro', icon: 'fa-solid fa-clock' });
+    }
+    function infoFor(tabId) {
+        for (var i = 0; i < CATALOG.length; i++) if (CATALOG[i].tabId === tabId) return CATALOG[i];
+        return null;
+    }
+    function pickValidGuest(pref) {
+        var g = (pref && pref !== GEEKIE_ID && document.getElementById(pref)) ? pref : null;
+        if (!g) g = document.getElementById(state.lastGuest || '') && state.lastGuest !== GEEKIE_ID ? state.lastGuest : null;
+        if (!g || !document.getElementById(g)) {
+            // primeira aba útil disponível que não seja a geekie
+            for (var i = 0; i < CATALOG.length; i++) {
+                if (CATALOG[i].tabId !== GEEKIE_ID && document.getElementById(CATALOG[i].tabId)) return CATALOG[i].tabId;
+            }
+        }
+        return g;
+    }
+
+    // ---------- DOM ----------
+    function buildDom() {
+        var main = document.querySelector('.main-content');
+        if (!main || !document.getElementById(GEEKIE_ID)) return false;
+        if (document.getElementById('splitStage')) { stage = document.getElementById('splitStage'); panel = document.getElementById('splitPanel'); splitBody = document.getElementById('splitBody'); tabSelect = document.getElementById('splitTabSelect'); return true; }
+
+        buildCatalog();
+
+        // palco neutro: display:contents mantém o layout original intacto
+        stage = document.createElement('div');
+        stage.id = 'splitStage';
+        var sections = Array.prototype.slice.call(main.children).filter(function(el) {
+            return el.classList && el.classList.contains('tab-content');
+        });
+        if (!sections.length) return false;
+        main.insertBefore(stage, sections[0]);
+        sections.forEach(function(s) { stage.appendChild(s); });
+
+        panel = document.createElement('aside');
+        panel.id = 'splitPanel';
+        panel.setAttribute('aria-label', 'Painel multi-tarefa');
+        panel.innerHTML =
+            '<div class="split-rail" id="splitRail" title="Expandir painel">' +
+                '<button type="button" class="split-rail-btn" id="splitExpand" title="Expandir painel"><i class="fa-solid fa-angles-left"></i></button>' +
+                '<span class="split-rail-icon" id="splitRailIcon"><i class="fa-solid fa-clock"></i></span>' +
+                '<span class="split-rail-label" id="splitRailLabel">multi-tarefa</span>' +
+            '</div>' +
+            '<div class="split-main">' +
+                '<div class="split-header">' +
+                    '<button type="button" class="split-hdr-btn" id="splitCollapse" title="Recolher painel (portal maior)"><i class="fa-solid fa-angles-right"></i></button>' +
+                    '<span class="split-hdr-title" title="Modo multi-tarefa"><i class="fa-solid fa-table-columns"></i></span>' +
+                    '<select class="split-tab-select" id="splitTabSelect" title="Escolher a aba do painel"></select>' +
+                    '<button type="button" class="split-hdr-btn split-close" id="splitClose" title="Fechar multi-tarefa"><i class="fa-solid fa-xmark"></i></button>' +
+                '</div>' +
+                '<div class="split-body" id="splitBody"><div class="split-empty">Escolha uma aba acima para acompanhar o portal. 🚀</div></div>' +
+            '</div>' +
+            '<div class="split-resizer" id="splitResizer" title="Arraste para redimensionar"></div>';
+        stage.appendChild(panel);
+
+        splitBody = panel.querySelector('#splitBody');
+        tabSelect = panel.querySelector('#splitTabSelect');
+
+        // opções do seletor (todas menos a geekie, que é a principal)
+        CATALOG.forEach(function(c) {
+            if (c.tabId === GEEKIE_ID) return;
+            var opt = document.createElement('option');
+            opt.value = c.tabId;
+            opt.textContent = c.label;
+            tabSelect.appendChild(opt);
+        });
+
+        // eventos
+        tabSelect.addEventListener('change', function() {
+            if (state.on && this.value && this.value !== GEEKIE_ID) switchTab(this.value, null);
+        });
+        panel.querySelector('#splitCollapse').addEventListener('click', function() { setCollapsed(true); });
+        panel.querySelector('#splitExpand').addEventListener('click', function(e) { e.stopPropagation(); setCollapsed(false); });
+        panel.querySelector('#splitRail').addEventListener('click', function() { setCollapsed(false); });
+        panel.querySelector('#splitClose').addEventListener('click', function() { toggleSplitMode(); });
+        initResizer();
+        return true;
+    }
+
+    function setCollapsed(c) {
+        state.collapsed = !!c;
+        if (panel) panel.classList.toggle('is-collapsed', !!c);
+        save();
+    }
+
+    // ---------- resizer (arrastar borda) ----------
+    function initResizer() {
+        var rz = panel.querySelector('#splitResizer');
+        var dragging = false;
+        function clamp(w) {
+            var min = 320;
+            var max = Math.min(920, Math.max(360, window.innerWidth * 0.72));
+            return Math.max(min, Math.min(max, w));
+        }
+        rz.addEventListener('pointerdown', function(e) {
+            if (panel.classList.contains('is-collapsed')) return;
+            dragging = true;
+            try { rz.setPointerCapture(e.pointerId); } catch (err) {}
+            rz.classList.add('is-active');
+            e.preventDefault();
+        });
+        rz.addEventListener('pointermove', function(e) {
+            if (!dragging) return;
+            panel.style.width = clamp(window.innerWidth - e.clientX - 14) + 'px';
+        });
+        function stop(e) {
+            if (!dragging) return;
+            dragging = false;
+            rz.classList.remove('is-active');
+            var cur = parseFloat(panel.style.width);
+            if (cur) state.width = Math.round(clamp(cur));
+            panel.style.width = state.width + 'px';
+            save();
+            try { rz.releasePointerCapture(e.pointerId); } catch (err) {}
+        }
+        rz.addEventListener('pointerup', stop);
+        rz.addEventListener('pointercancel', stop);
+    }
+
+    // ---------- captura/devolução da aba convidada ----------
+    function returnGuest() {
+        if (!state.guest) return;
+        var old = document.getElementById(state.guest);
+        if (old && old.parentNode === splitBody) {
+            stage.appendChild(old);
+        }
+        if (old) old.classList.remove('active', 'split-guest');
+        state.guest = null;
+    }
+
+    function captureGuest(tabId) {
+        if (!tabId || tabId === GEEKIE_ID) return false;
+        var sec = document.getElementById(tabId);
+        if (!sec) return false;
+        if (state.guest === tabId && sec.parentNode === splitBody) return true; // já é a convidada
+
+        returnGuest();
+        var empty = splitBody.querySelector('.split-empty');
+        if (empty) empty.remove();
+
+        state.guest = tabId;
+        state.lastGuest = tabId;
+        sec.classList.remove('active');
+        sec.classList.add('split-guest');
+        splitBody.appendChild(sec);
+
+        // a geekie é sempre a aba principal visível à esquerda
+        var g = document.getElementById(GEEKIE_ID);
+        if (g && !g.classList.contains('active')) g.classList.add('active');
+
+        if (tabSelect) tabSelect.value = tabId;
+        updateRail(tabId);
+        save();
+        return true;
+    }
+
+    function updateRail(tabId) {
+        var info = infoFor(tabId);
+        var ic = panel.querySelector('#splitRailIcon i');
+        var lbl = panel.querySelector('#splitRailLabel');
+        if (info) {
+            if (ic) ic.className = info.icon;
+            if (lbl) lbl.textContent = info.label;
+        }
+    }
+
+    // ---------- liga / desliga ----------
+    function splitOn(guestTab, silent) {
+        if (!buildDom()) return;
+        if (state.on) { if (guestTab) captureGuest(guestTab); return; }
+        state.on = true;
+        document.body.classList.add('split-on');
+        panel.style.width = state.width + 'px';
+        panel.classList.toggle('is-collapsed', !!state.collapsed);
+        if (btnTopbar) btnTopbar.classList.add('is-on');
+        var guest = pickValidGuest(guestTab || state.guest);
+        if (guest) captureGuest(guest);
+        if (!silent) flToast('🪟 Multi-tarefa ativado — portal Geekie + painel lateral!');
+    }
+
+    function splitOff(silent) {
+        if (!state.on) return;
+        returnGuest();
+        state.on = false;
+        document.body.classList.remove('split-on');
+        if (btnTopbar) btnTopbar.classList.remove('is-on');
+        save();
+        if (!silent) flToast('Multi-tarefa desativado — portal em tela cheia.');
+    }
+
+    function toggleSplitMode() {
+        if (state.on) {
+            splitOff();
+            if (origSwitch) {
+                try { origSwitch(GEEKIE_ID, null); } catch (e) {}
+            } else {
+                var el = document.getElementById(GEEKIE_ID);
+                if (el) el.classList.add('active');
+            }
+        } else {
+            var activeId = (document.querySelector('.tab-content.active') || {}).id;
+            var guest = (activeId && activeId !== GEEKIE_ID) ? activeId : (state.lastGuest || 'tab-timer');
+            splitOn(guest);
+        }
+    }
+    window.toggleSplitMode = toggleSplitMode;
+
+    // ---------- wrapper do switchTab ----------
+    // Com o modo ativo: clicar em qualquer aba no menu a abre NO PAINEL;
+    // clicar na aba Geekie desliga o modo e devolve o portal à tela cheia.
+    function installWrap() {
+        if (!origSwitch || !window.switchTab) return;
+        if (window.switchTab.__flSplitWrap) return;
+        var wrapped = function(tabId, element) {
+            if (!state.on) return origSwitch.apply(this, arguments);
+            if (tabId === GEEKIE_ID) {
+                splitOff(true);
+                var r = origSwitch.apply(this, arguments);
+                flToast('Portal Geekie em tela cheia.');
+                return r;
+            }
+            var res = origSwitch.apply(this, arguments); // ativa a aba + FAB + renders
+            captureGuest(tabId); // rouba a aba para o painel; geekie volta a ser a principal
+            return res;
+        };
+        wrapped.__flSplitWrap = true;
+        window.switchTab = wrapped;
+    }
+
+    // ---------- inicialização ----------
+    function init() {
+        load();
+        if (!buildDom()) return; // palco criado, painel oculto até o modo ser ligado
+        btnTopbar = document.getElementById('btnSplitMode');
+
+        // restaura o layout salvo na visita anterior
+        if (state.on) {
+            var guest = pickValidGuest(state.guest || state.lastGuest);
+            state.on = false;
+            if (guest && origSwitch) { try { origSwitch(guest, null); } catch (e) {} } // renders da convidada
+            splitOn(guest, true);
+        }
+
+        installWrap();
+
+        // atalho Alt+M
+        document.addEventListener('keydown', function(e) {
+            if (e.altKey && !e.ctrlKey && !e.shiftKey && (e.key === 'm' || e.key === 'M')) {
+                e.preventDefault();
+                toggleSplitMode();
+            }
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+})();
