@@ -841,7 +841,7 @@
                 </div>
 
                 <!-- v15.7.0 -->
-                <div class="timeline-item" data-version: 'v15.7.0'>
+                <div class="timeline-item" data-version="v15.7.0">
                     <div class="version-header">
                         <span class="version-tag" style="background:linear-gradient(135deg,rgba(0,255,136,0.25),rgba(0,212,255,0.25)); color:#00ff88; border:1px solid rgba(0,255,136,0.3); box-shadow:0 0 12px rgba(0,255,136,0.3);">v15.7.0</span>
                         <h3>Diário, Gerador de Senhas & Busca no FAB — Novas Features</h3>
@@ -888,7 +888,7 @@
                         <li><strong>🎨 UI Complete Redesign:</strong> Design system totalmente reconstruído com variáveis CSS expandidas (cores, sombras, bordas, espaçamento em grid de 8px, border-radius consistente), tipografia hierárquica clara, novo esquema de cores para o Clicker (#ff6b6b).</li>
                         <li><strong>🔮 Glassmorphism Avançado:</strong> Efeitos de vidro refinados com backdrop-filter: blur(12px), bordas gradientes sutis, hover glow neon controlado, sistema de sombras em 3 níveis (sm/md/lg), cards com elevation hover.</li>
                         <li><strong>🌊 Animações Fluidas:</strong> Biblioteca completa de keyframes CSS — fadeIn, slideUp/Down/Left, pulse, glow, float, shake, ripple, numberFloat, particleExplode, clickerPulse, goldenShine, achievementUnlock, progressFill, skeleton, neonFlicker. Micro-interactions em todos os botões (scale no active).</li>
-                        <li><strong>📱 Responsividade Total:</strong> Breakpoints otimizados para mobile (<600px), tablet (600-900px) e desktop (>900px). FAB menu adaptável, grids flexíveis, touch-friendly com tap-highlight desativado no botão do clicker.</li>
+                        <li><strong>📱 Responsividade Total:</strong> Breakpoints otimizados para mobile (&lt;600px), tablet (600-900px) e desktop (&gt;900px). FAB menu adaptável, grids flexíveis, touch-friendly com tap-highlight desativado no botão do clicker.</li>
                         <li><strong>🧩 Componentes Redesenhados:</strong> Novos componentes reutilizáveis — btn-enhanced (com variantes primary/danger/gold/clicker), progress-bar-enhanced (com shimmer animation), badge-enhanced (4 variantes), input-enhanced (focus states), tooltip-wrapper, skeleton loading. Todos com transições suaves de 0.3s.</li>
                     </ul>
                 </div>
@@ -1804,6 +1804,7 @@
 
 <!-- v18.1.0: comportamento separado em script.js (mantenha os 3 arquivos na mesma pasta) -->
 <script src="script.js"></script>
+<script type="module" src="./geekie-enhancements.js"></script>
 <!-- DEFENSIVE CHECK: se script.js não carregar (ex: arquivo renomeado/movido),
      o botão de login continuaria silenciosamente quebrado. Este bloco mostra
      um erro visível e ainda deixa o usuário entrar como convidado. -->
