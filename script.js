@@ -8826,3 +8826,1041 @@ if (document.readyState === 'loading') {
         init();
     }
 })();
+
+
+/* Recursos extras incorporados para distribuir o app em três arquivos. */
+(() => {
+  "use strict";
+
+  const featureStorage = {
+    storeFavorites: "geekie_feature_store_favorites",
+    storeFilter: "geekie_feature_store_favorites_only",
+    timerAlert: "geekie_feature_timer_alert",
+    ambientMix: "geekie_feature_ambient_mix",
+    titleFilter: "geekie_feature_titles_unlocked_only",
+    petFilter: "geekie_feature_pets_owned_only",
+    devlogRead: "geekie_feature_devlog_read",
+    clickChallenge: "geekie_feature_click_challenge",
+    googleSearches: "geekie_feature_google_searches",
+  };
+
+  const tabNames = {
+    "tab-geekie": "Geekie",
+    "tab-chat": "Tutor IA",
+    "tab-google": "Google",
+    "tab-notes": "Bloco de Notas",
+    "tab-store": "Loja de Temas",
+    "tab-titles": "Títulos",
+    "tab-pets": "Pets de Estudo",
+    "tab-timer": "Pomodoro",
+    "tab-goals": "Metas de Estudo",
+    "tab-flashcards": "Flashcards",
+    "tab-ambient": "Sons Ambiente",
+    "tab-calculator": "Calculadora",
+    "tab-chars": "Caracteres",
+    "tab-title": "Título da Página",
+    "tab-events": "Eventos do Mês",
+    "tab-codes": "Códigos de Resgate",
+    "tab-journey": "Trilha de Progresso",
+    "tab-devlog": "Dev Log",
+    "tab-planner": "Planner Semanal",
+    "tab-stats": "Estatísticas",
+    "tab-subjects": "Cronômetro por Matéria",
+    "tab-quiz": "Quiz Rápido",
+    "tab-keysounds": "Sons de Teclado",
+    "tab-clicker": "Clicker Game",
+    "tab-diary": "Diário de Estudos",
+    "tab-password": "Gerador de Senhas",
+  };
+
+  const entries = [
+    {
+      tab: "tab-geekie",
+      label: "Recarregar portal",
+      icon: "fa-rotate",
+      note: "Atalho para recarregar o portal Geekie sem sair da aba.",
+      run: reloadGeekie,
+    },
+    {
+      tab: "tab-chat",
+      label: "Exportar conversa",
+      icon: "fa-file-arrow-down",
+      note: "Exportação local da conversa atual em Markdown.",
+      run: exportChat,
+    },
+    {
+      tab: "tab-google",
+      label: "Pesquisa rápida",
+      icon: "fa-magnifying-glass",
+      note: "Busca no iframe do Google com histórico local das últimas consultas.",
+      setup: setupGoogleSearch,
+    },
+    {
+      tab: "tab-notes",
+      label: "Inserir modelo de estudo",
+      icon: "fa-list-check",
+      note: "Modelo de anotação com objetivo, resumo, dúvidas e revisão.",
+      run: insertStudyTemplate,
+    },
+    {
+      tab: "tab-store",
+      label: "Filtrar favoritos",
+      icon: "fa-star",
+      note: "Favoritos persistentes nos temas e filtro rápido na loja.",
+      run: toggleFavoriteThemes,
+      init: installThemeFavorites,
+    },
+    {
+      tab: "tab-titles",
+      label: "Filtrar desbloqueados",
+      icon: "fa-filter",
+      note: "Filtro para ver somente os títulos já desbloqueados.",
+      run: toggleUnlockedTitles,
+      init: observeUnlockedTitles,
+    },
+    {
+      tab: "tab-pets",
+      label: "Filtrar pets adquiridos",
+      icon: "fa-paw",
+      note: "Filtro para ver os pets que já foram adquiridos.",
+      run: toggleOwnedPets,
+      init: observeOwnedPets,
+    },
+    {
+      tab: "tab-timer",
+      label: "Ativar alerta do timer",
+      icon: "fa-bell",
+      note: "Alerta sonoro e notificação opcional quando o timer termina.",
+      run: toggleTimerAlert,
+      init: watchTimer,
+    },
+    {
+      tab: "tab-goals",
+      label: "Criar meta prioritária",
+      icon: "fa-bullseye",
+      note: "Criação rápida de uma meta de estudo com prioridade alta.",
+      run: addPriorityGoal,
+    },
+    {
+      tab: "tab-flashcards",
+      label: "Exportar baralho JSON",
+      icon: "fa-download",
+      note: "Baixe os flashcards para guardar ou reutilizar o baralho.",
+      run: exportFlashcards,
+    },
+    {
+      tab: "tab-ambient",
+      label: "Salvar mix atual",
+      icon: "fa-bookmark",
+      note: "Salve e recupere uma combinação pessoal de sons e volumes.",
+      run: saveAmbientMix,
+      extra: { label: "Restaurar mix", icon: "fa-rotate-left", run: restoreAmbientMix },
+    },
+    {
+      tab: "tab-calculator",
+      label: "Copiar resultado",
+      icon: "fa-copy",
+      note: "Copie o resultado exibido na calculadora.",
+      run: copyCalculatorResult,
+    },
+    {
+      tab: "tab-chars",
+      label: "Baixar favoritos",
+      icon: "fa-file-arrow-down",
+      note: "Exporte os caracteres favoritos em um arquivo de texto.",
+      run: exportFavoriteCharacters,
+    },
+    {
+      tab: "tab-title",
+      label: "Exportar identidade",
+      icon: "fa-id-card",
+      note: "Exporte o título, a fonte e o ícone da identidade atual em JSON.",
+      run: exportTitleIdentity,
+    },
+    {
+      tab: "tab-events",
+      label: "Adicionar evento ao Planner",
+      icon: "fa-calendar-plus",
+      note: "Adicione o desafio do evento atual às tarefas de hoje no Planner.",
+      run: addEventToPlanner,
+    },
+    {
+      tab: "tab-codes",
+      label: "Exportar histórico",
+      icon: "fa-clock-rotate-left",
+      note: "Baixe o histórico local de códigos resgatados ou tentados.",
+      run: exportCodeHistory,
+    },
+    {
+      tab: "tab-journey",
+      label: "Compartilhar progresso",
+      icon: "fa-share-nodes",
+      note: "Copie um resumo da trilha e do XP para compartilhar.",
+      run: shareJourneyProgress,
+    },
+    {
+      tab: "tab-devlog",
+      label: "Marcar como lido",
+      icon: "fa-check",
+      note: "Salve localmente a leitura da atualização atual.",
+      run: markDevlogRead,
+    },
+    {
+      tab: "tab-planner",
+      label: "Exportar semana .ics",
+      icon: "fa-calendar-check",
+      note: "Exporte as tarefas do Planner como calendário .ics.",
+      run: exportPlannerCalendar,
+    },
+    {
+      tab: "tab-stats",
+      label: "Exportar resumo CSV",
+      icon: "fa-file-csv",
+      note: "Baixe um CSV simples com as estatísticas de estudo exibidas.",
+      run: exportStudyStats,
+    },
+    {
+      tab: "tab-subjects",
+      label: "Exportar tempos CSV",
+      icon: "fa-file-csv",
+      note: "Exporte os tempos acumulados por matéria em CSV.",
+      run: exportSubjectTimes,
+    },
+    {
+      tab: "tab-quiz",
+      label: "Quiz relâmpago (5)",
+      icon: "fa-bolt",
+      note: "Inicie rapidamente um quiz de cinco perguntas.",
+      run: startQuickQuiz,
+    },
+    {
+      tab: "tab-keysounds",
+      label: "Testar som",
+      icon: "fa-volume-high",
+      note: "Ouça um tom breve de teste sem alterar as preferências de som.",
+      run: playSoundPreview,
+    },
+    {
+      tab: "tab-clicker",
+      label: "Desafio diário: 100 cliques",
+      icon: "fa-flag-checkered",
+      note: "Acompanhe um desafio local de 100 cliques, reiniciado diariamente.",
+      run: showClickChallenge,
+      init: installClickChallenge,
+    },
+    {
+      tab: "tab-diary",
+      label: "Pergunta de reflexão",
+      icon: "fa-lightbulb",
+      note: "Insira uma pergunta curta para orientar a anotação de hoje.",
+      run: insertDiaryPrompt,
+    },
+    {
+      tab: "tab-password",
+      label: "Gerar frase-senha",
+      icon: "fa-key",
+      note: "Gere uma frase-senha memorável; ela não é salva no histórico.",
+      run: generatePassphrase,
+    },
+  ];
+
+  const styles = `
+    .gh-feature-row { display:flex; align-items:center; flex-wrap:wrap; gap:7px; margin:8px 0 12px; }
+    #tab-geekie > .gh-feature-row { flex:0 0 auto; justify-content:flex-end; margin:0; min-height:30px; }
+    .gh-feature-btn { display:inline-flex; align-items:center; justify-content:center; gap:7px; min-height:30px; padding:6px 10px; border:1px solid var(--border,rgba(255,255,255,.12)); border-radius:9px; background:rgba(255,255,255,.045); color:var(--text-main,#edf2f7); font-family:inherit; font-size:.75rem; font-weight:600; line-height:1.2; cursor:pointer; transition:background .18s ease,border-color .18s ease,transform .18s ease; }
+    .gh-feature-btn:hover { background:rgba(0,212,255,.12); border-color:rgba(0,212,255,.4); transform:translateY(-1px); }
+    .gh-feature-btn:focus-visible,.gh-google-input:focus-visible { outline:2px solid var(--accent,#00d4ff); outline-offset:2px; }
+    .gh-feature-btn i { color:var(--primary,#00ff88); }
+    .gh-feature-btn[aria-pressed="true"] { border-color:rgba(0,255,136,.55); background:rgba(0,255,136,.10); }
+    .gh-google-form { display:flex; flex:1 1 260px; gap:7px; min-width:min(100%,260px); }
+    .gh-google-input { flex:1; min-width:120px; padding:7px 10px; border:1px solid var(--border,rgba(255,255,255,.12)); border-radius:9px; background:rgba(0,0,0,.22); color:var(--text-main,#edf2f7); font:inherit; font-size:.78rem; }
+    .gh-google-recent { display:flex; flex:1 1 100%; flex-wrap:wrap; gap:5px; }
+    .gh-google-chip { padding:3px 8px; border:1px solid var(--border,rgba(255,255,255,.12)); border-radius:99px; background:transparent; color:var(--text-muted,#9aa6b2); font:inherit; font-size:.68rem; cursor:pointer; }
+    .gh-google-chip:hover { color:var(--text-main,#edf2f7); border-color:var(--accent,#00d4ff); }
+    .gh-store-card { position:relative; }
+    .gh-store-fav { position:absolute; z-index:2; top:8px; right:8px; width:30px; height:30px; border:1px solid var(--border,rgba(255,255,255,.15)); border-radius:50%; background:rgba(10,14,23,.85); color:var(--text-muted,#9aa6b2); cursor:pointer; }
+    .gh-store-fav[aria-pressed="true"] { color:#ffd166; border-color:#ffd166; }
+    .gh-click-challenge { color:var(--text-muted,#9aa6b2); font-size:.75rem; }
+    .gh-click-challenge strong { color:var(--primary,#00ff88); }
+    @media (max-width:640px) { .gh-feature-row { gap:6px; } .gh-feature-btn { min-height:32px; padding:6px 8px; } #tab-geekie > .gh-feature-row { justify-content:flex-start; } }
+    @media (prefers-reduced-motion:reduce) { .gh-feature-btn { transition:none; } }
+  `;
+
+  function readJson(key, fallback) {
+    try {
+      const value = localStorage.getItem(key);
+      return value ? JSON.parse(value) : fallback;
+    } catch {
+      return fallback;
+    }
+  }
+
+  function writeJson(key, value) {
+    try {
+      localStorage.setItem(key, JSON.stringify(value));
+      return true;
+    } catch {
+      toast("Não foi possível salvar esta preferência neste navegador.", true);
+      return false;
+    }
+  }
+
+  function toast(message, isError = false) {
+    if (typeof window.showToast === "function") {
+      window.showToast(message, isError);
+      return;
+    }
+    const live = document.getElementById("gh-live");
+    if (live) live.textContent = message;
+  }
+
+  function createButton(label, icon, handler, title = label) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "gh-feature-btn";
+    button.title = title;
+    button.innerHTML = `<i class="fa-solid ${icon}" aria-hidden="true"></i><span>${label}</span>`;
+    button.addEventListener("click", handler);
+    return button;
+  }
+
+  function createRow(tab, tabId) {
+    const row = document.createElement("div");
+    row.className = "gh-feature-row";
+    row.setAttribute("role", "group");
+    row.setAttribute("aria-label", `Recurso extra: ${tabId.replace("tab-", "")}`);
+
+    const heading = tab.querySelector("h1, h2, h3");
+    if (tabId === "tab-geekie") {
+      const container = document.getElementById("geekieIframeContainer");
+      if (container) tab.insertBefore(row, container);
+      else tab.prepend(row);
+    } else if (heading) {
+      heading.insertAdjacentElement("afterend", row);
+    } else {
+      tab.prepend(row);
+    }
+    return row;
+  }
+
+  function downloadFile(filename, content, type = "text/plain;charset=utf-8") {
+    const blob = new Blob([content], { type });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = filename;
+    link.style.display = "none";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+
+  async function copyText(text, successMessage = "Copiado.") {
+    if (!text.trim()) {
+      toast("Ainda não há conteúdo para copiar.", true);
+      return;
+    }
+    try {
+      await navigator.clipboard.writeText(text);
+      toast(successMessage);
+    } catch {
+      const area = document.createElement("textarea");
+      area.value = text;
+      area.style.position = "fixed";
+      area.style.opacity = "0";
+      document.body.appendChild(area);
+      area.select();
+      const copied = document.execCommand("copy");
+      area.remove();
+      toast(copied ? successMessage : "Não foi possível copiar.", !copied);
+    }
+  }
+
+  function localDateKey(date = new Date()) {
+    const pad = (number) => String(number).padStart(2, "0");
+    return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
+  }
+
+  function reloadGeekie() {
+    const frame = document.getElementById("geekieIframe");
+    const loading = document.getElementById("iframeLoading");
+    if (!frame) return;
+    if (loading) loading.style.display = "flex";
+    frame.onload = () => {
+      if (loading) loading.style.display = "none";
+    };
+    const source = frame.getAttribute("src") || frame.dataset.src || "";
+    if (!source) {
+      toast("O endereço do portal não está disponível.", true);
+      return;
+    }
+    frame.src = source;
+    window.setTimeout(() => {
+      if (loading) loading.style.display = "none";
+    }, 8000);
+  }
+
+  function exportChat() {
+    const messages = document.getElementById("chatMessages");
+    const content = messages?.innerText.trim();
+    if (!content) {
+      toast("A conversa ainda está vazia.", true);
+      return;
+    }
+    const subject = document.getElementById("chatSubject")?.value || "Estudos";
+    const markdown = `# Conversa de estudo — ${subject}\n\n_${new Date().toLocaleString("pt-BR")}_\n\n${content}\n`;
+    downloadFile(`conversa-geekie-${localDateKey()}.md`, markdown, "text/markdown;charset=utf-8");
+    toast("Conversa exportada em Markdown.");
+  }
+
+  function setupGoogleSearch(row) {
+    const form = document.createElement("form");
+    form.className = "gh-google-form";
+    form.setAttribute("role", "search");
+    form.setAttribute("aria-label", "Pesquisar no Google");
+    const input = document.createElement("input");
+    input.className = "gh-google-input";
+    input.type = "search";
+    input.placeholder = "Pesquisar no Google…";
+    input.setAttribute("aria-label", "Termo de pesquisa");
+    const submit = createButton("Pesquisar", "fa-magnifying-glass", () => {});
+    submit.type = "submit";
+    form.append(input, submit);
+
+    const recent = document.createElement("div");
+    recent.className = "gh-google-recent";
+    recent.setAttribute("aria-label", "Pesquisas recentes");
+    function renderRecent() {
+      recent.replaceChildren();
+      readJson(featureStorage.googleSearches, []).slice(0, 4).forEach((term) => {
+        const chip = document.createElement("button");
+        chip.type = "button";
+        chip.className = "gh-google-chip";
+        chip.textContent = term;
+        chip.addEventListener("click", () => search(term));
+        recent.appendChild(chip);
+      });
+    }
+    function search(rawTerm) {
+      const term = String(rawTerm || "").trim();
+      if (!term) {
+        input.focus();
+        return;
+      }
+      const frame = document.getElementById("googleIframe");
+      if (frame) {
+        frame.src = `https://www.google.com/search?igu=1&safe=active&q=${encodeURIComponent(term)}`;
+      }
+      writeJson(featureStorage.googleSearches, [
+        term,
+        ...readJson(featureStorage.googleSearches, []).filter((saved) => saved !== term),
+      ].slice(0, 4));
+      input.value = term;
+      renderRecent();
+    }
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      search(input.value);
+    });
+    row.append(form, recent);
+    renderRecent();
+  }
+
+  function insertStudyTemplate() {
+    const textarea = document.getElementById("noteContent");
+    if (!textarea) return;
+    const template = "## Objetivo\n\n## Resumo\n\n## Dúvidas\n\n## Revisão\n";
+    const start = textarea.selectionStart ?? textarea.value.length;
+    const end = textarea.selectionEnd ?? start;
+    const prefix = textarea.value && start === textarea.value.length && !textarea.value.endsWith("\n") ? "\n\n" : "";
+    textarea.setRangeText(`${prefix}${template}`, start, end, "end");
+    textarea.focus();
+    if (typeof window.liveNoteCounter === "function") window.liveNoteCounter();
+    toast("Modelo de estudo inserido.");
+  }
+
+  function installThemeFavorites() {
+    const grid = document.getElementById("storeGrid");
+    if (!grid || grid.dataset.ghFavoritesReady) return;
+    grid.dataset.ghFavoritesReady = "1";
+
+    const favorites = () => new Set(readJson(featureStorage.storeFavorites, []));
+    const decorate = () => {
+      grid.querySelectorAll(".store-item").forEach((card) => {
+        const name = card.querySelector("h4")?.textContent?.trim();
+        if (!name) return;
+        card.classList.add("gh-store-card");
+        let button = card.querySelector(".gh-store-fav");
+        if (!button) {
+          button = document.createElement("button");
+          button.type = "button";
+          button.className = "gh-store-fav";
+          button.innerHTML = '<i class="fa-solid fa-star" aria-hidden="true"></i>';
+          button.addEventListener("click", () => {
+            const saved = favorites();
+            if (saved.has(name)) saved.delete(name);
+            else saved.add(name);
+            writeJson(featureStorage.storeFavorites, [...saved]);
+            decorate();
+          });
+          card.appendChild(button);
+        }
+        const selected = favorites().has(name);
+        button.setAttribute("aria-pressed", String(selected));
+        button.setAttribute("aria-label", selected ? `Remover ${name} dos favoritos` : `Favoritar ${name}`);
+        button.title = selected ? "Remover dos favoritos" : "Favoritar tema";
+      });
+      applyFavoriteFilter();
+    };
+    new MutationObserver(decorate).observe(grid, { childList: true });
+    decorate();
+    const button = document.querySelector("#tab-store .gh-feature-btn");
+    const active = localStorage.getItem(featureStorage.storeFilter) === "1";
+    if (button && active) {
+      button.setAttribute("aria-pressed", "true");
+      button.querySelector("span").textContent = "Mostrar todos os temas";
+    }
+  }
+
+  function applyFavoriteFilter() {
+    const onlyFavorites = localStorage.getItem(featureStorage.storeFilter) === "1";
+    const favorites = new Set(readJson(featureStorage.storeFavorites, []));
+    document.querySelectorAll("#storeGrid .store-item").forEach((card) => {
+      const name = card.querySelector("h4")?.textContent?.trim() || "";
+      card.style.display = !onlyFavorites || favorites.has(name) ? "" : "none";
+    });
+  }
+
+  function toggleFavoriteThemes(event) {
+    const active = localStorage.getItem(featureStorage.storeFilter) !== "1";
+    localStorage.setItem(featureStorage.storeFilter, active ? "1" : "0");
+    event.currentTarget.setAttribute("aria-pressed", String(active));
+    event.currentTarget.querySelector("span").textContent = active ? "Mostrar todos os temas" : "Filtrar favoritos";
+    applyFavoriteFilter();
+    toast(active ? "Exibindo apenas temas favoritos." : "Exibindo todos os temas.");
+  }
+
+  function toggleGridFilter(event, key, selector, isVisible, labels) {
+    const active = localStorage.getItem(key) !== "1";
+    localStorage.setItem(key, active ? "1" : "0");
+    event.currentTarget.setAttribute("aria-pressed", String(active));
+    event.currentTarget.querySelector("span").textContent = active ? labels.active : labels.inactive;
+    document.querySelectorAll(selector).forEach((card) => {
+      card.style.display = !active || isVisible(card) ? "" : "none";
+    });
+    toast(active ? labels.enabled : labels.disabled);
+  }
+
+  function installPersistentGridFilter(tabId, key, selector, isVisible, labels) {
+    const button = document.querySelector(`#${tabId} .gh-feature-btn`);
+    const active = localStorage.getItem(key) === "1";
+    if (button && active) {
+      button.setAttribute("aria-pressed", "true");
+      button.querySelector("span").textContent = labels.active;
+    }
+    const apply = () => {
+      const enabled = localStorage.getItem(key) === "1";
+      document.querySelectorAll(selector).forEach((card) => {
+        card.style.display = !enabled || isVisible(card) ? "" : "none";
+      });
+    };
+    const grid = document.querySelector(
+      tabId === "tab-titles" ? "#titlesGrid" : "#petGrid",
+    );
+    if (grid) new MutationObserver(apply).observe(grid, { childList: true });
+    apply();
+  }
+
+  function observeUnlockedTitles() {
+    installPersistentGridFilter(
+      "tab-titles",
+      featureStorage.titleFilter,
+      "#titlesGrid .title-card",
+      (card) => card.classList.contains("unlocked"),
+      { active: "Mostrar todos os títulos" },
+    );
+  }
+
+  function observeOwnedPets() {
+    installPersistentGridFilter(
+      "tab-pets",
+      featureStorage.petFilter,
+      "#petGrid .pet-card",
+      (card) => card.classList.contains("pet-unlocked"),
+      { active: "Mostrar todos os pets" },
+    );
+  }
+
+  function toggleUnlockedTitles(event) {
+    toggleGridFilter(
+      event,
+      featureStorage.titleFilter,
+      "#titlesGrid .title-card",
+      (card) => card.classList.contains("unlocked"),
+      { active: "Mostrar todos os títulos", inactive: "Filtrar desbloqueados", enabled: "Exibindo títulos desbloqueados.", disabled: "Exibindo todos os títulos." },
+    );
+  }
+
+  function toggleOwnedPets(event) {
+    toggleGridFilter(
+      event,
+      featureStorage.petFilter,
+      "#petGrid .pet-card",
+      (card) => card.classList.contains("pet-unlocked"),
+      { active: "Mostrar todos os pets", inactive: "Filtrar pets adquiridos", enabled: "Exibindo pets adquiridos.", disabled: "Exibindo todos os pets." },
+    );
+  }
+
+  function toggleTimerAlert(event) {
+    const active = localStorage.getItem(featureStorage.timerAlert) !== "1";
+    localStorage.setItem(featureStorage.timerAlert, active ? "1" : "0");
+    event.currentTarget.setAttribute("aria-pressed", String(active));
+    event.currentTarget.querySelector("span").textContent = active ? "Desativar alerta do timer" : "Ativar alerta do timer";
+    if (active && "Notification" in window && Notification.permission === "default") {
+      Notification.requestPermission().catch(() => {});
+    }
+    toast(active ? "Alerta ativado para o fim do timer." : "Alerta do timer desativado.");
+  }
+
+  function watchTimer() {
+    const display = document.getElementById("timerDisplay");
+    if (!display) return;
+    let previous = display.textContent.trim();
+    const observer = new MutationObserver(() => {
+      const current = display.textContent.trim();
+      if (
+        previous &&
+        previous !== "00:00" &&
+        current === "00:00" &&
+        localStorage.getItem(featureStorage.timerAlert) === "1"
+      ) {
+        playCompletionAlert();
+      }
+      previous = current;
+    });
+    observer.observe(display, { childList: true, characterData: true, subtree: true });
+  }
+
+  function playCompletionAlert() {
+    try {
+      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+      if (AudioContextClass) {
+        const context = new AudioContextClass();
+        [660, 880, 660].forEach((frequency, index) => {
+          const oscillator = context.createOscillator();
+          const gain = context.createGain();
+          oscillator.frequency.value = frequency;
+          gain.gain.setValueAtTime(0.0001, context.currentTime + index * 0.18);
+          gain.gain.exponentialRampToValueAtTime(0.16, context.currentTime + index * 0.18 + 0.02);
+          gain.gain.exponentialRampToValueAtTime(0.0001, context.currentTime + index * 0.18 + 0.15);
+          oscillator.connect(gain);
+          gain.connect(context.destination);
+          oscillator.start(context.currentTime + index * 0.18);
+          oscillator.stop(context.currentTime + index * 0.18 + 0.16);
+        });
+        window.setTimeout(() => context.close(), 900);
+      }
+    } catch {
+      // Notification remains available if Web Audio is unavailable.
+    }
+    if ("Notification" in window && Notification.permission === "granted") {
+      new Notification("Pomodoro concluído", { body: "Seu tempo de estudo terminou." });
+    } else {
+      toast("Tempo encerrado. Faça uma pausa.");
+    }
+  }
+
+  function addPriorityGoal() {
+    const title = window.prompt("Qual meta de estudo você quer priorizar?");
+    if (!title?.trim()) return;
+    const input = document.getElementById("todoInput");
+    const priority = document.getElementById("todoPriority");
+    if (!input) return;
+    input.value = title.trim();
+    if (priority) priority.value = "high";
+    if (typeof window.addTodo === "function") window.addTodo();
+    else input.focus();
+  }
+
+  function exportFlashcards() {
+    const cards = readJson("geekieFlashcards", []);
+    if (!Array.isArray(cards) || !cards.length) {
+      toast("Não há flashcards para exportar.", true);
+      return;
+    }
+    downloadFile("flashcards-geekie.json", JSON.stringify(cards, null, 2), "application/json;charset=utf-8");
+    toast(`${cards.length} flashcards exportados.`);
+  }
+
+  function saveAmbientMix() {
+    const playing = [...document.querySelectorAll("#ambientGrid .ambient-card.playing")]
+      .map((card) => card.id.replace("ambient-card-", ""));
+    const slider = document.getElementById("masterVolume");
+    const mix = {
+      sounds: playing,
+      masterVolume: slider ? Number(slider.value) : 0.5,
+      savedAt: new Date().toISOString(),
+    };
+    if (writeJson(featureStorage.ambientMix, mix)) toast("Mix de sons salvo neste navegador.");
+  }
+
+  function restoreAmbientMix() {
+    const mix = readJson(featureStorage.ambientMix, null);
+    if (!mix) {
+      toast("Salve um mix antes de restaurá-lo.", true);
+      return;
+    }
+    if (typeof window.stopAllAmbient === "function") window.stopAllAmbient();
+    const slider = document.getElementById("masterVolume");
+    if (slider) {
+      slider.value = String(mix.masterVolume);
+      if (typeof window.changeMasterVolume === "function") window.changeMasterVolume(slider.value);
+    }
+    (mix.sounds || []).forEach((id) => {
+      if (typeof window.toggleAmbientSound === "function") window.toggleAmbientSound(id);
+    });
+    toast("Mix de sons restaurado.");
+  }
+
+  function copyCalculatorResult() {
+    const value = document.getElementById("calcVal")?.textContent || "";
+    return copyText(value, "Resultado copiado.");
+  }
+
+  function exportFavoriteCharacters() {
+    const favorites = document.getElementById("charsFavoritesGrid")?.innerText.trim();
+    if (!favorites) {
+      toast("Adicione caracteres aos favoritos antes de exportar.", true);
+      return;
+    }
+    downloadFile("caracteres-favoritos.txt", `${favorites}\n`);
+    toast("Favoritos exportados.");
+  }
+
+  function exportTitleIdentity() {
+    const identity = {
+      title: document.getElementById("pageTitleInput")?.value || document.title,
+      font: localStorage.getItem("geekieTitleFont") || "Poppins",
+      icon: localStorage.getItem("geekieTitleIcon") || "fa-graduation-cap",
+      exportedAt: new Date().toISOString(),
+    };
+    downloadFile("identidade-geekie.json", JSON.stringify(identity, null, 2), "application/json;charset=utf-8");
+    toast("Identidade exportada em JSON.");
+  }
+
+  function addEventToPlanner() {
+    const container = document.getElementById("eventContainer");
+    const heading = container?.querySelector("h2, h3, h4, .event-title");
+    const eventName = heading?.textContent?.trim() || container?.innerText?.trim().split("\n").find(Boolean);
+    if (!eventName) {
+      toast("Nenhum evento disponível para adicionar.", true);
+      return;
+    }
+    const planner = readJson("geekiePlanner", {});
+    const today = localDateKey();
+    if (!Array.isArray(planner[today])) planner[today] = [];
+    const task = `Evento Geekie: ${eventName.slice(0, 100)}`;
+    if (!planner[today].some((item) => item.text === task)) {
+      planner[today].push({ text: task, done: false });
+      writeJson("geekiePlanner", planner);
+    }
+    if (typeof window.renderPlanner === "function") window.renderPlanner();
+    toast("Evento adicionado às tarefas de hoje.");
+  }
+
+  function exportCodeHistory() {
+    const history = readJson("geekie_codes_history", []);
+    const redeemed = readJson("geekieRedeemedCodes", []);
+    const data = Array.isArray(history) ? history : [];
+    if (!data.length && !redeemed.length) {
+      toast("O histórico de códigos está vazio.", true);
+      return;
+    }
+    const rows = [["Código", "Status", "Data"]];
+    data.forEach((item) => rows.push([
+      item.code || item.codigo || "",
+      item.status || item.result || "Tentativa",
+      item.date || item.data || "",
+    ]));
+    redeemed.forEach((code) => rows.push([code, "Resgatado", ""]));
+    downloadFile(
+      "historico-de-codigos.csv",
+      rows.map((row) => row.map(csvCell).join(";")).join("\n"),
+      "text/csv;charset=utf-8",
+    );
+    toast("Histórico de códigos exportado.");
+  }
+
+  function shareJourneyProgress() {
+    const summary = document.getElementById("journeySummary")?.innerText.trim() || "";
+    const next = document.getElementById("journeyNextLabel")?.textContent.trim() || "";
+    const xp = document.getElementById("journeyXpLabel")?.textContent.trim() || "0";
+    return copyText(`Minha trilha no Geekie Study Hub\n${xp} XP\n${summary}\n${next}`.trim(), "Resumo da trilha copiado.");
+  }
+
+  function markDevlogRead(event) {
+    const read = localStorage.getItem(featureStorage.devlogRead) === "1";
+    localStorage.setItem(featureStorage.devlogRead, read ? "0" : "1");
+    const button = event.currentTarget;
+    button.setAttribute("aria-pressed", String(!read));
+    button.querySelector("span").textContent = read ? "Marcar como lido" : "Atualização lida";
+    toast(read ? "A leitura foi desmarcada." : "Atualização marcada como lida.");
+  }
+
+  function exportPlannerCalendar() {
+    const planner = readJson("geekiePlanner", {});
+    const lines = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Geekie Study Hub//Planner//PT-BR"];
+    let count = 0;
+    Object.entries(planner).sort(([a], [b]) => a.localeCompare(b)).forEach(([day, tasks]) => {
+      if (!Array.isArray(tasks)) return;
+      tasks.forEach((task, index) => {
+        if (!task?.text) return;
+        const date = day.replaceAll("-", "");
+        const summary = String(task.text).replace(/([,;\\])/g, "\\$1").replace(/\n/g, "\\n");
+        lines.push(
+          "BEGIN:VEVENT",
+          `UID:geekie-${date}-${index}@studyhub`,
+          `DTSTAMP:${new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "")}`,
+          `DTSTART;VALUE=DATE:${date}`,
+          `SUMMARY:${summary}`,
+          "END:VEVENT",
+        );
+        count += 1;
+      });
+    });
+    if (!count) {
+      toast("Adicione tarefas ao Planner antes de exportar.", true);
+      return;
+    }
+    lines.push("END:VCALENDAR");
+    downloadFile("planner-geekie.ics", lines.join("\r\n"), "text/calendar;charset=utf-8");
+    toast(`${count} tarefas exportadas para o calendário.`);
+  }
+
+  function exportStudyStats() {
+    const root = document.getElementById("statsOverview");
+    const rows = [["Indicador", "Valor"]];
+    if (root) {
+      root.querySelectorAll(".stat-card, .stats-card, .glass-card, [data-stat]").forEach((card) => {
+        const parts = card.innerText.split("\n").map((part) => part.trim()).filter(Boolean);
+        if (parts.length) rows.push([parts.slice(1).join(" — ") || "Estatística", parts[0]]);
+      });
+      if (rows.length === 1) {
+        root.innerText.split("\n").map((line) => line.trim()).filter(Boolean).forEach((line, index) => {
+          rows.push([`Indicador ${index + 1}`, line]);
+        });
+      }
+    }
+    const pomodoros = localStorage.getItem("geekiePomodoroTotal") || "0";
+    const minutes = Math.floor(Number(localStorage.getItem("geekieStudySeconds") || 0) / 60);
+    rows.push(["Pomodoros concluídos", pomodoros], ["Minutos de estudo", String(minutes)]);
+    downloadFile(
+      "estatisticas-de-estudo.csv",
+      rows.map((row) => row.map(csvCell).join(";")).join("\n"),
+      "text/csv;charset=utf-8",
+    );
+    toast("Resumo de estudo exportado em CSV.");
+  }
+
+  function exportSubjectTimes() {
+    const subjects = readJson("geekieSubjects", []);
+    if (!Array.isArray(subjects) || !subjects.length) {
+      toast("Ainda não há tempos por matéria para exportar.", true);
+      return;
+    }
+    const rows = [["Matéria", "Tempo acumulado"]];
+    subjects.forEach((subject) => {
+      const seconds = Number(subject.totalSeconds ?? subject.seconds ?? subject.time ?? 0);
+      const duration = `${Math.floor(seconds / 3600)}h ${Math.floor((seconds % 3600) / 60)}min`;
+      rows.push([
+        subject.name || subject.title || subject.subject || "Matéria",
+        subject.duration || duration,
+      ]);
+    });
+    downloadFile(
+      "tempos-por-materia.csv",
+      rows.map((row) => row.map(csvCell).join(";")).join("\n"),
+      "text/csv;charset=utf-8",
+    );
+    toast("Tempos por matéria exportados.");
+  }
+
+  function csvCell(value) {
+    const text = String(value ?? "");
+    return `"${text.replaceAll('"', '""')}"`;
+  }
+
+  function startQuickQuiz() {
+    if (typeof window.setQuizQty === "function") window.setQuizQty(5);
+    if (typeof window.startQuiz === "function") window.startQuiz();
+    else toast("O quiz não está disponível agora.", true);
+  }
+
+  function playSoundPreview() {
+    try {
+      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContextClass) throw new Error("AudioContext indisponível");
+      const context = new AudioContextClass();
+      const oscillator = context.createOscillator();
+      const gain = context.createGain();
+      oscillator.type = "sine";
+      oscillator.frequency.value = 740;
+      gain.gain.setValueAtTime(0.0001, context.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.12, context.currentTime + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.0001, context.currentTime + 0.22);
+      oscillator.connect(gain);
+      gain.connect(context.destination);
+      oscillator.start();
+      oscillator.stop(context.currentTime + 0.24);
+      window.setTimeout(() => context.close(), 350);
+    } catch {
+      toast("O áudio de teste não está disponível neste navegador.", true);
+    }
+  }
+
+  function installClickChallenge() {
+    const button = document.getElementById("clickerButton");
+    const container = document.getElementById("clickerButtonContainer");
+    if (!button || !container || button.dataset.ghChallengeReady) return;
+    button.dataset.ghChallengeReady = "1";
+    const progress = document.createElement("p");
+    progress.className = "gh-click-challenge";
+    progress.setAttribute("aria-live", "polite");
+    progress.innerHTML = 'Desafio de hoje: <strong>0/100</strong>';
+    container.appendChild(progress);
+    const refresh = () => {
+      const saved = readJson(featureStorage.clickChallenge, { date: localDateKey(), count: 0 });
+      const current = saved.date === localDateKey() ? saved.count : 0;
+      progress.innerHTML = `Desafio de hoje: <strong>${Math.min(current, 100)}/100</strong>${current >= 100 ? " — concluído" : ""}`;
+    };
+    button.addEventListener("click", () => {
+      const saved = readJson(featureStorage.clickChallenge, { date: localDateKey(), count: 0 });
+      const next = saved.date === localDateKey() ? saved.count + 1 : 1;
+      writeJson(featureStorage.clickChallenge, { date: localDateKey(), count: next });
+      refresh();
+      if (next === 100) toast("Desafio diário de 100 cliques concluído.");
+    });
+    refresh();
+  }
+
+  function showClickChallenge() {
+    document.getElementById("clickerButton")?.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+
+  function insertDiaryPrompt() {
+    const prompts = [
+      "O que aprendi hoje que quero lembrar amanhã?",
+      "Qual parte do estudo exigiu mais atenção e por quê?",
+      "Que pequena meta consegui cumprir hoje?",
+      "Qual dúvida vale a pena pesquisar na próxima sessão?",
+      "O que me ajudou a manter o foco nesta sessão?",
+      "Qual é o próximo passo mais simples para continuar?",
+      "Que assunto ficou mais claro depois de estudar?",
+    ];
+    const promptText = prompts[new Date().getDate() % prompts.length];
+    const field = document.getElementById("diaryText");
+    if (!field) return;
+    const start = field.selectionStart ?? field.value.length;
+    const end = field.selectionEnd ?? start;
+    const prefix = field.value && start === field.value.length && !field.value.endsWith("\n") ? "\n\n" : "";
+    field.setRangeText(`${prefix}${promptText}\n`, start, end, "end");
+    field.focus();
+    toast("Pergunta de reflexão inserida.");
+  }
+
+  function generatePassphrase() {
+    const words = ["caderno", "planeta", "floresta", "janela", "cometa", "oceano", "livro", "montanha", "brisa", "farol", "nuvem", "trilha", "pixel", "aurora", "teorema", "cafe"];
+    if (!window.crypto?.getRandomValues) {
+      toast("A geração segura precisa de um navegador atualizado.", true);
+      return;
+    }
+    const randomValues = new Uint32Array(5);
+    window.crypto.getRandomValues(randomValues);
+    const pick = (value) => words[value % words.length];
+    const number = String(randomValues[4] % 1000).padStart(3, "0");
+    const passphrase = `${pick(randomValues[0])}-${pick(randomValues[1])}-${pick(randomValues[2])}-${pick(randomValues[3])}-${number}!`;
+    const output = document.getElementById("pwdOutput");
+    if (output) output.value = passphrase;
+    const fill = document.getElementById("pwdStrengthFill");
+    const label = document.getElementById("pwdStrengthLabel");
+    if (fill) fill.style.width = "95%";
+    if (label) label.textContent = "Frase forte";
+    output?.focus();
+    output?.select();
+    toast("Frase-senha gerada. Copie-a antes de sair desta aba.");
+  }
+
+  function addDevlogRelease() {
+    const timeline = document.getElementById("devlogTimeline");
+    if (!timeline || timeline.querySelector('[data-version="v18.2.0"]')) return;
+    const item = document.createElement("div");
+    item.className = "timeline-item";
+    item.dataset.version = "v18.2.0";
+    const features = entries.map((entry) => `<li><strong>${tabNames[entry.tab]}:</strong> ${entry.note}</li>`).join("");
+    item.innerHTML = `
+      <div class="version-header">
+        <span class="version-tag" style="background:rgba(52,211,153,.18);color:#34d399;border:1px solid rgba(52,211,153,.4);">v18.2.0</span>
+        <h3>Portal em destaque e novos recursos nas abas</h3>
+        <span class="version-date">30 Set 2026 — Atualização Atual</span>
+      </div>
+      <ul>
+        <li><strong>Portal Geekie ampliado:</strong> o iframe usa quase toda a altura disponível, mantendo os controles compactos.</li>
+        ${features}
+      </ul>`;
+    timeline.prepend(item);
+    document.title = document.title.replace("v18.1.0", "v18.2.0");
+  }
+
+  function installEntry(entry) {
+    const tab = document.getElementById(entry.tab);
+    if (!tab || tab.dataset.ghFeatureInstalled) return;
+    tab.dataset.ghFeatureInstalled = "1";
+    const row = createRow(tab, entry.tab);
+    if (entry.setup) entry.setup(row);
+    else row.appendChild(createButton(entry.label, entry.icon, entry.run));
+    if (entry.extra) {
+      row.appendChild(createButton(entry.extra.label, entry.extra.icon, entry.extra.run));
+    }
+    if (entry.init) entry.init();
+    if (entry.tab === "tab-timer" && localStorage.getItem(featureStorage.timerAlert) === "1") {
+      const button = row.querySelector(".gh-feature-btn");
+      if (button) {
+        button.setAttribute("aria-pressed", "true");
+        button.querySelector("span").textContent = "Desativar alerta do timer";
+      }
+    }
+  }
+
+  function installStyles() {
+    if (document.getElementById("gh-enhancement-styles")) return;
+    const style = document.createElement("style");
+    style.id = "gh-enhancement-styles";
+    style.textContent = styles;
+    document.head.appendChild(style);
+  }
+
+  function boot() {
+    installStyles();
+    const live = document.createElement("div");
+    live.id = "gh-live";
+    live.className = "sr-only";
+    live.setAttribute("role", "status");
+    live.setAttribute("aria-live", "polite");
+    document.body.appendChild(live);
+    entries.forEach(installEntry);
+    addDevlogRelease();
+    const read = localStorage.getItem(featureStorage.devlogRead) === "1";
+    const devlogButton = document.querySelector("#tab-devlog .gh-feature-btn");
+    if (devlogButton && read) {
+      devlogButton.setAttribute("aria-pressed", "true");
+      devlogButton.querySelector("span").textContent = "Atualização lida";
+    }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", boot, { once: true });
+  } else {
+    boot();
+  }
+})();
