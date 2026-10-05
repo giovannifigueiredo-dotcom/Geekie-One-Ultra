@@ -1,9 +1,10 @@
 /* ============================================================
- * Geekie Study Hub — script.js (v18.1.0)
+ * Geekie Study Hub — script.js (v18.3.0)
  * Todo o comportamento do hub, extraído do HTML original
  * e ampliado com o Feature Lab v18 (26 ferramentas).
  * v18.0.1: Cockpit do portal recolhível — iframe em tela grande.
  * v18.1.0: Modo Multi-Tarefa — split view com painel recolhível.
+ * v18.3.0: iframes ampliados, painéis recolhíveis e animações nos botões.
  * ============================================================ */
 
 
@@ -3081,6 +3082,36 @@ document.addEventListener('keydown', function(e) {
 document.addEventListener('mousedown', function() {
     ksPlaySound();
 });
+
+// Capture events inside an embedded document only when the browser's
+// same-origin policy permits access. The production Geekie/Google portals are
+// cross-origin, so those frames can report focus but not individual keystrokes.
+function ksAttachIframeEvents(frameId) {
+    var frame = document.getElementById(frameId);
+    if (!frame || frame.dataset.ksFrameListener) return;
+    frame.dataset.ksFrameListener = '1';
+    var attachedDocuments = new WeakSet();
+    function attachIfSameOrigin() {
+        try {
+            var frameDocument = frame.contentDocument;
+            if (!frameDocument || attachedDocuments.has(frameDocument)) return;
+            attachedDocuments.add(frameDocument);
+            frameDocument.addEventListener('keydown', function(e) {
+                if (['Control','Shift','Alt','Meta','CapsLock','Tab'].includes(e.key)) return;
+                if (e.ctrlKey || e.altKey || e.metaKey) return;
+                ksPlaySound();
+            });
+            frameDocument.addEventListener('mousedown', ksPlaySound);
+        } catch (e) {
+            // External frames intentionally remain isolated by the browser.
+        }
+    }
+    frame.addEventListener('load', attachIfSameOrigin);
+    frame.addEventListener('focus', ksPlaySound);
+    attachIfSameOrigin();
+}
+
+['geekieIframe', 'googleIframe'].forEach(ksAttachIframeEvents);
 
 function ksSelectSound(id) {
     keySoundActive = id;
@@ -6219,7 +6250,27 @@ if (document.readyState === 'loading') {
                 '<span class="context-pulse">' + meta[2] + '</span>' +
                 '<button type="button" class="context-ask"><i class="fa-solid fa-sparkles"></i> Perguntar à Geekie</button>' +
                 '<button type="button" class="context-log"><i class="fa-solid fa-check"></i> Registrar sessão</button>' +
-                '<button type="button" class="context-pin' + (pinned ? ' is-pinned' : '') + '"><i class="fa-solid fa-thumbtack"></i> ' + (pinned ? 'Fixada' : 'Fixar') + '</button>';
+                '<button type="button" class="context-pin' + (pinned ? ' is-pinned' : '') + '"><i class="fa-solid fa-thumbtack"></i> ' + (pinned ? 'Fixada' : 'Fixar') + '</button>' +
+                ((tabId === 'tab-geekie' || tabId === 'tab-google') ? '<button type="button" class="context-collapse-toggle" aria-expanded="false" aria-label="Expandir controles da aba" title="Expandir controles"><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></button>' : '');
+            if (tabId === 'tab-geekie' || tabId === 'tab-google') {
+                var collapseButton = bar.querySelector('.context-collapse-toggle');
+                var collapseKey = 'geekie_context_collapsed_' + tabId;
+                var collapsed = true;
+                try { collapsed = localStorage.getItem(collapseKey) !== '0'; } catch (e) {}
+                function setContextCollapsed(value) {
+                    collapsed = !!value;
+                    bar.classList.toggle('is-collapsed', collapsed);
+                    collapseButton.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+                    collapseButton.setAttribute('aria-label', collapsed ? 'Expandir controles da aba' : 'Recolher controles da aba');
+                    collapseButton.title = collapsed ? 'Expandir controles' : 'Recolher controles';
+                    try { localStorage.setItem(collapseKey, collapsed ? '1' : '0'); } catch (e) {}
+                }
+                collapseButton.addEventListener('click', function(event) {
+                    event.stopPropagation();
+                    setContextCollapsed(!collapsed);
+                });
+                setContextCollapsed(collapsed);
+            }
             var first = tab.firstElementChild;
             if (first) tab.insertBefore(bar, first);
             else tab.appendChild(bar);
@@ -6541,6 +6592,45 @@ if (document.readyState === 'loading') {
             (badge ? '<span class="fl-badge">' + flEsc(badge) + '</span>' : '') + '</div>';
         return p;
     }
+    function flMakeCollapsible(panel, storageKey, startCollapsed) {
+        if (!panel || panel.dataset.flCollapseReady) return;
+        var title = panel.querySelector('.fl-title');
+        if (!title) return;
+        panel.dataset.flCollapseReady = '1';
+        panel.classList.add('fl-collapsible');
+
+        var body = document.createElement('div');
+        body.className = 'fl-panel-body';
+        Array.prototype.slice.call(panel.children).forEach(function(child) {
+            if (child !== title) body.appendChild(child);
+        });
+        panel.appendChild(body);
+
+        var toggle = document.createElement('button');
+        toggle.type = 'button';
+        toggle.className = 'fl-collapse-toggle';
+        toggle.setAttribute('aria-label', 'Expandir painel');
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.innerHTML = '<i class="fa-solid fa-chevron-down" aria-hidden="true"></i>';
+        title.appendChild(toggle);
+
+        var saved = null;
+        try { saved = localStorage.getItem(storageKey); } catch (e) {}
+        var collapsed = saved === null ? !!startCollapsed : saved === '1';
+        function setCollapsed(value) {
+            collapsed = !!value;
+            panel.classList.toggle('is-collapsed', collapsed);
+            toggle.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+            toggle.setAttribute('aria-label', collapsed ? 'Expandir painel' : 'Recolher painel');
+            toggle.title = collapsed ? 'Expandir painel' : 'Recolher painel';
+            try { localStorage.setItem(storageKey, collapsed ? '1' : '0'); } catch (e) {}
+        }
+        toggle.addEventListener('click', function(event) {
+            event.stopPropagation();
+            setCollapsed(!collapsed);
+        });
+        setCollapsed(collapsed);
+    }
     function flBtn(html, cls, onClick) {
         var b = document.createElement('button');
         b.type = 'button';
@@ -6789,6 +6879,7 @@ if (document.readyState === 'loading') {
             '<div class="fl-queue-list" id="flQueueList"></div>' +
             '<div class="fl-hint">Clique em um termo para abrir a pesquisa no Google integrado.</div>');
 
+        flMakeCollapsible(panel, 'fl_google_queue_collapsed', true);
         flInsertBefore(tab, panel, '.iframe-container');
 
         var input = panel.querySelector('#flQueueInput');
@@ -9124,6 +9215,44 @@ if (document.readyState === 'loading') {
     return button;
   }
 
+  function makePanelCollapsible(panel, storageKey, startCollapsed = true) {
+    const title = panel.querySelector(".fl-title");
+    if (!title || panel.dataset.flCollapseReady) return;
+    panel.dataset.flCollapseReady = "1";
+    panel.classList.add("fl-collapsible");
+    const body = document.createElement("div");
+    body.className = "fl-panel-body";
+    [...panel.children].forEach((child) => {
+      if (child !== title) body.appendChild(child);
+    });
+    panel.appendChild(body);
+
+    const toggle = document.createElement("button");
+    toggle.type = "button";
+    toggle.className = "fl-collapse-toggle";
+    toggle.setAttribute("aria-label", "Expandir painel");
+    toggle.setAttribute("aria-expanded", "false");
+    toggle.innerHTML = '<i class="fa-solid fa-chevron-down" aria-hidden="true"></i>';
+    title.appendChild(toggle);
+
+    let saved = null;
+    try { saved = localStorage.getItem(storageKey); } catch {}
+    let collapsed = saved === null ? startCollapsed : saved === "1";
+    const setCollapsed = (value) => {
+      collapsed = Boolean(value);
+      panel.classList.toggle("is-collapsed", collapsed);
+      toggle.setAttribute("aria-expanded", collapsed ? "false" : "true");
+      toggle.setAttribute("aria-label", collapsed ? "Expandir painel" : "Recolher painel");
+      toggle.title = collapsed ? "Expandir painel" : "Recolher painel";
+      try { localStorage.setItem(storageKey, collapsed ? "1" : "0"); } catch {}
+    };
+    toggle.addEventListener("click", (event) => {
+      event.stopPropagation();
+      setCollapsed(!collapsed);
+    });
+    setCollapsed(collapsed);
+  }
+
   function createRow(tab, tabId) {
     const row = document.createElement("div");
     row.className = "gh-feature-row";
@@ -9264,6 +9393,12 @@ if (document.readyState === 'loading') {
       search(input.value);
     });
     row.append(form, recent);
+    const searchPanel = document.createElement("section");
+    searchPanel.className = "fl-panel gh-google-search-panel";
+    searchPanel.innerHTML = '<div class="fl-title"><i class="fa-solid fa-flask"></i>Pesquisa rápida <span class="fl-badge">Google</span></div>';
+    row.replaceWith(searchPanel);
+    searchPanel.appendChild(row);
+    makePanelCollapsible(searchPanel, "fl_google_search_collapsed", true);
     renderRecent();
   }
 
@@ -9793,23 +9928,25 @@ if (document.readyState === 'loading') {
 
   function addDevlogRelease() {
     const timeline = document.getElementById("devlogTimeline");
-    if (!timeline || timeline.querySelector('[data-version="v18.2.0"]')) return;
+    if (!timeline || timeline.querySelector('[data-version="v18.3.0"]')) return;
     const item = document.createElement("div");
     item.className = "timeline-item";
-    item.dataset.version = "v18.2.0";
+    item.dataset.version = "v18.3.0";
     const features = entries.map((entry) => `<li><strong>${tabNames[entry.tab]}:</strong> ${entry.note}</li>`).join("");
     item.innerHTML = `
       <div class="version-header">
-        <span class="version-tag" style="background:rgba(52,211,153,.18);color:#34d399;border:1px solid rgba(52,211,153,.4);">v18.2.0</span>
-        <h3>Portal em destaque e novos recursos nas abas</h3>
-        <span class="version-date">30 Set 2026 — Atualização Atual</span>
+        <span class="version-tag" style="background:rgba(52,211,153,.18);color:#34d399;border:1px solid rgba(52,211,153,.4);">v18.3.0</span>
+        <h3>Mais espaço para os portais, painéis recolhíveis e botões animados</h3>
+        <span class="version-date">05 Out 2026 — Atualização Atual</span>
       </div>
       <ul>
-        <li><strong>Portal Geekie ampliado:</strong> o iframe usa quase toda a altura disponível, mantendo os controles compactos.</li>
+        <li><strong>Geekie e Google:</strong> iframes priorizados; Cockpit, pesquisa rápida, registro de sessão e fila de pesquisas podem ser recolhidos individualmente.</li>
+        <li><strong>Botões Geekie:</strong> efeitos de hover variados são distribuídos aleatoriamente, com suporte a movimento reduzido.</li>
+        <li><strong>Sons nos iframes:</strong> captura de teclas é habilitada quando a origem do iframe permite; a política de mesma origem do navegador bloqueia eventos de teclas nos portais externos.</li>
         ${features}
       </ul>`;
     timeline.prepend(item);
-    document.title = document.title.replace("v18.1.0", "v18.2.0");
+    document.title = document.title.replace(/v18\.\d+\.\d+/, "v18.3.0");
   }
 
   function installEntry(entry) {
@@ -9840,6 +9977,44 @@ if (document.readyState === 'loading') {
     document.head.appendChild(style);
   }
 
+  function installGeekieButtonAnimations() {
+    const root = document.getElementById("tab-geekie");
+    if (!root || root.dataset.ghButtonAnimations) return;
+    root.dataset.ghButtonAnimations = "1";
+    const effects = [
+      "zoom", "underline", "reveal", "background", "magnetic", "blob",
+      "shadow-soft", "shadow-glow", "background-slide", "background-glow",
+    ];
+    function decorate(button) {
+      if (!(button instanceof HTMLButtonElement) || button.dataset.geekieAnimated) return;
+      button.dataset.geekieAnimated = "1";
+      button.classList.add("gh-geekie-animated");
+      button.dataset.geekieAnim = effects[Math.floor(Math.random() * effects.length)];
+      if (button.dataset.geekieAnim === "magnetic") {
+        button.addEventListener("pointermove", function(event) {
+          const rect = button.getBoundingClientRect();
+          const x = (event.clientX - rect.left) / rect.width - 0.5;
+          const y = (event.clientY - rect.top) / rect.height - 0.5;
+          button.style.setProperty("--mag-x", (x * 7).toFixed(1) + "px");
+          button.style.setProperty("--mag-y", (y * 7).toFixed(1) + "px");
+        });
+        button.addEventListener("pointerleave", function() {
+          button.style.setProperty("--mag-x", "0px");
+          button.style.setProperty("--mag-y", "0px");
+        });
+      }
+    }
+    root.querySelectorAll("button").forEach(decorate);
+    const observer = new MutationObserver((records) => {
+      records.forEach((record) => record.addedNodes.forEach((node) => {
+        if (node.nodeType !== 1) return;
+        if (node.matches && node.matches("button")) decorate(node);
+        node.querySelectorAll?.("button").forEach(decorate);
+      }));
+    });
+    observer.observe(root, { childList: true, subtree: true });
+  }
+
   function boot() {
     installStyles();
     const live = document.createElement("div");
@@ -9849,6 +10024,7 @@ if (document.readyState === 'loading') {
     live.setAttribute("aria-live", "polite");
     document.body.appendChild(live);
     entries.forEach(installEntry);
+    installGeekieButtonAnimations();
     addDevlogRelease();
     const read = localStorage.getItem(featureStorage.devlogRead) === "1";
     const devlogButton = document.querySelector("#tab-devlog .gh-feature-btn");
