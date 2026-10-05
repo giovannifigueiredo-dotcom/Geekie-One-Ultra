@@ -3898,3 +3898,224 @@ body.split-on #splitPanel.is-collapsed .split-resizer { display: none; }
     #tab-geekie .tab-context-bar { flex-wrap: wrap; }
     #tab-geekie .fl-cockpit-summary { max-width: 55%; }
 }
+
+/* ===================== v18.3.0 — IFRAME SPACE + COLLAPSIBLE CONTROLS ===================== */
+#tab-geekie,
+#tab-google {
+    gap: 6px;
+    padding: 8px !important;
+}
+
+#tab-geekie .iframe-container,
+#tab-google .iframe-container {
+    flex: 1 1 0;
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+    height: auto;
+}
+
+#tab-google #googleIframe,
+#tab-geekie #geekieIframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+}
+
+#tab-google .fl-panel,
+#tab-google .tab-context-bar,
+#tab-geekie .tab-context-bar {
+    flex: 0 0 auto;
+    margin-bottom: 0;
+}
+
+#tab-google .fl-panel.fl-collapsible,
+#tab-geekie .fl-panel.fl-collapsible {
+    padding: 8px 12px;
+}
+
+#tab-google .fl-panel.fl-collapsible.is-collapsed .fl-title,
+#tab-geekie .fl-panel.fl-collapsible.is-collapsed .fl-title {
+    margin-bottom: 0;
+}
+
+.fl-panel.fl-collapsible .fl-title {
+    cursor: default;
+    padding-right: 0;
+}
+
+.fl-panel.fl-collapsible .fl-collapse-toggle {
+    position: relative;
+    inset: auto;
+    transform: none;
+    margin-left: auto;
+    flex: 0 0 26px;
+    width: 26px;
+    height: 26px;
+    padding: 0;
+    cursor: pointer;
+}
+
+.fl-panel.fl-collapsible.is-collapsed .fl-collapse-toggle {
+    transform: rotate(-90deg);
+}
+
+.tab-context-bar.is-collapsed {
+    flex-wrap: nowrap;
+    min-height: 0;
+    padding: 5px 9px !important;
+}
+
+.tab-context-bar.is-collapsed > :not(.context-title):not(.context-collapse-toggle) {
+    display: none !important;
+}
+
+.tab-context-bar .context-collapse-toggle {
+    display: inline-grid;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    flex: 0 0 26px;
+    margin-left: auto;
+    padding: 0 !important;
+}
+
+.tab-context-bar .context-collapse-toggle i {
+    transition: transform 0.2s ease;
+}
+
+.tab-context-bar.is-collapsed .context-collapse-toggle i {
+    transform: rotate(-90deg);
+}
+
+#tab-google .gh-google-search-panel .gh-feature-row {
+    margin: 0;
+}
+
+/* Geekie buttons: randomly assigned in script.js, including the different
+   shadow and background hover variants. */
+#tab-geekie .gh-geekie-animated {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    transition: transform 220ms cubic-bezier(.2,.8,.2,1),
+        box-shadow 220ms ease, background-color 220ms ease,
+        border-color 220ms ease, color 220ms ease, border-radius 380ms ease;
+}
+
+#tab-geekie .gh-geekie-animated > * {
+    position: relative;
+    z-index: 1;
+}
+
+#tab-geekie .gh-geekie-animated::before,
+#tab-geekie .gh-geekie-animated::after {
+    content: "";
+    position: absolute;
+    pointer-events: none;
+    z-index: 0;
+}
+
+#tab-geekie .gh-geekie-animated[data-geekie-anim="zoom"]:hover {
+    transform: scale(1.055);
+}
+
+#tab-geekie .gh-geekie-animated[data-geekie-anim="underline"]::after {
+    height: 2px;
+    left: 12%;
+    right: 12%;
+    bottom: 4px;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 240ms ease;
+}
+
+#tab-geekie .gh-geekie-animated[data-geekie-anim="underline"]:hover::after {
+    transform: scaleX(1);
+}
+
+#tab-geekie .gh-geekie-animated[data-geekie-anim="reveal"]::before {
+    inset: 0;
+    background: linear-gradient(110deg, rgba(0,255,136,.22), rgba(0,212,255,.23));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 300ms cubic-bezier(.2,.8,.2,1);
+}
+
+#tab-geekie .gh-geekie-animated[data-geekie-anim="reveal"]:hover::before {
+    transform: scaleX(1);
+}
+
+#tab-geekie .gh-geekie-animated[data-geekie-anim="background"] {
+    background: rgba(255,255,255,.045);
+    background-image: linear-gradient(120deg, rgba(0,255,136,.18), rgba(0,212,255,.18));
+    background-size: 0% 100%;
+    background-repeat: no-repeat;
+    transition: background-size 320ms ease, transform 220ms ease, border-color 220ms ease;
+}
+
+#tab-geekie .gh-geekie-animated[data-geekie-anim="background"]:hover {
+    background-size: 100% 100%;
+}
+
+#tab-geekie .gh-geekie-animated[data-geekie-anim="magnetic"] {
+    translate: var(--mag-x, 0px) var(--mag-y, 0px);
+    box-shadow: 0 0 0 1px rgba(0,212,255,.16), 0 0 24px rgba(0,212,255,.08);
+}
+
+#tab-geekie .gh-geekie-animated[data-geekie-anim="magnetic"]:hover {
+    box-shadow: 0 0 0 1px rgba(0,212,255,.55), 0 0 24px rgba(0,212,255,.24);
+}
+
+#tab-geekie .gh-geekie-animated[data-geekie-anim="blob"]:hover {
+    border-radius: 42% 58% 54% 46% / 48% 42% 58% 52%;
+}
+
+#tab-geekie .gh-geekie-animated[data-geekie-anim="shadow-soft"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(0,0,0,.32);
+}
+
+#tab-geekie .gh-geekie-animated[data-geekie-anim="shadow-glow"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 0 1px rgba(0,255,136,.45), 0 0 22px rgba(0,255,136,.24);
+}
+
+#tab-geekie .gh-geekie-animated[data-geekie-anim="background-slide"]::before {
+    inset: 0;
+    background: linear-gradient(105deg, transparent 20%, rgba(0,212,255,.2) 50%, transparent 80%);
+    transform: translateX(-110%);
+    transition: transform 420ms ease;
+}
+
+#tab-geekie .gh-geekie-animated[data-geekie-anim="background-slide"]:hover::before {
+    transform: translateX(110%);
+}
+
+#tab-geekie .gh-geekie-animated[data-geekie-anim="background-glow"]:hover {
+    color: #f3fffb;
+    background-color: rgba(0,212,255,.17);
+    border-color: rgba(0,212,255,.65);
+}
+
+@media (max-width: 720px) {
+    #tab-geekie,
+    #tab-google { padding: 5px !important; gap: 4px; }
+    #tab-google .fl-panel.fl-collapsible,
+    #tab-geekie .fl-panel.fl-collapsible { padding: 7px 9px; }
+    .tab-context-bar.is-collapsed .context-title { font-size: .72rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #tab-geekie .gh-geekie-animated,
+    #tab-geekie .gh-geekie-animated::before,
+    #tab-geekie .gh-geekie-animated::after {
+        transition: none !important;
+    }
+    #tab-geekie .gh-geekie-animated:hover {
+        transform: none !important;
+        translate: none !important;
+    }
+}
