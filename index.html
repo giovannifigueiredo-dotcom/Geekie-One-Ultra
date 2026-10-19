@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Geekie Study Hub v18.3.0 - Study Hub</title>
+    <title>Geekie Study Hub v19.0.0 - Study Hub</title>
     <link rel="icon" id="pageIcon" href="https://i.postimg.cc/gcHHYqtC/fire-geekie.png">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&family=Orbitron:wght@400;700&family=Ubuntu:wght@400;500;700&family=Space+Grotesk:wght@400;600;700&family=Rajdhani:wght@400;600;700&family=JetBrains+Mono:wght@400;600&family=Caveat:wght@400;600;700&family=Patrick+Hand&family=Indie+Flower&family=Shadows+Into+Light&family=Kalam:wght@400;700&family=Architects+Daughter&family=Source+Code+Pro:wght@400;600&family=Comfortaa:wght@400;600;700&family=Quicksand:wght@400;600;700&family=Dancing+Script:wght@400;600;700&family=Nunito:wght@400;600;700&family=Josefin+Sans:wght@400;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -655,12 +655,51 @@
             <div id="devlogNoResults" style="display:none; text-align:center; color:var(--text-muted); padding:30px 0;"><i class="fa-solid fa-circle-xmark" style="font-size:2rem; margin-bottom:8px; display:block;"></i>Nenhum resultado encontrado.</div>
             <div class="timeline" id="devlogTimeline">
 
+                <!-- v19.0.0 -->
+                <div class="timeline-item" data-version="v19.0.0">
+                    <div class="version-header">
+                        <span class="version-tag" style="background:linear-gradient(135deg,rgba(0,255,136,0.25),rgba(0,212,255,0.22)); color:#00ff88; border:1px solid rgba(0,255,136,0.5); box-shadow:0 0 18px rgba(0,255,136,0.3);">v19.0.0</span>
+                        <h3>Feature Pack Total — 1 Feature Nova em Cada Aba + Overhaul de Animações nos Botões</h3>
+                        <span class="version-date">19 Out 2026 — Atualização Atual</span>
+                    </div>
+                    <ul>
+                        <li><strong>✨ Animações de botões (todas as abas):</strong> efeito <em>ripple</em> (onda) em cada clique de qualquer botão do hub, <em>shine sweep</em> (varredura de brilho) no hover dos botões principais, <em>spring press</em> (afunda e volta com elástico) em todos os cliques, ícones da topbar que giram ao passar o mouse, modos do Pomodoro pulsantes, botões do menu FAB que deslizam, cartões ambiente que levantam e anel de foco acessível (<code>:focus-visible</code>) — tudo desativado automaticamente para quem prefere movimento reduzido.</li>
+                        <li><strong>🧠 Portal Geekie:</strong> Filtro de Luz com 4 níveis (100%, 85%, 70% e 🌙 Noturno sepia) aplicados ao portal em tempo real, com preferência salva no navegador.</li>
+                        <li><strong>🤖 Tutor IA:</strong> botão “Ouvir resposta” lê a última resposta da IA em voz alta (síntese de voz pt-BR do navegador) com toggle para parar.</li>
+                        <li><strong>🔎 Google:</strong> Pesquisa por Voz — fale a consulta e o resultado abre direto no Google integrado (com aviso elegante quando o navegador não suporta).</li>
+                        <li><strong>📝 Bloco de Notas:</strong> “Nota → Metas” converte as linhas da anotação atual em até 8 metas de estudo prontas na aba Metas.</li>
+                        <li><strong>🎨 Loja de Temas:</strong> Sorteio Surpresa que equipa automaticamente um tema que você já possui (nunca repete o atual).</li>
+                        <li><strong>👑 Títulos:</strong> Cartão de Progresso copiável com um clique (título, XP, moedas e próximo objetivo) para compartilhar.</li>
+                        <li><strong>🐾 Pets:</strong> Apelido do Pet — dê um apelido carinhoso ao pet ativo (aparece no painel e na topbar) com corações flutuantes animados.</li>
+                        <li><strong>⏱️ Pomodoro:</strong> Modo Cinema — timer gigante em tela cheia com brilho neon, controles próprios e saída por <kbd>Esc</kbd>; verde no foco, âmbar na pausa.</li>
+                        <li><strong>🎯 Metas:</strong> Roda da Sorte sorteia uma meta pendente e a destaca com brilho pulsante na lista (+1 XP por giro).</li>
+                        <li><strong>🃏 Flashcards:</strong> Modo Digitação — digite a resposta e o hub confere (ignora acentos/caixa), com placar de acertos e erros da sessão.</li>
+                        <li><strong>🎧 Sons Ambiente:</strong> Gerador de Batida Binaural ao vivo via WebAudio, com slider de onda (2–30 Hz: theta/alpha/beta) e volume próprio.</li>
+                        <li><strong>🧮 Calculadora:</strong> Memória clássica M+ / M− / MR / MC com indicador persistente, integrada ao visor atual.</li>
+                        <li><strong>⌨️ Caracteres:</strong> Símbolo Aleatório sorteia de todo o catálogo, copia e ainda registra no histórico recente.</li>
+                        <li><strong>✒️ Título da Página:</strong> Favicon do Timer — o ícone da aba do navegador passa a mostrar os minutos restantes do Pomodoro (verde no foco, âmbar na pausa).</li>
+                        <li><strong>🗓️ Eventos:</strong> Desafio do Dia — micro-desafio determinístico por data com botão de reroll e painel próprio.</li>
+                        <li><strong>🎁 Códigos:</strong> Modo copiar-código — clique em qualquer card da grade e o código vai para a área de transferência.</li>
+                        <li><strong>🗺️ Trilha de Progresso:</strong> Resumo da Trilha com nós resgatados, percentual completo e alerta de recompensa pronta para resgatar.</li>
+                        <li><strong>💻 Dev Log:</strong> Exportar changelog completo em <code>.md</code> (versões, datas e itens) para arquivar ou compartilhar.</li>
+                        <li><strong>📅 Planner:</strong> Copiar Semana → clona todas as tarefas da semana exibida para a semana seguinte, perfeito para rotinas.</li>
+                        <li><strong>📊 Estatísticas:</strong> Exportar CSV do tempo de foco diário, pronto para abrir no Excel/Sheets com linha de total.</li>
+                        <li><strong>📚 Matérias:</strong> Meta de Tempo Semanal por matéria — defina horas-alvo e veja a barra de progresso no card de cada disciplina.</li>
+                        <li><strong>🧪 Quiz:</strong> Revisão de Erros — guarda as questões erradas da última partida com a resposta correta destacada para revisar.</li>
+                        <li><strong>🎹 Sons de Teclado:</strong> Pads Musicais de Pausa — 8 notas suaves (dó a dó) tocadas ao vivo para pausas criativas.</li>
+                        <li><strong>⚡ Clicker:</strong> Aposta Relâmpago 50/50 — arrisque pontos para dobrar ou perder, com botão “Tudo!” e integração total ao save do jogo.</li>
+                        <li><strong>📔 Diário:</strong> Prompt do Dia — 16 prompts de reflexão guiada com inserção direta no editor e botão de trocar.</li>
+                        <li><strong>🔐 Senhas:</strong> Analisador de Segurança — entropia em bits, tempo estimado de quebra, veredito visual e alerta de riscos; nada é salvo.</li>
+                        <li><strong>🧱 Compatibilidade:</strong> todas as features vivem num módulo isolado (<code>gk19</code>) com persistência própria, sem mexer nos saves existentes; o release v18.3.0 continua sendo inserido automaticamente logo abaixo desta entrada.</li>
+                    </ul>
+                </div>
+
                 <!-- v18.1.0 -->
                 <div class="timeline-item" data-version="v18.1.0">
                     <div class="version-header">
                         <span class="version-tag" style="background:linear-gradient(135deg,rgba(52,211,153,0.26),rgba(103,232,249,0.22)); color:#34d399; border:1px solid rgba(52,211,153,0.5); box-shadow:0 0 18px rgba(52,211,153,0.28);">v18.1.0</span>
                         <h3>Modo Multi-Tarefa — Portal em Tela Grande + Segunda Aba ao Lado</h3>
-                        <span class="version-date" data-current="1">18 Set 2026 — Atualização Atual</span>
+                        <span class="version-date">18 Set 2026</span>
                     </div>
                     <ul>
                         <li><strong>🪟 Split View (Multi-Tarefa):</strong> novo botão na topbar (ícone de colunas, atalho <code>Alt+M</code>) divide a tela: o Portal Geekie fica grande à esquerda e qualquer outra aba roda ao mesmo tempo num painel lateral à direita — estudar no portal e usar o Pomodoro, Notas ou Tutor IA sem trocar de aba.</li>
@@ -1694,7 +1733,7 @@
         <div class="fab-menu-header">
             <i class="fa-solid fa-graduation-cap" style="color:var(--primary);font-size:0.95rem;"></i>
             <span class="fab-brand">Geekie Ultra</span>
-            <span class="fab-version">v18.1.0</span>
+            <span class="fab-version">v19.0.0</span>
         </div>
 
         <div class="fab-section-label">Principal</div>
