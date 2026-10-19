@@ -1,17 +1,20 @@
 /* ============================================================
- * Geekie Study Hub — script.js (v18.3.0)
+ * Geekie Study Hub — script.js (v19.0.0)
  * Todo o comportamento do hub, extraído do HTML original
  * e ampliado com o Feature Lab v18 (26 ferramentas).
  * v18.0.1: Cockpit do portal recolhível — iframe em tela grande.
  * v18.1.0: Modo Multi-Tarefa — split view com painel recolhível.
  * v18.3.0: iframes ampliados, painéis recolhíveis e animações nos botões.
+ * v19.0.0: Feature Pack (1 feature nova por aba, 26 no total) +
+ *          overhaul de animações de botões (ripple/shine/spring press)
+ *          e novas entradas no Dev Log.
  * ============================================================ */
 
 
 // ===================== DATA DECLARATIONS =====================
 let todos = JSON.parse(localStorage.getItem('geekieTodos')) || [];
 let todoFilter = 'all';
-let savedTitle = localStorage.getItem('geekieTitleName') || 'Geekie One Ultra v15.7.0';
+let savedTitle = localStorage.getItem('geekieTitleName') || 'Geekie One Ultra v19.0.0';
 let selectedFont = localStorage.getItem('geekieTitleFont') || 'Poppins';
 let selectedIcon = localStorage.getItem('geekieTitleIcon') || 'fa-graduation-cap';
 const availableFonts = [
@@ -9945,8 +9948,13 @@ if (document.readyState === 'loading') {
         <li><strong>Sons nos iframes:</strong> captura de teclas é habilitada quando a origem do iframe permite; a política de mesma origem do navegador bloqueia eventos de teclas nos portais externos.</li>
         ${features}
       </ul>`;
-    timeline.prepend(item);
-    document.title = document.title.replace(/v18\.\d+\.\d+/, "v18.3.0");
+    // v19.0.0: insere o release v18.3.0 APÓS a entrada estática v19.0.0 do Dev Log
+    const v19Anchor = timeline.querySelector('[data-version="v19.0.0"]');
+    if (v19Anchor && v19Anchor.nextSibling) timeline.insertBefore(item, v19Anchor.nextSibling);
+    else timeline.prepend(item);
+    if (!/v19\.0\.0/.test(document.title)) {
+      document.title = document.title.replace(/v18\.\d+\.\d+/, "v18.3.0");
+    }
   }
 
   function installEntry(entry) {
@@ -10039,4 +10047,1132 @@ if (document.readyState === 'loading') {
   } else {
     boot();
   }
+})();
+
+
+// ============================================================================
+// v19.0.0 — FEATURE PACK + BUTTON ANIMATION OVERHAUL (uma feature nova por aba)
+// - Ripple + shine + spring press em TODOS os botões do hub (delegado, leve)
+// - 26 features novas (uma por aba), todas self-contained com persistência local
+// - Sem dependências externas; respeita prefers-reduced-motion
+// ============================================================================
+(function () {
+    'use strict';
+    if (window.__gk19Pack) return;
+    window.__gk19Pack = true;
+
+    var G19 = 'gk19_';
+    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function lsGet(key, fallback) {
+        try { var v = localStorage.getItem(G19 + key); return v === null ? fallback : JSON.parse(v); }
+        catch (e) { return fallback; }
+    }
+    function lsSet(key, value) { try { localStorage.setItem(G19 + key, JSON.stringify(value)); } catch (e) {} }
+    function el(id) { return document.getElementById(id); }
+    function toast(msg, err) { if (typeof window.showToast === 'function') window.showToast(msg, !!err); }
+    function fmtTime(sec) {
+        var m = Math.floor(sec / 60), s = Math.floor(sec % 60);
+        return (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
+    }
+    function stripAccents(str) {
+        return String(str || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, ' ').trim();
+    }
+    function copy19(text, okMsg) {
+        function fallback() {
+            var ta = document.createElement('textarea');
+            ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+            document.body.appendChild(ta); ta.select();
+            try { document.execCommand('copy'); toast(okMsg || 'Copiado!'); }
+            catch (e) { toast('Não foi possível copiar.', true); }
+            ta.remove();
+        }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function () { toast(okMsg || 'Copiado!'); }).catch(fallback);
+        } else fallback();
+    }
+    function download19(filename, content, type) {
+        var blob = new Blob([content], { type: type || 'text/plain;charset=utf-8' });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url; a.download = filename; a.style.display = 'none';
+        document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(function () { URL.revokeObjectURL(url); }, 1200);
+    }
+
+    // ---------- Infra de linhas/painéis por aba ----------
+    var TAB_NAMES19 = {
+        'tab-geekie': 'Portal Geekie', 'tab-chat': 'Tutor IA', 'tab-google': 'Google',
+        'tab-notes': 'Bloco de Notas', 'tab-store': 'Loja de Temas', 'tab-titles': 'Títulos',
+        'tab-pets': 'Pets', 'tab-timer': 'Pomodoro', 'tab-goals': 'Metas',
+        'tab-flashcards': 'Flashcards', 'tab-ambient': 'Sons Ambiente',
+        'tab-calculator': 'Calculadora', 'tab-chars': 'Caracteres', 'tab-title': 'Título da Página',
+        'tab-events': 'Eventos', 'tab-codes': 'Códigos', 'tab-journey': 'Trilha',
+        'tab-devlog': 'Dev Log', 'tab-planner': 'Planner', 'tab-stats': 'Estatísticas',
+        'tab-subjects': 'Matérias', 'tab-quiz': 'Quiz', 'tab-keysounds': 'Sons de Teclado',
+        'tab-clicker': 'Clicker', 'tab-diary': 'Diário', 'tab-password': 'Senhas'
+    };
+
+    function mkRow(tab, tabId) {
+        if (tab.querySelector('.gk19-row')) return tab.querySelector('.gk19-row');
+        var row = document.createElement('div');
+        row.className = 'gk19-row';
+        row.setAttribute('role', 'group');
+        row.setAttribute('aria-label', 'Feature Pack v19 — ' + (TAB_NAMES19[tabId] || tabId));
+        var badge = document.createElement('span');
+        badge.className = 'gk19-badge';
+        badge.textContent = 'v19 NOVO';
+        row.appendChild(badge);
+        var heading = tab.querySelector('h1, h2, h3');
+        if (tabId === 'tab-geekie') {
+            var container = el('geekieIframeContainer');
+            if (container) tab.insertBefore(row, container); else tab.prepend(row);
+        } else if (heading) heading.insertAdjacentElement('afterend', row);
+        else tab.prepend(row);
+        return row;
+    }
+    function mkBtn(label, icon, handler, cls) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'gk19-btn' + (cls ? ' ' + cls : '');
+        b.innerHTML = '<i class="fa-solid ' + icon + '" aria-hidden="true"></i><span>' + label + '</span>';
+        b.addEventListener('click', handler);
+        return b;
+    }
+    function mkPanel(tab, panelId, titleText) {
+        var card = tab.querySelector('.glass-card') || tab;
+        var panel = el(panelId);
+        if (!panel) {
+            panel = document.createElement('div');
+            panel.className = 'gk19-panel';
+            panel.id = panelId;
+            panel.innerHTML = '<button type="button" class="gk19-panel-close" aria-label="Fechar"><i class="fa-solid fa-xmark"></i></button>' +
+                '<h4><i class="fa-solid fa-wand-magic-sparkles"></i> ' + titleText + '</h4>' +
+                '<div class="gk19-panel-body"></div>';
+            card.appendChild(panel);
+            panel.querySelector('.gk19-panel-close').addEventListener('click', function () { panel.classList.remove('open'); });
+        }
+        return panel;
+    }
+    function togglePanel(panel) { if (panel) panel.classList.toggle('open'); }
+
+    // ============================================================
+    // EFEITOS GLOBAIS DE BOTÃO — ripple delegado em todo o hub
+    // ============================================================
+    var RIPPLE_SELECTOR = [
+        '.btn', '.btn-icon', '.calc-btn', '.gh-feature-btn', '.gk19-btn', '.gk19-mem-btn',
+        '.gk19-light-btn', '.char-action-btn', '.char-filter-btn', '.note-size-btn',
+        '.note-font-btn', '.btn-shuffle', '.pomo-mode', '.fab-btn', '.fab-nav-item',
+        '.diary-mood-btn', '.btn-enhanced', '.login-btn', '.pwd-copy-btn', '.pwd-generate-btn',
+        '.btn-rating-easy', '.btn-rating-hard', '.char-btn-enhanced', '.ambient-card',
+        '.planner-add-btn', '.subj-btn', '.quiz-opt', '.btn-rating-hard'
+    ].join(', ');
+
+    document.addEventListener('pointerdown', function (ev) {
+        if (reduceMotion) return;
+        var target = ev.target && ev.target.closest ? ev.target.closest(RIPPLE_SELECTOR) : null;
+        if (!target || target.disabled || target.getAttribute('aria-disabled') === 'true') return;
+        if (target.classList.contains('clicker-button')) return; // clicker tem partículas próprias
+        var rect = target.getBoundingClientRect();
+        if (!rect.width || !rect.height) return;
+        var size = Math.max(rect.width, rect.height) * 1.15;
+        var span = document.createElement('span');
+        span.className = 'gk-ripple';
+        span.style.width = span.style.height = size + 'px';
+        span.style.left = (ev.clientX - rect.left - size / 2) + 'px';
+        span.style.top = (ev.clientY - rect.top - size / 2) + 'px';
+        target.appendChild(span);
+        span.addEventListener('animationend', function () { span.remove(); });
+        setTimeout(function () { if (span.parentNode) span.remove(); }, 900);
+    }, { passive: true });
+
+    // ============================================================
+    // FEATURES POR ABA
+    // ============================================================
+    var features19 = [];
+
+    // 1) PORTAL GEEKIE — Filtro de Luz do Portal (conforto visual)
+    features19.push({
+        tab: 'tab-geekie',
+        note: 'Filtro de Luz: escolha o conforto visual do portal sem sair da aba.',
+        build: function (tab, row) {
+            var modes = [
+                { id: 'off', label: '100%', css: 'none' },
+                { id: 'soft', label: '85%', css: 'brightness(0.88)' },
+                { id: 'medium', label: '70%', css: 'brightness(0.72) contrast(1.05)' },
+                { id: 'night', label: '🌙 Noturno', css: 'brightness(0.82) sepia(0.45) hue-rotate(-12deg) saturate(0.9)' }
+            ];
+            var saved = lsGet('portalFilter', 'off');
+            function apply(modeId) {
+                var mode = modes.find(function (m) { return m.id === modeId; }) || modes[0];
+                var iframe = document.querySelector('#geekieIframeContainer iframe');
+                if (iframe) iframe.style.filter = mode.css;
+                lsSet('portalFilter', mode.id);
+                row.querySelectorAll('.gk19-light-btn').forEach(function (b) {
+                    b.classList.toggle('active', b.dataset.mode === mode.id);
+                });
+            }
+            modes.forEach(function (m) {
+                var b = document.createElement('button');
+                b.type = 'button';
+                b.className = 'gk19-light-btn';
+                b.dataset.mode = m.id;
+                b.textContent = m.label;
+                b.addEventListener('click', function () { apply(m.id); });
+                row.appendChild(b);
+            });
+            row.appendChild(Object.assign(document.createElement('span'), { className: 'gk19-note', textContent: 'Dica: o modo 🌙 Noturno deixa o portal amarelado para estudar de madrugada.' }));
+            apply(saved);
+        }
+    });
+
+    // 2) TUTOR IA — Ouvir a última resposta (TTS)
+    features19.push({
+        tab: 'tab-chat',
+        note: 'Leitura em voz alta da última resposta da IA (síntese de voz do navegador).',
+        build: function (tab, row) {
+            var btn = mkBtn('Ouvir resposta', 'fa-volume-high', function () {
+                if (!('speechSynthesis' in window)) { toast('Seu navegador não suporta síntese de voz.', true); return; }
+                if (window.speechSynthesis.speaking) {
+                    window.speechSynthesis.cancel();
+                    setOff();
+                    return;
+                }
+                var history = (typeof getChatHistory === 'function') ? getChatHistory() : [];
+                var last = null;
+                for (var i = history.length - 1; i >= 0; i--) { if (history[i].role === 'assistant') { last = history[i].content; break; } }
+                if (!last) { toast('Nenhuma resposta da IA para ler ainda.', true); return; }
+                var clean = last.replace(/[*_`#>]/g, '').slice(0, 1200);
+                var utter = new SpeechSynthesisUtterance(clean);
+                utter.lang = 'pt-BR';
+                utter.rate = 1;
+                utter.onend = setOff;
+                utter.onerror = setOff;
+                window.speechSynthesis.speak(utter);
+                btn.classList.add('on');
+                btn.querySelector('span').textContent = 'Parar leitura';
+            });
+            function setOff() {
+                btn.classList.remove('on');
+                btn.querySelector('span').textContent = 'Ouvir resposta';
+            }
+            row.appendChild(btn);
+        }
+    });
+
+    // 3) GOOGLE — Pesquisa por voz
+    features19.push({
+        tab: 'tab-google',
+        note: 'Fale o que quer pesquisar e o Google integrado abre o resultado.',
+        build: function (tab, row) {
+            var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SR) {
+                var uns = document.createElement('span');
+                uns.className = 'gk19-note';
+                uns.textContent = 'Pesquisa por voz não suportada neste navegador (use Chrome/Edge).';
+                row.appendChild(uns);
+                return;
+            }
+            var btn = mkBtn('Pesquisar por voz', 'fa-microphone', function () {
+                try {
+                    var rec = new SR();
+                    rec.lang = 'pt-BR';
+                    rec.interimResults = false;
+                    rec.maxAlternatives = 1;
+                    btn.classList.add('on');
+                    btn.querySelector('span').textContent = 'Ouvindo… fale!';
+                    rec.onresult = function (e) {
+                        var q = e.results[0][0].transcript;
+                        var frame = el('googleIframe');
+                        if (frame) frame.src = 'https://www.google.com/search?igu=1&q=' + encodeURIComponent(q);
+                        toast('🔎 "' + q + '"');
+                    };
+                    rec.onerror = function () { toast('Não entendi. Tente de novo.', true); };
+                    rec.onend = function () { btn.classList.remove('on'); btn.querySelector('span').textContent = 'Pesquisar por voz'; };
+                    rec.start();
+                } catch (e) {
+                    btn.classList.remove('on');
+                    toast('Erro ao iniciar o microfone.', true);
+                }
+            });
+            row.appendChild(btn);
+        }
+    });
+
+    // 4) BLOCO DE NOTAS — Nota → Metas
+    features19.push({
+        tab: 'tab-notes',
+        note: 'Transforme as linhas da anotação atual em metas de estudo na aba Metas.',
+        build: function (tab, row) {
+            row.appendChild(mkBtn('Nota → Metas', 'fa-list-check', function () {
+                var contentEl = el('noteContent');
+                if (!contentEl || !contentEl.value.trim()) { toast('A nota está vazia!', true); return; }
+                var lines = contentEl.value.split('\n').map(function (l) {
+                    return l.replace(/^\s*(?:[-*•]|\d+[.)])\s*/, '').trim();
+                }).filter(function (l) { return l.length > 2; });
+                if (!lines.length) { toast('Nada aproveitável nesta nota.', true); return; }
+                var added = 0;
+                lines.slice(0, 8).forEach(function (text) {
+                    todos.push({ text: text.slice(0, 120), completed: false, priority: 'media' });
+                    added++;
+                });
+                if (typeof renderTodos === 'function') renderTodos();
+                toast('✅ ' + added + ' metas criadas na aba Metas!');
+            }));
+        }
+    });
+
+    // 5) LOJA — Sorteio Surpresa (equipa um tema seu ao acaso)
+    features19.push({
+        tab: 'tab-store',
+        note: 'Sorteio Surpresa: equipa automaticamente um tema que você já possui.',
+        build: function (tab, row) {
+            row.appendChild(mkBtn('Sortear tema meu', 'fa-dice', function () {
+                var pool = (typeof ownedThemes !== 'undefined' && ownedThemes.length) ? ownedThemes : ['theme-default'];
+                if (pool.length <= 1) { toast('Desbloqueie mais temas para o sorteio ficar divertido!', true); return; }
+                var pick = pool[Math.floor(Math.random() * pool.length)];
+                var guard = 0;
+                while (pick === equippedTheme && pool.length > 1 && guard++ < 8) {
+                    pick = pool[Math.floor(Math.random() * pool.length)];
+                }
+                if (typeof equipTheme === 'function') equipTheme(pick);
+                var item = (typeof storeItems !== 'undefined') ? storeItems.find(function (s) { return s.id === pick; }) : null;
+                toast('🎲 Tema sorteado: ' + (item ? item.name : pick));
+            }));
+        }
+    });
+
+    // 6) TÍTULOS — Copiar cartão de progresso
+    features19.push({
+        tab: 'tab-titles',
+        note: 'Gera um cartão-texto do seu progresso para compartilhar com amigos.',
+        build: function (tab, row) {
+            row.appendChild(mkBtn('Copiar cartão de progresso', 'fa-share-nodes', function () {
+                var titleName = (el('playerTitleText') || {}).textContent || 'Novato';
+                var sorted = (typeof titlesList !== 'undefined') ? titlesList.filter(function (t) { return !t.petTitle; }).sort(function (a, b) { return a.xpReq - b.xpReq; }) : [];
+                var next = sorted.find(function (t) { return xp < t.xpReq; });
+                var lines = [];
+                lines.push('⭐ Meu progresso no Geekie Study Hub');
+                lines.push('👑 Título: ' + titleName);
+                lines.push('✨ XP: ' + xp + ' · 🪙 Moedas: ' + coins);
+                if (next) lines.push('🎯 Próximo título: ' + next.name + ' (' + next.xpReq + ' XP)');
+                else lines.push('🏆 XP máximo alcançado!');
+                copy19(lines.join('\n'), 'Cartão de progresso copiado!');
+            }));
+        }
+    });
+
+    // 7) PETS — Apelido do Pet
+    features19.push({
+        tab: 'tab-pets',
+        note: 'Dê um apelido carinhoso ao pet ativo — ele aparece no painel e na topbar.',
+        build: function (tab, row) {
+            row.appendChild(mkBtn('Apelidar pet ativo', 'fa-heart', function (ev) {
+                if (!activePetId) { toast('Ative um pet primeiro!', true); return; }
+                var pet = (typeof petsData !== 'undefined') ? petsData.find(function (p) { return p.id === activePetId; }) : null;
+                var current = petState[activePetId] && petState[activePetId].nickname ? petState[activePetId].nickname : '';
+                var nick = prompt('Apelido para ' + (pet ? pet.name : 'seu pet') + ':', current);
+                if (nick === null) return;
+                nick = nick.trim().slice(0, 24);
+                if (!petState[activePetId]) petState[activePetId] = { owned: true, active: true, autoCollect: false, upgrades: {} };
+                petState[activePetId].nickname = nick;
+                if (typeof savePetState === 'function') savePetState();
+                if (typeof updateActivePetDisplay === 'function') updateActivePetDisplay();
+                toast(nick ? '💖 ' + (pet ? pet.name : 'Pet') + ' agora é "' + nick + '"!' : 'Apelido removido.');
+                if (ev && ev.clientX) floatHeart(ev.clientX, ev.clientY);
+            }));
+        }
+    });
+    function floatHeart(x, y) {
+        if (reduceMotion) return;
+        var h = document.createElement('span');
+        h.className = 'gk19-heart-float';
+        h.textContent = '💖';
+        h.style.left = (x - 10) + 'px';
+        h.style.top = (y - 20) + 'px';
+        document.body.appendChild(h);
+        setTimeout(function () { h.remove(); }, 1200);
+    }
+
+    // 8) POMODORO — Modo Cinema (timer gigante em tela cheia)
+    features19.push({
+        tab: 'tab-timer',
+        note: 'Modo Cinema: timer gigante em tela cheia, visível de longe (Esc fecha).',
+        build: function (tab, row) {
+            var overlay = document.createElement('div');
+            overlay.id = 'gk19Cinema';
+            overlay.innerHTML =
+                '<div class="gk19-cinema-mode" id="gk19CinemaMode">FOCO</div>' +
+                '<div class="gk19-cinema-time" id="gk19CinemaTime">25:00</div>' +
+                '<div class="gk19-cinema-actions">' +
+                '<button type="button" class="btn btn-primary" id="gk19CinemaToggle"><i class="fa-solid fa-play"></i> Iniciar</button>' +
+                '<button type="button" class="btn btn-outline" id="gk19CinemaReset"><i class="fa-solid fa-rotate-right"></i> Zerar</button>' +
+                '<button type="button" class="btn btn-outline" id="gk19CinemaExit"><i class="fa-solid fa-xmark"></i> Sair (Esc)</button>' +
+                '</div>' +
+                '<div class="gk19-cinema-hint">Fique em paz — o tempo corre por conta do Pomodoro normal do hub.</div>';
+            document.body.appendChild(overlay);
+            function sync() {
+                var time = el('gk19CinemaTime'), mode = el('gk19CinemaMode'), tog = el('gk19CinemaToggle');
+                if (!overlay.classList.contains('open')) return;
+                if (time) time.textContent = fmtTime(timeLeft);
+                var isBreakNow = !!isBreak;
+                if (time) time.classList.toggle('break', isBreakNow);
+                if (mode) mode.textContent = isBreakNow ? 'PAUSA' : 'FOCO';
+                if (tog) tog.innerHTML = isTimerRunning ? '<i class="fa-solid fa-pause"></i> Pausar' : '<i class="fa-solid fa-play"></i> Iniciar';
+            }
+            setInterval(sync, 500);
+            el('gk19CinemaToggle').addEventListener('click', function () { if (isTimerRunning) { if (typeof pauseTimer === 'function') pauseTimer(); } else { if (typeof startTimer === 'function') startTimer(); } sync(); });
+            el('gk19CinemaReset').addEventListener('click', function () { if (typeof resetTimer === 'function') resetTimer(); sync(); });
+            el('gk19CinemaExit').addEventListener('click', function () { overlay.classList.remove('open'); });
+            document.addEventListener('keydown', function (e) { if (e.key === 'Escape') overlay.classList.remove('open'); });
+            row.appendChild(mkBtn('Modo Cinema', 'fa-tv', function () { overlay.classList.add('open'); sync(); }));
+        }
+    });
+
+    // 9) METAS — Roda da Sorte
+    features19.push({
+        tab: 'tab-goals',
+        note: 'Não sabe o que fazer primeiro? A roda sorteia uma meta pendente para você.',
+        build: function (tab, row) {
+            row.appendChild(mkBtn('Roda da Sorte', 'fa-dice-d6', function () {
+                var pending = todos.filter(function (t) { return !t.completed; });
+                if (!pending.length) { toast('Todas as metas concluídas! Cadastre novas. 🎉'); return; }
+                var pick = pending[Math.floor(Math.random() * pending.length)];
+                toast('🎲 A roda escolheu: ' + pick.text);
+                var items = document.querySelectorAll('#todoList .todo-item');
+                items.forEach(function (li) {
+                    li.classList.remove('gk19-highlight');
+                    if (li.textContent.indexOf(pick.text.slice(0, 30)) !== -1) {
+                        li.classList.add('gk19-highlight');
+                        li.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' });
+                        setTimeout(function () { li.classList.remove('gk19-highlight'); }, 3600);
+                    }
+                });
+                if (typeof gainXP === 'function') gainXP(1);
+            }));
+        }
+    });
+
+    // 10) FLASHCARDS — Modo Digitação
+    features19.push({
+        tab: 'tab-flashcards',
+        note: 'Digite a resposta em vez de só virar o card — o hub confere para você.',
+        build: function (tab, row) {
+            var panel = mkPanel(tab, 'gk19TypePanel', 'Modo Digitação — confira sua memória ativa');
+            panel.querySelector('.gk19-panel-body').innerHTML =
+                '<div class="gk19-type-row">' +
+                '<input type="text" id="gk19TypeInput" placeholder="Digite a resposta do verso do card atual…" maxlength="200">' +
+                '<button type="button" class="gk19-btn" id="gk19TypeCheck"><i class="fa-solid fa-check"></i> Conferir</button>' +
+                '</div>' +
+                '<div class="gk19-type-feedback" id="gk19TypeFeedback"></div>' +
+                '<div class="gk19-type-score" id="gk19TypeScore">Sessão: 0 acertos · 0 erros</div>';
+            var score = lsGet('typeScore', { ok: 0, err: 0 });
+            function refreshScore() {
+                el('gk19TypeScore').textContent = 'Sessão: ' + score.ok + ' acertos · ' + score.err + ' erros';
+            }
+            refreshScore();
+            function check() {
+                var input = el('gk19TypeInput'), fb = el('gk19TypeFeedback');
+                if (!input || !fb) return;
+                var val = stripAccents(input.value);
+                if (!val) { toast('Digite algo primeiro!', true); return; }
+                var card = flashcardsView[currentCardIndex];
+                if (!card) { toast('Nenhum card ativo.', true); return; }
+                var back = stripAccents(card.back);
+                var ok = val === back || (val.length >= 4 && back.indexOf(val) !== -1);
+                if (ok) { score.ok++; fb.innerHTML = '<span style="color:var(--success);">✅ Isso! Resposta correta.</span>'; }
+                else { score.err++; fb.innerHTML = '<span style="color:var(--danger);">❌ Quase! O verso era: <strong>' + card.back + '</strong></span>'; }
+                lsSet('typeScore', score);
+                refreshScore();
+                input.value = '';
+                if (typeof flipCard === 'function' && !cardIsFlipped) flipCard();
+            }
+            el('gk19TypeCheck').addEventListener('click', check);
+            el('gk19TypeInput').addEventListener('keydown', function (e) { if (e.key === 'Enter') check(); });
+            row.appendChild(mkBtn('Modo Digitação', 'fa-keyboard', function () { togglePanel(panel); }));
+        }
+    });
+
+    // 11) SONS AMBIENTE — Gerador de Batida Binaural
+    features19.push({
+        tab: 'tab-ambient',
+        note: 'Batida binaural com WebAudio: ondas alpha/theta geradas ao vivo para foco profundo.',
+        build: function (tab, row) {
+            var ctx = null, nodes = null;
+            var btn = mkBtn('Batida Binaural', 'fa-wave-square', function () {
+                if (nodes) { stop(); return; }
+                start();
+            });
+            function buildPanel() {
+                var panel = mkPanel(tab, 'gk19BinauralPanel', 'Batida Binaural — frequência da pulsação');
+                var body = panel.querySelector('.gk19-panel-body');
+                body.innerHTML =
+                    '<div class="gk19-binaural-row">' +
+                    '<label>Onda: <strong id="gk19BeatVal">10 Hz (alpha — relaxado/focado)</strong></label>' +
+                    '<input type="range" id="gk19BeatFreq" min="2" max="30" step="1" value="10">' +
+                    '<label>Volume:</label>' +
+                    '<input type="range" id="gk19BeatVol" min="0" max="0.3" step="0.01" value="0.12">' +
+                    '</div>' +
+                    '<div class="gk19-note" style="margin-top:8px;">2–7 Hz = sono profundo · 8–12 Hz = relaxamento · 13–30 Hz = concentração. Use fones!</div>';
+                el('gk19BeatFreq').addEventListener('input', function (e) {
+                    var f = parseInt(e.target.value, 10);
+                    el('gk19BeatVal').textContent = f + ' Hz (' + (f <= 7 ? 'theta — meditação' : f <= 12 ? 'alpha — relaxado/focado' : 'beta — concentração') + ')';
+                    if (nodes) nodes.oscR.frequency.setValueAtTime(200 + f, ctx.currentTime);
+                });
+                el('gk19BeatVol').addEventListener('input', function (e) {
+                    if (nodes) nodes.master.gain.setTargetAtTime(parseFloat(e.target.value), ctx.currentTime, 0.05);
+                });
+                return panel;
+            }
+            function start() {
+                try {
+                    ctx = new (window.AudioContext || window.webkitAudioContext)();
+                    var merger = ctx.createChannelMerger(2);
+                    var master = ctx.createGain();
+                    var vol = parseFloat((el('gk19BeatVol') || {}).value || 0.12);
+                    master.gain.value = vol;
+                    master.connect(ctx.destination);
+                    var oscL = ctx.createOscillator(), oscR = ctx.createOscillator();
+                    var beat = parseInt((el('gk19BeatFreq') || {}).value || 10, 10);
+                    oscL.frequency.value = 200;
+                    oscR.frequency.value = 200 + beat;
+                    oscL.connect(merger, 0, 0);
+                    oscR.connect(merger, 0, 1);
+                    merger.connect(master);
+                    oscL.start(); oscR.start();
+                    nodes = { oscL: oscL, oscR: oscR, master: master };
+                    btn.classList.add('on');
+                    btn.querySelector('span').textContent = 'Parar binaural';
+                    buildPanel().classList.add('open');
+                    toast('🎧 Batida binaural ligada — use fones de ouvido!');
+                } catch (e) { toast('Áudio não disponível neste navegador.', true); }
+            }
+            function stop() {
+                try { if (nodes) { nodes.oscL.stop(); nodes.oscR.stop(); } } catch (e) {}
+                try { if (ctx) ctx.close(); } catch (e) {}
+                ctx = null; nodes = null;
+                btn.classList.remove('on');
+                btn.querySelector('span').textContent = 'Batida Binaural';
+            }
+            window.addEventListener('beforeunload', stop);
+            row.appendChild(btn);
+        }
+    });
+
+    // 12) CALCULADORA — Memória M+ / MR / MC
+    features19.push({
+        tab: 'tab-calculator',
+        note: 'Registrador de memória clássico: acumule valores com M+ e recupere com MR.',
+        build: function (tab, row) {
+            var panel = mkPanel(tab, 'gk19MemPanel', 'Memória da Calculadora');
+            panel.querySelector('.gk19-panel-body').innerHTML =
+                '<div class="gk19-mem-row">' +
+                '<button type="button" class="gk19-mem-btn" id="gk19MPlus">M+</button>' +
+                '<button type="button" class="gk19-mem-btn" id="gk19MMinus">M−</button>' +
+                '<button type="button" class="gk19-mem-btn" id="gk19MR">MR</button>' +
+                '<button type="button" class="gk19-mem-btn" id="gk19MC">MC</button>' +
+                '</div><div class="gk19-mem-indicator" id="gk19MemInd">Memória vazia</div>';
+            var mem = lsGet('calcMem', null);
+            function refreshInd() {
+                el('gk19MemInd').textContent = mem === null ? 'Memória vazia' : 'Memória: ' + mem;
+            }
+            refreshInd();
+            function readVal() {
+                var v = parseFloat(String(calcState.val).replace(',', '.'));
+                return isNaN(v) ? 0 : v;
+            }
+            function setVal(v) {
+                calcState.val = String(v);
+                calcState.expr = '';
+                calcState.hasResult = true;
+                if (typeof calcRender === 'function') calcRender();
+            }
+            el('gk19MPlus').addEventListener('click', function () { mem = (mem || 0) + readVal(); lsSet('calcMem', mem); refreshInd(); toast('M+ ' + readVal() + ' · Memória: ' + mem); });
+            el('gk19MMinus').addEventListener('click', function () { mem = (mem || 0) - readVal(); lsSet('calcMem', mem); refreshInd(); toast('M− ' + readVal() + ' · Memória: ' + mem); });
+            el('gk19MR').addEventListener('click', function () { if (mem === null) { toast('Memória vazia!', true); return; } setVal(mem); toast('MR: ' + mem + ' colocado no visor'); });
+            el('gk19MC').addEventListener('click', function () { mem = null; lsSet('calcMem', null); refreshInd(); toast('Memória limpa.'); });
+            row.appendChild(mkBtn('Memória M+/MR', 'fa-memory', function () { togglePanel(panel); }));
+        }
+    });
+
+    // 13) CARACTERES — Símbolo Aleatório
+    features19.push({
+        tab: 'tab-chars',
+        note: 'Sorteia um símbolo de todo o catálogo e copia para a área de transferência.',
+        build: function (tab, row) {
+            row.appendChild(mkBtn('Símbolo aleatório', 'fa-shuffle', function () {
+                var flat = [];
+                (typeof charsData !== 'undefined' ? charsData : []).forEach(function (g) {
+                    g.categories.forEach(function (c) { c.chars.forEach(function (ch) { flat.push(ch); }); });
+                });
+                if (!flat.length) { toast('Catálogo vazio.', true); return; }
+                var pick = flat[Math.floor(Math.random() * flat.length)];
+                copy19(pick, 'Símbolo copiado: ' + pick);
+                if (typeof addToHistory === 'function') { try { addToHistory(pick); } catch (e) {} }
+            }));
+        }
+    });
+
+    // 14) TÍTULO DA PÁGINA — Favicon do Timer (minutos restantes na aba do navegador)
+    features19.push({
+        tab: 'tab-title',
+        note: 'Favicon do Timer: mostra os minutos restantes do Pomodoro no ícone da aba.',
+        build: function (tab, row) {
+            var btn = mkBtn('Favicon do Timer', 'fa-stopwatch', function () {
+                var on = lsGet('favTimer', false);
+                lsSet('favTimer', !on);
+                btn.classList.toggle('on', !on);
+                if (!on) { startFavicon(); toast('⏱️ Favicon do timer ativado!'); }
+                else { stopFavicon(); toast('Favicon do timer desativado.'); }
+            });
+            var canvas = document.createElement('canvas');
+            canvas.width = 64; canvas.height = 64;
+            var favInterval = null;
+            function drawFavicon() {
+                var ctx2 = canvas.getContext('2d');
+                var running = isTimerRunning, breakNow = isBreak;
+                var bg = running ? (breakNow ? '#ffa502' : '#00ff88') : '#39425b';
+                ctx2.fillStyle = bg;
+                ctx2.beginPath(); ctx2.arc(32, 32, 30, 0, Math.PI * 2); ctx2.fill();
+                ctx2.fillStyle = running ? '#0a0e17' : '#f0f4f8';
+                ctx2.font = '700 30px Arial';
+                ctx2.textAlign = 'center'; ctx2.textBaseline = 'middle';
+                ctx2.fillText(String(Math.max(0, Math.ceil(timeLeft / 60))), 32, 34);
+                var link = document.querySelector('link#pageIcon') || document.querySelector('link[rel="icon"]');
+                if (link) link.href = canvas.toDataURL('image/png');
+            }
+            function startFavicon() { stopFavicon(); drawFavicon(); favInterval = setInterval(drawFavicon, 3000); }
+            function stopFavicon() { if (favInterval) clearInterval(favInterval); favInterval = null; var link = document.querySelector('link#pageIcon'); if (link) link.href = 'https://i.postimg.cc/gcHHYqtC/fire-geekie.png'; }
+            if (lsGet('favTimer', false)) { btn.classList.add('on'); startFavicon(); }
+            row.appendChild(btn);
+        }
+    });
+
+    // 15) EVENTOS — Desafio do Dia (gerador com reroll)
+    features19.push({
+        tab: 'tab-events',
+        note: 'Desafio do Dia: um micro-desafio diferente todos os dias, com botão de trocar.',
+        build: function (tab, row) {
+            var panel = mkPanel(tab, 'gk19ChallengePanel', 'Desafio do Dia');
+            var challenges = [
+                'Complete 2 Pomodoros de Foco sem abrir outra aba.',
+                'Estude 25 min da matéria que você menos gosta.',
+                'Crie 5 flashcards do conteúdo de hoje e revise todos.',
+                'Faça 3 micro-metas da lista e conclua todas.',
+                'Escreva no Diário: o que travou seu estudo hoje?',
+                'Revise 10 flashcards marcados como Difíceis.',
+                'Use o Planner: planeje toda a semana de amanhã.',
+                'Fique 15 min no Modo Cinema do Pomodoro sem pausar.',
+                'Teste-se no Quiz Rápido com 10 questões.',
+                'Use a Batida Binaural por 20 min durante o estudo.',
+                'Zere a lista de metas pendentes de prioridade ALTA.',
+                'Faça um resumo de 10 linhas no Bloco de Notas.',
+                'Estude com o Filtro de Luz do portal em modo noturno à noite.',
+                'Complete o check-in de cuidado do seu pet 5 vezes.',
+                'Anote 3 dúvidas e leve para o Tutor IA resolver.',
+                'Cronometre 30 min em uma matéria só (Timer por Matéria).',
+                'Acerte 8 questões no Quiz para ganhar o bônus máximo.',
+                'Faça o Desafio Relâmpago de 60s no Clicker e bata seu recorde.',
+                'Organize as tarefas de amanhã antes de dormir.',
+                'Ensine em voz alta (ou para o TTS) um tema que você aprendeu hoje.'
+            ];
+            function dayIndex(offset) {
+                var d = new Date();
+                d.setDate(d.getDate() + (offset || 0));
+                var key = d.getFullYear() * 1000 + Math.floor((d - new Date(d.getFullYear(), 0, 0)) / 86400000);
+                return key % challenges.length;
+            }
+            function renderChallenge() {
+                var saved = lsGet('dailyChallenge', null);
+                var today = new Date().toDateString();
+                var idx;
+                if (saved && saved.day === today) idx = saved.idx;
+                else { idx = dayIndex(0); lsSet('dailyChallenge', { day: today, idx: idx }); }
+                el('gk19ChallengeText').textContent = challenges[idx];
+            }
+            panel.querySelector('.gk19-panel-body').innerHTML =
+                '<div class="gk19-challenge">' +
+                '<span style="font-size:1.6rem;">🎯</span>' +
+                '<div class="gk19-challenge-text" id="gk19ChallengeText"></div>' +
+                '<button type="button" class="gk19-btn" id="gk19ChallengeReroll"><i class="fa-solid fa-dice"></i> Trocar</button>' +
+                '</div>' +
+                '<div class="gk19-note" style="margin-top:8px;">Concluiu? Marque no Diário e ganhe +2 XP de autoestima 😄</div>';
+            el('gk19ChallengeReroll').addEventListener('click', function () {
+                var idx = Math.floor(Math.random() * challenges.length);
+                lsSet('dailyChallenge', { day: new Date().toDateString(), idx: idx });
+                el('gk19ChallengeText').textContent = challenges[idx];
+                toast('🎲 Novo desafio sorteado!');
+            });
+            renderChallenge();
+            row.appendChild(mkBtn('Desafio do Dia', 'fa-bullseye', function () { togglePanel(panel); renderChallenge(); }));
+        }
+    });
+
+    // 16) CÓDIGOS — Copiar com 1 clique em qualquer card
+    features19.push({
+        tab: 'tab-codes',
+        note: 'Clique em qualquer card de código para copiá-lo direto para a área de transferência.',
+        build: function (tab, row) {
+            row.appendChild(mkBtn('Modo copiar-código', 'fa-copy', function (ev) {
+                var on = lsGet('codesCopyMode', false);
+                lsSet('codesCopyMode', !on);
+                ev.currentTarget.classList.toggle('on', !on);
+                bindCodeCopy();
+                toast(!on ? 'Modo copiar ativado: clique nos cards!' : 'Modo copiar desativado.');
+            }));
+            function bindCodeCopy() {
+                var grid = el('codesGrid');
+                if (!grid) return;
+                var mode = lsGet('codesCopyMode', false);
+                var cards = grid.querySelectorAll('.code-card');
+                cards.forEach(function (card, idx) {
+                    card.style.cursor = mode ? 'copy' : '';
+                    card.onclick = function () {
+                        if (!mode) return;
+                        var code = (typeof codesData !== 'undefined' && codesData[idx]) ? codesData[idx].code : null;
+                        if (code) copy19(code, 'Código ' + code + ' copiado! Cole no campo acima.');
+                    };
+                });
+            }
+            var origRender = window.renderCodesGrid;
+            window.renderCodesGrid = function () {
+                var result = origRender.apply(this, arguments);
+                try { bindCodeCopy(); } catch (e) {}
+                return result;
+            };
+            setTimeout(bindCodeCopy, 400);
+        }
+    });
+
+    // 17) TRILHA — Resumo da Trilha (painel de progresso resgatado)
+    features19.push({
+        tab: 'tab-journey',
+        note: 'Resumo instantâneo: quantos nós você já resgatou e quanto falta para fechar a trilha.',
+        build: function (tab, row) {
+            var panel = mkPanel(tab, 'gk19JourneyPanel', 'Resumo da Trilha');
+            row.appendChild(mkBtn('Resumo da Trilha', 'fa-chart-simple', function () {
+                var total = (typeof journeyNodes !== 'undefined') ? journeyNodes.length : 0;
+                var claimed = (typeof journeyClaimed !== 'undefined') ? Object.keys(journeyClaimed).length : 0;
+                var pct = total ? Math.round((claimed / total) * 100) : 0;
+                var nextNode = (typeof journeyNodes !== 'undefined') ? journeyNodes.find(function (n) { return !journeyClaimed[n.id] && xp >= n.xpReq; }) : null;
+                panel.querySelector('.gk19-panel-body').innerHTML =
+                    '<div class="gk19-journey-summary">' +
+                    '<div class="gk19-js-item">🗺️ Nós resgatados: <strong>' + claimed + ' / ' + total + '</strong></div>' +
+                    '<div class="gk19-js-item">📊 Progresso: <strong>' + pct + '%</strong></div>' +
+                    '<div class="gk19-js-item">' + (nextNode ? '🎁 Pronto para resgatar: <strong>' + nextNode.title + '</strong>' : (pct === 100 ? '🏆 Trilha completa!' : '🔒 Continue acumulando XP')) + '</div>' +
+                    '</div>';
+                panel.classList.add('open');
+            }));
+        }
+    });
+
+    // 18) DEV LOG — Exportar changelog em Markdown
+    features19.push({
+        tab: 'tab-devlog',
+        note: 'Baixe todo o histórico de versões em Markdown para arquivar ou compartilhar.',
+        build: function (tab, row) {
+            row.appendChild(mkBtn('Exportar changelog (.md)', 'fa-file-arrow-down', function () {
+                var items = document.querySelectorAll('#devlogTimeline .timeline-item');
+                if (!items.length) { toast('Dev log vazio?', true); return; }
+                var md = ['# Geekie Study Hub — Changelog', '', ''];
+                items.forEach(function (item) {
+                    var version = item.dataset.version || '';
+                    var h3 = item.querySelector('.version-header h3');
+                    var date = item.querySelector('.version-date');
+                    md.push('## ' + version + (h3 ? ' — ' + h3.textContent.trim() : ''));
+                    if (date) md.push('*' + date.textContent.trim() + '*');
+                    md.push('');
+                    item.querySelectorAll('ul li').forEach(function (li) {
+                        md.push('- ' + li.textContent.replace(/\s+/g, ' ').trim());
+                    });
+                    md.push('');
+                });
+                download19('geekie-study-hub-changelog.md', md.join('\n'), 'text/markdown;charset=utf-8');
+                toast('📜 Changelog exportado!');
+            }));
+        }
+    });
+
+    // 19) PLANNER — Copiar semana inteira para a próxima
+    features19.push({
+        tab: 'tab-planner',
+        note: 'Clona as tarefas da semana exibida para a semana seguinte — ideal para rotinas.',
+        build: function (tab, row) {
+            row.appendChild(mkBtn('Copiar semana → próxima', 'fa-clone', function () {
+                var days = (typeof getPlannerWeekDates === 'function') ? getPlannerWeekDates(plannerWeekOffset) : [];
+                var copied = 0;
+                days.forEach(function (d) {
+                    var key = d.toISOString().slice(0, 10);
+                    var tasks = plannerData[key];
+                    if (tasks && tasks.length) {
+                        var next = new Date(d);
+                        next.setDate(d.getDate() + 7);
+                        var nextKey = next.toISOString().slice(0, 10);
+                        plannerData[nextKey] = tasks.map(function (t) { return { text: t.text, done: false }; });
+                        copied += tasks.length;
+                    }
+                });
+                if (!copied) { toast('Nenhuma tarefa nesta semana para copiar.', true); return; }
+                if (typeof savePlanner === 'function') savePlanner();
+                if (typeof renderPlanner === 'function') renderPlanner();
+                toast('📅 ' + copied + ' tarefas clonadas para a próxima semana!');
+            }));
+        }
+    });
+
+    // 20) ESTATÍSTICAS — Exportar dados de foco em CSV
+    features19.push({
+        tab: 'tab-stats',
+        note: 'Baixe seu tempo de foco diário (últimas semanas) em CSV para analisar no Excel.',
+        build: function (tab, row) {
+            row.appendChild(mkBtn('Exportar CSV de foco', 'fa-file-csv', function () {
+                var data = JSON.parse(localStorage.getItem('geekieStudyWeek') || '{}');
+                var keys = Object.keys(data).sort();
+                if (!keys.length) { toast('Sem dados de foco registrados ainda.', true); return; }
+                var csv = 'data,foco_minutos\n';
+                keys.forEach(function (k) { csv += k + ',' + (data[k] || 0) + '\n'; });
+                csv += '\ntotal_minutos,' + keys.reduce(function (acc, k) { return acc + (data[k] || 0); }, 0) + '\n';
+                download19('geekie-foco-diario.csv', csv, 'text/csv;charset=utf-8');
+                toast('📊 CSV exportado com ' + keys.length + ' dias!');
+            }));
+        }
+    });
+
+    // 21) MATÉRIAS — Meta de tempo semanal por matéria
+    features19.push({
+        tab: 'tab-subjects',
+        note: 'Defina uma meta de horas para cada matéria e veja a barra de progresso no card.',
+        build: function (tab, row) {
+            var panel = mkPanel(tab, 'gk19GoalPanel', 'Meta de Tempo por Matéria');
+            panel.querySelector('.gk19-panel-body').innerHTML =
+                '<div class="gk19-type-row">' +
+                '<select id="gk19GoalSubject" style="flex:1;min-width:180px;background:rgba(0,0,0,0.35);border:1px solid var(--border);color:var(--text-main);padding:10px;border-radius:10px;outline:none;"></select>' +
+                '<input type="number" id="gk19GoalHours" min="0.5" max="100" step="0.5" value="5" style="width:90px;background:rgba(0,0,0,0.35);border:1px solid var(--border);color:var(--text-main);padding:10px;border-radius:10px;outline:none;">' +
+                '<button type="button" class="gk19-btn" id="gk19GoalSave"><i class="fa-solid fa-check"></i> Salvar meta (h/semana)</button>' +
+                '<button type="button" class="gk19-btn warn" id="gk19GoalClear"><i class="fa-solid fa-xmark"></i> Remover meta</button>' +
+                '</div>';
+            function refreshSelect() {
+                var sel = el('gk19GoalSubject');
+                if (!sel) return;
+                sel.innerHTML = '';
+                (typeof subjectData !== 'undefined' ? subjectData : []).forEach(function (s) {
+                    var opt = document.createElement('option');
+                    opt.value = s.id;
+                    opt.textContent = s.emoji + ' ' + s.name;
+                    sel.appendChild(opt);
+                });
+            }
+            el('gk19GoalSave').addEventListener('click', function () {
+                var id = el('gk19GoalSubject').value;
+                var h = parseFloat(el('gk19GoalHours').value);
+                if (!id || !h || h <= 0) { toast('Escolha a matéria e as horas.', true); return; }
+                var goals = lsGet('subjectGoals', {});
+                goals[id] = Math.round(h * 3600);
+                lsSet('subjectGoals', goals);
+                if (typeof renderSubjectGrid === 'function') renderSubjectGrid();
+                toast('🎯 Meta salva: ' + h + 'h/semana!');
+            });
+            el('gk19GoalClear').addEventListener('click', function () {
+                var id = el('gk19GoalSubject').value;
+                var goals = lsGet('subjectGoals', {});
+                delete goals[id];
+                lsSet('subjectGoals', goals);
+                if (typeof renderSubjectGrid === 'function') renderSubjectGrid();
+                toast('Meta removida.');
+            });
+            row.appendChild(mkBtn('Meta de tempo', 'fa-flag-checkered', function () { refreshSelect(); togglePanel(panel); }));
+            var origRender = window.renderSubjectGrid;
+            window.renderSubjectGrid = function () {
+                var result = origRender.apply(this, arguments);
+                try {
+                    var goals = lsGet('subjectGoals', {});
+                    (typeof subjectData !== 'undefined' ? subjectData : []).forEach(function (s) {
+                        var goal = goals[s.id];
+                        if (!goal) return;
+                        var card = el('subject-card-' + s.id);
+                        if (!card) return;
+                        var pct = Math.min(100, Math.round((s.totalSeconds / goal) * 100));
+                        var wrap = card.querySelector('.gk19-goal-bar-outer');
+                        if (!wrap) {
+                            wrap = document.createElement('div');
+                            wrap.innerHTML = '<div class="gk19-goal-bar-outer"><div class="gk19-goal-bar-inner" style="width:' + pct + '%"></div></div>' +
+                                '<span class="gk19-goal-label">🎯 Meta semanal: ' + pct + '% (' + Math.floor(s.totalSeconds / 3600) + 'h de ' + Math.round(goal / 3600) + 'h)</span>';
+                            card.appendChild(wrap);
+                        }
+                    });
+                } catch (e) {}
+                return result;
+            };
+        }
+    });
+
+    // 22) QUIZ — Revisar erros da última partida
+    features19.push({
+        tab: 'tab-quiz',
+        note: 'Guarda as questões que você errou e monta uma revisão pós-partida.',
+        build: function (tab, row) {
+            var panel = mkPanel(tab, 'gk19QuizReview', 'Revisão de Erros — última partida');
+            var errors = lsGet('quizErrors', []);
+            function renderReview() {
+                var body = panel.querySelector('.gk19-panel-body');
+                if (!errors.length) {
+                    body.innerHTML = '<div class="gk19-note">Nenhum erro registrado ainda — ou você é impecável, ou ainda não jogou! 😄</div>';
+                    return;
+                }
+                body.innerHTML = '<div class="gk19-note" style="margin-bottom:10px;">' + errors.length + ' erro(s) na última partida:</div>' +
+                    errors.map(function (e) {
+                        return '<div class="gk19-review-item"><div class="gk19-review-q">❓ ' + e.q + '</div>' +
+                            '<div class="gk19-review-a">Sua resposta: ' + e.yours + ' · Correta: <strong>' + e.correct + '</strong></div></div>';
+                    }).join('');
+            }
+            row.appendChild(mkBtn('Revisar erros', 'fa-rotate-left', function () { renderReview(); togglePanel(panel); }));
+            if (typeof window.answerQuiz === 'function' && !window.__gk19QuizHook) {
+                window.__gk19QuizHook = true;
+                var origAnswer = window.answerQuiz;
+                window.answerQuiz = function (idx) {
+                    var q = (typeof quizState !== 'undefined' && quizState.questions) ? quizState.questions[quizState.currentIdx] : null;
+                    origAnswer.apply(this, arguments);
+                    try {
+                        if (q && idx !== q.correct) {
+                            errors.push({ q: q.q, yours: q.opts[idx], correct: q.opts[q.correct] });
+                            lsSet('quizErrors', errors);
+                        }
+                    } catch (e) {}
+                };
+            }
+            if (typeof window.startQuiz === 'function' && !window.__gk19QuizStartHook) {
+                window.__gk19QuizStartHook = true;
+                var origStart = window.startQuiz;
+                window.startQuiz = function () {
+                    errors = [];
+                    lsSet('quizErrors', errors);
+                    return origStart.apply(this, arguments);
+                };
+            }
+        }
+    });
+
+    // 23) SONS DE TECLADO — Pads Musicais de Pausa
+    features19.push({
+        tab: 'tab-keysounds',
+        note: 'Pads musicais para pausas criativas: 8 notas suaves geradas ao vivo.',
+        build: function (tab, row) {
+            var panel = mkPanel(tab, 'gk19PadsPanel', 'Pads Musicais — pausa criativa');
+            var notes = [
+                { label: 'Dó', freq: 261.63 }, { label: 'Ré', freq: 293.66 }, { label: 'Mi', freq: 329.63 },
+                { label: 'Fá', freq: 349.23 }, { label: 'Sol', freq: 392.00 }, { label: 'Lá', freq: 440.00 },
+                { label: 'Si', freq: 493.88 }, { label: 'Dó↑', freq: 523.25 }
+            ];
+            var padsEl = document.createElement('div');
+            padsEl.className = 'gk19-pads';
+            notes.forEach(function (n) {
+                var pad = document.createElement('button');
+                pad.type = 'button';
+                pad.className = 'gk19-pad';
+                pad.innerHTML = n.label + '<small>' + Math.round(n.freq) + ' Hz</small>';
+                pad.addEventListener('click', function () { playNote(n.freq); });
+                padsEl.appendChild(pad);
+            });
+            panel.querySelector('.gk19-panel-body').appendChild(padsEl);
+            var actx = null;
+            function playNote(freq) {
+                try {
+                    if (!actx || actx.state === 'closed') actx = new (window.AudioContext || window.webkitAudioContext)();
+                    if (actx.state === 'suspended') actx.resume();
+                    var t = actx.currentTime;
+                    var osc = actx.createOscillator(), g = actx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.value = freq;
+                    g.gain.setValueAtTime(0.001, t);
+                    g.gain.exponentialRampToValueAtTime(0.16, t + 0.02);
+                    g.gain.exponentialRampToValueAtTime(0.001, t + 0.9);
+                    osc.connect(g); g.connect(actx.destination);
+                    osc.start(t); osc.stop(t + 0.95);
+                } catch (e) { toast('Áudio indisponível.', true); }
+            }
+            row.appendChild(mkBtn('Pads Musicais', 'fa-music', function () { togglePanel(panel); }));
+        }
+    });
+
+    // 24) CLICKER — Aposta Relâmpago (dobrar ou perder)
+    features19.push({
+        tab: 'tab-clicker',
+        note: 'Aposta Relâmpago: arrisque pontos no 50/50 — dobra ou perde. Adrenalina pura.',
+        build: function (tab, row) {
+            var panel = mkPanel(tab, 'gk19BetPanel', 'Aposta Relâmpago — 50/50');
+            panel.querySelector('.gk19-panel-body').innerHTML =
+                '<div class="gk19-bet-row">' +
+                '<input type="number" id="gk19BetAmount" min="1" placeholder="Pontos a apostar">' +
+                '<button type="button" class="gk19-btn" id="gk19BetGo"><i class="fa-solid fa-coins"></i> Apostar</button>' +
+                '<button type="button" class="gk19-btn warn" id="gk19BetMax"><i class="fa-solid fa-bolt"></i> Tudo!</button>' +
+                '</div><div class="gk19-bet-status" id="gk19BetStatus"></div>';
+            function setStatus(html) { el('gk19BetStatus').innerHTML = html; }
+            function doBet(all) {
+                var pts = clickerData.points || 0;
+                var amount = all ? Math.floor(pts) : Math.floor(parseFloat(el('gk19BetAmount').value));
+                if (!amount || amount <= 0) { toast('Digite um valor válido.', true); return; }
+                if (amount > pts) { toast('Você só tem ' + pts + ' pontos!', true); return; }
+                var win = Math.random() < 0.5;
+                if (win) {
+                    clickerData.points = pts + amount;
+                    setStatus('<span style="color:var(--success);">🎉 Ganhou +' + amount + ' pontos! (total: ' + clickerData.points + ')</span>');
+                    if (typeof gainXP === 'function') gainXP(2);
+                } else {
+                    clickerData.points = pts - amount;
+                    setStatus('<span style="color:var(--danger);">💀 Perdeu ' + amount + ' pontos… (total: ' + clickerData.points + ')</span>');
+                }
+                el('gk19BetAmount').value = '';
+                if (typeof updateClickerDisplay === 'function') updateClickerDisplay();
+                if (typeof saveClickerGame === 'function') saveClickerGame();
+            }
+            el('gk19BetGo').addEventListener('click', function () { doBet(false); });
+            el('gk19BetMax').addEventListener('click', function () { doBet(true); });
+            row.appendChild(mkBtn('Aposta Relâmpago', 'fa-dice-five', function () { togglePanel(panel); }));
+        }
+    });
+
+    // 25) DIÁRIO — Prompt do Dia
+    features19.push({
+        tab: 'tab-diary',
+        note: 'Nunca mais fique sem saber o que escrever: um prompt de reflexão por dia.',
+        build: function (tab, row) {
+            var panel = mkPanel(tab, 'gk19DiaryPrompt', 'Prompt do Dia — reflexão guiada');
+            var prompts = [
+                'O que eu aprendi hoje que meu eu de ontem não sabia?',
+                'Qual matéria está me desafiando mais agora — e por quê?',
+                'Descreva seu local de estudo ideal em detalhes.',
+                'Qual pequeno hábito, se mantido por 30 dias, mudaria suas notas?',
+                'O que distrai você mais durante o estudo? Como bloquear?',
+                'Escreva uma carta curta para você mesmo no dia da prova.',
+                'Qual foi sua maior vitória de estudo esta semana?',
+                'Se o estudo fosse um jogo, qual fase você está jogando agora?',
+                'Que conteúdo você explicaria para um amigo hoje?',
+                'O que você faria diferente se recomeçasse o ano?',
+                'Liste 3 coisas que você domina bem. Como isso te ajuda?',
+                'Como está sua energia hoje: 0-10 e o que afetou?',
+                'Qual é o próximo marco que você quer bater no hub?',
+                'Que som/ambiente te faz estudar melhor? Por quê?',
+                'Se você pudesse dominar qualquer matéria hoje, qual seria?',
+                'O que a sua versão "estudante lenda" faria agora?'
+            ];
+            var body = panel.querySelector('.gk19-panel-body');
+            body.innerHTML = '<div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">' +
+                '<div class="gk19-diary-prompt" id="gk19DiaryText"></div>' +
+                '<div style="display:flex;flex-direction:column;gap:8px;">' +
+                '<button type="button" class="gk19-btn" id="gk19DiaryUse"><i class="fa-solid fa-pen"></i> Escrever sobre isso</button>' +
+                '<button type="button" class="gk19-btn" id="gk19DiaryReroll"><i class="fa-solid fa-shuffle"></i> Trocar</button>' +
+                '</div></div>';
+            var cur = lsGet('diaryPrompt', null);
+            function pick() {
+                var idx = Math.floor(Math.random() * prompts.length);
+                cur = prompts[idx];
+                lsSet('diaryPrompt', cur);
+                el('gk19DiaryText').textContent = '“' + cur + '”';
+            }
+            if (!cur || cur.length === 0) pick(); else el('gk19DiaryText').textContent = '“' + cur + '”';
+            el('gk19DiaryUse').addEventListener('click', function () {
+                var ta = el('diaryText');
+                if (!ta) return;
+                ta.value = (ta.value ? ta.value + '\n\n' : '') + '✍️ ' + cur + '\n';
+                ta.focus();
+                toast('Prompt inserido no diário — bom texto!');
+            });
+            el('gk19DiaryReroll').addEventListener('click', pick);
+            row.appendChild(mkBtn('Prompt do Dia', 'fa-lightbulb', function () { togglePanel(panel); }));
+        }
+    });
+
+    // 26) SENHAS — Analisador de Segurança
+    features19.push({
+        tab: 'tab-password',
+        note: 'Cole uma senha e veja entropia, tempo estimado de quebra e riscos — nada é salvo.',
+        build: function (tab, row) {
+            var panel = mkPanel(tab, 'gk19PwdPanel', 'Analisador de Segurança de Senha');
+            panel.querySelector('.gk19-panel-body').innerHTML =
+                '<div class="gk19-pwd-analyzer">' +
+                '<input type="text" id="gk19PwdInput" placeholder="Cole a senha para analisar (nada é salvo)…" autocomplete="off">' +
+                '<div class="gk19-pwd-meter"><div id="gk19PwdMeterFill"></div></div>' +
+                '<div class="gk19-pwd-entropy" id="gk19PwdInfo">Aguardando senha…</div>' +
+                '</div>';
+            var input = el('gk19PwdInput');
+            input.addEventListener('input', function () {
+                var v = input.value;
+                var fill = el('gk19PwdMeterFill'), info = el('gk19PwdInfo');
+                if (!v) { fill.style.width = '0'; info.textContent = 'Aguardando senha…'; return; }
+                var pool = 0;
+                if (/[a-z]/.test(v)) pool += 26;
+                if (/[A-Z]/.test(v)) pool += 26;
+                if (/[0-9]/.test(v)) pool += 10;
+                if (/[^a-zA-Z0-9]/.test(v)) pool += 32;
+                var entropy = v.length * (Math.log(pool || 1) / Math.LN2);
+                var guesses = Math.pow(2, entropy);
+                var seconds = guesses / 1e10;
+                var crackTxt;
+                if (seconds < 1) crackTxt = 'instantaneamente';
+                else if (seconds < 3600) crackTxt = Math.round(seconds) + ' segundos';
+                else if (seconds < 86400) crackTxt = Math.round(seconds / 3600) + ' horas';
+                else if (seconds < 31536000) crackTxt = Math.round(seconds / 86400) + ' dias';
+                else if (seconds > 31536000 * 1e6) crackTxt = 'bilhões de anos 🛡️';
+                else crackTxt = Math.round(seconds / 31536000) + ' anos';
+                var pct = Math.min(100, Math.round((entropy / 100) * 100));
+                var verdict, color;
+                if (entropy < 40) { verdict = 'Frágil 😬'; color = '#ff4757'; }
+                else if (entropy < 60) { verdict = 'Razoável 😐'; color = '#ffa502'; }
+                else if (entropy < 80) { verdict = 'Forte 💪'; color = '#00ff88'; }
+                else { verdict = 'Fortaleza 🏰'; color = '#00d4ff'; }
+                fill.style.width = pct + '%';
+                fill.style.background = color;
+                var risks = [];
+                if (/^(.)\1+$/.test(v)) risks.push('caractere único repetido');
+                if (/^(0123|1234|12345|123456|abcdef|qwerty|password|senha)/i.test(v)) risks.push('sequência óbvia');
+                if (v.length < 12) risks.push('menos de 12 caracteres');
+                info.innerHTML = 'Entropia: <strong>' + Math.round(entropy) + ' bits</strong> · Quebra estimada (10 bi tentativas/s): <strong>' + crackTxt + '</strong> · Veredito: <strong style="color:' + color + ';">' + verdict + '</strong>' +
+                    (risks.length ? '<br>⚠️ Riscos: ' + risks.join(', ') : '<br>✅ Nenhum risco óbvio detectado.');
+            });
+            row.appendChild(mkBtn('Analisador de senha', 'fa-shield-halved', function () { togglePanel(panel); setTimeout(function () { input.focus(); }, 150); }));
+        }
+    });
+
+    // ============================================================
+    // EXTRAS: patch do display do pet (apelido) + BOOT
+    // ============================================================
+    if (typeof window.updateActivePetDisplay === 'function' && !window.__gk19PetNickHook) {
+        window.__gk19PetNickHook = true;
+        var origPetDisplay = window.updateActivePetDisplay;
+        window.updateActivePetDisplay = function () {
+            origPetDisplay.apply(this, arguments);
+            try {
+                if (activePetId && petState[activePetId] && petState[activePetId].nickname) {
+                    var elp = el('activePetName');
+                    if (elp) elp.textContent += ' (“' + petState[activePetId].nickname + '”)';
+                }
+            } catch (e) {}
+        };
+    }
+
+    function install19() {
+        features19.forEach(function (f) {
+            try {
+                var tab = el(f.tab);
+                if (!tab || tab.dataset.gk19Installed) return;
+                tab.dataset.gk19Installed = '1';
+                var row = mkRow(tab, f.tab);
+                if (f.note) {
+                    var note = document.createElement('span');
+                    note.className = 'gk19-note';
+                    note.textContent = f.note;
+                    row.appendChild(note);
+                }
+                f.build(tab, row);
+            } catch (e) {
+                if (window.console && console.warn) console.warn('[v19] falha ao instalar feature de ' + f.tab, e);
+            }
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', install19, { once: true });
+    } else {
+        install19();
+    }
 })();
