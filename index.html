@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Geekie Study Hub v19.0.0 - Study Hub</title>
+    <title>Geekie Study Hub v19.1.0 - Study Hub</title>
     <link rel="icon" id="pageIcon" href="https://i.postimg.cc/gcHHYqtC/fire-geekie.png">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&family=Orbitron:wght@400;700&family=Ubuntu:wght@400;500;700&family=Space+Grotesk:wght@400;600;700&family=Rajdhani:wght@400;600;700&family=JetBrains+Mono:wght@400;600&family=Caveat:wght@400;600;700&family=Patrick+Hand&family=Indie+Flower&family=Shadows+Into+Light&family=Kalam:wght@400;700&family=Architects+Daughter&family=Source+Code+Pro:wght@400;600&family=Comfortaa:wght@400;600;700&family=Quicksand:wght@400;600;700&family=Dancing+Script:wght@400;600;700&family=Nunito:wght@400;600;700&family=Josefin+Sans:wght@400;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -525,7 +525,8 @@
     <!-- TAB: CHARS -->
         <section id="tab-chars" class="tab-content">
         <div class="glass-card w-full chars-container">
-            <h3><i class="fa-solid fa-keyboard"></i> Teclado de Caracteres <span class="new-badge">ULTRA</span></h3>
+            <h3><i class="fa-solid fa-keyboard"></i> Biblioteca de Caracteres <span class="new-badge">EXPANDIDA</span></h3>
+            <p class="chars-library-intro">1.919 símbolos Unicode únicos em 24 grupos e 77 categorias para matemática, escrita, ciência, interfaces e mensagens. Clique para copiar; use a estrela para guardar favoritos.</p>
             
             <div class="chars-header">
                 <div class="chars-stats">
@@ -551,6 +552,7 @@
                 <button class="char-action-btn" onclick="expandAllCategories()"><i class="fa-solid fa-expand"></i> Expandir Todas</button>
                 <button class="char-action-btn" onclick="collapseAllCategories()"><i class="fa-solid fa-compress"></i> Colapsar Todas</button>
                 <button class="char-action-btn" onclick="copyAllVisibleChars()"><i class="fa-solid fa-copy"></i> Copiar Visíveis</button>
+                <button class="char-action-btn char-random-btn" onclick="copyRandomChar()"><i class="fa-solid fa-dice"></i> Símbolo Aleatório</button>
             </div>
 
             <div class="chars-favorites-section" id="charsFavoritesSection" style="display:none;">
@@ -654,6 +656,23 @@
             </div>
             <div id="devlogNoResults" style="display:none; text-align:center; color:var(--text-muted); padding:30px 0;"><i class="fa-solid fa-circle-xmark" style="font-size:2rem; margin-bottom:8px; display:block;"></i>Nenhum resultado encontrado.</div>
             <div class="timeline" id="devlogTimeline">
+
+                <!-- v19.1.0 -->
+                <div class="timeline-item" data-version="v19.1.0">
+                    <div class="version-header">
+                        <span class="version-tag" style="background:linear-gradient(135deg,rgba(103,232,249,0.25),rgba(167,139,250,0.22)); color:#67e8f9; border:1px solid rgba(103,232,249,0.48); box-shadow:0 0 18px rgba(103,232,249,0.24);">v19.1.0</span>
+                        <h3>Biblioteca de Caracteres — Catálogo Unicode Expandido</h3>
+                        <span class="version-date">22 Out 2026 — Atualização Atual</span>
+                    </div>
+                    <ul>
+                        <li><strong>⌨️ Catálogo ampliado:</strong> 1.919 símbolos Unicode únicos em 24 grupos e 77 categorias, incluindo novos alfabetos internacionais, fonética, matemática avançada, setas, molduras, blocos, Braille, emojis, atividades, natureza, transporte e bandeiras.</li>
+                        <li><strong>🔢 Contagem precisa:</strong> o total agora mostra caracteres únicos, sem inflar o número por símbolos repetidos em categorias diferentes.</li>
+                        <li><strong>🎲 Símbolo aleatório:</strong> sorteie e copie um caractere do catálogo completo com um clique.</li>
+                        <li><strong>⭐ Favoritos funcionais:</strong> cada símbolo ganhou um controle acessível para salvar ou remover dos favoritos.</li>
+                        <li><strong>🔎 Busca Unicode:</strong> pesquise por símbolo, nome da categoria ou código hexadecimal; o cartão também exibe todos os pontos de código de sequências compostas.</li>
+                        <li><strong>📱 Layout refinado:</strong> cartões e controles da biblioteca se adaptam melhor a telas menores, sem remover histórico, filtros ou montagem de snippets.</li>
+                    </ul>
+                </div>
 
                 <!-- v19.0.0 -->
                 <div class="timeline-item" data-version="v19.0.0">
@@ -1733,7 +1752,7 @@
         <div class="fab-menu-header">
             <i class="fa-solid fa-graduation-cap" style="color:var(--primary);font-size:0.95rem;"></i>
             <span class="fab-brand">Geekie Ultra</span>
-            <span class="fab-version">v19.0.0</span>
+            <span class="fab-version">v19.1.0</span>
         </div>
 
         <div class="fab-section-label">Principal</div>
