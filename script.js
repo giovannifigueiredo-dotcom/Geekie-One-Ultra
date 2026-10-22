@@ -1,10 +1,11 @@
 /* ============================================================
- * Geekie Study Hub — script.js (v19.0.0)
+ * Geekie Study Hub — script.js (v19.1.0)
  * Todo o comportamento do hub, extraído do HTML original
  * e ampliado com o Feature Lab v18 (26 ferramentas).
  * v18.0.1: Cockpit do portal recolhível — iframe em tela grande.
  * v18.1.0: Modo Multi-Tarefa — split view com painel recolhível.
  * v18.3.0: iframes ampliados, painéis recolhíveis e animações nos botões.
+ * v19.1.0: Biblioteca Unicode expandida, busca por código e favoritos diretos.
  * v19.0.0: Feature Pack (1 feature nova por aba, 26 no total) +
  *          overhaul de animações de botões (ripple/shine/spring press)
  *          e novas entradas no Dev Log.
@@ -14,7 +15,7 @@
 // ===================== DATA DECLARATIONS =====================
 let todos = JSON.parse(localStorage.getItem('geekieTodos')) || [];
 let todoFilter = 'all';
-let savedTitle = localStorage.getItem('geekieTitleName') || 'Geekie One Ultra v19.0.0';
+let savedTitle = localStorage.getItem('geekieTitleName') || 'Geekie One Ultra v19.1.0';
 let selectedFont = localStorage.getItem('geekieTitleFont') || 'Poppins';
 let selectedIcon = localStorage.getItem('geekieTitleIcon') || 'fa-graduation-cap';
 const availableFonts = [
@@ -1583,6 +1584,59 @@ const charsData = [
         { name: 'Transporte', chars: ['🚗','🚕','🚙','🚌','🚎','🏎️','🚓','🚑','🚒','🚐','🛻','🚚','🚛','🚜','🛵','🏍️'] },
         { name: 'Objetos', chars: ['📱','💻','⌨️','🖥️','🖨️','📷','📸','📺','📻','🔔','🔕','⏰','⌛','⏳','📁','📂'] }
     ]}
+    ,
+    { group: 'Alfabetos Internacionais', icon: 'fa-language', iconBg: 'rgba(99,102,241,0.16)', iconColor: '#a5b4fc',
+      categories: [
+        { name: 'Latim Estendido — Maiúsculas', chars: Array.from('ĀĂĄĆĈĊČĎĐĒĔĖĘĚĜĞĠĢĤĦĨĪĬĮİĴĶĹĻĽŁŃŅŇŌŎŐŔŖŘŚŜŞŠŢŤŦŨŪŬŮŰŲŴŶŸŹŻŽÆŒÐÞ') },
+        { name: 'Latim Estendido — Minúsculas', chars: Array.from('āăąćĉċčďđēĕėęěĝğġģĥħĩīĭįĵķĺļľłńņňōŏőŕŗřśŝşšţťŧũūŭůűųŵŷźżžæœðþß') },
+        { name: 'Cirílico — Maiúsculas', chars: Array.from('АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ') },
+        { name: 'Cirílico — Minúsculas', chars: Array.from('абвгдеёжзийклмнопрстуфхцчшщъыьэюя') },
+        { name: 'Fonética e IPA', chars: Array.from('ɑɐɒæɓʙβɔɕçɗɖðʤəɚɛɜɝɞɟʄɡɢʛɦɧħɥʜɨɪʝɭɬɫɮʟɯɰŋɳɲɴɵɸθœɶʘɹɺɻɾɽʀʁɻʂʃʈʧʉʊʋⱱʌɣɤɰχʎʏʑʒʔʕ') },
+        { name: 'Hebraico', chars: Array.from('אבגדהוזחטיךכלםמןנסעףפץצקרשת') },
+        { name: 'Árabe — Letras básicas', chars: Array.from('ابتثجحخدذرزسشصضطظعغفقكلمنهويءآأؤإئابة') }
+      ]},
+    { group: 'Matemática Avançada', icon: 'fa-square-root-variable', iconBg: 'rgba(16,185,129,0.16)', iconColor: '#6ee7b7',
+      categories: [
+        { name: 'Cálculo e Análise', chars: Array.from('∬∭∮∯∰∱∲∳∔∹∺∻∼∽≁≂≃≄≅≆≇≈≉≊≋≌≍≎≏≐≑≒≓≔≕≖≗≘≙≚≛≜≝≞≟') },
+        { name: 'Conjuntos e Lógica', chars: Array.from('⊄⊅⊆⊇⊈⊉⊊⊋⊌⊍⊎⊏⊐⊑⊒⊓⊔⊕⊖⊗⊘⊙⊚⊛⊜⊝⊞⊟⊠⊡⊢⊣⊤⊥⊦⊧⊨⊩⊪⊫⊬⊭⊮⊯⊲⊳⊴⊵⊶⊷⊸⊹') },
+        { name: 'Operadores e Relações', chars: Array.from('≪≫≮≯≰≱≲≳≴≵≶≷≸≹≺≻≼≽≾≿⊀⊁⊂⊃⊄⊅⊆⊇⊢⊣⊨⊩⊪⊫⊬⊭⊮⊯∖∝∟∤∥∦∴∵∶∷∸∹∺∻') }
+      ]},
+    { group: 'Setas e Conectores', icon: 'fa-arrows-left-right', iconBg: 'rgba(14,165,233,0.16)', iconColor: '#7dd3fc',
+      categories: [
+        { name: 'Setas de Duas Direções', chars: Array.from('↚↛↜↝↞↟↠↡↢↣↤↥↦↧↩↪↫↬↭↮↯↰↱↲↳↴↵↶↷↸↹↺↻⇄⇅⇆⇇⇈⇉⇊⇋⇌⇍⇎⇏⇚⇛⇜⇝⇞⇟') },
+        { name: 'Setas de Navegação e Contorno', chars: Array.from('⬀⬁⬂⬃⬄⬅⬆⬇⬈⬉⬊⬋⬌⬍⬎⬏⬐⬑⬒⬓⬔⬕⬖⬗⬘⬙⬚⬛⬜⬝⬞⬟⬠⬡⬢⬣⬥⬦⬧⬨⬩⬪⬫⤴⤵⤶⤷⤸⤹⤺⤻⤼⤽⤾⤿') }
+      ]},
+    { group: 'Molduras e Blocos', icon: 'fa-border-all', iconBg: 'rgba(245,158,11,0.16)', iconColor: '#fcd34d',
+      categories: [
+        { name: 'Desenho de Caixas — Simples', chars: Array.from('─━│┃┄┅┆┇┈┉┊┋┌┍┎┏┐┑┒┓└┕┖┗┘┙┚┛├┝┞┟┠┡┢┣┤┥┦┧┨┩┪┫┬┭┮┯┰┱┲┳┴┵┶┷┸┹┺┻┼┽┾┿╀╁╂╃╄╅╆╇╈╉╊╋') },
+        { name: 'Desenho de Caixas — Duplo e Misto', chars: Array.from('═║╒╓╔╕╖╗╘╙╚╛╜╝╞╟╠╡╢╣╤╥╦╧╨╩╪╫╬╭╮╯╰╱╲╳╴╵╶╷╸╹╺╻╼╽╾╿') },
+        { name: 'Blocos e Sombras', chars: Array.from('▀▁▂▃▄▅▆▇█▉▊▋▌▍▎▏▐░▒▓▔▕▖▗▘▙▚▛▜▝▞▟') },
+        { name: 'Braille — Padrões de Pontos', chars: Array.from({ length: 64 }, function(_, index) { return String.fromCodePoint(0x2801 + index); }) }
+      ]},
+    { group: 'Emojis — Natureza e Animais', icon: 'fa-leaf', iconBg: 'rgba(34,197,94,0.16)', iconColor: '#86efac',
+      categories: [
+        { name: 'Animais — Mamíferos e Aves', chars: ['🐴','🫎','🐂','🐃','🐄','🫏','🐑','🐐','🐪','🐫','🦙','🦒','🐘','🦣','🦏','🦛','🐁','🐀','🦔','🐿️','🦫','🦇','🐻‍❄️','🐨','🦥','🦦','🦨','🦘','🦡','🦃','🦚','🦜','🦢','🪿','🦩','🕊️','🐓','🦤','🪶','🪺'] },
+        { name: 'Animais — Marinhos e Insetos', chars: ['🐢','🦎','🐍','🐊','🐸','🐉','🐲','🦕','🦖','🐬','🦭','🐳','🐋','🦈','🐟','🐠','🐡','🦐','🦞','🦀','🪼','🦑','🐙','🦪','🐚','🪸','🐌','🦋','🐛','🐜','🐝','🪲','🐞','🦗','🪳','🕷️','🕸️','🦂','🦟','🪰'] },
+        { name: 'Plantas e Céu', chars: ['🌱','🪴','🌲','🌳','🌴','🌵','🎋','🎍','🪹','🪵','🌾','🌿','☘️','🍀','🍁','🍂','🍃','🪷','🌺','🌻','🌼','🌷','🪻','🌹','🥀','🌸','💐','🌰','🪺','🌍','🌎','🌏','🌙','🌟','🌠','🌌','🌈','🌪️','🌫️','🌊'] }
+      ]},
+    { group: 'Emojis — Comida e Atividades', icon: 'fa-utensils', iconBg: 'rgba(249,115,22,0.16)', iconColor: '#fdba74',
+      categories: [
+        { name: 'Frutas, Legumes e Refeições', chars: ['🍊','🍋','🍌','🍉','🍇','🍓','🫐','🍈','🍒','🍑','🥭','🍍','🥥','🥝','🍅','🫒','🥑','🍆','🥔','🥕','🌽','🌶️','🫑','🥒','🥬','🥦','🧄','🧅','🍄','🥜','🫘','🍞','🥐','🥨','🧀','🥚','🍳','🥞','🧇','🥓','🥩','🍗','🍖','🌭','🥪','🥗','🥘','🫕','🥣','🥫','🍝','🍛','🍲','🥟','🥠','🥡','🦪','🍤','🍚','🍙'] },
+        { name: 'Doces e Bebidas', chars: ['🍧','🍨','🍫','🍬','🍭','🍮','🍯','🍼','🥛','☕','🫖','🍵','🧃','🥤','🧋','🍶','🍺','🍻','🥂','🍷','🥃','🍸','🍹','🧉','🍾','🧊','🥧','🧁','🍩','🍪','🍡','🍢','🍥','🥮','🍰','🧆','🍿','🧂','🫙','🥡'] },
+        { name: 'Esportes e Jogos', chars: ['⚽','⚾','🥎','🏀','🏐','🏈','🏉','🎾','🥏','🎳','🏏','🏑','🏒','🥍','🏓','🏸','🥊','🥋','🥅','⛳','⛸️','🎣','🤿','🎽','🎿','🛷','🥌','🛹','🛼','🛶','🚣','🏹','🎯','🥇','🥈','🥉','🏆','🏅','🎖️','🎮','🕹️','🎲','🧩','♟️'] },
+        { name: 'Música, Arte e Celebrações', chars: ['🎤','🎧','🎼','🎹','🥁','🪘','🎷','🎺','🪗','🎸','🪕','🎻','🪈','🎨','🖌️','🖍️','🎭','🎬','🎟️','🎫','🎪','🎉','🎊','🎈','🎁','🎀','🪅','🪩','🎆','🎇','🧨','✨','🪄','🎃','🎄','🎋','🎍','🧸','🪆','🪁'] }
+      ]},
+    { group: 'Emojis — Transporte e Lugares', icon: 'fa-earth-americas', iconBg: 'rgba(59,130,246,0.16)', iconColor: '#93c5fd',
+      categories: [
+        { name: 'Veículos e Viagens', chars: ['🚲','🛴','🛵','🛺','🚂','🚆','🚇','🚈','🚉','🚊','🚝','🚞','🚋','🚃','🚄','🚅','🚈','🚍','🚔','🚖','🚘','🚛','🚜','🛻','🚐','🚎','🚑','🚒','🚓','🚕','🚗','🚙','🛞','⛽','🛢️','🚨','🚥','🚦','🛑','🚧','⚓','🛟','⛵','🛶','🚤','🛳️','⛴️','🚢','✈️','🛩️','🛫','🛬','🪂','💺','🚁','🚟','🚠','🚡','🛰️','🚀','🛸'] },
+        { name: 'Construções e Lugares', chars: ['🏠','🏡','🏢','🏣','🏤','🏥','🏦','🏨','🏩','🏪','🏫','🏬','🏭','🏯','🏰','💒','🗼','🗽','⛪','🕌','🛕','🕍','⛩️','🕋','⛲','⛺','🌁','🌃','🌆','🌇','🌉','🏙️','🌄','🌅','🌠','🎠','🎡','🎢','💈','🗺️'] }
+      ]},
+    { group: 'Bandeiras', icon: 'fa-flag', iconBg: 'rgba(236,72,153,0.16)', iconColor: '#f9a8d4',
+      categories: [
+        { name: 'Bandeiras — Américas', chars: ['🇧🇷','🇦🇷','🇨🇱','🇨🇴','🇵🇪','🇺🇾','🇵🇾','🇧🇴','🇪🇨','🇻🇪','🇲🇽','🇺🇸','🇨🇦','🇨🇺','🇯🇲','🇭🇹','🇩🇴','🇵🇦','🇨🇷','🇬🇹','🇭🇳','🇸🇻','🇳🇮','🇧🇸','🇧🇧','🇹🇹','🇬🇾','🇸🇷'] },
+        { name: 'Bandeiras — Europa e África', chars: ['🇵🇹','🇪🇸','🇫🇷','🇮🇹','🇩🇪','🇬🇧','🇮🇪','🇳🇱','🇧🇪','🇨🇭','🇦🇹','🇵🇱','🇺🇦','🇷🇺','🇬🇷','🇸🇪','🇳🇴','🇩🇰','🇫🇮','🇹🇷','🇲🇦','🇪🇬','🇿🇦','🇳🇬','🇰🇪','🇬🇭','🇪🇹','🇹🇳'] },
+        { name: 'Bandeiras — Ásia e Oceania', chars: ['🇯🇵','🇨🇳','🇰🇷','🇮🇳','🇵🇰','🇹🇭','🇻🇳','🇮🇩','🇵🇭','🇸🇬','🇲🇾','🇸🇦','🇮🇱','🇦🇪','🇮🇷','🇦🇺','🇳🇿','🇫🇯','🇵🇬','🇰🇿','🇲🇳','🇧🇩','🇳🇵','🇱🇰','🇰🇭','🇲🇲','🇱🇦','🇶🇦'] }
+      ]}
 ];
 
 let charFavorites = JSON.parse(localStorage.getItem('charFavorites') || '[]');
@@ -1614,7 +1668,7 @@ function renderCharFilters() {
     let html = '<button class="char-filter-btn active" data-group="all" onclick="setGroupFilter(\'all\')"><i class="fa-solid fa-border-all"></i> Todos <span class="filter-count" id="countAll">0</span></button>';
     
     charsData.forEach(function(group) {
-        const totalChars = group.categories.reduce(function(sum, cat) { return sum + cat.chars.length; }, 0);
+        const totalChars = new Set(group.categories.reduce(function(all, cat) { return all.concat(cat.chars); }, [])).size;
         html += '<button class="char-filter-btn" data-group="' + group.group + '" onclick="setGroupFilter(\'' + group.group + '\')"><i class="fa-solid ' + group.icon + '"></i> ' + group.group + ' <span class="filter-count">' + totalChars + '</span></button>';
     });
     
@@ -1623,9 +1677,9 @@ function renderCharFilters() {
 }
 
 function getTotalCharCount() {
-    return charsData.reduce(function(sum, group) { 
-        return sum + group.categories.reduce(function(catSum, cat) { return catSum + cat.chars.length; }, 0); 
-    }, 0);
+    return new Set(charsData.reduce(function(all, group) {
+        return all.concat(group.categories.reduce(function(groupChars, cat) { return groupChars.concat(cat.chars); }, []));
+    }, [])).size;
 }
 
 function updateCharStats() {
@@ -1658,7 +1712,14 @@ function renderAllCategories(filter, groupFilter) {
             let filteredChars = category.chars;
             if (q) {
                 filteredChars = category.chars.filter(function(c) { 
-                    return c.toLowerCase().includes(q) || category.name.toLowerCase().includes(q);
+                    const codePoints = Array.from(c).map(function(point) {
+                        return point.codePointAt(0).toString(16).toLowerCase().padStart(4, '0');
+                    });
+                    const hexQuery = q.replace(/^u\+/, '').replace(/\s+/g, '');
+                    return c.toLowerCase().includes(q) ||
+                        category.name.toLowerCase().includes(q) ||
+                        group.group.toLowerCase().includes(q) ||
+                        (/^(?:u\+)?[0-9a-f]{1,6}$/i.test(q) && codePoints.some(function(point) { return point.includes(hexQuery); }));
                 });
             }
             
@@ -1692,15 +1753,20 @@ function renderAllCategories(filter, groupFilter) {
             
             filteredChars.forEach(function(char) {
                 const safeChar = char.replace(/\\/g, '\\\\').replace(/'/g, "\'");
-                html += '<button class="char-btn-enhanced ' + (charFavorites.includes(char) ? 'favorited' : '') + '" ' +
+                const isFavorite = charFavorites.includes(char);
+                html += '<div class="char-cell"><button class="char-btn-enhanced ' + (isFavorite ? 'favorited' : '') + '" ' +
                     'data-char="' + safeChar + '" ' +
+                    'aria-label="Copiar ' + safeChar + '" ' +
                     'onmouseenter="showCharTooltip(event, \'' + safeChar + '\')" ' +
                     'onmouseleave="hideCharTooltip()" ' +
                     'onmousemove="moveCharTooltip(event)" ' +
                     'onclick="copyCharEnhanced(\'' + safeChar + '\');">' +
-                    char +
-                    '<span class="char-fav-overlay">★</span>' +
-                '</button>';
+                    char + '</button>' +
+                    '<button type="button" class="char-favorite-toggle ' + (isFavorite ? 'active' : '') + '" ' +
+                    'aria-pressed="' + (isFavorite ? 'true' : 'false') + '" aria-label="' + (isFavorite ? 'Remover dos favoritos' : 'Adicionar aos favoritos') + '" ' +
+                    'title="' + (isFavorite ? 'Remover dos favoritos' : 'Adicionar aos favoritos') + '" ' +
+                    'onclick="event.stopPropagation(); toggleFavorite(\'' + safeChar + '\');">' +
+                    (isFavorite ? '★' : '☆') + '</button></div>';
             });
             
             html += '</div></div></div></div>';
@@ -1762,12 +1828,14 @@ function enhancedFilterChars(query) {
 function showCharTooltip(event, char) {
     if (!tooltipEl) return;
     
-    const codePoint = char.codePointAt(0).toString(16).toUpperCase().padStart(4, '0');
+    const codePoints = Array.from(char).map(function(point) {
+        return 'U+' + point.codePointAt(0).toString(16).toUpperCase().padStart(4, '0');
+    }).join(' · ');
     const unicodeName = getUnicodeName(char);
     
     tooltipEl.querySelector('.char-tooltip-preview').textContent = char;
     tooltipEl.querySelector('.char-tooltip-name').textContent = unicodeName;
-    tooltipEl.querySelector('.char-tooltip-code').textContent = 'U+' + codePoint;
+    tooltipEl.querySelector('.char-tooltip-code').textContent = codePoints;
     
     tooltipEl.classList.add('visible');
     moveCharTooltip(event);
@@ -1890,9 +1958,30 @@ function toggleFavorite(char) {
     updateCharStats();
     renderFavorites();
     
-    const safeChar = char.replace(/\\/g, '\\\\').replace(/'/g, "\'");
-    const btn = document.querySelector('[data-char="' + safeChar + '"]');
-    if (btn) btn.classList.toggle('favorited', charFavorites.includes(char));
+    const isFavorite = charFavorites.includes(char);
+    document.querySelectorAll('.char-btn-enhanced').forEach(function(btn) {
+        if (btn.dataset.char !== char) return;
+        btn.classList.toggle('favorited', isFavorite);
+        const toggle = btn.parentElement && btn.parentElement.querySelector('.char-favorite-toggle');
+        if (toggle) {
+            toggle.classList.toggle('active', isFavorite);
+            toggle.setAttribute('aria-pressed', isFavorite ? 'true' : 'false');
+            toggle.setAttribute('aria-label', isFavorite ? 'Remover dos favoritos' : 'Adicionar aos favoritos');
+            toggle.title = isFavorite ? 'Remover dos favoritos' : 'Adicionar aos favoritos';
+            toggle.textContent = isFavorite ? '★' : '☆';
+        }
+    });
+}
+
+function copyRandomChar() {
+    const allChars = Array.from(new Set(charsData.reduce(function(all, group) {
+        return all.concat(group.categories.reduce(function(groupChars, category) {
+            return groupChars.concat(category.chars);
+        }, []));
+    }, [])));
+    if (!allChars.length) return;
+    const char = allChars[Math.floor(Math.random() * allChars.length)];
+    copyCharEnhanced(char);
 }
 
 function renderFavorites() {
