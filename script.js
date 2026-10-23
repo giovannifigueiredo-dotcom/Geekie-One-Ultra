@@ -1,5 +1,5 @@
 /* ============================================================
- * Geekie Study Hub — script.js (v19.1.0)
+ * Geekie Study Hub — script.js (v19.2.0)
  * Todo o comportamento do hub, extraído do HTML original
  * e ampliado com o Feature Lab v18 (26 ferramentas).
  * v18.0.1: Cockpit do portal recolhível — iframe em tela grande.
@@ -15,7 +15,7 @@
 // ===================== DATA DECLARATIONS =====================
 let todos = JSON.parse(localStorage.getItem('geekieTodos')) || [];
 let todoFilter = 'all';
-let savedTitle = localStorage.getItem('geekieTitleName') || 'Geekie One Ultra v19.1.0';
+let savedTitle = localStorage.getItem('geekieTitleName') || 'Geekie One Ultra v19.2.0';
 let selectedFont = localStorage.getItem('geekieTitleFont') || 'Poppins';
 let selectedIcon = localStorage.getItem('geekieTitleIcon') || 'fa-graduation-cap';
 const availableFonts = [
@@ -2085,7 +2085,8 @@ function filterDevlog(query) {
             item.style.display = 'none';
         }
     });
-    if (noResults) noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+    if (noResults) noResults.style.display = visibleCount === 0 ? 'flex' : 'none';
+    if (typeof window.refreshDevlogCount === 'function') window.refreshDevlogCount();
 }
 
 
@@ -7975,14 +7976,22 @@ if (document.readyState === 'loading') {
 
         var chipsWrap = document.createElement('div');
         chipsWrap.className = 'fl-radar-chips';
+        chipsWrap.setAttribute('role', 'group');
+        chipsWrap.setAttribute('aria-label', 'Filtrar atualizações por categoria');
         radarFilters.forEach(function(f) {
-            var chip = document.createElement('span');
+            var chip = document.createElement('button');
+            chip.type = 'button';
             chip.className = 'fl-chip' + (f.id === 'all' ? ' active' : '');
             chip.textContent = f.label;
             chip.dataset.flFilter = f.id;
+            chip.setAttribute('aria-pressed', String(f.id === 'all'));
             chip.addEventListener('click', function() {
                 activeFilter = f.id;
-                chipsWrap.querySelectorAll('.fl-chip').forEach(function(c) { c.classList.toggle('active', c.dataset.flFilter === f.id); });
+                chipsWrap.querySelectorAll('.fl-chip').forEach(function(c) {
+                    var selected = c.dataset.flFilter === f.id;
+                    c.classList.toggle('active', selected);
+                    c.setAttribute('aria-pressed', String(selected));
+                });
                 apply();
             });
             chipsWrap.appendChild(chip);
@@ -8007,8 +8016,9 @@ if (document.readyState === 'loading') {
             var noResults = document.getElementById('devlogNoResults');
             if (noResults) {
                 var anyVisible = Array.prototype.some.call(timeline.querySelectorAll('.timeline-item'), function(i) { return i.style.display !== 'none'; });
-                noResults.style.display = anyVisible ? 'none' : 'block';
+                noResults.style.display = anyVisible ? 'none' : 'flex';
             }
+            if (typeof window.refreshDevlogCount === 'function') window.refreshDevlogCount();
         }
 
         var searchInput = document.getElementById('devlogSearch');
@@ -10029,7 +10039,7 @@ if (document.readyState === 'loading') {
       <div class="version-header">
         <span class="version-tag" style="background:rgba(52,211,153,.18);color:#34d399;border:1px solid rgba(52,211,153,.4);">v18.3.0</span>
         <h3>Mais espaço para os portais, painéis recolhíveis e botões animados</h3>
-        <span class="version-date">05 Out 2026 — Atualização Atual</span>
+        <span class="version-date">05 Out 2026</span>
       </div>
       <ul>
         <li><strong>Geekie e Google:</strong> iframes priorizados; Cockpit, pesquisa rápida, registro de sessão e fila de pesquisas podem ser recolhidos individualmente.</li>
@@ -10151,7 +10161,9 @@ if (document.readyState === 'loading') {
     window.__gk19Pack = true;
 
     var G19 = 'gk19_';
-    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function shouldReduceMotion() {
+        return document.documentElement.getAttribute('data-motion') === 'reduced';
+    }
 
     function lsGet(key, fallback) {
         try { var v = localStorage.getItem(G19 + key); return v === null ? fallback : JSON.parse(v); }
@@ -10248,32 +10260,39 @@ if (document.readyState === 'loading') {
     // ============================================================
     // EFEITOS GLOBAIS DE BOTÃO — ripple delegado em todo o hub
     // ============================================================
-    var RIPPLE_SELECTOR = [
-        '.btn', '.btn-icon', '.calc-btn', '.gh-feature-btn', '.gk19-btn', '.gk19-mem-btn',
-        '.gk19-light-btn', '.char-action-btn', '.char-filter-btn', '.note-size-btn',
-        '.note-font-btn', '.btn-shuffle', '.pomo-mode', '.fab-btn', '.fab-nav-item',
-        '.diary-mood-btn', '.btn-enhanced', '.login-btn', '.pwd-copy-btn', '.pwd-generate-btn',
-        '.btn-rating-easy', '.btn-rating-hard', '.char-btn-enhanced', '.ambient-card',
-        '.planner-add-btn', '.subj-btn', '.quiz-opt', '.btn-rating-hard'
-    ].join(', ');
+    var RIPPLE_SELECTOR = 'button:not([data-no-ripple])';
 
-    document.addEventListener('pointerdown', function (ev) {
-        if (reduceMotion) return;
-        var target = ev.target && ev.target.closest ? ev.target.closest(RIPPLE_SELECTOR) : null;
-        if (!target || target.disabled || target.getAttribute('aria-disabled') === 'true') return;
+    function addButtonRipple(target, clientX, clientY) {
+        if (shouldReduceMotion() || !target || target.disabled || target.getAttribute('aria-disabled') === 'true') return;
         if (target.classList.contains('clicker-button')) return; // clicker tem partículas próprias
         var rect = target.getBoundingClientRect();
         if (!rect.width || !rect.height) return;
+        target.classList.add('gk-ripple-target');
         var size = Math.max(rect.width, rect.height) * 1.15;
         var span = document.createElement('span');
         span.className = 'gk-ripple';
         span.style.width = span.style.height = size + 'px';
-        span.style.left = (ev.clientX - rect.left - size / 2) + 'px';
-        span.style.top = (ev.clientY - rect.top - size / 2) + 'px';
+        span.style.left = (clientX - rect.left - size / 2) + 'px';
+        span.style.top = (clientY - rect.top - size / 2) + 'px';
         target.appendChild(span);
         span.addEventListener('animationend', function () { span.remove(); });
         setTimeout(function () { if (span.parentNode) span.remove(); }, 900);
+    }
+
+    document.addEventListener('pointerdown', function (ev) {
+        var target = ev.target && ev.target.closest ? ev.target.closest(RIPPLE_SELECTOR) : null;
+        if (!target) return;
+        addButtonRipple(target, ev.clientX, ev.clientY);
     }, { passive: true });
+
+    // Ativações por teclado e leitores de tela também recebem feedback, sem duplicar o ripple do ponteiro.
+    document.addEventListener('click', function (ev) {
+        if (ev.detail !== 0) return;
+        var target = ev.target && ev.target.closest ? ev.target.closest(RIPPLE_SELECTOR) : null;
+        if (!target) return;
+        var rect = target.getBoundingClientRect();
+        addButtonRipple(target, rect.left + rect.width / 2, rect.top + rect.height / 2);
+    }, true);
 
     // ============================================================
     // FEATURES POR ABA
@@ -10473,7 +10492,7 @@ if (document.readyState === 'loading') {
         }
     });
     function floatHeart(x, y) {
-        if (reduceMotion) return;
+        if (shouldReduceMotion()) return;
         var h = document.createElement('span');
         h.className = 'gk19-heart-float';
         h.textContent = '💖';
@@ -10533,7 +10552,7 @@ if (document.readyState === 'loading') {
                     li.classList.remove('gk19-highlight');
                     if (li.textContent.indexOf(pick.text.slice(0, 30)) !== -1) {
                         li.classList.add('gk19-highlight');
-                        li.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' });
+                        li.scrollIntoView({ behavior: shouldReduceMotion() ? 'auto' : 'smooth', block: 'center' });
                         setTimeout(function () { li.classList.remove('gk19-highlight'); }, 3600);
                     }
                 });
@@ -11263,5 +11282,108 @@ if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', install19, { once: true });
     } else {
         install19();
+    }
+})();
+
+// ============================================================================
+// v19.2.0 — CONTROLE GLOBAL DE MOVIMENTO + FERRAMENTAS DO DEV LOG
+// ============================================================================
+(function () {
+    'use strict';
+    var motionKey = 'geekieMotionPreference';
+    var motionQuery = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
+    var motionOverride = null;
+    try {
+        var saved = localStorage.getItem(motionKey);
+        if (saved === 'reduce' || saved === 'full') motionOverride = saved;
+    } catch (e) {}
+
+    function prefersReducedMotion() {
+        if (motionOverride === 'reduce') return true;
+        if (motionOverride === 'full') return false;
+        return !!(motionQuery && motionQuery.matches);
+    }
+
+    function applyMotionPreference() {
+        var reduced = prefersReducedMotion();
+        document.documentElement.setAttribute('data-motion', reduced ? 'reduced' : 'full');
+        var button = document.getElementById('btnMotionMode');
+        if (!button) return;
+        button.setAttribute('aria-pressed', String(reduced));
+        button.setAttribute('aria-label', reduced ? 'Ativar animações' : 'Reduzir animações');
+        button.title = reduced ? 'Animações reduzidas — clique para ativar' : 'Animações completas — clique para reduzir';
+        button.classList.toggle('is-reduced', reduced);
+    }
+
+    window.toggleMotionPreference = function () {
+        motionOverride = prefersReducedMotion() ? 'full' : 'reduce';
+        try { localStorage.setItem(motionKey, motionOverride); } catch (e) {}
+        applyMotionPreference();
+        if (typeof window.showToast === 'function') {
+            window.showToast(motionOverride === 'reduce' ? 'Movimento reduzido ativado.' : 'Animações completas ativadas.');
+        }
+    };
+
+    window.setDevlogCollapsed = function (collapsed) {
+        var timeline = document.getElementById('devlogTimeline');
+        if (!timeline) return;
+        timeline.querySelectorAll('.timeline-item').forEach(function (item) {
+            item.classList.toggle('is-collapsed', !!collapsed);
+        });
+    };
+
+    window.clearDevlogSearch = function () {
+        var input = document.getElementById('devlogSearch');
+        if (input) {
+            input.value = '';
+            input.dispatchEvent(new Event('input', { bubbles: true }));
+            if (typeof window.filterDevlog === 'function') window.filterDevlog('');
+        }
+    };
+
+    window.refreshDevlogCount = function () {
+        var timeline = document.getElementById('devlogTimeline');
+        var count = document.getElementById('devlogCount');
+        if (!timeline || !count) return;
+        var entries = Array.prototype.slice.call(timeline.querySelectorAll('.timeline-item'));
+        var visible = entries.filter(function (item) {
+            return item.style.display !== 'none';
+        }).length;
+        count.textContent = visible + (visible === 1 ? ' atualização' : ' atualizações');
+    };
+
+    function initMotionAndDevlog() {
+        applyMotionPreference();
+        var button = document.getElementById('btnMotionMode');
+        if (button && !button.dataset.motionControlReady) {
+            button.dataset.motionControlReady = 'true';
+            button.addEventListener('click', window.toggleMotionPreference);
+        }
+        window.refreshDevlogCount();
+        var timeline = document.getElementById('devlogTimeline');
+        if (timeline) {
+            timeline.querySelectorAll('.timeline-item').forEach(function (item) {
+                item.removeAttribute('aria-expanded');
+            });
+            if (window.MutationObserver && !timeline.dataset.devlogCounterObserver) {
+                timeline.dataset.devlogCounterObserver = 'true';
+                new MutationObserver(function () { window.refreshDevlogCount(); })
+                    .observe(timeline, { childList: true, subtree: true });
+            }
+        }
+    }
+
+    if (motionQuery) {
+        var onMotionChange = function () {
+            if (motionOverride === null) applyMotionPreference();
+        };
+        if (motionQuery.addEventListener) motionQuery.addEventListener('change', onMotionChange);
+        else if (motionQuery.addListener) motionQuery.addListener(onMotionChange);
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initMotionAndDevlog, { once: true });
+    } else {
+        initMotionAndDevlog();
     }
 })();
