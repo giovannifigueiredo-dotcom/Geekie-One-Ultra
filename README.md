@@ -1,11 +1,12 @@
-# Geekie Study Hub — v19.4.0
+# Geekie Study Hub
 
-Hub de estudos em página única (HTML + CSS + JS puros, sem build e sem servidor).
-Tudo roda no navegador e o progresso é salvo em `localStorage`.
+Hub de estudos em **3 arquivos** (HTML, CSS e JS), sem build e sem dependências externas além dos ícones e das fontes carregados por CDN.
+
+Versão atual: **v19.5.0**
 
 ## Como abrir
 
-Mantenha os **três arquivos na mesma pasta** e abra o `index.html` no navegador:
+Os três arquivos precisam ficar **na mesma pasta**:
 
 ```
 index.html
@@ -13,81 +14,133 @@ style.css
 script.js
 ```
 
-Dica: para o Portal Geekie e o Google carregarem sem bloqueio, sirva por HTTP
-(ex.: `python3 -m http.server 3000` e acesse `http://localhost:3000`).
+- **Duplo clique** em `index.html` funciona (o app roda em `file://`).
+- **Servidor local** é mais confiável para o navegador carregar CSS/JS com o tipo correto:
+
+```bash
+python3 -m http.server 3000
+# abra http://localhost:3000
+```
+
+Se algum arquivo não carregar, o próprio app mostra um aviso vermelho no canto inferior esquerdo dizendo qual falhou — basta garantir os três arquivos juntos e recarregar com `Ctrl+F5`.
 
 ## Arquivos
 
-| Arquivo | Responsabilidade |
+| Arquivo | O que tem dentro |
 | --- | --- |
-| `index.html` | Estrutura: overlay de login, tutorial, topbar, 26 abas, menu FAB, toast |
-| `style.css` | Tokens de design, componentes, molduras de tema e o sistema de animação por tipo de botão |
-| `script.js` | Estado persistente, XP/moedas, todas as abas, animação de botões e Dev Log |
-| `README.md` | Este arquivo (5 últimas atualizações) |
+| `index.html` | Estrutura das 27 abas, overlay de login, tutorial, topbar, menu FAB e o aviso de diagnóstico de carregamento |
+| `style.css` | Tokens de design, componentes de todas as abas, 9 temas, animações por tipo de botão e a camada visual da v19.5.0 |
+| `script.js` | Estado persistente, login local, XP/moedas, 27 abas, motor de animações por tipo, comandos, recompensas, quiz e Dev Log |
 
 ## As 5 últimas atualizações
 
-### 1. v19.4.0 — Correção dos erros de carregamento (2026-11-09)
-- Arquivos com nomes canônicos na mesma pasta: `index.html`, `style.css` e `script.js`.
-- Iframes (Portal Geekie e Google) com carregamento sob demanda, `onload` + timeout de 9 s e overlay de erro — nada de tela branca.
-- Inicialização protegida: cada acesso ao DOM é verificado, e falhas no boot aparecem no overlay de login em vez de sumirem no console.
-- Login, sessão e progresso continuam funcionando mesmo quando o `localStorage` está bloqueado.
-- Removido o código que exigia um download anterior (`style (16) (2).css` / `script (21) (2).js`): os nomes agora casam com as referências do HTML.
+### v19.5.0 — Aba de Comandos
+- Terminal dentro do hub: `ajuda`, `ir`, `foco`, `quiz`, `nota`, `meta`, `senha`, `calc`, `resgatar` e mais (24 comandos).
+- Autocomplete com sugestões clicáveis, `Tab` completa, `↑`/`↓` navegam o histórico.
+- Atalho global `Ctrl+K` (`Cmd+K` no Mac) abre a aba com o cursor pronto.
+- Histórico fica só na memória da aba: nada é enviado para servidor.
 
-### 2. v19.4.0 — Animações por tipo de botão, Dev Log e README (2026-11-09)
-- Novo sistema de animação em que **cada tipo de botão tem o seu efeito** (19 efeitos distintos), aplicado automaticamente pelo `script.js` e desenhado no `style.css`.
-- Efeitos aplicados também a botões criados dinamicamente (MutationObserver).
-- Aba **Dev Log** reorganizada, com filtros por tipo (Correções / Novidades / Interface) e registro desta versão.
-- Este `README.md`, com as 5 últimas atualizações.
+### v19.5.0 — Códigos de Recompensa
+- Seis campanhas: `BEMVINDO`, `GEEKIE2026`, `FOCOPRO`, `ENEM2026`, `DEVLOG5`, `HUBV195`.
+- Prêmios em moedas, XP e temas (`FOCOPRO` e `HUBV195` liberam tema).
+- Cada código vale **uma vez por conta**, com validação de data de expiração e normalização de maiúsculas/espaços.
+- Histórico de resgates com data e botão de colar da área de transferência.
 
-### 3. v19.4.0 — Ajustes visuais e responsividade (2026-11-09)
-- Topbar reorganizada: XP com barra de progresso, moedas, título, tempo de foco, relógio e os três modos.
-- Menu FAB acessível (`aria-expanded`, fechamento por `Esc` e clique fora).
-- Estilos novos para chat, flashcards, planner, quiz, calculadora, caracteres e diário.
-- Molduras animadas para os 9 temas da loja.
+### v19.5.0 — Interface reformulada
+- Fundo com aurora animada e grade sutil; topbar de vidro com fio em gradiente e logo pulsante.
+- Cards com profundidade, borda viva no hover, kicker nos títulos e divisórias em gradiente.
+- Anel de foco visível em botões e campos, micro-animação na troca de aba, barras de rolagem discretas.
+- Busca de abas no menu FAB e selo `NOVO` nas abas recém-chegadas.
 
-### 4. v19.3.0 — Animações previsíveis por função (2026-10-21)
-- Cada grupo de botões passou a ter um efeito consistente com a sua função.
-- Cabeçalho adaptado para telas pequenas (XP, relógio e título recolhem por breakpoint).
+### v19.5.0 — Aba de Códigos removida
+- Os snippets genéricos saíram; o espaço é das abas de Comandos e de Recompensas.
+- Nenhum dado apagado: progresso, notas, temas e XP continuam no mesmo `localStorage`.
+- Pedidos antigos para `tab-codes` são redirecionados para Comandos, sem erro no console.
 
-### 5. v19.2.0 — Controle global de movimento (2026-10-05)
-- Botão **Reduzir animações** no topbar, com preferência salva.
-- Dev Log passou a ser acessível direto pelo menu FAB.
+### v19.4.0 — Correção dos erros de carregamento
+- CSS/JS com `?v=` para furar cache e aviso na tela quando um arquivo não chega.
+- Servidor de preview com MIME explícito, `no-store` e `nosniff`.
+- Login, sessão e progresso protegidos quando o `localStorage` está bloqueado.
 
-## Animação por tipo de botão (v19.4.0)
+## Aba de Comandos
 
-| Tipo de botão | Efeito | Classe |
+| Comando | O que faz |
+| --- | --- |
+| `ajuda [comando]` | Lista tudo ou detalha um comando |
+| `ir <aba>` | Abre uma aba (`ir notas`, `ir devlog`, `ir recompensas`) |
+| `foco [min]` | Inicia o pomodoro (padrão 25 min) |
+| `pausar` / `zerar` | Pausa ou zera o ciclo atual |
+| `quiz <matéria>` | Começa um quiz da matéria |
+| `tema <nome>` | Aplica um tema já desbloqueado |
+| `diario <texto>` | Salva a entrada do diário de hoje |
+| `nota <título> \| <texto>` | Cria uma nota nova |
+| `meta <texto>` | Adiciona uma meta de estudo |
+| `senha [tamanho]` | Gera uma senha forte e copia |
+| `calc <expressão>` | Calcula uma expressão |
+| `resgatar <código>` | Resgata um código de recompensa |
+| `xp` / `moedas` | Mostra progresso e saldo |
+| `devlog [fix\|feature\|style]` | Abre o Dev Log, opcionalmente filtrado |
+| `zen` / `split` | Alterna os modos Zen e Multi-Tarefa |
+| `animacoes on\|off` | Liga ou reduz as animações |
+| `data` | Data e hora atuais |
+| `exportar` | Baixa o progresso em JSON |
+| `sobre` | Versão, número de abas e chave de armazenamento |
+| `limpar` / `reset` | Limpa o terminal / apaga o progresso (com confirmação) |
+
+## Códigos de Recompensa
+
+| Código | Recompensa | Expira em |
 | --- | --- | --- |
-| Entrar / criar conta | gradiente que percorre | `fx-flow` |
-| Ação principal | varredura de brilho | `fx-shine` |
-| Ação secundária | borda traçada | `fx-trace` |
-| Ação destrutiva | tremida curta | `fx-shake` |
-| Ícones do topbar | giro + halo | `fx-orbit` |
-| Chips de sugestão | salto + sublinhado | `fx-lift` |
-| Filtros | compressão elástica | `fx-squish` |
-| Teclas da calculadora | clarão interno | `fx-glint` |
-| Controles do Pomodoro | aperto com anel | `fx-squeeze` |
-| Alternativas do quiz | basculhar 3D | `fx-flip` |
-| Botão flutuante (FAB) | ondas sonar | `fx-sonar` |
-| Itens do menu FAB | deslize + seta | `fx-slide` |
-| Próximo / Anterior do tutorial | empurrão direcional | `fx-nudge-right` / `fx-nudge-left` |
-| Pular tutorial | fade | `fx-fade` |
-| Comprar tema / pet / código | moeda girando | `fx-coin` |
-| Símbolos e favoritos | escala com brilho | `fx-pop` |
-| Núcleo do clicker | batida | `fx-pulse` |
-| Preview de tema | giro de matiz | `fx-hue` |
+| `BEMVINDO` | +15 moedas, +20 XP | 31/12/2026 |
+| `GEEKIE2026` | +50 moedas, +100 XP | 31/12/2026 |
+| `FOCOPRO` | +40 moedas, +60 XP e tema Neon | 31/01/2027 |
+| `ENEM2026` | +30 moedas, +150 XP | 30/11/2026 |
+| `DEVLOG5` | +25 moedas, +25 XP | 30/06/2027 |
+| `HUBV195` | +100 moedas, +50 XP e tema Matrix | 31/12/2026 |
 
-Todas as animações são desligadas por `prefers-reduced-motion` ou pelo botão
-**Reduzir animações** (`Alt+Z` alterna o Modo Zen, `Alt+M` o Multi-Tarefa).
+Regras: um resgate por conta, código sem diferenciar maiúsculas de minúsculas e expiração validada na data local.
+
+## Animações por tipo de botão
+
+O JS identifica o tipo do elemento e atribui o efeito sozinho (`data-fx`), sem `onclick` inline.
+
+| Tipo de botão | Efeito |
+| --- | --- |
+| Primário | `shine` |
+| Outline | `trace` |
+| Perigo | `shake` |
+| Ícone | `orbit` |
+| FAB | `sonar` |
+| Navegação do menu | `slide` |
+| Chips | `lift` |
+| Filtros | `squish` |
+| Botões de compra | `coin` |
+| Opções do quiz | `flip` |
+| Mini botões | `glint` |
+| Pomodoro | `squeeze` |
+| Tutorial (avançar/voltar/pular) | `nudge-right` / `nudge-left` / `fade` |
+| Caracteres | `pop` |
+| Núcleo do clicker | `pulse` |
+| Preview de tema | `hue` |
+| Cmd suggestions | `lift` |
+| Comandos / terminal | `shine` + `trace` |
+
+Animações podem ser desligadas pelo botão de movimento na topbar, pelo comando `animacoes off` ou pelo `prefers-reduced-motion` do sistema.
 
 ## Atalhos
 
-- `Esc` — fecha menu FAB / tutorial / Modo Zen
-- `Alt+M` — Multi-Tarefa (portal + Google lado a lado)
-- `Alt+Z` — Modo Zen
+| Atalho | Ação |
+| --- | --- |
+| `Ctrl+K` / `Cmd+K` | Abre a aba de Comandos |
+| `Alt+Z` | Modo Zen |
+| `Alt+M` | Modo Multi-Tarefa |
+| `↑` / `↓` (no terminal) | Histórico de comandos |
+| `Tab` (no terminal) | Completa o comando |
+| `Ctrl+F5` | Recarrega ignorando cache |
 
-## Privacidade
+## Dados e privacidade
 
-Contas e senhas ficam somente neste navegador (armazenamento local, com hash simples).
-Nenhum dado é enviado para servidores. O tutor de IA é local e baseado em regras,
-não é um modelo de linguagem.
+- Progresso em `localStorage`, chave `geekieHubState_v194`.
+- Contas locais em `geekieHubAccounts_v194` (senha com hash simples — não é segurança de produção).
+- Comandos, recompensas e resgates rodam 100% no navegador: nenhuma requisição é enviada.
+- `exportar` gera um JSON com todo o estado; `reset` (ou limpar dados do site) apaga o progresso.
