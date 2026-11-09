@@ -580,18 +580,73 @@ input[type="date"] { color-scheme: dark; }
 }
 .event-tier.reached { border-color: rgba(0, 255, 136, 0.45); color: var(--primary); }
 
-/* Códigos */
-.codes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; }
-.code-card {
-    border: 1px solid var(--border); border-radius: var(--radius-md);
-    background: rgba(0, 0, 0, 0.28); padding: 12px; display: flex; flex-direction: column; gap: 8px;
+/* Aba de Comandos (v19.5.0) */
+.cmd-page { max-width: 980px; margin: 0 auto; }
+.cmd-output {
+    background: linear-gradient(180deg, rgba(5, 9, 16, 0.94), rgba(8, 13, 22, 0.88));
+    border: 1px solid rgba(0, 255, 136, 0.18); border-radius: var(--radius-md);
+    padding: 14px; font-family: 'Fira Code', monospace; font-size: 0.79rem;
+    height: min(46vh, 360px); overflow-y: auto;
+    display: flex; flex-direction: column; gap: 5px;
+    box-shadow: inset 0 0 40px rgba(0, 255, 136, 0.05);
 }
-.code-card-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 0.78rem; font-weight: 600; }
-.code-pre {
-    font-family: 'Fira Code', monospace; font-size: 0.72rem; color: #9ae6b4;
-    white-space: pre-wrap; word-break: break-word; background: rgba(0, 0, 0, 0.35);
-    border-radius: 6px; padding: 8px; max-height: 130px; overflow: auto;
+.cmd-line { white-space: pre-wrap; word-break: break-word; line-height: 1.55; }
+.cmd-line.in { color: var(--text-main); }
+.cmd-line.in::before { content: 'geekie › '; color: var(--primary); }
+.cmd-line.ok { color: var(--primary); }
+.cmd-line.err { color: var(--danger); }
+.cmd-line.info { color: var(--text-muted); }
+.cmd-line.sys { color: var(--accent); }
+.cmd-form {
+    display: flex; align-items: center; gap: 10px;
+    background: rgba(0, 0, 0, 0.35); border: 1px solid rgba(0, 255, 136, 0.25);
+    border-radius: 12px; padding: 8px 10px; transition: var(--transition-fast);
 }
+.cmd-form:focus-within { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.12); }
+.cmd-prompt { font-family: 'Fira Code', monospace; color: var(--primary); font-size: 0.8rem; white-space: nowrap; }
+.cmd-input {
+    flex: 1; min-width: 0; background: transparent; border: none; outline: none;
+    font-family: 'Fira Code', monospace; font-size: 0.85rem; color: var(--text-main);
+}
+.cmd-suggestions { display: flex; flex-wrap: wrap; gap: 6px; min-height: 26px; }
+.cmd-suggestion { display: inline-flex; align-items: center; gap: 6px; }
+.cmd-suggestion span { color: var(--text-muted); font-size: 0.68rem; }
+.cmd-hints { display: flex; flex-wrap: wrap; gap: 14px; font-size: 0.7rem; color: var(--text-muted); }
+
+/* Códigos de Recompensa (v19.5.0) */
+.reward-form { display: flex; gap: 8px; flex-wrap: wrap; }
+.reward-input {
+    flex: 1 1 240px; text-transform: uppercase; letter-spacing: 1.6px;
+    font-family: 'Fira Code', monospace; font-weight: 600;
+}
+.reward-feedback { min-height: 18px; font-size: 0.78rem; color: var(--text-muted); }
+.reward-feedback.ok { color: var(--success); }
+.reward-feedback.err { color: var(--danger); }
+.reward-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 10px; }
+.reward-card {
+    border: 1px solid var(--border); border-radius: var(--radius-md); padding: 12px;
+    background: linear-gradient(150deg, rgba(255, 215, 0, 0.08), rgba(255, 255, 255, 0.02));
+    display: flex; flex-direction: column; gap: 8px; position: relative; overflow: hidden;
+    transition: var(--transition-fast);
+}
+.reward-card:hover { border-color: rgba(255, 215, 0, 0.4); transform: translateY(-2px); }
+.reward-card.claimed { opacity: 0.6; }
+.reward-code { font-family: 'Fira Code', monospace; font-weight: 600; letter-spacing: 2px; color: var(--gold); }
+.reward-label { font-size: 0.78rem; font-weight: 600; }
+.reward-items { display: flex; flex-wrap: wrap; gap: 6px; }
+.reward-items span {
+    font-size: 0.68rem; color: var(--text-muted); border: 1px solid var(--border);
+    border-radius: var(--radius-full); padding: 2px 8px;
+}
+.reward-state { font-size: 0.66rem; text-transform: uppercase; letter-spacing: 1.2px; color: var(--text-muted); }
+.reward-card.claimed .reward-state { color: var(--success); }
+.reward-history { display: flex; flex-direction: column; gap: 2px; font-size: 0.76rem; color: var(--text-muted); }
+.reward-history .reward-row {
+    display: flex; justify-content: space-between; gap: 10px;
+    border-bottom: 1px dashed var(--border); padding: 7px 0;
+}
+.reward-history .reward-row strong { color: var(--text-main); font-family: 'Fira Code', monospace; letter-spacing: 1px; }
+.reward-history .empty-state { padding: 4px 0; }
 
 /* Dev Log */
 .devlog-list { display: flex; flex-direction: column; gap: 12px; }
@@ -1186,3 +1241,229 @@ html.reduce-motion .fx-ripple { display: none; }
 .new-fab { position: relative; }
 .xp-progress-topbar { min-width: 132px; }
 .flashcard-front { border-color: rgba(0, 212, 255, 0.28); }
+
+/* ==========================================================================
+   10. OVERHAUL DE INTERFACE (v19.5.0)
+   Fundo com aurora, cards com borda em gradiente, topbar de vidro,
+   foco visível, animação de troca de aba e busca no menu FAB.
+   ========================================================================== */
+:root {
+    --panel-a: rgba(23, 32, 53, 0.88);
+    --panel-b: rgba(11, 16, 27, 0.84);
+    --ring: 0 0 0 3px rgba(0, 255, 136, 0.2);
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    inset: -20% -10%;
+    z-index: -2;
+    pointer-events: none;
+    background:
+        radial-gradient(38% 42% at 18% 20%, rgba(0, 255, 136, 0.13), transparent 62%),
+        radial-gradient(34% 38% at 82% 24%, rgba(0, 212, 255, 0.12), transparent 64%),
+        radial-gradient(44% 48% at 52% 90%, rgba(123, 44, 191, 0.15), transparent 62%);
+    filter: blur(8px);
+    animation: auroraDrift 28s ease-in-out infinite alternate;
+}
+
+body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.45;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.026) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.026) 1px, transparent 1px);
+    background-size: 46px 46px;
+    -webkit-mask-image: radial-gradient(circle at 50% 26%, #000 0%, transparent 78%);
+    mask-image: radial-gradient(circle at 50% 26%, #000 0%, transparent 78%);
+}
+
+@keyframes auroraDrift {
+    0% { transform: translate3d(-2%, -1%, 0) scale(1); }
+    50% { transform: translate3d(2%, 1.5%, 0) scale(1.05); }
+    100% { transform: translate3d(-1%, 2%, 0) scale(1.02); }
+}
+
+/* Topbar de vidro com fio em gradiente */
+.topbar {
+    background: linear-gradient(180deg, rgba(16, 22, 38, 0.94), rgba(10, 14, 23, 0.8));
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.38);
+}
+.topbar::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.45), rgba(0, 212, 255, 0.35), transparent);
+}
+.geekie-brand-name {
+    background: linear-gradient(120deg, #ffffff, var(--primary));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+.geekie-logo-mark { animation: logoPulse 5s ease-in-out infinite; }
+@keyframes logoPulse {
+    0%, 100% { box-shadow: 0 0 12px rgba(0, 255, 136, 0.14); }
+    50% { box-shadow: 0 0 26px rgba(0, 255, 136, 0.4); }
+}
+
+/* Cards: profundidade, borda viva e brilho no hover */
+.glass-card {
+    position: relative;
+    background: linear-gradient(160deg, var(--panel-a), var(--panel-b));
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+.glass-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    background: linear-gradient(120deg, rgba(0, 255, 136, 0.16), transparent 34%, transparent 70%, rgba(0, 212, 255, 0.14));
+}
+.glass-card:hover::before { opacity: 0.55; }
+
+.card-kicker {
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 2.4px;
+    color: var(--accent);
+    margin-bottom: 4px;
+}
+.card-title i { filter: drop-shadow(0 0 8px rgba(0, 255, 136, 0.45)); }
+
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text-main);
+    font-size: 0.76rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin: 16px 0 10px;
+}
+.section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(0, 255, 136, 0.4), transparent);
+}
+
+/* Botões: profundidade, anel de foco e gradiente no primário */
+.btn { box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07); }
+.btn:active { transform: translateY(1px) scale(0.99); }
+.btn-primary { background: linear-gradient(135deg, var(--primary), #00b862 68%, var(--accent)); }
+.btn-primary:hover { box-shadow: 0 10px 24px rgba(0, 255, 136, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.12); }
+
+.btn:focus-visible,
+.btn-icon:focus-visible,
+.filter-chip:focus-visible,
+.chip:focus-visible,
+.fab-nav-item:focus-visible,
+.fab-toggle:focus-visible,
+.text-input:focus-visible,
+.text-area:focus-visible {
+    outline: none;
+    box-shadow: var(--ring), 0 0 18px rgba(0, 255, 136, 0.22);
+    border-radius: 10px;
+}
+
+/* Inputs mais vivos */
+.text-input,
+.text-area,
+.note-select,
+.login-input,
+.cmd-input,
+.reward-input { transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease; }
+.text-input:hover,
+.text-area:hover,
+.note-select:hover { border-color: rgba(255, 255, 255, 0.24); }
+
+/* Cartões de estatística */
+.stat-card { transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease; }
+.stat-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(0, 255, 136, 0.35);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+}
+
+/* Troca de aba com micro-animação */
+.tab-content.active { animation: tabSlide 0.32s cubic-bezier(0.2, 0.7, 0.3, 1); }
+@keyframes tabSlide {
+    from { opacity: 0; transform: translateY(10px) scale(0.998); }
+    to { opacity: 1; transform: none; }
+}
+
+/* Menu FAB: busca, estado ativo e hover */
+.fab-menu { box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(0, 255, 136, 0.06); }
+.fab-search {
+    width: 100%;
+    margin: 2px 0 6px;
+    padding: 8px 10px;
+    border-radius: 9px;
+    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-main);
+    font-family: inherit;
+    font-size: 0.78rem;
+}
+.fab-search::placeholder { color: var(--text-muted); }
+.fab-search:focus { outline: none; border-color: var(--primary); box-shadow: var(--ring); }
+.fab-nav-item { transition: background 0.18s ease, color 0.18s ease, transform 0.18s ease; }
+.fab-nav-item:hover { transform: translateX(2px); }
+.fab-nav-item.active {
+    background: linear-gradient(90deg, rgba(0, 255, 136, 0.16), rgba(0, 212, 255, 0.06));
+}
+.fab-nav-item .new-badge {
+    margin-left: auto;
+    font-size: 0.56rem;
+    letter-spacing: 1px;
+    padding: 2px 6px;
+    border-radius: 999px;
+    background: rgba(0, 255, 136, 0.16);
+    color: var(--primary);
+    border: 1px solid rgba(0, 255, 136, 0.35);
+}
+
+kbd {
+    font-family: 'Fira Code', monospace;
+    font-size: 0.66rem;
+    padding: 1px 5px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--border);
+    color: var(--text-main);
+}
+
+/* Login, chat e tutorial */
+.login-card {
+    border-color: rgba(0, 255, 136, 0.26);
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.6), 0 0 60px rgba(0, 255, 136, 0.1);
+}
+.chat-bubble { box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25); }
+.chat-page { max-width: 960px; }
+
+/* Barras de rolagem discretas */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 255, 136, 0.45) transparent;
+}
+
+/* Modo de movimento reduzido também vale para os novos efeitos */
+@media (prefers-reduced-motion: reduce) {
+    body::before { animation: none; }
+}
+
+body.reduce-motion::before { animation: none; }
+body.reduce-motion .tab-content.active { animation: none; }
+body.reduce-motion .geekie-logo-mark { animation: none; }
