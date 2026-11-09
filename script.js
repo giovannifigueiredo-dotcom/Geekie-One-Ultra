@@ -83,7 +83,7 @@ const DEFAULT_STATE = {
     xp: 0,
     coins: 25,
     title: 'Novato',
-    pageTitle: 'Geekie One Ultra v19.4.0',
+    pageTitle: 'Geekie One Ultra v19.5.0',
     font: 'Poppins',
     icon: 'fa-graduation-cap',
     themesOwned: ['default'],
@@ -114,7 +114,9 @@ const DEFAULT_STATE = {
     charsFav: [],
     chatHistory: [],
     motionReduced: false,
-    quizBest: 0
+    quizBest: 0,
+    redeemed: [],
+    commandHistory: []
 };
 
 function loadState() {
@@ -130,6 +132,8 @@ function loadState() {
     if (!Array.isArray(merged.goals)) merged.goals = [];
     if (!Array.isArray(merged.noteOrder)) merged.noteOrder = [];
     if (!Array.isArray(merged.chatHistory)) merged.chatHistory = [];
+    if (!Array.isArray(merged.redeemed)) merged.redeemed = [];
+    if (!Array.isArray(merged.commandHistory)) merged.commandHistory = [];
     return merged;
 }
 
@@ -269,7 +273,7 @@ function openSession() {
     renderDevlog(currentDevlogFilter);
     renderDevlogMonths();
     renderChars();
-    renderCodes();
+    renderRewards();
     renderEventMonths();
     renderPlanner();
     renderSubjectChips();
@@ -380,7 +384,8 @@ const TAB_META = [
     { id: 'tab-title', title: 'Título da Página', icon: 'fa-pen-nib', desc: 'Personalize título, fonte e ícone da página.', tips: ['O título também muda a aba do navegador.', 'Restaure o padrão a qualquer momento.'] },
     { id: 'tab-events', title: 'Eventos do Mês', icon: 'fa-calendar-star', desc: 'Evento temático de cada mês com recompensas por XP.', tips: ['Os níveis do evento sobem com seu XP.', 'O mês atual é destacado automaticamente.'] },
     { id: 'tab-google', title: 'Google', icon: 'fa-brands fa-google', desc: 'Google embutido para pesquisas rápidas.', tips: ['Se o site bloquear, abra em nova aba.', 'Recarregar resolve telas brancas.'] },
-    { id: 'tab-codes', title: 'Códigos', icon: 'fa-code', desc: 'Snippets prontos com busca e cópia rápida.', tips: ['Use os filtros por linguagem.', 'Copie e cole no seu editor.'] },
+    { id: 'tab-commands', title: 'Aba de Comandos', icon: 'fa-terminal', desc: 'Terminal do hub para navegar e agir digitando.', tips: ['Digite "ajuda" para ver a lista completa.', 'Use Ctrl+K para abrir de qualquer aba.', 'Setas ↑ e ↓ percorrem o histórico.'] },
+    { id: 'tab-rewards', title: 'Códigos de Recompensa', icon: 'fa-gift', desc: 'Códigos de campanha que liberam moedas, XP, temas e títulos.', tips: ['Cole o código e clique em Resgatar.', 'Cada código vale uma vez por conta.', 'Também funciona pelo comando "resgatar".'] },
     { id: 'tab-devlog', title: 'Dev Log', icon: 'fa-clock-rotate-left', desc: 'Histórico de versões do hub, com filtros por tipo.', tips: ['As 5 últimas atualizações estão no README.', 'Filtre por "Correções" para ver o que foi consertado.'] },
     { id: 'tab-diary', title: 'Diário', icon: 'fa-book-heart', desc: 'Registro diário de humor e aprendizado.', tips: ['Uma entrada por dia é sobrescrita ao salvar.', 'Exporte para guardar fora do navegador.'] },
     { id: 'tab-password', title: 'Gerador de Senhas', icon: 'fa-shield-halved', desc: 'Senhas fortes geradas localmente.', tips: ['Aumente o tamanho para mais segurança.', 'Nada é enviado pela rede.'] }
@@ -446,6 +451,7 @@ function bindTutorial() {
 let activeTabId = 'tab-geekie';
 
 function switchTab(tabId, opts) {
+    if (tabId === 'tab-codes') tabId = 'tab-commands';
     const target = document.getElementById(tabId);
     if (!target) return;
     $$('.tab-content').forEach((el) => el.classList.remove('active'));
@@ -467,6 +473,8 @@ function switchTab(tabId, opts) {
     if (tabId === 'tab-title') renderTitleEditor();
     if (tabId === 'tab-quiz') resetQuizView();
     if (tabId === 'tab-diary') renderDiary();
+    if (tabId === 'tab-rewards') renderRewards();
+    if (tabId === 'tab-commands') renderCmdLog();
 }
 
 function openFabMenu() {
@@ -2139,56 +2147,603 @@ function bindEvents() {
     });
 }
 
-/* ============ 29. CÓDIGOS ============ */
-const CODES = [
-    { title: 'Boilerplate HTML', lang: 'html', code: '<!DOCTYPE html>\n<html lang="pt-BR">\n<head>\n  <meta charset="UTF-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1">\n  <title>Documento</title>\n</head>\n<body>\n\n</body>\n</html>' },
-    { title: 'Centralizar com Flexbox', lang: 'css', code: '.center {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  min-height: 100vh;\n}' },
-    { title: 'Grid responsivo', lang: 'css', code: '.grid {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));\n  gap: 16px;\n}' },
-    { title: 'Debounce', lang: 'js', code: 'function debounce(fn, wait = 300) {\n  let t;\n  return (...args) => {\n    clearTimeout(t);\n    t = setTimeout(() => fn(...args), wait);\n  };\n}' },
-    { title: 'Fetch com erro tratado', lang: 'js', code: 'async function getJSON(url) {\n  const res = await fetch(url);\n  if (!res.ok) throw new Error("HTTP " + res.status);\n  return res.json();\n}' },
-    { title: 'Array sem duplicados', lang: 'js', code: 'const unique = (list) => [...new Set(list)];' },
-    { title: 'localStorage seguro', lang: 'js', code: 'const store = {\n  get(k, fallback) { try { return JSON.parse(localStorage.getItem(k)) ?? fallback; } catch { return fallback; } },\n  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} }\n};' },
-    { title: 'Git: salvar e enviar', lang: 'git', code: 'git add .\ngit commit -m "mensagem clara"\ngit push origin main' },
-    { title: 'Git: desfazer último commit', lang: 'git', code: 'git reset --soft HEAD~1   # mantém as alterações\ngit reset --hard HEAD~1    # descarta as alterações' },
-    { title: 'Regex de e-mail', lang: 'regex', code: '^[^\\s@]+@[^\\s@]+\\.[^\\s@]{2,}$' }
-];
-let codeFilter = 'all';
+/* ============ 29. COMANDOS E CÓDIGOS DE RECOMPENSA ============ */
+const CMD_LIMIT = 260;
+let cmdLog = [];
+let cmdHistoryIndex = 0;
 
-function renderCodes() {
-    const filters = $('#codesFilters');
-    const langs = ['all'].concat(Array.from(new Set(CODES.map((c) => c.lang))));
-    if (filters) {
-        filters.innerHTML = langs.map((l) => '<button class="filter-chip' + (codeFilter === l ? ' active' : '') + '" type="button" data-fx="squish" data-code-filter="' + l + '">' + (l === 'all' ? 'Todas' : l.toUpperCase()) + '</button>').join('');
-    }
-    const grid = $('#codesGrid');
-    if (!grid) return;
-    const list = CODES.filter((c) => codeFilter === 'all' || c.lang === codeFilter);
-    grid.innerHTML = list.map((c, i) => '<div class="code-card"><div class="code-card-head"><span>' + escapeHtml(c.title) + '</span>' +
-        '<button class="buy-btn" type="button" data-fx="pop" data-copy-code="' + CODES.indexOf(c) + '"><i class="fa-solid fa-copy"></i></button></div>' +
-        '<pre class="code-pre">' + escapeHtml(c.code) + '</pre></div>').join('');
+function renderCmdLog() {
+    const box = $('#cmdOutput');
+    if (!box) return;
+    box.innerHTML = cmdLog.map((l) => '<div class="cmd-line ' + l.type + '">' + escapeHtml(l.text) + '</div>').join('');
+    box.scrollTop = box.scrollHeight;
 }
 
-function bindCodes() {
-    renderCodes();
-    const filters = $('#codesFilters');
-    if (filters) filters.addEventListener('click', (e) => {
-        const chip = e.target.closest('[data-code-filter]');
-        if (!chip) return;
-        codeFilter = chip.dataset.codeFilter;
-        renderCodes();
+function cmdPrint(type, text) {
+    String(text).split('\n').forEach((line) => cmdLog.push({ type: type, text: line }));
+    if (cmdLog.length > CMD_LIMIT) cmdLog = cmdLog.slice(cmdLog.length - CMD_LIMIT);
+    renderCmdLog();
+}
+
+const CMD_TAB_ALIASES = {
+    inicio: 'tab-geekie', home: 'tab-geekie', geekie: 'tab-geekie',
+    chat: 'tab-chat', ia: 'tab-chat', tutor: 'tab-chat',
+    notas: 'tab-notes', notes: 'tab-notes',
+    loja: 'tab-store', store: 'tab-store', temas: 'tab-store',
+    titulos: 'tab-titles', titulo: 'tab-title', title: 'tab-title',
+    pets: 'tab-pets', pet: 'tab-pets',
+    trilha: 'tab-journey', journey: 'tab-journey',
+    pomodoro: 'tab-timer', timer: 'tab-timer', foco: 'tab-timer',
+    metas: 'tab-goals', goals: 'tab-goals',
+    flashcards: 'tab-flashcards', cards: 'tab-flashcards',
+    planner: 'tab-planner', agenda: 'tab-planner',
+    estatisticas: 'tab-stats', stats: 'tab-stats',
+    materias: 'tab-subjects', subjects: 'tab-subjects',
+    quiz: 'tab-quiz', clicker: 'tab-clicker',
+    ambiente: 'tab-ambient', ambient: 'tab-ambient', sons: 'tab-ambient',
+    teclado: 'tab-keysounds', keysounds: 'tab-keysounds',
+    calculadora: 'tab-calculator', calculator: 'tab-calculator',
+    caracteres: 'tab-chars', chars: 'tab-chars', simbolos: 'tab-chars',
+    eventos: 'tab-events', events: 'tab-events', calendario: 'tab-events',
+    google: 'tab-google',
+    comandos: 'tab-commands', commands: 'tab-commands', terminal: 'tab-commands',
+    recompensas: 'tab-rewards', rewards: 'tab-rewards', codigos: 'tab-rewards',
+    devlog: 'tab-devlog', diario: 'tab-diary', diary: 'tab-diary',
+    senhas: 'tab-password', password: 'tab-password'
+};
+
+function resolveTabId(arg) {
+    const key = String(arg || '').trim().toLowerCase().replace(/^tab-/, '');
+    if (!key) return null;
+    if (CMD_TAB_ALIASES[key]) return CMD_TAB_ALIASES[key];
+    const byTitle = TAB_META.find((t) => t.title.toLowerCase() === key) || TAB_META.find((t) => t.title.toLowerCase().indexOf(key) === 0);
+    return byTitle ? byTitle.id : null;
+}
+
+function renderCmdSuggestions(query) {
+    const box = $('#cmdSuggestions');
+    if (!box) return;
+    const term = String(query || '').trim().toLowerCase();
+    const list = (term
+        ? COMMANDS.filter((c) => c.name.indexOf(term) === 0 || c.desc.toLowerCase().indexOf(term) !== -1)
+        : COMMANDS).slice(0, 7);
+    box.innerHTML = list.map((c) => '<button class="chip cmd-suggestion" type="button" data-fx="lift" data-cmd-suggest="' + c.name + '">' +
+        escapeHtml(c.name) + ' <span>' + escapeHtml(c.desc) + '</span></button>').join('');
+}
+
+function focusCommandInput() {
+    const input = $('#cmdInput');
+    if (!input) return;
+    renderCmdSuggestions(input.value);
+    setTimeout(() => input.focus(), 80);
+}
+
+function filterFabItems() {
+    const search = $('#fabSearch');
+    if (!search) return;
+    const term = search.value.trim().toLowerCase();
+    $$('.fab-nav-item[data-tab]').forEach((item) => {
+        item.style.display = (!term || item.textContent.toLowerCase().indexOf(term) !== -1) ? '' : 'none';
     });
-    const grid = $('#codesGrid');
+}
+
+function themeNameById(id) {
+    const list = (typeof THEMES !== 'undefined' && Array.isArray(THEMES)) ? THEMES : [];
+    const theme = list.find((t) => t.id === id);
+    return theme ? theme.name : null;
+}
+
+const COMMANDS = [
+    {
+        name: 'ajuda', args: '[comando]', desc: 'Lista os comandos ou detalha um deles',
+        run(a) {
+            if (a) {
+                const cmd = COMMANDS.find((c) => c.name === a.toLowerCase());
+                if (!cmd) throw new Error('Não conheço o comando "' + a + '".');
+                return 'Uso: ' + cmd.name + ' ' + cmd.args + '\n' + cmd.desc;
+            }
+            return ['Comandos disponíveis (' + COMMANDS.length + '):']
+                .concat(COMMANDS.map((c) => '  ' + (c.name + ' ' + c.args).trim() + ' — ' + c.desc));
+        }
+    },
+    {
+        name: 'ir', args: '<aba>', desc: 'Abre uma aba (ex.: ir notas)',
+        run(a) {
+            if (!a) throw new Error('Diga para onde ir: ir notas, ir devlog, ir recompensas...');
+            const id = resolveTabId(a);
+            if (!id) throw new Error('Aba não encontrada: "' + a + '".');
+            switchTab(id);
+            const meta = TAB_META.find((t) => t.id === id);
+            return 'Abrindo ' + (meta ? meta.title : id) + '.';
+        }
+    },
+    {
+        name: 'foco', args: '[minutos]', desc: 'Inicia o pomodoro (padrão 25 min)',
+        run(a) {
+            const wanted = parseInt(a, 10);
+            const minutes = Math.max(1, Math.min(180, isNaN(wanted) ? 25 : wanted));
+            switchTab('tab-timer');
+            let matched = false;
+            $$('#pomoModes .filter-chip').forEach((chip) => {
+                const n = Number(String(chip.textContent).replace(/[^0-9]/g, ''));
+                if (n === minutes && !matched) { chip.click(); matched = true; }
+            });
+            const start = $('#pomoStartBtn');
+            if (!start) throw new Error('Controle do pomodoro não encontrado.');
+            start.click();
+            return 'Foco iniciado com ' + (matched ? minutes + ' minutos' : 'o modo atual') + '. Bons estudos!';
+        }
+    },
+    {
+        name: 'pausar', args: '', desc: 'Pausa o pomodoro',
+        run() {
+            const btn = $('#pomoPauseBtn');
+            if (!btn) throw new Error('Pomodoro indisponível.');
+            btn.click();
+            return 'Pomodoro pausado.';
+        }
+    },
+    {
+        name: 'zerar', args: '', desc: 'Zera o ciclo do pomodoro',
+        run() {
+            const btn = $('#pomoResetBtn');
+            if (!btn) throw new Error('Pomodoro indisponível.');
+            btn.click();
+            return 'Ciclo zerado.';
+        }
+    },
+    {
+        name: 'quiz', args: '<matéria>', desc: 'Começa um quiz da matéria',
+        run(a) {
+            if (!a) throw new Error('Diga a matéria: quiz biologia.');
+            const select = $('#quizSubject');
+            if (!select) throw new Error('Quiz indisponível.');
+            const term = a.toLowerCase();
+            const option = Array.from(select.options).find((o) => o.value.toLowerCase() === term || o.textContent.toLowerCase().indexOf(term) === 0);
+            if (!option) throw new Error('Matéria não encontrada: "' + a + '".');
+            switchTab('tab-quiz');
+            select.value = option.value;
+            select.dispatchEvent(new Event('change', { bubbles: true }));
+            const start = $('#quizStartBtn');
+            if (start) start.click();
+            return 'Quiz de ' + option.textContent.trim() + ' iniciado.';
+        }
+    },
+    {
+        name: 'tema', args: '<nome>', desc: 'Aplica um tema desbloqueado',
+        run(a) {
+            if (!a) throw new Error('Diga o tema: tema neon.');
+            const term = a.toLowerCase();
+            const list = (typeof THEMES !== 'undefined' && Array.isArray(THEMES)) ? THEMES : [];
+            const theme = list.find((t) => t.id.toLowerCase() === term || t.name.toLowerCase().indexOf(term) === 0);
+            if (!theme) throw new Error('Tema não encontrado: "' + a + '".');
+            if (state.themesOwned.indexOf(theme.id) === -1) throw new Error('O tema "' + theme.name + '" ainda não está desbloqueado. Veja a Loja.');
+            applyTheme(theme.id);
+            state.theme = theme.id;
+            saveState();
+            return 'Tema ' + theme.name + ' aplicado.';
+        }
+    },
+    {
+        name: 'diario', args: '<texto>', desc: 'Salva a entrada do diário de hoje',
+        run(a) {
+            if (!a) throw new Error('Escreva algo: diario hoje rendeu bem em matemática.');
+            switchTab('tab-diary');
+            const text = $('#diaryText');
+            const save = $('#diarySaveBtn');
+            if (!text || !save) throw new Error('Diário indisponível.');
+            text.value = a;
+            text.dispatchEvent(new Event('input', { bubbles: true }));
+            save.click();
+            return 'Entrada do diário salva.';
+        }
+    },
+    {
+        name: 'nota', args: '<título> | <texto>', desc: 'Cria uma nota nova',
+        run(a) {
+            if (!a) throw new Error('Use: nota Título | conteúdo da nota.');
+            const parts = String(a).split('|');
+            const title = (parts[0] || '').trim();
+            const body = parts.length > 1 ? parts.slice(1).join('|').trim() : '';
+            if (!title) throw new Error('A nota precisa de um título.');
+            switchTab('tab-notes');
+            const newBtn = $('#noteNewBtn');
+            if (newBtn) newBtn.click();
+            const titleInput = $('#noteTitleInput');
+            const content = $('#noteContentInput');
+            const save = $('#noteSaveBtn');
+            if (!titleInput || !content || !save) throw new Error('Notas indisponíveis.');
+            titleInput.value = title;
+            content.value = body;
+            titleInput.dispatchEvent(new Event('input', { bubbles: true }));
+            content.dispatchEvent(new Event('input', { bubbles: true }));
+            save.click();
+            return 'Nota "' + title + '" criada.';
+        }
+    },
+    {
+        name: 'meta', args: '<texto>', desc: 'Adiciona uma meta de estudo',
+        run(a) {
+            if (!a) throw new Error('Escreva a meta: meta revisar 20 questões.');
+            switchTab('tab-goals');
+            const input = $('#goalInput');
+            const form = $('#goalForm');
+            if (!input || !form) throw new Error('Metas indisponíveis.');
+            input.value = a;
+            form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+            return 'Meta adicionada: ' + a;
+        }
+    },
+    {
+        name: 'senha', args: '[tamanho]', desc: 'Gera uma senha forte (padrão 20)',
+        run(a) {
+            const wanted = parseInt(a, 10);
+            const len = Math.max(8, Math.min(64, isNaN(wanted) ? 20 : wanted));
+            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%&*-_=+?';
+            let out = '';
+            if (window.crypto && window.crypto.getRandomValues) {
+                const buf = new Uint32Array(len);
+                window.crypto.getRandomValues(buf);
+                for (let i = 0; i < len; i++) out += chars[buf[i] % chars.length];
+            } else {
+                for (let i = 0; i < len; i++) out += chars[Math.floor(Math.random() * chars.length)];
+            }
+            copyText(out).then((ok) => { if (ok) toast('Senha copiada.', 'fa-copy'); });
+            return 'Senha (' + len + ' caracteres, cópia automática):\n' + out;
+        }
+    },
+    {
+        name: 'calc', args: '<expressão>', desc: 'Calcula uma expressão',
+        run(a) {
+            const expr = String(a || '').replace(/[^0-9+\-*/().%\s]/g, '').trim();
+            if (!expr) throw new Error('Use: calc (12+8)*3.');
+            let result;
+            try { result = Function('"use strict";return (' + expr + ')')(); } catch (e) { throw new Error('Expressão inválida.'); }
+            if (typeof result !== 'number' || !isFinite(result)) throw new Error('Expressão inválida.');
+            return expr + ' = ' + result;
+        }
+    },
+    {
+        name: 'resgatar', args: '<código>', desc: 'Resgata um código de recompensa',
+        run(a) {
+            if (!a) throw new Error('Diga o código: resgatar GEEKIE2026.');
+            return redeemCode(a);
+        }
+    },
+    {
+        name: 'xp', args: '', desc: 'Mostra XP, moedas, sessões e metas',
+        run() {
+            return 'XP: ' + state.xp + ' · Moedas: ' + state.coins + ' · Sessões: ' + state.sessions + ' · Metas: ' + state.goals.length;
+        }
+    },
+    {
+        name: 'moedas', args: '', desc: 'Mostra seu saldo de moedas',
+        run() { return 'Você tem ' + state.coins + ' moedas. Use na Loja para comprar temas e pets.'; }
+    },
+    {
+        name: 'devlog', args: '[fix|feature|style]', desc: 'Abre o Dev Log, opcionalmente filtrado',
+        run(a) {
+            const map = { fix: 'fix', correcao: 'fix', 'correção': 'fix', bug: 'fix', feature: 'feature', recurso: 'feature', novo: 'feature', style: 'style', visual: 'style', design: 'style', all: 'all', tudo: 'all' };
+            currentDevlogFilter = map[String(a || '').toLowerCase()] || 'all';
+            switchTab('tab-devlog');
+            renderDevlog(currentDevlogFilter);
+            return 'Dev Log aberto' + (currentDevlogFilter === 'all' ? '.' : ' filtrado por ' + currentDevlogFilter + '.');
+        }
+    },
+    {
+        name: 'zen', args: '', desc: 'Alterna o modo Zen',
+        run() { toggleZenMode(); return 'Modo Zen alternado.'; }
+    },
+    {
+        name: 'split', args: '', desc: 'Alterna o modo Multi-Tarefa',
+        run() { toggleSplitMode(); return 'Modo Multi-Tarefa alternado.'; }
+    },
+    {
+        name: 'animacoes', args: 'on | off', desc: 'Liga ou reduz as animações',
+        run(a) {
+            const on = !/off|deslig|parar|false|0/i.test(String(a || ''));
+            applyMotionPreference(!on);
+            state.motionReduced = !on;
+            saveState();
+            return 'Animações ' + (on ? 'ativadas' : 'reduzidas') + '.';
+        }
+    },
+    {
+        name: 'data', args: '', desc: 'Mostra a data e a hora atuais',
+        run() { return new Date().toLocaleString('pt-BR'); }
+    },
+    {
+        name: 'exportar', args: '', desc: 'Baixa o progresso em JSON',
+        run() {
+            const data = JSON.stringify(state, null, 2);
+            const url = URL.createObjectURL(new Blob([data], { type: 'application/json' }));
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'geekie-progresso-' + dateKey() + '.json';
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            URL.revokeObjectURL(url);
+            return 'Progresso exportado (' + Math.round(data.length / 1024) + ' KB).';
+        }
+    },
+    {
+        name: 'sobre', args: '', desc: 'Versão, abas e armazenamento',
+        run() {
+            return ['Geekie Study Hub v19.5.0',
+                'Abas: ' + TAB_META.length + ' · Comandos: ' + COMMANDS.length,
+                'XP: ' + state.xp + ' · Moedas: ' + state.coins,
+                'Tudo salvo localmente em "' + STORAGE_KEY + '".'].join('\n');
+        }
+    },
+    {
+        name: 'limpar', args: '', desc: 'Limpa o terminal',
+        run() {
+            cmdLog = [];
+            renderCmdLog();
+            return 'Terminal limpo. Digite "ajuda" para começar de novo.';
+        }
+    },
+    {
+        name: 'reset', args: '', desc: 'Apaga o progresso salvo (pede confirmação)',
+        run() {
+            if (!window.confirm('Apagar todo o progresso salvo neste navegador?')) return 'Reset cancelado.';
+            try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+            window.location.reload();
+            return 'Progresso apagado. Recarregando...';
+        }
+    }
+];
+
+function runCommand(raw) {
+    const text = String(raw || '').trim();
+    if (!text) return;
+    cmdPrint('in', text);
+    const space = text.indexOf(' ');
+    const name = (space === -1 ? text : text.slice(0, space)).toLowerCase();
+    const args = space === -1 ? '' : text.slice(space + 1).trim();
+    const cmd = COMMANDS.find((c) => c.name === name);
+    if (!cmd) {
+        const close = COMMANDS.filter((c) => c.name.indexOf(name) === 0).map((c) => c.name);
+        cmdPrint('err', 'Comando "' + name + '" não existe.' + (close.length ? ' Você quis dizer: ' + close.slice(0, 3).join(', ') + '?' : ' Digite "ajuda".'));
+        return;
+    }
+    let out;
+    try { out = cmd.run(args); } catch (err) { cmdPrint('err', err && err.message ? err.message : String(err)); return; }
+    if (out) cmdPrint('ok', Array.isArray(out) ? out.join('\n') : out);
+    state.commandHistory.push(text);
+    if (state.commandHistory.length > 40) state.commandHistory = state.commandHistory.slice(-40);
+    saveState();
+    cmdHistoryIndex = state.commandHistory.length;
+}
+
+function bindCommands() {
+    const form = $('#cmdForm');
+    const input = $('#cmdInput');
+    const count = $('#cmdCount');
+    if (count) count.textContent = COMMANDS.length + ' comandos';
+    if (!cmdLog.length) {
+        cmdPrint('sys', 'Geekie Study Hub v19.5.0 — terminal pronto.');
+        cmdPrint('info', 'Digite "ajuda" para ver os comandos, "ir notas" para navegar ou "resgatar GEEKIE2026" para testar as recompensas.');
+    }
+    renderCmdSuggestions('');
+    cmdHistoryIndex = state.commandHistory.length;
+    if (form) form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (!input) return;
+        runCommand(input.value);
+        input.value = '';
+        renderCmdSuggestions('');
+    });
+    if (input) {
+        input.addEventListener('input', () => renderCmdSuggestions(input.value));
+        input.addEventListener('keydown', (e) => {
+            const history = state.commandHistory;
+            if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                if (!history.length) return;
+                cmdHistoryIndex = Math.max(0, cmdHistoryIndex - 1);
+                input.value = history[cmdHistoryIndex] || '';
+            } else if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                cmdHistoryIndex = Math.min(history.length, cmdHistoryIndex + 1);
+                input.value = history[cmdHistoryIndex] || '';
+            } else if (e.key === 'Tab') {
+                const typed = input.value.trim().toLowerCase();
+                const match = COMMANDS.find((c) => c.name.indexOf(typed) === 0);
+                if (match) {
+                    e.preventDefault();
+                    input.value = match.name + ' ';
+                    renderCmdSuggestions(match.name);
+                }
+            }
+        });
+    }
+    const suggestions = $('#cmdSuggestions');
+    if (suggestions) suggestions.addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-cmd-suggest]');
+        if (!btn || !input) return;
+        input.value = btn.dataset.cmdSuggest + ' ';
+        input.focus();
+        renderCmdSuggestions(input.value);
+    });
+    const cmdBtn = $('#btnCommands');
+    if (cmdBtn) cmdBtn.addEventListener('click', () => { switchTab('tab-commands'); focusCommandInput(); });
+    const search = $('#fabSearch');
+    if (search) search.addEventListener('input', filterFabItems);
+    document.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K')) {
+            e.preventDefault();
+            switchTab('tab-commands');
+            focusCommandInput();
+        }
+    });
+}
+
+/* --- Códigos de recompensa --- */
+const REWARDS = [
+    { code: 'BEMVINDO', label: 'Boas-vindas', coins: 15, xp: 20, hint: 'Para quem acabou de criar a conta', expires: '2026-12-31' },
+    { code: 'GEEKIE2026', label: 'Campanha Geekie 2026', coins: 50, xp: 100, hint: 'Código oficial da temporada 2026', expires: '2026-12-31' },
+    { code: 'FOCOPRO', label: 'Pacote Foco Pro', coins: 40, xp: 60, theme: 'neon', hint: 'Libera o tema Neon', expires: '2027-01-31' },
+    { code: 'ENEM2026', label: 'Reta ENEM', coins: 30, xp: 150, hint: 'Para quem está na reta final', expires: '2026-11-30' },
+    { code: 'DEVLOG5', label: 'Leitor do Dev Log', coins: 25, xp: 25, hint: 'Quem lê as notas de versão ganha', expires: '2027-06-30' },
+    { code: 'HUBV195', label: 'Lançamento v19.5.0', coins: 100, xp: 50, theme: 'matrix', hint: 'Resgate de lançamento da versão 19.5.0', expires: '2026-12-31' }
+];
+
+function isRewardRedeemed(code) {
+    return state.redeemed.some((r) => r.code === code);
+}
+
+function rewardParts(item) {
+    const parts = [];
+    if (item.coins) parts.push('+' + item.coins + ' moedas');
+    if (item.xp) parts.push('+' + item.xp + ' XP');
+    if (item.theme) {
+        const name = themeNameById(item.theme);
+        if (name) parts.push('tema ' + name);
+    }
+    return parts;
+}
+
+function redeemCode(raw) {
+    const code = String(raw || '').trim().toUpperCase().replace(/\s+/g, '');
+    if (!code) throw new Error('Digite um código para resgatar.');
+    const item = REWARDS.find((r) => r.code === code);
+    if (!item) throw new Error('Código "' + code + '" não existe. Confira as campanhas listadas.');
+    if (isRewardRedeemed(code)) throw new Error('O código ' + code + ' já foi resgatado nesta conta.');
+    if (item.expires && dateKey() > item.expires) {
+        throw new Error('O código ' + code + ' expirou em ' + item.expires.split('-').reverse().join('/') + '.');
+    }
+    const gained = [];
+    if (item.coins) { addCoins(item.coins); gained.push('+' + item.coins + ' moedas'); }
+    if (item.xp) { addXp(item.xp); gained.push('+' + item.xp + ' XP'); }
+    if (item.theme && themeNameById(item.theme) && state.themesOwned.indexOf(item.theme) === -1) {
+        state.themesOwned.push(item.theme);
+        gained.push('tema ' + themeNameById(item.theme));
+    }
+    state.redeemed.push({ code: code, at: Date.now() });
+    saveState();
+    renderRewards();
+    renderProfile();
+    renderStore();
+    renderTitles();
+    toast('Código ' + code + ' resgatado!', 'fa-gift');
+    return 'Código ' + code + ' resgatado: ' + gained.join(', ') + '.';
+}
+
+function renderRewards() {
+    const grid = $('#rewardGrid');
+    const history = $('#rewardHistory');
+    const coins = $('#rewardCoinCount');
+    if (coins) coins.textContent = state.coins;
+    if (grid) {
+        grid.innerHTML = REWARDS.map((r) => {
+            const done = isRewardRedeemed(r.code);
+            const items = rewardParts(r).map((p) => '<span>' + escapeHtml(p) + '</span>').join('');
+            const expires = r.expires.split('-').reverse().join('/');
+            return '<div class="reward-card' + (done ? ' claimed' : '') + '" title="' + escapeHtml(r.hint) + '">' +
+                '<div class="reward-code">' + escapeHtml(r.code) + '</div>' +
+                '<div class="reward-label">' + escapeHtml(r.label) + '</div>' +
+                '<div class="reward-items">' + items + '</div>' +
+                '<div class="reward-state">' + (done ? 'resgatado' : 'disponível até ' + expires) + '</div>' +
+                '<button class="btn btn-outline" type="button" data-fx="trace" data-redeem="' + escapeHtml(r.code) + '"' + (done ? ' disabled' : '') + '>' +
+                (done ? '<i class="fa-solid fa-check"></i> Resgatado' : '<i class="fa-solid fa-gift"></i> Resgatar') + '</button>' +
+                '</div>';
+        }).join('');
+    }
+    if (history) {
+        if (!state.redeemed.length) {
+            history.innerHTML = '<div class="empty-state">Nenhum código resgatado ainda. Comece por BEMVINDO.</div>';
+        } else {
+            history.innerHTML = state.redeemed.slice().reverse().map((entry) => {
+                const item = REWARDS.find((r) => r.code === entry.code);
+                const when = new Date(entry.at).toLocaleString('pt-BR');
+                return '<div class="reward-row"><span><strong>' + escapeHtml(entry.code) + '</strong> · ' +
+                    escapeHtml(item ? item.label : 'campanha') + '</span><span>' + when + '</span></div>';
+            }).join('');
+        }
+    }
+}
+
+function bindRewards() {
+    const form = $('#rewardForm');
+    const input = $('#rewardInput');
+    const feedback = $('#rewardFeedback');
+    const show = (message, ok) => {
+        if (!feedback) return;
+        feedback.textContent = message;
+        feedback.className = 'reward-feedback ' + (ok ? 'ok' : 'err');
+    };
+    if (form) form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (!input) return;
+        try {
+            show(redeemCode(input.value), true);
+            input.value = '';
+        } catch (err) {
+            show(err && err.message ? err.message : 'Não foi possível resgatar.', false);
+        }
+    });
+    if (input) input.addEventListener('input', () => { input.value = input.value.toUpperCase(); });
+    const paste = $('#rewardPasteBtn');
+    if (paste) paste.addEventListener('click', () => {
+        if (!navigator.clipboard || !navigator.clipboard.readText) {
+            show('Seu navegador não libera a área de transferência. Use Ctrl+V.', false);
+            return;
+        }
+        navigator.clipboard.readText().then((text) => {
+            if (input) {
+                input.value = String(text || '').trim().toUpperCase();
+                input.focus();
+            }
+        }).catch(() => show('Permissão para colar negada. Use Ctrl+V.', false));
+    });
+    const grid = $('#rewardGrid');
     if (grid) grid.addEventListener('click', (e) => {
-        const btn = e.target.closest('[data-copy-code]');
-        if (!btn) return;
-        const item = CODES[Number(btn.dataset.copyCode)];
-        if (!item) return;
-        copyText(item.code).then((ok) => toast(ok ? 'Código copiado.' : 'Não foi possível copiar.', ok ? 'fa-copy' : 'fa-triangle-exclamation'));
+        const btn = e.target.closest('[data-redeem]');
+        if (!btn || btn.disabled) return;
+        try { show(redeemCode(btn.dataset.redeem), true); }
+        catch (err) { show(err && err.message ? err.message : 'Falha ao resgatar.', false); }
     });
 }
 
 /* ============ 30. DEV LOG ============ */
 const DEVLOG = [
+    {
+        version: 'v19.5.0', date: '2026-11-09', type: 'feature', title: 'Nova aba de Comandos (Ctrl+K)',
+        items: [
+            'Terminal dentro do hub com 24 comandos: navegar, iniciar foco, criar nota e meta, calcular e resgatar códigos.',
+            'Autocomplete com sugestões clicáveis, Tab para completar e setas ↑/↓ para o histórico.',
+            'Atalho global Ctrl+K (Cmd+K no Mac) abre a aba com o cursor no campo; botão de terminal também entrou na topbar.',
+            'O histórico do terminal fica na memória da aba e nada é enviado para servidores.'
+        ]
+    },
+    {
+        version: 'v19.5.0', date: '2026-11-09', type: 'feature', title: 'Aba de Códigos de Recompensa',
+        items: [
+            'Seis campanhas ativas: BEMVINDO, GEEKIE2026, FOCOPRO, ENEM2026, DEVLOG5 e HUBV195.',
+            'Prêmios em moedas, XP e temas; cada código vale uma vez por conta e tem data de expiração validada.',
+            'Histórico de resgates com data, saldo atualizado e botão para colar da área de transferência.',
+            'Resgate também pelo comando "resgatar <código>" no terminal.'
+        ]
+    },
+    {
+        version: 'v19.5.0', date: '2026-11-09', type: 'style', title: 'Interface reformulada',
+        items: [
+            'Fundo com aurora animada e grade sutil, topbar de vidro com fio em gradiente e logo pulsante.',
+            'Cards com profundidade, borda viva no hover, kicker nos títulos e divisórias em gradiente.',
+            'Anel de foco visível em botões e campos, micro-animação na troca de aba e barras de rolagem discretas.',
+            'Busca de abas no menu FAB, estado ativo em gradiente e selo NOVO nas abas recém-chegadas.'
+        ]
+    },
+    {
+        version: 'v19.5.0', date: '2026-11-09', type: 'fix', title: 'Aba de Códigos removida',
+        items: [
+            'Os snippets genéricos saíram: o espaço agora é das abas de Comandos e de Códigos de Recompensa.',
+            'Nenhum dado foi apagado — progresso, notas, temas e XP continuam no mesmo localStorage.',
+            'Pedidos antigos para a aba de Códigos são redirecionados para Comandos, sem erro no console.'
+        ]
+    },
     {
         version: 'v19.4.0', date: '2026-11-09', type: 'fix', title: 'Correção dos erros de carregamento',
         items: [
@@ -2461,7 +3016,8 @@ function boot() {
         bindChars();
         bindTitleEditor();
         bindEvents();
-        bindCodes();
+        bindCommands();
+        bindRewards();
         bindDevlog();
         bindDiary();
         bindPassword();
@@ -2475,7 +3031,7 @@ function boot() {
         renderStats();
         renderEventMonths();
         renderChars();
-        renderCodes();
+        renderRewards();
         renderSubjectTotals();
         renderClickerShop();
         renderDiary();
@@ -2491,7 +3047,7 @@ function boot() {
             const nameInput = $('#loginName');
             if (nameInput) setTimeout(() => nameInput.focus(), 300);
         }
-        console.info('Geekie Study Hub v19.4.0 pronto — 3 arquivos, 26 abas, animações por tipo de botão.');
+        console.info('Geekie Study Hub v19.5.0 pronto — 27 abas, comandos (Ctrl+K), códigos de recompensa e animações por tipo de botão.');
     } catch (error) {
         console.error('Falha ao iniciar o Geekie Study Hub:', error);
         const box = document.getElementById('loginError');
