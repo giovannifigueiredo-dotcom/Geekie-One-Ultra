@@ -83,7 +83,7 @@ const DEFAULT_STATE = {
     xp: 0,
     coins: 25,
     title: 'Novato',
-    pageTitle: 'Geekie One Ultra v19.5.1',
+    pageTitle: 'Geekie One Ultra v19.5.2',
     font: 'Poppins',
     icon: 'fa-graduation-cap',
     themesOwned: ['default'],
@@ -1110,11 +1110,11 @@ function bindTitles() {
 
 /* ============ 13. PETS ============ */
 const PETS = [
-    { id: 'neko', emoji: '🐱', name: 'Neko', price: 0 },
-    { id: 'coruja', emoji: '🦉', name: 'Corujinha', price: 80 },
-    { id: 'tarta', emoji: '🐢', name: 'Tartaruga Zen', price: 120 },
-    { id: 'raposa', emoji: '🦊', name: 'Raposa', price: 160 },
-    { id: 'dragao', emoji: '🐉', name: 'Dragãozinho', price: 320 }
+    { id: 'neko', emoji: '🐱', name: 'Neko', price: 0, coinsPerTick: 1 },
+    { id: 'coruja', emoji: '🦉', name: 'Corujinha', price: 80, coinsPerTick: 2 },
+    { id: 'tarta', emoji: '🐢', name: 'Tartaruga Zen', price: 120, coinsPerTick: 3 },
+    { id: 'raposa', emoji: '🦊', name: 'Raposa', price: 160, coinsPerTick: 4 },
+    { id: 'dragao', emoji: '🐉', name: 'Dragãozinho', price: 320, coinsPerTick: 6 }
 ];
 
 function renderPets() {
@@ -1127,7 +1127,9 @@ function renderPets() {
         return '<div class="pet-card' + (active ? ' active' : '') + '">' +
             '<div class="pet-emoji">' + p.emoji + '</div>' +
             '<div class="pet-name">' + escapeHtml(p.name) + '</div>' +
-            '<div class="pet-meta">' + (owned ? energy + ' energia' : 'Adoção: ' + p.price + ' moedas') + '</div>' +
+            '<div class="pet-meta">' + (owned
+                ? energy + ' energia · +' + p.coinsPerTick + ' moedas/5s'
+                : 'Adoção: ' + p.price + ' moedas · +' + p.coinsPerTick + ' moedas/5s') + '</div>' +
             (owned
                 ? '<button class="buy-btn" type="button" data-fx="pop" data-pet-equip="' + p.id + '"' + (active ? ' disabled' : '') + '>' + (active ? 'Ativo' : 'Usar') + '</button>'
                 : '<button class="buy-btn" type="button" data-fx="coin" data-pet-buy="' + p.id + '"><i class="fa-solid fa-coins"></i> ' + p.price + '</button>') +
@@ -1155,6 +1157,28 @@ function bindPets() {
             toast(pet.name + ' adotado!', 'fa-heart');
         }
     });
+}
+
+/* ============ 13b. RENDA PASSIVA (XP + MOEDAS A CADA 5s) ============ */
+const PASSIVE_TICK_MS = 5000;
+const PASSIVE_XP = 1;
+
+function petCoinRate() {
+    if (!state.pet || state.petsOwned.indexOf(state.pet) === -1) return 0;
+    const pet = PETS.find((p) => p.id === state.pet);
+    return pet ? (pet.coinsPerTick || 0) : 0;
+}
+
+function passiveTick() {
+    if (!state.session) return;
+    addXp(PASSIVE_XP);
+    const rate = petCoinRate();
+    if (rate > 0) addCoins(rate);
+}
+
+function bindPassiveIncome() {
+    if (window.__passiveIncomeTimer) return;
+    window.__passiveIncomeTimer = setInterval(passiveTick, PASSIVE_TICK_MS);
 }
 
 /* ============ 14. TRILHA DE PROGRESSO ============ */
@@ -2491,7 +2515,7 @@ const COMMANDS = [
     {
         name: 'sobre', args: '', desc: 'Versão, abas e armazenamento',
         run() {
-            return ['Geekie Study Hub v19.5.1',
+            return ['Geekie Study Hub v19.5.2',
                 'Abas: ' + TAB_META.length + ' · Comandos: ' + COMMANDS.length,
                 'XP: ' + state.xp + ' · Moedas: ' + state.coins,
                 'Tudo salvo localmente em "' + STORAGE_KEY + '".'].join('\n');
@@ -2544,7 +2568,7 @@ function bindCommands() {
     const count = $('#cmdCount');
     if (count) count.textContent = COMMANDS.length + ' comandos';
     if (!cmdLog.length) {
-        cmdPrint('sys', 'Geekie Study Hub v19.5.1 — terminal pronto.');
+        cmdPrint('sys', 'Geekie Study Hub v19.5.2 — terminal pronto.');
         cmdPrint('info', 'Digite "ajuda" para ver os comandos, "ir notas" para navegar ou "resgatar GEEKIE2026" para testar as recompensas.');
     }
     renderCmdSuggestions('');
@@ -2730,6 +2754,15 @@ function bindRewards() {
 
 /* ============ 30. DEV LOG ============ */
 const DEVLOG = [
+    {
+        version: 'v19.5.2', date: '2026-11-09', type: 'feature', title: 'Renda passiva: XP e moedas a cada 5s',
+        items: [
+            'A cada 5 segundos com o hub aberto você ganha 1 XP automaticamente.',
+            'As moedas passivas dependem do pet ativo: Neko +1, Corujinha +2, Tartaruga +3, Raposa +4 e Dragãozinho +6 por tick.',
+            'Sem pet equipado ainda entra o 1 XP por tick, mas nenhuma moeda passiva.',
+            'A renda de cada pet aparece no próprio cartão, junto da energia restante.'
+        ]
+    },
     {
         version: 'v19.5.1', date: '2026-11-09', type: 'fix', title: 'XP, níveis e moedas corrigidos',
         items: [
@@ -3033,6 +3066,7 @@ function boot() {
         bindStore();
         bindTitles();
         bindPets();
+        bindPassiveIncome();
         bindPomodoro();
         bindGoals();
         bindFlashcards();
@@ -3077,7 +3111,7 @@ function boot() {
             const nameInput = $('#loginName');
             if (nameInput) setTimeout(() => nameInput.focus(), 300);
         }
-        console.info('Geekie Study Hub v19.5.1 pronto — 27 abas, comandos (Ctrl+K), códigos de recompensa e animações por tipo de botão.');
+        console.info('Geekie Study Hub v19.5.2 pronto — 27 abas, comandos (Ctrl+K), códigos de recompensa e animações por tipo de botão.');
     } catch (error) {
         console.error('Falha ao iniciar o Geekie Study Hub:', error);
         const box = document.getElementById('loginError');
