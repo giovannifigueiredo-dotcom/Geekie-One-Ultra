@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- Carregar CSS (mantenha os 3 arquivos na mesma pasta) -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=19.4.0">
 </head>
 
 <body>
@@ -685,6 +685,29 @@
 </div>
 
 <!-- v19.4.0: comportamento em script.js (mantenha os 3 arquivos na mesma pasta) -->
-<script src="script.js"></script>
+<script src="script.js?v=19.4.0"></script>
+<script>
+/* Diagnóstico de carregamento (v19.4.0): se o CSS ou o JS não chegarem,
+   o aviso aparece na tela em vez de a página ficar só com o HTML cru. */
+(function () {
+    function warn(message) {
+        var box = document.createElement('div');
+        box.id = 'assetWarning';
+        box.setAttribute('role', 'alert');
+        box.style.cssText = 'position:fixed;left:12px;bottom:12px;z-index:9999;max-width:430px;padding:10px 14px;border-radius:10px;' +
+            'background:#2a0f13;color:#ffb3ba;border:1px solid #ff4757;font:13px/1.5 system-ui,sans-serif;box-shadow:0 8px 24px rgba(0,0,0,.45)';
+        box.textContent = message;
+        document.body.appendChild(box);
+    }
+    function verify() {
+        var body = getComputedStyle(document.body);
+        var cssOk = body.backgroundColor === 'rgb(10, 14, 23)' || body.overflow === 'hidden';
+        if (!cssOk) warn('style.css não carregou. Mantenha index.html, style.css e script.js na mesma pasta e recarregue com Ctrl+F5.');
+        if (typeof window.switchTab !== 'function') warn('script.js não carregou. Mantenha index.html, style.css e script.js na mesma pasta e recarregue com Ctrl+F5.');
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { setTimeout(verify, 500); });
+    else setTimeout(verify, 500);
+})();
+</script>
 </body>
 </html>
