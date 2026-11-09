@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Geekie Study Hub v19.4.0 - Study Hub</title>
+    <title>Geekie Study Hub v19.5.0 - Study Hub</title>
     <link rel="icon" id="pageIcon" href="https://i.postimg.cc/gcHHYqtC/fire-geekie.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- Carregar CSS (mantenha os 3 arquivos na mesma pasta) -->
-    <link rel="stylesheet" href="style.css?v=19.4.0">
+    <link rel="stylesheet" href="style.css?v=19.5.0">
 </head>
 
 <body>
@@ -131,6 +131,7 @@
             <div class="clock-widget" id="realTimeClock">00:00:00</div>
             <button class="btn-icon" type="button" id="btnZenMode" title="Modo Zen" aria-label="Modo Zen" data-fx="orbit"><i class="fa-solid fa-expand"></i></button>
             <button class="btn-icon" type="button" id="btnSplitMode" title="Modo Multi-Tarefa (Alt+M)" aria-label="Modo Multi-Tarefa" data-fx="orbit"><i class="fa-solid fa-table-columns"></i></button>
+            <button class="btn-icon" type="button" id="btnCommands" title="Aba de Comandos (Ctrl+K)" aria-label="Aba de Comandos" data-fx="orbit"><i class="fa-solid fa-terminal"></i></button>
             <button class="btn-icon" type="button" id="btnMotionMode" aria-label="Reduzir animações" aria-pressed="false" title="Reduzir animações" data-fx="orbit"><i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i></button>
         </div>
     </header>
@@ -562,13 +563,54 @@
         </div>
     </section>
 
-    <!-- TAB: CODES -->
-    <section id="tab-codes" class="tab-content">
+    <!-- TAB: COMANDOS -->
+    <section id="tab-commands" class="tab-content">
+        <div class="glass-card w-full cmd-page">
+            <div class="card-head">
+                <div>
+                    <div class="card-kicker">Ctrl + K</div>
+                    <h3 class="card-title"><i class="fa-solid fa-terminal"></i> Aba de Comandos</h3>
+                </div>
+                <span class="badge-soft" id="cmdCount">0 comandos</span>
+            </div>
+            <p class="card-sub">Navegue, crie metas, inicie o foco e ajuste o hub digitando — sem clicar em nada.</p>
+            <div class="cmd-output" id="cmdOutput" role="log" aria-live="polite"></div>
+            <form class="cmd-form" id="cmdForm" autocomplete="off">
+                <span class="cmd-prompt">geekie ›</span>
+                <input type="text" class="cmd-input" id="cmdInput" placeholder="digite 'ajuda' para ver todos os comandos" spellcheck="false" aria-label="Comando">
+                <button class="btn btn-primary" type="submit" data-fx="shine"><i class="fa-solid fa-arrow-right"></i> Executar</button>
+            </form>
+            <div class="cmd-suggestions" id="cmdSuggestions" aria-label="Sugestões de comando"></div>
+            <div class="cmd-hints">
+                <span><kbd>↑</kbd> <kbd>↓</kbd> histórico</span>
+                <span><kbd>Ctrl</kbd>+<kbd>K</kbd> abre esta aba</span>
+                <span><kbd>Enter</kbd> executa</span>
+                <span><kbd>Tab</kbd> completa</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- TAB: CÓDIGOS DE RECOMPENSA -->
+    <section id="tab-rewards" class="tab-content">
         <div class="glass-card w-full">
-            <h3 class="card-title"><i class="fa-solid fa-code"></i> Códigos</h3>
-            <p class="card-sub">Snippets prontos para copiar com um clique.</p>
-            <div class="filter-row" id="codesFilters"></div>
-            <div class="codes-grid" id="codesGrid"></div>
+            <div class="card-head">
+                <div>
+                    <div class="card-kicker">Campanhas ativas</div>
+                    <h3 class="card-title"><i class="fa-solid fa-gift"></i> Códigos de Recompensa</h3>
+                </div>
+                <div class="coin-display"><i class="fa-solid fa-coins"></i> <span id="rewardCoinCount">0</span></div>
+            </div>
+            <p class="card-sub">Cada código vale uma vez por conta e libera moedas, XP, temas ou títulos.</p>
+            <form class="reward-form" id="rewardForm" autocomplete="off">
+                <input type="text" class="text-input reward-input" id="rewardInput" placeholder="Digite o código (ex.: GEEKIE2026)" maxlength="24" spellcheck="false" aria-label="Código de recompensa">
+                <button class="btn btn-primary" type="submit" data-fx="shine"><i class="fa-solid fa-gift"></i> Resgatar</button>
+                <button class="btn btn-outline" type="button" data-fx="trace" id="rewardPasteBtn"><i class="fa-solid fa-paste"></i> Colar</button>
+            </form>
+            <div class="reward-feedback" id="rewardFeedback" role="status"></div>
+            <h4 class="section-title">Campanhas disponíveis</h4>
+            <div class="reward-grid" id="rewardGrid"></div>
+            <h4 class="section-title">Histórico de resgates</h4>
+            <div class="reward-history" id="rewardHistory"></div>
         </div>
     </section>
 
@@ -577,7 +619,7 @@
         <div class="glass-card w-full">
             <div class="card-head">
                 <h3 class="card-title"><i class="fa-solid fa-clock-rotate-left"></i> Dev Log</h3>
-                <span class="badge-soft" id="devlogBuild">v19.4.0</span>
+                <span class="badge-soft" id="devlogBuild">v19.5.0</span>
             </div>
             <p class="card-sub">Registro de alterações do hub. As 5 últimas atualizações também estão no README.md.</p>
             <div class="filter-row" id="devlogFilters">
@@ -636,8 +678,10 @@
         <div class="fab-menu-header">
             <i class="fa-solid fa-graduation-cap"></i>
             <span class="fab-brand">Geekie Ultra</span>
-            <span class="fab-version">v19.4.0</span>
+            <span class="fab-version">v19.5.0</span>
         </div>
+
+        <input type="search" class="fab-search" id="fabSearch" placeholder="Buscar aba..." aria-label="Buscar aba" autocomplete="off">
 
         <div class="fab-section-label">Principal</div>
         <button class="fab-nav-item active" type="button" data-fx="slide" data-tab="tab-geekie"><span class="fab-nav-icon"><i class="fa-solid fa-book-open"></i></span>Portal Geekie</button>
@@ -670,7 +714,8 @@
         <div class="fab-section-label">Extras</div>
         <button class="fab-nav-item" type="button" data-fx="slide" data-tab="tab-events"><span class="fab-nav-icon"><i class="fa-solid fa-calendar-star"></i></span>Eventos do Mês</button>
         <button class="fab-nav-item" type="button" data-fx="slide" data-tab="tab-google"><span class="fab-nav-icon"><i class="fa-brands fa-google"></i></span>Google</button>
-        <button class="fab-nav-item" type="button" data-fx="slide" data-tab="tab-codes"><span class="fab-nav-icon"><i class="fa-solid fa-code"></i></span>Códigos</button>
+        <button class="fab-nav-item new-fab" type="button" data-fx="slide" data-tab="tab-commands"><span class="fab-nav-icon"><i class="fa-solid fa-terminal"></i></span>Aba de Comandos <span class="new-badge">NOVO</span></button>
+        <button class="fab-nav-item new-fab" type="button" data-fx="slide" data-tab="tab-rewards"><span class="fab-nav-icon"><i class="fa-solid fa-gift"></i></span>Códigos de Recompensa <span class="new-badge">NOVO</span></button>
         <button class="fab-nav-item" type="button" data-fx="slide" data-tab="tab-devlog"><span class="fab-nav-icon"><i class="fa-solid fa-clock-rotate-left"></i></span>Dev Log</button>
         <button class="fab-nav-item" type="button" data-fx="slide" data-tab="tab-diary"><span class="fab-nav-icon"><i class="fa-solid fa-book-heart"></i></span>Diário</button>
         <button class="fab-nav-item" type="button" data-fx="slide" data-tab="tab-password"><span class="fab-nav-icon"><i class="fa-solid fa-shield-halved"></i></span>Gerador de Senhas</button>
@@ -685,7 +730,7 @@
 </div>
 
 <!-- v19.4.0: comportamento em script.js (mantenha os 3 arquivos na mesma pasta) -->
-<script src="script.js?v=19.4.0"></script>
+<script src="script.js?v=19.5.0"></script>
 <script>
 /* Diagnóstico de carregamento (v19.4.0): se o CSS ou o JS não chegarem,
    o aviso aparece na tela em vez de a página ficar só com o HTML cru. */
