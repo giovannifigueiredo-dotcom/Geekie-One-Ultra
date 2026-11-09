@@ -83,7 +83,7 @@ const DEFAULT_STATE = {
     xp: 0,
     coins: 25,
     title: 'Novato',
-    pageTitle: 'Geekie One Ultra v19.5.0',
+    pageTitle: 'Geekie One Ultra v19.5.1',
     font: 'Poppins',
     icon: 'fa-graduation-cap',
     themesOwned: ['default'],
@@ -168,7 +168,10 @@ function levelInfo(xp) {
 function renderProfile() {
     const info = levelInfo(state.xp);
     const xpCount = $('#xpCount');
-    if (xpCount) xpCount.textContent = state.xp;
+    if (xpCount) {
+        if (xpCount.textContent !== String(state.xp)) bumpTopbar($('#xpContainer'));
+        xpCount.textContent = state.xp;
+    }
     const fill = $('#xpProgressFill');
     if (fill) {
         const pct = info.next ? clamp(((state.xp - info.current.xp) / (info.next.xp - info.current.xp)) * 100, 0, 100) : 100;
@@ -179,7 +182,11 @@ function renderProfile() {
         nextTitle.textContent = info.next ? 'Próximo: ' + info.next.title + ' (' + info.next.xp + ' XP)' : 'Nível máximo alcançado';
     }
     const coins = [$('#coinCount'), $('#storeCoinCount'), $('#petCoinCount')];
-    coins.forEach((el) => { if (el) el.textContent = state.coins; });
+    coins.forEach((el) => {
+        if (!el) return;
+        if (el.textContent !== String(state.coins)) bumpTopbar(el.parentElement || el);
+        el.textContent = state.coins;
+    });
     const titleText = $('#playerTitleText');
     if (titleText) titleText.textContent = state.title;
     const today = state.focusByDate[dateKey()] || 0;
@@ -197,7 +204,10 @@ function addXp(amount) {
     state.xp += amount;
     const after = levelInfo(state.xp);
     if (after.current.title !== before.current.title && state.xp > 0) {
+        if (!state.title || state.title === before.current.title) state.title = after.current.title;
         toast('Novo nível: ' + after.current.title + '!', 'fa-arrow-up');
+        renderTitles();
+        renderJourney();
     }
     renderProfile();
     saveState();
@@ -208,6 +218,14 @@ function addCoins(amount) {
     state.coins = Math.max(0, state.coins + amount);
     renderProfile();
     saveState();
+}
+
+function bumpTopbar(el) {
+    if (!el) return;
+    el.classList.remove('value-bump');
+    void el.offsetWidth;
+    el.classList.add('value-bump');
+    setTimeout(() => el.classList.remove('value-bump'), 750);
 }
 
 function addFocusMinutes(minutes, subject) {
@@ -1042,6 +1060,8 @@ function bindStore() {
             saveState();
             applyTheme(id);
             renderStore();
+            renderProfile();
+            renderTitles();
             toast('Tema ' + theme.name + ' desbloqueado!', 'fa-unlock');
         }
     });
@@ -1131,6 +1151,7 @@ function bindPets() {
             state.pet = pet.id;
             saveState();
             renderPets();
+            renderProfile();
             toast(pet.name + ' adotado!', 'fa-heart');
         }
     });
@@ -2470,7 +2491,7 @@ const COMMANDS = [
     {
         name: 'sobre', args: '', desc: 'Versão, abas e armazenamento',
         run() {
-            return ['Geekie Study Hub v19.5.0',
+            return ['Geekie Study Hub v19.5.1',
                 'Abas: ' + TAB_META.length + ' · Comandos: ' + COMMANDS.length,
                 'XP: ' + state.xp + ' · Moedas: ' + state.coins,
                 'Tudo salvo localmente em "' + STORAGE_KEY + '".'].join('\n');
@@ -2523,7 +2544,7 @@ function bindCommands() {
     const count = $('#cmdCount');
     if (count) count.textContent = COMMANDS.length + ' comandos';
     if (!cmdLog.length) {
-        cmdPrint('sys', 'Geekie Study Hub v19.5.0 — terminal pronto.');
+        cmdPrint('sys', 'Geekie Study Hub v19.5.1 — terminal pronto.');
         cmdPrint('info', 'Digite "ajuda" para ver os comandos, "ir notas" para navegar ou "resgatar GEEKIE2026" para testar as recompensas.');
     }
     renderCmdSuggestions('');
@@ -2709,6 +2730,15 @@ function bindRewards() {
 
 /* ============ 30. DEV LOG ============ */
 const DEVLOG = [
+    {
+        version: 'v19.5.1', date: '2026-11-09', type: 'fix', title: 'XP, níveis e moedas corrigidos',
+        items: [
+            'Subir de nível agora atualiza o título automaticamente e refresca as abas Títulos e Trilha na hora.',
+            'Comprar tema ou adotar pet atualiza o saldo da topbar imediatamente — antes só mudava após recarregar.',
+            'XP e moedas pulsam na topbar quando o valor muda, deixando o ganho e o gasto visíveis.',
+            'Foco, quiz, metas, diário e clicker continuam creditando normalmente; nada mudou nas regras de ganho.'
+        ]
+    },
     {
         version: 'v19.5.0', date: '2026-11-09', type: 'feature', title: 'Nova aba de Comandos (Ctrl+K)',
         items: [
@@ -3047,7 +3077,7 @@ function boot() {
             const nameInput = $('#loginName');
             if (nameInput) setTimeout(() => nameInput.focus(), 300);
         }
-        console.info('Geekie Study Hub v19.5.0 pronto — 27 abas, comandos (Ctrl+K), códigos de recompensa e animações por tipo de botão.');
+        console.info('Geekie Study Hub v19.5.1 pronto — 27 abas, comandos (Ctrl+K), códigos de recompensa e animações por tipo de botão.');
     } catch (error) {
         console.error('Falha ao iniciar o Geekie Study Hub:', error);
         const box = document.getElementById('loginError');
