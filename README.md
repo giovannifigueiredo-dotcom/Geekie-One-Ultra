@@ -2,7 +2,7 @@
 
 Hub de estudos em **3 arquivos** (HTML, CSS e JS), sem build e sem dependências externas além dos ícones e das fontes carregados por CDN.
 
-Versão atual: **v19.5.0**
+Versão atual: **v19.5.1**
 
 ## Como abrir
 
@@ -34,6 +34,12 @@ Se algum arquivo não carregar, o próprio app mostra um aviso vermelho no canto
 
 ## As 5 últimas atualizações
 
+### v19.5.1 — XP, níveis e moedas corrigidos
+- Subir de nível atualiza o título automaticamente e refresca as abas Títulos e Trilha na hora.
+- Comprar tema ou adotar pet atualiza o saldo da topbar imediatamente (antes só mudava após recarregar).
+- XP e moedas pulsam na topbar quando o valor muda, deixando ganho e gasto visíveis.
+- Regras de ganho seguem iguais: foco (2 XP + 1 moeda por minuto), quiz (5 XP por acerto), metas (+8 XP, +2 moedas) e clicker (+5 moedas por 50 de energia).
+
 ### v19.5.0 — Aba de Comandos
 - Terminal dentro do hub: `ajuda`, `ir`, `foco`, `quiz`, `nota`, `meta`, `senha`, `calc`, `resgatar` e mais (24 comandos).
 - Autocomplete com sugestões clicáveis, `Tab` completa, `↑`/`↓` navegam o histórico.
@@ -57,10 +63,6 @@ Se algum arquivo não carregar, o próprio app mostra um aviso vermelho no canto
 - Nenhum dado apagado: progresso, notas, temas e XP continuam no mesmo `localStorage`.
 - Pedidos antigos para `tab-codes` são redirecionados para Comandos, sem erro no console.
 
-### v19.4.0 — Correção dos erros de carregamento
-- CSS/JS com `?v=` para furar cache e aviso na tela quando um arquivo não chega.
-- Servidor de preview com MIME explícito, `no-store` e `nosniff`.
-- Login, sessão e progresso protegidos quando o `localStorage` está bloqueado.
 
 ## Aba de Comandos
 
