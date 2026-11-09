@@ -2,7 +2,7 @@
 
 Hub de estudos em **3 arquivos** (HTML, CSS e JS), sem build e sem dependências externas além dos ícones e das fontes carregados por CDN.
 
-Versão atual: **v19.5.1**
+Versão atual: **v19.5.2**
 
 ## Como abrir
 
@@ -34,6 +34,12 @@ Se algum arquivo não carregar, o próprio app mostra um aviso vermelho no canto
 
 ## As 5 últimas atualizações
 
+### v19.5.2 — Renda passiva de XP e moedas
+- **+1 XP a cada 5 segundos** com o hub aberto, sem precisar clicar em nada.
+- Moedas passivas por tick conforme o pet ativo: **Neko +1**, **Corujinha +2**, **Tartaruga Zen +3**, **Raposa +4**, **Dragãozinho +6**.
+- Sem pet equipado entra só o XP; a renda é exibida no cartão de cada pet.
+- A renda passiva se soma às regras normais (foco, quiz, metas, diário e clicker) e é salva automaticamente.
+
 ### v19.5.1 — XP, níveis e moedas corrigidos
 - Subir de nível atualiza o título automaticamente e refresca as abas Títulos e Trilha na hora.
 - Comprar tema ou adotar pet atualiza o saldo da topbar imediatamente (antes só mudava após recarregar).
@@ -57,11 +63,6 @@ Se algum arquivo não carregar, o próprio app mostra um aviso vermelho no canto
 - Cards com profundidade, borda viva no hover, kicker nos títulos e divisórias em gradiente.
 - Anel de foco visível em botões e campos, micro-animação na troca de aba, barras de rolagem discretas.
 - Busca de abas no menu FAB e selo `NOVO` nas abas recém-chegadas.
-
-### v19.5.0 — Aba de Códigos removida
-- Os snippets genéricos saíram; o espaço é das abas de Comandos e de Recompensas.
-- Nenhum dado apagado: progresso, notas, temas e XP continuam no mesmo `localStorage`.
-- Pedidos antigos para `tab-codes` são redirecionados para Comandos, sem erro no console.
 
 
 ## Aba de Comandos
