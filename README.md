@@ -1,12 +1,8 @@
 # Geekie Study Hub
 
-Hub de estudos em **3 arquivos** (HTML, CSS e JS), sem build e sem dependências externas além dos ícones e das fontes carregados por CDN.
+Hub de estudos em **3 arquivos** (HTML, CSS e JS), sem build e sem dependências locais — só os ícones e as fontes vêm de CDN.
 
-Versão atual: **v19.5.2**
-
-## Como abrir
-
-Os três arquivos precisam ficar **na mesma pasta**:
+Versão atual: **v20.0.0**
 
 ```
 index.html
@@ -14,7 +10,9 @@ style.css
 script.js
 ```
 
-- **Duplo clique** em `index.html` funciona (o app roda em `file://`).
+## Como abrir
+
+- **Duplo clique** em `index.html` funciona (roda em `file://`).
 - **Servidor local** é mais confiável para o navegador carregar CSS/JS com o tipo correto:
 
 ```bash
@@ -22,75 +20,98 @@ python3 -m http.server 3000
 # abra http://localhost:3000
 ```
 
-Se algum arquivo não carregar, o próprio app mostra um aviso vermelho no canto inferior esquerdo dizendo qual falhou — basta garantir os três arquivos juntos e recarregar com `Ctrl+F5`.
+Login: crie uma conta local, entre com ela ou clique em **Entrar como convidado**. Nada é enviado para servidor.
 
-## Arquivos
+---
 
-| Arquivo | O que tem dentro |
+## O que mudou na v20.0.0
+
+### 1. Nova camada visual e shell
+
+- **Sidebar** com grupos (Hoje, Estudo, Inteligência, Progresso, Ferramentas, Extras), busca de abas em tempo real e rodapé com versão e atalhos.
+- **Topbar** com XP + barra de progresso do próximo título, moedas, sequência de dias, foco do dia, relógio, paleta, Zen, redução de animações e avatar/logout.
+- **Bottom-nav** no mobile e menu lateral deslizante.
+- **Paleta de comandos** em `Ctrl+K` que busca abas e comandos e aceita teclado (`↑`/`↓`, `Enter`).
+- Sistema de **botões** com variantes (`primary`, `secondary`, `ghost`, `danger`, `icon`) e tamanhos (`sm`, `lg`, `block`), estados de foco, desabilitado e hover discreto.
+- Cards, chips, badges, switches, barras de progresso, skeletons de carregamento de iframe, empty states e **toasts** no lugar de `alert`.
+- **Acessibilidade**: foco visível em tudo, `aria-*` nos controles, alvos de toque maiores, contraste AA e respeito a `prefers-reduced-motion` (além do botão de movimento).
+
+### 2. Nova aba "Hoje"
+
+Dashboard inicial com saudação por horário, **anel da meta diária de foco** (60 min), sequência, foco da semana, metas abertas, cards devidos, plano do dia vindo do planner e seis atalhos rápidos.
+
+### 3. Progressão
+
+- **Sequência (streak)** com recorde e atalho para estatísticas.
+- **Marcos** com recompensa resgatável e **conquistas automáticas** na aba Trilha.
+- **Pets** com energia, alimentação (15 moedas → +20 de energia) e renda passiva por tick.
+- **Títulos** por XP e **temas** com preview ao vivo ao passar o mouse.
+
+---
+
+## As 28 abas
+
+| Aba | O que faz |
 | --- | --- |
-| `index.html` | Estrutura das 27 abas, overlay de login, tutorial, topbar, menu FAB e o aviso de diagnóstico de carregamento |
-| `style.css` | Tokens de design, componentes de todas as abas, 9 temas, animações por tipo de botão e a camada visual da v19.5.0 |
-| `script.js` | Estado persistente, login local, XP/moedas, 27 abas, motor de animações por tipo, comandos, recompensas, quiz e Dev Log |
+| **Hoje** | Dashboard com meta diária, streak, metas, revisões, planner e atalhos |
+| **Pomodoro** | Ciclos configuráveis, pausa longa a cada 4 ciclos, matéria, som e contador na aba do navegador |
+| **Metas** | Matéria, prioridade, prazo, filtros (incluindo atrasadas), progresso e edição |
+| **Flashcards** | Repetição espaçada (SM-2 simplificado), baralhos, atalhos e agenda por card |
+| **Quiz** | Banco por matéria, explicação por alternativa, modo 20s, recorde e revisão de erros |
+| **Timer matérias** | Cronômetro com pausa, matérias personalizadas e metas de minutos |
+| **Planner** | Grade de 7 dias × 6 blocos, cores por matéria, modelo, cópia da semana |
+| **Estatísticas** | Foco 7/30 dias, heatmap de 12 semanas, distribuição por matéria e CSV |
+| **Diário** | Entrada por dia, humor, busca, edição e exportação markdown |
+| **Chat IA** | Tutor local com modos, matéria, resposta progressiva e ações por mensagem |
+| **Comandos** | Terminal com 30 comandos, autocomplete, histórico e ajuda |
+| **Loja** | Nove temas, compra com moedas, equipar e preview ao vivo |
+| **Títulos** | Oito títulos liberados por XP e equipáveis |
+| **Pets** | Cinco pets com adoção, energia, alimentação e renda passiva |
+| **Trilha** | Níveis com barras, marcos resgatáveis e conquistas |
+| **Clicker** | Núcleo de energia, quatro melhorias automáticas e troca por moedas |
+| **Recompensas** | Seis códigos com status, expiração, histórico e colar da área de transferência |
+| **Notas** | Busca, tags, autosave, fixar, contagem de palavras e exportação `.md` |
+| **Sons ambiente** | Quatro camadas (chuva, ruído, ondas, lareira), presets, volume geral e timer |
+| **Som de teclado** | Quatro estilos, volume e campo de teste |
+| **Calculadora** | Teclado completo, histórico clicável e cópia |
+| **Caracteres** | Categorias, busca, favoritos (`Shift+clique`) e inserção no último campo |
+| **Título da página** | Texto, sete fontes, dezesseis ícones e restauração |
+| **Senhas** | Senhas e passphrase, entropia em bits, medidor e histórico local |
+| **Portal Geekie** | Iframe do Geekie One, recarregar, nova aba, tela cheia e atalhos |
+| **Google** | Google embutido e atalhos para Classroom, Drive, Docs e YouTube |
+| **Eventos** | Evento de cada mês, nível por foco e recompensa em moedas |
+| **Dev Log** | Histórico de versões com filtro por tipo e busca |
 
-## As 5 últimas atualizações
+---
 
-### v19.5.2 — Renda passiva de XP e moedas
-- **+1 XP a cada 5 segundos** com o hub aberto, sem precisar clicar em nada.
-- Moedas passivas por tick conforme o pet ativo: **Neko +1**, **Corujinha +2**, **Tartaruga Zen +3**, **Raposa +4**, **Dragãozinho +6**.
-- Sem pet equipado entra só o XP; a renda é exibida no cartão de cada pet.
-- A renda passiva se soma às regras normais (foco, quiz, metas, diário e clicker) e é salva automaticamente.
+## Comandos
 
-### v19.5.1 — XP, níveis e moedas corrigidos
-- Subir de nível atualiza o título automaticamente e refresca as abas Títulos e Trilha na hora.
-- Comprar tema ou adotar pet atualiza o saldo da topbar imediatamente (antes só mudava após recarregar).
-- XP e moedas pulsam na topbar quando o valor muda, deixando ganho e gasto visíveis.
-- Regras de ganho seguem iguais: foco (2 XP + 1 moeda por minuto), quiz (5 XP por acerto), metas (+8 XP, +2 moedas) e clicker (+5 moedas por 50 de energia).
-
-### v19.5.0 — Aba de Comandos
-- Terminal dentro do hub: `ajuda`, `ir`, `foco`, `quiz`, `nota`, `meta`, `senha`, `calc`, `resgatar` e mais (24 comandos).
-- Autocomplete com sugestões clicáveis, `Tab` completa, `↑`/`↓` navegam o histórico.
-- Atalho global `Ctrl+K` (`Cmd+K` no Mac) abre a aba com o cursor pronto.
-- Histórico fica só na memória da aba: nada é enviado para servidor.
-
-### v19.5.0 — Códigos de Recompensa
-- Seis campanhas: `BEMVINDO`, `GEEKIE2026`, `FOCOPRO`, `ENEM2026`, `DEVLOG5`, `HUBV195`.
-- Prêmios em moedas, XP e temas (`FOCOPRO` e `HUBV195` liberam tema).
-- Cada código vale **uma vez por conta**, com validação de data de expiração e normalização de maiúsculas/espaços.
-- Histórico de resgates com data e botão de colar da área de transferência.
-
-### v19.5.0 — Interface reformulada
-- Fundo com aurora animada e grade sutil; topbar de vidro com fio em gradiente e logo pulsante.
-- Cards com profundidade, borda viva no hover, kicker nos títulos e divisórias em gradiente.
-- Anel de foco visível em botões e campos, micro-animação na troca de aba, barras de rolagem discretas.
-- Busca de abas no menu FAB e selo `NOVO` nas abas recém-chegadas.
-
-
-## Aba de Comandos
+Digite `ajuda` para listar, ou `ajuda <comando>` para detalhar.
 
 | Comando | O que faz |
 | --- | --- |
 | `ajuda [comando]` | Lista tudo ou detalha um comando |
-| `ir <aba>` | Abre uma aba (`ir notas`, `ir devlog`, `ir recompensas`) |
-| `foco [min]` | Inicia o pomodoro (padrão 25 min) |
-| `pausar` / `zerar` | Pausa ou zera o ciclo atual |
+| `ir <aba>` | Abre uma aba (`ir metas`, `ir devlog`) |
+| `foco [min]` | Inicia o pomodoro (padrão 25) |
+| `pausar` / `zerar` | Pausa ou zera o ciclo |
 | `quiz <matéria>` | Começa um quiz da matéria |
-| `tema <nome>` | Aplica um tema já desbloqueado |
-| `diario <texto>` | Salva a entrada do diário de hoje |
-| `nota <título> \| <texto>` | Cria uma nota nova |
-| `meta <texto>` | Adiciona uma meta de estudo |
-| `senha [tamanho]` | Gera uma senha forte e copia |
+| `tema <nome>` | Aplica um tema desbloqueado |
+| `diario <texto>` | Salva a entrada de hoje |
+| `nota <título> \| <texto>` | Cria uma nota |
+| `meta <texto>` | Adiciona uma meta |
+| `senha [tamanho]` | Gera e copia uma senha |
 | `calc <expressão>` | Calcula uma expressão |
-| `resgatar <código>` | Resgata um código de recompensa |
-| `xp` / `moedas` | Mostra progresso e saldo |
-| `devlog [fix\|feature\|style]` | Abre o Dev Log, opcionalmente filtrado |
-| `zen` / `split` | Alterna os modos Zen e Multi-Tarefa |
-| `animacoes on\|off` | Liga ou reduz as animações |
-| `data` | Data e hora atuais |
+| `resgatar <código>` | Resgata um código |
+| `xp` / `moedas` / `streak` | Mostra progresso, saldo e sequência |
+| `cards` | Quantos cards estão devidos |
+| `devlog [fix\|feature\|style]` | Abre o Dev Log filtrado |
+| `zen` / `animacoes on\|off` | Modo Zen e preferência de movimento |
+| `data` / `sobre` | Data/hora e informações da versão |
+| `perfil` / `conquistas` | Resumo do perfil e conquistas |
 | `exportar` | Baixa o progresso em JSON |
-| `sobre` | Versão, número de abas e chave de armazenamento |
 | `limpar` / `reset` | Limpa o terminal / apaga o progresso (com confirmação) |
 
-## Códigos de Recompensa
+## Códigos de recompensa
 
 | Código | Recompensa | Expira em |
 | --- | --- | --- |
@@ -101,49 +122,62 @@ Se algum arquivo não carregar, o próprio app mostra um aviso vermelho no canto
 | `DEVLOG5` | +25 moedas, +25 XP | 30/06/2027 |
 | `HUBV195` | +100 moedas, +50 XP e tema Matrix | 31/12/2026 |
 
-Regras: um resgate por conta, código sem diferenciar maiúsculas de minúsculas e expiração validada na data local.
-
-## Animações por tipo de botão
-
-O JS identifica o tipo do elemento e atribui o efeito sozinho (`data-fx`), sem `onclick` inline.
-
-| Tipo de botão | Efeito |
-| --- | --- |
-| Primário | `shine` |
-| Outline | `trace` |
-| Perigo | `shake` |
-| Ícone | `orbit` |
-| FAB | `sonar` |
-| Navegação do menu | `slide` |
-| Chips | `lift` |
-| Filtros | `squish` |
-| Botões de compra | `coin` |
-| Opções do quiz | `flip` |
-| Mini botões | `glint` |
-| Pomodoro | `squeeze` |
-| Tutorial (avançar/voltar/pular) | `nudge-right` / `nudge-left` / `fade` |
-| Caracteres | `pop` |
-| Núcleo do clicker | `pulse` |
-| Preview de tema | `hue` |
-| Cmd suggestions | `lift` |
-| Comandos / terminal | `shine` + `trace` |
-
-Animações podem ser desligadas pelo botão de movimento na topbar, pelo comando `animacoes off` ou pelo `prefers-reduced-motion` do sistema.
+Um resgate por conta, sem diferenciar maiúsculas, com expiração validada na data local.
 
 ## Atalhos
 
 | Atalho | Ação |
 | --- | --- |
-| `Ctrl+K` / `Cmd+K` | Abre a aba de Comandos |
+| `Ctrl+K` / `Cmd+K` | Paleta de comandos e abas |
 | `Alt+Z` | Modo Zen |
-| `Alt+M` | Modo Multi-Tarefa |
-| `↑` / `↓` (no terminal) | Histórico de comandos |
-| `Tab` (no terminal) | Completa o comando |
-| `Ctrl+F5` | Recarrega ignorando cache |
+| `/` | Focar a busca de abas |
+| `Espaço` / `1`–`4` | Virar e avaliar flashcards (na aba Flashcards) |
+| `0`–`9`, `+ - * /`, `Enter` | Calculadora |
+| `↑` / `↓`, `Tab` | Histórico e autocomplete no terminal |
+| `Esc` | Fechar overlays |
+| `Ctrl+S` | Salvar nota (no editor) |
 
-## Dados e privacidade
+## Dados, privacidade e migração
 
-- Progresso em `localStorage`, chave `geekieHubState_v194`.
-- Contas locais em `geekieHubAccounts_v194` (senha com hash simples — não é segurança de produção).
-- Comandos, recompensas e resgates rodam 100% no navegador: nenhuma requisição é enviada.
-- `exportar` gera um JSON com todo o estado; `reset` (ou limpar dados do site) apaga o progresso.
+- Progresso em `localStorage`, chave `geekieHubState_v20`.
+- **Migração automática** da chave antiga `geekieHubState_v194`: notas, metas, temas, XP, moedas e histórico continuam válidos na primeira abertura da v20.
+- Contas locais em `geekieHubAccounts_v20` (hash simples — **não é segurança de produção**).
+- Sons são gerados por Web Audio no próprio navegador; nenhuma requisição de áudio.
+- O tutor do chat é **local e offline** (heurísticas por modo/matéria), sem chave de API e sem enviar mensagens.
+- `exportar` gera um JSON com todo o estado; `reset` apaga o progresso.
+- O aviso "Novidades" aparece uma vez por versão (chave `geekieHubSeenVersion_v20`).
+
+## Estrutura do `script.js`
+
+| Bloco | Conteúdo |
+| --- | --- |
+| 1–3 | Utilidades, estado com migração e metadados (abas, níveis, temas, pets) |
+| 4–9 | Topbar/tema, navegação, login, tutorial, paleta, Hoje e Chat |
+| 10–16 | Notas, Pomodoro, Metas, Flashcards, Quiz, Timer matérias e Planner |
+| 17–25 | Estatísticas, Diário, Loja, Títulos, Pets, Trilha, Clicker e áudio |
+| 26–34 | Calculadora, Caracteres, Título, Eventos, Portais, Comandos, Recompensas, Dev Log e Senhas |
+| 35 | Bindings globais, render geral, novidades, loops passivos e boot |
+
+## As 5 últimas atualizações
+
+### v20.0.0 — Interface e navegação
+Sidebar com busca, topbar redesenhada, paleta `Ctrl+K`, toasts, novo sistema de botões e mobile-nav.
+
+### v20.0.0 — Aba Hoje e progressão
+Dashboard diário, streak com recorde, marcos resgatáveis, oito conquistas, pets com energia e alimentação.
+
+### v20.0.0 — Estudo
+Flashcards com repetição espaçada, quiz com explicação e cronômetro, planner colorido, metas com prazo e prioridade.
+
+### v20.0.0 — Tutor e ferramentas
+Chat com resposta progressiva e ações (nota/card), notas com tags e `.md`, calculadora com histórico, sons com presets e timer.
+
+### v20.0.0 — Correções
+Migração do estado antigo, iframes com aviso, foco visível/contraste e cálculo único de foco, XP e moedas.
+
+## Limitações conhecidas
+
+- O login é local e o hash de senha não é criptografia de produção; use como hub pessoal.
+- Os iframes de Geekie e Google dependem de o site permitir embed; se bloquear, use **Nova aba**.
+- O histórico de senhas e o terminal ficam apenas na memória da aba.
+- O tutor local não é um modelo de linguagem: ele estrutura o raciocínio, não substitui professor ou material didático.
