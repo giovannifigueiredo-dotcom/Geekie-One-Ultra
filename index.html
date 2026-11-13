@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="default">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark">
+<meta name="description" content="Geekie Study Hub v20.1 — cockpit de estudos offline com foco, metas, flashcards, quiz, progressão e ferramentas.">
+<title>Geekie Study Hub v20.1.0</title>
+<link rel="icon" id="pageIcon" href="https://i.postimg.cc/gcHHYqtC/fire-geekie.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&family=Orbitron:wght@400;700&family=Space+Grotesk:wght@400;600;700&family=Caveat:wght@400;600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="style.css?v=20.1.0">
+</head>
+<body>
+
+<!-- ================= LOGIN ================= -->
+<div class="overlay login-overlay" id="loginOverlay">
+  <div class="modal login-card" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
+    <div class="login-brand">
+      <span class="logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" fill="none"><path d="M16 3.5 19.4 12l8.8 3.2-8.8 3.3L16 27l-3.4-8.5-8.8-3.3 8.8-3.2L16 3.5Z" fill="currentColor"/><circle cx="16" cy="15.6" r="3.1" fill="#fff" fill-opacity=".72"/></svg>
+      </span>
+      <div>
+        <strong>Geekie Study Hub</strong>
+        <span class="login-version">v20.1.0 · offline first</span>
+      </div>
+    </div>
+    <h1 class="login-title" id="loginTitle">Acesse seu cockpit de estudos</h1>
+    <p class="login-sub" id="loginSubtitle">Seu progresso fica salvo neste navegador.</p>
+    <div class="login-error" id="loginError" role="alert"></div>
+    <label class="field"><span>Nome de usuário</span>
+      <input type="text" id="loginName" maxlength="20" autocomplete="username" placeholder="Como devo te chamar?">
+    </label>
+    <label class="field"><span>Senha</span>
+      <input type="password" id="loginPassword" maxlength="32" autocomplete="current-password" placeholder="Sua senha local">
+    </label>
+    <label class="field" id="loginConfirmField" hidden><span>Confirmar senha</span>
+      <input type="password" id="loginConfirm" maxlength="32" autocomplete="new-password" placeholder="Repita a senha">
+    </label>
+    <button class="btn btn-primary btn-lg btn-block" id="loginSubmitBtn" type="button" data-fx="shine">Entrar</button>
+    <div class="login-links">
+      <button class="link-btn" id="loginSwitchLink" type="button">Não tem conta? Registre-se</button>
+      <button class="link-btn" id="loginGuestLink" type="button">Entrar como convidado</button>
+    </div>
+    <p class="login-foot"><i class="fa-solid fa-lock"></i> Conta local: nada sai deste navegador.</p>
+  </div>
+</div>
+
+<!-- ================= TUTORIAL ================= -->
+<div class="overlay tutorial-overlay" id="tutorialOverlay" hidden>
+  <div class="modal tutorial-card" role="dialog" aria-modal="true" aria-labelledby="tutTitle">
+    <header class="tutorial-head">
+      <span class="tutorial-icon"><i class="fa-solid fa-compass" id="tutorialStepIcon"></i></span>
+      <div>
+        <h2 id="tutTitle">Portal Geekie</h2>
+        <p id="tutorialStepMeta">Aba 1 de 28</p>
+      </div>
+      <span class="badge" id="tutorialProgress">1 / 28</span>
+    </header>
+    <div class="tutorial-bar"><span id="tutorialProgressFill"></span></div>
+    <div class="tutorial-body">
+      <p id="tutorialBodyText"></p>
+      <div class="tutorial-tips">
+        <strong><i class="fa-solid fa-lightbulb"></i> Dicas</strong>
+        <ul id="tutorialTipsList"></ul>
+      </div>
+    </div>
+    <div class="tutorial-dots" id="tutorialDots"></div>
+    <footer class="tutorial-foot">
+      <button class="btn btn-ghost" id="tutorialBtnSkip" type="button">Pular tutorial</button>
+      <div class="row">
+        <button class="btn btn-secondary" id="tutorialBtnPrev" type="button"><i class="fa-solid fa-arrow-left"></i> Anterior</button>
+        <button class="btn btn-primary" id="tutorialBtnNext" type="button">Próximo <i class="fa-solid fa-arrow-right"></i></button>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<!-- ================= APP ================= -->
+<div class="app" id="app" hidden>
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <span class="logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" fill="none"><path d="M16 3.5 19.4 12l8.8 3.2-8.8 3.3L16 27l-3.4-8.5-8.8-3.3 8.8-3.2L16 3.5Z" fill="currentColor"/><circle cx="16" cy="15.6" r="3.1" fill="#fff" fill-opacity=".72"/></svg>
+      </span>
+      <div class="sidebar-brand-copy">
+        <strong>Geekie</strong>
+        <span>study hub</span>
+      </div>
+      <button class="btn btn-icon btn-ghost sidebar-close" id="sidebarClose" type="button" aria-label="Fechar menu"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <label class="search-field">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="search" id="navSearch" placeholder="Buscar aba…" aria-label="Buscar aba" autocomplete="off">
+      <kbd>/</kbd>
+    </label>
+    <nav class="nav" id="navGroups" aria-label="Abas do hub"></nav>
+    <div class="sidebar-foot">
+      <button class="nav-action" type="button" id="fabTutorialBtn"><i class="fa-solid fa-circle-question"></i> Rever tutorial</button>
+      <button class="nav-action" type="button" id="navPaletteBtn"><i class="fa-solid fa-terminal"></i> Comandos <kbd>Ctrl K</kbd></button>
+      <span class="sidebar-version" id="sidebarVersion">v20.1.0</span>
+    </div>
+  </aside>
+
+  <div class="shell">
+    <header class="topbar">
+      <button class="btn btn-icon btn-ghost only-mobile" id="sidebarOpen" type="button" aria-label="Abrir menu"><i class="fa-solid fa-bars"></i></button>
+      <div class="topbar-title">
+        <span class="topbar-kicker" id="topbarKicker">Hoje</span>
+        <h2 id="topbarTitle">Seu dia de estudo</h2>
+      </div>
+      <div class="topbar-stats">
+        <button class="stat-pill stat-streak" id="streakPill" type="button" title="Sequência de dias com foco">
+          <i class="fa-solid fa-fire"></i><span id="streakCount">0</span><span class="stat-suffix">dias</span>
+        </button>
+        <div class="stat-pill stat-xp" id="xpContainer" title="Seu XP Geekie">
+          <i class="fa-solid fa-star"></i>
+          <div class="stat-xp-copy">
+            <span><b id="xpCount">0</b> XP</span>
+            <span class="stat-meta" id="xpNextTitle">Próximo: Estudante (100 XP)</span>
+          </div>
+          <div class="stat-xp-bar"><span id="xpProgressFill"></span></div>
+        </div>
+        <div class="stat-pill stat-coins" id="coinContainer" title="Suas moedas">
+          <i class="fa-solid fa-coins"></i><b id="coinCount">0</b>
+        </div>
+        <div class="stat-pill stat-time" id="studyTimeTopbar" title="Foco hoje">
+          <i class="fa-solid fa-clock"></i><span id="studyTimeTopbarDisplay">0h 00min</span>
+        </div>
+        <span class="clock" id="realTimeClock">00:00:00</span>
+      </div>
+      <div class="topbar-actions">
+        <button class="btn btn-icon" id="btnPalette" type="button" title="Paleta de comandos (Ctrl+K)" aria-label="Paleta de comandos"><i class="fa-solid fa-terminal"></i></button>
+        <button class="btn btn-icon" id="btnZenMode" type="button" title="Modo Zen (Alt+Z)" aria-label="Modo Zen"><i class="fa-solid fa-expand"></i></button>
+        <button class="btn btn-icon" id="btnMotionMode" type="button" title="Reduzir animações" aria-label="Reduzir animações" aria-pressed="false"><i class="fa-solid fa-wand-magic-sparkles"></i></button>
+        <div class="user-badge" id="loginUserBadge" hidden>
+          <span class="avatar" id="userAvatar">G</span>
+          <span class="user-name" id="userNameLabel">Convidado</span>
+          <button class="btn btn-icon btn-ghost btn-sm" id="logoutBtn" type="button" title="Sair" aria-label="Sair"><i class="fa-solid fa-right-from-bracket"></i></button>
+        </div>
+      </div>
+    </header>
+
+    <main class="content" id="content">
+
+      <!-- ===== HOJE ===== -->
+      <section class="page active" id="page-hoje" data-tab="hoje">
+        <div class="hero">
+          <div class="hero-copy">
+            <span class="hero-kicker" id="hojeKicker">Bom dia</span>
+            <h1 id="hojeGreeting">Vamos estudar, Geekie.</h1>
+            <p id="hojeSub">Seu resumo do dia, metas e próximos passos em um só lugar.</p>
+            <div class="hero-actions">
+              <button class="btn btn-primary" type="button" data-goto="timer"><i class="fa-solid fa-play"></i> Iniciar foco</button>
+              <button class="btn btn-secondary" type="button" data-goto="flashcards"><i class="fa-solid fa-clone"></i> Revisar cards</button>
+              <button class="btn btn-ghost" type="button" data-goto="goals"><i class="fa-solid fa-list-check"></i> Minhas metas</button>
+            </div>
+          </div>
+          <div class="hero-ring">
+            <svg viewBox="0 0 160 160" aria-hidden="true">
+              <circle class="ring-track" cx="80" cy="80" r="66"></circle>
+              <circle class="ring-progress" id="hojeGoalRing" cx="80" cy="80" r="66"></circle>
+            </svg>
+            <div class="ring-center">
+              <b id="hojeFocus">0min</b>
+              <span>de <i id="hojeGoalText">60min</i> hoje</span>
+            </div>
+          </div>
+        </div>
+        <div class="grid grid-4" id="hojeCards"></div>
+        <div class="grid grid-2">
+          <article class="card">
+            <div class="card-head">
+              <h3><i class="fa-solid fa-list-check"></i> Próximas metas</h3>
+              <button class="link-btn" type="button" data-goto="goals">ver todas</button>
+            </div>
+            <div id="hojeNextGoals" class="list"></div>
+          </article>
+          <article class="card">
+            <div class="card-head">
+              <h3><i class="fa-solid fa-clone"></i> Revisão de hoje</h3>
+              <button class="link-btn" type="button" data-goto="flashcards">abrir</button>
+            </div>
+            <div id="hojeDueCards" class="list"></div>
+          </article>
+        </div>
+        <div class="grid grid-2">
+          <article class="card">
+            <div class="card-head"><h3><i class="fa-solid fa-calendar-day"></i> Plano de hoje</h3>
+              <button class="link-btn" type="button" data-goto="planner">planner</button></div>
+            <div id="hojePlan" class="list"></div>
+          </article>
+          <article class="card">
+            <div class="card-head"><h3><i class="fa-solid fa-bolt"></i> Atalhos rápidos</h3></div>
+            <div class="quick-grid" id="hojeQuick"></div>
+          </article>
+        </div>
+      </section>
+
+      <!-- ===== PORTAL GEEKIE ===== -->
+      <section class="page" id="page-geekie" data-tab="geekie">
+        <div class="portal-bar">
+          <div class="portal-title"><span class="chip-dot"></span> Portal Geekie One</div>
+          <div class="row">
+            <button class="btn btn-secondary btn-sm" id="portalReloadBtn" type="button"><i class="fa-solid fa-rotate"></i> Recarregar</button>
+            <button class="btn btn-secondary btn-sm" id="portalNewTabBtn" type="button"><i class="fa-solid fa-arrow-up-right-from-square"></i> Nova aba</button>
+            <button class="btn btn-primary btn-sm" id="portalFullBtn" type="button"><i class="fa-solid fa-expand"></i> Tela cheia</button>
+          </div>
+        </div>
+        <div class="portal-links" id="portalLinks"></div>
+        <div class="iframe-frame" id="geekieIframeContainer">
+          <div class="iframe-loading" id="iframeLoading"><span class="spinner"></span><p>Carregando o portal…</p></div>
+          <iframe id="geekieIframe" data-src="https://dx1website.pages.dev/resumao/geekieoneplus/" title="Geekie One Portal" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"></iframe>
+        </div>
+        <p class="hint"><i class="fa-solid fa-circle-info"></i> Se o portal não aparecer, o site bloqueou o iframe — use <b>Nova aba</b>.</p>
+      </section>
+
+      <!-- ===== CHAT IA ===== -->
+      <section class="page" id="page-chat" data-tab="chat">
+        <article class="card chat-card">
+          <div class="card-head">
+            <div class="card-title-wrap">
+              <span class="ai-mark"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
+              <div>
+                <span class="kicker">Geekie Intelligence · local</span>
+                <h3>Tutor IA</h3>
+              </div>
+            </div>
+            <div class="row">
+              <button class="btn btn-secondary btn-sm" id="chatExportBtn" type="button"><i class="fa-solid fa-download"></i> Exportar</button>
+              <button class="btn btn-danger btn-sm" id="chatClearBtn" type="button"><i class="fa-solid fa-trash"></i> Limpar</button>
+            </div>
+          </div>
+          <div class="chat-tools">
+            <select id="chatStudyMode" aria-label="Modo do tutor">
+              <option value="explain">📘 Explicar com calma</option>
+              <option value="solve">🧩 Resolver passo a passo</option>
+              <option value="quiz">🎯 Me testar</option>
+              <option value="summary">⚡ Resumir o essencial</option>
+              <option value="review">🔁 Revisar meus erros</option>
+            </select>
+            <input type="text" id="chatSubject" maxlength="40" placeholder="Matéria (ex.: Física)" aria-label="Matéria">
+            <span class="hint-inline" id="chatModeHelp">Clareza, exemplo e checagem final.</span>
+          </div>
+          <div class="chips" id="chatQuickPrompts" aria-label="Sugestões">
+            <button class="chip" type="button" data-prompt="Explique este assunto como se eu estivesse começando agora: ">Começar do zero</button>
+            <button class="chip" type="button" data-prompt="Crie 3 perguntas de revisão sobre: ">Criar revisão</button>
+            <button class="chip" type="button" data-prompt="Mostre onde está o erro no meu raciocínio: ">Achar meu erro</button>
+            <button class="chip" type="button" data-prompt="Resuma em tópicos e me dê um exemplo de: ">Resumo + exemplo</button>
+          </div>
+          <div class="chat-messages" id="chatMessages" aria-live="polite"></div>
+          <div class="chat-followups" id="chatFollowUps"></div>
+          <div class="chat-status" id="chatStatus" role="status"></div>
+          <form class="chat-composer" id="chatForm">
+            <textarea id="chatInput" rows="2" maxlength="4000" placeholder="Pergunte algo, cole um enunciado…" aria-label="Mensagem"></textarea>
+            <div class="chat-composer-actions">
+              <span class="hint-inline"><kbd>Enter</kbd> envia · <kbd>Shift</kbd>+<kbd>Enter</kbd> quebra linha</span>
+              <button class="btn btn-primary" id="chatSendBtn" type="submit"><i class="fa-solid fa-paper-plane"></i> Enviar</button>
+            </div>
+          </form>
+        </article>
+      </section>
+
+      <!-- ===== NOTAS ===== -->
+      <section class="page" id="page-notes" data-tab="notes">
+        <div class="split">
+          <aside class="card notes-side">
+            <div class="card-head"><h3><i class="fa-solid fa-folder-open"></i> Anotações</h3>
+              <button class="btn btn-primary btn-sm" id="noteNewBtn" type="button" aria-label="Nova anotação"><i class="fa-solid fa-plus"></i></button></div>
+            <label class="search-field compact"><i class="fa-solid fa-magnifying-glass"></i>
+              <input type="search" id="noteSearch" placeholder="Buscar…" aria-label="Buscar anotação"></label>
+            <div class="notes-list" id="noteList"></div>
+          </aside>
+          <article class="card notes-main">
+            <div class="toolbar">
+              <input type="text" id="noteTitleInput" class="input" maxlength="70" placeholder="Título da anotação">
+              <button class="btn btn-icon" id="notePinBtn" type="button" title="Fixar" aria-label="Fixar anotação"><i class="fa-solid fa-thumbtack"></i></button>
+            </div>
+            <input type="text" id="noteTagsInput" class="input" maxlength="120" placeholder="Tags separadas por vírgula (ex.: biologia, prova)">
+            <textarea id="noteContentInput" class="textarea notes-area" placeholder="Resumos, fórmulas, dúvidas…"></textarea>
+            <div class="toolbar toolbar-between">
+              <span class="status-text" id="noteStatus">Nenhuma anotação selecionada</span>
+              <span class="status-text" id="noteCounter">0 palavras · 0 caracteres</span>
+            </div>
+            <div class="toolbar">
+              <button class="btn btn-primary" id="noteSaveBtn" type="button"><i class="fa-solid fa-floppy-disk"></i> Salvar</button>
+              <button class="btn btn-secondary" id="noteCopyBtn" type="button"><i class="fa-solid fa-copy"></i> Copiar</button>
+              <button class="btn btn-secondary" id="noteExportBtn" type="button"><i class="fa-solid fa-file-arrow-down"></i> .md</button>
+              <button class="btn btn-danger" id="noteDeleteBtn" type="button"><i class="fa-solid fa-trash"></i> Excluir</button>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- ===== POMODORO ===== -->
+      <section class="page" id="page-timer" data-tab="timer">
+        <div class="grid grid-2 grid-top">
+          <article class="card timer-card">
+            <div class="chips" id="pomoModes">
+              <button class="chip active" type="button" data-minutes="25" data-mode="focus">Foco 25</button>
+              <button class="chip" type="button" data-minutes="5" data-mode="short">Pausa 5</button>
+              <button class="chip" type="button" data-minutes="15" data-mode="long">Pausa 15</button>
+            </div>
+            <div class="pomo-ring">
+              <svg viewBox="0 0 220 220" aria-hidden="true">
+                <circle class="ring-track" cx="110" cy="110" r="96"></circle>
+                <circle class="ring-progress" id="pomoProgress" cx="110" cy="110" r="96"></circle>
+              </svg>
+              <div class="ring-center">
+                <b id="pomoTime">25:00</b>
+                <span id="pomoLabel">Foco</span>
+              </div>
+            </div>
+            <div class="pomo-actions">
+              <button class="btn btn-primary btn-lg" id="pomoStartBtn" type="button"><i class="fa-solid fa-play"></i> Iniciar</button>
+              <button class="btn btn-secondary btn-lg" id="pomoPauseBtn" type="button"><i class="fa-solid fa-pause"></i> Pausar</button>
+              <button class="btn btn-ghost btn-lg" id="pomoResetBtn" type="button"><i class="fa-solid fa-rotate-left"></i> Zerar</button>
+            </div>
+            <div class="timer-meta">
+              <span><b id="pomoSessions">0</b> sessões hoje</span>
+              <span><b id="pomoTotalFocus">0min</b> de foco</span>
+              <span>ciclo <b id="pomoCycle">1</b>/4</span>
+            </div>
+          </article>
+          <article class="card">
+            <div class="card-head"><h3><i class="fa-solid fa-sliders"></i> Ajustes do ciclo</h3></div>
+            <label class="field"><span>Foco (min)</span><input type="number" id="pomoCustomFocus" class="input" min="5" max="90" value="25"></label>
+            <label class="field"><span>Pausa curta (min)</span><input type="number" id="pomoCustomBreak" class="input" min="1" max="30" value="5"></label>
+            <label class="switch-row"><input type="checkbox" id="pomoAutoBreak" checked><span class="switch"></span> Iniciar pausa automaticamente</label>
+            <label class="switch-row"><input type="checkbox" id="pomoSound" checked><span class="switch"></span> Aviso sonoro no fim</label>
+            <label class="field"><span>Matéria desta sessão</span><select id="pomoSubject"></select></label>
+            <div class="divider"></div>
+            <p class="hint"><i class="fa-solid fa-lightbulb"></i> Cada minuto de foco vale 2 XP e 1 moeda. A pausa longa entra sozinha a cada 4 ciclos.</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- ===== METAS ===== -->
+      <section class="page" id="page-goals" data-tab="goals">
+        <article class="card">
+          <div class="card-head"><h3><i class="fa-solid fa-list-check"></i> Metas de estudo</h3>
+            <span class="badge" id="goalProgressLabel">0 de 0</span></div>
+          <form class="goal-form" id="goalForm">
+            <input type="text" id="goalInput" class="input" maxlength="90" placeholder="Nova meta (ex.: revisar 20 questões de biologia)" required>
+            <select id="goalSubject" aria-label="Matéria"></select>
+            <select id="goalPriority" aria-label="Prioridade">
+              <option value="alta">Alta</option>
+              <option value="media" selected>Média</option>
+              <option value="baixa">Baixa</option>
+            </select>
+            <input type="date" id="goalDue" aria-label="Prazo">
+            <button class="btn btn-primary" type="submit"><i class="fa-solid fa-plus"></i> Adicionar</button>
+          </form>
+          <div class="progress"><span id="goalProgressFill"></span></div>
+          <div class="chips" id="goalFilters">
+            <button class="chip active" type="button" data-filter="all">Todas</button>
+            <button class="chip" type="button" data-filter="open">Pendentes</button>
+            <button class="chip" type="button" data-filter="done">Concluídas</button>
+            <button class="chip" type="button" data-filter="late">Atrasadas</button>
+          </div>
+          <div class="list" id="goalList"></div>
+        </article>
+      </section>
+
+      <!-- ===== FLASHCARDS ===== -->
+      <section class="page" id="page-flashcards" data-tab="flashcards">
+        <div class="grid grid-2 grid-top">
+          <article class="card">
+            <div class="card-head"><h3><i class="fa-solid fa-clone"></i> Sessão de revisão</h3>
+              <span class="badge" id="flashDue">0 devidos</span></div>
+            <div class="flash-stage">
+              <div class="flashcard" id="flashcard" role="button" tabindex="0" aria-label="Virar flashcard">
+                <div class="flashcard-inner">
+                  <div class="flashcard-face front"><span class="flash-tag">Pergunta</span><p id="flashQuestion">Nenhum card neste baralho</p></div>
+                  <div class="flashcard-face back"><span class="flash-tag">Resposta</span><p id="flashAnswer">Crie um card para começar.</p></div>
+                </div>
+              </div>
+            </div>
+            <div class="flash-actions">
+              <button class="btn btn-danger" type="button" data-rating="again">Errei <kbd>1</kbd></button>
+              <button class="btn btn-secondary" type="button" data-rating="hard">Difícil <kbd>2</kbd></button>
+              <button class="btn btn-primary" type="button" data-rating="good">Acertei <kbd>3</kbd></button>
+              <button class="btn btn-secondary" type="button" data-rating="easy">Fácil <kbd>4</kbd></button>
+            </div>
+            <p class="status-text" id="flashStats">0 revisões nesta rodada</p>
+            <p class="hint"><i class="fa-solid fa-keyboard"></i> <kbd>Espaço</kbd> vira o card · <kbd>1</kbd>–<kbd>4</kbd> avaliam · repetição espaçada ajusta o próximo intervalo.</p>
+          </article>
+          <article class="card">
+            <div class="card-head"><h3><i class="fa-solid fa-layer-group"></i> Baralhos</h3></div>
+            <div class="toolbar">
+              <select id="deckSelect" aria-label="Baralho"></select>
+              <button class="btn btn-primary btn-sm" id="deckNewBtn" type="button"><i class="fa-solid fa-plus"></i> Baralho</button>
+              <button class="btn btn-secondary btn-sm" id="deckRenameBtn" type="button" aria-label="Renomear"><i class="fa-solid fa-pen"></i></button>
+              <button class="btn btn-danger btn-sm" id="deckDeleteBtn" type="button" aria-label="Excluir baralho"><i class="fa-solid fa-trash"></i></button>
+            </div>
+            <div class="toolbar">
+              <button class="btn btn-primary" id="flashAddBtn" type="button"><i class="fa-solid fa-plus"></i> Novo card</button>
+              <button class="btn btn-secondary" id="flashResetBtn" type="button"><i class="fa-solid fa-rotate"></i> Reiniciar rodada</button>
+            </div>
+            <div class="divider"></div>
+            <h4 class="mini-title">Cards do baralho</h4>
+            <div class="list list-scroll" id="flashQueue"></div>
+          </article>
+        </div>
+      </section>
+
+      <!-- ===== QUIZ ===== -->
+      <section class="page" id="page-quiz" data-tab="quiz">
+        <article class="card">
+          <div class="card-head"><h3><i class="fa-solid fa-brain"></i> Quiz rápido</h3>
+            <span class="badge" id="quizBest">Recorde: 0 acertos</span></div>
+          <div class="quiz-setup" id="quizSetup">
+            <select id="quizSubject" aria-label="Matéria"></select>
+            <select id="quizCount" aria-label="Perguntas">
+              <option value="3">3 perguntas</option>
+              <option value="5" selected>5 perguntas</option>
+              <option value="8">8 perguntas</option>
+            </select>
+            <label class="switch-row inline"><input type="checkbox" id="quizTimed"><span class="switch"></span> Modo cronometrado (20s)</label>
+            <button class="btn btn-primary" id="quizStartBtn" type="button"><i class="fa-solid fa-play"></i> Começar</button>
+          </div>
+          <div id="quizStage" hidden>
+            <div class="quiz-top">
+              <span id="quizProgressLabel">Pergunta 1 de 5</span>
+              <span id="quizScoreLabel">0 acertos</span>
+              <span id="quizTimerLabel" hidden>20s</span>
+            </div>
+            <div class="progress"><span id="quizProgressFill"></span></div>
+            <h4 id="quizQuestion">—</h4>
+            <div class="quiz-options" id="quizOptions"></div>
+            <div class="quiz-feedback" id="quizFeedback"></div>
+            <div class="toolbar">
+              <button class="btn btn-secondary" id="quizRestartBtn" type="button"><i class="fa-solid fa-rotate-left"></i> Escolher outro quiz</button>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <!-- ===== TIMER MATÉRIAS ===== -->
+      <section class="page" id="page-subjects" data-tab="subjects">
+        <article class="card">
+          <div class="card-head"><h3><i class="fa-solid fa-clock-rotate-left"></i> Timer por matéria</h3>
+            <button class="btn btn-secondary btn-sm" id="subjectAddBtn" type="button"><i class="fa-solid fa-plus"></i> Matéria</button></div>
+          <p class="hint">Escolha a matéria, rode o cronômetro e pare para registrar os minutos.</p>
+          <div class="chips" id="subjectChips"></div>
+          <div class="subject-clock">
+            <b id="subjectClock">00:00:00</b>
+            <span id="subjectClockSubject">Nenhuma matéria selecionada</span>
+          </div>
+          <div class="pomo-actions">
+            <button class="btn btn-primary" id="subjectStartBtn" type="button"><i class="fa-solid fa-play"></i> Iniciar</button>
+            <button class="btn btn-secondary" id="subjectPauseBtn" type="button"><i class="fa-solid fa-pause"></i> Pausar</button>
+            <button class="btn btn-secondary" id="subjectStopBtn" type="button"><i class="fa-solid fa-stop"></i> Parar e salvar</button>
+          </div>
+          <div class="divider"></div>
+          <div class="subject-totals" id="subjectTotals"></div>
+        </article>
+      </section>
+
+      <!-- ===== PLANNER ===== -->
+      <section class="page" id="page-planner" data-tab="planner">
+        <article class="card">
+          <div class="card-head"><h3><i class="fa-solid fa-calendar-week"></i> Planner semanal</h3>
+            <span class="badge" id="plannerWeekLabel">Semana atual</span></div>
+          <p class="hint">Clique em um bloco para escrever o que vai estudar. Cores seguem a matéria quando você usa <b>matéria — tarefa</b>.</p>
+          <div class="planner-wrap"><div class="planner-grid" id="plannerGrid"></div></div>
+          <div class="toolbar">
+            <button class="btn btn-primary" id="plannerSaveBtn" type="button"><i class="fa-solid fa-floppy-disk"></i> Salvar semana</button>
+            <button class="btn btn-secondary" id="plannerCopyBtn" type="button"><i class="fa-solid fa-copy"></i> Copiar semana</button>
+            <button class="btn btn-secondary" id="plannerTemplateBtn" type="button"><i class="fa-solid fa-wand-magic-sparkles"></i> Modelo</button>
+            <button class="btn btn-danger" id="plannerClearBtn" type="button"><i class="fa-solid fa-broom"></i> Limpar</button>
+          </div>
+        </article>
+      </section>
+
+      <!-- ===== ESTATÍSTICAS ===== -->
+      <section class="page" id="page-stats" data-tab="stats">
+        <article class="card">
+          <div class="card-head"><h3><i class="fa-solid fa-chart-simple"></i> Estatísticas</h3>
+            <div class="row">
+              <div class="chips" id="statsRange">
+                <button class="chip active" type="button" data-days="7">7 dias</button>
+                <button class="chip" type="button" data-days="30">30 dias</button>
+              </div>
+              <button class="btn btn-secondary btn-sm" id="statsExportBtn" type="button"><i class="fa-solid fa-file-csv"></i> CSV</button>
+            </div></div>
+          <div class="grid grid-4" id="statsCards"></div>
+          <h4 class="mini-title">Foco por dia</h4>
+          <div class="bar-chart" id="weeklyChart"></div>
+          <h4 class="mini-title">Mapa de constância</h4>
+          <div class="heatmap" id="heatmap"></div>
+          <h4 class="mini-title">Distribuição por matéria</h4>
+          <div class="breakdown" id="subjectBreakdown"></div>
+        </article>
+      </section>
+
+      <!-- ===== DIÁRIO ===== -->
+      <section class="page" id="page-diary" data-tab="diary">
+        <div class="grid grid-2 grid-top">
+          <article class="card">
+            <div class="card-head"><h3><i class="fa-solid fa-book"></i> Diário de estudo</h3></div>
+            <div class="toolbar">
+              <input type="date" id="diaryDate" class="input">
+              <div class="chips" id="diaryMoods"></div>
+            </div>
+            <div class="chips" id="diaryPrompts"></div>
+            <textarea id="diaryText" class="textarea" placeholder="Como foi seu estudo hoje? O que funcionou e o que muda amanhã?"></textarea>
+            <div class="toolbar">
+              <button class="btn btn-primary" id="diarySaveBtn" type="button"><i class="fa-solid fa-floppy-disk"></i> Salvar entrada</button>
+              <button class="btn btn-secondary" id="diaryExportBtn" type="button"><i class="fa-solid fa-file-arrow-down"></i> Exportar .md</button>
+            </div>
+          </article>
+          <article class="card">
+            <div class="card-head"><h3><i class="fa-solid fa-clock-rotate-left"></i> Entradas</h3></div>
+            <label class="search-field compact"><i class="fa-solid fa-magnifying-glass"></i>
+              <input type="search" id="diarySearch" placeholder="Buscar no diário…" aria-label="Buscar no diário"></label>
+            <div class="list list-scroll" id="diaryList"></div>
+          </article>
+        </div>
+      </section>
+
+      <!-- ===== LOJA ===== -->
+      <section class="page" id="page-store" data-tab="store">
+        <article class="card">
+          <div class="card-head"><h3><i class="fa-solid fa-store"></i> Loja de temas</h3>
+            <div class="stat-pill stat-coins"><i class="fa-solid fa-coins"></i><b id="storeCoinCount">0</b></div></div>
+          <div class="chips" id="storeFilters">
+            <button class="chip active" type="button" data-filter="all">Todos</button>
+            <button class="chip" type="button" data-filter="owned">Meus temas</button>
+            <button class="chip" type="button" data-filter="locked">Bloqueados</button>
+          </div>
+          <div class="grid grid-themes" id="themeGrid"></div>
+        </article>
+      </section>
+
+      <!-- ===== TÍTULOS ===== -->
+      <section class="page" id="page-titles" data-tab="titles">
+        <article class="card">
+          <div class="card-head"><h3><i class="fa-solid fa-crown"></i> Títulos</h3>
+            <span class="badge" id="titleNext">Próximo em 100 XP</span></div>
+          <p class="hint">Cada título é liberado por XP e o equipado aparece na topbar.</p>
+          <div class="grid grid-titles" id="titleGrid"></div>
+        </article>
+      </section>
+
+      <!-- ===== PETS ===== -->
+      <section class="page" id="page-pets" data-tab="pets">
+        <article class="card">
+          <div class="card-head"><h3><i class="fa-solid fa-paw"></i> Pets de estudo</h3>
+            <div class="stat-pill stat-coins"><i class="fa-solid fa-coins"></i><b id="petCoinCount">0</b></div></div>
+          <p class="hint">Pets rendem moedas passivas e energia a cada sessão de foco. Alimente com moedas para manter o bônus.</p>
+          <div class="pet-summary" id="petSummary"></div>
+          <div class="grid grid-pets" id="petGrid"></div>
+        </article>
+      </section>
+
+      <!-- ===== TRILHA ===== -->
+      <section class="page" id="page-journey" data-tab="journey">
+        <div class="grid grid-2">
+          <article class="card">
+            <div class="card-head"><h3><i class="fa-solid fa-map"></i> Trilha de níveis</h3></div>
+            <div class="journey-list" id="journeyList"></div>
+          </article>
+          <article class="card">
+            <div class="card-head"><h3><i class="fa-solid fa-flag-checkered"></i> Marcos e conquistas</h3></div>
+            <div class="list" id="milestoneList"></div>
+            <div class="divider"></div>
+            <div class="list list-scroll" id="achievementList"></div>
+          </article>
+        </div>
+      </section>
+
+      <!-- ===== CLICKER ===== -->
+      <section class="page" id="page-clicker" data-tab="clicker">
+        <div class="grid grid-2 grid-top">
+          <article class="card clicker-card">
+            <div class="card-head"><h3><i class="fa-solid fa-hand-pointer"></i> Núcleo de energia</h3>
+              <span class="badge" id="clickerCps">0/s</span></div>
+            <p class="clicker-score"><b id="clickerPoints">0</b> energia</p>
+            <button class="clicker-core" id="clickerCore" type="button" aria-label="Clique para ganhar energia"><i class="fa-solid fa-bolt"></i></button>
+            <div class="toolbar">
+              <button class="btn btn-primary" id="clickerExchangeBtn" type="button"><i class="fa-solid fa-coins"></i> Trocar 50 → 5 moedas</button>
+            </div>
+          </article>
+          <article class="card">
+            <div class="card-head"><h3><i class="fa-solid fa-shop"></i> Melhorias</h3></div>
+            <div class="list" id="clickerShop"></div>
+            <div class="divider"></div>
+            <p class="hint"><i class="fa-solid fa-circle-info"></i> Melhorias geram energia sozinhas enquanto o hub está aberto.</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- ===== AMBIENTE ===== -->
+      <section class="page" id="page-ambient" data-tab="ambient">
+        <article class="card">
+          <div class="card-head"><h3><i class="fa-solid fa-headphones"></i> Sons ambiente</h3>
+            <button class="btn btn-danger btn-sm" id="ambientStopAll" type="button"><i class="fa-solid fa-volume-xmark"></i> Silenciar tudo</button></div>
+          <p class="hint">Camadas geradas no navegador (Web Audio), sem downloads. Ajuste o volume de cada camada.</p>
+          <div class="toolbar">
+            <select id="ambientPreset" aria-label="Preset">
+              <option value="">Preset personalizado</option>
+              <option value="focus">Foco profundo</option>
+              <option value="rain">Noite de chuva</option>
+              <option value="study">Biblioteca</option>
+            </select>
+            <label class="range-field">Volume geral <input type="range" id="ambientMaster" min="0" max="100" value="70"><b id="ambientMasterValue">70</b></label>
+            <label class="range-field">Desligar em <input type="range" id="ambientTimer" min="0" max="60" step="5" value="0"><b id="ambientTimerValue">off</b></label>
+          </div>
+          <div class="grid grid-2" id="ambientGrid"></div>
+        </article>
+      </section>
+
+      <!-- ===== TECLADO ===== -->
+      <section class="page" id="page-keysounds" data-tab="keysounds">
+        <article class="card">
+          <div class="card-head"><h3><i class="fa-solid fa-keyboard"></i> Sons de teclado</h3></div>
+          <p class="hint">Um clique curto a cada tecla digitada nos campos de texto do hub.</p>
+          <label class="switch-row"><input type="checkbox" id="keySoundToggle"><span class="switch"></span> Ativar sons</label>
+          <div class="toolbar">
+            <select id="keySoundStyle" aria-label="Estilo">
+              <option value="soft">Suave</option>
+              <option value="mechanical">Mecânico</option>
+              <option value="typewriter">Máquina de escrever</option>
+              <option value="pop">Pop</option>
+            </select>
+            <label class="range-field">Volume <input type="range" id="keySoundVolume" min="0" max="100" value="45"><b id="keySoundVolumeValue">45</b></label>
+          </div>
+          <input type="text" id="keySoundTest" class="input" placeholder="Teste aqui: digite algo para ouvir o som">
+        </article>
+      </section>
+
+      <!-- ===== CALCULADORA ===== -->
+      <section class="page" id="page-calculator" data-tab="calculator">
+        <div class="split split-narrow">
+          <article class="card calc-card">
+            <div class="calc-display">
+              <div class="calc-expression" id="calcExpression">&nbsp;</div>
+              <div class="calc-result" id="calcResult">0</div>
+            </div>
+            <div class="calc-keys" id="calcKeys">
+              <button class="mini-btn fn" type="button" data-calc="clear">AC</button>
+              <button class="mini-btn fn" type="button" data-calc="back">⌫</button>
+              <button class="mini-btn fn" type="button" data-calc="%">%</button>
+              <button class="mini-btn fn" type="button" data-calc="/">÷</button>
+              <button class="mini-btn" type="button" data-calc="7">7</button>
+              <button class="mini-btn" type="button" data-calc="8">8</button>
+              <button class="mini-btn" type="button" data-calc="9">9</button>
+              <button class="mini-btn fn" type="button" data-calc="*">×</button>
+              <button class="mini-btn" type="button" data-calc="4">4</button>
+              <button class="mini-btn" type="button" data-calc="5">5</button>
+              <button class="mini-btn" type="button" data-calc="6">6</button>
+              <button class="mini-btn fn" type="button" data-calc="-">−</button>
+              <button class="mini-btn" type="button" data-calc="1">1</button>
+              <button class="mini-btn" type="button" data-calc="2">2</button>
+              <button class="mini-btn" type="button" data-calc="3">3</button>
+              <button class="mini-btn fn" type="button" data-calc="+">+</button>
+              <button class="mini-btn" type="button" data-calc="0">0</button>
+              <button class="mini-btn" type="button" data-calc=".">,</button>
+              <button class="mini-btn fn" type="button" data-calc="(">(</button>
+              <button class="mini-btn fn" type="button" data-calc=")">)</button>
+              <button class="mini-btn equals" type="button" data-calc="=">=</button>
+            </div>
+            <p class="hint"><kbd>0-9</kbd> <kbd>+ - * /</kbd> <kbd>Enter</kbd> calculam direto pelo teclado.</p>
+          </article>
+          <article class="card">
+            <div class="card-head"><h3><i class="fa-solid fa-clock-rotate-left"></i> Histórico</h3>
+              <button class="link-btn" id="calcHistoryClear" type="button">limpar</button></div>
+            <div class="list list-scroll" id="calcHistory"></div>
+          </article>
+        </div>
+      </section>
+
+      <!-- ===== CARACTERES ===== -->
+      <section class="page" id="page-chars" data-tab="chars">
+        <article class="card">
+          <div class="card-head"><h3><i class="fa-solid fa-font"></i> Caracteres úteis</h3>
+            <span class="badge" id="charFavCount">0 favoritos</span></div>
+          <label class="search-field"><i class="fa-solid fa-magnifying-glass"></i>
+            <input type="search" id="charsSearch" placeholder="Buscar símbolo, nome ou código (ex.: 03B1, alfa)" aria-label="Buscar caractere"></label>
+          <div class="chips" id="charsCategories"></div>
+          <div class="char-grid" id="charGrid"></div>
+          <p class="status-text" id="charStatus">Clique em um caractere para copiar.</p>
+        </article>
+      </section>
+
+      <!-- ===== TÍTULO DA PÁGINA ===== -->
+      <section class="page" id="page-title" data-tab="title">
+        <div class="grid grid-2 grid-top">
+          <article class="card">
+            <div class="card-head"><h3><i class="fa-solid fa-pen-nib"></i> Título da página</h3></div>
+            <div class="title-preview" id="titlePreview">Geekie Study Hub v20.1.0</div>
+            <label class="field"><span>Texto</span><input type="text" id="titleTextInput" class="input" maxlength="60"></label>
+            <div class="toolbar">
+              <select id="titleFontSelect" aria-label="Fonte"></select>
+              <select id="titleIconSelect" aria-label="Ícone"></select>
+            </div>
+            <div class="toolbar">
+              <button class="btn btn-primary" id="titleApplyBtn" type="button"><i class="fa-solid fa-check"></i> Aplicar</button>
+              <button class="btn btn-secondary" id="titleResetBtn" type="button"><i class="fa-solid fa-rotate-left"></i> Restaurar padrão</button>
+            </div>
+          </article>
+          <article class="card">
+            <div class="card-head"><h3><i class="fa-solid fa-image"></i> Ícones disponíveis</h3></div>
+            <div class="icon-picker" id="titleIconPreview"></div>
+            <p class="hint">O texto também muda o título da aba do navegador.</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- ===== EVENTOS ===== -->
+      <section class="page" id="page-events" data-tab="events">
+        <article class="card">
+          <div class="card-head"><h3><i class="fa-solid fa-calendar-day"></i> Eventos do mês</h3></div>
+          <div class="chips" id="eventMonths"></div>
+          <div id="eventCard"></div>
+        </article>
+      </section>
+
+      <!-- ===== GOOGLE ===== -->
+      <section class="page" id="page-google" data-tab="google">
+        <div class="portal-bar">
+          <div class="portal-title"><i class="fa-brands fa-google"></i> Google</div>
+          <div class="row">
+            <button class="btn btn-secondary btn-sm" id="googleReloadBtn" type="button"><i class="fa-solid fa-rotate"></i> Recarregar</button>
+            <button class="btn btn-primary btn-sm" id="googleFullBtn" type="button"><i class="fa-solid fa-expand"></i> Tela cheia</button>
+          </div>
+        </div>
+        <div class="portal-links" id="googleLinks"></div>
+        <div class="iframe-frame" id="googleIframeContainer">
+          <iframe id="googleIframe" data-src="https://www.google.com/webhp?igu=1&safe=active&ssui=on" title="Google" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"></iframe>
+        </div>
+        <p class="hint"><i class="fa-solid fa-circle-info"></i> Se a busca não carregar, abra os atalhos acima em uma nova aba.</p>
+      </section>
+
+      <!-- ===== COMANDOS ===== -->
+      <section class="page" id="page-commands" data-tab="commands">
+        <article class="card">
+          <div class="card-head">
+            <div><span class="kicker">Ctrl + K</span><h3><i class="fa-solid fa-terminal"></i> Aba de comandos</h3></div>
+            <div class="row">
+              <span class="badge" id="cmdCount">0 comandos</span>
+              <button class="btn btn-secondary btn-sm" id="cmdHelpBtn" type="button"><i class="fa-solid fa-circle-question"></i> Ajuda</button>
+              <button class="btn btn-danger btn-sm" id="cmdClearBtn" type="button"><i class="fa-solid fa-broom"></i></button>
+            </div>
+          </div>
+          <p class="hint">Navegue, crie metas, inicie o foco e ajuste o hub digitando — tudo roda no navegador.</p>
+          <div class="cmd-output" id="cmdOutput" role="log" aria-live="polite"></div>
+          <form class="cmd-form" id="cmdForm" autocomplete="off">
+            <span class="cmd-prompt">geekie ›</span>
+            <input type="text" id="cmdInput" class="cmd-input" placeholder="digite 'ajuda' para ver todos os comandos" spellcheck="false" aria-label="Comando">
+            <button class="btn btn-primary" type="submit"><i class="fa-solid fa-arrow-right"></i> Executar</button>
+          </form>
+          <div class="cmd-suggestions" id="cmdSuggestions"></div>
+          <div class="cmd-hints">
+            <span><kbd>↑</kbd><kbd>↓</kbd> histórico</span>
+            <span><kbd>Tab</kbd> completa</span>
+            <span><kbd>Ctrl</kbd>+<kbd>K</kbd> abre</span>
+            <span><kbd>Esc</kbd> fecha</span>
+          </div>
+        </article>
+      </section>
+
+      <!-- ===== RECOMPENSAS ===== -->
+      <section class="page" id="page-rewards" data-tab="rewards">
+        <article class="card">
+          <div class="card-head">
+            <div><span class="kicker">Campanhas ativas</span><h3><i class="fa-solid fa-gift"></i> Códigos de recompensa</h3></div>
+            <div class="stat-pill stat-coins"><i class="fa-solid fa-coins"></i><b id="rewardCoinCount">0</b></div>
+          </div>
+          <p class="hint">Cada código vale uma vez por conta e libera moedas, XP, temas ou títulos.</p>
+          <form class="reward-form" id="rewardForm" autocomplete="off">
+            <input type="text" id="rewardInput" class="input" maxlength="24" placeholder="Digite o código (ex.: GEEKIE2026)" spellcheck="false" aria-label="Código">
+            <button class="btn btn-primary" type="submit"><i class="fa-solid fa-gift"></i> Resgatar</button>
+            <button class="btn btn-secondary" id="rewardPasteBtn" type="button"><i class="fa-solid fa-paste"></i> Colar</button>
+          </form>
+          <div class="reward-feedback" id="rewardFeedback" role="status"></div>
+          <h4 class="mini-title">Campanhas</h4>
+          <div class="grid grid-rewards" id="rewardGrid"></div>
+          <h4 class="mini-title">Histórico</h4>
+          <div class="list" id="rewardHistory"></div>
+        </article>
+      </section>
+
+      <!-- ===== DEV LOG ===== -->
+      <section class="page" id="page-devlog" data-tab="devlog">
+        <article class="card">
+          <div class="card-head"><h3><i class="fa-solid fa-clock-rotate-left"></i> Dev Log</h3>
+            <span class="badge" id="devlogBuild">v20.1.0</span></div>
+          <p class="hint">Registro de alterações do hub. As últimas atualizações também estão no README.md.</p>
+          <div class="toolbar">
+            <div class="chips" id="devlogFilters">
+              <button class="chip active" type="button" data-filter="all">Tudo</button>
+              <button class="chip" type="button" data-filter="fix">Correções</button>
+              <button class="chip" type="button" data-filter="feature">Novidades</button>
+              <button class="chip" type="button" data-filter="style">Interface</button>
+            </div>
+            <label class="search-field compact"><i class="fa-solid fa-magnifying-glass"></i>
+              <input type="search" id="devlogSearch" placeholder="Buscar versão…" aria-label="Buscar no dev log"></label>
+          </div>
+          <div class="devlog-list" id="devlogList"></div>
+        </article>
+      </section>
+
+      <!-- ===== SENHAS ===== -->
+      <section class="page" id="page-password" data-tab="password">
+        <div class="grid grid-2 grid-top">
+          <article class="card">
+            <div class="card-head"><h3><i class="fa-solid fa-shield-halved"></i> Gerador de senhas</h3></div>
+            <div class="password-output">
+              <input type="text" id="passwordOutput" class="input" readonly value="Clique em gerar">
+              <button class="btn btn-primary" id="passwordGenerate" type="button"><i class="fa-solid fa-shuffle"></i> Gerar</button>
+              <button class="btn btn-secondary" id="passwordCopy" type="button"><i class="fa-solid fa-copy"></i> Copiar</button>
+            </div>
+            <label class="range-field">Tamanho <input type="range" id="passwordLength" min="8" max="48" value="18"><b id="passwordLengthValue">18</b></label>
+            <label class="switch-row"><input type="checkbox" id="passwordUpper" checked><span class="switch"></span> Maiúsculas</label>
+            <label class="switch-row"><input type="checkbox" id="passwordNumbers" checked><span class="switch"></span> Números</label>
+            <label class="switch-row"><input type="checkbox" id="passwordSymbols" checked><span class="switch"></span> Símbolos</label>
+            <label class="switch-row"><input type="checkbox" id="passwordWords"><span class="switch"></span> Modo passphrase (4 palavras)</label>
+            <div class="strength"><span id="strengthFill"></span></div>
+            <div class="toolbar toolbar-between">
+              <span class="status-text" id="strengthLabel">—</span>
+              <span class="status-text" id="passwordEntropy">0 bits</span>
+            </div>
+          </article>
+          <article class="card">
+            <div class="card-head"><h3><i class="fa-solid fa-clock-rotate-left"></i> Últimas geradas</h3>
+              <span class="badge">só nesta aba</span></div>
+            <div class="list list-scroll" id="passwordHistory"></div>
+            <p class="hint"><i class="fa-solid fa-lock"></i> Nada é enviado pela rede; o histórico some ao recarregar.</p>
+          </article>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<!-- ================= PALETA ================= -->
+<div class="overlay palette-overlay" id="paletteOverlay" hidden>
+  <div class="modal palette" role="dialog" aria-modal="true" aria-label="Paleta de comandos">
+    <div class="palette-input">
+      <i class="fa-solid fa-terminal"></i>
+      <input type="text" id="paletteInput" placeholder="Buscar aba, comando ou código…" aria-label="Paleta de comandos" autocomplete="off">
+      <kbd>Esc</kbd>
+    </div>
+    <div class="palette-list" id="paletteList"></div>
+  </div>
+</div>
+
+<!-- ================= MOBILE NAV ================= -->
+<nav class="mobile-nav" id="mobileNav" aria-label="Navegação rápida"></nav>
+
+<!-- ================= TOAST / WHATS NEW ================= -->
+<div class="toast" id="appToast" role="status" aria-live="polite"><i class="fa-solid fa-check"></i><span>Ação realizada!</span></div>
+
+<div class="overlay" id="whatsNewOverlay" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="whatsNewTitle">
+    <div class="card-head"><h3 id="whatsNewTitle"><i class="fa-solid fa-wand-magic-sparkles"></i> Novidades da v20.1.0</h3>
+      <button class="btn btn-icon btn-ghost" id="whatsNewClose" type="button" aria-label="Fechar"><i class="fa-solid fa-xmark"></i></button></div>
+    <ul class="whatsnew-list" id="whatsNewList"></ul>
+    <button class="btn btn-primary btn-block" id="whatsNewStart" type="button">Começar a explorar</button>
+  </div>
+</div>
+
+<script src="script.js?v=20.1.0"></script>
+</body>
+</html>
