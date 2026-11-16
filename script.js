@@ -76,7 +76,7 @@ function beep(freq = 660, duration = 0.16, type = 'sine', volume = 0.18) {
 }
 
 /* ============ 2. ESTADO ============ */
-const VERSION = 'v20.1.0';
+const VERSION = 'v21.0.0';
 const STORAGE_KEY = 'geekieHubState_v20';
 const LEGACY_KEYS = ['geekieHubState_v194'];
 const ACCOUNTS_KEY = 'geekieHubAccounts_v20';
@@ -86,7 +86,7 @@ const SEEN_KEY = 'geekieHubSeenVersion_v20';
 const DEFAULT_STATE = {
   session: null,
   xp: 0, coins: 25, title: 'Novato',
-  pageTitle: 'Geekie Study Hub v20.1.0', font: 'Poppins', icon: 'fa-graduation-cap',
+  pageTitle: 'Geekie Study Hub v21.0.0', font: 'Poppins', icon: 'fa-graduation-cap',
   themesOwned: ['default'], theme: 'default',
   petsOwned: [], pet: null, petEnergy: {}, petFed: {},
   focusByDate: {}, subjectMinutes: {}, subjectGoals: {}, customSubjects: [],
@@ -99,7 +99,8 @@ const DEFAULT_STATE = {
   clicker: { points: 0, upgrades: {}, clicks: 0, total: 0 },
   keySounds: { on: false, style: 'soft', volume: 45 },
   ambient: { master: 70, layers: { rain: 0, noise: 0, waves: 0, fire: 0 } },
-  charsFav: [], recentChars: [],
+  charsFav: [], recentChars: [], charCopies: 0,
+  checkins: {},
   chatHistory: [], motionReduced: false, soundEnabled: true,
   quizBest: 0, quizHistory: [], redeemed: [], commandHistory: [],
   streakBest: 0, lastVisit: '', seenVersion: '', achievements: {}, milestonesClaimed: [],
@@ -122,7 +123,9 @@ function loadState() {
   Object.keys(s.decks).forEach((d) => { if (!Array.isArray(s.decks[d])) s.decks[d] = []; });
   if (!Array.isArray(s.deck ? [s.deck] : []) || !s.decks[s.deck]) s.deck = Object.keys(s.decks)[0];
   ['themesOwned', 'petsOwned', 'goals', 'noteOrder', 'charsFav', 'recentChars', 'chatHistory', 'redeemed', 'commandHistory', 'quizHistory', 'milestonesClaimed', 'customSubjects', 'calcHistory'].forEach((k) => { if (!Array.isArray(s[k])) s[k] = []; });
-  ['focusByDate', 'subjectMinutes', 'subjectGoals', 'petEnergy', 'petFed', 'notes', 'planner', 'diary', 'achievements'].forEach((k) => { if (!s[k] || typeof s[k] !== 'object') s[k] = {}; });
+  ['focusByDate', 'subjectMinutes', 'subjectGoals', 'petEnergy', 'petFed', 'notes', 'planner', 'diary', 'achievements', 'checkins'].forEach((k) => { if (!s[k] || typeof s[k] !== 'object') s[k] = {}; });
+  if (typeof s.charCopies !== 'number' || !isFinite(s.charCopies)) s.charCopies = 0;
+  if (s.pageTitle === 'Geekie Study Hub v20.1.0') s.pageTitle = DEFAULT_STATE.pageTitle;
   if (s.themesOwned.indexOf('default') === -1) s.themesOwned.unshift('default');
   return s;
 }
@@ -200,11 +203,14 @@ const SUBJECTS = ['Matemática', 'Português', 'Biologia', 'Química', 'Física'
 function subjects() { return SUBJECTS.concat(state.customSubjects); }
 
 /* ============ 4. TOPBAR, TEMA E NAVEGAÇÃO ============ */
+function dayIsActive(key) {
+  return (state.focusByDate[key] || 0) > 0 || !!(state.checkins && state.checkins[key]);
+}
 function computeStreak() {
   let streak = 0;
   let d = new Date();
-  if (!(state.focusByDate[dateKey(d)] > 0)) d = addDays(d, -1);
-  while (state.focusByDate[dateKey(d)] > 0) { streak++; d = addDays(d, -1); }
+  if (!dayIsActive(dateKey(d))) d = addDays(d, -1);
+  while (dayIsActive(dateKey(d))) { streak++; d = addDays(d, -1); }
   return streak;
 }
 function renderTopbar() {
@@ -1637,35 +1643,187 @@ function bindPlanner() {
    ============================================================ */
 
 /* ============ 17. ESTATÍSTICAS ============ */
+/* ============ 17. ESTATÍSTICAS ============ */
 let statsDays = 7;
+const STATS_GOAL = 60;
+const CHECKIN_REWARD = { xp: 12, coins: 4 };
+
+function dayActiveKey(key) {
+  return (state.focusByDate[key] || 0) > 0 || !!(state.checkins && state.checkins[key]);
+}
+function activeDaysSet() {
+  const set = new Set();
+  Object.keys(state.focusByDate || {}).forEach((k) => { if ((state.focusByDate[k] || 0) > 0) set.add(k); });
+  Object.keys(state.checkins || {}).forEach((k) => { if (state.checkins[k]) set.add(k); });
+  return set;
+}
 function seriesFocus(days) {
   const out = [];
   for (let i = days - 1; i >= 0; i--) {
     const d = addDays(new Date(), -i);
-    out.push({ key: dateKey(d), label: days <= 7 ? WEEK[d.getDay()] : d.getDate() + '/' + (d.getMonth() + 1), minutes: state.focusByDate[dateKey(d)] || 0, date: d });
+    const key = dateKey(d);
+    out.push({
+      key: key,
+      label: days <= 7 ? WEEK[d.getDay()] : d.getDate() + '/' + (d.getMonth() + 1),
+      minutes: state.focusByDate[key] || 0,
+      checkin: !!(state.checkins && state.checkins[key]),
+      date: d
+    });
   }
   return out;
 }
+function runningFocusMinutes() {
+  if (typeof pomo !== 'undefined' && pomo && pomo.running && pomo.mode === 'focus') {
+    return Math.max(0, (pomo.total - pomo.remaining) / 60);
+  }
+  return 0;
+}
+function todayFocusLive() {
+  return (state.focusByDate[dateKey()] || 0) + runningFocusMinutes();
+}
+function totalFocusAll() {
+  return Object.values(state.focusByDate || {}).reduce((a, b) => a + (Number(b) || 0), 0);
+}
+function fmtLive(minutes) {
+  const total = Math.max(0, Math.round(minutes * 60));
+  const h = Math.floor(total / 3600);
+  const m = Math.floor((total % 3600) / 60);
+  const s = total % 60;
+  return (h ? h + 'h ' : '') + pad(m) + 'min ' + pad(s) + 's';
+}
+function checkinDone(key) {
+  return !!(state.checkins && state.checkins[key || dateKey()]);
+}
+
+function renderStatsHero() {
+  const key = dateKey();
+  const done = checkinDone(key);
+  const streak = computeStreak();
+  const btn = $('#statsCheckinBtn');
+  if (btn) {
+    btn.disabled = done;
+    btn.classList.toggle('done', done);
+    btn.innerHTML = done
+      ? '<i class="fa-solid fa-circle-check"></i> Check-in de hoje feito'
+      : '<i class="fa-solid fa-fire-flame-curved"></i> Fazer check-in de hoje';
+  }
+  const big = $('#statsStreakBig');
+  if (big) big.textContent = streak;
+  const meta = $('#statsStreakMeta');
+  if (meta) meta.textContent = streak === 1 ? 'dia em sequência' : 'dias em sequência';
+  const status = $('#statsCheckinStatus');
+  if (status) {
+    const at = state.checkins[key];
+    status.textContent = done
+      ? 'Check-in registrado' + (at ? ' às ' + new Date(at).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }) : '') +
+        ' · +' + CHECKIN_REWARD.xp + ' XP e +' + CHECKIN_REWARD.coins + ' moedas creditados.'
+      : 'O check-in mantém sua sequência viva mesmo em dias sem foco cronometrado.';
+  }
+  const dots = $('#statsWeekDots');
+  if (dots) {
+    let html = '';
+    for (let i = 6; i >= 0; i--) {
+      const d = addDays(new Date(), -i);
+      const k = dateKey(d);
+      const on = dayActiveKey(k);
+      html += '<span class="day-dot' + (on ? ' on' : '') + (i === 0 ? ' today' : '') + '" title="' + esc(prettyDate(k)) + (on ? ' · dia ativo' : ' · sem registro') + '">' +
+        '<span>' + esc(WEEK[d.getDay()].slice(0, 1)) + '</span><i class="fa-solid ' + (on ? 'fa-fire' : 'fa-minus') + '"></i></span>';
+    }
+    dots.innerHTML = html;
+  }
+}
+
+function renderLiveWeek() {
+  const box = $('#statsLiveWeek');
+  if (!box) return;
+  const live = runningFocusMinutes();
+  const todayKey = dateKey();
+  const rows = seriesFocus(7).map((s) => Object.assign({}, s, { minutes: s.minutes + (s.key === todayKey ? live : 0) }));
+  const max = Math.max(30, Math.max.apply(null, rows.map((r) => r.minutes)));
+  const total = rows.reduce((a, b) => a + b.minutes, 0);
+  const best = rows.reduce((a, b) => (b.minutes >= a.minutes ? b : a), rows[0]);
+  box.innerHTML = rows.map((r) => {
+    const h = Math.max(4, Math.round((r.minutes / max) * 100));
+    return '<div class="lw-col' + (r.key === todayKey ? ' today' : '') + '">' +
+      '<span class="lw-value">' + (r.minutes >= 1 ? Math.round(r.minutes) : (r.minutes > 0 ? '&lt;1' : 0)) + '<i>min</i></span>' +
+      '<div class="lw-bar"><span style="height:' + h + '%"></span></div>' +
+      '<span class="lw-label">' + esc(r.label) + '</span></div>';
+  }).join('');
+  const foot = $('#statsLiveWeekFoot');
+  if (foot) {
+    foot.innerHTML = '<span><b>' + fmtMinutes(total) + '</b> no período</span>' +
+      '<span>média <b>' + fmtMinutes(total / 7) + '</b></span>' +
+      '<span>melhor: <b>' + esc(best.label) + '</b> ' + fmtMinutes(best.minutes) + '</span>';
+  }
+}
+
+function renderStatsLive() {
+  const live = runningFocusMinutes();
+  const today = (state.focusByDate[dateKey()] || 0) + live;
+  const pct = Math.round(clamp((today / STATS_GOAL) * 100, 0, 100));
+  const clock = $('#statsLiveClock');
+  if (clock) clock.textContent = fmtLive(today);
+  const fill = $('#statsTodayFill');
+  if (fill) fill.style.width = pct + '%';
+  const goal = $('#statsTodayGoal');
+  if (goal) goal.textContent = fmtMinutes(today) + ' de ' + STATS_GOAL + ' min (' + pct + '%)';
+  const session = $('#statsSessionState');
+  if (session) {
+    if (live > 0) {
+      session.innerHTML = '<i class="pulse-dot"></i> Sessão em andamento · +' + fmtLive(live) + ' neste ciclo';
+      session.classList.add('on');
+    } else {
+      session.innerHTML = '<i class="idle-dot"></i> Nenhuma sessão rodando agora';
+      session.classList.remove('on');
+    }
+  }
+  const scToday = $('#scToday .sc-value');
+  if (scToday) scToday.textContent = fmtMinutes(today);
+  const scTodaySub = $('#scToday .sc-sub');
+  if (scTodaySub) scTodaySub.textContent = 'meta ' + STATS_GOAL + 'min · ' + pct + '%';
+  const streak = computeStreak();
+  const scStreak = $('#scStreak .sc-value');
+  if (scStreak) scStreak.textContent = streak + (streak === 1 ? ' dia' : ' dias');
+  const big = $('#statsStreakBig');
+  if (big && big.textContent !== String(streak)) big.textContent = streak;
+  const series = seriesFocus(statsDays);
+  const total = series.reduce((a, b) => a + b.minutes, 0) + live;
+  const scRange = $('#scRange .sc-value');
+  if (scRange) scRange.textContent = fmtMinutes(total);
+  const scRangeSub = $('#scRange .sc-sub');
+  if (scRangeSub) scRangeSub.textContent = 'média ' + fmtMinutes(total / statsDays);
+  const sig = Math.round(today) + ':' + Math.round(live) + ':' + statsDays;
+  if (sig !== renderStatsLive.last) { renderStatsLive.last = sig; renderLiveWeek(); }
+}
+
 function renderStats() {
+  renderStatsHero();
   const series = seriesFocus(statsDays);
   const total = series.reduce((a, b) => a + b.minutes, 0);
-  const active = series.filter((x) => x.minutes > 0).length;
+  const activeRange = series.filter((x) => x.minutes > 0 || x.checkin).length;
   const today = state.focusByDate[dateKey()] || 0;
+  const streak = computeStreak();
+  const best = Math.max(state.streakBest, streak);
+  const activeTotal = activeDaysSet().size;
   const cards = [
-    { label: 'Foco hoje', value: fmtMinutes(today), sub: 'meta 60min', icon: 'fa-clock' },
-    { label: 'Últimos ' + statsDays + ' dias', value: fmtMinutes(total), sub: 'média ' + fmtMinutes(total / statsDays), icon: 'fa-chart-simple' },
-    { label: 'Dias ativos', value: active + '/' + statsDays, sub: 'constância', icon: 'fa-calendar-check' },
-    { label: 'Sequência', value: computeStreak() + ' dias', sub: 'recorde ' + state.streakBest, icon: 'fa-fire' },
-    { label: 'Sessões totais', value: state.sessions, sub: 'pomodoros: ' + state.pomoSessions, icon: 'fa-stopwatch' },
+    { id: 'scStreak', label: 'Sequência', value: streak + (streak === 1 ? ' dia' : ' dias'), sub: 'recorde ' + best, icon: 'fa-fire', tone: 'fire', live: true },
+    { id: 'scActive', label: 'Dias ativos', value: activeTotal, sub: activeRange + ' nos últimos ' + statsDays + ' dias', icon: 'fa-calendar-check', tone: 'active' },
+    { id: 'scToday', label: 'Foco hoje', value: fmtMinutes(today), sub: 'meta ' + STATS_GOAL + 'min · ' + Math.round((today / STATS_GOAL) * 100) + '%', icon: 'fa-clock', tone: 'today', live: true },
+    { id: 'scRange', label: 'Últimos ' + statsDays + ' dias', value: fmtMinutes(total), sub: 'média ' + fmtMinutes(total / statsDays), icon: 'fa-chart-simple' },
+    { label: 'Foco total', value: fmtMinutes(totalFocusAll()), sub: 'desde o primeiro registro', icon: 'fa-hourglass-half' },
+    { label: 'Sessões', value: state.sessions, sub: 'pomodoros: ' + state.pomoSessions, icon: 'fa-stopwatch' },
     { label: 'Metas concluídas', value: state.totalGoalsDone, sub: 'de ' + state.goals.length + ' criadas', icon: 'fa-list-check' },
-    { label: 'Cards revisados', value: Object.values(state.flashStats).reduce((a, b) => a + b, 0), sub: 'todas as rodadas', icon: 'fa-clone' },
-    { label: 'Recorde no quiz', value: state.quizBest, sub: 'acertos', icon: 'fa-brain' }
+    { label: 'Cards revisados', value: Object.values(state.flashStats).reduce((a, b) => a + b, 0), sub: 'todas as rodadas', icon: 'fa-clone' }
   ];
   const box = $('#statsCards');
-  if (box) box.innerHTML = cards.map((c) => '<div class="stat-card"><span class="sc-label"><i class="fa-solid ' + c.icon + '"></i> ' + esc(c.label) + '</span><b class="sc-value">' + esc(c.value) + '</b><span class="sc-sub">' + esc(c.sub) + '</span></div>').join('');
+  if (box) box.innerHTML = cards.map((c) => '<div class="stat-card' + (c.tone ? ' tone-' + c.tone : '') + '"' + (c.id ? ' id="' + c.id + '"' : '') + '>' +
+    '<span class="sc-label"><i class="fa-solid ' + c.icon + '"></i> ' + esc(c.label) + (c.live ? '<span class="sc-live">ao vivo</span>' : '') + '</span>' +
+    '<b class="sc-value">' + esc(c.value) + '</b><span class="sc-sub">' + esc(c.sub) + '</span></div>').join('');
+  const rangeLabel = $('#statsRangeLabel');
+  if (rangeLabel) rangeLabel.textContent = 'últimos ' + statsDays + ' dias';
   const chart = $('#weeklyChart');
   if (chart) {
-    const max = Math.max(30, ...series.map((s) => s.minutes));
+    const max = Math.max(30, Math.max.apply(null, series.map((s) => s.minutes)));
     chart.innerHTML = series.map((s) => {
       const h = Math.max(3, Math.round((s.minutes / max) * 150));
       return '<div class="bar-col"><div class="bar-fill' + (s.key === dateKey() ? ' today' : '') + '" style="height:' + h + 'px" data-value="' + fmtMinutes(s.minutes) + '"></div><span class="bar-label">' + esc(s.label) + '</span></div>';
@@ -1676,9 +1834,11 @@ function renderStats() {
     let cells = '';
     for (let i = 83; i >= 0; i--) {
       const d = addDays(new Date(), -i);
-      const m = state.focusByDate[dateKey(d)] || 0;
-      const lvl = m >= 120 ? 4 : m >= 60 ? 3 : m >= 25 ? 2 : m > 0 ? 1 : 0;
-      cells += '<span class="hm-cell l' + lvl + '" title="' + prettyDate(dateKey(d)) + ': ' + fmtMinutes(m) + '"></span>';
+      const k = dateKey(d);
+      const m = state.focusByDate[k] || 0;
+      const on = m > 0 || dayActiveKey(k);
+      const lvl = m >= 120 ? 4 : m >= 60 ? 3 : m >= 25 ? 2 : on ? 1 : 0;
+      cells += '<span class="hm-cell l' + lvl + '" title="' + prettyDate(k) + ': ' + fmtMinutes(m) + (on && !m ? ' · check-in' : '') + '"></span>';
     }
     hm.innerHTML = cells;
   }
@@ -1688,9 +1848,32 @@ function renderStats() {
     const max = entries.length ? entries[0][1] : 1;
     bd.innerHTML = entries.length ? entries.map(([s, m]) => '<div class="bd-row"><span>' + esc(s) + '</span><div class="bd-track"><span style="width:' + Math.round((m / max) * 100) + '%"></span></div><b>' + fmtMinutes(m) + '</b></div>').join('') : '<div class="empty">Registre foco por matéria para ver a distribuição.</div>';
   }
+  renderStatsLive();
 }
+
+function doDailyCheckin() {
+  const key = dateKey();
+  if (checkinDone(key)) {
+    toast('Você já fez o check-in de hoje.', 'fa-circle-check');
+    return;
+  }
+  state.checkins[key] = Date.now();
+  const streak = computeStreak();
+  if (streak > state.streakBest) state.streakBest = streak;
+  save();
+  addXp(CHECKIN_REWARD.xp);
+  addCoins(CHECKIN_REWARD.coins);
+  renderStats();
+  renderTopbar();
+  renderHoje();
+  renderJourney();
+  bump($('#statsCheckinBtn'));
+  toast('Check-in feito! +' + CHECKIN_REWARD.xp + ' XP e +' + CHECKIN_REWARD.coins + ' moedas.', 'fa-fire');
+}
+
 function bindStats() {
   renderStats();
+  $('#statsCheckinBtn') && $('#statsCheckinBtn').addEventListener('click', doDailyCheckin);
   $('#statsRange') && $('#statsRange').addEventListener('click', (e) => {
     const chip = e.target.closest('.chip');
     if (!chip) return;
@@ -1699,12 +1882,23 @@ function bindStats() {
     renderStats();
   });
   $('#statsExportBtn') && $('#statsExportBtn').addEventListener('click', () => {
-    const rows = [['data', 'minutos_foco', 'sessoes']];
-    Object.keys(state.focusByDate).sort().forEach((k) => rows.push([k, state.focusByDate[k], '']));
+    const rows = [['data', 'minutos_foco', 'checkin', 'dia_ativo']];
+    const keys = Array.from(activeDaysSet()).sort();
+    keys.forEach((k) => rows.push([k, state.focusByDate[k] || 0, checkinDone(k) ? 'sim' : 'nao', dayActiveKey(k) ? 'sim' : 'nao']));
+    rows.push(['sequencia_atual', computeStreak()]);
+    rows.push(['recorde_sequencia', Math.max(state.streakBest, computeStreak())]);
+    rows.push(['dias_ativos_total', activeDaysSet().size]);
     download('geekie-estatisticas.csv', rows.map((r) => r.join(';')).join('\n'), 'text/csv;charset=utf-8');
     toast('CSV exportado.', 'fa-file-csv');
   });
+  if (!bindStats.timer) {
+    bindStats.timer = setInterval(() => {
+      if (document.hidden || state.currentTab !== 'stats') return;
+      renderStatsLive();
+    }, 1000);
+  }
 }
+
 
 /* ============ 18. DIÁRIO ============ */
 const MOODS = ['😀', '🙂', '😐', '😕', '😫'];
@@ -2316,38 +2510,259 @@ function bindCalculator() {
 /* ============ 27. CARACTERES ============ */
 const CHAR_CATS = [
   { name: 'Favoritos', items: [] },
-  { name: 'Matemática', items: [['∑', 'somatório'], ['∏', 'produtório'], ['√', 'raiz'], ['∫', 'integral'], ['≈', 'aproximado'], ['≠', 'diferente'], ['≤', 'menor igual'], ['≥', 'maior igual'], ['∞', 'infinito'], ['±', 'mais ou menos'], ['π', 'pi'], ['Δ', 'delta'], ['θ', 'teta'], ['°', 'grau'], ['%', 'porcento']] },
-  { name: 'Gregos', items: [['α', 'alfa'], ['β', 'beta'], ['γ', 'gama'], ['δ', 'delta'], ['ε', 'épsilon'], ['λ', 'lambda'], ['μ', 'mi'], ['σ', 'sigma'], ['φ', 'fi'], ['ω', 'ômega'], ['Ω', 'ômega maiúsculo'], ['Ψ', 'psi']] },
-  { name: 'Setas', items: [['→', 'direita'], ['←', 'esquerda'], ['↑', 'cima'], ['↓', 'baixo'], ['↔', 'duas direções'], ['⇒', 'implica'], ['⇔', 'equivalente'], ['∴', 'portanto'], ['∵', 'porque']] },
-  { name: 'Química', items: [['H₂O', 'água'], ['CO₂', 'gás carbônico'], ['O₂', 'oxigênio'], ['⇌', 'equilíbrio'], ['↑', 'gás'], ['↓', 'precipitado'], ['mol', 'mol'], ['pH', 'potencial hidrogeniônico']] },
-  { name: 'Moedas', items: [['€', 'euro'], ['$', 'dólar'], ['£', 'libra'], ['¥', 'iene'], ['₿', 'bitcoin'], ['R$', 'real'], ['¢', 'centavo']] },
-  { name: 'Símbolos', items: [['©', 'copyright'], ['®', 'registrado'], ['™', 'marca'], ['§', 'parágrafo'], ['¶', 'pilcrow'], ['•', 'marcador'], ['✓', 'check'], ['✗', 'xis'], ['★', 'estrela'], ['♥', 'coração'], ['⚡', 'raio'], ['🔥', 'fogo']] }
+  { name: 'Matemática', items: [
+    ['∑', 'somatório'], ['∏', 'produtório'], ['√', 'raiz quadrada'], ['∛', 'raiz cúbica'], ['∜', 'raiz quarta'],
+    ['∫', 'integral'], ['∬', 'integral dupla'], ['∮', 'integral de linha'], ['≈', 'aproximado'], ['≠', 'diferente'],
+    ['≡', 'idêntico'], ['≤', 'menor ou igual'], ['≥', 'maior ou igual'], ['≪', 'muito menor'], ['≫', 'muito maior'],
+    ['∞', 'infinito'], ['±', 'mais ou menos'], ['∓', 'menos ou mais'], ['π', 'pi'], ['τ', 'tau'],
+    ['Δ', 'delta'], ['θ', 'teta'], ['°', 'grau'], ['′', 'linha'], ['″', 'duas linhas'],
+    ['%', 'porcento'], ['‰', 'por mil'], ['√x', 'raiz de x'], ['x²', 'x ao quadrado'], ['x³', 'x ao cubo'],
+    ['a/b', 'fração'], ['|x|', 'módulo'], ['⌊x⌋', 'piso'], ['⌈x⌉', 'teto'], ['·', 'vezes'],
+    ['÷', 'dividido'], ['−', 'menos'], ['ⁿ√', 'raiz enésima'], ['∠', 'ângulo'], ['⊥', 'perpendicular'],
+    ['∥', 'paralelo'], ['△', 'triângulo'], ['⊙', 'circunferência']
+  ] },
+  { name: 'Frações e potências', items: [
+    ['½', 'um meio'], ['⅓', 'um terço'], ['⅔', 'dois terços'], ['¼', 'um quarto'], ['¾', 'três quartos'],
+    ['⅕', 'um quinto'], ['⅖', 'dois quintos'], ['⅗', 'três quintos'], ['⅘', 'quatro quintos'], ['⅙', 'um sexto'],
+    ['⅚', 'cinco sextos'], ['⅛', 'um oitavo'], ['⅜', 'três oitavos'], ['⅝', 'cinco oitavos'], ['⅞', 'sete oitavos'],
+    ['⁰', 'super zero'], ['¹', 'super um'], ['²', 'super dois'], ['³', 'super três'], ['⁴', 'super quatro'],
+    ['⁵', 'super cinco'], ['⁶', 'super seis'], ['⁷', 'super sete'], ['⁸', 'super oito'], ['⁹', 'super nove'],
+    ['⁺', 'super mais'], ['⁻', 'super menos'], ['⁼', 'super igual'], ['⁽', 'super abre'], ['⁾', 'super fecha'],
+    ['ⁿ', 'super n'], ['₀', 'sub zero'], ['₁', 'sub um'], ['₂', 'sub dois'], ['₃', 'sub três'],
+    ['₄', 'sub quatro'], ['₅', 'sub cinco'], ['₆', 'sub seis'], ['₇', 'sub sete'], ['₈', 'sub oito'],
+    ['₉', 'sub nove'], ['₊', 'sub mais'], ['₋', 'sub menos'], ['₌', 'sub igual']
+  ] },
+  { name: 'Gregos', items: [
+    ['α', 'alfa'], ['β', 'beta'], ['γ', 'gama'], ['δ', 'delta'], ['ε', 'épsilon'], ['ζ', 'zeta'],
+    ['η', 'eta'], ['θ', 'teta'], ['ι', 'iota'], ['κ', 'capá'], ['λ', 'lambda'], ['μ', 'mi'],
+    ['ν', 'ni'], ['ξ', 'xi'], ['ο', 'ômicron'], ['π', 'pi'], ['ρ', 'rô'], ['σ', 'sigma'],
+    ['τ', 'tau'], ['υ', 'upsilon'], ['φ', 'fi'], ['χ', 'qui'], ['ψ', 'psi'], ['ω', 'ômega'],
+    ['Α', 'alfa maiúsculo'], ['Β', 'beta maiúsculo'], ['Γ', 'gama maiúsculo'], ['Δ', 'delta maiúsculo'], ['Ε', 'épsilon maiúsculo'], ['Ζ', 'zeta maiúsculo'],
+    ['Η', 'eta maiúsculo'], ['Θ', 'teta maiúsculo'], ['Ι', 'iota maiúsculo'], ['Κ', 'capá maiúsculo'], ['Λ', 'lambda maiúsculo'], ['Μ', 'mi maiúsculo'],
+    ['Ν', 'ni maiúsculo'], ['Ξ', 'xi maiúsculo'], ['Ο', 'ômicron maiúsculo'], ['Π', 'pi maiúsculo'], ['Ρ', 'rô maiúsculo'], ['Σ', 'sigma maiúsculo'],
+    ['Τ', 'tau maiúsculo'], ['Υ', 'upsilon maiúsculo'], ['Φ', 'fi maiúsculo'], ['Χ', 'qui maiúsculo'], ['Ψ', 'psi maiúsculo'], ['Ω', 'ômega maiúsculo']
+  ] },
+  { name: 'Lógica e conjuntos', items: [
+    ['∈', 'pertence'], ['∉', 'não pertence'], ['∋', 'contém'], ['⊂', 'subconjunto'], ['⊃', 'superconjunto'],
+    ['⊆', 'subconjunto ou igual'], ['⊇', 'superconjunto ou igual'], ['∪', 'união'], ['∩', 'intersecção'], ['∅', 'conjunto vazio'],
+    ['∀', 'para todo'], ['∃', 'existe'], ['∄', 'não existe'], ['¬', 'negação'], ['∧', 'e lógico'],
+    ['∨', 'ou lógico'], ['⊕', 'ou exclusivo'], ['⊗', 'produto tensorial'], ['∴', 'portanto'], ['∵', 'porque'],
+    ['⇒', 'implica'], ['⇐', 'somente se'], ['⇔', 'se e somente se'], ['⊢', 'deduz'], ['⊨', 'satisfaz'],
+    ['ℵ', 'aleph'], ['∼', 'equivalente a'], ['≅', 'congruente'], ['≢', 'não idêntico'], ['○', 'composição']
+  ] },
+  { name: 'Setas', items: [
+    ['→', 'direita'], ['←', 'esquerda'], ['↑', 'cima'], ['↓', 'baixo'], ['↔', 'duas direções'], ['↕', 'vertical'],
+    ['⇒', 'implica'], ['⇐', 'volta'], ['⇔', 'equivalente'], ['⇑', 'cima dupla'], ['⇓', 'baixo dupla'], ['↦', 'mapeia'],
+    ['↩', 'retorno'], ['↪', 'avança'], ['↺', 'gira anti-horário'], ['↻', 'gira horário'], ['⤴', 'sobe curva'], ['⤵', 'desce curva'],
+    ['↗', 'nordeste'], ['↘', 'sudeste'], ['↖', 'noroeste'], ['↙', 'sudoeste'], ['⟶', 'seta longa'], ['⟵', 'seta longa esquerda'],
+    ['⇄', 'troca'], ['⇆', 'troca dupla'], ['⇌', 'equilíbrio'], ['⇋', 'equilíbrio inverso'], ['▶', 'play'], ['▷', 'triângulo direita']
+  ] },
+  { name: 'Química', items: [
+    ['H₂O', 'água'], ['CO₂', 'gás carbônico'], ['O₂', 'oxigênio'], ['N₂', 'nitrogênio'], ['CH₄', 'metano'], ['NH₃', 'amônia'],
+    ['H₂SO₄', 'ácido sulfúrico'], ['HCl', 'ácido clorídrico'], ['NaOH', 'hidróxido de sódio'], ['C₆H₁₂O₆', 'glicose'], ['CO', 'monóxido de carbono'], ['NO₂', 'dióxido de nitrogênio'],
+    ['⇌', 'equilíbrio químico'], ['⇋', 'equilíbrio inverso'], ['↑', 'gás liberado'], ['↓', 'precipitado'], ['Δ', 'aquecimento'], ['°C', 'grau Celsius'],
+    ['mol', 'mol'], ['pH', 'potencial hidrogeniônico'], ['pOH', 'potencial hidroxiliônico'], ['M', 'molaridade'], ['mM', 'milimolar'], ['µL', 'microlitro'],
+    ['mL', 'mililitro'], ['L', 'litro'], ['g', 'grama'], ['mg', 'miligrama'], ['kJ', 'quilojoule'], ['kcal', 'quilocaloria']
+  ] },
+  { name: 'Física e unidades', items: [
+    ['℃', 'grau Celsius'], ['℉', 'grau Fahrenheit'], ['K', 'kelvin'], ['Å', 'angstrom'], ['µ', 'micro'], ['Ω', 'ohm'],
+    ['N', 'newton'], ['J', 'joule'], ['W', 'watt'], ['V', 'volt'], ['A', 'ampère'], ['Hz', 'hertz'],
+    ['Pa', 'pascal'], ['bar', 'bar'], ['atm', 'atmosfera'], ['kg', 'quilograma'], ['km', 'quilômetro'], ['cm', 'centímetro'],
+    ['mm', 'milímetro'], ['µm', 'micrômetro'], ['s', 'segundo'], ['ms', 'milissegundo'], ['h', 'hora'], ['min', 'minuto'],
+    ['N·m', 'newton-metro'], ['J/s', 'joule por segundo'], ['W/m²', 'watt por metro quadrado'], ['m/s', 'metro por segundo'], ['m/s²', 'metro por segundo ao quadrado'], ['km/h', 'quilômetro por hora']
+  ] },
+  { name: 'Moedas', items: [
+    ['€', 'euro'], ['$', 'dólar'], ['£', 'libra'], ['¥', 'iene'], ['₿', 'bitcoin'], ['¢', 'centavo'],
+    ['₹', 'rúpia'], ['₩', 'won'], ['₽', 'rublo'], ['₪', 'shekel'], ['₫', 'dong'], ['₴', 'hryvnia'],
+    ['₺', 'lira'], ['₦', 'naira'], ['R$', 'real'], ['USD', 'dólar americano'], ['EUR', 'euro moeda'], ['BRL', 'real brasileiro']
+  ] },
+  { name: 'Acentuação', items: [
+    ['á', 'a agudo'], ['à', 'a crase'], ['â', 'a circunflexo'], ['ã', 'a til'], ['ä', 'a trema'], ['é', 'e agudo'],
+    ['è', 'e grave'], ['ê', 'e circunflexo'], ['ë', 'e trema'], ['í', 'i agudo'], ['ì', 'i grave'], ['î', 'i circunflexo'],
+    ['ï', 'i trema'], ['ó', 'o agudo'], ['ò', 'o grave'], ['ô', 'o circunflexo'], ['õ', 'o til'], ['ö', 'o trema'],
+    ['ú', 'u agudo'], ['ù', 'u grave'], ['û', 'u circunflexo'], ['ü', 'u trema'], ['ç', 'cedilha'], ['ñ', 'n til'],
+    ['Á', 'A agudo'], ['Ã', 'A til'], ['Â', 'A circunflexo'], ['É', 'E agudo'], ['Ê', 'E circunflexo'], ['Í', 'I agudo'],
+    ['Ó', 'O agudo'], ['Õ', 'O til'], ['Ô', 'O circunflexo'], ['Ú', 'U agudo'], ['Ü', 'U trema'], ['Ç', 'C cedilha']
+  ] },
+  { name: 'Tipografia', items: [
+    ['—', 'travessão'], ['–', 'meia-risca'], ['…', 'reticências'], ['«', 'aspas angulares'], ['»', 'aspas angulares fecha'], ['“', 'aspas curvas'],
+    ['”', 'aspas curvas fecha'], ['‘', 'aspas simples'], ['’', 'aspas simples fecha'], ['„', 'aspas baixas'], ['•', 'marcador'], ['·', 'ponto médio'],
+    ['‣', 'marcador triângulo'], ['§', 'parágrafo'], ['¶', 'pilcrow'], ['†', 'adaga'], ['‡', 'adaga dupla'], ['©', 'copyright'],
+    ['®', 'registrado'], ['™', 'marca registrada'], ['№', 'número'], ['⁂', 'asterismo'], ['※', 'referência'], ['¡', 'exclamação invertida']
+  ] },
+  { name: 'Formas e checks', items: [
+    ['✓', 'check'], ['✔', 'check grosso'], ['✕', 'xis'], ['✖', 'xis grosso'], ['☑', 'caixa marcada'], ['☒', 'caixa com xis'],
+    ['★', 'estrela cheia'], ['☆', 'estrela vazia'], ['✦', 'estrela quatro pontas'], ['✧', 'estrela fina'], ['◆', 'losango cheio'], ['◇', 'losango vazio'],
+    ['●', 'círculo cheio'], ['○', 'círculo vazio'], ['■', 'quadrado cheio'], ['□', 'quadrado vazio'], ['▲', 'triângulo cima'], ['▼', 'triângulo baixo'],
+    ['►', 'seta cheia'], ['◄', 'seta cheia esquerda'], ['♦', 'naipe ouros'], ['♥', 'naipe copas'], ['♣', 'naipe paus'], ['♠', 'naipe espadas'],
+    ['◉', 'alvo'], ['◎', 'anel duplo'], ['⬤', 'círculo grosso'], ['▮', 'barra cheia'], ['▯', 'barra vazia'], ['◊', 'losango fino']
+  ] },
+  { name: 'Marcadores', items: [
+    ['⚡', 'raio'], ['🔥', 'fogo'], ['💡', 'ideia'], ['📌', 'fixar'], ['✅', 'concluído'], ['❌', 'erro'],
+    ['⏰', 'alarme'], ['📚', 'livros'], ['🎯', 'alvo'], ['🧠', 'cérebro'], ['🧪', 'experimento'], ['📝', 'anotação'],
+    ['🏆', 'troféu'], ['⭐', 'estrela'], ['❤️', 'coração'], ['🚀', 'foguete'], ['🔎', 'busca'], ['📊', 'gráfico'],
+    ['🗓️', 'calendário'], ['🔖', 'marcador'], ['📎', 'clipe'], ['✏️', 'lápis'], ['💾', 'salvar'], ['🔔', 'sino']
+  ] },
+  { name: 'Estatística', items: [
+    ['x̄', 'x barra'], ['ȳ', 'y barra'], ['z̄', 'z barra'], ['p̂', 'p chapéu'], ['μ', 'média populacional'], ['σ', 'desvio padrão'],
+    ['σ²', 'variância'], ['s²', 'variância amostral'], ['Σ', 'somatório'], ['n', 'amostra'], ['N', 'população'], ['χ²', 'qui-quadrado'],
+    ['r', 'correlação'], ['R²', 'coeficiente de determinação'], ['α', 'nível de significância'], ['β', 'poder do teste'], ['H₀', 'hipótese nula'], ['H₁', 'hipótese alternativa'],
+    ['z', 'escore z'], ['t', 'estatística t'], ['p', 'valor p'], ['IC', 'intervalo de confiança'], ['Md', 'mediana'], ['Mo', 'moda'],
+    ['Q₁', 'primeiro quartil'], ['Q₃', 'terceiro quartil'], ['DP', 'desvio padrão'], ['CV', 'coeficiente de variação'], ['EP', 'erro padrão'], ['gl', 'graus de liberdade']
+  ] },
+  { name: 'Fórmulas', items: [
+    ['ΔS/Δt', 'velocidade média'], ['Δv/Δt', 'aceleração média'], ['F = m·a', 'segunda lei de Newton'], ['E = m·c²', 'equivalência massa-energia'],
+    ['P = U·i', 'potência elétrica'], ['U = R·i', 'lei de Ohm'], ['PV = nRT', 'gases ideais'], ['Q = m·c·ΔT', 'calor sensível'],
+    ['a² + b² = c²', 'teorema de Pitágoras'], ['sen² + cos² = 1', 'identidade trigonométrica'], ['log(a·b)', 'log do produto'], ['ln(e) = 1', 'logaritmo natural'],
+    ['M = C(1+i)ᵗ', 'juros compostos'], ['d = v·t', 'distância'], ['pH = -log[H⁺]', 'potencial hidrogeniônico'], ['ΔH < 0', 'reação exotérmica']
+  ] }
 ];
+const CHAR_INDEX = [];
+CHAR_CATS.forEach((c) => c.items.forEach(([ch, name]) => {
+  if (ch && !CHAR_INDEX.some((i) => i.ch === ch)) CHAR_INDEX.push({ ch: ch, name: name, cat: c.name });
+}));
+const CHAR_TOTAL = CHAR_INDEX.length;
 let charCategory = 'Matemática';
 let lastField = null;
+let charPreviewChar = '';
+let charClickTimer = null;
+
+function charCode(ch) {
+  const cp = ch && ch.codePointAt ? ch.codePointAt(0) : 0;
+  return 'U+' + (cp || 0).toString(16).toUpperCase().padStart(4, '0');
+}
+function findChar(ch) {
+  if (!ch) return null;
+  return CHAR_INDEX.find((i) => i.ch === ch) || null;
+}
+function charTile(item, extraClass) {
+  const fav = state.charsFav.indexOf(item.ch) !== -1;
+  return '<button class="char-btn' + (extraClass ? ' ' + extraClass : '') + (fav ? ' fav' : '') + '" type="button" data-char="' + esc(item.ch) + '" title="' + esc(item.name + ' · ' + charCode(item.ch)) + '">' +
+    (fav ? '<i class="fa-solid fa-star fav-dot"></i>' : '') +
+    '<b class="char-glyph">' + esc(item.ch) + '</b>' +
+    '<span class="char-name">' + esc(item.name) + '</span>' +
+    '<span class="char-code">' + charCode(item.ch) + '</span></button>';
+}
+function renderCharStats() {
+  const box = $('#charStats');
+  if (box) {
+    const rows = [
+      { label: 'Símbolos', value: CHAR_TOTAL, icon: 'fa-font' },
+      { label: 'Categorias', value: CHAR_CATS.length - 1, icon: 'fa-layer-group' },
+      { label: 'Favoritos', value: state.charsFav.length, icon: 'fa-star' },
+      { label: 'Cópias', value: state.charCopies || 0, icon: 'fa-copy' }
+    ];
+    box.innerHTML = rows.map((r) => '<div class="char-stat"><i class="fa-solid ' + r.icon + '"></i><b>' + r.value + '</b><span>' + esc(r.label) + '</span></div>').join('');
+  }
+  const sub = $('#charHeroSub');
+  if (sub) {
+    sub.textContent = CHAR_TOTAL + ' caracteres em ' + (CHAR_CATS.length - 1) + ' categorias. Clique para copiar, Shift+clique para favoritar e duplo clique para copiar o código Unicode.';
+  }
+}
+function renderCharSide() {
+  const preview = $('#charPreview');
+  const item = findChar(charPreviewChar) || findChar(state.recentChars[0] || '');
+  if (preview) {
+    if (item) {
+      charPreviewChar = item.ch;
+      preview.innerHTML = '<b class="cp-glyph">' + esc(item.ch) + '</b>' +
+        '<div class="cp-meta"><span class="cp-name">' + esc(item.name) + '</span>' +
+        '<span class="cp-code">' + charCode(item.ch) + ' · ' + esc(item.cat) + '</span></div>';
+    } else {
+      preview.innerHTML = '<div class="empty"><i class="fa-solid fa-wand-magic-sparkles"></i>Copie um símbolo para ver os detalhes.</div>';
+    }
+  }
+  const toggle = $('#charFavToggle');
+  if (toggle) {
+    const current = findChar(charPreviewChar);
+    toggle.textContent = current && state.charsFav.indexOf(current.ch) !== -1 ? 'desfavoritar' : 'favoritar';
+    toggle.disabled = !current;
+  }
+  const recent = $('#charRecent');
+  if (recent) {
+    const items = state.recentChars.map(findChar).filter(Boolean);
+    recent.innerHTML = items.length ? items.map((i) => charTile(i, 'char-btn--mini')).join('') : '<span class="status-text">Ainda sem cópias nesta conta.</span>';
+  }
+  const favs = $('#charFavList');
+  if (favs) {
+    const items = state.charsFav.map(findChar).filter(Boolean);
+    favs.innerHTML = items.length ? items.map((i) => charTile(i, 'char-btn--mini')).join('') : '<span class="status-text">Nenhum favorito ainda. Use Shift+clique.</span>';
+  }
+}
+function filteredChars() {
+  const query = (($('#charsSearch') || {}).value || '').toLowerCase().trim();
+  if (query) {
+    return CHAR_INDEX.filter((i) => (i.name + ' ' + i.ch + ' ' + i.cat + ' ' + charCode(i.ch)).toLowerCase().indexOf(query) !== -1);
+  }
+  if (charCategory === 'Favoritos') return state.charsFav.map(findChar).filter(Boolean);
+  const cat = CHAR_CATS.find((c) => c.name === charCategory);
+  return cat ? cat.items.map((pair) => findChar(pair[0])).filter(Boolean) : CHAR_INDEX;
+}
 function renderChars() {
+  renderCharStats();
   const cats = $('#charsCategories');
   if (cats) {
-    const list = ['Favoritos'].concat(CHAR_CATS.map((c) => c.name).filter((n) => n !== 'Favoritos'));
-    cats.innerHTML = list.map((name) => '<button class="chip' + (charCategory === name ? ' active' : '') + '" type="button" data-char-cat="' + esc(name) + '">' + esc(name) + '</button>').join('');
+    cats.innerHTML = CHAR_CATS.map((c) => {
+      const count = c.name === 'Favoritos' ? state.charsFav.length : c.items.length;
+      return '<button class="chip' + (charCategory === c.name ? ' active' : '') + '" type="button" data-char-cat="' + esc(c.name) + '">' + esc(c.name) + '<span class="chip-count">' + count + '</span></button>';
+    }).join('');
   }
-  const query = (($('#charsSearch') || {}).value || '').toLowerCase().trim();
   const grid = $('#charGrid');
   if (!grid) return;
-  const items = [];
-  if (query) {
-    CHAR_CATS.forEach((c) => c.items.forEach(([ch, name]) => { if ((name + ' ' + ch).toLowerCase().includes(query)) items.push({ ch, name, cat: c.name }); }));
-  } else if (charCategory === 'Favoritos') {
-    state.charsFav.forEach((ch) => { CHAR_CATS.some((c) => c.items.some(([x, n]) => { if (x === ch) { items.push({ ch, name: n, cat: c.name }); return true; } return false; })); });
-    state.recentChars.forEach((ch) => { if (!items.some((i) => i.ch === ch)) { CHAR_CATS.some((c) => c.items.some(([x, n]) => { if (x === ch) { items.push({ ch, name: n + ' (recente)', cat: c.name }); return true; } return false; })); } });
-  } else {
-    const cat = CHAR_CATS.find((c) => c.name === charCategory) || CHAR_CATS[1];
-    cat.items.forEach(([ch, name]) => items.push({ ch, name, cat: cat.name }));
+  const items = filteredChars();
+  const query = (($('#charsSearch') || {}).value || '').trim();
+  grid.innerHTML = items.length
+    ? items.map((i) => charTile(i)).join('')
+    : '<div class="empty"><i class="fa-solid fa-font"></i>Nenhum símbolo para “' + esc(query || charCategory) + '”.</div>';
+  const fav = $('#charFavCount');
+  if (fav) fav.textContent = state.charsFav.length + (state.charsFav.length === 1 ? ' favorito' : ' favoritos');
+  const status = $('#charStatus');
+  if (status) {
+    status.innerHTML = '<i class="fa-solid fa-circle-info"></i> <b>' + items.length + '</b> de ' + CHAR_TOTAL + ' símbolos' +
+      (query ? ' · busca por “' + esc(query) + '”' : ' · ' + esc(charCategory)) +
+      ' · clique copia, Shift+clique favorita, duplo clique copia o código.';
   }
-  grid.innerHTML = items.length ? items.map((i) => '<button class="char-btn" type="button" data-char="' + esc(i.ch) + '" title="' + esc(i.name) + '">' +
-    (state.charsFav.includes(i.ch) ? '<i class="fa-solid fa-star fav-dot"></i>' : '') + esc(i.ch) + '<span class="char-code">' + esc(i.name.slice(0, 10)) + '</span></button>').join('')
-    : '<div class="empty"><i class="fa-solid fa-font"></i>Nada encontrado.</div>';
-  const fav = $('#charFavCount'); if (fav) fav.textContent = state.charsFav.length + ' favoritos';
+  renderCharSide();
+}
+function toggleCharFav(ch) {
+  const has = state.charsFav.indexOf(ch) !== -1;
+  state.charsFav = has ? state.charsFav.filter((x) => x !== ch) : state.charsFav.concat(ch);
+  charPreviewChar = ch;
+  save();
+  renderChars();
+  toast(has ? 'Removido dos favoritos.' : 'Adicionado aos favoritos.', 'fa-star');
+}
+function insertCharAtCaret(ch) {
+  if (!lastField || !document.body.contains(lastField) || lastField.readOnly) return false;
+  if (lastField.closest && lastField.closest('#page-chars')) return false;
+  if (typeof lastField.selectionStart !== 'number') return false;
+  const start = lastField.selectionStart || 0;
+  const end = lastField.selectionEnd == null ? start : lastField.selectionEnd;
+  lastField.value = lastField.value.slice(0, start) + ch + lastField.value.slice(end);
+  lastField.focus();
+  lastField.selectionStart = lastField.selectionEnd = start + ch.length;
+  lastField.dispatchEvent(new Event('input', { bubbles: true }));
+  return true;
+}
+function copyChar(ch, opts) {
+  const item = findChar(ch);
+  const asCode = !!(opts && opts.code);
+  const text = asCode ? charCode(ch) : ch;
+  state.recentChars = [ch].concat(state.recentChars.filter((x) => x !== ch)).slice(0, 16);
+  state.charCopies = (state.charCopies || 0) + 1;
+  charPreviewChar = ch;
+  save();
+  const inserted = asCode ? false : insertCharAtCaret(ch);
+  copyText(text).then((ok) => {
+    renderChars();
+    const status = $('#charStatus');
+    if (status) {
+      status.innerHTML = '<i class="fa-solid ' + (ok ? 'fa-circle-check' : 'fa-triangle-exclamation') + '"></i> ' +
+        (ok ? 'Copiado' : 'Selecione e copie') + ': <b>' + esc(text) + '</b>' +
+        (item ? ' · ' + esc(item.name) : '') + (inserted ? ' · inserido no último campo' : '');
+    }
+    toast(ok ? (asCode ? 'Código ' + text + ' copiado.' : '“' + ch + '” copiado.') : 'Não foi possível copiar.', 'fa-copy', !ok);
+  });
 }
 function bindChars() {
   renderChars();
@@ -2356,36 +2771,55 @@ function bindChars() {
     const b = e.target.closest('[data-char-cat]');
     if (!b) return;
     charCategory = b.dataset.charCat;
-    const s = $('#charsSearch'); if (s) s.value = '';
+    const input = $('#charsSearch'); if (input) input.value = '';
     renderChars();
   });
-  $('#charGrid') && $('#charGrid').addEventListener('click', (e) => {
-    const b = e.target.closest('[data-char]');
-    if (!b) return;
-    const ch = b.dataset.char;
-    if (e.shiftKey) {
-      state.charsFav = state.charsFav.includes(ch) ? state.charsFav.filter((x) => x !== ch) : state.charsFav.concat(ch);
-      save(); renderChars();
-      toast(state.charsFav.includes(ch) ? 'Adicionado aos favoritos.' : 'Removido dos favoritos.', 'fa-star');
-      return;
-    }
-    state.recentChars = [ch].concat(state.recentChars.filter((x) => x !== ch)).slice(0, 12);
-    save();
-    copyText(ch).then((ok) => {
-      if (lastField && document.body.contains(lastField)) {
-        const start = lastField.selectionStart || 0;
-        lastField.value = lastField.value.slice(0, start) + ch + lastField.value.slice(start);
-        lastField.focus();
-        lastField.selectionStart = lastField.selectionEnd = start + ch.length;
-      }
-      const status = $('#charStatus');
-      if (status) status.textContent = (ok ? 'Copiado' : 'Não foi possível copiar') + ': ' + ch;
+  const grid = $('#charGrid');
+  if (grid) {
+    grid.addEventListener('click', (e) => {
+      const b = e.target.closest('[data-char]');
+      if (!b) return;
+      const ch = b.dataset.char;
+      if (e.shiftKey) { toggleCharFav(ch); return; }
+      clearTimeout(charClickTimer);
+      charClickTimer = setTimeout(() => copyChar(ch), 190);
     });
+    grid.addEventListener('dblclick', (e) => {
+      const b = e.target.closest('[data-char]');
+      if (!b) return;
+      clearTimeout(charClickTimer);
+      copyChar(b.dataset.char, { code: true });
+    });
+  }
+  ['#charRecent', '#charFavList'].forEach((sel) => {
+    const box = $(sel);
+    if (!box) return;
+    box.addEventListener('click', (e) => {
+      const b = e.target.closest('[data-char]');
+      if (!b) return;
+      if (e.shiftKey) toggleCharFav(b.dataset.char);
+      else copyChar(b.dataset.char);
+    });
+  });
+  $('#charFavToggle') && $('#charFavToggle').addEventListener('click', () => {
+    if (charPreviewChar) toggleCharFav(charPreviewChar);
+  });
+  $('#charCopyFavs') && $('#charCopyFavs').addEventListener('click', () => {
+    if (!state.charsFav.length) return toast('Nenhum favorito para copiar.', 'fa-star', true);
+    copyText(state.charsFav.join(' ')).then((ok) => toast(ok ? state.charsFav.length + ' favoritos copiados.' : 'Não foi possível copiar.', 'fa-copy', !ok));
+  });
+  $('#charClearRecent') && $('#charClearRecent').addEventListener('click', () => {
+    state.recentChars = [];
+    charPreviewChar = '';
+    save();
+    renderChars();
+    toast('Recentes limpos.', 'fa-broom');
   });
   document.addEventListener('focusin', (e) => {
     if (e.target.matches('input, textarea') && !e.target.readOnly) lastField = e.target;
   });
 }
+
 
 /* ============ 28. TÍTULO DA PÁGINA ============ */
 const FONTS = ['Poppins', 'Space Grotesk', 'Orbitron', 'Fira Code', 'Caveat', 'Patrick Hand', 'system-ui'];
@@ -2787,6 +3221,44 @@ function bindRewards() {
 /* ============ 33. DEV LOG ============ */
 const DEVLOG = [
   {
+    version: 'v21.0.0', date: '2026-11-16', type: 'feature', title: 'Aba Estatísticas completa: check-in diário e painel ao vivo',
+    items: [
+      'Botão de check-in diário com recompensa de +12 XP e +4 moedas, bloqueado depois do primeiro registro do dia.',
+      'Sequência passou a contar check-in e foco registrado, com recorde, dias ativos totais e ativos no período.',
+      'Cards ao vivo de Foco hoje (cronômetro somando o ciclo em andamento) e Últimos 7 dias (barras que crescem em tempo real).',
+      'Faixa de 7 dias com o dia atual destacado, legenda do mapa de constância e CSV com check-in e sequência.',
+      'Mapa de constância marca o dia como ativo mesmo quando só houve check-in, sem foco cronometrado.'
+    ]
+  },
+  {
+    version: 'v21.0.0', date: '2026-11-16', type: 'feature', title: 'Biblioteca de caracteres muito maior',
+    items: [
+      'Mais de 400 símbolos em 14 categorias: matemática, frações e potências, gregos, lógica, setas, química, física, moedas, acentuação, tipografia, formas, marcadores, estatística e fórmulas.',
+      'Cada peça mostra nome e código Unicode, com busca por nome, símbolo, categoria ou código (ex.: 03B1).',
+      'Painel lateral com último caractere, recentes e favoritos, além de contadores de símbolos, categorias e cópias.',
+      'Clique copia e insere no último campo usado, Shift+clique favorita e duplo clique copia o código Unicode.',
+      'Atalhos novos: copiar todos os favoritos, limpar recentes e favoritar direto do painel de detalhe.'
+    ]
+  },
+  {
+    version: 'v21.0.0', date: '2026-11-16', type: 'style', title: 'Brilho dinâmico nas caixas de pesquisa',
+    items: [
+      'Glow que respira em todas as caixas de pesquisa, com intensidade maior ao focar o campo.',
+      'Glow que segue o cursor dentro do campo, combinado com borda interna luminosa.',
+      'Ripple no ponto exato do clique e no foco do campo, criado via delegação de eventos.',
+      'Aplicado na busca de abas, notas, diário, caracteres, dev log e na paleta de comandos.',
+      'Tudo desliga com o botão Reduzir animações e com prefers-reduced-motion.'
+    ]
+  },
+  {
+    version: 'v21.0.0', date: '2026-11-16', type: 'fix', title: 'Consistência de dados e migração',
+    items: [
+      'Estado antigo é migrado sem perder foco, favoritos, cópias de caracteres ou metas; o título padrão da página acompanha a versão.',
+      'Check-in e histórico de foco não duplicam valores ao registrar sessões concluídas.',
+      'Título da página, README e cartão de novidades passam a refletir a v21.0.0.'
+    ]
+  },
+  {
     version: 'v20.1.0', date: '2026-11-13', type: 'style', title: 'Motor de animações avançadas nos botões',
     items: [
       'Spotlight radial que segue o cursor em todos os botões e abas da sidebar (variáveis --fx-x/--fx-y alimentadas por JS).',
@@ -2974,6 +3446,7 @@ function fxResetAll() {
     el.style.removeProperty('--fx-y');
   });
   $$('.fx-ripple').forEach((el) => el.remove());
+  if (typeof sfResetAll === 'function') sfResetAll();
 }
 function fxSpotlightFrame() {
   fxQueued = false;
@@ -3028,6 +3501,80 @@ function initButtonFx() {
     if (e.key !== 'Enter' && e.key !== ' ') return;
     const el = document.activeElement;
     if (el && (el.classList.contains('btn') || el.classList.contains('chip'))) fxRipple(el);
+  });
+}
+
+/* ============ 34-C. FX DAS CAIXAS DE PESQUISA (v21.0.0) ============ */
+/* Brilho dinâmico (glow que respira), glow que segue o mouse (--sf-x/--sf-y)
+   e ripple no clique/foco de cada .search-field e da paleta de comandos. */
+let sfHover = null;
+let sfQueued = false;
+let sfMouseX = 0, sfMouseY = 0;
+
+function sfReset(el) {
+  if (!el) return;
+  el.classList.remove('sf-tracking');
+  el.style.removeProperty('--sf-x');
+  el.style.removeProperty('--sf-y');
+}
+function sfResetAll() {
+  $$('.search-field, .palette-input').forEach(sfReset);
+  $$('.sf-ripple').forEach((el) => el.remove());
+  sfHover = null;
+}
+function sfFrame() {
+  sfQueued = false;
+  const el = sfHover;
+  if (!el || fxMotionOff() || !document.contains(el)) return;
+  const r = el.getBoundingClientRect();
+  if (!r.width || !r.height) return;
+  el.style.setProperty('--sf-x', (sfMouseX - r.left).toFixed(1) + 'px');
+  el.style.setProperty('--sf-y', (sfMouseY - r.top).toFixed(1) + 'px');
+}
+function sfRipple(host, clientX, clientY) {
+  if (fxMotionOff() || !host) return;
+  const r = host.getBoundingClientRect();
+  if (!r.width || !r.height) return;
+  const d = Math.max(r.width, r.height) * 1.9;
+  const x = clientX == null ? r.left + r.width * 0.18 : clientX;
+  const y = clientY == null ? r.top + r.height / 2 : clientY;
+  const dot = document.createElement('span');
+  dot.className = 'sf-ripple';
+  dot.style.width = dot.style.height = d.toFixed(0) + 'px';
+  dot.style.left = (x - r.left - d / 2).toFixed(1) + 'px';
+  dot.style.top = (y - r.top - d / 2).toFixed(1) + 'px';
+  host.appendChild(dot);
+  dot.addEventListener('animationend', () => dot.remove(), { once: true });
+  setTimeout(() => dot.remove(), 1000);
+}
+function initSearchFx() {
+  if (initSearchFx.bound) return;
+  initSearchFx.bound = true;
+  const host = (el) => (el && el.closest ? el.closest('.search-field, .palette-input') : null);
+  document.addEventListener('pointermove', (e) => {
+    if (fxMotionOff()) { if (sfHover) { sfReset(sfHover); sfHover = null; } return; }
+    const el = host(e.target);
+    if (el !== sfHover) {
+      if (sfHover) sfHover.classList.remove('sf-tracking');
+      sfHover = el;
+      if (el) el.classList.add('sf-tracking');
+    }
+    if (!sfHover) return;
+    sfMouseX = e.clientX;
+    sfMouseY = e.clientY;
+    if (!sfQueued) { sfQueued = true; requestAnimationFrame(sfFrame); }
+  }, { passive: true });
+  document.documentElement.addEventListener('mouseleave', () => {
+    if (sfHover) { sfReset(sfHover); sfHover = null; }
+  });
+  document.addEventListener('pointerdown', (e) => {
+    const el = host(e.target);
+    if (el) sfRipple(el, e.clientX, e.clientY);
+  }, { passive: true });
+  document.addEventListener('focusin', (e) => {
+    if (fxMotionOff()) return;
+    const el = host(e.target);
+    if (el) sfRipple(el);
   });
 }
 
@@ -3128,8 +3675,9 @@ function maybeWhatsNew() {
   if (seen === VERSION) return;
   const list = $('#whatsNewList');
   if (list) {
-    const entry = DEVLOG.find((d) => d.version === VERSION);
-    list.innerHTML = (entry ? entry.items : []).concat(['Novo motor de FX nos botões: brilho, magnético e ripple — desligue em Reduzir animações.']).slice(0, 6).map((i) => '<li>' + esc(i) + '</li>').join('');
+    const entries = DEVLOG.filter((d) => d.version === VERSION);
+    const items = entries.reduce((acc, e) => acc.concat(e.items), []);
+    list.innerHTML = items.slice(0, 8).map((i) => '<li>' + esc(i) + '</li>').join('');
   }
   const overlay = $('#whatsNewOverlay');
   if (overlay) overlay.hidden = false;
@@ -3167,6 +3715,7 @@ function boot() {
   buildNav();
   bindGlobal();
   initButtonFx();
+  initSearchFx();
   bindAuth();
   bindTutorial();
   bindPalette();
