@@ -2,7 +2,7 @@
 
 Hub de estudos em **3 arquivos** (HTML, CSS e JS), sem build e sem dependências locais — só os ícones e as fontes vêm de CDN.
 
-Versão atual: **v20.1.0**
+Versão atual: **v21.0.0**
 
 ```
 index.html
@@ -21,6 +21,40 @@ python3 -m http.server 3000
 ```
 
 Login: crie uma conta local, entre com ela ou clique em **Entrar como convidado**. Nada é enviado para servidor.
+
+---
+
+## O que mudou na v21.0.0
+
+### 1. Aba Estatísticas completa, com check-in diário
+
+- **Botão de check-in diário** no topo da aba: registra o dia, libera **+12 XP e +4 moedas** e fica bloqueado depois do primeiro check-in do dia.
+- **Sequência** agora conta **check-in e foco cronometrado** — um dia com check-in mantém a sequência viva mesmo sem pomodoro.
+- **Dias ativos** somam todos os dias com foco ou check-in, com a contagem do período selecionado (7/30 dias) no subtítulo.
+- **Recorde de sequência** sempre atualizado, faixa dos últimos 7 dias com o dia de hoje destacado e recompensa visível.
+- **Mapa de constância** marca como ativo o dia que teve só check-in, e o **CSV** passou a exportar `data`, `minutos_foco`, `checkin`, `dia_ativo`, sequência e recorde.
+
+### 2. Features ao vivo: Foco hoje e Últimos 7 dias
+
+- **Foco hoje (ao vivo)** — cronômetro em `min:seg` somando o foco já registrado **mais o ciclo do Pomodoro em andamento**, com barra de progresso da meta de 60 min e indicador de sessão rodando.
+- **Últimos 7 dias (ao vivo)** — barras por dia que crescem em tempo real enquanto a sessão corre, com total do período, média diária e melhor dia.
+- Os dois blocos atualizam a cada segundo **apenas quando a aba está aberta**, sem recarregar a página, e também alimentam os cards Sequência e Últimos N dias.
+
+### 3. Biblioteca de caracteres muito maior
+
+- **Mais de 400 símbolos em 14 categorias**: matemática, frações e potências, gregos, lógica e conjuntos, setas, química, física e unidades, moedas, acentuação, tipografia, formas e checks, marcadores, estatística e fórmulas prontas.
+- Cada peça mostra **nome + código Unicode** (`U+03B1`), e a busca aceita **nome, símbolo, categoria ou código**.
+- **Painel lateral** com último caractere copiado, recentes e favoritos, mais contadores de símbolos, categorias e cópias.
+- **Clique** copia e insere no último campo usado, **Shift+clique** favorita, **duplo clique** copia o código Unicode.
+- Novos atalhos: **copiar todos os favoritos**, **limpar recentes** e **favoritar direto do painel de detalhe**.
+
+### 4. Brilho dinâmico nas caixas de pesquisa
+
+- **Glow que respira** (dynamic shadow glow) em todas as caixas de pesquisa, mais forte ao focar o campo.
+- **Mouse-Tracking Glow** — o brilho radial segue o cursor dentro do campo (variáveis `--sf-x`/`--sf-y` alimentadas por `requestAnimationFrame`).
+- **Mouse-Tracking Ripple** — onda criada no ponto exato do clique e também no foco do campo, por delegação de eventos.
+- Aplicado na busca de abas, notas, diário, caracteres, dev log e na paleta de comandos (`Ctrl+K`).
+- Tudo desliga com **Reduzir animações** e com `prefers-reduced-motion`.
 
 ---
 
@@ -83,7 +117,7 @@ Dashboard inicial com saudação por horário, **anel da meta diária de foco** 
 | **Quiz** | Banco por matéria, explicação por alternativa, modo 20s, recorde e revisão de erros |
 | **Timer matérias** | Cronômetro com pausa, matérias personalizadas e metas de minutos |
 | **Planner** | Grade de 7 dias × 6 blocos, cores por matéria, modelo, cópia da semana |
-| **Estatísticas** | Foco 7/30 dias, heatmap de 12 semanas, distribuição por matéria e CSV |
+| **Estatísticas** | Check-in diário, sequência, dias ativos, Foco hoje e Últimos 7 dias ao vivo, heatmap de 12 semanas, distribuição e CSV |
 | **Diário** | Entrada por dia, humor, busca, edição e exportação markdown |
 | **Chat IA** | Tutor local com modos, matéria, resposta progressiva e ações por mensagem |
 | **Comandos** | Terminal com 30 comandos, autocomplete, histórico e ajuda |
@@ -97,7 +131,7 @@ Dashboard inicial com saudação por horário, **anel da meta diária de foco** 
 | **Sons ambiente** | Quatro camadas (chuva, ruído, ondas, lareira), presets, volume geral e timer |
 | **Som de teclado** | Quatro estilos, volume e campo de teste |
 | **Calculadora** | Teclado completo, histórico clicável e cópia |
-| **Caracteres** | Categorias, busca, favoritos (`Shift+clique`) e inserção no último campo |
+| **Caracteres** | 400+ símbolos em 14 categorias, busca por código Unicode, favoritos, recentes, detalhe e inserção no último campo |
 | **Título da página** | Texto, sete fontes, dezesseis ícones e restauração |
 | **Senhas** | Senhas e passphrase, entropia em bits, medidor e histórico local |
 | **Portal Geekie** | Iframe do Geekie One, recarregar, nova aba, tela cheia e atalhos |
@@ -162,13 +196,13 @@ Um resgate por conta, sem diferenciar maiúsculas, com expiração validada na d
 
 ## Dados, privacidade e migração
 
-- Progresso em `localStorage`, chave `geekieHubState_v20`.
+- Progresso em `localStorage`, chave `geekieHubState_v20` — inclui `focusByDate`, `checkins` (check-in diário), `charsFav`/`recentChars` e `charCopies`.
 - **Migração automática** da chave antiga `geekieHubState_v194`: notas, metas, temas, XP, moedas e histórico continuam válidos.
 - Contas locais em `geekieHubAccounts_v20` (hash simples — **não é segurança de produção**).
 - Sons são gerados por Web Audio no próprio navegador; nenhuma requisição de áudio.
 - O tutor do chat é **local e offline** (heurísticas por modo/matéria), sem chave de API e sem enviar mensagens.
 - `exportar` gera um JSON com todo o estado; `reset` apaga o progresso.
-- O aviso "Novidades" aparece uma vez por versão (chave `geekieHubSeenVersion_v20`) — na v20.1.0 ele anuncia o novo motor de FX.
+- O aviso "Novidades" aparece uma vez por versão (chave `geekieHubSeenVersion_v20`) — na v21.0.0 ele anuncia o check-in, os dados ao vivo e o novo FX das buscas.
 
 ## Estrutura do `script.js`
 
@@ -180,9 +214,22 @@ Um resgate por conta, sem diferenciar maiúsculas, com expiração validada na d
 | 17–25 | Estatísticas, Diário, Loja, Títulos, Pets, Trilha, Clicker e áudio |
 | 26–34 | Calculadora, Caracteres, Título, Eventos, Portais, Comandos, Recompensas, Dev Log e Senhas |
 | 34-B | **Motor FX dos botões**: spotlight (`--fx-x/--fx-y`), magnético (`--fx-tx/--fx-ty`) e ripple com delegação de eventos |
+| 34-C | **Motor FX das caixas de pesquisa**: glow pulsante, glow que segue o mouse (`--sf-x/--sf-y`) e ripple no clique/foco |
 | 35 | Bindings globais, render geral, novidades, loops passivos e boot |
 
-## As 5 últimas atualizações
+## Últimas atualizações
+
+### v21.0.0 — Estatísticas completas e check-in diário
+Check-in com recompensa, sequência que conta check-in, dias ativos, recorde, faixa de 7 dias e CSV ampliado.
+
+### v21.0.0 — Foco hoje e Últimos 7 dias ao vivo
+Cronômetro somando o ciclo em andamento e barras de 7 dias crescendo em tempo real, com média e melhor dia.
+
+### v21.0.0 — Caracteres ampliados
+400+ símbolos, 14 categorias, busca por código Unicode, painel de detalhe, recentes, favoritos e cópia em massa.
+
+### v21.0.0 — Brilho dinâmico nas buscas
+Glow pulsante, glow guiado pelo mouse e ripple aplicados a todas as caixas de pesquisa e à paleta de comandos.
 
 ### v20.1.0 — Motor de FX nos botões
 Spotlight e magnético guiados pelo mouse, ripple por clique e teclado, glow pulsante no primário, borda gradiente girando no secundário, pulso no danger, borda desenhada no ghost — tudo desligável por `prefers-reduced-motion` e pelo botão de animações.
