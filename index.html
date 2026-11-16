@@ -4,14 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="dark">
-<meta name="description" content="Geekie Study Hub v20.1 — cockpit de estudos offline com foco, metas, flashcards, quiz, progressão e ferramentas.">
-<title>Geekie Study Hub v20.1.0</title>
+<meta name="description" content="Geekie Study Hub v21.0 — cockpit de estudos offline com foco, estatísticas ao vivo, check-in diário, metas, flashcards, quiz, progressão e ferramentas.">
+<title>Geekie Study Hub v21.0.0</title>
 <link rel="icon" id="pageIcon" href="https://i.postimg.cc/gcHHYqtC/fire-geekie.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&family=Orbitron:wght@400;700&family=Space+Grotesk:wght@400;600;700&family=Caveat:wght@400;600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<link rel="stylesheet" href="style.css?v=20.1.0">
+<link rel="stylesheet" href="style.css?v=21.0.0">
 </head>
 <body>
 
@@ -24,7 +24,7 @@
       </span>
       <div>
         <strong>Geekie Study Hub</strong>
-        <span class="login-version">v20.1.0 · offline first</span>
+        <span class="login-version">v21.0.0 · offline first</span>
       </div>
     </div>
     <h1 class="login-title" id="loginTitle">Acesse seu cockpit de estudos</h1>
@@ -100,7 +100,7 @@
     <div class="sidebar-foot">
       <button class="nav-action" type="button" id="fabTutorialBtn"><i class="fa-solid fa-circle-question"></i> Rever tutorial</button>
       <button class="nav-action" type="button" id="navPaletteBtn"><i class="fa-solid fa-terminal"></i> Comandos <kbd>Ctrl K</kbd></button>
-      <span class="sidebar-version" id="sidebarVersion">v20.1.0</span>
+      <span class="sidebar-version" id="sidebarVersion">v21.0.0</span>
     </div>
   </aside>
 
@@ -477,24 +477,86 @@
 
       <!-- ===== ESTATÍSTICAS ===== -->
       <section class="page" id="page-stats" data-tab="stats">
-        <article class="card">
-          <div class="card-head"><h3><i class="fa-solid fa-chart-simple"></i> Estatísticas</h3>
-            <div class="row">
+        <div class="stats-hero">
+          <div class="stats-hero-copy">
+            <span class="hero-kicker">Painel de dados</span>
+            <h1>Seu progresso, medido de verdade</h1>
+            <p>Check-in diário para manter a sequência viva, foco de hoje atualizando em tempo real e a leitura dos últimos 7 dias.</p>
+            <div class="toolbar">
+              <button class="btn btn-primary btn-lg" id="statsCheckinBtn" type="button"><i class="fa-solid fa-fire-flame-curved"></i> Fazer check-in de hoje</button>
               <div class="chips" id="statsRange">
                 <button class="chip active" type="button" data-days="7">7 dias</button>
                 <button class="chip" type="button" data-days="30">30 dias</button>
               </div>
               <button class="btn btn-secondary btn-sm" id="statsExportBtn" type="button"><i class="fa-solid fa-file-csv"></i> CSV</button>
-            </div></div>
-          <div class="grid grid-4" id="statsCards"></div>
-          <h4 class="mini-title">Foco por dia</h4>
+            </div>
+            <p class="status-text" id="statsCheckinStatus">O check-in mantém sua sequência viva mesmo em dias sem foco cronometrado.</p>
+          </div>
+          <div class="stats-hero-side">
+            <div class="stats-streak">
+              <span class="stats-streak-icon"><i class="fa-solid fa-fire"></i></span>
+              <b id="statsStreakBig">0</b>
+              <span id="statsStreakMeta">dias em sequência</span>
+            </div>
+            <div class="day-dots" id="statsWeekDots" aria-label="Últimos 7 dias"></div>
+            <span class="stats-streak-note">Check-in: +12 XP · +4 moedas por dia</span>
+          </div>
+        </div>
+
+        <div class="grid grid-4" id="statsCards"></div>
+
+        <div class="grid grid-2 grid-top">
+          <article class="card live-card">
+            <div class="card-head">
+              <h3><i class="fa-solid fa-bolt"></i> Foco hoje</h3>
+              <span class="badge live-badge"><i class="fa-solid fa-circle"></i> ao vivo</span>
+            </div>
+            <div class="live-today">
+              <b id="statsLiveClock">00min 00s</b>
+              <span class="live-today-label">foco registrado + ciclo em andamento, segundo a segundo</span>
+            </div>
+            <div class="progress live-progress"><span id="statsTodayFill"></span></div>
+            <div class="live-meta">
+              <span id="statsTodayGoal">0min de 60 min (0%)</span>
+              <span id="statsSessionState"><i class="idle-dot"></i> Nenhuma sessão rodando agora</span>
+            </div>
+            <div class="toolbar">
+              <button class="btn btn-secondary btn-sm" type="button" data-goto="timer"><i class="fa-solid fa-play"></i> Abrir Pomodoro</button>
+              <button class="btn btn-ghost btn-sm" type="button" data-goto="subjects"><i class="fa-solid fa-clock"></i> Timer por matéria</button>
+            </div>
+          </article>
+
+          <article class="card live-card">
+            <div class="card-head">
+              <h3><i class="fa-solid fa-chart-column"></i> Últimos 7 dias</h3>
+              <span class="badge live-badge"><i class="fa-solid fa-circle"></i> ao vivo</span>
+            </div>
+            <div class="live-week" id="statsLiveWeek"></div>
+            <div class="live-week-foot" id="statsLiveWeekFoot"></div>
+            <p class="hint"><i class="fa-solid fa-circle-info"></i> A barra de hoje cresce enquanto você estuda, sem recarregar a página.</p>
+          </article>
+        </div>
+
+        <article class="card">
+          <div class="card-head"><h3><i class="fa-solid fa-chart-simple"></i> Foco por dia</h3>
+            <span class="badge" id="statsRangeLabel">últimos 7 dias</span></div>
           <div class="bar-chart" id="weeklyChart"></div>
-          <h4 class="mini-title">Mapa de constância</h4>
-          <div class="heatmap" id="heatmap"></div>
-          <h4 class="mini-title">Distribuição por matéria</h4>
-          <div class="breakdown" id="subjectBreakdown"></div>
         </article>
+
+        <div class="grid grid-2 grid-top">
+          <article class="card">
+            <div class="card-head"><h3><i class="fa-solid fa-table-cells"></i> Mapa de constância</h3>
+              <span class="status-text">12 semanas · check-in conta como dia ativo</span></div>
+            <div class="heatmap" id="heatmap"></div>
+            <div class="heat-legend"><span>menos</span><i class="hm-cell l1"></i><i class="hm-cell l2"></i><i class="hm-cell l3"></i><i class="hm-cell l4"></i><span>mais</span></div>
+          </article>
+          <article class="card">
+            <div class="card-head"><h3><i class="fa-solid fa-layer-group"></i> Distribuição por matéria</h3></div>
+            <div class="breakdown" id="subjectBreakdown"></div>
+          </article>
+        </div>
       </section>
+
 
       <!-- ===== DIÁRIO ===== -->
       <section class="page" id="page-diary" data-tab="diary">
@@ -675,23 +737,53 @@
 
       <!-- ===== CARACTERES ===== -->
       <section class="page" id="page-chars" data-tab="chars">
-        <article class="card">
-          <div class="card-head"><h3><i class="fa-solid fa-font"></i> Caracteres úteis</h3>
-            <span class="badge" id="charFavCount">0 favoritos</span></div>
-          <label class="search-field"><i class="fa-solid fa-magnifying-glass"></i>
-            <input type="search" id="charsSearch" placeholder="Buscar símbolo, nome ou código (ex.: 03B1, alfa)" aria-label="Buscar caractere"></label>
-          <div class="chips" id="charsCategories"></div>
-          <div class="char-grid" id="charGrid"></div>
-          <p class="status-text" id="charStatus">Clique em um caractere para copiar.</p>
-        </article>
+        <div class="char-hero">
+          <div class="char-hero-copy">
+            <span class="hero-kicker">Biblioteca Unicode</span>
+            <h1>Símbolos prontos para colar</h1>
+            <p id="charHeroSub">Caracteres organizados por matéria, com busca por nome ou código.</p>
+          </div>
+          <div class="char-hero-stats" id="charStats"></div>
+        </div>
+        <div class="grid grid-2 grid-top char-layout">
+          <article class="card char-browser">
+            <div class="card-head"><h3><i class="fa-solid fa-font"></i> Caracteres úteis</h3>
+              <span class="badge" id="charFavCount">0 favoritos</span></div>
+            <label class="search-field">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input type="search" id="charsSearch" placeholder="Buscar símbolo, nome, categoria ou código (ex.: 03B1, delta, seta)" aria-label="Buscar caractere">
+            </label>
+            <div class="chips char-cats" id="charsCategories"></div>
+            <div class="char-grid" id="charGrid"></div>
+            <p class="status-text" id="charStatus">Clique para copiar.</p>
+          </article>
+          <aside class="char-side">
+            <article class="card char-preview-card">
+              <div class="card-head"><h3><i class="fa-solid fa-eye"></i> Último caractere</h3>
+                <button class="link-btn" id="charFavToggle" type="button">favoritar</button></div>
+              <div class="char-preview" id="charPreview"></div>
+            </article>
+            <article class="card">
+              <div class="card-head"><h3><i class="fa-solid fa-clock-rotate-left"></i> Recentes</h3>
+                <button class="link-btn" id="charClearRecent" type="button">limpar</button></div>
+              <div class="char-recent" id="charRecent"></div>
+            </article>
+            <article class="card">
+              <div class="card-head"><h3><i class="fa-solid fa-star"></i> Favoritos</h3>
+                <button class="link-btn" id="charCopyFavs" type="button">copiar todos</button></div>
+              <div class="char-recent" id="charFavList"></div>
+            </article>
+          </aside>
+        </div>
       </section>
+
 
       <!-- ===== TÍTULO DA PÁGINA ===== -->
       <section class="page" id="page-title" data-tab="title">
         <div class="grid grid-2 grid-top">
           <article class="card">
             <div class="card-head"><h3><i class="fa-solid fa-pen-nib"></i> Título da página</h3></div>
-            <div class="title-preview" id="titlePreview">Geekie Study Hub v20.1.0</div>
+            <div class="title-preview" id="titlePreview">Geekie Study Hub v21.0.0</div>
             <label class="field"><span>Texto</span><input type="text" id="titleTextInput" class="input" maxlength="60"></label>
             <div class="toolbar">
               <select id="titleFontSelect" aria-label="Fonte"></select>
@@ -788,7 +880,7 @@
       <section class="page" id="page-devlog" data-tab="devlog">
         <article class="card">
           <div class="card-head"><h3><i class="fa-solid fa-clock-rotate-left"></i> Dev Log</h3>
-            <span class="badge" id="devlogBuild">v20.1.0</span></div>
+            <span class="badge" id="devlogBuild">v21.0.0</span></div>
           <p class="hint">Registro de alterações do hub. As últimas atualizações também estão no README.md.</p>
           <div class="toolbar">
             <div class="chips" id="devlogFilters">
@@ -858,13 +950,13 @@
 
 <div class="overlay" id="whatsNewOverlay" hidden>
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="whatsNewTitle">
-    <div class="card-head"><h3 id="whatsNewTitle"><i class="fa-solid fa-wand-magic-sparkles"></i> Novidades da v20.1.0</h3>
+    <div class="card-head"><h3 id="whatsNewTitle"><i class="fa-solid fa-wand-magic-sparkles"></i> Novidades da v21.0.0</h3>
       <button class="btn btn-icon btn-ghost" id="whatsNewClose" type="button" aria-label="Fechar"><i class="fa-solid fa-xmark"></i></button></div>
     <ul class="whatsnew-list" id="whatsNewList"></ul>
     <button class="btn btn-primary btn-block" id="whatsNewStart" type="button">Começar a explorar</button>
   </div>
 </div>
 
-<script src="script.js?v=20.1.0"></script>
+<script src="script.js?v=21.0.0"></script>
 </body>
 </html>
