@@ -1415,3 +1415,147 @@ body.reduce-motion .clicker-float { display: none !important; }
   .streak-panel-head { flex-wrap: wrap; }
   .streak-panel-head .streak-mult { margin-left: auto; }
 }
+
+/* ============================================================
+   Geekie Study Hub v22.1.0 — style.css (parte final)
+   Nav bar retrátil, atalho e painel das últimas atualizações
+   ============================================================ */
+
+/* ---------- Nav bar retrátil (somente desktop) ---------- */
+@media (min-width: 1025px) {
+  .app { position: relative; transition: grid-template-columns .34s var(--ease); }
+  .sidebar { position: absolute; inset: 0 auto 0 0; width: var(--sidebar-w); grid-column: 1; grid-row: 1; }
+  .shell { grid-column: 2; }
+  body.nav-collapsed { --sidebar-w: 0px; }
+  body.nav-collapsed .sidebar { transform: translateX(-102%); opacity: 0; pointer-events: none; }
+}
+@media (max-width: 1024px) { .nav-toggle-btn { display: none !important; } }
+
+.nav-toggle-btn i { transition: transform .45s var(--ease-spring), color var(--t); }
+.nav-toggle-btn::after {
+  content: ''; position: absolute; inset: -2px; border-radius: inherit;
+  border: 1px solid color-mix(in srgb, var(--primary-2) 55%, transparent);
+  opacity: 0; transform: scale(.8); pointer-events: none;
+}
+body.nav-collapsed .nav-toggle-btn {
+  color: var(--accent);
+  border-color: color-mix(in srgb, var(--primary-2) 42%, transparent);
+  background: color-mix(in srgb, var(--primary-2) 14%, transparent);
+}
+body.nav-collapsed .nav-toggle-btn i { transform: rotate(-180deg) scale(.92); }
+.nav-toggle-btn.is-flipping::after { animation: navToggleRing .6s var(--ease) both; }
+.nav-toggle-btn.is-flipping i { animation: navToggleIcon .6s var(--ease-spring); }
+@keyframes navToggleRing {
+  0% { opacity: .85; transform: scale(.78); }
+  100% { opacity: 0; transform: scale(1.5); }
+}
+@keyframes navToggleIcon {
+  0% { transform: rotate(0) scale(1); }
+  50% { transform: rotate(-26deg) scale(1.16); }
+  100% { transform: rotate(0) scale(1); }
+}
+
+/* ---------- Atalho fixo na nav bar ---------- */
+.nav-shortcut {
+  color: var(--accent);
+  border: 1px dashed color-mix(in srgb, var(--primary) 34%, transparent);
+  background: color-mix(in srgb, var(--primary) 9%, transparent);
+  transition: background var(--t-fast), color var(--t-fast), border-color var(--t-fast), transform var(--t-fast);
+}
+.nav-shortcut:hover {
+  color: var(--heading);
+  border-color: color-mix(in srgb, var(--primary) 55%, transparent);
+  background: color-mix(in srgb, var(--primary) 16%, transparent);
+  transform: translateX(2px);
+}
+.nav-shortcut kbd { color: var(--primary); border-color: color-mix(in srgb, var(--primary) 32%, transparent); }
+
+/* ---------- Painel flutuante das últimas atualizações ---------- */
+.devlog-recent-overlay {
+  background: radial-gradient(120% 120% at 50% 0%, rgba(46, 230, 168, .10), rgba(2, 4, 9, .86) 62%);
+  backdrop-filter: blur(22px) saturate(140%);
+  -webkit-backdrop-filter: blur(22px) saturate(140%);
+  animation: drOverlayIn .3s var(--ease);
+}
+@keyframes drOverlayIn { from { opacity: 0; } to { opacity: 1; } }
+
+.devlog-recent-card {
+  position: relative;
+  max-width: 620px;
+  gap: 16px;
+  overflow: hidden;
+  border-color: color-mix(in srgb, var(--primary) 32%, var(--line-strong));
+  box-shadow: 0 30px 90px rgba(0, 0, 0, .55),
+              0 0 0 1px color-mix(in srgb, var(--primary) 14%, transparent),
+              0 0 70px color-mix(in srgb, var(--primary) 12%, transparent);
+  animation: drCardIn .55s cubic-bezier(.16, 1.12, .28, 1) both;
+}
+@keyframes drCardIn {
+  0% { opacity: 0; transform: translateY(26px) scale(.9); filter: blur(9px); }
+  55% { opacity: 1; filter: blur(0); }
+  100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+.devlog-recent-card::before {
+  content: ''; position: absolute; top: -40%; left: -35%; width: 45%; height: 180%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, .10), transparent);
+  transform: skewX(-18deg); pointer-events: none;
+  animation: drShine 1.1s var(--ease) .12s both;
+}
+@keyframes drShine {
+  0% { left: -35%; opacity: .9; }
+  100% { left: 125%; opacity: 0; }
+}
+
+.devlog-recent-head { display: flex; align-items: center; gap: 12px; }
+.devlog-recent-head h3 { font-size: 1.02rem; }
+.devlog-recent-head p { font-size: .72rem; color: var(--muted); }
+.devlog-recent-head .btn-icon { margin-left: auto; }
+.devlog-recent-icon {
+  width: 42px; height: 42px; flex: 0 0 42px; display: grid; place-items: center;
+  border-radius: 12px; color: var(--primary);
+  background: color-mix(in srgb, var(--primary) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--primary) 26%, transparent);
+  animation: drIconIn .7s var(--ease-spring) both;
+}
+@keyframes drIconIn {
+  0% { opacity: 0; transform: rotate(-18deg) scale(.7); }
+  100% { opacity: 1; transform: none; }
+}
+
+.devlog-recent-list {
+  display: flex; flex-direction: column; gap: 10px;
+  max-height: min(52vh, 430px); overflow-y: auto; padding-right: 4px;
+}
+.devlog-recent-item {
+  --i: 0;
+  animation: drItemIn .5s var(--ease) both;
+  animation-delay: calc(var(--i) * 80ms + 150ms);
+}
+@keyframes drItemIn {
+  0% { opacity: 0; transform: translateY(16px) scale(.97); filter: blur(6px); }
+  100% { opacity: 1; transform: none; filter: blur(0); }
+}
+
+.devlog-recent-foot {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;
+  border-top: 1px solid var(--line); padding-top: 12px;
+}
+.devlog-recent-hint { font-size: .7rem; color: var(--muted); line-height: 1.6; }
+.devlog-recent-hint kbd { color: var(--primary); }
+
+/* ---------- Movimento reduzido ---------- */
+body.reduce-motion .devlog-recent-card,
+body.reduce-motion .devlog-recent-card::before,
+body.reduce-motion .devlog-recent-item,
+body.reduce-motion .devlog-recent-icon,
+body.reduce-motion .nav-toggle-btn::after,
+body.reduce-motion .nav-toggle-btn i,
+body.reduce-motion .devlog-recent-overlay { animation: none !important; }
+body.reduce-motion .app { transition: none; }
+body.reduce-motion .nav-shortcut:hover { transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .devlog-recent-card, .devlog-recent-card::before, .devlog-recent-item,
+  .devlog-recent-icon, .devlog-recent-overlay { animation: none !important; }
+  .nav-toggle-btn::after, .nav-toggle-btn.is-flipping i { animation: none !important; }
+  .app { transition: none; }
+}
