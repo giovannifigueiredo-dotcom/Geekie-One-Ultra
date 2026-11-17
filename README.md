@@ -2,7 +2,7 @@
 
 Hub de estudos em **3 arquivos** (HTML, CSS e JS), sem build e sem dependências locais — só os ícones e as fontes vêm de CDN.
 
-Versão atual: **v21.0.0**
+Versão atual: **v22.0.0**
 
 ```
 index.html
@@ -24,85 +24,58 @@ Login: crie uma conta local, entre com ela ou clique em **Entrar como convidado*
 
 ---
 
-## O que mudou na v21.0.0
+## O que mudou na v22.0.0
 
-### 1. Aba Estatísticas completa, com check-in diário
+### 1. Foguinho: multiplicador, escudos, check-in progressivo e missões
 
-- **Botão de check-in diário** no topo da aba: registra o dia, libera **+12 XP e +4 moedas** e fica bloqueado depois do primeiro check-in do dia.
-- **Sequência** agora conta **check-in e foco cronometrado** — um dia com check-in mantém a sequência viva mesmo sem pomodoro.
-- **Dias ativos** somam todos os dias com foco ou check-in, com a contagem do período selecionado (7/30 dias) no subtítulo.
-- **Recorde de sequência** sempre atualizado, faixa dos últimos 7 dias com o dia de hoje destacado e recompensa visível.
-- **Mapa de constância** marca como ativo o dia que teve só check-in, e o **CSV** passou a exportar `data`, `minutos_foco`, `checkin`, `dia_ativo`, sequência e recorde.
+- **Faixas de foguinho** multiplicam **todo XP ganho** no hub: `x1` (0–2 dias), `x1,1` (3+), `x1,2` (7+), `x1,35` (14+) e `x1,5` (30+). A faixa e o quanto falta para a próxima aparecem na topbar, no painel da aba Hoje e na aba Estatísticas.
+- **Escudos de sequência**: até **5** unidades por **90 moedas**. Se um dia passar sem foco e sem check-in, um escudo é consumido automaticamente e o dia continua contando como ativo — a sequência não quebra. O total de escudos usados fica registrado.
+- **Check-in com recompensa crescente**: de **+12 a +40 XP** e **+4 a +14 moedas** conforme a sequência. Em **7, 14, 30, 60 e 100 dias** há bônus extras de `sequência × 4` XP e `sequência × 2` moedas.
+- **Três missões diárias** sorteadas de um pool de oito (check-in, 20 min, 45 min, 8 flashcards, 3 acertos no quiz, 1 meta, 120 cliques, 1 nota/diário). A escolha é **determinística pela data** — muda todo dia, com progresso ao vivo e resgate de XP + moedas.
+- **Novos níveis**: **Lenda Suprema** (4.200 XP) e **Mítico** (5.600 XP), com bônus em moedas a cada subida de nível.
+- **Painel Foguinho na aba Hoje** com faixa atual, multiplicador, progresso da meta diária, botão de check-in, compra de escudo e as três missões do dia.
+- **Estatísticas** ganharam cards de **Escudos** e **Vs. período anterior**, e o mapa de constância/CSV passaram a reconhecer dias protegidos por escudo.
+- **Trilha ampliada**: 10 marcos resgatáveis e **13 conquistas** (cinco novas: 14 dias de foguinho, missões, cliques, prestígio e escudo).
 
-### 2. Features ao vivo: Foco hoje e Últimos 7 dias
+### 2. Clicker 2.0
 
-- **Foco hoje (ao vivo)** — cronômetro em `min:seg` somando o foco já registrado **mais o ciclo do Pomodoro em andamento**, com barra de progresso da meta de 60 min e indicador de sessão rodando.
-- **Últimos 7 dias (ao vivo)** — barras por dia que crescem em tempo real enquanto a sessão corre, com total do período, média diária e melhor dia.
-- Os dois blocos atualizam a cada segundo **apenas quando a aba está aberta**, sem recarregar a página, e também alimentam os cards Sequência e Últimos N dias.
+- **Seis melhorias**: Mouse extra, Segundo monitor, Teclado mecânico, Café reforçado, Setup gamer e Servidor local. Cada uma soma energia por segundo e/ou por clique; o custo cresce **1,55×** por nível.
+- **Compra em x1, x10 ou máximo**, com o custo total calculado antes da compra.
+- **Combo de cliques**: cliques encadeados em até **900 ms** aumentam o multiplicador até **x2**, com contador no HUD e números flutuantes.
+- **Três faixas de troca**: `50 ⚡ → 5`, `500 ⚡ → 60` e `2.500 ⚡ → 350 moedas`, além da **auto-troca** opcional ao passar de 2.500 de energia.
+- **Prestígio**: reinicia energia e melhorias em troca de **+15% permanente** por núcleo (requisito cresce a partir de 6.000 de energia vitalícia). Moedas e cliques são mantidos.
+- **Renda offline de até 10 minutos** ao reabrir o hub, calculada pela produção por segundo.
+- **Clique por `Espaço` ou `Enter`** quando a aba está aberta e o foco não está em um campo de texto.
+- O HUD atualiza **apenas os textos** a cada tick, sem recriar a loja nem usar `innerHTML` no caminho quente.
 
-### 3. Biblioteca de caracteres muito maior
+### 3. Novas features em todas as abas
 
-- **Mais de 400 símbolos em 14 categorias**: matemática, frações e potências, gregos, lógica e conjuntos, setas, química, física e unidades, moedas, acentuação, tipografia, formas e checks, marcadores, estatística e fórmulas prontas.
-- Cada peça mostra **nome + código Unicode** (`U+03B1`), e a busca aceita **nome, símbolo, categoria ou código**.
-- **Painel lateral** com último caractere copiado, recentes e favoritos, mais contadores de símbolos, categorias e cópias.
-- **Clique** copia e insere no último campo usado, **Shift+clique** favorita, **duplo clique** copia o código Unicode.
-- Novos atalhos: **copiar todos os favoritos**, **limpar recentes** e **favoritar direto do painel de detalhe**.
+- **Pomodoro** com presets **50/10** e **90/15**, XP extra em sessões de 25 min ou mais e moedas por bloco de 10 min.
+- **Metas** com **busca** e **ordenação** por prazo, prioridade ou recência; a contagem volta ao normal ao reabrir uma meta concluída.
+- **Flashcards** com **modo reverso** (resposta → pergunta) e **fila embaralhada**.
+- **Quiz** com **combo de acertos** e XP bônus por sequência.
+- **Planner** com navegação de **−12 a +12 semanas**, rótulo de semana relativa e cópia da semana visualizada.
+- **Diário** com **rascunho automático por data** — o texto não salvo é recuperado ao voltar para o dia.
+- **Notas** com botão **duplicar**.
+- **Calculadora** com **memória** (`M+`, `MR`, `MC`) e **histórico persistido** no estado.
+- **Sons ambiente** com a camada **Vento** e o preset **Tempestade** (além de Foco profundo, Noite de chuva e Biblioteca).
+- **Som de teclado** com o estilo **Retrô** (cinco estilos no total).
+- **Loja** com os temas **Aurora** e **Sakura** (11 temas).
+- **Comandos** novos: `foguinho`, `missoes`, `escudo` e `clicker`.
 
-### 4. Brilho dinâmico nas caixas de pesquisa
+### 4. Desempenho
 
-- **Glow que respira** (dynamic shadow glow) em todas as caixas de pesquisa, mais forte ao focar o campo.
-- **Mouse-Tracking Glow** — o brilho radial segue o cursor dentro do campo (variáveis `--sf-x`/`--sf-y` alimentadas por `requestAnimationFrame`).
-- **Mouse-Tracking Ripple** — onda criada no ponto exato do clique e também no foco do campo, por delegação de eventos.
-- Aplicado na busca de abas, notas, diário, caracteres, dev log e na paleta de comandos (`Ctrl+K`).
-- Tudo desliga com **Reduzir animações** e com `prefers-reduced-motion`.
+- **Gravação com debounce de 400 ms** e `saveNow()` para operações críticas, com **flush** ao esconder/sair da página e gravação periódica a cada 30 s.
+- **Topbar coalescida em `requestAnimationFrame`**: várias chamadas no mesmo frame viram uma única pintura.
+- **Clicker** com HUD leve por tick, delta de tempo real e loja renderizada só quando muda.
+- **Intervalos de 1 s** no Pomodoro e no timer por matéria; a renda passiva respeita aba oculta.
+- **Buscas com debounce** em notas, diário e Dev Log.
+- **Render inicial reduzido**: os bindings já renderizam suas abas e o `renderAll()` não repete esse trabalho.
+- **Coleções e gráficos** só são redesenhados quando a aba correspondente está aberta; animações de fundo pausam com `body.tab-hidden`.
 
----
+### 5. Dev Log
 
-## O que mudou na v20.1.0
-
-### Motor de animações avançadas nos botões
-
-Cada tipo de botão agora tem um comportamento visual próprio, com camadas CSS e um motor de interação em `script.js`:
-
-- **Spotlight que segue o cursor** — todos os `.btn` e `.nav-item` recebem um brilho radial posicionado pelas variáveis CSS `--fx-x`/`--fx-y`, atualizadas por JS com `requestAnimationFrame` (barato, sem repaint em cadeia).
-- **Efeito magnético sutil** — botões (exceto `.btn-block`) deslizam até 2–3 px na direção do mouse via `--fx-tx`/`--fx-ty` e voltam ao centro com easing elástico quando o cursor sai.
-- **Ripple ao clicar** — onda circular criada no ponto exato do clique/toque; também dispara por teclado (`Enter`/`Espaço`) no botão focado. Delegação de eventos no `document`, então funciona até em botões criados dinamicamente.
-- **Por tipo de botão:**
-  - `.btn-primary` — glow pulsante contínuo, aura expandida no hover e *shine sweep* atravessando o botão.
-  - `.btn-secondary` — borda gradiente girando (`conic-gradient` animado com `@property --fx-angle`) e glow ciano no hover.
-  - `.btn-ghost` — borda luminosa que se desenha no hover (escala + fade com overshoot).
-  - `.btn-danger` — pulso vermelho em loop enquanto o mouse estiver sobre o botão.
-  - `.btn-icon` — ícone reage (escala + leve rotação) e ganha anel de foco luminoso.
-  - `.nav-item` — spotlight próprio, ícone que se inclina ao hover e aba ativa "respirando".
-  - `.chip` — halo suave nos filtros ativos.
-- **Micro-interações** — `:active` comprime o botão (`scale(.96)`) com resposta mais rápida; hover usa `--ease-spring: cubic-bezier(.34, 1.56, .64, 1)` com overshoot.
-- **Acessibilidade e controle** — todo o motor respeita `prefers-reduced-motion` **e** o botão "Reduzir animações" da topbar: as camadas de FX (`::after` de spotlight, bordas animadas, ripple) são removidas do DOM/fluxo visual e os offsets magnéticos zerados.
-
-
----
-
-## O que mudou na v20.0.0
-
-### 1. Nova camada visual e shell
-
-- **Sidebar** com grupos (Hoje, Estudo, Inteligência, Progresso, Ferramentas, Extras), busca de abas em tempo real e rodapé com versão e atalhos.
-- **Topbar** com XP + barra de progresso do próximo título, moedas, sequência de dias, foco do dia, relógio, paleta, Zen, redução de animações e avatar/logout.
-- **Bottom-nav** no mobile e menu lateral deslizante.
-- **Paleta de comandos** em `Ctrl+K` que busca abas e comandos e aceita teclado (`↑`/`↓`, `Enter`).
-- Sistema de **botões** com variantes (`primary`, `secondary`, `ghost`, `danger`, `icon`) e tamanhos (`sm`, `lg`, `block`), estados de foco, desabilitado e hover discreto.
-- Cards, chips, badges, switches, barras de progresso, skeletons de carregamento de iframe, empty states e **toasts** no lugar de `alert`.
-- **Acessibilidade**: foco visível em tudo, `aria-*` nos controles, alvos de toque maiores, contraste AA e respeito a `prefers-reduced-motion` (além do botão de movimento).
-
-### 2. Nova aba "Hoje"
-
-Dashboard inicial com saudação por horário, **anel da meta diária de foco** (60 min), sequência, foco da semana, metas abertas, cards devidos, plano do dia vindo do planner e seis atalhos rápidos.
-
-### 3. Progressão
-
-- **Sequência (streak)** com recorde e atalho para estatísticas.
-- **Marcos** com recompensa resgatável e **conquistas automáticas** na aba Trilha.
-- **Pets** com energia, alimentação (15 moedas → +20 de energia) e renda passiva por tick.
-- **Títulos** por XP e **temas** com preview ao vivo ao passar o mouse.
+- A aba **Dev Log** recebeu **5 entradas v22.0.0** (foguinho/escudos, missões e conquistas, clicker, features por aba e desempenho), com filtro por tipo e busca.
 
 ---
 
@@ -110,27 +83,27 @@ Dashboard inicial com saudação por horário, **anel da meta diária de foco** 
 
 | Aba | O que faz |
 | --- | --- |
-| **Hoje** | Dashboard com meta diária, streak, metas, revisões, planner e atalhos |
-| **Pomodoro** | Ciclos configuráveis, pausa longa a cada 4 ciclos, matéria, som e contador na aba do navegador |
-| **Metas** | Matéria, prioridade, prazo, filtros (incluindo atrasadas), progresso e edição |
-| **Flashcards** | Repetição espaçada (SM-2 simplificado), baralhos, atalhos e agenda por card |
-| **Quiz** | Banco por matéria, explicação por alternativa, modo 20s, recorde e revisão de erros |
+| **Hoje** | Painel Foguinho com faixa, meta e escudos, três missões diárias, anel da meta, metas, revisões, planner e atalhos |
+| **Pomodoro** | Ciclos configuráveis com presets 50/10 e 90/15, pausa longa, matéria, som e contador na aba do navegador |
+| **Metas** | Matéria, prioridade, prazo, busca, ordenação, filtros (incluindo atrasadas), progresso e edição |
+| **Flashcards** | Repetição espaçada (SM-2 simplificado), baralhos, modo reverso, fila embaralhada, atalhos e agenda por card |
+| **Quiz** | Banco por matéria, explicação por alternativa, modo 20s, combo de acertos, recorde e revisão de erros |
 | **Timer matérias** | Cronômetro com pausa, matérias personalizadas e metas de minutos |
-| **Planner** | Grade de 7 dias × 6 blocos, cores por matéria, modelo, cópia da semana |
-| **Estatísticas** | Check-in diário, sequência, dias ativos, Foco hoje e Últimos 7 dias ao vivo, heatmap de 12 semanas, distribuição e CSV |
-| **Diário** | Entrada por dia, humor, busca, edição e exportação markdown |
+| **Planner** | Grade de 7 dias × 6 blocos, navegação de −12 a +12 semanas, cores por matéria, modelo e cópia da semana |
+| **Estatísticas** | Check-in, sequência, dias ativos, escudos, Foco hoje e Últimos 7 dias ao vivo, heatmap de 12 semanas, distribuição e CSV |
+| **Diário** | Entrada por dia com rascunho automático, humor, busca, edição e exportação markdown |
 | **Chat IA** | Tutor local com modos, matéria, resposta progressiva e ações por mensagem |
-| **Comandos** | Terminal com 30 comandos, autocomplete, histórico e ajuda |
-| **Loja** | Nove temas, compra com moedas, equipar e preview ao vivo |
-| **Títulos** | Oito títulos liberados por XP e equipáveis |
+| **Comandos** | Terminal com 31 comandos, autocomplete, histórico e ajuda |
+| **Loja** | Onze temas, compra com moedas, equipar e preview ao vivo |
+| **Títulos** | Dez títulos liberados por XP e equipáveis |
 | **Pets** | Cinco pets com adoção, energia, alimentação e renda passiva |
-| **Trilha** | Níveis com barras, marcos resgatáveis e conquistas |
-| **Clicker** | Núcleo de energia, quatro melhorias automáticas e troca por moedas |
-| **Recompensas** | Seis códigos com status, expiração, histórico e colar da área de transferência |
-| **Notas** | Busca, tags, autosave, fixar, contagem de palavras e exportação `.md` |
-| **Sons ambiente** | Quatro camadas (chuva, ruído, ondas, lareira), presets, volume geral e timer |
-| **Som de teclado** | Quatro estilos, volume e campo de teste |
-| **Calculadora** | Teclado completo, histórico clicável e cópia |
+| **Trilha** | Dez níveis com barras, dez marcos resgatáveis e treze conquistas |
+| **Clicker** | Núcleo com seis melhorias, combo, compra x1/x10/máx, auto-troca, prestígio e renda offline |
+| **Recompensas** | Nove códigos com status, expiração, histórico e colar da área de transferência |
+| **Notas** | Busca, tags, autosave, fixar, duplicar, contagem de palavras e exportação `.md` |
+| **Sons ambiente** | Cinco camadas (chuva, ruído, ondas, lareira, vento), presets incluindo Tempestade, volume geral e timer |
+| **Som de teclado** | Cinco estilos (incluindo Retrô), volume e campo de teste |
+| **Calculadora** | Teclado completo, memória M+/MR/MC, histórico persistido e cópia |
 | **Caracteres** | 400+ símbolos em 14 categorias, busca por código Unicode, favoritos, recentes, detalhe e inserção no último campo |
 | **Título da página** | Texto, sete fontes, dezesseis ícones e restauração |
 | **Senhas** | Senhas e passphrase, entropia em bits, medidor e histórico local |
@@ -160,6 +133,10 @@ Digite `ajuda` para listar, ou `ajuda <comando>` para detalhar.
 | `calc <expressão>` | Calcula uma expressão |
 | `resgatar <código>` | Resgata um código |
 | `xp` / `moedas` / `streak` | Mostra progresso, saldo e sequência |
+| `foguinho` | Detalha faixa, multiplicador, escudos e quanto falta para a próxima faixa |
+| `missoes` | Lista as missões diárias e o progresso de cada uma |
+| `escudo` | Compra um escudo de sequência por 90 moedas |
+| `clicker` | Abre o núcleo e mostra energia, produção, prestígio e cliques |
 | `cards` | Quantos cards estão devidos |
 | `devlog [fix\|feature\|style]` | Abre o Dev Log filtrado |
 | `zen` / `animacoes on\|off` | Modo Zen e preferência de movimento |
@@ -178,6 +155,9 @@ Digite `ajuda` para listar, ou `ajuda <comando>` para detalhar.
 | `ENEM2026` | +30 moedas, +150 XP | 30/11/2026 |
 | `DEVLOG5` | +25 moedas, +25 XP | 30/06/2027 |
 | `HUBV195` | +100 moedas, +50 XP e tema Matrix | 31/12/2026 |
+| `FOGUINHO22` | +80 moedas, +120 XP e 1 escudo de sequência | 31/12/2027 |
+| `NUCLEO22` | +60 moedas, +80 XP | 30/06/2027 |
+| `AURORA22` | +120 moedas, +100 XP e tema Aurora | 31/03/2027 |
 
 Um resgate por conta, sem diferenciar maiúsculas, com expiração validada na data local.
 
@@ -189,6 +169,7 @@ Um resgate por conta, sem diferenciar maiúsculas, com expiração validada na d
 | `Alt+Z` | Modo Zen |
 | `/` | Focar a busca de abas |
 | `Espaço` / `1`–`4` | Virar e avaliar flashcards (na aba Flashcards) |
+| `Espaço` / `Enter` | Clicar no núcleo (na aba Clicker, fora de campos de texto) |
 | `0`–`9`, `+ - * /`, `Enter` | Calculadora |
 | `↑` / `↓`, `Tab` | Histórico e autocomplete no terminal |
 | `Esc` | Fechar overlays |
@@ -196,13 +177,15 @@ Um resgate por conta, sem diferenciar maiúsculas, com expiração validada na d
 
 ## Dados, privacidade e migração
 
-- Progresso em `localStorage`, chave `geekieHubState_v20` — inclui `focusByDate`, `checkins` (check-in diário), `charsFav`/`recentChars` e `charCopies`.
-- **Migração automática** da chave antiga `geekieHubState_v194`: notas, metas, temas, XP, moedas e histórico continuam válidos.
+- Progresso em `localStorage`, chave **`geekieHubState_v22`** — inclui `focusByDate`, `checkins`, `streakShields`, `streakProtect`, `shieldsUsed`, `dailyStats`, `missionClaims`, `diaryDrafts`, `xpEarned`, `coinsEarned`, `charsFav`/`recentChars` e `charCopies`.
+- **Migração automática** das chaves antigas `geekieHubState_v20` e `geekieHubState_v194`: notas, metas, temas, XP, moedas e histórico continuam válidos.
+- O clicker guarda `lifetime`, `prestige`, `autoExchange`, `buyAmount`, `lastSeen`, `comboBest` e `exchanges` no mesmo estado.
 - Contas locais em `geekieHubAccounts_v20` (hash simples — **não é segurança de produção**).
+- Gravação com debounce de 400 ms, flush ao sair/esconder a página e gravação periódica a cada 30 s.
 - Sons são gerados por Web Audio no próprio navegador; nenhuma requisição de áudio.
 - O tutor do chat é **local e offline** (heurísticas por modo/matéria), sem chave de API e sem enviar mensagens.
 - `exportar` gera um JSON com todo o estado; `reset` apaga o progresso.
-- O aviso "Novidades" aparece uma vez por versão (chave `geekieHubSeenVersion_v20`) — na v21.0.0 ele anuncia o check-in, os dados ao vivo e o novo FX das buscas.
+- O aviso "Novidades" aparece uma vez por versão (chave `geekieHubSeenVersion_v22`) e mostra até oito itens das entradas v22 do Dev Log.
 
 ## Estrutura do `script.js`
 
@@ -210,14 +193,30 @@ Um resgate por conta, sem diferenciar maiúsculas, com expiração validada na d
 | --- | --- |
 | 1–3 | Utilidades, estado com migração e metadados (abas, níveis, temas, pets) |
 | 4–9 | Topbar/tema, navegação, login, tutorial, paleta, Hoje e Chat |
+| 8-B | **Gamificação**: faixas de foguinho, escudos, check-in progressivo, missões diárias e painel da aba Hoje |
 | 10–16 | Notas, Pomodoro, Metas, Flashcards, Quiz, Timer matérias e Planner |
-| 17–25 | Estatísticas, Diário, Loja, Títulos, Pets, Trilha, Clicker e áudio |
+| 17–25 | Estatísticas, Diário, Loja, Títulos, Pets, Trilha, Clicker (23) e áudio |
 | 26–34 | Calculadora, Caracteres, Título, Eventos, Portais, Comandos, Recompensas, Dev Log e Senhas |
 | 34-B | **Motor FX dos botões**: spotlight (`--fx-x/--fx-y`), magnético (`--fx-tx/--fx-ty`) e ripple com delegação de eventos |
 | 34-C | **Motor FX das caixas de pesquisa**: glow pulsante, glow que segue o mouse (`--sf-x/--sf-y`) e ripple no clique/foco |
 | 35 | Bindings globais, render geral, novidades, loops passivos e boot |
 
 ## Últimas atualizações
+
+### v22.0.0 — Foguinho com multiplicador, escudos e check-in progressivo
+Faixas de x1 a x1,5 em todo XP, até cinco escudos por 90 moedas, check-in de +12 a +40 XP com bônus em 7/14/30/60/100 dias e painel novo na aba Hoje.
+
+### v22.0.0 — Missões diárias, conquistas e níveis
+Três missões por dia com resgate de XP + moedas, cinco conquistas novas, quatro marcos novos e níveis Lenda Suprema/Mítico.
+
+### v22.0.0 — Clicker 2.0
+Combo de até x2, seis melhorias, compra x1/x10/máx, três faixas de troca, auto-troca, prestígio com +15% permanente e renda offline de até 10 min.
+
+### v22.0.0 — Novas features em todas as abas
+Presets de Pomodoro, busca/ordenação de metas, flashcards reversos, combo no quiz, planner de −12 a +12 semanas, rascunhos no diário, duplicar notas, memória na calculadora, vento/Tempestade, teclado Retrô e temas Aurora/Sakura.
+
+### v22.0.0 — Desempenho
+Gravação com debounce e flush, topbar em `requestAnimationFrame`, HUD do clicker sem recriação, intervalos de 1 s, buscas com debounce e render só da aba ativa.
 
 ### v21.0.0 — Estatísticas completas e check-in diário
 Check-in com recompensa, sequência que conta check-in, dias ativos, recorde, faixa de 7 dias e CSV ampliado.
@@ -228,23 +227,11 @@ Cronômetro somando o ciclo em andamento e barras de 7 dias crescendo em tempo r
 ### v21.0.0 — Caracteres ampliados
 400+ símbolos, 14 categorias, busca por código Unicode, painel de detalhe, recentes, favoritos e cópia em massa.
 
-### v21.0.0 — Brilho dinâmico nas buscas
-Glow pulsante, glow guiado pelo mouse e ripple aplicados a todas as caixas de pesquisa e à paleta de comandos.
-
 ### v20.1.0 — Motor de FX nos botões
-Spotlight e magnético guiados pelo mouse, ripple por clique e teclado, glow pulsante no primário, borda gradiente girando no secundário, pulso no danger, borda desenhada no ghost — tudo desligável por `prefers-reduced-motion` e pelo botão de animações.
+Spotlight e magnético guiados pelo mouse, ripple por clique e teclado, glow pulsante no primário, borda gradiente girando no secundário, pulso no danger e borda desenhada no ghost.
 
-### v20.0.0 — Interface e navegação
-Sidebar com busca, topbar redesenhada, paleta `Ctrl+K`, toasts, novo sistema de botões e mobile-nav.
-
-### v20.0.0 — Aba Hoje e progressão
-Dashboard diário, streak com recorde, marcos resgatáveis, oito conquistas, pets com energia e alimentação.
-
-### v20.0.0 — Estudo
-Flashcards com repetição espaçada, quiz com explicação e cronômetro, planner colorido, metas com prazo e prioridade.
-
-### v20.0.0 — Tutor e ferramentas
-Chat com resposta progressiva e ações (nota/card), notas com tags e `.md`, calculadora com histórico, sons com presets e timer.
+### v20.0.0 — Interface, navegação e progressão
+Sidebar com busca, topbar redesenhada, paleta `Ctrl+K`, toasts, novo sistema de botões, mobile-nav, aba Hoje, streak com recorde, marcos e pets.
 
 ## Limitações conhecidas
 
@@ -252,4 +239,34 @@ Chat com resposta progressiva e ações (nota/card), notas com tags e `.md`, cal
 - Os iframes de Geekie e Google dependem de o site permitir embed; se bloquear, use **Nova aba**.
 - O histórico de senhas e o terminal ficam apenas na memória da aba.
 - O tutor local não é um modelo de linguagem: ele estrutura o raciocínio, não substitui professor ou material didático.
+- A renda offline do clicker é limitada a **10 minutos** por reabertura.
+- O combo do clicker exige cliques em até **900 ms**; acima disso o contador reinicia.
 - A borda gradiente girando (`@property --fx-angle`) degrada para borda estática em navegadores muito antigos; o resto dos efeitos continua funcionando.
+
+```chart
+{
+  "type": "bar",
+  "title": "Chart title",
+  "x": "label",
+  "series": [
+    {
+      "key": "value",
+      "label": "Value"
+    }
+  ],
+  "data": [
+    {
+      "label": "A",
+      "value": 3
+    },
+    {
+      "label": "B",
+      "value": 5
+    },
+    {
+      "label": "C",
+      "value": 4
+    }
+  ]
+}
+```
