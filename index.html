@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="dark">
-<meta name="description" content="Geekie Study Hub v21.0 — cockpit de estudos offline com foco, estatísticas ao vivo, check-in diário, metas, flashcards, quiz, progressão e ferramentas.">
-<title>Geekie Study Hub v21.0.0</title>
+<meta name="description" content="Geekie Study Hub v22.0 — cockpit de estudos offline com foco, estatísticas ao vivo, check-in diário, metas, flashcards, quiz, progressão e ferramentas.">
+<title>Geekie Study Hub v22.0.0</title>
 <link rel="icon" id="pageIcon" href="https://i.postimg.cc/gcHHYqtC/fire-geekie.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,7 +24,7 @@
       </span>
       <div>
         <strong>Geekie Study Hub</strong>
-        <span class="login-version">v21.0.0 · offline first</span>
+        <span class="login-version">v22.0.0 · offline first</span>
       </div>
     </div>
     <h1 class="login-title" id="loginTitle">Acesse seu cockpit de estudos</h1>
@@ -100,7 +100,7 @@
     <div class="sidebar-foot">
       <button class="nav-action" type="button" id="fabTutorialBtn"><i class="fa-solid fa-circle-question"></i> Rever tutorial</button>
       <button class="nav-action" type="button" id="navPaletteBtn"><i class="fa-solid fa-terminal"></i> Comandos <kbd>Ctrl K</kbd></button>
-      <span class="sidebar-version" id="sidebarVersion">v21.0.0</span>
+      <span class="sidebar-version" id="sidebarVersion">v22.0.0</span>
     </div>
   </aside>
 
@@ -114,6 +114,7 @@
       <div class="topbar-stats">
         <button class="stat-pill stat-streak" id="streakPill" type="button" title="Sequência de dias com foco">
           <i class="fa-solid fa-fire"></i><span id="streakCount">0</span><span class="stat-suffix">dias</span>
+          <span class="streak-mult" id="streakMult">x1</span>
         </button>
         <div class="stat-pill stat-xp" id="xpContainer" title="Seu XP Geekie">
           <i class="fa-solid fa-star"></i>
@@ -122,9 +123,11 @@
             <span class="stat-meta" id="xpNextTitle">Próximo: Estudante (100 XP)</span>
           </div>
           <div class="stat-xp-bar"><span id="xpProgressFill"></span></div>
+          <span class="gain-pop" id="xpPop"></span>
         </div>
         <div class="stat-pill stat-coins" id="coinContainer" title="Suas moedas">
           <i class="fa-solid fa-coins"></i><b id="coinCount">0</b>
+          <span class="gain-pop" id="coinPop"></span>
         </div>
         <div class="stat-pill stat-time" id="studyTimeTopbar" title="Foco hoje">
           <i class="fa-solid fa-clock"></i><span id="studyTimeTopbarDisplay">0h 00min</span>
@@ -168,6 +171,15 @@
               <span>de <i id="hojeGoalText">60min</i> hoje</span>
             </div>
           </div>
+        </div>
+        <div class="grid grid-2 grid-top">
+          <article class="card streak-card" id="streakPanel"></article>
+          <article class="card">
+            <div class="card-head"><h3><i class="fa-solid fa-flag-checkered"></i> Missões de hoje</h3>
+              <span class="badge" id="dailyMissionCount">0/3</span></div>
+            <p class="hint">Três objetivos curtos por dia. Resgatar rende XP e moedas; a combinação muda a cada dia.</p>
+            <div class="list" id="dailyMissions"></div>
+          </article>
         </div>
         <div class="grid grid-4" id="hojeCards"></div>
         <div class="grid grid-2">
@@ -288,6 +300,7 @@
               <button class="btn btn-primary" id="noteSaveBtn" type="button"><i class="fa-solid fa-floppy-disk"></i> Salvar</button>
               <button class="btn btn-secondary" id="noteCopyBtn" type="button"><i class="fa-solid fa-copy"></i> Copiar</button>
               <button class="btn btn-secondary" id="noteExportBtn" type="button"><i class="fa-solid fa-file-arrow-down"></i> .md</button>
+              <button class="btn btn-secondary" id="noteDuplicateBtn" type="button"><i class="fa-solid fa-clone"></i> Duplicar</button>
               <button class="btn btn-danger" id="noteDeleteBtn" type="button"><i class="fa-solid fa-trash"></i> Excluir</button>
             </div>
           </article>
@@ -302,6 +315,8 @@
               <button class="chip active" type="button" data-minutes="25" data-mode="focus">Foco 25</button>
               <button class="chip" type="button" data-minutes="5" data-mode="short">Pausa 5</button>
               <button class="chip" type="button" data-minutes="15" data-mode="long">Pausa 15</button>
+              <button class="chip" type="button" data-preset="50">50/10</button>
+              <button class="chip" type="button" data-preset="90">90/15</button>
             </div>
             <div class="pomo-ring">
               <svg viewBox="0 0 220 220" aria-hidden="true">
@@ -332,7 +347,7 @@
             <label class="switch-row"><input type="checkbox" id="pomoSound" checked><span class="switch"></span> Aviso sonoro no fim</label>
             <label class="field"><span>Matéria desta sessão</span><select id="pomoSubject"></select></label>
             <div class="divider"></div>
-            <p class="hint"><i class="fa-solid fa-lightbulb"></i> Cada minuto de foco vale 2 XP e 1 moeda. A pausa longa entra sozinha a cada 4 ciclos.</p>
+            <p class="hint"><i class="fa-solid fa-lightbulb"></i> Cada minuto vale 2 XP (com bônus do foguinho) e sessões de 25 min ou mais rendem +6 XP. A pausa longa entra sozinha a cada 4 ciclos.</p>
           </article>
         </div>
       </section>
@@ -342,6 +357,15 @@
         <article class="card">
           <div class="card-head"><h3><i class="fa-solid fa-list-check"></i> Metas de estudo</h3>
             <span class="badge" id="goalProgressLabel">0 de 0</span></div>
+          <div class="toolbar goal-tools">
+            <label class="search-field compact"><i class="fa-solid fa-magnifying-glass"></i>
+              <input type="search" id="goalSearch" placeholder="Buscar meta ou matéria…" aria-label="Buscar meta"></label>
+            <select id="goalSort" aria-label="Ordenar metas">
+              <option value="due">Ordenar por prazo</option>
+              <option value="priority">Prioridade</option>
+              <option value="created">Mais recentes</option>
+            </select>
+          </div>
           <form class="goal-form" id="goalForm">
             <input type="text" id="goalInput" class="input" maxlength="90" placeholder="Nova meta (ex.: revisar 20 questões de biologia)" required>
             <select id="goalSubject" aria-label="Matéria"></select>
@@ -373,8 +397,8 @@
             <div class="flash-stage">
               <div class="flashcard" id="flashcard" role="button" tabindex="0" aria-label="Virar flashcard">
                 <div class="flashcard-inner">
-                  <div class="flashcard-face front"><span class="flash-tag">Pergunta</span><p id="flashQuestion">Nenhum card neste baralho</p></div>
-                  <div class="flashcard-face back"><span class="flash-tag">Resposta</span><p id="flashAnswer">Crie um card para começar.</p></div>
+                  <div class="flashcard-face front"><span class="flash-tag" id="flashFrontTag">Pergunta</span><p id="flashQuestion">Nenhum card neste baralho</p></div>
+                  <div class="flashcard-face back"><span class="flash-tag" id="flashBackTag">Resposta</span><p id="flashAnswer">Crie um card para começar.</p></div>
                 </div>
               </div>
             </div>
@@ -385,6 +409,7 @@
               <button class="btn btn-secondary" type="button" data-rating="easy">Fácil <kbd>4</kbd></button>
             </div>
             <p class="status-text" id="flashStats">0 revisões nesta rodada</p>
+            <label class="switch-row inline"><input type="checkbox" id="flashReverse"><span class="switch"></span> Modo reverso (resposta → pergunta)</label>
             <p class="hint"><i class="fa-solid fa-keyboard"></i> <kbd>Espaço</kbd> vira o card · <kbd>1</kbd>–<kbd>4</kbd> avaliam · repetição espaçada ajusta o próximo intervalo.</p>
           </article>
           <article class="card">
@@ -426,6 +451,7 @@
               <span id="quizProgressLabel">Pergunta 1 de 5</span>
               <span id="quizScoreLabel">0 acertos</span>
               <span id="quizTimerLabel" hidden>20s</span>
+              <span id="quizCombo" class="quiz-combo">sem combo</span>
             </div>
             <div class="progress"><span id="quizProgressFill"></span></div>
             <h4 id="quizQuestion">—</h4>
@@ -467,6 +493,9 @@
           <p class="hint">Clique em um bloco para escrever o que vai estudar. Cores seguem a matéria quando você usa <b>matéria — tarefa</b>.</p>
           <div class="planner-wrap"><div class="planner-grid" id="plannerGrid"></div></div>
           <div class="toolbar">
+            <button class="btn btn-icon btn-secondary" id="plannerPrevBtn" type="button" aria-label="Semana anterior"><i class="fa-solid fa-chevron-left"></i></button>
+            <button class="btn btn-secondary" id="plannerTodayBtn" type="button"><i class="fa-solid fa-calendar-week"></i> Semana atual</button>
+            <button class="btn btn-icon btn-secondary" id="plannerNextBtn" type="button" aria-label="Próxima semana"><i class="fa-solid fa-chevron-right"></i></button>
             <button class="btn btn-primary" id="plannerSaveBtn" type="button"><i class="fa-solid fa-floppy-disk"></i> Salvar semana</button>
             <button class="btn btn-secondary" id="plannerCopyBtn" type="button"><i class="fa-solid fa-copy"></i> Copiar semana</button>
             <button class="btn btn-secondary" id="plannerTemplateBtn" type="button"><i class="fa-solid fa-wand-magic-sparkles"></i> Modelo</button>
@@ -499,7 +528,11 @@
               <span id="statsStreakMeta">dias em sequência</span>
             </div>
             <div class="day-dots" id="statsWeekDots" aria-label="Últimos 7 dias"></div>
-            <span class="stats-streak-note">Check-in: +12 XP · +4 moedas por dia</span>
+            <span class="stats-streak-note" id="statsCheckinNote">Check-in: +12 XP · +4 moedas hoje</span>
+            <div class="streak-shields">
+              <button class="btn btn-secondary btn-sm" id="statsShieldBtn" type="button"><i class="fa-solid fa-shield-halved"></i> Comprar escudo (90 moedas)</button>
+              <span class="badge" id="statsShieldCount">0/5 escudos</span>
+            </div>
           </div>
         </div>
 
@@ -636,21 +669,45 @@
 
       <!-- ===== CLICKER ===== -->
       <section class="page" id="page-clicker" data-tab="clicker">
-        <div class="grid grid-2 grid-top">
+        <div class="grid grid-2 grid-top clicker-layout">
           <article class="card clicker-card">
             <div class="card-head"><h3><i class="fa-solid fa-hand-pointer"></i> Núcleo de energia</h3>
-              <span class="badge" id="clickerCps">0/s</span></div>
-            <p class="clicker-score"><b id="clickerPoints">0</b> energia</p>
-            <button class="clicker-core" id="clickerCore" type="button" aria-label="Clique para ganhar energia"><i class="fa-solid fa-bolt"></i></button>
-            <div class="toolbar">
-              <button class="btn btn-primary" id="clickerExchangeBtn" type="button"><i class="fa-solid fa-coins"></i> Trocar 50 → 5 moedas</button>
+              <div class="row">
+                <span class="badge live-badge" id="clickerCombo">sem combo</span>
+                <span class="badge" id="clickerCps">0/s</span>
+              </div>
             </div>
+            <p class="clicker-score"><b id="clickerPoints">0</b> energia</p>
+            <div class="clicker-core-wrap">
+              <button class="clicker-core" id="clickerCore" type="button" aria-label="Clique para ganhar energia"><i class="fa-solid fa-bolt"></i></button>
+            </div>
+            <div class="clicker-stats">
+              <div><span>por clique</span><b id="clickerClickPower">+1</b></div>
+              <div><span>cliques</span><b id="clickerClicks">0</b></div>
+              <div><span>gerado</span><b id="clickerTotal">0 ⚡</b></div>
+              <div><span>núcleo atual</span><b id="clickerLifetime">0 ⚡</b></div>
+            </div>
+            <div class="toolbar clicker-exchanges">
+              <button class="btn btn-primary btn-sm" id="clickerExchange0" type="button"><i class="fa-solid fa-coins"></i> 50 ⚡ → 5</button>
+              <button class="btn btn-secondary btn-sm" id="clickerExchange1" type="button">500 ⚡ → 60</button>
+              <button class="btn btn-secondary btn-sm" id="clickerExchange2" type="button">2.500 ⚡ → 350</button>
+            </div>
+            <label class="switch-row inline"><input type="checkbox" id="clickerAutoExchange"><span class="switch"></span> Auto-troca ao passar de 2.500 ⚡</label>
+            <p class="hint"><i class="fa-solid fa-keyboard"></i> <kbd>Espaço</kbd> ou <kbd>Enter</kbd> também clicam. Cliques em sequência montam combo de até x2.</p>
           </article>
           <article class="card">
-            <div class="card-head"><h3><i class="fa-solid fa-shop"></i> Melhorias</h3></div>
+            <div class="card-head"><h3><i class="fa-solid fa-shop"></i> Melhorias</h3>
+              <div class="stat-pill stat-coins"><i class="fa-solid fa-coins"></i><b id="clickerCoinCount">0</b></div>
+            </div>
+            <div class="chips" id="clickerBuyAmount" aria-label="Quantidade de compra">
+              <button class="chip active" type="button" data-amount="1">x1</button>
+              <button class="chip" type="button" data-amount="10">x10</button>
+              <button class="chip" type="button" data-amount="max">máx</button>
+            </div>
             <div class="list" id="clickerShop"></div>
             <div class="divider"></div>
-            <p class="hint"><i class="fa-solid fa-circle-info"></i> Melhorias geram energia sozinhas enquanto o hub está aberto.</p>
+            <div class="clicker-prestige" id="clickerPrestige"></div>
+            <p class="hint"><i class="fa-solid fa-circle-info"></i> Melhorias geram energia sozinhas — inclusive por até 10 minutos enquanto o hub está fechado.</p>
           </article>
         </div>
       </section>
@@ -667,6 +724,7 @@
               <option value="focus">Foco profundo</option>
               <option value="rain">Noite de chuva</option>
               <option value="study">Biblioteca</option>
+              <option value="storm">Tempestade</option>
             </select>
             <label class="range-field">Volume geral <input type="range" id="ambientMaster" min="0" max="100" value="70"><b id="ambientMasterValue">70</b></label>
             <label class="range-field">Desligar em <input type="range" id="ambientTimer" min="0" max="60" step="5" value="0"><b id="ambientTimerValue">off</b></label>
@@ -687,6 +745,7 @@
               <option value="mechanical">Mecânico</option>
               <option value="typewriter">Máquina de escrever</option>
               <option value="pop">Pop</option>
+              <option value="retro">Retrô</option>
             </select>
             <label class="range-field">Volume <input type="range" id="keySoundVolume" min="0" max="100" value="45"><b id="keySoundVolumeValue">45</b></label>
           </div>
@@ -701,6 +760,11 @@
             <div class="calc-display">
               <div class="calc-expression" id="calcExpression">&nbsp;</div>
               <div class="calc-result" id="calcResult">0</div>
+            </div>
+            <div class="toolbar calc-memory" id="calcMemory" aria-label="Memória da calculadora">
+              <button class="mini-btn fn" type="button" data-calc-mem="add">M+</button>
+              <button class="mini-btn fn" type="button" data-calc-mem="recall">MR</button>
+              <button class="mini-btn fn" type="button" data-calc-mem="clear">MC</button>
             </div>
             <div class="calc-keys" id="calcKeys">
               <button class="mini-btn fn" type="button" data-calc="clear">AC</button>
@@ -783,7 +847,7 @@
         <div class="grid grid-2 grid-top">
           <article class="card">
             <div class="card-head"><h3><i class="fa-solid fa-pen-nib"></i> Título da página</h3></div>
-            <div class="title-preview" id="titlePreview">Geekie Study Hub v21.0.0</div>
+            <div class="title-preview" id="titlePreview">Geekie Study Hub v22.0.0</div>
             <label class="field"><span>Texto</span><input type="text" id="titleTextInput" class="input" maxlength="60"></label>
             <div class="toolbar">
               <select id="titleFontSelect" aria-label="Fonte"></select>
@@ -880,7 +944,7 @@
       <section class="page" id="page-devlog" data-tab="devlog">
         <article class="card">
           <div class="card-head"><h3><i class="fa-solid fa-clock-rotate-left"></i> Dev Log</h3>
-            <span class="badge" id="devlogBuild">v21.0.0</span></div>
+            <span class="badge" id="devlogBuild">v22.0.0</span></div>
           <p class="hint">Registro de alterações do hub. As últimas atualizações também estão no README.md.</p>
           <div class="toolbar">
             <div class="chips" id="devlogFilters">
@@ -950,7 +1014,7 @@
 
 <div class="overlay" id="whatsNewOverlay" hidden>
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="whatsNewTitle">
-    <div class="card-head"><h3 id="whatsNewTitle"><i class="fa-solid fa-wand-magic-sparkles"></i> Novidades da v21.0.0</h3>
+    <div class="card-head"><h3 id="whatsNewTitle"><i class="fa-solid fa-wand-magic-sparkles"></i> Novidades da v22.0.0</h3>
       <button class="btn btn-icon btn-ghost" id="whatsNewClose" type="button" aria-label="Fechar"><i class="fa-solid fa-xmark"></i></button></div>
     <ul class="whatsnew-list" id="whatsNewList"></ul>
     <button class="btn btn-primary btn-block" id="whatsNewStart" type="button">Começar a explorar</button>
