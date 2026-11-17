@@ -1,5 +1,5 @@
 /* ============================================================
-   Geekie Study Hub v22.0.0 — script.js (parte 1/4)
+   Geekie Study Hub v22.1.0 — script.js (parte 1/4)
    Utilidades, estado, shell, login, tutorial, paleta, Hoje, Chat
    ============================================================ */
 'use strict';
@@ -85,7 +85,7 @@ function beep(freq = 660, duration = 0.16, type = 'sine', volume = 0.18) {
 }
 
 /* ============ 2. ESTADO ============ */
-const VERSION = 'v22.0.0';
+const VERSION = 'v22.1.0';
 const STORAGE_KEY = 'geekieHubState_v22';
 const LEGACY_KEYS = ['geekieHubState_v20', 'geekieHubState_v194'];
 /* Contas continuam na mesma chave: trocar de versão não desloga ninguém. */
@@ -96,7 +96,7 @@ const SEEN_KEY = 'geekieHubSeenVersion_v22';
 const DEFAULT_STATE = {
   session: null,
   xp: 0, coins: 25, title: 'Novato',
-  pageTitle: 'Geekie Study Hub v22.0.0', font: 'Poppins', icon: 'fa-graduation-cap',
+  pageTitle: 'Geekie Study Hub v22.1.0', font: 'Poppins', icon: 'fa-graduation-cap',
   themesOwned: ['default'], theme: 'default',
   petsOwned: [], pet: null, petEnergy: {}, petFed: {},
   focusByDate: {}, subjectMinutes: {}, subjectGoals: {}, customSubjects: [],
@@ -113,7 +113,7 @@ const DEFAULT_STATE = {
   checkins: {}, streakProtect: {}, streakShields: 0, shieldsUsed: 0,
   dailyStats: { date: '', cards: 0, quiz: 0, goals: 0, clicks: 0, notes: 0, exchanges: 0, missions: 0 },
   missionClaims: [], diaryDrafts: {},
-  chatHistory: [], motionReduced: false, soundEnabled: true,
+  chatHistory: [], motionReduced: false, soundEnabled: true, navCollapsed: false,
   quizBest: 0, quizHistory: [], redeemed: [], commandHistory: [],
   streakBest: 0, lastVisit: '', seenVersion: '', achievements: {}, milestonesClaimed: [],
   calcHistory: [], createdAt: Date.now(), totalGoalsDone: 0,
@@ -142,7 +142,7 @@ function loadState() {
   s.streakShields = clamp(Number(s.streakShields) || 0, 0, 5);
   s.xpEarned = Math.max(0, Number(s.xpEarned) || 0);
   s.coinsEarned = Math.max(0, Number(s.coinsEarned) || 0);
-  if (s.pageTitle === 'Geekie Study Hub v21.0.0' || s.pageTitle === 'Geekie Study Hub v20.1.0') s.pageTitle = DEFAULT_STATE.pageTitle;
+  if (['Geekie Study Hub v22.0.0', 'Geekie Study Hub v21.0.0', 'Geekie Study Hub v20.1.0'].indexOf(s.pageTitle) !== -1) s.pageTitle = DEFAULT_STATE.pageTitle;
   if (s.themesOwned.indexOf('default') === -1) s.themesOwned.unshift('default');
   return s;
 }
@@ -192,7 +192,7 @@ const TABS = [
   { id: 'geekie', title: 'Portal Geekie', icon: 'fa-graduation-cap', group: 'Extras', kicker: 'Portal', desc: 'O Geekie One embutido, com recarregar e tela cheia.', tips: ['Se bloquear o iframe, use Nova aba.', 'Os atalhos abrem portais em nova aba.'] },
   { id: 'google', title: 'Google', icon: 'fa-google', brand: true, group: 'Extras', kicker: 'Busca', desc: 'Google embutido mais atalhos para Classroom, Drive e YouTube.', tips: ['A busca embutida pode bloquear; use os atalhos.', 'Tela cheia amplia a área.'] },
   { id: 'events', title: 'Eventos', icon: 'fa-calendar-day', group: 'Extras', kicker: 'Calendário', desc: 'Evento de cada mês com progresso por XP e recompensa.', tips: ['O mês atual é destacado.', 'A recompensa é liberada por nível de evento.'] },
-  { id: 'devlog', title: 'Dev Log', icon: 'fa-code-branch', group: 'Extras', kicker: 'Versões', desc: 'Histórico de versões com filtros e busca.', tips: ['Filtre por correção, novidade ou interface.', 'As 5 últimas também estão no README.'] }
+  { id: 'devlog', title: 'Dev Log', icon: 'fa-code-branch', group: 'Extras', kicker: 'Versões', desc: 'Histórico de versões com filtros, busca e atalho para as 3 últimas.', tips: ['Filtre por correção, novidade ou interface.', 'Ctrl+Shift+D abre as 3 últimas em um painel flutuante.'] }
 ];
 const TAB_MAP = Object.fromEntries(TABS.map((t) => [t.id, t]));
 const GROUPS = ['Hoje', 'Estudo', 'Inteligência', 'Progresso', 'Ferramentas', 'Extras'];
@@ -3838,6 +3838,24 @@ function bindRewards() {
 /* ============ 33. DEV LOG ============ */
 const DEVLOG = [
   {
+    version: 'v22.1.0', date: '2026-11-17', type: 'feature', title: 'Atalho para as 3 últimas entradas do Dev Log',
+    items: [
+      'Ctrl+Shift+D abre um painel flutuante com as três entradas mais recentes do Dev Log, de qualquer aba.',
+      'O atalho fica fixo na nav bar (rodapé lateral) e também no cabeçalho da aba Dev Log, sempre com a combinação visível.',
+      'Cada entrada do painel mantém versão, tipo, data e a lista de mudanças; o rodapé leva ao Dev Log completo.',
+      'Esc, clique fora do cartão ou o X fecham o painel; as entradas são lidas do mesmo array que alimenta a aba.'
+    ]
+  },
+  {
+    version: 'v22.1.0', date: '2026-11-17', type: 'style', title: 'Painel centralizado com blur e nav bar retrátil',
+    items: [
+      'O painel das últimas atualizações abre centralizado e flutuante, com blur de 22px no resto da tela.',
+      'Abertura animada: o cartão entra com mola e desfoque, um brilho atravessa o cabeçalho e as entradas surgem em cascata de 80 ms.',
+      'Novo botão na topbar recolhe a nav bar com transição de largura e giro do ícone; o mesmo botão restaura o menu.',
+      'A preferência da nav bar recolhida fica salva no estado e volta assim ao reabrir o hub; tudo respeita Reduzir animações.'
+    ]
+  },
+  {
     version: 'v22.0.0', date: '2026-11-17', type: 'feature', title: 'Foguinho com multiplicador, escudos e check-in progressivo',
     items: [
       'O foguinho agora tem faixas: x1,1 (3 dias), x1,2 (7), x1,35 (14) e x1,5 (30) de XP em tudo o que você ganha.',
@@ -4016,6 +4034,82 @@ function bindDevlog() {
     renderDevlog();
   });
   $('#devlogSearch') && $('#devlogSearch').addEventListener('input', debounce(renderDevlog, 140));
+}
+
+/* ============ 33-B. ATALHO DAS ÚLTIMAS ATUALIZAÇÕES ============ */
+function devlogLatest(count) {
+  return DEVLOG.slice(0, count || 3);
+}
+function renderDevlogRecent() {
+  const box = $('#devlogRecentList');
+  if (!box) return;
+  const labels = { fix: 'Correção', feature: 'Novidade', style: 'Interface' };
+  const list = devlogLatest(3);
+  box.innerHTML = list.length ? list.map((e, i) => '<article class="devlog-item devlog-recent-item" data-type="' + e.type + '" style="--i:' + i + '">' +
+    '<div class="devlog-head"><span class="devlog-version">' + e.version + '</span>' +
+    '<span class="devlog-tag">' + labels[e.type] + '</span>' +
+    '<span class="devlog-date">' + e.date + '</span></div>' +
+    '<div class="devlog-title">' + esc(e.title) + '</div>' +
+    '<ul>' + e.items.map((i2) => '<li>' + esc(i2) + '</li>').join('') + '</ul></article>').join('')
+    : '<div class="empty">Nenhuma entrada no Dev Log ainda.</div>';
+}
+function openDevlogRecent() {
+  const overlay = $('#devlogRecentOverlay');
+  if (!overlay) return;
+  renderDevlogRecent();
+  overlay.hidden = false;
+  const card = $('.devlog-recent-card', overlay);
+  if (card && !state.motionReduced) {
+    card.style.animation = 'none';
+    void card.offsetWidth;
+    card.style.animation = '';
+  }
+  const close = $('#devlogRecentClose');
+  if (close) setTimeout(() => close.focus(), 60);
+}
+function closeDevlogRecent() {
+  const overlay = $('#devlogRecentOverlay');
+  if (overlay) overlay.hidden = true;
+}
+function bindDevlogRecent() {
+  ['#navDevlogRecentBtn', '#devlogRecentBtn'].forEach((sel) => {
+    const btn = $(sel);
+    if (btn) btn.addEventListener('click', openDevlogRecent);
+  });
+  $('#devlogRecentClose') && $('#devlogRecentClose').addEventListener('click', closeDevlogRecent);
+  $('#devlogRecentOverlay') && $('#devlogRecentOverlay').addEventListener('click', (e) => {
+    if (e.target.id === 'devlogRecentOverlay') closeDevlogRecent();
+  });
+  $('#devlogRecentOpenAll') && $('#devlogRecentOpenAll').addEventListener('click', () => {
+    closeDevlogRecent();
+    switchTab('devlog');
+  });
+}
+
+/* ============ 33-C. NAV BAR RETRÁTIL ============ */
+function applyNavCollapsed() {
+  const collapsed = !!state.navCollapsed;
+  document.body.classList.toggle('nav-collapsed', collapsed);
+  const btn = $('#btnNavToggle');
+  if (btn) {
+    const label = collapsed ? 'Mostrar menu lateral' : 'Recolher menu lateral';
+    btn.setAttribute('aria-pressed', String(collapsed));
+    btn.title = label;
+    btn.setAttribute('aria-label', label);
+  }
+}
+function toggleNavCollapsed() {
+  state.navCollapsed = !state.navCollapsed;
+  applyNavCollapsed();
+  save();
+  const btn = $('#btnNavToggle');
+  if (btn && !state.motionReduced) {
+    btn.classList.remove('is-flipping');
+    void btn.offsetWidth;
+    btn.classList.add('is-flipping');
+    setTimeout(() => btn.classList.remove('is-flipping'), 700);
+  }
+  toast(state.navCollapsed ? 'Nav bar recolhida. O mesmo botão devolve o menu.' : 'Nav bar restaurada.', 'fa-table-columns');
 }
 
 /* ============ 34. SENHAS ============ */
@@ -4269,6 +4363,7 @@ function bindGlobal() {
   $('#sidebarOpen') && $('#sidebarOpen').addEventListener('click', () => document.body.classList.add('nav-open'));
   $('#sidebarClose') && $('#sidebarClose').addEventListener('click', () => document.body.classList.remove('nav-open'));
   $('#btnZenMode') && $('#btnZenMode').addEventListener('click', toggleZen);
+  $('#btnNavToggle') && $('#btnNavToggle').addEventListener('click', toggleNavCollapsed);
   $('#btnMotionMode') && $('#btnMotionMode').addEventListener('click', () => {
     state.motionReduced = !state.motionReduced;
     applyMotion(); save();
@@ -4289,8 +4384,10 @@ function bindGlobal() {
   document.addEventListener('keydown', (e) => {
     const typing = ['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName);
     if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); openPalette(); return; }
+    if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === 'd') { e.preventDefault(); openDevlogRecent(); return; }
     if (e.key === 'Escape') {
       closePalette();
+      closeDevlogRecent();
       const tut = $('#tutorialOverlay'); if (tut && !tut.hidden) closeTutorial();
       document.body.classList.remove('nav-open');
       return;
@@ -4380,6 +4477,7 @@ function boot() {
   applyTheme(state.theme);
   applyPageTitle();
   applyMotion();
+  applyNavCollapsed();
   document.body.classList.toggle('tab-hidden', document.hidden);
   applyStreakShield();
   applyOfflineEnergy();
@@ -4417,6 +4515,7 @@ function boot() {
   bindCommands();
   bindRewards();
   bindDevlog();
+  bindDevlogRecent();
   bindPassword();
   renderAll();
   if (state.lastVisit !== dateKey()) { state.lastVisit = dateKey(); save(); }
