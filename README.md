@@ -2,7 +2,7 @@
 
 Hub de estudos em **3 arquivos** (HTML, CSS e JS), sem build e sem dependências locais — só os ícones e as fontes vêm de CDN.
 
-Versão atual: **v22.1.0**
+Versão atual: **v22.2.0**
 
 ```
 index.html
@@ -24,6 +24,29 @@ Login: crie uma conta local, entre com ela ou clique em **Entrar como convidado*
 
 ---
 
+## O que mudou na v22.2.0
+
+### 1. Nav bar compacta: só os ícones das abas
+
+- O botão de compactar **não esconde mais o menu**: a nav bar encolhe para uma faixa de **76 px** com **apenas o ícone de cada aba**.
+- Com o menu compacto, o **nome da aba aparece no tooltip** e a aba ativa mantém a barra lateral e o destaque.
+- Campo de busca, títulos de grupo, textos dos atalhos e a versão ficam ocultos na faixa compacta; os grupos são separados por uma linha fina.
+- A escolha continua em **`navCollapsed`** e volta assim ao reabrir o hub; no mobile o menu segue sendo a gaveta do hambúrguer.
+
+### 2. Botão ao lado da nav bar
+
+- O botão saiu da topbar e foi para o **cabeçalho da nav bar, ao lado do logo**; na faixa compacta fica empilhado abaixo dele.
+- `.sidebar` e `.shell` foram reorganizados para a coluna de 76 px: o conteúdo cresce sem empurrar nada, com transição de **340 ms** na largura.
+- O clique dispara um **anel expansivo + giro elástico** no ícone, e `aria-pressed`, `title` e `aria-label` alternam entre **Compactar menu lateral (só ícones)** e **Expandir menu lateral**.
+
+### 3. Dev Log e atalho atualizados
+
+- Duas entradas novas no **Dev Log** (v22.2.0) documentam a faixa compacta e o botão reposicionado.
+- **`Ctrl+Shift+D`** continua fixo no rodapé da nav bar: compacto, aparece só o ícone com tooltip e abre o mesmo painel das três últimas.
+- As dicas da aba Dev Log e o texto de apoio do cabeçalho explicam o novo comportamento.
+
+---
+
 ## O que mudou na v22.1.0
 
 ### 1. Atalho para as últimas atualizações
@@ -38,14 +61,6 @@ Login: crie uma conta local, entre com ela ou clique em **Entrar como convidado*
 - O painel abre **centralizado na janela**, flutuando sobre a interface, com `backdrop-filter: blur(22px)` e saturação no resto da tela.
 - **Animação de abertura**: o cartão entra com mola e desfoque (`translateY` + `scale` + `blur`), um brilho atravessa o cabeçalho e as três entradas surgem em cascata de 80 ms.
 - O ícone do cabeçalho gira ao aparecer e o cartão ganha borda e halo na cor do tema.
-
-### 3. Botão que esconde a nav bar
-
-- Novo botão na topbar (ícone de colunas) **recolhe o menu lateral** com transição de largura e giro do ícone; o mesmo botão restaura o menu.
-- A escolha fica em **`navCollapsed`** no estado e volta assim ao reabrir o hub.
-- No clique, um anel se expande e o ícone faz uma volta elástica; o botão fica com destaque enquanto a nav bar está recolhida.
-- A nav bar retrátil vale para o desktop; no mobile o menu continua sendo a gaveta pelo botão hambúrguer.
-- Tudo respeita o botão **Reduzir animações** e `prefers-reduced-motion`.
 
 ---
 
@@ -199,11 +214,11 @@ Um resgate por conta, sem diferenciar maiúsculas, com expiração validada na d
 | `↑` / `↓`, `Tab` | Histórico e autocomplete no terminal |
 | `Esc` | Fechar overlays |
 | `Ctrl+S` | Salvar nota (no editor) |
-| `Ctrl+Shift+D` | Abre as 3 últimas entradas do Dev Log em um painel flutuante |
+| `Ctrl+Shift+D` | Abre as 3 últimas entradas do Dev Log em um painel flutuante (funciona também com a nav bar compacta) |
 
 ## Dados, privacidade e migração
 
-- Progresso em `localStorage`, chave **`geekieHubState_v22`** — inclui `focusByDate`, `checkins`, `streakShields`, `streakProtect`, `shieldsUsed`, `dailyStats`, `missionClaims`, `diaryDrafts`, `xpEarned`, `coinsEarned`, `charsFav`/`recentChars`, `charCopies` e `navCollapsed` (nav bar recolhida).
+- Progresso em `localStorage`, chave **`geekieHubState_v22`** — inclui `focusByDate`, `checkins`, `streakShields`, `streakProtect`, `shieldsUsed`, `dailyStats`, `missionClaims`, `diaryDrafts`, `xpEarned`, `coinsEarned`, `charsFav`/`recentChars`, `charCopies` e `navCollapsed` (nav bar compacta, só ícones).
 - **Migração automática** das chaves antigas `geekieHubState_v20` e `geekieHubState_v194`: notas, metas, temas, XP, moedas e histórico continuam válidos.
 - O clicker guarda `lifetime`, `prestige`, `autoExchange`, `buyAmount`, `lastSeen`, `comboBest` e `exchanges` no mesmo estado.
 - Contas locais em `geekieHubAccounts_v20` (hash simples — **não é segurança de produção**).
@@ -223,18 +238,24 @@ Um resgate por conta, sem diferenciar maiúsculas, com expiração validada na d
 | 10–16 | Notas, Pomodoro, Metas, Flashcards, Quiz, Timer matérias e Planner |
 | 17–25 | Estatísticas, Diário, Loja, Títulos, Pets, Trilha, Clicker (23) e áudio |
 | 26–34 | Calculadora, Caracteres, Título, Eventos, Portais, Comandos, Recompensas, Dev Log e Senhas |
-| 33-B / 33-C | **Atalho das últimas atualizações** (painel flutuante) e **nav bar retrátil** (`navCollapsed` no estado) |
+| 33-B / 33-C | **Atalho das últimas atualizações** (painel flutuante) e **nav bar compacta (só ícones)** (`navCollapsed` no estado) |
 | 34-B | **Motor FX dos botões**: spotlight (`--fx-x/--fx-y`), magnético (`--fx-tx/--fx-ty`) e ripple com delegação de eventos |
 | 34-C | **Motor FX das caixas de pesquisa**: glow pulsante, glow que segue o mouse (`--sf-x/--sf-y`) e ripple no clique/foco |
 | 35 | Bindings globais, render geral, novidades, loops passivos e boot |
 
 ## Últimas atualizações
 
+### v22.2.0 — Nav bar compacta com só os ícones
+A nav bar deixa de sumir: encolhe para 76 px com os ícones das abas, tooltip com o nome de cada uma e a aba ativa destacada.
+
+### v22.2.0 — Botão ao lado do logo, Dev Log e atalho atualizados
+O botão de compactar foi para o cabeçalho da nav bar, o layout se ajusta à coluna de 76 px, o Dev Log ganhou duas entradas e o `Ctrl+Shift+D` continua no rodapé mesmo compacto.
+
 ### v22.1.0 — Atalho para as 3 últimas do Dev Log
 `Ctrl+Shift+D`, atalho fixo na nav bar e botão na aba Dev Log abrem um painel centralizado com blur no resto da tela, animação em cascata e link para o histórico completo.
 
-### v22.1.0 — Painel animado e nav bar retrátil
-Cartão com entrada elástica e brilho atravessando o cabeçalho; botão na topbar recolhe o menu lateral com transição de largura e guarda a preferência.
+### v22.1.0 — Painel animado com blur
+Cartão com entrada elástica e brilho atravessando o cabeçalho, ícone girando e halo na cor do tema.
 
 ### v22.0.0 — Foguinho com multiplicador, escudos e check-in progressivo
 Faixas de x1 a x1,5 em todo XP, até cinco escudos por 90 moedas, check-in de +12 a +40 XP com bônus em 7/14/30/60/100 dias e painel novo na aba Hoje.
@@ -276,7 +297,7 @@ Sidebar com busca, topbar redesenhada, paleta `Ctrl+K`, toasts, novo sistema de 
 - O combo do clicker exige cliques em até **900 ms**; acima disso o contador reinicia.
 - A borda gradiente girando (`@property --fx-angle`) degrada para borda estática em navegadores muito antigos; o resto dos efeitos continua funcionando.
 - O blur do painel das últimas atualizações depende de `backdrop-filter`; sem suporte, o fundo fica apenas escurecido.
-- A nav bar retrátil só existe em telas com mais de 1024px de largura; no mobile o menu continua sendo a gaveta.
+- A nav bar compacta (só ícones) só existe em telas com mais de 1024px de largura; no mobile o menu continua sendo a gaveta.
 
 ```chart
 {
