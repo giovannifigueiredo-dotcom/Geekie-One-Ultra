@@ -1,5 +1,5 @@
 /* ============================================================
-   Geekie Study Hub v20.1.0 — script.js (parte 1/4)
+   Geekie Study Hub v22.0.0 — script.js (parte 1/4)
    Utilidades, estado, shell, login, tutorial, paleta, Hoje, Chat
    ============================================================ */
 'use strict';
@@ -23,6 +23,15 @@ const MONTHS = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Jul
 const money = (n) => Number(n || 0).toLocaleString('pt-BR');
 const avg = (arr) => (arr.length ? arr.reduce((a, b) => a + b, 0) / arr.length : 0);
 const prettyDate = (k) => { const d = parseKey(k); return d.getDate() + ' ' + MONTHS[d.getMonth()].slice(0, 3) + ' ' + d.getFullYear(); };
+const debounce = (fn, ms = 140) => {
+  let t = null;
+  return function (...args) { clearTimeout(t); t = setTimeout(() => fn.apply(this, args), ms); };
+};
+const idleRun = (cb, timeout = 700) => {
+  if (typeof window.requestIdleCallback === 'function') return window.requestIdleCallback(cb, { timeout });
+  return setTimeout(cb, 60);
+};
+const sum = (arr) => arr.reduce((a, b) => a + (Number(b) || 0), 0);
 
 let toastTimer = null;
 function toast(message, icon = 'fa-check', isError = false) {
@@ -76,17 +85,18 @@ function beep(freq = 660, duration = 0.16, type = 'sine', volume = 0.18) {
 }
 
 /* ============ 2. ESTADO ============ */
-const VERSION = 'v21.0.0';
-const STORAGE_KEY = 'geekieHubState_v20';
-const LEGACY_KEYS = ['geekieHubState_v194'];
+const VERSION = 'v22.0.0';
+const STORAGE_KEY = 'geekieHubState_v22';
+const LEGACY_KEYS = ['geekieHubState_v20', 'geekieHubState_v194'];
+/* Contas continuam na mesma chave: trocar de versão não desloga ninguém. */
 const ACCOUNTS_KEY = 'geekieHubAccounts_v20';
 const LEGACY_ACCOUNTS = ['geekieHubAccounts_v194'];
-const SEEN_KEY = 'geekieHubSeenVersion_v20';
+const SEEN_KEY = 'geekieHubSeenVersion_v22';
 
 const DEFAULT_STATE = {
   session: null,
   xp: 0, coins: 25, title: 'Novato',
-  pageTitle: 'Geekie Study Hub v21.0.0', font: 'Poppins', icon: 'fa-graduation-cap',
+  pageTitle: 'Geekie Study Hub v22.0.0', font: 'Poppins', icon: 'fa-graduation-cap',
   themesOwned: ['default'], theme: 'default',
   petsOwned: [], pet: null, petEnergy: {}, petFed: {},
   focusByDate: {}, subjectMinutes: {}, subjectGoals: {}, customSubjects: [],
@@ -96,15 +106,18 @@ const DEFAULT_STATE = {
   decks: { Geral: [{ id: 'seed1', q: 'Qual é a fórmula da velocidade média?', a: 'Vm = ΔS / Δt — variação da posição dividida pelo intervalo de tempo.', ease: 2.5, interval: 0, due: '', reps: 0, lapses: 0, createdAt: Date.now() }, { id: 'seed2', q: 'O que é uma hipótese?', a: 'Uma explicação testável para um fenômeno, que pode ser confirmada ou refutada.', ease: 2.5, interval: 0, due: '', reps: 0, lapses: 0, createdAt: Date.now() }] },
   deck: 'Geral', flashStats: { again: 0, hard: 0, good: 0, easy: 0 }, flashRound: 0,
   planner: {}, plannerWeek: dateKey(startOfWeek()), diary: {},
-  clicker: { points: 0, upgrades: {}, clicks: 0, total: 0 },
+  clicker: { points: 0, upgrades: {}, clicks: 0, total: 0, lifetime: 0, prestige: 0, autoExchange: false, buyAmount: 1, lastSeen: 0, comboBest: 0, exchanges: 0 },
   keySounds: { on: false, style: 'soft', volume: 45 },
-  ambient: { master: 70, layers: { rain: 0, noise: 0, waves: 0, fire: 0 } },
+  ambient: { master: 70, layers: { rain: 0, noise: 0, waves: 0, fire: 0, wind: 0 } },
   charsFav: [], recentChars: [], charCopies: 0,
-  checkins: {},
+  checkins: {}, streakProtect: {}, streakShields: 0, shieldsUsed: 0,
+  dailyStats: { date: '', cards: 0, quiz: 0, goals: 0, clicks: 0, notes: 0, exchanges: 0, missions: 0 },
+  missionClaims: [], diaryDrafts: {},
   chatHistory: [], motionReduced: false, soundEnabled: true,
   quizBest: 0, quizHistory: [], redeemed: [], commandHistory: [],
   streakBest: 0, lastVisit: '', seenVersion: '', achievements: {}, milestonesClaimed: [],
-  calcHistory: [], createdAt: Date.now(), totalGoalsDone: 0
+  calcHistory: [], createdAt: Date.now(), totalGoalsDone: 0,
+  xpEarned: 0, coinsEarned: 0
 };
 
 function loadState() {
@@ -122,19 +135,33 @@ function loadState() {
   if (!s.decks || typeof s.decks !== 'object' || !Object.keys(s.decks).length) s.decks = DEFAULT_STATE.decks;
   Object.keys(s.decks).forEach((d) => { if (!Array.isArray(s.decks[d])) s.decks[d] = []; });
   if (!Array.isArray(s.deck ? [s.deck] : []) || !s.decks[s.deck]) s.deck = Object.keys(s.decks)[0];
-  ['themesOwned', 'petsOwned', 'goals', 'noteOrder', 'charsFav', 'recentChars', 'chatHistory', 'redeemed', 'commandHistory', 'quizHistory', 'milestonesClaimed', 'customSubjects', 'calcHistory'].forEach((k) => { if (!Array.isArray(s[k])) s[k] = []; });
-  ['focusByDate', 'subjectMinutes', 'subjectGoals', 'petEnergy', 'petFed', 'notes', 'planner', 'diary', 'achievements', 'checkins'].forEach((k) => { if (!s[k] || typeof s[k] !== 'object') s[k] = {}; });
+  ['themesOwned', 'petsOwned', 'goals', 'noteOrder', 'charsFav', 'recentChars', 'chatHistory', 'redeemed', 'commandHistory', 'quizHistory', 'milestonesClaimed', 'customSubjects', 'calcHistory', 'missionClaims'].forEach((k) => { if (!Array.isArray(s[k])) s[k] = []; });
+  ['focusByDate', 'subjectMinutes', 'subjectGoals', 'petEnergy', 'petFed', 'notes', 'planner', 'diary', 'achievements', 'checkins', 'streakProtect', 'dailyStats', 'diaryDrafts'].forEach((k) => { if (!s[k] || typeof s[k] !== 'object') s[k] = {}; });
+  s.dailyStats = Object.assign({}, DEFAULT_STATE.dailyStats, s.dailyStats);
   if (typeof s.charCopies !== 'number' || !isFinite(s.charCopies)) s.charCopies = 0;
-  if (s.pageTitle === 'Geekie Study Hub v20.1.0') s.pageTitle = DEFAULT_STATE.pageTitle;
+  s.streakShields = clamp(Number(s.streakShields) || 0, 0, 5);
+  s.xpEarned = Math.max(0, Number(s.xpEarned) || 0);
+  s.coinsEarned = Math.max(0, Number(s.coinsEarned) || 0);
+  if (s.pageTitle === 'Geekie Study Hub v21.0.0' || s.pageTitle === 'Geekie Study Hub v20.1.0') s.pageTitle = DEFAULT_STATE.pageTitle;
   if (s.themesOwned.indexOf('default') === -1) s.themesOwned.unshift('default');
   return s;
 }
 const state = loadState();
 
-function save() {
+/* Gravação com debounce: uma sequência de XP + moedas + nível gera uma
+   única serialização, em vez de várias por clique. */
+let saveTimer = null;
+function saveNow() {
+  clearTimeout(saveTimer);
+  saveTimer = null;
   try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
   catch (e) { console.warn('Geekie: não foi possível salvar (localStorage cheio ou bloqueado).'); }
 }
+function save() {
+  if (saveTimer) return;
+  saveTimer = setTimeout(saveNow, 400);
+}
+function cancelSave() { clearTimeout(saveTimer); saveTimer = null; }
 
 /* ============ 3. LISTAS E METADADOS ============ */
 const TABS = [
@@ -152,8 +179,8 @@ const TABS = [
   { id: 'store', title: 'Loja', icon: 'fa-store', group: 'Progresso', kicker: 'Temas', desc: 'Nove temas, compra com moedas e preview ao vivo.', tips: ['Passe o mouse para prever o tema.', 'Temas comprados ficam salvos para sempre.'] },
   { id: 'titles', title: 'Títulos', icon: 'fa-crown', group: 'Progresso', kicker: 'Status', desc: 'Títulos liberados por XP e equipáveis na topbar.', tips: ['Você mantém o título ao subir de nível.', 'O próximo título mostra quanto falta.'] },
   { id: 'pets', title: 'Pets', icon: 'fa-paw', group: 'Progresso', kicker: 'Companhia', desc: 'Pets com energia, alimentação e renda passiva de moedas.', tips: ['Alimentar custa moedas e mantém o bônus.', 'Cada pet rende um valor diferente por tick.'] },
-  { id: 'journey', title: 'Trilha', icon: 'fa-map', group: 'Progresso', kicker: 'Evolução', desc: 'Níveis, marcos com recompensa e conquistas.', tips: ['Marque marcos para resgatar moedas e XP.', 'Conquistas são automáticas.'] },
-  { id: 'clicker', title: 'Clicker', icon: 'fa-hand-pointer', group: 'Progresso', kicker: 'Energia', desc: 'Gere energia, compre melhorias automáticas e troque por moedas.', tips: ['Melhorias geram energia sozinhas.', '50 de energia viram 5 moedas.'] },
+  { id: 'journey', title: 'Trilha', icon: 'fa-map', group: 'Progresso', kicker: 'Evolução', desc: 'Níveis, marcos com recompensa, conquistas e escudos de sequência.', tips: ['Marque marcos para resgatar moedas e XP.', 'Conquistas são automáticas.', 'Compre escudos para não perder a sequência em um dia corrido.'] },
+  { id: 'clicker', title: 'Clicker', icon: 'fa-hand-pointer', group: 'Progresso', kicker: 'Energia', desc: 'Núcleo com combo, seis melhorias, troca por moedas, auto-troca e prestígio.', tips: ['Cliques rápidos aumentam o combo até x2.', 'Melhorias e prestígio multiplicam a energia por segundo.', 'A energia acumula offline por até 10 minutos.'] },
   { id: 'rewards', title: 'Recompensas', icon: 'fa-gift', group: 'Progresso', kicker: 'Códigos', desc: 'Campanhas com códigos, expiração e histórico de resgates.', tips: ['Cada código vale uma vez por conta.', 'O código não diferencia maiúsculas.'] },
   { id: 'notes', title: 'Notas', icon: 'fa-note-sticky', group: 'Ferramentas', kicker: 'Escrita', desc: 'Notas com busca, tags, autosave e exportação em markdown.', tips: ['Ctrl+S salva a nota atual.', 'Tags ajudam a filtrar pela busca.'] },
   { id: 'ambient', title: 'Sons ambiente', icon: 'fa-headphones', group: 'Ferramentas', kicker: 'Áudio', desc: 'Camadas de som geradas no navegador, com presets e timer.', tips: ['Combine camadas para mascarar o ambiente.', 'O timer reduz o volume até silenciar.'] },
@@ -173,7 +200,8 @@ const GROUPS = ['Hoje', 'Estudo', 'Inteligência', 'Progresso', 'Ferramentas', '
 const LEVELS = [
   { xp: 0, title: 'Novato' }, { xp: 100, title: 'Estudante' }, { xp: 300, title: 'Focado' },
   { xp: 600, title: 'Disciplinado' }, { xp: 1000, title: 'Estrategista' },
-  { xp: 1500, title: 'Mestre' }, { xp: 2200, title: 'Lenda' }, { xp: 3000, title: 'Geekie Supremo' }
+  { xp: 1500, title: 'Mestre' }, { xp: 2200, title: 'Lenda' }, { xp: 3000, title: 'Geekie Supremo' },
+  { xp: 4200, title: 'Lenda Suprema' }, { xp: 5600, title: 'Mítico' }
 ];
 function levelInfo(xp) {
   let cur = LEVELS[0], next = LEVELS[1];
@@ -190,7 +218,9 @@ const THEMES = [
   { id: 'matrix', name: 'Matrix', price: 240, a: '#22c55e', b: '#84cc16' },
   { id: 'galaxy', name: 'Galáxia', price: 280, a: '#a78bfa', b: '#60a5fa' },
   { id: 'candy', name: 'Candy', price: 320, a: '#f472b6', b: '#fda4af' },
-  { id: 'ember', name: 'Brasa', price: 380, a: '#f97316', b: '#ef4444' }
+  { id: 'ember', name: 'Brasa', price: 380, a: '#f97316', b: '#ef4444' },
+  { id: 'aurora', name: 'Aurora', price: 420, a: '#8b5cf6', b: '#22d3ee' },
+  { id: 'sakura', name: 'Sakura', price: 480, a: '#f472b6', b: '#fb7185' }
 ];
 const PETS = [
   { id: 'neko', name: 'Neko', emoji: '🐱', price: 40, income: 1 },
@@ -204,7 +234,9 @@ function subjects() { return SUBJECTS.concat(state.customSubjects); }
 
 /* ============ 4. TOPBAR, TEMA E NAVEGAÇÃO ============ */
 function dayIsActive(key) {
-  return (state.focusByDate[key] || 0) > 0 || !!(state.checkins && state.checkins[key]);
+  return (state.focusByDate[key] || 0) > 0
+    || !!(state.checkins && state.checkins[key])
+    || !!(state.streakProtect && state.streakProtect[key]);
 }
 function computeStreak() {
   let streak = 0;
@@ -213,7 +245,31 @@ function computeStreak() {
   while (dayIsActive(dateKey(d))) { streak++; d = addDays(d, -1); }
   return streak;
 }
+/* Foguinho: cada faixa de sequência aumenta o XP ganho no hub. */
+const STREAK_TIERS = [
+  { days: 30, mult: 1.5, name: 'Inferno', icon: 'fa-fire-flame-curved' },
+  { days: 14, mult: 1.35, name: 'Fogueira', icon: 'fa-fire' },
+  { days: 7, mult: 1.2, name: 'Em chamas', icon: 'fa-fire' },
+  { days: 3, mult: 1.1, name: 'Aquecendo', icon: 'fa-temperature-half' },
+  { days: 0, mult: 1, name: 'Começando', icon: 'fa-seedling' }
+];
+function streakTier(streak) {
+  const n = typeof streak === 'number' ? streak : computeStreak();
+  return STREAK_TIERS.find((t) => n >= t.days) || STREAK_TIERS[STREAK_TIERS.length - 1];
+}
+function nextStreakTier(streak) {
+  const n = typeof streak === 'number' ? streak : computeStreak();
+  return STREAK_TIERS.slice().reverse().find((t) => t.days > n) || null;
+}
+/* Topbar coalescida: várias chamadas no mesmo frame viram uma pintura só. */
+let topbarQueued = false;
 function renderTopbar() {
+  if (topbarQueued) return;
+  topbarQueued = true;
+  const paint = () => { topbarQueued = false; paintTopbar(); };
+  if (window.requestAnimationFrame) requestAnimationFrame(paint); else setTimeout(paint, 16);
+}
+function paintTopbar() {
   const info = levelInfo(state.xp);
   const xpEl = $('#xpCount');
   if (xpEl && xpEl.textContent !== String(state.xp)) bump($('#xpContainer'));
@@ -221,15 +277,30 @@ function renderTopbar() {
   const fill = $('#xpProgressFill');
   if (fill) fill.style.width = (info.next ? clamp(((state.xp - info.cur.xp) / (info.next.xp - info.cur.xp)) * 100, 0, 100) : 100) + '%';
   const nextEl = $('#xpNextTitle');
-  if (nextEl) nextEl.textContent = info.next ? 'Próximo: ' + info.next.title + ' (' + info.next.xp + ' XP)' : 'Nível máximo';
-  ['#coinCount', '#storeCoinCount', '#petCoinCount', '#rewardCoinCount'].forEach((sel) => {
+  const streak = computeStreak();
+  const tier = streakTier(streak);
+  const nextTier = nextStreakTier(streak);
+  if (nextEl) nextEl.textContent = info.next
+    ? 'Próximo: ' + info.next.title + ' (' + info.next.xp + ' XP) · foguinho x' + tier.mult
+    : 'Nível máximo · foguinho x' + tier.mult;
+  const xpBox = $('#xpContainer');
+  if (xpBox) xpBox.title = 'XP total: ' + state.xp + ' · ganho com bônus: ' + (state.xpEarned || 0) + ' · multiplicador de sequência x' + tier.mult;
+  ['#coinCount', '#storeCoinCount', '#petCoinCount', '#rewardCoinCount', '#clickerCoinCount'].forEach((sel) => {
     const el = $(sel);
     if (el) el.textContent = money(state.coins);
   });
-  const streak = computeStreak();
-  if (streak > state.streakBest) state.streakBest = streak;
+  if (streak > state.streakBest && streak > 0) state.streakBest = streak;
   const sEl = $('#streakCount');
   if (sEl) sEl.textContent = streak;
+  const multEl = $('#streakMult');
+  if (multEl) multEl.textContent = 'x' + tier.mult;
+  const pill = $('#streakPill');
+  if (pill) {
+    pill.title = streak + ' dia(s) de sequência · ' + tier.name + ' (x' + tier.mult + ' XP)' +
+      ' · escudos: ' + (state.streakShields || 0) +
+      (nextTier ? ' · faltam ' + (nextTier.days - streak) + ' dia(s) para x' + nextTier.mult : '');
+    pill.dataset.tier = tier.name;
+  }
   const today = state.focusByDate[dateKey()] || 0;
   const study = $('#studyTimeTopbarDisplay');
   if (study) study.textContent = fmtMinutes(today);
@@ -243,23 +314,48 @@ function bump(el) {
   el.classList.add('value-bump');
   setTimeout(() => el.classList.remove('value-bump'), 700);
 }
+function popGain(sel, text) {
+  if (state.motionReduced) return;
+  const el = $(sel);
+  if (!el) return;
+  el.textContent = text;
+  el.classList.remove('show');
+  void el.offsetWidth;
+  el.classList.add('show');
+}
 function addXp(n, silent) {
-  if (!n) return;
+  if (!n) return 0;
+  const raw = Math.round(n);
+  const mult = raw > 0 ? streakTier().mult : 1;
+  const gain = raw > 0 ? Math.max(1, Math.round(raw * mult)) : raw;
   const before = levelInfo(state.xp).cur.title;
-  state.xp = Math.max(0, state.xp + n);
+  state.xp = Math.max(0, state.xp + gain);
+  if (gain > 0) state.xpEarned = (state.xpEarned || 0) + gain;
   const after = levelInfo(state.xp).cur.title;
   if (after !== before) {
     if (!state.title || state.title === before) state.title = after;
-    if (!silent) toast('Novo nível: ' + after + '!', 'fa-arrow-up');
+    const lvl = LEVELS.findIndex((l) => l.title === after);
+    const bonus = 15 + Math.max(0, lvl) * 10;
+    state.coins += bonus;
+    if (!silent) toast('Novo nível: ' + after + '! +' + bonus + ' moedas.', 'fa-arrow-up');
     renderTitles();
     renderJourney();
   }
-  renderTopbar(); renderHoje(); save();
+  if (gain > 0) popGain('#xpPop', '+' + gain);
+  renderTopbar();
+  if (state.currentTab === 'hoje') renderHoje();
+  save();
+  return gain;
 }
 function addCoins(n) {
   if (!n) return;
   state.coins = Math.max(0, state.coins + n);
-  renderTopbar(); renderStore(); renderPets(); save();
+  if (n > 0) state.coinsEarned = (state.coinsEarned || 0) + n;
+  if (n > 0) popGain('#coinPop', '+' + money(n));
+  renderTopbar();
+  if (state.currentTab === 'store') renderStore();
+  if (state.currentTab === 'pets') renderPets();
+  save();
 }
 function addFocus(minutes, subject) {
   minutes = Math.max(0, Math.round(minutes));
@@ -268,10 +364,14 @@ function addFocus(minutes, subject) {
   state.focusByDate[k] = (state.focusByDate[k] || 0) + minutes;
   if (subject) state.subjectMinutes[subject] = (state.subjectMinutes[subject] || 0) + minutes;
   state.sessions += 1;
-  if (state.pet) state.petEnergy[state.pet] = (state.petEnergy[state.pet] || 0) + 1;
-  addXp(minutes * 2);
-  addCoins(1);
-  renderStats(); renderJourney(); renderSubjects(); renderPets(); renderSubjectsTotals();
+  if (state.pet) state.petEnergy[state.pet] = clamp((state.petEnergy[state.pet] || 0) + 2, 0, 100);
+  dailyBump('focus', minutes);
+  addXp(minutes * 2 + (minutes >= 25 ? 6 : 0));
+  addCoins(Math.max(1, Math.round(minutes / 10)));
+  if (state.currentTab === 'stats') renderStats();
+  if (state.currentTab === 'journey') renderJourney();
+  if (state.currentTab === 'subjects') { renderSubjects(); renderSubjectsTotals(); }
+  if (state.currentTab === 'pets') renderPets();
   save();
 }
 function applyTheme(id) {
@@ -395,7 +495,7 @@ function loginGuest() {
   save(); openApp(); toast('Modo convidado: o progresso fica neste navegador.', 'fa-user-secret');
 }
 function logout() {
-  state.session = null; save();
+  state.session = null; saveNow();
   const overlay = $('#loginOverlay'); if (overlay) overlay.hidden = false;
   const app = $('#app'); if (app) app.hidden = true;
   const pass = $('#loginPassword'); if (pass) pass.value = '';
@@ -530,17 +630,19 @@ function renderHoje() {
   const today = state.focusByDate[dateKey()] || 0;
   const goal = 60;
   const sub = $('#hojeSub');
-  if (sub) sub.textContent = today >= goal ? 'Meta diária batida — ' + fmtMinutes(today) + ' de foco. Continue se quiser.' : 'Faltam ' + fmtMinutes(Math.max(0, goal - today)) + ' para bater a meta de hoje.';
+  if (sub) sub.textContent = (today >= goal ? 'Meta diária batida — ' + fmtMinutes(today) + ' de foco. Continue se quiser.' : 'Faltam ' + fmtMinutes(Math.max(0, goal - today)) + ' para bater a meta de hoje.') + ' · foguinho x' + streakTier().mult + ' XP.';
   const focus = $('#hojeFocus'); if (focus) focus.textContent = fmtMinutes(today);
   const gt = $('#hojeGoalText'); if (gt) gt.textContent = goal + 'min';
   const ring = $('#hojeGoalRing');
   if (ring) ring.style.strokeDashoffset = String(415 * (1 - clamp(today / goal, 0, 1)));
   const due = dueCards().length;
-  const openGoals = state.goals.filter((g2) => !g2.done).length;
+  const tier = streakTier();
+  const missions = todayMissionList();
+  const missionsDone = missions.filter((m) => missionClaimed(m.id)).length;
   const cards = [
-    { label: 'Sequência', value: computeStreak() + ' dias', sub: 'recorde ' + state.streakBest, icon: 'fa-fire' },
+    { label: 'Foguinho', value: computeStreak() + ' dias', sub: tier.name + ' · x' + tier.mult + ' XP', icon: 'fa-fire' },
     { label: 'Foco esta semana', value: fmtMinutes(weekFocus()), sub: 'hoje: ' + fmtMinutes(today), icon: 'fa-clock' },
-    { label: 'Metas abertas', value: openGoals, sub: state.goals.filter((x) => x.done).length + ' concluídas', icon: 'fa-list-check' },
+    { label: 'Missões de hoje', value: missionsDone + '/' + missions.length, sub: 'rendem moedas e XP', icon: 'fa-flag-checkered' },
     { label: 'Cards devidos', value: due, sub: Object.keys(state.decks).length + ' baralhos', icon: 'fa-clone' }
   ];
   const cardsBox = $('#hojeCards');
@@ -578,11 +680,156 @@ function renderHoje() {
     ];
     quick.innerHTML = tiles.map((t) => '<button class="quick-tile" type="button" data-goto="' + t.id + '"><i class="fa-solid ' + t.icon + '"></i>' + esc(t.label) + '<span>' + esc(t.sub) + '</span></button>').join('');
   }
+  renderStreakPanel();
+  renderDailyMissions();
 }
 function weekFocus() {
   let total = 0;
   for (let i = 0; i < 7; i++) total += state.focusByDate[dateKey(addDays(new Date(), -i))] || 0;
   return total;
+}
+
+/* ============ 8-B. GAMIFICAÇÃO: FOGUINHO, ESCUDOS E MISSÕES ============ */
+const SHIELD_COST = 90;
+const CHECKIN_MILESTONES = [7, 14, 30, 60, 100];
+const MISSION_POOL = [
+  { id: 'checkin', label: 'Fazer o check-in do dia', icon: 'fa-fire-flame-curved', goal: 1, unit: 'check-in', xp: 10, coins: 4, value: () => (checkinDone() ? 1 : 0) },
+  { id: 'focus20', label: 'Estudar 20 minutos', icon: 'fa-hourglass-half', goal: 20, unit: 'min', xp: 15, coins: 5, value: () => Math.floor(todayFocusLive()) },
+  { id: 'focus45', label: 'Estudar 45 minutos', icon: 'fa-clock', goal: 45, unit: 'min', xp: 30, coins: 10, value: () => Math.floor(todayFocusLive()) },
+  { id: 'cards8', label: 'Revisar 8 flashcards', icon: 'fa-clone', goal: 8, unit: 'cards', xp: 15, coins: 5, value: () => state.dailyStats.cards || 0 },
+  { id: 'quiz3', label: 'Acertar 3 questões do quiz', icon: 'fa-brain', goal: 3, unit: 'acertos', xp: 15, coins: 5, value: () => state.dailyStats.quiz || 0 },
+  { id: 'goal1', label: 'Concluir 1 meta', icon: 'fa-list-check', goal: 1, unit: 'meta', xp: 12, coins: 5, value: () => state.dailyStats.goals || 0 },
+  { id: 'clicks120', label: 'Dar 120 cliques no núcleo', icon: 'fa-hand-pointer', goal: 120, unit: 'cliques', xp: 12, coins: 4, value: () => state.dailyStats.clicks || 0 },
+  { id: 'notes1', label: 'Salvar 1 nota ou diário', icon: 'fa-note-sticky', goal: 1, unit: 'registro', xp: 10, coins: 3, value: () => state.dailyStats.notes || 0 }
+];
+/* Contadores do dia (zerados na virada da data local). */
+function ensureDailyStats() {
+  const today = dateKey();
+  if (!state.dailyStats || state.dailyStats.date !== today) {
+    state.dailyStats = Object.assign({}, DEFAULT_STATE.dailyStats, { date: today });
+  }
+}
+function dailyBump(key, n = 1) {
+  ensureDailyStats();
+  state.dailyStats[key] = (state.dailyStats[key] || 0) + n;
+}
+function dailyValue(key) {
+  ensureDailyStats();
+  return state.dailyStats[key] || 0;
+}
+/* Três missões por dia, escolhidas de forma determinística pela data. */
+function todayMissionList() {
+  let seed = 0;
+  const key = dateKey();
+  for (let i = 0; i < key.length; i++) seed = (seed * 31 + key.charCodeAt(i) + i) % 9973;
+  const pool = MISSION_POOL.slice();
+  const out = [];
+  for (let i = 0; i < 3 && pool.length; i++) {
+    seed = (seed * 9301 + 49297) % 233280;
+    out.push(pool.splice(seed % pool.length, 1)[0]);
+  }
+  return out;
+}
+function missionClaimId(id) { return dateKey() + ':' + id; }
+function missionClaimed(id) { return state.missionClaims.includes(missionClaimId(id)); }
+function claimMission(id) {
+  const m = todayMissionList().find((x) => x.id === id);
+  if (!m) return;
+  if (missionClaimed(id)) return toast('Missão já resgatada hoje.', 'fa-circle-check');
+  if (m.value() < m.goal) return toast('Ainda falta progresso nessa missão.', 'fa-triangle-exclamation', true);
+  state.missionClaims.push(missionClaimId(id));
+  state.missionClaims = state.missionClaims.slice(-80);
+  dailyBump('missions', 1);
+  const xp = addXp(m.xp);
+  addCoins(m.coins);
+  renderDailyMissions();
+  renderStreakPanel();
+  toast('Missão concluída: +' + xp + ' XP e +' + m.coins + ' moedas.', 'fa-flag-checkered');
+  save();
+}
+function renderDailyMissions() {
+  const box = $('#dailyMissions');
+  if (!box) return;
+  const list = todayMissionList();
+  const claimedCount = list.filter((m) => missionClaimed(m.id)).length;
+  const badge = $('#dailyMissionCount');
+  if (badge) badge.textContent = claimedCount + '/' + list.length;
+  box.innerHTML = list.map((m) => {
+    const value = Math.min(m.value(), m.goal);
+    const pct = Math.round((value / m.goal) * 100);
+    const done = value >= m.goal;
+    const claimed = missionClaimed(m.id);
+    return '<div class="mission' + (claimed ? ' claimed' : done ? ' ready' : '') + '">' +
+      '<span class="mission-icon"><i class="fa-solid ' + m.icon + '"></i></span>' +
+      '<div class="mission-main"><span class="mission-title">' + esc(m.label) + '</span>' +
+      '<div class="mission-track"><span style="width:' + pct + '%"></span></div>' +
+      '<span class="mission-sub">' + value + '/' + m.goal + ' ' + esc(m.unit) + ' · +' + m.xp + ' XP · +' + m.coins + ' moedas</span></div>' +
+      '<button class="btn btn-sm ' + (done && !claimed ? 'btn-primary' : 'btn-secondary') + '" type="button" data-mission="' + m.id + '"' + (claimed || !done ? ' disabled' : '') + '>' +
+      (claimed ? 'resgatada' : done ? 'resgatar' : 'em curso') + '</button></div>';
+  }).join('');
+}
+/* Recompensa do check-in cresce com a sequência. */
+function checkinReward(streak) {
+  const s = typeof streak === 'number' ? streak : computeStreak();
+  return { xp: clamp(12 + s * 2, 12, 40), coins: clamp(4 + Math.floor(s / 3) * 2, 4, 14) };
+}
+function checkinMilestoneBonus(streak) {
+  if (!CHECKIN_MILESTONES.includes(streak)) return null;
+  return { xp: streak * 4, coins: streak * 2 };
+}
+function renderStreakPanel() {
+  const box = $('#streakPanel');
+  if (!box) return;
+  const streak = computeStreak();
+  const tier = streakTier(streak);
+  const next = nextStreakTier(streak);
+  const shields = state.streakShields || 0;
+  const done = checkinDone();
+  const live = todayFocusLive();
+  const goal = 60;
+  const pct = Math.round(clamp(live / goal, 0, 1) * 100);
+  box.innerHTML = '<div class="streak-panel-head">' +
+    '<span class="streak-flame"><i class="fa-solid ' + tier.icon + '"></i></span>' +
+    '<div class="streak-panel-copy"><span class="kicker">Foguinho</span><b>' + streak + ' dia(s) · ' + esc(tier.name) + '</b>' +
+    '<span class="streak-panel-sub">Multiplicador x' + tier.mult + ' em todo XP' + (next ? ' · faltam ' + (next.days - streak) + ' dia(s) para x' + next.mult : ' · faixa máxima') + '</span></div>' +
+    '<span class="streak-mult big">x' + tier.mult + '</span></div>' +
+    '<div class="streak-goal"><div class="progress"><span style="width:' + pct + '%"></span></div>' +
+    '<span class="status-text">' + fmtMinutes(live) + ' de ' + goal + ' min hoje</span></div>' +
+    '<div class="streak-actions">' +
+    (done ? '<span class="badge"><i class="fa-solid fa-circle-check"></i> check-in feito</span>' :
+      '<button class="btn btn-primary btn-sm" type="button" data-daily-checkin><i class="fa-solid fa-fire-flame-curved"></i> Check-in de hoje</button>') +
+    '<button class="btn btn-secondary btn-sm" type="button" data-buy-shield><i class="fa-solid fa-shield-halved"></i> Escudo (' + SHIELD_COST + ' moedas)</button>' +
+    '<span class="badge" title="Um escudo protege um único dia sem foco e sem check-in">' + shields + '/5 escudos</span></div>';
+}
+function buyStreakShield() {
+  if ((state.streakShields || 0) >= 5) return toast('Você já tem o limite de 5 escudos.', 'fa-shield-halved');
+  if (state.coins < SHIELD_COST) return toast('Faltam ' + (SHIELD_COST - state.coins) + ' moedas.', 'fa-triangle-exclamation', true);
+  state.coins -= SHIELD_COST;
+  state.streakShields = (state.streakShields || 0) + 1;
+  saveNow();
+  renderTopbar(); renderStreakPanel(); renderJourney();
+  if (state.currentTab === 'stats') renderStats();
+  toast('Escudo comprado: sua sequência está protegida.', 'fa-shield-halved');
+}
+/* Consome um escudo quando ontem ficou sem foco e sem check-in. */
+function applyStreakShield() {
+  if (!(state.streakShields > 0) || !state.streakBest) return;
+  const y = dateKey(addDays(new Date(), -1));
+  const before = dateKey(addDays(new Date(), -2));
+  if (dayIsActive(y) || !dayIsActive(before)) return;
+  state.streakProtect[y] = Date.now();
+  state.streakShields -= 1;
+  state.shieldsUsed = (state.shieldsUsed || 0) + 1;
+  saveNow();
+  setTimeout(() => toast('Escudo usado: ontem foi protegido e a sequência continua.', 'fa-shield-halved'), 900);
+}
+function bindGamification() {
+  document.addEventListener('click', (e) => {
+    const m = e.target.closest('[data-mission]');
+    if (m) { claimMission(m.dataset.mission); return; }
+    if (e.target.closest('[data-daily-checkin]')) { doDailyCheckin(); return; }
+    if (e.target.closest('[data-buy-shield]')) { buyStreakShield(); return; }
+  });
 }
 
 /* ============ 9. CHAT IA ============ */
@@ -881,6 +1128,7 @@ function saveNote(silent) {
   }
   state.notes[id] = Object.assign({}, state.notes[id], { title: title.trim() || 'Sem título', content, tags, updatedAt: Date.now() });
   state.currentNote = id;
+  if (!silent) dailyBump('notes', 1);
   save();
   if (silent) { renderNotes(); return; }
   renderNotes();
@@ -902,7 +1150,7 @@ function deleteNote() {
 }
 function bindNotes() {
   renderNotes();
-  $('#noteSearch') && $('#noteSearch').addEventListener('input', renderNotes);
+  $('#noteSearch') && $('#noteSearch').addEventListener('input', debounce(renderNotes, 130));
   $('#noteList') && $('#noteList').addEventListener('click', (e) => {
     const b = e.target.closest('[data-note]');
     if (!b) return;
@@ -923,6 +1171,17 @@ function bindNotes() {
     toast('Arquivo .md gerado.', 'fa-file-arrow-down');
   });
   $('#noteDeleteBtn') && $('#noteDeleteBtn').addEventListener('click', deleteNote);
+  $('#noteDuplicateBtn') && $('#noteDuplicateBtn').addEventListener('click', () => {
+    const id = state.currentNote;
+    if (!id || !state.notes[id]) return toast('Nenhuma nota selecionada.', 'fa-triangle-exclamation', true);
+    const src = state.notes[id];
+    const copyId = uid();
+    state.notes[copyId] = Object.assign({}, src, { title: (src.title || 'Sem título') + ' (cópia)', pinned: false, updatedAt: Date.now() });
+    state.noteOrder.unshift(copyId);
+    state.currentNote = copyId;
+    save(); renderNotes();
+    toast('Nota duplicada.', 'fa-clone');
+  });
   $('#notePinBtn') && $('#notePinBtn').addEventListener('click', () => {
     const id = state.currentNote;
     if (!id || !state.notes[id]) return toast('Nenhuma nota selecionada.', 'fa-triangle-exclamation', true);
@@ -1050,7 +1309,14 @@ function renderTimer() {
   pomoRender();
 }
 function bindPomodoro() {
-  $$('#pomoModes .chip').forEach((c) => c.addEventListener('click', () => pomoSetMode(c.dataset.mode)));
+  $$('#pomoModes [data-mode]').forEach((c) => c.addEventListener('click', () => pomoSetMode(c.dataset.mode)));
+  $$('#pomoModes [data-preset]').forEach((c) => c.addEventListener('click', () => {
+    const preset = c.dataset.preset;
+    if (preset === '50') { state.pomoConfig.focus = 50; state.pomoConfig.short = 10; }
+    if (preset === '90') { state.pomoConfig.focus = 90; state.pomoConfig.short = 15; }
+    save(); pomoSetMode('focus'); renderTimer();
+    toast('Ciclo ' + state.pomoConfig.focus + '/' + state.pomoConfig.short + ' configurado.', 'fa-sliders');
+  }));
   $('#pomoStartBtn') && $('#pomoStartBtn').addEventListener('click', pomoStart);
   $('#pomoPauseBtn') && $('#pomoPauseBtn').addEventListener('click', pomoPause);
   $('#pomoResetBtn') && $('#pomoResetBtn').addEventListener('click', pomoReset);
@@ -1064,27 +1330,37 @@ function bindPomodoro() {
   $('#pomoSound') && $('#pomoSound').addEventListener('change', (e) => { state.pomoConfig.sound = e.target.checked; save(); });
   $('#pomoSubject') && $('#pomoSubject').addEventListener('change', (e) => { state.pomoConfig.subject = e.target.value; save(); });
   renderTimer();
-  setInterval(pomoBeat, 500);
+  setInterval(pomoBeat, 1000);
 }
 
 /* ============ 12. METAS ============ */
 let goalFilter = 'all';
+let goalQuery = '';
+let goalSort = 'due';
+const PRIORITY_ORDER = { alta: 0, media: 1, baixa: 2 };
 function renderGoals() {
   const box = $('#goalList');
   if (!box) return;
   const today = dateKey();
+  const q = goalQuery.toLowerCase().trim();
   const list = state.goals.filter((g) => {
+    if (q && !((g.text || '') + ' ' + (g.subject || '')).toLowerCase().includes(q)) return false;
     if (goalFilter === 'open') return !g.done;
     if (goalFilter === 'done') return g.done;
     if (goalFilter === 'late') return !g.done && g.due && g.due < today;
     return true;
-  }).sort((a, b) => (a.done ? 1 : 0) - (b.done ? 1 : 0) || (a.due || '9999').localeCompare(b.due || '9999'));
+  }).sort((a, b) => {
+    if (a.done !== b.done) return (a.done ? 1 : 0) - (b.done ? 1 : 0);
+    if (goalSort === 'priority') return (PRIORITY_ORDER[a.priority] ?? 1) - (PRIORITY_ORDER[b.priority] ?? 1);
+    if (goalSort === 'created') return (b.createdAt || 0) - (a.createdAt || 0);
+    return (a.due || '9999').localeCompare(b.due || '9999');
+  });
   const done = state.goals.filter((g) => g.done).length;
   const pct = state.goals.length ? (done / state.goals.length) * 100 : 0;
   const fill = $('#goalProgressFill'); if (fill) fill.style.width = pct + '%';
   const label = $('#goalProgressLabel'); if (label) label.textContent = done + ' de ' + state.goals.length;
   if (!list.length) {
-    box.innerHTML = '<div class="empty"><i class="fa-solid fa-seedling"></i>' + (state.goals.length ? 'Nada com esse filtro.' : 'Nenhuma meta ainda. Comece com algo pequeno e específico.') + '</div>';
+    box.innerHTML = '<div class="empty"><i class="fa-solid fa-seedling"></i>' + (state.goals.length ? (q ? 'Nenhuma meta com “' + esc(goalQuery) + '”.' : 'Nada com esse filtro.') : 'Nenhuma meta ainda. Comece com algo pequeno e específico.') + '</div>';
     return;
   }
   box.innerHTML = list.map((g) => {
@@ -1113,12 +1389,21 @@ function toggleGoal(id) {
   if (!g) return;
   g.done = !g.done;
   g.doneAt = g.done ? Date.now() : null;
-  if (g.done) { state.totalGoalsDone += 1; addXp(8); addCoins(2); toast('Meta concluída: +8 XP, +2 moedas.', 'fa-check'); }
+  if (g.done) {
+    state.totalGoalsDone += 1;
+    dailyBump('goals', 1);
+    addXp(8); addCoins(2);
+    toast('Meta concluída: +8 XP, +2 moedas.', 'fa-check');
+  } else {
+    state.totalGoalsDone = Math.max(0, state.totalGoalsDone - 1);
+  }
   save(); renderGoals(); renderHoje();
 }
 function bindGoals() {
   renderGoals();
   $('#goalForm') && $('#goalForm').addEventListener('submit', addGoal);
+  $('#goalSearch') && $('#goalSearch').addEventListener('input', debounce((e) => { goalQuery = e.target.value; renderGoals(); }, 120));
+  $('#goalSort') && $('#goalSort').addEventListener('change', (e) => { goalSort = e.target.value; renderGoals(); });
   $('#goalFilters') && $('#goalFilters').addEventListener('click', (e) => {
     const chip = e.target.closest('.chip');
     if (!chip) return;
@@ -1127,6 +1412,7 @@ function bindGoals() {
     renderGoals();
   });
   $('#goalList') && $('#goalList').addEventListener('click', (e) => {
+    e.__goalHandled = true;
     const t = e.target.closest('[data-goal-toggle]');
     if (t) return toggleGoal(t.dataset.goalToggle);
     const d = e.target.closest('[data-goal-del]');
@@ -1154,7 +1440,7 @@ function renderGoalSubjects() {
 }
 
 /* ============ 13. FLASHCARDS ============ */
-const flash = { queue: [], idx: 0, flipped: false, reviewed: 0 };
+const flash = { queue: [], idx: 0, flipped: false, reviewed: 0, reverse: false };
 function dueCards(deck) {
   const today = dateKey();
   const out = [];
@@ -1169,7 +1455,7 @@ function buildFlashQueue() {
   const cards = (state.decks[deck] || []).slice();
   const today = dateKey();
   const due = cards.filter((c) => !c.due || c.due <= today);
-  flash.queue = (due.length ? due : cards).slice();
+  flash.queue = shuffle(due.length ? due : cards);
   flash.idx = 0;
   flash.flipped = false;
   flash.reviewed = 0;
@@ -1185,8 +1471,11 @@ function renderFlashcards() {
   if (!flash.queue.length) buildFlashQueue();
   const card = currentFlash();
   const q = $('#flashQuestion'); const a = $('#flashAnswer');
-  if (q) q.textContent = card ? card.q : 'Nenhum card neste baralho';
-  if (a) a.textContent = card ? card.a : 'Crie um card para começar.';
+  if (q) q.textContent = card ? (flash.reverse ? card.a : card.q) : 'Nenhum card neste baralho';
+  if (a) a.textContent = card ? (flash.reverse ? card.q : card.a) : 'Crie um card para começar.';
+  const ft = $('#flashFrontTag'); if (ft) ft.textContent = flash.reverse ? 'Resposta' : 'Pergunta';
+  const bt = $('#flashBackTag'); if (bt) bt.textContent = flash.reverse ? 'Pergunta' : 'Resposta';
+  const rev = $('#flashReverse'); if (rev) rev.checked = !!flash.reverse;
   const box = $('#flashcard'); if (box) box.classList.toggle('flipped', flash.flipped);
   const stats = $('#flashStats');
   if (stats) stats.textContent = flash.reviewed + ' revisões nesta rodada · ' + flash.queue.length + ' na fila';
@@ -1221,6 +1510,7 @@ function rateFlash(rating) {
   c.reps = (c.reps || 0) + 1;
   c.due = dateKey(addDays(today, c.interval));
   state.flashStats[rating] = (state.flashStats[rating] || 0) + 1;
+  dailyBump('cards', 1);
   flash.reviewed += 1;
   flash.idx += 1;
   flash.flipped = false;
@@ -1247,6 +1537,12 @@ function bindFlashcards() {
   buildFlashQueue(); renderFlashcards();
   $('#flashcard') && $('#flashcard').addEventListener('click', flipFlash);
   $('#flashcard') && $('#flashcard').addEventListener('keydown', (e) => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); flipFlash(); } });
+  $('#flashReverse') && $('#flashReverse').addEventListener('change', (e) => {
+    flash.reverse = e.target.checked;
+    flash.flipped = false;
+    renderFlashcards();
+    toast(flash.reverse ? 'Modo reverso: resposta primeiro.' : 'Modo normal: pergunta primeiro.', 'fa-arrows-rotate');
+  });
   $$('.flash-actions [data-rating]').forEach((b) => b.addEventListener('click', () => rateFlash(b.dataset.rating)));
   $('#deckSelect') && $('#deckSelect').addEventListener('change', (e) => { state.deck = e.target.value; buildFlashQueue(); renderFlashcards(); save(); });
   $('#flashAddBtn') && $('#flashAddBtn').addEventListener('click', addCard);
@@ -1356,7 +1652,7 @@ const QUIZ_BANK = {
     { q: '"I have lived here ___ 2019." Qual preposição?', o: ['for', 'since', 'from', 'at'], a: 1, why: 'Since marca ponto de início; for marca duração.' }
   ]
 };
-const quizRun = { list: [], idx: 0, score: 0, wrong: [], timer: null, left: 0, active: false };
+const quizRun = { list: [], idx: 0, score: 0, wrong: [], timer: null, left: 0, active: false, combo: 0, bestCombo: 0 };
 function shuffle(arr) {
   const a = arr.slice();
   for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
@@ -1368,7 +1664,7 @@ function startQuiz() {
   const bank = QUIZ_BANK[subject] || [];
   if (!bank.length) return toast('Sem perguntas para essa matéria.', 'fa-triangle-exclamation', true);
   quizRun.list = shuffle(bank).slice(0, Math.min(count, bank.length)).map((q) => ({ ...q, options: shuffle(q.o.map((text, i) => ({ text, correct: i === q.a }))) }));
-  quizRun.idx = 0; quizRun.score = 0; quizRun.wrong = []; quizRun.active = true;
+  quizRun.idx = 0; quizRun.score = 0; quizRun.wrong = []; quizRun.active = true; quizRun.combo = 0; quizRun.bestCombo = 0;
   const setup = $('#quizSetup'); if (setup) setup.hidden = true;
   const stage = $('#quizStage'); if (stage) stage.hidden = false;
   const rev = $('#quizReviewBtn'); if (rev) rev.hidden = true;
@@ -1379,6 +1675,11 @@ function renderQuizQuestion() {
   if (!q) return finishQuiz();
   const prog = $('#quizProgressLabel'); if (prog) prog.textContent = 'Pergunta ' + (quizRun.idx + 1) + ' de ' + quizRun.list.length;
   const score = $('#quizScoreLabel'); if (score) score.textContent = quizRun.score + ' acertos';
+  const combo = $('#quizCombo');
+  if (combo) {
+    combo.textContent = quizRun.combo > 1 ? 'combo x' + quizRun.combo : 'sem combo';
+    combo.classList.toggle('on', quizRun.combo > 1);
+  }
   const fill = $('#quizProgressFill'); if (fill) fill.style.width = (quizRun.idx / quizRun.list.length * 100) + '%';
   const question = $('#quizQuestion'); if (question) question.textContent = q.q;
   const opts = $('#quizOptions');
@@ -1413,13 +1714,29 @@ function answerQuiz(i) {
   });
   const fb = $('#quizFeedback');
   const ok = i === correctIndex;
-  if (ok) quizRun.score += 1; else quizRun.wrong.push({ q: q.q, why: q.why, answer: q.options[correctIndex].text });
+  let comboBonus = 0;
+  if (ok) {
+    quizRun.score += 1;
+    quizRun.combo = (quizRun.combo || 0) + 1;
+    quizRun.bestCombo = Math.max(quizRun.bestCombo || 0, quizRun.combo);
+    comboBonus = quizRun.combo >= 3 ? Math.min(5, quizRun.combo - 2) : 0;
+    dailyBump('quiz', 1);
+  } else {
+    quizRun.wrong.push({ q: q.q, why: q.why, answer: q.options[correctIndex].text });
+    quizRun.combo = 0;
+  }
   if (fb) {
     fb.className = 'quiz-feedback ' + (ok ? 'ok' : 'bad');
-    fb.textContent = (ok ? '✔ Correto. ' : i === -1 ? '⏱ Tempo esgotado. ' : '✘ Não é essa. ') + q.why;
+    fb.textContent = (ok ? '✔ Correto. ' : i === -1 ? '⏱ Tempo esgotado. ' : '✘ Não é essa. ') + q.why +
+      (comboBonus ? ' · combo x' + quizRun.combo + ' (+' + comboBonus + ' XP)' : '');
   }
-  if (ok) { addXp(5); beep(760, 0.1); } else beep(240, 0.12, 'triangle');
+  if (ok) { addXp(5 + comboBonus); beep(760, 0.1); } else beep(240, 0.12, 'triangle');
   const score = $('#quizScoreLabel'); if (score) score.textContent = quizRun.score + ' acertos';
+  const comboEl = $('#quizCombo');
+  if (comboEl) {
+    comboEl.textContent = quizRun.combo > 1 ? 'combo x' + quizRun.combo : 'sem combo';
+    comboEl.classList.toggle('on', quizRun.combo > 1);
+  }
   setTimeout(() => {
     quizRun.idx += 1;
     if (quizRun.idx >= quizRun.list.length) finishQuiz();
@@ -1437,7 +1754,8 @@ function finishQuiz() {
   if (quizRun.score > state.quizBest) state.quizBest = quizRun.score;
   state.quizHistory.unshift({ at: Date.now(), score: quizRun.score, total, subject: (($('#quizSubject') || {}).value) || '' });
   state.quizHistory = state.quizHistory.slice(0, 20);
-  if (pct >= 60) { const bonus = Math.round(pct / 20); addCoins(bonus); }
+  const bonus = (pct >= 60 ? Math.round(pct / 20) : 0) + Math.floor((quizRun.bestCombo || 0) / 5);
+  if (bonus) addCoins(bonus);
   save(); renderQuizBest();
   const rev = $('#quizReviewBtn'); if (rev) { rev.hidden = !quizRun.wrong.length; rev.dataset.tab = 'review'; }
   if (quizRun.wrong.length) {
@@ -1450,7 +1768,7 @@ function finishQuiz() {
         quizRun.wrong.map((w) => '• <b>' + esc(w.q) + '</b> → ' + esc(w.answer) + ' <i>(' + esc(w.why) + ')</i>').join('<br>');
     }
   } else {
-    toast('Quiz perfeito! ' + quizRun.score + '/' + total, 'fa-trophy');
+    toast('Quiz perfeito! ' + quizRun.score + '/' + total + ' · combo máx. x' + (quizRun.bestCombo || 0), 'fa-trophy');
   }
   renderHoje();
 }
@@ -1556,7 +1874,7 @@ function bindSubjects() {
     save(); renderSubjects(); renderGoalSubjects(); renderTimer();
     toast('Matéria adicionada.', 'fa-plus');
   });
-  setInterval(subjectTick, 500);
+  setInterval(subjectTick, 1000);
 }
 
 /* ============ 16. PLANNER ============ */
@@ -1567,8 +1885,9 @@ function subjectColor(name) {
   if (idx < 0) return 'hsl(160 70% 55%)';
   return 'hsl(' + ((idx * 47) % 360) + ' 72% 58%)';
 }
+let plannerOffset = 0;
 function plannerDays() {
-  const start = startOfWeek(new Date());
+  const start = addDays(startOfWeek(new Date()), plannerOffset * 7);
   return Array.from({ length: 7 }, (_, i) => addDays(start, i));
 }
 function renderPlanner() {
@@ -1592,11 +1911,18 @@ function renderPlanner() {
   const label = $('#plannerWeekLabel');
   if (label) {
     const a = days[0], b = days[6];
-    label.textContent = a.getDate() + '/' + pad(a.getMonth() + 1) + ' – ' + b.getDate() + '/' + pad(b.getMonth() + 1);
+    const when = plannerOffset === 0 ? 'Semana atual' : plannerOffset < 0 ? (plannerOffset === -1 ? 'Semana passada' : Math.abs(plannerOffset) + ' semanas atrás') : (plannerOffset === 1 ? 'Próxima semana' : 'Em ' + plannerOffset + ' semanas');
+    label.textContent = when + ' · ' + a.getDate() + '/' + pad(a.getMonth() + 1) + ' – ' + b.getDate() + '/' + pad(b.getMonth() + 1);
   }
+  const prev = $('#plannerPrevBtn'); if (prev) prev.disabled = plannerOffset <= -12;
+  const next = $('#plannerNextBtn'); if (next) next.disabled = plannerOffset >= 12;
+  const todayBtn = $('#plannerTodayBtn'); if (todayBtn) todayBtn.classList.toggle('active', plannerOffset === 0);
 }
 function bindPlanner() {
   renderPlanner();
+  $('#plannerPrevBtn') && $('#plannerPrevBtn').addEventListener('click', () => { plannerOffset = clamp(plannerOffset - 1, -12, 12); renderPlanner(); });
+  $('#plannerNextBtn') && $('#plannerNextBtn').addEventListener('click', () => { plannerOffset = clamp(plannerOffset + 1, -12, 12); renderPlanner(); });
+  $('#plannerTodayBtn') && $('#plannerTodayBtn').addEventListener('click', () => { plannerOffset = 0; renderPlanner(); });
   $('#plannerGrid') && $('#plannerGrid').addEventListener('click', (e) => {
     const cell = e.target.closest('.planner-cell');
     if (!cell) return;
@@ -1646,10 +1972,10 @@ function bindPlanner() {
 /* ============ 17. ESTATÍSTICAS ============ */
 let statsDays = 7;
 const STATS_GOAL = 60;
-const CHECKIN_REWARD = { xp: 12, coins: 4 };
 
 function dayActiveKey(key) {
-  return (state.focusByDate[key] || 0) > 0 || !!(state.checkins && state.checkins[key]);
+  return (state.focusByDate[key] || 0) > 0 || !!(state.checkins && state.checkins[key])
+    || !!(state.streakProtect && state.streakProtect[key]);
 }
 function activeDaysSet() {
   const set = new Set();
@@ -1667,6 +1993,7 @@ function seriesFocus(days) {
       label: days <= 7 ? WEEK[d.getDay()] : d.getDate() + '/' + (d.getMonth() + 1),
       minutes: state.focusByDate[key] || 0,
       checkin: !!(state.checkins && state.checkins[key]),
+      protected: !!(state.streakProtect && state.streakProtect[key]),
       date: d
     });
   }
@@ -1712,12 +2039,13 @@ function renderStatsHero() {
   const meta = $('#statsStreakMeta');
   if (meta) meta.textContent = streak === 1 ? 'dia em sequência' : 'dias em sequência';
   const status = $('#statsCheckinStatus');
+  const reward = checkinReward(streak);
   if (status) {
     const at = state.checkins[key];
     status.textContent = done
       ? 'Check-in registrado' + (at ? ' às ' + new Date(at).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }) : '') +
-        ' · +' + CHECKIN_REWARD.xp + ' XP e +' + CHECKIN_REWARD.coins + ' moedas creditados.'
-      : 'O check-in mantém sua sequência viva mesmo em dias sem foco cronometrado.';
+        ' · ' + computeStreak() + ' dia(s) de foguinho · multiplicador x' + streakTier().mult + ' ativo.'
+      : 'Check-in de hoje rende +' + reward.xp + ' XP e +' + reward.coins + ' moedas (cresce com a sequência) e mantém o foguinho vivo.';
   }
   const dots = $('#statsWeekDots');
   if (dots) {
@@ -1731,6 +2059,15 @@ function renderStatsHero() {
     }
     dots.innerHTML = html;
   }
+  const shieldCount = $('#statsShieldCount');
+  if (shieldCount) shieldCount.textContent = (state.streakShields || 0) + '/5 escudos';
+  const shieldBtn = $('#statsShieldBtn');
+  if (shieldBtn) {
+    shieldBtn.disabled = (state.streakShields || 0) >= 5;
+    shieldBtn.title = 'Um escudo protege um dia sem foco e sem check-in · ' + SHIELD_COST + ' moedas';
+  }
+  const base = $('#statsCheckinNote');
+  if (base) base.textContent = 'Check-in: +' + reward.xp + ' XP · +' + reward.coins + ' moedas hoje · foguinho x' + streakTier().mult;
 }
 
 function renderLiveWeek() {
@@ -1800,11 +2137,14 @@ function renderStats() {
   renderStatsHero();
   const series = seriesFocus(statsDays);
   const total = series.reduce((a, b) => a + b.minutes, 0);
-  const activeRange = series.filter((x) => x.minutes > 0 || x.checkin).length;
+  const activeRange = series.filter((x) => dayActiveKey(x.key)).length;
   const today = state.focusByDate[dateKey()] || 0;
   const streak = computeStreak();
   const best = Math.max(state.streakBest, streak);
   const activeTotal = activeDaysSet().size;
+  let prevTotal = 0;
+  for (let i = statsDays; i < statsDays * 2; i++) prevTotal += state.focusByDate[dateKey(addDays(new Date(), -i))] || 0;
+  const deltaPct = prevTotal ? Math.round(((total - prevTotal) / prevTotal) * 100) : (total ? 100 : 0);
   const cards = [
     { id: 'scStreak', label: 'Sequência', value: streak + (streak === 1 ? ' dia' : ' dias'), sub: 'recorde ' + best, icon: 'fa-fire', tone: 'fire', live: true },
     { id: 'scActive', label: 'Dias ativos', value: activeTotal, sub: activeRange + ' nos últimos ' + statsDays + ' dias', icon: 'fa-calendar-check', tone: 'active' },
@@ -1813,7 +2153,9 @@ function renderStats() {
     { label: 'Foco total', value: fmtMinutes(totalFocusAll()), sub: 'desde o primeiro registro', icon: 'fa-hourglass-half' },
     { label: 'Sessões', value: state.sessions, sub: 'pomodoros: ' + state.pomoSessions, icon: 'fa-stopwatch' },
     { label: 'Metas concluídas', value: state.totalGoalsDone, sub: 'de ' + state.goals.length + ' criadas', icon: 'fa-list-check' },
-    { label: 'Cards revisados', value: Object.values(state.flashStats).reduce((a, b) => a + b, 0), sub: 'todas as rodadas', icon: 'fa-clone' }
+    { label: 'Cards revisados', value: Object.values(state.flashStats).reduce((a, b) => a + b, 0), sub: 'todas as rodadas', icon: 'fa-clone' },
+    { label: 'Escudos', value: (state.streakShields || 0) + '/5', sub: (state.shieldsUsed || 0) + ' usado(s) · protege 1 dia', icon: 'fa-shield-halved' },
+    { label: 'Vs. período anterior', value: (deltaPct >= 0 ? '+' : '') + deltaPct + '%', sub: 'anterior: ' + fmtMinutes(prevTotal), icon: 'fa-arrow-trend-up' }
   ];
   const box = $('#statsCards');
   if (box) box.innerHTML = cards.map((c) => '<div class="stat-card' + (c.tone ? ' tone-' + c.tone : '') + '"' + (c.id ? ' id="' + c.id + '"' : '') + '>' +
@@ -1836,9 +2178,10 @@ function renderStats() {
       const d = addDays(new Date(), -i);
       const k = dateKey(d);
       const m = state.focusByDate[k] || 0;
-      const on = m > 0 || dayActiveKey(k);
+      const on = dayActiveKey(k);
       const lvl = m >= 120 ? 4 : m >= 60 ? 3 : m >= 25 ? 2 : on ? 1 : 0;
-      cells += '<span class="hm-cell l' + lvl + '" title="' + prettyDate(k) + ': ' + fmtMinutes(m) + (on && !m ? ' · check-in' : '') + '"></span>';
+      const why = (state.streakProtect && state.streakProtect[k]) ? ' · escudo' : (state.checkins && state.checkins[k]) ? ' · check-in' : '';
+      cells += '<span class="hm-cell l' + lvl + '" title="' + prettyDate(k) + ': ' + fmtMinutes(m) + why + '"></span>';
     }
     hm.innerHTML = cells;
   }
@@ -1858,17 +2201,22 @@ function doDailyCheckin() {
     return;
   }
   state.checkins[key] = Date.now();
+  dailyBump('checkin', 1);
   const streak = computeStreak();
   if (streak > state.streakBest) state.streakBest = streak;
   save();
-  addXp(CHECKIN_REWARD.xp);
-  addCoins(CHECKIN_REWARD.coins);
+  const reward = checkinReward(streak);
+  const xpGain = addXp(reward.xp);
+  addCoins(reward.coins);
+  const bonus = checkinMilestoneBonus(streak);
+  if (bonus) { addXp(bonus.xp); addCoins(bonus.coins); }
   renderStats();
   renderTopbar();
   renderHoje();
   renderJourney();
   bump($('#statsCheckinBtn'));
-  toast('Check-in feito! +' + CHECKIN_REWARD.xp + ' XP e +' + CHECKIN_REWARD.coins + ' moedas.', 'fa-fire');
+  toast('Check-in feito! +' + xpGain + ' XP e +' + reward.coins + ' moedas.' +
+    (bonus ? ' Bônus de ' + streak + ' dias: +' + bonus.xp + ' XP e +' + bonus.coins + ' moedas!' : ''), 'fa-fire');
 }
 
 function bindStats() {
@@ -1888,6 +2236,9 @@ function bindStats() {
     rows.push(['sequencia_atual', computeStreak()]);
     rows.push(['recorde_sequencia', Math.max(state.streakBest, computeStreak())]);
     rows.push(['dias_ativos_total', activeDaysSet().size]);
+    rows.push(['escudos_disponiveis', state.streakShields || 0]);
+    rows.push(['escudos_usados', state.shieldsUsed || 0]);
+    rows.push(['multiplicador_foguinho', streakTier().mult]);
     download('geekie-estatisticas.csv', rows.map((r) => r.join(';')).join('\n'), 'text/csv;charset=utf-8');
     toast('CSV exportado.', 'fa-file-csv');
   });
@@ -1925,8 +2276,19 @@ function renderDiary() {
   const entry = state.diary[key];
   const text = $('#diaryText');
   if (text && entry && !text.dataset.dirty) { text.value = entry.text || ''; diaryMood = entry.mood || '🙂'; }
+  else if (text && !entry && !text.dataset.dirty) {
+    text.value = (state.diaryDrafts && state.diaryDrafts[key]) || '';
+  }
   if (moods) $$('#diaryMoods .chip').forEach((c) => c.classList.toggle('active', c.dataset.mood === diaryMood));
 }
+const saveDiaryDraft = debounce(() => {
+  const key = (($('#diaryDate') || {}).value) || dateKey();
+  const value = (($('#diaryText') || {}).value) || '';
+  state.diaryDrafts = state.diaryDrafts || {};
+  if (value.trim()) state.diaryDrafts[key] = value;
+  else delete state.diaryDrafts[key];
+  save();
+}, 500);
 function bindDiary() {
   renderDiary();
   $('#diaryMoods') && $('#diaryMoods').addEventListener('click', (e) => {
@@ -1943,11 +2305,13 @@ function bindDiary() {
     ta.focus();
     ta.dataset.dirty = '1';
   });
-  $('#diaryText') && $('#diaryText').addEventListener('input', (e) => { e.target.dataset.dirty = '1'; });
+  $('#diaryText') && $('#diaryText').addEventListener('input', (e) => { e.target.dataset.dirty = '1'; saveDiaryDraft(); });
   $('#diaryDate') && $('#diaryDate').addEventListener('change', () => {
     const ta = $('#diaryText'); if (ta) { ta.dataset.dirty = ''; ta.value = ''; }
-    const entry = state.diary[(($('#diaryDate') || {}).value)];
+    const picked = (($('#diaryDate') || {}).value);
+    const entry = state.diary[picked];
     if (entry) { if (ta) ta.value = entry.text || ''; diaryMood = entry.mood || '🙂'; }
+    else if (ta) { ta.value = (state.diaryDrafts && state.diaryDrafts[picked]) || ''; }
     renderDiary();
   });
   $('#diarySaveBtn') && $('#diarySaveBtn').addEventListener('click', () => {
@@ -1955,11 +2319,13 @@ function bindDiary() {
     const text = (($('#diaryText') || {}).value || '').trim();
     if (!text) return toast('Escreva algo antes de salvar.', 'fa-triangle-exclamation', true);
     state.diary[key] = { text, mood: diaryMood, at: Date.now() };
+    if (state.diaryDrafts) delete state.diaryDrafts[key];
+    dailyBump('notes', 1);
     const ta = $('#diaryText'); if (ta) ta.dataset.dirty = '';
     save(); renderDiary(); addXp(3);
     toast('Entrada de ' + prettyDate(key) + ' salva.', 'fa-book');
   });
-  $('#diarySearch') && $('#diarySearch').addEventListener('input', renderDiary);
+  $('#diarySearch') && $('#diarySearch').addEventListener('input', debounce(renderDiary, 130));
   $('#diaryList') && $('#diaryList').addEventListener('click', (e) => {
     const load = e.target.closest('[data-diary-load]');
     if (load) {
@@ -2126,7 +2492,11 @@ const MILESTONES = [
   { id: 'sessions10', label: '10 sessões registradas', type: 'sessions', goal: 10, coins: 25, xp: 20 },
   { id: 'goals5', label: '5 metas concluídas', type: 'goals', goal: 5, coins: 30, xp: 25 },
   { id: 'streak3', label: 'Sequência de 3 dias', type: 'streak', goal: 3, coins: 25, xp: 20 },
-  { id: 'cards20', label: '20 revisões de flashcard', type: 'cards', goal: 20, coins: 30, xp: 25 }
+  { id: 'cards20', label: '20 revisões de flashcard', type: 'cards', goal: 20, coins: 30, xp: 25 },
+  { id: 'checkins15', label: '15 check-ins registrados', type: 'checkins', goal: 15, coins: 40, xp: 30 },
+  { id: 'missions6', label: '6 missões diárias resgatadas', type: 'missions', goal: 6, coins: 35, xp: 25 },
+  { id: 'clicker5000', label: '5.000 de energia gerada', type: 'clicker', goal: 5000, coins: 45, xp: 35 },
+  { id: 'prestige1', label: 'Primeiro prestígio do núcleo', type: 'prestige', goal: 1, coins: 60, xp: 50 }
 ];
 const ACHIEVEMENTS = [
   { id: 'first_focus', label: 'Primeiro foco registrado', icon: 'fa-play', check: () => state.sessions > 0 },
@@ -2136,7 +2506,12 @@ const ACHIEVEMENTS = [
   { id: 'theme_collector', label: 'Três temas na coleção', icon: 'fa-palette', check: () => state.themesOwned.length >= 3 },
   { id: 'pet_lover', label: 'Um pet adotado', icon: 'fa-paw', check: () => state.petsOwned.length > 0 },
   { id: 'command_user', label: 'Usou um comando de terminal', icon: 'fa-terminal', check: () => state.commandHistory.length > 0 },
-  { id: 'redeemer', label: 'Resgatou um código', icon: 'fa-gift', check: () => state.redeemed.length > 0 }
+  { id: 'redeemer', label: 'Resgatou um código', icon: 'fa-gift', check: () => state.redeemed.length > 0 },
+  { id: 'streak14', label: 'Duas semanas de foguinho', icon: 'fa-fire', check: () => state.streakBest >= 14 },
+  { id: 'mission5', label: 'Cinco missões diárias resgatadas', icon: 'fa-flag-checkered', check: () => state.missionClaims.length >= 5 },
+  { id: 'clicker500', label: '500 cliques no núcleo', icon: 'fa-hand-pointer', check: () => state.clicker.clicks >= 500 },
+  { id: 'prestige1', label: 'Primeiro prestígio do núcleo', icon: 'fa-rotate', check: () => (state.clicker.prestige || 0) >= 1 },
+  { id: 'shielded', label: 'Usou um escudo de sequência', icon: 'fa-shield-halved', check: () => (state.shieldsUsed || 0) >= 1 }
 ];
 function totalFocus() { return Object.values(state.focusByDate).reduce((a, b) => a + b, 0); }
 function milestoneValue(type) {
@@ -2145,6 +2520,10 @@ function milestoneValue(type) {
   if (type === 'goals') return state.totalGoalsDone;
   if (type === 'streak') return Math.max(state.streakBest, computeStreak());
   if (type === 'cards') return Object.values(state.flashStats).reduce((a, b) => a + b, 0);
+  if (type === 'checkins') return Object.keys(state.checkins || {}).length;
+  if (type === 'missions') return (state.missionClaims || []).length;
+  if (type === 'clicker') return Math.floor(state.clicker.lifetime || 0);
+  if (type === 'prestige') return state.clicker.prestige || 0;
   return 0;
 }
 function renderJourney() {
@@ -2194,62 +2573,249 @@ function bindJourney() {
 
 /* ============ 23. CLICKER ============ */
 const UPGRADES = [
-  { id: 'mouse', name: 'Mouse extra', base: 20, rate: 1, desc: '+1 energia por segundo' },
-  { id: 'monitor', name: 'Segundo monitor', base: 60, rate: 3, desc: '+3 energia por segundo' },
-  { id: 'cafe', name: 'Café reforçado', base: 140, rate: 6, desc: '+6 energia por segundo' },
-  { id: 'setup', name: 'Setup gamer', base: 320, rate: 12, desc: '+12 energia por segundo' }
+  { id: 'mouse', name: 'Mouse extra', base: 18, rate: 1, click: 1, desc: '+1 ⚡/s · +1 por clique' },
+  { id: 'monitor', name: 'Segundo monitor', base: 70, rate: 3, click: 0, desc: '+3 ⚡/s' },
+  { id: 'teclado', name: 'Teclado mecânico', base: 150, rate: 0, click: 3, desc: '+3 energia por clique' },
+  { id: 'cafe', name: 'Café reforçado', base: 260, rate: 7, click: 1, desc: '+7 ⚡/s · +1 por clique' },
+  { id: 'setup', name: 'Setup gamer', base: 640, rate: 16, click: 3, desc: '+16 ⚡/s · +3 por clique' },
+  { id: 'servidor', name: 'Servidor local', base: 1500, rate: 45, click: 0, desc: '+45 ⚡/s' }
 ];
-function upgradeCost(u) { return Math.round(u.base * Math.pow(1.65, state.clicker.upgrades[u.id] || 0)); }
-function clickerRate() { return UPGRADES.reduce((sum, u) => sum + (state.clicker.upgrades[u.id] || 0) * u.rate, 0); }
+const CLICKER_EXCHANGES = [
+  { energy: 50, coins: 5, label: '50 ⚡ → 5 moedas' },
+  { energy: 500, coins: 60, label: '500 ⚡ → 60 moedas' },
+  { energy: 2500, coins: 350, label: '2.500 ⚡ → 350 moedas' }
+];
+const PRESTIGE_BASE = 6000;
+const CLICK_COMBO_WINDOW = 900;
+let clickerCombo = { count: 0, at: 0 };
+let clickerLastTick = Date.now();
+let clickerSaveTimer = null;
+
+function prestigeMult() { return 1 + (state.clicker.prestige || 0) * 0.15; }
+function upgradeLevel(id) { return state.clicker.upgrades[id] || 0; }
+function upgradeCost(u, amount = 1) {
+  const lvl = upgradeLevel(u.id);
+  let total = 0;
+  for (let i = 0; i < amount; i++) total += Math.round(u.base * Math.pow(1.55, lvl + i));
+  return total;
+}
+function clickerRate() {
+  return Math.round(UPGRADES.reduce((acc, u) => acc + upgradeLevel(u.id) * u.rate, 0) * prestigeMult());
+}
+function clickerPower() {
+  return Math.round((1 + UPGRADES.reduce((acc, u) => acc + upgradeLevel(u.id) * u.click, 0)) * prestigeMult());
+}
+function prestigeRequirement() { return Math.round(PRESTIGE_BASE * Math.pow((state.clicker.prestige || 0) + 1, 1.6)); }
+function prestigeProgress() { return clamp((state.clicker.lifetime || 0) / prestigeRequirement(), 0, 1); }
+function buyAmount() { return state.clicker.buyAmount === 'max' ? 'max' : (Number(state.clicker.buyAmount) || 1); }
+function affordableAmount(u) {
+  const amount = buyAmount();
+  if (amount !== 'max') return amount;
+  let n = 0;
+  let pts = state.clicker.points;
+  while (n < 500) {
+    const c = Math.round(u.base * Math.pow(1.55, upgradeLevel(u.id) + n));
+    if (c > pts) break;
+    pts -= c;
+    n++;
+  }
+  return Math.max(1, n);
+}
+function comboMult() { return 1 + Math.min(clickerCombo.count, 50) * 0.02; }
+function renderClickerHud() {
+  const pts = $('#clickerPoints'); if (pts) pts.textContent = money(Math.floor(state.clicker.points));
+  const cps = $('#clickerCps'); if (cps) cps.textContent = money(clickerRate()) + '/s';
+  const power = $('#clickerClickPower'); if (power) power.textContent = '+' + money(clickerPower());
+  const total = $('#clickerTotal'); if (total) total.textContent = money(Math.floor(state.clicker.total || 0)) + ' ⚡';
+  const clicks = $('#clickerClicks'); if (clicks) clicks.textContent = money(state.clicker.clicks || 0);
+  const lifetime = $('#clickerLifetime'); if (lifetime) lifetime.textContent = money(Math.floor(state.clicker.lifetime || 0)) + ' ⚡';
+  const comboEl = $('#clickerCombo');
+  if (comboEl) {
+    comboEl.textContent = clickerCombo.count > 1 ? 'combo x' + comboMult().toFixed(2).replace('.', ',') : 'sem combo';
+    comboEl.classList.toggle('on', clickerCombo.count > 1);
+  }
+  const coin = $('#clickerCoinCount'); if (coin) coin.textContent = money(state.coins);
+  const auto = $('#clickerAutoExchange'); if (auto) auto.checked = !!state.clicker.autoExchange;
+  CLICKER_EXCHANGES.forEach((x, i) => {
+    const b = $('#clickerExchange' + i);
+    if (b) b.disabled = state.clicker.points < x.energy;
+  });
+}
+function renderPrestige() {
+  const box = $('#clickerPrestige');
+  if (!box) return;
+  const req = prestigeRequirement();
+  const pct = Math.round(prestigeProgress() * 100);
+  const ready = (state.clicker.lifetime || 0) >= req;
+  box.innerHTML = '<div class="prestige-head"><span class="kicker">Prestígio</span><b>Núcleo ' + (state.clicker.prestige || 0) + ' · +' + Math.round((state.clicker.prestige || 0) * 15) + '%</b>' +
+    '<span class="status-text">' + money(Math.floor(state.clicker.lifetime || 0)) + ' / ' + money(req) + ' ⚡</span></div>' +
+    '<div class="progress"><span style="width:' + pct + '%"></span></div>' +
+    '<button class="btn btn-sm ' + (ready ? 'btn-primary' : 'btn-secondary') + '" type="button" data-prestige' + (ready ? '' : ' disabled') + '>' +
+    (ready ? 'Reiniciar núcleo (+15% permanente)' : 'Faltam ' + money(Math.ceil(req - (state.clicker.lifetime || 0))) + ' ⚡') + '</button>' +
+    '<p class="hint">Prestígio reinicia energia e melhorias, mas mantém moedas, cliques e o bônus permanente.</p>';
+}
 function renderClickerShop() {
   const box = $('#clickerShop');
   if (!box) return;
+  const amount = buyAmount();
   box.innerHTML = UPGRADES.map((u) => {
-    const lvl = state.clicker.upgrades[u.id] || 0;
-    const cost = upgradeCost(u);
-    return '<div class="clicker-upgrade"><i class="fa-solid fa-bolt" style="color:var(--primary)"></i><div class="cu-main"><span>' + esc(u.name) + ' <span class="badge">nível ' + lvl + '</span></span><span class="cu-sub">' + esc(u.desc) + '</span></div>' +
-      '<button class="btn btn-sm btn-secondary" type="button" data-upgrade="' + u.id + '"' + (state.clicker.points < cost ? ' disabled' : '') + '>' + cost + ' ⚡</button></div>';
+    const lvl = upgradeLevel(u.id);
+    const n = affordableAmount(u);
+    const cost = upgradeCost(u, n);
+    const disabled = state.clicker.points < cost;
+    return '<div class="clicker-upgrade"><span class="cu-icon"><i class="fa-solid ' + (u.click ? 'fa-hand-pointer' : 'fa-bolt') + '"></i></span>' +
+      '<div class="cu-main"><span class="cu-title">' + esc(u.name) + ' <span class="badge">nível ' + lvl + '</span></span>' +
+      '<span class="cu-sub">' + esc(u.desc) + '</span></div>' +
+      '<button class="btn btn-sm btn-secondary" type="button" data-upgrade="' + u.id + '"' + (disabled ? ' disabled' : '') + '>' +
+      (amount === 'max' ? 'máx ' + n : 'x' + n) + ' · ' + money(cost) + ' ⚡</button></div>';
   }).join('');
-  const pts = $('#clickerPoints'); if (pts) pts.textContent = Math.floor(state.clicker.points);
-  const cps = $('#clickerCps'); if (cps) cps.textContent = clickerRate() + '/s';
+  $$('#clickerBuyAmount [data-amount]').forEach((x) => x.classList.toggle('active', String(x.dataset.amount) === String(state.clicker.buyAmount)));
+  renderClickerHud();
+  renderPrestige();
+}
+function scheduleClickerSave() {
+  if (clickerSaveTimer) return;
+  clickerSaveTimer = setTimeout(() => { clickerSaveTimer = null; save(); }, 2500);
+}
+function autoExchange() {
+  const tier = CLICKER_EXCHANGES[CLICKER_EXCHANGES.length - 1];
+  let guard = 0;
+  let converted = 0;
+  while (state.clicker.points >= tier.energy && guard++ < 20) {
+    state.clicker.points -= tier.energy;
+    state.coins += tier.coins;
+    state.coinsEarned = (state.coinsEarned || 0) + tier.coins;
+    state.clicker.exchanges = (state.clicker.exchanges || 0) + 1;
+    converted += tier.coins;
+  }
+  if (converted) { renderTopbar(); if (state.currentTab === 'store') renderStore(); }
 }
 function clickerTick() {
+  const now = Date.now();
+  const dt = clamp((now - clickerLastTick) / 1000, 0, 5);
+  clickerLastTick = now;
+  state.clicker.lastSeen = now;
   const rate = clickerRate();
   if (rate > 0) {
-    state.clicker.points += rate / 5;
-    const pts = $('#clickerPoints'); if (pts) pts.textContent = Math.floor(state.clicker.points);
-    renderClickerShop();
+    state.clicker.points += rate * dt;
+    state.clicker.total = (state.clicker.total || 0) + rate * dt;
+    state.clicker.lifetime = (state.clicker.lifetime || 0) + rate * dt;
+    if (state.clicker.autoExchange) autoExchange();
+    renderClickerHud();
+    scheduleClickerSave();
   }
+}
+function floatClickerGain(gain, e) {
+  if (state.motionReduced) return;
+  const host = $('#clickerCore');
+  if (!host) return;
+  const r = host.getBoundingClientRect();
+  const span = document.createElement('span');
+  span.className = 'clicker-float';
+  span.textContent = '+' + money(gain);
+  span.style.left = ((e && e.clientX ? e.clientX - r.left : r.width / 2) + 'px');
+  span.style.top = ((e && e.clientY ? e.clientY - r.top : r.height / 2) + 'px');
+  host.appendChild(span);
+  span.addEventListener('animationend', () => span.remove(), { once: true });
+  setTimeout(() => span.remove(), 1200);
+}
+function clickerClick(e) {
+  const now = Date.now();
+  if (now - clickerCombo.at <= CLICK_COMBO_WINDOW) clickerCombo.count = Math.min(clickerCombo.count + 1, 50);
+  else clickerCombo.count = 1;
+  clickerCombo.at = now;
+  if (clickerCombo.count > (state.clicker.comboBest || 0)) state.clicker.comboBest = clickerCombo.count;
+  const gain = Math.max(1, Math.round(clickerPower() * comboMult()));
+  state.clicker.points += gain;
+  state.clicker.total = (state.clicker.total || 0) + gain;
+  state.clicker.lifetime = (state.clicker.lifetime || 0) + gain;
+  state.clicker.clicks = (state.clicker.clicks || 0) + 1;
+  dailyBump('clicks', 1);
+  floatClickerGain(gain, e);
+  renderClickerHud();
+  scheduleClickerSave();
+  beep(520 + Math.min(clickerCombo.count, 20) * 12, 0.04, 'square', 0.035);
+}
+function exchangeClicker(index) {
+  const tier = CLICKER_EXCHANGES[index];
+  if (!tier) return;
+  if (state.clicker.points < tier.energy) return toast('Junte ' + tier.energy + ' de energia primeiro.', 'fa-triangle-exclamation', true);
+  state.clicker.points -= tier.energy;
+  state.clicker.exchanges = (state.clicker.exchanges || 0) + 1;
+  dailyBump('exchanges', 1);
+  addCoins(tier.coins);
+  renderClickerShop();
+  toast('Energia trocada por ' + tier.coins + ' moedas.', 'fa-coins');
+}
+function buyUpgrade(id) {
+  const u = UPGRADES.find((x) => x.id === id);
+  if (!u) return;
+  const qty = affordableAmount(u);
+  const cost = upgradeCost(u, qty);
+  if (state.clicker.points < cost) return toast('Energia insuficiente.', 'fa-triangle-exclamation', true);
+  state.clicker.points -= cost;
+  state.clicker.upgrades[id] = upgradeLevel(id) + qty;
+  save();
+  renderClickerShop();
+  toast(u.name + ' · nível ' + state.clicker.upgrades[id] + '!', 'fa-arrow-up');
+}
+function doPrestige() {
+  const req = prestigeRequirement();
+  if ((state.clicker.lifetime || 0) < req) return;
+  if (!confirm('Reiniciar o núcleo? Você perde energia e melhorias, ganha +15% permanente e mantém moedas e cliques.')) return;
+  state.clicker.prestige = (state.clicker.prestige || 0) + 1;
+  state.clicker.points = 0;
+  state.clicker.upgrades = {};
+  state.clicker.lifetime = 0;
+  saveNow();
+  renderClickerShop();
+  renderTopbar();
+  toast('Prestígio ' + state.clicker.prestige + '! +15% de energia permanente.', 'fa-rotate');
+}
+function applyOfflineEnergy() {
+  const now = Date.now();
+  const last = Number(state.clicker.lastSeen) || 0;
+  state.clicker.lastSeen = now;
+  if (!last) return;
+  const elapsed = clamp((now - last) / 1000, 0, 600);
+  const rate = clickerRate();
+  if (rate <= 0 || elapsed < 30) return;
+  const gain = rate * elapsed;
+  state.clicker.points += gain;
+  state.clicker.total = (state.clicker.total || 0) + gain;
+  state.clicker.lifetime = (state.clicker.lifetime || 0) + gain;
+  setTimeout(() => toast('Núcleo rendeu ' + money(Math.floor(gain)) + ' ⚡ enquanto você estava fora (máx. 10 min).', 'fa-bolt'), 1200);
 }
 function bindClicker() {
   renderClickerShop();
-  $('#clickerCore') && $('#clickerCore').addEventListener('click', () => {
-    state.clicker.points += 1;
-    state.clicker.clicks += 1;
-    state.clicker.total += 1;
-    renderClickerShop();
-    if (state.clicker.clicks % 25 === 0) save();
-    beep(520 + Math.random() * 120, 0.05, 'square', 0.04);
+  $('#clickerCore') && $('#clickerCore').addEventListener('click', clickerClick);
+  CLICKER_EXCHANGES.forEach((x, i) => {
+    const b = $('#clickerExchange' + i);
+    if (b) b.addEventListener('click', () => exchangeClicker(i));
   });
-  $('#clickerExchangeBtn') && $('#clickerExchangeBtn').addEventListener('click', () => {
-    if (state.clicker.points < 50) return toast('Junte 50 de energia primeiro.', 'fa-triangle-exclamation', true);
-    state.clicker.points -= 50;
-    state.clicker.total += 1;
-    addCoins(5); renderClickerShop(); toast('Energia trocada por 5 moedas.', 'fa-coins');
+  $('#clickerAutoExchange') && $('#clickerAutoExchange').addEventListener('change', (e) => {
+    state.clicker.autoExchange = e.target.checked;
+    save();
+    toast(e.target.checked ? 'Auto-troca ativada: 2.500 ⚡ viram 350 moedas.' : 'Auto-troca desativada.', 'fa-coins');
+  });
+  $('#clickerBuyAmount') && $('#clickerBuyAmount').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-amount]');
+    if (!b) return;
+    state.clicker.buyAmount = b.dataset.amount === 'max' ? 'max' : Number(b.dataset.amount);
+    save();
+    renderClickerShop();
   });
   $('#clickerShop') && $('#clickerShop').addEventListener('click', (e) => {
     const b = e.target.closest('[data-upgrade]');
-    if (!b) return;
-    const u = UPGRADES.find((x) => x.id === b.dataset.upgrade);
-    if (!u) return;
-    const cost = upgradeCost(u);
-    if (state.clicker.points < cost) return toast('Energia insuficiente.', 'fa-triangle-exclamation', true);
-    state.clicker.points -= cost;
-    state.clicker.upgrades[u.id] = (state.clicker.upgrades[u.id] || 0) + 1;
-    save(); renderClickerShop();
-    toast(u.name + ' melhorado!', 'fa-arrow-up');
+    if (b) buyUpgrade(b.dataset.upgrade);
   });
-  setInterval(clickerTick, 200);
+  document.addEventListener('click', (e) => { if (e.target.closest('[data-prestige]')) doPrestige(); });
+  document.addEventListener('keydown', (e) => {
+    if (state.currentTab !== 'clicker') return;
+    if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return;
+    if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); clickerClick(); }
+  });
+  setInterval(clickerTick, 500);
 }
 
 /* ============ 24. SONS AMBIENTE ============ */
@@ -2257,7 +2823,8 @@ const AMBIENT_LAYERS = [
   { id: 'rain', name: 'Chuva', icon: 'fa-cloud-rain', freq: 1200, q: 0.6, type: 'lowpass' },
   { id: 'noise', name: 'Ruído marrom', icon: 'fa-wave-square', freq: 420, q: 0.4, type: 'lowpass' },
   { id: 'waves', name: 'Ondas', icon: 'fa-water', freq: 700, q: 0.9, type: 'bandpass' },
-  { id: 'fire', name: 'Lareira', icon: 'fa-fire', freq: 260, q: 0.7, type: 'lowpass' }
+  { id: 'fire', name: 'Lareira', icon: 'fa-fire', freq: 260, q: 0.7, type: 'lowpass' },
+  { id: 'wind', name: 'Vento', icon: 'fa-wind', freq: 520, q: 1.4, type: 'bandpass' }
 ];
 const ambient = { ctx: null, nodes: {}, gains: {}, master: null, timer: null };
 function ambientCtx() {
@@ -2361,9 +2928,10 @@ function bindAmbient() {
     const preset = e.target.value;
     if (!preset) return;
     const map = {
-      focus: { rain: 30, noise: 55, waves: 0, fire: 0 },
-      rain: { rain: 60, noise: 20, waves: 0, fire: 25 },
-      study: { rain: 0, noise: 35, waves: 15, fire: 10 }
+      focus: { rain: 30, noise: 55, waves: 0, fire: 0, wind: 0 },
+      rain: { rain: 60, noise: 20, waves: 0, fire: 25, wind: 10 },
+      study: { rain: 0, noise: 35, waves: 15, fire: 10, wind: 0 },
+      storm: { rain: 72, noise: 18, waves: 26, fire: 0, wind: 42 }
     }[preset];
     Object.keys(ambient.nodes).forEach(ambientStop);
     AMBIENT_LAYERS.forEach((l) => { state.ambient.layers[l.id] = map[l.id] || 0; if (state.ambient.layers[l.id] > 0) ambientStart(l.id); });
@@ -2396,7 +2964,8 @@ const KEY_STYLES = {
   soft: { freq: 520, type: 'sine', dur: 0.05, vol: 0.05 },
   mechanical: { freq: 240, type: 'square', dur: 0.04, vol: 0.06 },
   typewriter: { freq: 160, type: 'triangle', dur: 0.07, vol: 0.07 },
-  pop: { freq: 760, type: 'sine', dur: 0.035, vol: 0.05 }
+  pop: { freq: 760, type: 'sine', dur: 0.035, vol: 0.05 },
+  retro: { freq: 980, type: 'square', dur: 0.028, vol: 0.04 }
 };
 function playKeySound() {
   if (!state.keySounds.on) return;
@@ -2444,7 +3013,7 @@ function bindKeySounds() {
    ============================================================ */
 
 /* ============ 26. CALCULADORA ============ */
-const calc = { expr: '', result: 0, history: [] };
+const calc = { expr: '', result: 0, history: [], memory: 0 };
 function calcEvaluate(raw) {
   let expr = String(raw || '').replace(/,/g, '.').replace(/[×x]/gi, '*').replace(/÷/g, '/').replace(/−/g, '-');
   if (!/^[-+*/%().\d\s]+$/.test(expr)) throw new Error('Expressão inválida');
@@ -2472,6 +3041,8 @@ function calcPress(key) {
       calc.result = value;
       calc.history.unshift({ expr: calc.expr, result: value, at: Date.now() });
       calc.history = calc.history.slice(0, 20);
+      state.calcHistory = calc.history.slice();
+      save();
       calc.expr = String(value);
       calcRender();
     } catch (err) {
@@ -2485,7 +3056,16 @@ function calcPress(key) {
   calcRender();
 }
 function bindCalculator() {
+  if (Array.isArray(state.calcHistory) && state.calcHistory.length) calc.history = state.calcHistory.slice(0, 20);
   calcRender();
+  $('#calcMemory') && $('#calcMemory').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-calc-mem]');
+    if (!b) return;
+    const action = b.dataset.calcMem;
+    if (action === 'add') { calc.memory = (calc.memory || 0) + (Number(calc.result) || 0); toast('Na memória: ' + calc.memory, 'fa-calculator'); }
+    if (action === 'recall') { calc.expr += String(calc.memory || 0); calcRender(); }
+    if (action === 'clear') { calc.memory = 0; toast('Memória limpa.', 'fa-eraser'); }
+  });
   $('#calcKeys') && $('#calcKeys').addEventListener('click', (e) => {
     const b = e.target.closest('[data-calc]');
     if (b) calcPress(b.dataset.calc);
@@ -2496,7 +3076,12 @@ function bindCalculator() {
     const item = calc.history[Number(b.dataset.calcHistory)];
     if (item) { calc.expr = item.expr; calc.result = item.result; calcRender(); }
   });
-  $('#calcHistoryClear') && $('#calcHistoryClear').addEventListener('click', () => { calc.history = []; calcRender(); });
+  $('#calcHistoryClear') && $('#calcHistoryClear').addEventListener('click', () => {
+    calc.history = [];
+    state.calcHistory = [];
+    save();
+    calcRender();
+  });
   document.addEventListener('keydown', (e) => {
     if (state.currentTab !== 'calculator') return;
     if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return;
@@ -2766,7 +3351,7 @@ function copyChar(ch, opts) {
 }
 function bindChars() {
   renderChars();
-  $('#charsSearch') && $('#charsSearch').addEventListener('input', renderChars);
+  $('#charsSearch') && $('#charsSearch').addEventListener('input', debounce(renderChars, 140));
   $('#charsCategories') && $('#charsCategories').addEventListener('click', (e) => {
     const b = e.target.closest('[data-char-cat]');
     if (!b) return;
@@ -2991,7 +3576,7 @@ const COMMANDS = {
     if (!found) return 'Aba não encontrada: "' + (a || '') + '".';
     switchTab(found.id); return 'Abrindo ' + found.title + '.';
   } },
-  foco: { desc: 'Inicia o pomodoro (foco 30)', run: (a) => {
+  foco: { desc: 'Inicia o pomodoro (foco [min])', run: (a) => {
     const m = Number(a);
     if (m >= 5 && m <= 90) { state.pomoConfig.focus = m; save(); }
     switchTab('timer'); pomoSetMode('focus'); pomoStart();
@@ -3049,7 +3634,30 @@ const COMMANDS = {
     return 'XP: ' + state.xp + ' · nível: ' + info.cur.title + (info.next ? ' · faltam ' + (info.next.xp - state.xp) + ' para ' + info.next.title : ' · nível máximo');
   } },
   moedas: { desc: 'Mostra seu saldo', run: () => 'Você tem ' + state.coins + ' moedas.' },
-  streak: { desc: 'Mostra sua sequência', run: () => 'Sequência atual: ' + computeStreak() + ' dias · recorde: ' + state.streakBest + '.' },
+  streak: { desc: 'Mostra sua sequência', run: () => 'Sequência atual: ' + computeStreak() + ' dias · recorde: ' + state.streakBest + ' · escudos: ' + (state.streakShields || 0) + '/5.' },
+  foguinho: { desc: 'Detalha foguinho, multiplicador e escudos', run: () => {
+    const s = computeStreak();
+    const t = streakTier(s);
+    const n = nextStreakTier(s);
+    return 'Foguinho: ' + s + ' dia(s) · ' + t.name + ' · multiplicador x' + t.mult + ' XP' +
+      (n ? ' · faltam ' + (n.days - s) + ' dia(s) para x' + n.mult : ' · faixa máxima') +
+      '\nEscudos: ' + (state.streakShields || 0) + '/5 · usados: ' + (state.shieldsUsed || 0);
+  } },
+  missoes: { desc: 'Lista as missões diárias e o progresso', run: () => todayMissionList().map((m) => {
+    const v = Math.min(m.value(), m.goal);
+    return (missionClaimed(m.id) ? '✔ ' : v >= m.goal ? '★ ' : '· ') + m.label + ' (' + v + '/' + m.goal + ') · +' + m.xp + ' XP e +' + m.coins + ' moedas';
+  }).join('\n') },
+  escudo: { desc: 'Compra um escudo de sequência por 90 moedas', run: () => {
+    if ((state.streakShields || 0) >= 5) return 'Limite de 5 escudos atingido.';
+    if (state.coins < SHIELD_COST) return 'Faltam ' + (SHIELD_COST - state.coins) + ' moedas.';
+    buyStreakShield();
+    return 'Escudo comprado. Você tem ' + state.streakShields + ' escudo(s).';
+  } },
+  clicker: { desc: 'Abre o núcleo e mostra a produção', run: () => {
+    switchTab('clicker');
+    return 'Energia: ' + Math.floor(state.clicker.points) + ' ⚡ · ' + clickerRate() + '/s · +' + clickerPower() +
+      ' por clique · prestígio ' + (state.clicker.prestige || 0) + ' · cliques: ' + (state.clicker.clicks || 0);
+  } },
   cards: { desc: 'Mostra cards devidos', run: () => {
     const due = dueCards().length;
     return due ? due + ' cards para revisar hoje em ' + Object.keys(state.decks).length + ' baralhos.' : 'Nenhum card devido. Bom trabalho!';
@@ -3075,13 +3683,18 @@ const COMMANDS = {
   limpar: { desc: 'Limpa o terminal', run: () => { const out = $('#cmdOutput'); if (out) out.innerHTML = ''; return ''; } },
   reset: { desc: 'Apaga TODO o progresso', run: () => {
     if (!confirm('Isso apaga todo o progresso deste navegador. Continuar?')) return 'Cancelado.';
+    cancelSave();
     try { localStorage.removeItem(STORAGE_KEY); LEGACY_KEYS.forEach((k) => localStorage.removeItem(k)); } catch (e) { /* ignore */ }
     return 'Progresso apagado. Recarregue a página.';
   } },
   conquistas: { desc: 'Lista conquistas', run: () => ACHIEVEMENTS.map((a) => (a.check() ? '✔ ' : '· ') + a.label).join('\n') },
   perfil: { desc: 'Resumo do seu perfil', run: () => {
     const info = levelInfo(state.xp);
-    return 'Título: ' + state.title + ' · nível: ' + info.cur.title + '\nFoco total: ' + fmtMinutes(totalFocus()) + ' · sessões: ' + state.sessions + '\nMetas: ' + state.totalGoalsDone + ' concluídas · cards: ' + Object.values(state.flashStats).reduce((a, b) => a + b, 0);
+    const t = streakTier();
+    return 'Título: ' + state.title + ' · nível: ' + info.cur.title + '\nFoco total: ' + fmtMinutes(totalFocus()) + ' · sessões: ' + state.sessions +
+      '\nFoguinho: ' + computeStreak() + ' dias · ' + t.name + ' (x' + t.mult + ') · escudos: ' + (state.streakShields || 0) +
+      '\nMetas: ' + state.totalGoalsDone + ' concluídas · cards: ' + Object.values(state.flashStats).reduce((a, b) => a + b, 0) +
+      '\nNúcleo: ' + Math.floor(state.clicker.points) + ' ⚡ · prestígio ' + (state.clicker.prestige || 0);
   } }
 };
 function cmdPrint(text, cls) {
@@ -3161,7 +3774,10 @@ const REWARDS = [
   { code: 'FOCOPRO', label: 'Foco Pro', coins: 40, xp: 60, theme: 'neon', hint: 'Libera o tema Neon', expires: '2027-01-31' },
   { code: 'ENEM2026', label: 'Reta ENEM', coins: 30, xp: 150, hint: 'Para a reta final', expires: '2026-11-30' },
   { code: 'DEVLOG5', label: 'Leitor do Dev Log', coins: 25, xp: 25, hint: 'Quem lê as notas ganha', expires: '2027-06-30' },
-  { code: 'HUBV195', label: 'Lançamento v20', coins: 100, xp: 50, theme: 'matrix', hint: 'Libera o tema Matrix', expires: '2026-12-31' }
+  { code: 'HUBV195', label: 'Lançamento v20', coins: 100, xp: 50, theme: 'matrix', hint: 'Libera o tema Matrix', expires: '2026-12-31' },
+  { code: 'FOGUINHO22', label: 'Foguinho v22', coins: 80, xp: 120, shield: 1, hint: 'Um escudo de sequência + recompensa', expires: '2027-12-31' },
+  { code: 'NUCLEO22', label: 'Núcleo v22', coins: 60, xp: 80, hint: 'Energia extra para o clicker', expires: '2027-06-30' },
+  { code: 'AURORA22', label: 'Aurora v22', coins: 120, xp: 100, theme: 'aurora', hint: 'Libera o tema Aurora', expires: '2027-03-31' }
 ];
 function renderRewards() {
   const grid = $('#rewardGrid');
@@ -3172,7 +3788,7 @@ function renderRewards() {
       return '<div class="reward-card' + (used ? ' used' : '') + (expired ? ' expired' : '') + '">' +
         '<div class="reward-card-head"><span class="reward-code">' + r.code + '</span><span class="badge ' + (used ? '' : expired ? 'danger' : 'gold') + '">' + (used ? 'resgatado' : expired ? 'expirado' : 'ativo') + '</span></div>' +
         '<p>' + esc(r.hint) + '</p>' +
-        '<div class="reward-prize"><span><i class="fa-solid fa-coins" style="color:var(--coin)"></i> ' + r.coins + '</span><span><i class="fa-solid fa-star" style="color:var(--violet)"></i> ' + r.xp + ' XP</span>' + (r.theme ? '<span><i class="fa-solid fa-palette"></i> tema</span>' : '') + '</div>' +
+        '<div class="reward-prize"><span><i class="fa-solid fa-coins" style="color:var(--coin)"></i> ' + r.coins + '</span><span><i class="fa-solid fa-star" style="color:var(--violet)"></i> ' + r.xp + ' XP</span>' + (r.theme ? '<span><i class="fa-solid fa-palette"></i> tema</span>' : '') + (r.shield ? '<span><i class="fa-solid fa-shield-halved"></i> ' + r.shield + ' escudo</span>' : '') + '</div>' +
         '<span class="status-text">expira em ' + prettyDate(r.expires) + '</span></div>';
     }).join('');
   }
@@ -3200,12 +3816,13 @@ function redeemCode(raw) {
   state.redeemed.push(code);
   addCoins(reward.coins);
   addXp(reward.xp);
+  if (reward.shield) state.streakShields = Math.min(5, (state.streakShields || 0) + reward.shield);
   if (reward.theme && !state.themesOwned.includes(reward.theme)) {
     state.themesOwned.push(reward.theme);
     applyTheme(reward.theme);
   }
   renderRewards(); renderStore(); save();
-  return show('Código ' + code + ' resgatado: +' + reward.coins + ' moedas, +' + reward.xp + ' XP' + (reward.theme ? ' e tema liberado' : '') + '.', true);
+  return show('Código ' + code + ' resgatado: +' + reward.coins + ' moedas, +' + reward.xp + ' XP' + (reward.theme ? ', tema liberado' : '') + (reward.shield ? ' e +' + reward.shield + ' escudo' : '') + '.', true);
 }
 function bindRewards() {
   renderRewards();
@@ -3220,6 +3837,59 @@ function bindRewards() {
 
 /* ============ 33. DEV LOG ============ */
 const DEVLOG = [
+  {
+    version: 'v22.0.0', date: '2026-11-17', type: 'feature', title: 'Foguinho com multiplicador, escudos e check-in progressivo',
+    items: [
+      'O foguinho agora tem faixas: x1,1 (3 dias), x1,2 (7), x1,35 (14) e x1,5 (30) de XP em tudo o que você ganha.',
+      'Escudos de sequência: até 5 unidades por 90 moedas; se ontem passar em branco, um escudo protege o dia e mantém a sequência viva.',
+      'Check-in com recompensa crescente (+12 a +40 XP e +4 a +14 moedas) e bônus especiais em 7, 14, 30, 60 e 100 dias.',
+      'Novo painel Foguinho na aba Hoje com faixa atual, progresso da meta diária, botão de check-in e compra de escudo.',
+      'Anel, heatmap, CSV e cards de Estatísticas passaram a reconhecer dias protegidos por escudo.'
+    ]
+  },
+  {
+    version: 'v22.0.0', date: '2026-11-17', type: 'feature', title: 'Missões diárias, novas conquistas e marcos',
+    items: [
+      'Três missões por dia (foco, flashcards, quiz, metas, cliques, notas e check-in) com progresso ao vivo e resgate de XP + moedas.',
+      'Missões são escolhidas de forma determinística pela data: mudam todo dia e não repetem a mesma combinação.',
+      'Cinco conquistas novas (sequência de 14 dias, missões, cliques, prestígio e escudo) e quatro marcos com recompensa.',
+      'Níveis estendidos até Mítico (5.600 XP) com bônus em moedas a cada subida de nível.',
+      'Contadores diários próprios para cards, quiz, metas, cliques, registros e trocas, zerados na virada do dia.'
+    ]
+  },
+  {
+    version: 'v22.0.0', date: '2026-11-17', type: 'feature', title: 'Clicker 2.0: combo, prestígio e renda offline',
+    items: [
+      'Cliques encadeados em até 900 ms montam combo de até x2 na energia por clique, com contador e números flutuantes.',
+      'Seis melhorias (incluindo teclado mecânico e servidor local), compra em x1, x10 ou máximo por item.',
+      'Três faixas de troca (50→5, 500→60 e 2.500→350 moedas) e auto-troca opcional ao passar de 2.500 de energia.',
+      'Prestígio: reinicie energia e melhorias para +15% permanente por núcleo, mantendo moedas e cliques.',
+      'Renda offline de até 10 minutos ao reabrir o hub e clique por Espaço/Enter na aba.'
+    ]
+  },
+  {
+    version: 'v22.0.0', date: '2026-11-17', type: 'feature', title: 'Novas features em todas as abas',
+    items: [
+      'Pomodoro com presets 50/10 e 90/15, XP extra em sessões de 25 min ou mais e moedas por bloco de 10 min.',
+      'Metas com busca, ordenação por prazo/prioridade/recência e correção da contagem ao reabrir uma meta.',
+      'Flashcards com modo reverso (resposta → pergunta) e fila embaralhada; Quiz com combo e XP bônus por sequência de acertos.',
+      'Planner com navegação de semanas (−12 a +12), rótulo de semana relativa e cópia da semana visualizada.',
+      'Diário com rascunho automático por data; Notas com duplicar; Calculadora com memória (M+/MR/MC) e histórico persistido.',
+      'Sons ambiente com camada de vento e preset Tempestade; teclado com estilo retrô; loja com temas Aurora e Sakura.',
+      'Cinco comandos novos (foguinho, missoes, escudo, clicker e atalhos atualizados) e três códigos de recompensa v22.'
+    ]
+  },
+  {
+    version: 'v22.0.0', date: '2026-11-17', type: 'fix', title: 'Desempenho: gravação, renderização e loops mais leves',
+    items: [
+      'Gravação no localStorage com debounce de 400 ms, flush ao esconder/sair da página e gravação periódica a cada 30 s.',
+      'Topbar coalescida em requestAnimationFrame: várias chamadas no mesmo frame viram uma única pintura.',
+      'Clicker deixou de recriar a loja a cada tick: o HUD atualiza apenas os textos e usa delta de tempo real.',
+      'Intervalos de Pomodoro e timer por matéria passaram para 1 s e a renda passiva respeita aba oculta.',
+      'Buscas de notas, diário e dev log com debounce; render inicial sem repetir as abas já renderizadas pelos bindings.',
+      'Coleções e gráficos só são redesenhados quando a aba correspondente está aberta; animações de fundo pausam em aba oculta.'
+    ]
+  },
   {
     version: 'v21.0.0', date: '2026-11-16', type: 'feature', title: 'Aba Estatísticas completa: check-in diário e painel ao vivo',
     items: [
@@ -3345,7 +4015,7 @@ function bindDevlog() {
     $$('#devlogFilters .chip').forEach((c) => c.classList.toggle('active', c === chip));
     renderDevlog();
   });
-  $('#devlogSearch') && $('#devlogSearch').addEventListener('input', renderDevlog);
+  $('#devlogSearch') && $('#devlogSearch').addEventListener('input', debounce(renderDevlog, 140));
 }
 
 /* ============ 34. SENHAS ============ */
@@ -3586,6 +4256,7 @@ function toggleZen() {
 }
 function bindGlobal() {
   document.addEventListener('click', (e) => {
+    if (e.__goalHandled) return;
     const go = e.target.closest('[data-goto]');
     if (go) { switchTab(go.dataset.goto); return; }
     const toggle = e.target.closest('[data-goal-toggle]');
@@ -3631,35 +4302,24 @@ function bindGlobal() {
     const id = location.hash.replace('#', '');
     if (TAB_MAP[id] && id !== state.currentTab) switchTab(id, { silent: true });
   });
+  document.addEventListener('visibilitychange', () => {
+    document.body.classList.toggle('tab-hidden', document.hidden);
+    if (document.hidden) saveNow();
+    else {
+      renderTopbar();
+      if (state.currentTab === 'stats') renderStatsLive();
+      if (state.currentTab === 'clicker') renderClickerHud();
+    }
+  });
 }
 function renderAll() {
+  /* Cada bind*() já renderiza a própria aba no boot. Aqui fica só o que
+     não tem binding próprio, evitando ~20 renderizações duplicadas. */
   renderTopbar();
   renderHoje();
-  renderNotes();
-  renderTimer();
-  renderGoals();
-  renderFlashcards();
-  renderSubjects();
-  renderPlanner();
-  renderStats();
-  renderDiary();
-  renderStore();
-  renderTitles();
-  renderPets();
-  renderJourney();
-  renderClickerShop();
-  renderAmbient();
-  renderKeySounds();
-  renderChars();
-  renderPageTitle();
-  renderEvents();
-  renderQuizBest();
-  renderChat();
-  renderRewards();
-  renderDevlog();
-  renderPasswordHistory();
-  renderCmdSuggestions('');
   renderGoalSubjects();
+  renderQuizBest();
+  renderCmdSuggestions('');
 }
 const RENDERERS = {
   hoje: renderHoje, timer: renderTimer, goals: renderGoals, flashcards: renderFlashcards, quiz: renderQuizBest,
@@ -3691,6 +4351,7 @@ function bindWhatsNew() {
 }
 function startLoops() {
   setInterval(() => {
+    if (document.hidden) return;
     renderTopbar();
     if (!state.session) return;
     addXp(1, true);
@@ -3699,21 +4360,32 @@ function startLoops() {
       addCoins(pet.income);
       const energy = state.petEnergy[pet.id] || 0;
       if (energy > 0) state.petEnergy[pet.id] = energy - 1;
-      renderPets();
+      if (state.currentTab === 'pets') renderPets();
     }
   }, 5000);
-  setInterval(() => { if (state.session) save(); }, 30000);
+  setInterval(() => { if (state.session && !document.hidden) saveNow(); }, 30000);
   setInterval(() => {
+    if (document.hidden) return;
+    ensureDailyStats();
     const today = dateKey();
-    if (state.lastVisit !== today) { state.lastVisit = today; save(); renderHoje(); }
+    if (state.lastVisit !== today) {
+      state.lastVisit = today;
+      cancelSave(); saveNow();
+      renderHoje(); renderTopbar();
+      if (state.currentTab === 'stats') renderStats();
+    }
   }, 60000);
 }
 function boot() {
   applyTheme(state.theme);
   applyPageTitle();
   applyMotion();
+  document.body.classList.toggle('tab-hidden', document.hidden);
+  applyStreakShield();
+  applyOfflineEnergy();
   buildNav();
   bindGlobal();
+  bindGamification();
   initButtonFx();
   initSearchFx();
   bindAuth();
