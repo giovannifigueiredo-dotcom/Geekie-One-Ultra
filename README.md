@@ -2,7 +2,7 @@
 
 Hub de estudos em **3 arquivos** (HTML, CSS e JS), sem build e sem dependências locais — só os ícones e as fontes vêm de CDN.
 
-Versão atual: **v22.0.0**
+Versão atual: **v22.1.0**
 
 ```
 index.html
@@ -21,6 +21,31 @@ python3 -m http.server 3000
 ```
 
 Login: crie uma conta local, entre com ela ou clique em **Entrar como convidado**. Nada é enviado para servidor.
+
+---
+
+## O que mudou na v22.1.0
+
+### 1. Atalho para as últimas atualizações
+
+- **`Ctrl+Shift+D`** abre um painel flutuante com as **três entradas mais recentes** do Dev Log, de qualquer aba.
+- O atalho fica **fixo na nav bar** (rodapé lateral, com a combinação `Ctrl Shift D` à vista) e também no cabeçalho da aba Dev Log, no botão **Últimas 3**.
+- `Esc`, o X ou um clique fora do cartão fecham o painel; o botão **Dev Log completo** leva à aba com o histórico inteiro.
+- As entradas vêm do mesmo array `DEVLOG` que alimenta a aba, com versão, tipo, data e lista de mudanças.
+
+### 2. Tela centralizada, flutuante e com blur
+
+- O painel abre **centralizado na janela**, flutuando sobre a interface, com `backdrop-filter: blur(22px)` e saturação no resto da tela.
+- **Animação de abertura**: o cartão entra com mola e desfoque (`translateY` + `scale` + `blur`), um brilho atravessa o cabeçalho e as três entradas surgem em cascata de 80 ms.
+- O ícone do cabeçalho gira ao aparecer e o cartão ganha borda e halo na cor do tema.
+
+### 3. Botão que esconde a nav bar
+
+- Novo botão na topbar (ícone de colunas) **recolhe o menu lateral** com transição de largura e giro do ícone; o mesmo botão restaura o menu.
+- A escolha fica em **`navCollapsed`** no estado e volta assim ao reabrir o hub.
+- No clique, um anel se expande e o ícone faz uma volta elástica; o botão fica com destaque enquanto a nav bar está recolhida.
+- A nav bar retrátil vale para o desktop; no mobile o menu continua sendo a gaveta pelo botão hambúrguer.
+- Tudo respeita o botão **Reduzir animações** e `prefers-reduced-motion`.
 
 ---
 
@@ -110,7 +135,7 @@ Login: crie uma conta local, entre com ela ou clique em **Entrar como convidado*
 | **Portal Geekie** | Iframe do Geekie One, recarregar, nova aba, tela cheia e atalhos |
 | **Google** | Google embutido e atalhos para Classroom, Drive, Docs e YouTube |
 | **Eventos** | Evento de cada mês, nível por foco e recompensa em moedas |
-| **Dev Log** | Histórico de versões com filtro por tipo e busca |
+| **Dev Log** | Histórico de versões com filtro por tipo, busca e botão **Últimas 3** (ou `Ctrl+Shift+D`) |
 
 ---
 
@@ -174,10 +199,11 @@ Um resgate por conta, sem diferenciar maiúsculas, com expiração validada na d
 | `↑` / `↓`, `Tab` | Histórico e autocomplete no terminal |
 | `Esc` | Fechar overlays |
 | `Ctrl+S` | Salvar nota (no editor) |
+| `Ctrl+Shift+D` | Abre as 3 últimas entradas do Dev Log em um painel flutuante |
 
 ## Dados, privacidade e migração
 
-- Progresso em `localStorage`, chave **`geekieHubState_v22`** — inclui `focusByDate`, `checkins`, `streakShields`, `streakProtect`, `shieldsUsed`, `dailyStats`, `missionClaims`, `diaryDrafts`, `xpEarned`, `coinsEarned`, `charsFav`/`recentChars` e `charCopies`.
+- Progresso em `localStorage`, chave **`geekieHubState_v22`** — inclui `focusByDate`, `checkins`, `streakShields`, `streakProtect`, `shieldsUsed`, `dailyStats`, `missionClaims`, `diaryDrafts`, `xpEarned`, `coinsEarned`, `charsFav`/`recentChars`, `charCopies` e `navCollapsed` (nav bar recolhida).
 - **Migração automática** das chaves antigas `geekieHubState_v20` e `geekieHubState_v194`: notas, metas, temas, XP, moedas e histórico continuam válidos.
 - O clicker guarda `lifetime`, `prestige`, `autoExchange`, `buyAmount`, `lastSeen`, `comboBest` e `exchanges` no mesmo estado.
 - Contas locais em `geekieHubAccounts_v20` (hash simples — **não é segurança de produção**).
@@ -197,11 +223,18 @@ Um resgate por conta, sem diferenciar maiúsculas, com expiração validada na d
 | 10–16 | Notas, Pomodoro, Metas, Flashcards, Quiz, Timer matérias e Planner |
 | 17–25 | Estatísticas, Diário, Loja, Títulos, Pets, Trilha, Clicker (23) e áudio |
 | 26–34 | Calculadora, Caracteres, Título, Eventos, Portais, Comandos, Recompensas, Dev Log e Senhas |
+| 33-B / 33-C | **Atalho das últimas atualizações** (painel flutuante) e **nav bar retrátil** (`navCollapsed` no estado) |
 | 34-B | **Motor FX dos botões**: spotlight (`--fx-x/--fx-y`), magnético (`--fx-tx/--fx-ty`) e ripple com delegação de eventos |
 | 34-C | **Motor FX das caixas de pesquisa**: glow pulsante, glow que segue o mouse (`--sf-x/--sf-y`) e ripple no clique/foco |
 | 35 | Bindings globais, render geral, novidades, loops passivos e boot |
 
 ## Últimas atualizações
+
+### v22.1.0 — Atalho para as 3 últimas do Dev Log
+`Ctrl+Shift+D`, atalho fixo na nav bar e botão na aba Dev Log abrem um painel centralizado com blur no resto da tela, animação em cascata e link para o histórico completo.
+
+### v22.1.0 — Painel animado e nav bar retrátil
+Cartão com entrada elástica e brilho atravessando o cabeçalho; botão na topbar recolhe o menu lateral com transição de largura e guarda a preferência.
 
 ### v22.0.0 — Foguinho com multiplicador, escudos e check-in progressivo
 Faixas de x1 a x1,5 em todo XP, até cinco escudos por 90 moedas, check-in de +12 a +40 XP com bônus em 7/14/30/60/100 dias e painel novo na aba Hoje.
@@ -242,6 +275,8 @@ Sidebar com busca, topbar redesenhada, paleta `Ctrl+K`, toasts, novo sistema de 
 - A renda offline do clicker é limitada a **10 minutos** por reabertura.
 - O combo do clicker exige cliques em até **900 ms**; acima disso o contador reinicia.
 - A borda gradiente girando (`@property --fx-angle`) degrada para borda estática em navegadores muito antigos; o resto dos efeitos continua funcionando.
+- O blur do painel das últimas atualizações depende de `backdrop-filter`; sem suporte, o fundo fica apenas escurecido.
+- A nav bar retrátil só existe em telas com mais de 1024px de largura; no mobile o menu continua sendo a gaveta.
 
 ```chart
 {
