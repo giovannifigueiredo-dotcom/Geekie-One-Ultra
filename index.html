@@ -4,14 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="dark">
-<meta name="description" content="Geekie Study Hub v22.0 — cockpit de estudos offline com foco, estatísticas ao vivo, check-in diário, metas, flashcards, quiz, progressão e ferramentas.">
-<title>Geekie Study Hub v22.0.0</title>
+<meta name="description" content="Geekie Study Hub v22.1 — cockpit de estudos offline com foco, estatísticas ao vivo, check-in diário, metas, flashcards, quiz, progressão e ferramentas.">
+<title>Geekie Study Hub v22.1.0</title>
 <link rel="icon" id="pageIcon" href="https://i.postimg.cc/gcHHYqtC/fire-geekie.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&family=Orbitron:wght@400;700&family=Space+Grotesk:wght@400;600;700&family=Caveat:wght@400;600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<link rel="stylesheet" href="style.css?v=21.0.0">
+<link rel="stylesheet" href="style.css?v=22.1.0">
 </head>
 <body>
 
@@ -24,7 +24,7 @@
       </span>
       <div>
         <strong>Geekie Study Hub</strong>
-        <span class="login-version">v22.0.0 · offline first</span>
+        <span class="login-version">v22.1.0 · offline first</span>
       </div>
     </div>
     <h1 class="login-title" id="loginTitle">Acesse seu cockpit de estudos</h1>
@@ -98,9 +98,10 @@
     </label>
     <nav class="nav" id="navGroups" aria-label="Abas do hub"></nav>
     <div class="sidebar-foot">
+      <button class="nav-action nav-shortcut" type="button" id="navDevlogRecentBtn" title="Abrir as 3 últimas do Dev Log (Ctrl+Shift+D)"><i class="fa-solid fa-clock-rotate-left"></i> Últimas 3 do Dev Log <kbd>Ctrl Shift D</kbd></button>
       <button class="nav-action" type="button" id="fabTutorialBtn"><i class="fa-solid fa-circle-question"></i> Rever tutorial</button>
       <button class="nav-action" type="button" id="navPaletteBtn"><i class="fa-solid fa-terminal"></i> Comandos <kbd>Ctrl K</kbd></button>
-      <span class="sidebar-version" id="sidebarVersion">v22.0.0</span>
+      <span class="sidebar-version" id="sidebarVersion">v22.1.0</span>
     </div>
   </aside>
 
@@ -135,6 +136,7 @@
         <span class="clock" id="realTimeClock">00:00:00</span>
       </div>
       <div class="topbar-actions">
+        <button class="btn btn-icon nav-toggle-btn" id="btnNavToggle" type="button" title="Recolher menu lateral" aria-label="Recolher menu lateral" aria-pressed="false"><i class="fa-solid fa-table-columns"></i></button>
         <button class="btn btn-icon" id="btnPalette" type="button" title="Paleta de comandos (Ctrl+K)" aria-label="Paleta de comandos"><i class="fa-solid fa-terminal"></i></button>
         <button class="btn btn-icon" id="btnZenMode" type="button" title="Modo Zen (Alt+Z)" aria-label="Modo Zen"><i class="fa-solid fa-expand"></i></button>
         <button class="btn btn-icon" id="btnMotionMode" type="button" title="Reduzir animações" aria-label="Reduzir animações" aria-pressed="false"><i class="fa-solid fa-wand-magic-sparkles"></i></button>
@@ -847,7 +849,7 @@
         <div class="grid grid-2 grid-top">
           <article class="card">
             <div class="card-head"><h3><i class="fa-solid fa-pen-nib"></i> Título da página</h3></div>
-            <div class="title-preview" id="titlePreview">Geekie Study Hub v22.0.0</div>
+            <div class="title-preview" id="titlePreview">Geekie Study Hub v22.1.0</div>
             <label class="field"><span>Texto</span><input type="text" id="titleTextInput" class="input" maxlength="60"></label>
             <div class="toolbar">
               <select id="titleFontSelect" aria-label="Fonte"></select>
@@ -944,8 +946,11 @@
       <section class="page" id="page-devlog" data-tab="devlog">
         <article class="card">
           <div class="card-head"><h3><i class="fa-solid fa-clock-rotate-left"></i> Dev Log</h3>
-            <span class="badge" id="devlogBuild">v22.0.0</span></div>
-          <p class="hint">Registro de alterações do hub. As últimas atualizações também estão no README.md.</p>
+            <div class="row">
+              <button class="btn btn-secondary btn-sm" id="devlogRecentBtn" type="button" data-fx="lift"><i class="fa-solid fa-layer-group"></i> Últimas 3 <kbd>Ctrl Shift D</kbd></button>
+              <span class="badge" id="devlogBuild">v22.1.0</span>
+            </div></div>
+          <p class="hint">Registro de alterações do hub. As três últimas também abrem no painel flutuante com <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>D</kbd>; o README guarda o restante.</p>
           <div class="toolbar">
             <div class="chips" id="devlogFilters">
               <button class="chip active" type="button" data-filter="all">Tudo</button>
@@ -1006,6 +1011,25 @@
   </div>
 </div>
 
+<!-- ================= ÚLTIMAS ATUALIZAÇÕES (ATALHO) ================= -->
+<div class="overlay devlog-recent-overlay" id="devlogRecentOverlay" hidden>
+  <div class="modal devlog-recent-card" role="dialog" aria-modal="true" aria-labelledby="devlogRecentTitle">
+    <header class="devlog-recent-head">
+      <span class="devlog-recent-icon" aria-hidden="true"><i class="fa-solid fa-clock-rotate-left"></i></span>
+      <div>
+        <h3 id="devlogRecentTitle">Últimas atualizações</h3>
+        <p>As três entradas mais recentes do Dev Log.</p>
+      </div>
+      <button class="btn btn-icon btn-ghost" id="devlogRecentClose" type="button" aria-label="Fechar"><i class="fa-solid fa-xmark"></i></button>
+    </header>
+    <div class="devlog-recent-list" id="devlogRecentList"></div>
+    <footer class="devlog-recent-foot">
+      <span class="devlog-recent-hint"><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>D</kbd> abre esta tela de qualquer aba · <kbd>Esc</kbd> fecha</span>
+      <button class="btn btn-primary btn-sm" id="devlogRecentOpenAll" type="button">Dev Log completo <i class="fa-solid fa-arrow-right"></i></button>
+    </footer>
+  </div>
+</div>
+
 <!-- ================= MOBILE NAV ================= -->
 <nav class="mobile-nav" id="mobileNav" aria-label="Navegação rápida"></nav>
 
@@ -1014,13 +1038,13 @@
 
 <div class="overlay" id="whatsNewOverlay" hidden>
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="whatsNewTitle">
-    <div class="card-head"><h3 id="whatsNewTitle"><i class="fa-solid fa-wand-magic-sparkles"></i> Novidades da v22.0.0</h3>
+    <div class="card-head"><h3 id="whatsNewTitle"><i class="fa-solid fa-wand-magic-sparkles"></i> Novidades da v22.1.0</h3>
       <button class="btn btn-icon btn-ghost" id="whatsNewClose" type="button" aria-label="Fechar"><i class="fa-solid fa-xmark"></i></button></div>
     <ul class="whatsnew-list" id="whatsNewList"></ul>
     <button class="btn btn-primary btn-block" id="whatsNewStart" type="button">Começar a explorar</button>
   </div>
 </div>
 
-<script src="script.js?v=21.0.0"></script>
+<script src="script.js?v=22.1.0"></script>
 </body>
 </html>
