@@ -1,5 +1,5 @@
 /* ============================================================
-   Geekie Study Hub v22.1.0 — script.js (parte 1/4)
+   Geekie Study Hub v22.2.0 — script.js (parte 1/4)
    Utilidades, estado, shell, login, tutorial, paleta, Hoje, Chat
    ============================================================ */
 'use strict';
@@ -85,7 +85,7 @@ function beep(freq = 660, duration = 0.16, type = 'sine', volume = 0.18) {
 }
 
 /* ============ 2. ESTADO ============ */
-const VERSION = 'v22.1.0';
+const VERSION = 'v22.2.0';
 const STORAGE_KEY = 'geekieHubState_v22';
 const LEGACY_KEYS = ['geekieHubState_v20', 'geekieHubState_v194'];
 /* Contas continuam na mesma chave: trocar de versão não desloga ninguém. */
@@ -96,7 +96,7 @@ const SEEN_KEY = 'geekieHubSeenVersion_v22';
 const DEFAULT_STATE = {
   session: null,
   xp: 0, coins: 25, title: 'Novato',
-  pageTitle: 'Geekie Study Hub v22.1.0', font: 'Poppins', icon: 'fa-graduation-cap',
+  pageTitle: 'Geekie Study Hub v22.2.0', font: 'Poppins', icon: 'fa-graduation-cap',
   themesOwned: ['default'], theme: 'default',
   petsOwned: [], pet: null, petEnergy: {}, petFed: {},
   focusByDate: {}, subjectMinutes: {}, subjectGoals: {}, customSubjects: [],
@@ -142,7 +142,7 @@ function loadState() {
   s.streakShields = clamp(Number(s.streakShields) || 0, 0, 5);
   s.xpEarned = Math.max(0, Number(s.xpEarned) || 0);
   s.coinsEarned = Math.max(0, Number(s.coinsEarned) || 0);
-  if (['Geekie Study Hub v22.0.0', 'Geekie Study Hub v21.0.0', 'Geekie Study Hub v20.1.0'].indexOf(s.pageTitle) !== -1) s.pageTitle = DEFAULT_STATE.pageTitle;
+  if (['Geekie Study Hub v22.1.0', 'Geekie Study Hub v22.0.0', 'Geekie Study Hub v21.0.0', 'Geekie Study Hub v20.1.0'].indexOf(s.pageTitle) !== -1) s.pageTitle = DEFAULT_STATE.pageTitle;
   if (s.themesOwned.indexOf('default') === -1) s.themesOwned.unshift('default');
   return s;
 }
@@ -192,7 +192,7 @@ const TABS = [
   { id: 'geekie', title: 'Portal Geekie', icon: 'fa-graduation-cap', group: 'Extras', kicker: 'Portal', desc: 'O Geekie One embutido, com recarregar e tela cheia.', tips: ['Se bloquear o iframe, use Nova aba.', 'Os atalhos abrem portais em nova aba.'] },
   { id: 'google', title: 'Google', icon: 'fa-google', brand: true, group: 'Extras', kicker: 'Busca', desc: 'Google embutido mais atalhos para Classroom, Drive e YouTube.', tips: ['A busca embutida pode bloquear; use os atalhos.', 'Tela cheia amplia a área.'] },
   { id: 'events', title: 'Eventos', icon: 'fa-calendar-day', group: 'Extras', kicker: 'Calendário', desc: 'Evento de cada mês com progresso por XP e recompensa.', tips: ['O mês atual é destacado.', 'A recompensa é liberada por nível de evento.'] },
-  { id: 'devlog', title: 'Dev Log', icon: 'fa-code-branch', group: 'Extras', kicker: 'Versões', desc: 'Histórico de versões com filtros, busca e atalho para as 3 últimas.', tips: ['Filtre por correção, novidade ou interface.', 'Ctrl+Shift+D abre as 3 últimas em um painel flutuante.'] }
+  { id: 'devlog', title: 'Dev Log', icon: 'fa-code-branch', group: 'Extras', kicker: 'Versões', desc: 'Histórico de versões com filtros, busca e atalho para as 3 últimas.', tips: ['Filtre por correção, novidade ou interface.', 'Ctrl+Shift+D abre as 3 últimas em um painel flutuante.', 'O botão ao lado do logo compacta a nav bar em só ícones; o nome da aba aparece no tooltip.'] }
 ];
 const TAB_MAP = Object.fromEntries(TABS.map((t) => [t.id, t]));
 const GROUPS = ['Hoje', 'Estudo', 'Inteligência', 'Progresso', 'Ferramentas', 'Extras'];
@@ -3847,12 +3847,30 @@ const DEVLOG = [
     ]
   },
   {
-    version: 'v22.1.0', date: '2026-11-17', type: 'style', title: 'Painel centralizado com blur e nav bar retrátil',
+    version: 'v22.2.0', date: '2026-11-17', type: 'feature', title: 'Nav bar compacta mostrando só os ícones das abas',
+    items: [
+      'O botão de compactar não esconde mais o menu: a nav bar encolhe para uma faixa de 76 px com apenas o ícone de cada aba.',
+      'Com o menu compacto, o nome da aba aparece no tooltip e a aba ativa mantém a barra lateral e o destaque.',
+      'Campo de busca, títulos de grupo, textos dos atalhos e a versão ficam ocultos na faixa compacta; os grupos são separados por uma linha fina.',
+      'A preferência continua em navCollapsed e volta assim ao reabrir o hub; no mobile segue a gaveta do hambúrguer.'
+    ]
+  },
+  {
+    version: 'v22.2.0', date: '2026-11-17', type: 'style', title: 'Botão de compactar ao lado do logo e atalho adaptado',
+    items: [
+      'O botão saiu da topbar e foi para o cabeçalho da nav bar, ao lado do logo; na faixa compacta fica empilhado abaixo dele.',
+      'A largura da nav bar anima em 340 ms enquanto o botão faz giro elástico com anel expansivo, sem empurrar o conteúdo.',
+      'O atalho Ctrl+Shift+D continua fixo no rodapé da nav bar: compacto, vira um ícone com tooltip e abre o mesmo painel das 3 últimas.',
+      'title, aria-label e aria-pressed alternam entre Compactar e Expandir; tudo respeita Reduzir animações.'
+    ]
+  },
+  {
+    version: 'v22.1.0', date: '2026-11-17', type: 'style', title: 'Painel centralizado com blur e entrada animada',
     items: [
       'O painel das últimas atualizações abre centralizado e flutuante, com blur de 22px no resto da tela.',
       'Abertura animada: o cartão entra com mola e desfoque, um brilho atravessa o cabeçalho e as entradas surgem em cascata de 80 ms.',
-      'Novo botão na topbar recolhe a nav bar com transição de largura e giro do ícone; o mesmo botão restaura o menu.',
-      'A preferência da nav bar recolhida fica salva no estado e volta assim ao reabrir o hub; tudo respeita Reduzir animações.'
+      'O ícone do cabeçalho gira ao aparecer e o cartão ganha borda e halo na cor do tema.',
+      'Tudo respeita Reduzir animações e prefers-reduced-motion.'
     ]
   },
   {
@@ -4092,11 +4110,19 @@ function applyNavCollapsed() {
   document.body.classList.toggle('nav-collapsed', collapsed);
   const btn = $('#btnNavToggle');
   if (btn) {
-    const label = collapsed ? 'Mostrar menu lateral' : 'Recolher menu lateral';
+    const label = collapsed ? 'Expandir menu lateral' : 'Compactar menu lateral (só ícones)';
     btn.setAttribute('aria-pressed', String(collapsed));
     btn.title = label;
     btn.setAttribute('aria-label', label);
   }
+  // Na faixa compacta o nome da aba só existe no tooltip; expandida, volta a ser visível no item.
+  $$('#navGroups .nav-item').forEach((item) => {
+    const tab = TAB_MAP[item.dataset.goto];
+    if (!tab) return;
+    item.setAttribute('aria-label', tab.title);
+    if (collapsed) item.title = tab.title;
+    else item.removeAttribute('title');
+  });
 }
 function toggleNavCollapsed() {
   state.navCollapsed = !state.navCollapsed;
@@ -4109,7 +4135,9 @@ function toggleNavCollapsed() {
     btn.classList.add('is-flipping');
     setTimeout(() => btn.classList.remove('is-flipping'), 700);
   }
-  toast(state.navCollapsed ? 'Nav bar recolhida. O mesmo botão devolve o menu.' : 'Nav bar restaurada.', 'fa-table-columns');
+  toast(state.navCollapsed
+    ? 'Nav bar compacta: só os ícones das abas. Passe o mouse para ver o nome.'
+    : 'Nav bar expandida com os nomes das abas.', 'fa-table-columns');
 }
 
 /* ============ 34. SENHAS ============ */
@@ -4477,11 +4505,11 @@ function boot() {
   applyTheme(state.theme);
   applyPageTitle();
   applyMotion();
-  applyNavCollapsed();
   document.body.classList.toggle('tab-hidden', document.hidden);
   applyStreakShield();
   applyOfflineEnergy();
   buildNav();
+  applyNavCollapsed();
   bindGlobal();
   bindGamification();
   initButtonFx();
