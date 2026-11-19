@@ -2,7 +2,7 @@
 
 Hub de estudos em **3 arquivos** (HTML, CSS e JS), sem build e sem dependências locais — só os ícones e as fontes vêm de CDN.
 
-Versão atual: **v23.0.0**
+Versão atual: **v24.0.0**
 
 ```
 index.html
@@ -21,6 +21,79 @@ python3 -m http.server 3000
 ```
 
 Login: crie uma conta local, entre com ela ou clique em **Entrar como convidado**. Nada é enviado para servidor.
+
+---
+
+## O que mudou na v24.0.0
+
+### 1. Central administrativa NEXUS (acesso restrito)
+
+- Uma central **flutuante e centralizada** com as ferramentas internas do hub, aberta por um **código privado + Ctrl+Shift+S**; o atalho não responde antes de o código correto ser digitado.
+- O código é conferido por **hash com sal**: o texto puro não é gravado no HTML, no CSS nem no JavaScript, e o desbloqueio vale só para a sessão daquela aba. O código pode ser trocado na seção **Segurança**.
+- Ao abrir, o restante do hub recebe **blur**, fica inerte e o foco vai para a central. **Esc**, o botão de fechar e o de bloquear devolvem a navegação normal; **Tab** fica preso aos controles da central.
+- A central tem **oito seções** em uma segunda nav bar, **recolhível até 72 px** e só com ícones, com animação própria e estado independente da nav bar principal (`Ctrl+B` continua afetando apenas a nav normal).
+- A animação de abertura usa perspectiva, clip-path, varredura vertical e cascata nos itens — inspirada no atalho do Dev Log, mas deliberadamente diferente.
+- Seções: **Visão geral**, **Economia**, **Progresso**, **Códigos**, **Backup**, **Segurança**, **Ferramentas** e **Auditoria**.
+- **Importante:** um app 100% estático não consegue esconder código de quem tem os arquivos. O hash é uma trava de conveniência e evita o texto puro; não substitui autenticação de servidor. O acesso e o código não são publicados neste README.
+
+### 2. Cinco códigos novos e códigos personalizados
+
+- `NEXUS24`, `ORBITA24`, `SINGULAR24`, `MESTRE24` e `SAKURA24` entram no catálogo, com moedas, XP, escudos, **energia de núcleo** e temas.
+- O catálogo passa de 12 para **17 códigos públicos**.
+- Cada cartão de recompensa ganhou **copiar código**; o resgate agora aceita energia do clicker.
+- A central pode criar **códigos personalizados** com validade, recompensa, tema e escudo. Eles **não aparecem no catálogo público**, só na lista da central, e podem ser removidos.
+
+### 3. Preview flutuante de caracteres
+
+- Passar o mouse (ou focar com Tab) em **qualquer caractere** da aba Caracteres abre um cartão flutuante com glifo grande, nome, categoria, código Unicode e favorito.
+- A abertura tem animação de escala/desfoque; ao deslizar para o caractere ao lado, o cartão acompanha o cursor e troca o conteúdo com uma transição suave.
+- O cartão fecha ao rolar, clicar, trocar de aba ou abrir a central.
+- O `title` nativo dos botões foi removido para não duplicar o tooltip; o nome continua no `aria-label`.
+
+### 4. Ações rápidas em todas as 28 abas
+
+Cada aba recebeu uma barra de **Ações rápidas** no fim da página, com atalhos contextuais. Exemplos: resumo do dia, foco de 5/10/50 min, exportar metas e notas, reiniciar o baralho, copiar sessões/relatórios, limpar o chat, tema/título aleatórios, alimentar todos os pets, copiar o status do núcleo, abrir portais em nova aba e exportar o Dev Log.
+
+| Aba | Ações rápidas |
+| --- | --- |
+| **Hoje** | Resumo do dia · foco de 5 min |
+| **Pomodoro** | Foco de 10 min · foco de 50 min |
+| **Metas** | Exportar metas `.md` |
+| **Flashcards** | Reiniciar baralho · exportar CSV |
+| **Quiz** | Copiar últimos quizzes |
+| **Timer matérias** | Copiar sessões |
+| **Planner** | Copiar semana `.md` |
+| **Estatísticas** | Copiar relatório |
+| **Diário** | Copiar últimos 7 registros |
+| **Chat IA** | Limpar conversa |
+| **Comandos** | Copiar saída |
+| **Loja** | Tema aleatório |
+| **Títulos** | Título aleatório |
+| **Pets** | Alimentar todos |
+| **Trilha** | Copiar progresso |
+| **Clicker** | Copiar status do núcleo |
+| **Recompensas** | Copiar códigos ativos |
+| **Notas** | Exportar todas `.md` |
+| **Sons ambiente** | Silenciar tudo |
+| **Som de teclado** | Estilo aleatório |
+| **Calculadora** | Copiar histórico |
+| **Caracteres** | Copiar favoritos · preview flutuante ao passar o mouse |
+| **Título da página** | Copiar configuração · prévia ao vivo ao digitar |
+| **Senhas** | Copiar última senha |
+| **Portal Geekie** | Abrir em nova aba · zoom lembrado |
+| **Google** | Abrir em nova aba · zoom lembrado |
+| **Eventos** | Copiar evento do mês |
+| **Dev Log** | Exportar Dev Log `.md` · resumo com copiar/baixar no atalho |
+
+### 5. Outros ganhos de fluxo
+
+- **Pomodoro:** `Espaço` inicia ou pausa o ciclo quando a aba está aberta e o foco não está em um campo.
+- **Portais:** o zoom de Geekie e Google passa a ser salvo em `portalZoom` e reaplicado ao voltar para a aba.
+- **Título da página:** o texto é pré-visualizado enquanto você digita, antes de aplicar.
+- **Dev Log:** a aba recebeu **5 entradas v24.0.0** e o painel de `Ctrl+Shift+D` ganhou **Copiar resumo** e **Exportar .md**.
+- **Recompensas:** cartões mostram energia, escudos e temas; o botão de copiar funciona em cada código.
+- **Backup:** exportar/importar JSON, copiar estado, limpar domínios específicos e reset total protegido por dupla confirmação.
+- **Auditoria:** até 80 ações administrativas ficam registradas com data, ação e detalhe.
 
 ---
 
@@ -130,7 +203,7 @@ Login: crie uma conta local, entre com ela ou clique em **Entrar como convidado*
 | Aba | O que faz |
 | --- | --- |
 | **Hoje** | Baú diário, missões do dia e da semana, painel Foguinho, meta de foco, metas, revisões, planner e atalhos |
-| **Pomodoro** | Ciclos com presets 25/5, 50/10, 60/10 e 90/15, pausa longa e ciclos configuráveis, matéria, som e prévia de XP |
+| **Pomodoro** | Ciclos com presets 25/5, 50/10, 60/10 e 90/15, pausa longa e ciclos configuráveis, matéria, som, prévia de XP e `Espaço` para iniciar/pausar |
 | **Metas** | Matéria, prioridade, prazo, busca, ordenação, filtros (incluindo atrasadas), resumo e limpeza de concluídas |
 | **Flashcards** | Repetição espaçada (SM-2 simplificado), baralhos, modo reverso, fila embaralhada, importação em lote e CSV |
 | **Quiz** | Banco por matéria, explicação por alternativa, modo 20s, combo de acertos, precisão por matéria e revisão de erros |
@@ -145,18 +218,18 @@ Login: crie uma conta local, entre com ela ou clique em **Entrar como convidado*
 | **Pets** | Sete pets com adoção, energia, alimentação, nível e renda passiva |
 | **Trilha** | Doze níveis, quinze marcos resgatáveis e dezenove conquistas |
 | **Clicker** | Núcleo 3.0 com doze melhorias, combo, críticos, núcleo dourado, talentos, cinco trocas, marcos, prestígio e renda offline |
-| **Recompensas** | Doze códigos com status, expiração, histórico e colar da área de transferência |
+| **Recompensas** | **Dezessete** códigos com status, expiração, histórico, cópia por cartão, energia de núcleo e códigos personalizados fora do catálogo público |
 | **Notas** | Busca, tags, autosave, fixar, duplicar, contagem de palavras, estatísticas e exportação `.md` |
 | **Sons ambiente** | Seis camadas (chuva, ruído, ondas, lareira, vento, café), cinco presets, volume geral e timer |
 | **Som de teclado** | Sete estilos, volume e campo de teste |
 | **Calculadora** | Teclado completo, memória M+/MR/MC, histórico persistido, √, x², π, ± e cópia |
-| **Caracteres** | 400+ símbolos em 14 categorias, busca por código Unicode, favoritos, recentes, detalhe e cópia em massa |
-| **Título da página** | Texto, nove fontes, 22 ícones e restauração |
+| **Caracteres** | 400+ símbolos em 14 categorias, busca por código Unicode, favoritos, recentes, **preview flutuante ao passar o mouse/focar** e cópia em massa |
+| **Título da página** | Texto com **prévia ao vivo**, nove fontes, 22 ícones e restauração |
 | **Senhas** | Senhas, passphrase e PIN, entropia em bits, medidor, histórico e limpeza |
-| **Portal Geekie** | Iframe do Geekie One, recarregar, nova aba, tela cheia e zoom |
-| **Google** | Google embutido, atalhos para Classroom, Drive, Docs e YouTube, e zoom |
+| **Portal Geekie** | Iframe do Geekie One, recarregar, nova aba, tela cheia e **zoom lembrado entre visitas** |
+| **Google** | Google embutido, atalhos para Classroom, Drive, Docs e YouTube, e **zoom lembrado** |
 | **Eventos** | Evento de cada mês, nível por foco, contagem para o próximo e recompensa em moedas |
-| **Dev Log** | Histórico de versões com filtro por tipo, busca e botão **Últimas 3** (ou `Ctrl+Shift+D`) |
+| **Dev Log** | Histórico de versões com filtro, busca, botão **Últimas 3** (`Ctrl+Shift+D`), copiar resumo e exportar `.md` |
 
 ---
 
@@ -254,8 +327,13 @@ Digite `ajuda` para listar, ou `ajuda <comando>` para detalhar. São **35 comand
 | `BAU23` | +70 moedas, +90 XP | 31/12/2027 |
 | `SEMANA23` | +90 moedas, +120 XP e 1 escudo | 31/12/2027 |
 | `IMORTAL23` | +150 moedas, +200 XP e tema Galáxia | 30/06/2027 |
+| `NEXUS24` | +180 moedas, +240 XP e 1 escudo | 31/12/2027 |
+| `ORBITA24` | +200 moedas, +180 XP e 5.000 ⚡ | 31/12/2027 |
+| `SINGULAR24` | +260 moedas, +320 XP e tema Brasa | 31/12/2027 |
+| `MESTRE24` | +300 moedas, +400 XP e 1 escudo | 31/12/2027 |
+| `SAKURA24` | +150 moedas, +220 XP e tema Sakura | 31/12/2027 |
 
-Um resgate por conta, sem diferenciar maiúsculas, com expiração validada na data local.
+Um resgate por conta, sem diferenciar maiúsculas, com expiração validada na data local. Códigos personalizados criados na central **não aparecem nesta tabela nem no catálogo público**; só podem ser resgatados por quem souber o texto e são removíveis na seção **Códigos**.
 
 ## Atalhos
 
@@ -267,6 +345,7 @@ Um resgate por conta, sem diferenciar maiúsculas, com expiração validada na d
 | `Alt+Z` | Modo Zen |
 | `/` | Focar a busca de abas |
 | `Espaço` / `1`–`4` | Virar e avaliar flashcards (na aba Flashcards) |
+| `Espaço` | Iniciar ou pausar o Pomodoro (na aba Pomodoro, fora de campos e botões) |
 | `Espaço` / `Enter` | Clicar no núcleo (na aba Clicker, fora de campos de texto) |
 | `1`–`4` | Responder o quiz (na aba Quiz, durante uma partida) |
 | `0`–`9`, `+ - * /`, `Enter` | Calculadora |
@@ -278,14 +357,16 @@ Um resgate por conta, sem diferenciar maiúsculas, com expiração validada na d
 
 - Progresso em `localStorage`, chave **`geekieHubState_v22`** — a mesma das versões anteriores, para ninguém perder progresso.
 - Campos novos da v23: `boosts`, `dailyChest`, `weeklyStats`, `weeklyClaims`, `subjectLog`, `petXp`, `chestsOpened`, `boostsBought`, `boostsUsed` e, dentro de `clicker`, `talents`, `milestones`, `goldUntil`, `goldNext`, `goldSeen` e `crits`.
+- Campos novos da v24: `portalZoom`, `adminCodeHash`, `adminLog`, `customCodes` e `adminRailCollapsed`. O hash do código root é mesclado sem revelar o texto; a sessão administrativa usa `sessionStorage` (chave `geekieAdminArmed_v24`) e cai ao fechar a aba.
 - **Migração automática**: o estado antigo é mesclado com os padrões; `geekieHubState_v20` e `geekieHubState_v194` continuam aceitos.
 - O clicker guarda `lifetime`, `prestige`, `autoExchange`, `buyAmount`, `lastSeen`, `comboBest`, `exchanges`, `talents`, `milestones` e os campos do núcleo dourado.
 - Contas locais em `geekieHubAccounts_v20` (hash simples — **não é segurança de produção**).
+- A central administrativa é uma **trava de conveniência local**: o hash evita texto puro, mas qualquer pessoa com os arquivos pode inspecionar ou alterar o JavaScript. Para sigilo real, use autenticação de servidor.
 - Gravação com debounce de 400 ms, flush ao sair/esconder a página e gravação periódica a cada 30 s.
 - Sons são gerados por Web Audio no próprio navegador; nenhuma requisição de áudio.
 - O tutor do chat é **local e offline** (heurísticas por modo/matéria), sem chave de API e sem enviar mensagens.
 - `exportar` gera um JSON com todo o estado; `reset` apaga o progresso.
-- O aviso “Novidades” aparece uma vez por versão (chave `geekieHubSeenVersion_v22`) e mostra até oito itens das entradas v23 do Dev Log.
+- O aviso “Novidades” aparece uma vez por versão (chave `geekieHubSeenVersion_v22`) e mostra até oito itens das entradas v24 do Dev Log.
 
 ## Estrutura do `script.js`
 
@@ -306,8 +387,28 @@ Um resgate por conta, sem diferenciar maiúsculas, com expiração validada na d
 | **36-D** | **Matérias, Planner, Stats, Diário, Notas, Chars e Eventos** |
 | **36-E** | Injeção de UI, eventos delegados, hooks de render e ciclo de vida |
 | **36-F** | **Senhas**: modo PIN e limpeza do histórico |
+| **37-A–37-I** | **Central v24**: hash do código root, componentes, views das oito seções, roteador, abrir/fechar, foco, ações e formulários |
+| **37-J** | **Preview flutuante** dos caracteres, com abertura, troca suave e fechamento por rolagem/clique |
+| **37-K** | **Ações rápidas** das 28 abas, builders de texto e manipuladores |
+| **37-L** | **Portais** com zoom persistido e wrapper de navegação v24 |
+| **37-M** | **Bindings v24**: atalho `Ctrl+Shift+S`, gate do código, armadilha de foco, importação e Dev Log |
 
 ## Últimas atualizações
+
+### v24.0.0 — Central administrativa NEXUS
+Central flutuante com blur, foco preso, oito seções em nav bar retrátil independente e abertura animada; acesso por código privado + `Ctrl+Shift+S`, com hash e sessão por aba.
+
+### v24.0.0 — Cinco códigos novos
+`NEXUS24`, `ORBITA24`, `SINGULAR24`, `MESTRE24` e `SAKURA24`; catálogo com 17 códigos públicos, cópia por cartão, energia de núcleo e códigos personalizados na central.
+
+### v24.0.0 — Preview de caracteres
+Cartão flutuante com glifo, nome, categoria, código Unicode e favorito; animação de abertura e transição suave ao deslizar para o caractere ao lado.
+
+### v24.0.0 — Ações rápidas em todas as abas
+Resumo do dia, foco de 5/10/50 min, exportações, reset de baralho, limpeza de chat, tema/título aleatórios, alimentar todos os pets, status do núcleo, portais e Dev Log.
+
+### v24.0.0 — Melhorias de fluxo
+`Espaço` no Pomodoro, zoom de portais lembrado, prévia ao vivo do título, copiar/exportar no atalho do Dev Log e backup/importação na central.
 
 ### v23.0.0 — Foguinho 3.0
 Baú diário com até 130 moedas e 16% de escudo, três missões semanais, faixas Fênix (x1,7) e Imortal (x2) e níveis Ascendido/Lenda Eterna.
@@ -347,6 +448,9 @@ Spotlight, magnético, ripple, glow pulsante, borda gradiente, pulso no danger e
 - O histórico de senhas e o terminal ficam apenas na memória da aba.
 - O tutor local não é um modelo de linguagem: ele estrutura o raciocínio, não substitui professor ou material didático.
 - A renda offline do clicker vai de **10 minutos** a **2 horas** conforme o prestígio.
+- A central administrativa é local: o hash do código e a sessão em `sessionStorage` não são autenticação de servidor. O código **não** é divulgado neste README; troque-o na seção **Segurança** e guarde-o fora do navegador.
+- Códigos personalizados são aceitos pelo campo de resgate, mas não aparecem no catálogo público; se o texto for perdido, só a central (ou um backup) os recupera.
+- O preview de caracteres depende de ponteiro/foco; em telas de toque ele não abre por hover (o toque continua copiando).
 - O combo do clicker exige cliques em até **900 ms**; acima disso o contador reinicia.
 - Críticos usam sorteio local (`Math.random`), então a taxa de 4%–50% é probabilística, não garantida em janelas curtas.
 - O baú diário usa sorteio local; a recompensa é sorteada na abertura e fica registrada no estado.
