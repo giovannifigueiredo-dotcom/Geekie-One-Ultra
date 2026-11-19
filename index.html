@@ -4,14 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="dark">
-<meta name="description" content="Geekie Study Hub v23.0 — cockpit de estudos offline com foco, estatísticas ao vivo, check-in diário, metas, flashcards, quiz, progressão, baú diário, missões semanais e ferramentas.">
-<title>Geekie Study Hub v23.0.0</title>
+<meta name="description" content="Geekie Study Hub v24.0 — cockpit de estudos offline com foco, estatísticas ao vivo, check-in diário, metas, flashcards, quiz, progressão, baú diário, missões semanais, central administrativa restrita e ferramentas.">
+<title>Geekie Study Hub v24.0.0</title>
 <link rel="icon" id="pageIcon" href="https://i.postimg.cc/gcHHYqtC/fire-geekie.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&family=Orbitron:wght@400;700&family=Space+Grotesk:wght@400;600;700&family=Caveat:wght@400;600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<link rel="stylesheet" href="style.css?v=23.0.0">
+<link rel="stylesheet" href="style.css?v=24.0.0">
 </head>
 <body>
 
@@ -24,7 +24,7 @@
       </span>
       <div>
         <strong>Geekie Study Hub</strong>
-        <span class="login-version">v23.0.0 · offline first</span>
+        <span class="login-version">v24.0.0 · offline first</span>
       </div>
     </div>
     <h1 class="login-title" id="loginTitle">Acesse seu cockpit de estudos</h1>
@@ -102,7 +102,7 @@
       <button class="nav-action nav-shortcut" type="button" id="navDevlogRecentBtn" title="Últimas 3 do Dev Log (Ctrl+Shift+D)" aria-label="Abrir as 3 últimas do Dev Log (Ctrl+Shift+D)"><i class="fa-solid fa-clock-rotate-left"></i><span class="nav-action-text">Últimas 3 do Dev Log</span> <kbd>Ctrl Shift D</kbd></button>
       <button class="nav-action" type="button" id="fabTutorialBtn" title="Rever tutorial" aria-label="Rever tutorial"><i class="fa-solid fa-circle-question"></i><span class="nav-action-text">Rever tutorial</span></button>
       <button class="nav-action" type="button" id="navPaletteBtn" title="Comandos (Ctrl+K)" aria-label="Abrir a paleta de comandos (Ctrl+K)"><i class="fa-solid fa-terminal"></i><span class="nav-action-text">Comandos</span> <kbd>Ctrl K</kbd></button>
-      <span class="sidebar-version" id="sidebarVersion">v23.0.0</span>
+      <span class="sidebar-version" id="sidebarVersion">v24.0.0</span>
     </div>
   </aside>
 
@@ -860,7 +860,7 @@
         <div class="grid grid-2 grid-top">
           <article class="card">
             <div class="card-head"><h3><i class="fa-solid fa-pen-nib"></i> Título da página</h3></div>
-            <div class="title-preview" id="titlePreview">Geekie Study Hub v23.0.0</div>
+            <div class="title-preview" id="titlePreview">Geekie Study Hub v24.0.0</div>
             <label class="field"><span>Texto</span><input type="text" id="titleTextInput" class="input" maxlength="60"></label>
             <div class="toolbar">
               <select id="titleFontSelect" aria-label="Fonte"></select>
@@ -959,9 +959,9 @@
           <div class="card-head"><h3><i class="fa-solid fa-clock-rotate-left"></i> Dev Log</h3>
             <div class="row">
               <button class="btn btn-secondary btn-sm" id="devlogRecentBtn" type="button" data-fx="lift"><i class="fa-solid fa-layer-group"></i> Últimas 3 <kbd>Ctrl Shift D</kbd></button>
-              <span class="badge" id="devlogBuild">v23.0.0</span>
+              <span class="badge" id="devlogBuild">v24.0.0</span>
             </div></div>
-          <p class="hint">Registro de alterações do hub. A v23.0.0 trouxe foguinho 3.0 (baú diário, missões semanais, boosts), clicker 3.0 (críticos, núcleo dourado, talentos) e melhorias em todas as abas. As três últimas também abrem no painel flutuante com <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>D</kbd>; o README guarda o restante.</p>
+          <p class="hint">Registro de alterações do hub. A v24.0.0 trouxe a central administrativa restrita, cinco códigos novos, preview flutuante de caracteres e um passe de ações rápidas em todas as 28 abas. As três últimas também abrem no painel flutuante com <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>D</kbd>; o README guarda o restante.</p>
           <div class="toolbar">
             <div class="chips" id="devlogFilters">
               <button class="chip active" type="button" data-filter="all">Tudo</button>
@@ -1031,17 +1031,57 @@
       <span class="devlog-recent-icon" aria-hidden="true"><i class="fa-solid fa-clock-rotate-left"></i></span>
       <div>
         <h3 id="devlogRecentTitle">Últimas atualizações</h3>
-        <p>As três entradas mais recentes do Dev Log.</p>
+        <p>As três entradas mais recentes · copie o resumo ou baixe o Dev Log.</p>
       </div>
       <button class="btn btn-icon btn-ghost" id="devlogRecentClose" type="button" aria-label="Fechar"><i class="fa-solid fa-xmark"></i></button>
     </header>
     <div class="devlog-recent-list" id="devlogRecentList"></div>
     <footer class="devlog-recent-foot">
       <span class="devlog-recent-hint"><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>D</kbd> abre esta tela de qualquer aba · <kbd>Esc</kbd> fecha</span>
-      <button class="btn btn-primary btn-sm" id="devlogRecentOpenAll" type="button">Dev Log completo <i class="fa-solid fa-arrow-right"></i></button>
+      <div class="row">
+        <button class="btn btn-secondary btn-sm" id="devlogRecentCopyBtn" type="button"><i class="fa-solid fa-copy"></i> Copiar resumo</button>
+        <button class="btn btn-secondary btn-sm" id="devlogRecentExportBtn" type="button"><i class="fa-solid fa-file-arrow-down"></i> .md</button>
+        <button class="btn btn-primary btn-sm" id="devlogRecentOpenAll" type="button">Dev Log completo <i class="fa-solid fa-arrow-right"></i></button>
+      </div>
     </footer>
   </div>
 </div>
+
+<!-- ================= CENTRAL ADMINISTRATIVA (ACESSO RESTRITO) ================= -->
+<div class="overlay admin-overlay" id="adminOverlay" hidden>
+  <div class="admin-shell" id="adminShell" role="dialog" aria-modal="true" aria-labelledby="adminTitle" aria-describedby="adminSub">
+    <aside class="admin-rail" aria-label="Seções da central administrativa">
+      <div class="admin-rail-head">
+        <span class="admin-logo" aria-hidden="true"><i class="fa-solid fa-shield-halved"></i></span>
+        <div class="admin-rail-copy"><strong>NEXUS</strong><span>root console</span></div>
+        <button class="btn btn-icon btn-ghost admin-rail-toggle" id="adminRailToggle" type="button" title="Recolher seções (só ícones)" aria-label="Recolher seções (só ícones)" aria-pressed="false"><i class="fa-solid fa-angles-left"></i></button>
+      </div>
+      <nav class="admin-nav" id="adminNav" aria-label="Seções administrativas"></nav>
+      <footer class="admin-rail-foot">
+        <span class="admin-session" id="adminSessionLabel"><i class="fa-solid fa-circle"></i> sessão root</span>
+        <button class="btn btn-secondary btn-sm admin-lock" id="adminLockBtn" type="button"><i class="fa-solid fa-lock"></i><span class="admin-lock-text">Bloquear</span></button>
+      </footer>
+    </aside>
+    <section class="admin-stage">
+      <header class="admin-head">
+        <div class="admin-head-copy">
+          <span class="admin-kicker" id="adminKicker">Central restrita</span>
+          <h2 id="adminTitle">Visão geral</h2>
+          <p id="adminSub">Ferramentas internas deste navegador.</p>
+        </div>
+        <div class="admin-head-actions">
+          <span class="admin-clock" id="adminClock">--:--</span>
+          <span class="admin-badge"><i class="fa-solid fa-fingerprint"></i> root</span>
+          <button class="btn btn-icon btn-ghost" id="adminCloseBtn" type="button" aria-label="Fechar central administrativa"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+      </header>
+      <div class="admin-body" id="adminContent"></div>
+    </section>
+  </div>
+</div>
+
+<!-- ================= PREVIEW FLUTUANTE DE CARACTERES ================= -->
+<div class="char-hover-preview" id="charHoverPreview" role="tooltip" aria-hidden="true"></div>
 
 <!-- ================= MOBILE NAV ================= -->
 <nav class="mobile-nav" id="mobileNav" aria-label="Navegação rápida"></nav>
@@ -1051,13 +1091,13 @@
 
 <div class="overlay" id="whatsNewOverlay" hidden>
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="whatsNewTitle">
-    <div class="card-head"><h3 id="whatsNewTitle"><i class="fa-solid fa-wand-magic-sparkles"></i> Novidades da v23.0.0</h3>
+    <div class="card-head"><h3 id="whatsNewTitle"><i class="fa-solid fa-wand-magic-sparkles"></i> Novidades da v24.0.0</h3>
       <button class="btn btn-icon btn-ghost" id="whatsNewClose" type="button" aria-label="Fechar"><i class="fa-solid fa-xmark"></i></button></div>
     <ul class="whatsnew-list" id="whatsNewList"></ul>
     <button class="btn btn-primary btn-block" id="whatsNewStart" type="button">Começar a explorar</button>
   </div>
 </div>
 
-<script src="script.js?v=23.0.0"></script>
+<script src="script.js?v=24.0.0"></script>
 </body>
 </html>
