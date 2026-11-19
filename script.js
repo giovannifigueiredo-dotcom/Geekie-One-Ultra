@@ -1,5 +1,5 @@
 /* ============================================================
-   Geekie Study Hub v23.0.0 — script.js (parte 1/4)
+   Geekie Study Hub v24.0.0 — script.js (parte 1/4)
    Utilidades, estado, shell, login, tutorial, paleta, Hoje, Chat
    ============================================================ */
 'use strict';
@@ -97,7 +97,7 @@ function fxAudioCtxGet() {
 }
 
 /* ============ 2. ESTADO ============ */
-const VERSION = 'v23.0.0';
+const VERSION = 'v24.0.0';
 const STORAGE_KEY = 'geekieHubState_v22';
 const LEGACY_KEYS = ['geekieHubState_v20', 'geekieHubState_v194'];
 /* Contas continuam na mesma chave: trocar de versão não desloga ninguém. */
@@ -108,7 +108,7 @@ const SEEN_KEY = 'geekieHubSeenVersion_v22';
 const DEFAULT_STATE = {
   session: null,
   xp: 0, coins: 25, title: 'Novato',
-  pageTitle: 'Geekie Study Hub v23.0.0', font: 'Poppins', icon: 'fa-graduation-cap',
+  pageTitle: 'Geekie Study Hub v24.0.0', font: 'Poppins', icon: 'fa-graduation-cap',
   themesOwned: ['default'], theme: 'default',
   petsOwned: [], pet: null, petEnergy: {}, petFed: {},
   focusByDate: {}, subjectMinutes: {}, subjectGoals: {}, customSubjects: [],
@@ -125,7 +125,8 @@ const DEFAULT_STATE = {
   weeklyClaims: [], subjectLog: [], petXp: {},
   keySounds: { on: false, style: 'soft', volume: 45 },
   ambient: { master: 70, layers: { rain: 0, noise: 0, waves: 0, fire: 0, wind: 0, cafe: 0 } },
-  charsFav: [], recentChars: [], charCopies: 0,
+  charsFav: [], recentChars: [], charCopies: 0, portalZoom: {},
+  adminCodeHash: '', adminLog: [], customCodes: [], adminRailCollapsed: false,
   checkins: {}, streakProtect: {}, streakShields: 0, shieldsUsed: 0,
   dailyStats: { date: '', cards: 0, quiz: 0, goals: 0, clicks: 0, notes: 0, exchanges: 0, missions: 0, sessions: 0, checkin: 0 },
   missionClaims: [], diaryDrafts: {},
@@ -157,14 +158,17 @@ function loadState() {
   if (!s.decks || typeof s.decks !== 'object' || !Object.keys(s.decks).length) s.decks = DEFAULT_STATE.decks;
   Object.keys(s.decks).forEach((d) => { if (!Array.isArray(s.decks[d])) s.decks[d] = []; });
   if (!Array.isArray(s.deck ? [s.deck] : []) || !s.decks[s.deck]) s.deck = Object.keys(s.decks)[0];
-  ['themesOwned', 'petsOwned', 'goals', 'noteOrder', 'charsFav', 'recentChars', 'chatHistory', 'redeemed', 'commandHistory', 'quizHistory', 'milestonesClaimed', 'customSubjects', 'calcHistory', 'missionClaims', 'weeklyClaims', 'subjectLog'].forEach((k) => { if (!Array.isArray(s[k])) s[k] = []; });
-  ['focusByDate', 'subjectMinutes', 'subjectGoals', 'petEnergy', 'petFed', 'petXp', 'notes', 'planner', 'diary', 'achievements', 'checkins', 'streakProtect', 'boosts', 'dailyChest', 'weeklyStats', 'diaryDrafts'].forEach((k) => { if (!s[k] || typeof s[k] !== 'object') s[k] = {}; });
+  ['themesOwned', 'petsOwned', 'goals', 'noteOrder', 'charsFav', 'recentChars', 'chatHistory', 'redeemed', 'commandHistory', 'quizHistory', 'milestonesClaimed', 'customSubjects', 'calcHistory', 'missionClaims', 'weeklyClaims', 'subjectLog', 'adminLog', 'customCodes'].forEach((k) => { if (!Array.isArray(s[k])) s[k] = []; });
+  s.customCodes = s.customCodes.filter((c) => c && typeof c.code === 'string').slice(0, 60);
+  s.adminLog = s.adminLog.filter((l) => l && typeof l.at === 'number').slice(0, 80);
+  ['focusByDate', 'subjectMinutes', 'subjectGoals', 'petEnergy', 'petFed', 'petXp', 'notes', 'planner', 'diary', 'achievements', 'checkins', 'streakProtect', 'boosts', 'dailyChest', 'weeklyStats', 'diaryDrafts', 'portalZoom'].forEach((k) => { if (!s[k] || typeof s[k] !== 'object') s[k] = {}; });
+  s.adminRailCollapsed = !!s.adminRailCollapsed;
   s.dailyStats = Object.assign({}, DEFAULT_STATE.dailyStats, s.dailyStats);
   if (typeof s.charCopies !== 'number' || !isFinite(s.charCopies)) s.charCopies = 0;
   s.streakShields = clamp(Number(s.streakShields) || 0, 0, 5);
   s.xpEarned = Math.max(0, Number(s.xpEarned) || 0);
   s.coinsEarned = Math.max(0, Number(s.coinsEarned) || 0);
-  if (['Geekie Study Hub v22.3.0', 'Geekie Study Hub v22.2.0', 'Geekie Study Hub v22.1.0', 'Geekie Study Hub v22.0.0', 'Geekie Study Hub v21.0.0', 'Geekie Study Hub v20.1.0'].indexOf(s.pageTitle) !== -1) s.pageTitle = DEFAULT_STATE.pageTitle;
+  if (['Geekie Study Hub v23.0.0', 'Geekie Study Hub v22.3.0', 'Geekie Study Hub v22.2.0', 'Geekie Study Hub v22.1.0', 'Geekie Study Hub v22.0.0', 'Geekie Study Hub v21.0.0', 'Geekie Study Hub v20.1.0'].indexOf(s.pageTitle) !== -1) s.pageTitle = DEFAULT_STATE.pageTitle;
   if (s.themesOwned.indexOf('default') === -1) s.themesOwned.unshift('default');
   return s;
 }
@@ -214,7 +218,7 @@ const TABS = [
   { id: 'geekie', title: 'Portal Geekie', icon: 'fa-graduation-cap', group: 'Extras', kicker: 'Portal', desc: 'O Geekie One embutido, com recarregar e tela cheia.', tips: ['Se bloquear o iframe, use Nova aba.', 'Os atalhos abrem portais em nova aba.'] },
   { id: 'google', title: 'Google', icon: 'fa-google', brand: true, group: 'Extras', kicker: 'Busca', desc: 'Google embutido mais atalhos para Classroom, Drive e YouTube.', tips: ['A busca embutida pode bloquear; use os atalhos.', 'Tela cheia amplia a área.'] },
   { id: 'events', title: 'Eventos', icon: 'fa-calendar-day', group: 'Extras', kicker: 'Calendário', desc: 'Evento de cada mês com progresso por XP e recompensa.', tips: ['O mês atual é destacado.', 'A recompensa é liberada por nível de evento.'] },
-  { id: 'devlog', title: 'Dev Log', icon: 'fa-code-branch', group: 'Extras', kicker: 'Versões', desc: 'Histórico de versões com filtros, busca e atalho para as 3 últimas.', tips: ['Filtre por correção, novidade ou interface.', 'A v23.0.0 documenta foguinho 3.0, clicker 3.0 e o pacote de melhorias por aba.', 'Ctrl+Shift+D abre as 3 últimas em um painel flutuante; Ctrl+B alterna a nav bar compacta.'] }
+  { id: 'devlog', title: 'Dev Log', icon: 'fa-code-branch', group: 'Extras', kicker: 'Versões', desc: 'Histórico de versões com filtros, busca e atalho para as 3 últimas.', tips: ['Filtre por correção, novidade ou interface.', 'A v24.0.0 documenta a central administrativa, os cinco códigos, o preview de caracteres e as ações rápidas.', 'Ctrl+Shift+D abre as 3 últimas em um painel flutuante; o rodapé copia ou exporta o resumo.', 'Ctrl+B alterna a nav bar compacta e não interfere na nav bar da central.'] }
 ];
 const TAB_MAP = Object.fromEntries(TABS.map((t) => [t.id, t]));
 const GROUPS = ['Hoje', 'Estudo', 'Inteligência', 'Progresso', 'Ferramentas', 'Extras'];
@@ -3382,7 +3386,7 @@ function findChar(ch) {
 }
 function charTile(item, extraClass) {
   const fav = state.charsFav.indexOf(item.ch) !== -1;
-  return '<button class="char-btn' + (extraClass ? ' ' + extraClass : '') + (fav ? ' fav' : '') + '" type="button" data-char="' + esc(item.ch) + '" title="' + esc(item.name + ' · ' + charCode(item.ch)) + '">' +
+  return     '<button class="char-btn' + (extraClass ? ' ' + extraClass : '') + (fav ? ' fav' : '') + '" type="button" data-char="' + esc(item.ch) + '" aria-label="' + esc(item.name + ' · ' + charCode(item.ch)) + '" data-char-name="' + esc(item.name) + '">' +
     (fav ? '<i class="fa-solid fa-star fav-dot"></i>' : '') +
     '<b class="char-glyph">' + esc(item.ch) + '</b>' +
     '<span class="char-name">' + esc(item.name) + '</span>' +
@@ -3956,8 +3960,14 @@ const REWARDS = [
   { code: 'AURORA22', label: 'Aurora v22', coins: 120, xp: 100, theme: 'aurora', hint: 'Libera o tema Aurora', expires: '2027-03-31' },
   { code: 'BAU23', label: 'Baú v23', coins: 70, xp: 90, hint: 'Abra o baú e volte aqui', expires: '2027-12-31' },
   { code: 'SEMANA23', label: 'Semana v23', coins: 90, xp: 120, shield: 1, hint: 'Missões semanais + escudo', expires: '2027-12-31' },
-  { code: 'IMORTAL23', label: 'Foguinho Imortal', coins: 150, xp: 200, theme: 'galaxy', hint: 'Libera o tema Galáxia', expires: '2027-06-30' }
+  { code: 'IMORTAL23', label: 'Foguinho Imortal', coins: 150, xp: 200, theme: 'galaxy', hint: 'Libera o tema Galáxia', expires: '2027-06-30' },
+  { code: 'NEXUS24', label: 'Nexus v24', coins: 180, xp: 240, shield: 1, hint: 'Estreia da central: moedas, XP e um escudo', expires: '2027-12-31' },
+  { code: 'ORBITA24', label: 'Órbita de energia', coins: 200, xp: 180, energy: 5000, hint: '5.000 de energia para o núcleo', expires: '2027-12-31' },
+  { code: 'SINGULAR24', label: 'Singularidade', coins: 260, xp: 320, theme: 'ember', hint: 'Libera o tema Brasa e um pacote grande', expires: '2027-12-31' },
+  { code: 'MESTRE24', label: 'Mestre dos atalhos', coins: 300, xp: 400, shield: 1, hint: 'Pacote completo de XP, moedas e escudo', expires: '2027-12-31' },
+  { code: 'SAKURA24', label: 'Sakura v24', coins: 150, xp: 220, theme: 'sakura', hint: 'Libera o tema Sakura', expires: '2027-12-31' }
 ];
+function rewardPool() { return REWARDS.concat(Array.isArray(state.customCodes) ? state.customCodes : []); }
 function renderRewards() {
   const grid = $('#rewardGrid');
   if (grid) {
@@ -3965,16 +3975,17 @@ function renderRewards() {
       const used = state.redeemed.includes(r.code);
       const expired = r.expires < dateKey();
       return '<div class="reward-card' + (used ? ' used' : '') + (expired ? ' expired' : '') + '">' +
-        '<div class="reward-card-head"><span class="reward-code">' + r.code + '</span><span class="badge ' + (used ? '' : expired ? 'danger' : 'gold') + '">' + (used ? 'resgatado' : expired ? 'expirado' : 'ativo') + '</span></div>' +
+        '<div class="reward-card-head"><span class="reward-code">' + r.code + '</span><span class="row reward-head-actions"><span class="badge ' + (used ? '' : expired ? 'danger' : 'gold') + '">' + (used ? 'resgatado' : expired ? 'expirado' : 'ativo') + '</span>' +
+        '<button class="btn btn-icon btn-ghost btn-sm reward-copy" type="button" data-reward-copy="' + esc(r.code) + '" aria-label="Copiar código ' + esc(r.code) + '"><i class="fa-solid fa-copy"></i></button></span></div>' +
         '<p>' + esc(r.hint) + '</p>' +
-        '<div class="reward-prize"><span><i class="fa-solid fa-coins" style="color:var(--coin)"></i> ' + r.coins + '</span><span><i class="fa-solid fa-star" style="color:var(--violet)"></i> ' + r.xp + ' XP</span>' + (r.theme ? '<span><i class="fa-solid fa-palette"></i> tema</span>' : '') + (r.shield ? '<span><i class="fa-solid fa-shield-halved"></i> ' + r.shield + ' escudo</span>' : '') + '</div>' +
+        '<div class="reward-prize"><span><i class="fa-solid fa-coins" style="color:var(--coin)"></i> ' + r.coins + '</span><span><i class="fa-solid fa-star" style="color:var(--violet)"></i> ' + r.xp + ' XP</span>' + (r.theme ? '<span><i class="fa-solid fa-palette"></i> tema</span>' : '') + (r.shield ? '<span><i class="fa-solid fa-shield-halved"></i> ' + r.shield + ' escudo</span>' : '') + (r.energy ? '<span><i class="fa-solid fa-bolt" style="color:var(--gold)"></i> ' + money(r.energy) + ' ⚡</span>' : '') + '</div>' +
         '<span class="status-text">expira em ' + prettyDate(r.expires) + '</span></div>';
     }).join('');
   }
   const hist = $('#rewardHistory');
   if (hist) {
     hist.innerHTML = state.redeemed.length ? state.redeemed.map((code) => {
-      const r = REWARDS.find((x) => x.code === code);
+      const r = rewardPool().find((x) => x.code === code);
       return '<div class="reward-history-item"><span><b style="color:var(--gold)">' + esc(code) + '</b>' + (r ? ' · ' + esc(r.label) : '') + '</span><span class="status-text">resgatado</span></div>';
     }).join('') : '<div class="empty">Nenhum código resgatado ainda.</div>';
   }
@@ -3988,20 +3999,25 @@ function redeemCode(raw) {
     return { ok, message: msg };
   };
   if (!code) return show('Digite um código.', false);
-  const reward = REWARDS.find((r) => r.code === code);
+  const reward = rewardPool().find((r) => r.code === code && !r.hidden);
   if (!reward) return show('Código inválido.', false);
   if (state.redeemed.includes(code)) return show('Esse código já foi resgatado nesta conta.', false);
-  if (reward.expires < dateKey()) return show('Esse código expirou em ' + prettyDate(reward.expires) + '.', false);
+  if (reward.expires && reward.expires < dateKey()) return show('Esse código expirou em ' + prettyDate(reward.expires) + '.', false);
   state.redeemed.push(code);
-  addCoins(reward.coins);
-  addXp(reward.xp);
+  addCoins(reward.coins || 0);
+  addXp(reward.xp || 0);
+  if (reward.energy) {
+    state.clicker.points = (state.clicker.points || 0) + Number(reward.energy);
+    if (typeof renderClickerHud === 'function') renderClickerHud();
+    if (typeof renderPrestige === 'function') renderPrestige();
+  }
   if (reward.shield) state.streakShields = Math.min(5, (state.streakShields || 0) + reward.shield);
   if (reward.theme && !state.themesOwned.includes(reward.theme)) {
     state.themesOwned.push(reward.theme);
     applyTheme(reward.theme);
   }
   renderRewards(); renderStore(); save();
-  return show('Código ' + code + ' resgatado: +' + reward.coins + ' moedas, +' + reward.xp + ' XP' + (reward.theme ? ', tema liberado' : '') + (reward.shield ? ' e +' + reward.shield + ' escudo' : '') + '.', true);
+  return show('Código ' + code + ' resgatado: +' + (reward.coins || 0) + ' moedas, +' + (reward.xp || 0) + ' XP' + (reward.energy ? ', +' + money(reward.energy) + ' ⚡' : '') + (reward.theme ? ', tema liberado' : '') + (reward.shield ? ' e +' + reward.shield + ' escudo' : '') + '.', true);
 }
 function bindRewards() {
   renderRewards();
@@ -4016,6 +4032,51 @@ function bindRewards() {
 
 /* ============ 33. DEV LOG ============ */
 const DEVLOG = [
+  {
+    version: 'v24.0.0', date: '2026-11-19', type: 'feature', title: 'Central administrativa NEXUS com acesso restrito',
+    items: [
+      'Nova central flutuante e centralizada que abre com Ctrl+Shift+S somente depois do código de acesso correto digitado no campo de códigos.',
+      'O código é validado por hash com sal: o texto puro não fica escrito no HTML, no CSS nem no JavaScript, e o desbloqueio vale apenas para a sessão do navegador.',
+      'Ao abrir, o resto do hub recebe blur, fica inerte e o foco vai para a central; Esc, o botão de fechar e o de bloquear devolvem a navegação normal, enquanto Tab fica preso aos controles da central.',
+      'Oito seções (visão geral, economia, progresso, códigos, backup, segurança, ferramentas e auditoria) em uma segunda nav bar recolhível só com ícones.',
+      'A animação de abertura usa perspectiva, clip-path e uma varredura vertical própria — parecida com a do Dev Log, mas não igual.'
+    ]
+  },
+  {
+    version: 'v24.0.0', date: '2026-11-19', type: 'feature', title: 'Cinco códigos novos e códigos personalizados',
+    items: [
+      'NEXUS24, ORBITA24, SINGULAR24, MESTRE24 e SAKURA24 chegam ao catálogo, com moedas, XP, escudos, energia do clicker e temas.',
+      'O campo de códigos ganhou botão de copiar em cada campanha e o resgate passou a aceitar energia de núcleo.',
+      'A central pode criar códigos personalizados com validade, recompensa e tema; eles não aparecem no catálogo público e podem ser removidos a qualquer momento.',
+      'Cada código continua valendo uma vez por conta, com data de expiração conferida no fuso local.'
+    ]
+  },
+  {
+    version: 'v24.0.0', date: '2026-11-19', type: 'feature', title: 'Preview flutuante ao passar o mouse nos caracteres',
+    items: [
+      'Qualquer caractere da aba Caracteres (grade, recentes ou favoritos) abre um cartão flutuante com glifo grande, nome, categoria, código Unicode e favorito.',
+      'A abertura tem animação de escala e desfoque; ao deslizar para o caractere ao lado, o cartão acompanha o cursor e troca o conteúdo com uma transição suave.',
+      'Teclado também funciona: focar um caractere com Tab abre o mesmo preview, e o cartão fecha ao rolar, clicar, trocar de aba ou abrir a central.'
+    ]
+  },
+  {
+    version: 'v24.0.0', date: '2026-11-19', type: 'feature', title: 'Ações rápidas e melhorias em todas as 28 abas',
+    items: [
+      'Cada aba recebeu uma barra de ações rápidas: resumo do dia, foco de 5/10/50 min, exportação de metas/notas/Dev Log, reset do baralho, limpeza do chat, tema e título aleatórios, alimentar todos os pets e mais.',
+      'Pomodoro ganhou atalho de Espaço na aba, o título da página ganhou prévia ao vivo, os portais lembram o zoom e o campo de caracteres ganhou o preview flutuante.',
+      'Recompensas mostram cópia rápida, energia de núcleo e os cinco códigos v24; o resumo do Dev Log ganhou botões de copiar e exportar.',
+      'Os painéis v23 continuam funcionando sobre os mesmos dados, sem migração destrutiva e sem perder progresso.'
+    ]
+  },
+  {
+    version: 'v24.0.0', date: '2026-11-19', type: 'style', title: 'Interface da v24: central, nav dupla, preview e blur',
+    items: [
+      'A central NEXUS tem shell de vidro, grade sutil, varredura de abertura, navegação com cascata e estado ativo próprio.',
+      'A nav bar administrativa recolhe para 72 px e anima rótulos e ícones sem tocar na nav bar principal; as duas mantêm estados independentes (Ctrl+B só afeta a normal).',
+      'O blur do restante da página, a inércia do app e a armadilha de foco mantêm a central como única superfície interativa.',
+      'Tudo respeita prefers-reduced-motion e o modo de animações reduzidas do hub.'
+    ]
+  },
   {
     version: 'v23.0.0', date: '2026-11-18', type: 'feature', title: 'Foguinho 3.0: baú diário, missões semanais e duas faixas novas',
     items: [
@@ -4787,6 +4848,7 @@ function boot() {
   buildNav();
   applyNavCollapsed();
   initV23();
+  initV24();
   bindGlobal();
   bindGamification();
   initButtonFx();
@@ -5421,6 +5483,8 @@ function zoomPortalV23(btn) {
   z = clamp(Math.round(z * 10) / 10, 0.7, 1.3);
   frame.dataset.zoom = z;
   try { frame.style.zoom = z; } catch (e) { /* navegador sem zoom CSS */ }
+  const pageId = page.dataset.tab;
+  if (pageId) { state.portalZoom = state.portalZoom || {}; state.portalZoom[pageId] = z; save(); }
   const label = $('[data-v23-zoom-label]', page);
   if (label) label.textContent = Math.round(z * 100) + '%';
 }
@@ -5670,7 +5734,965 @@ function bindPasswordExtrasV23() {
   });
 }
 
-/* Fim do núcleo v23. */
+/* ============================================================
+   v24.0.0 — CENTRAL ADMINISTRATIVA, CÓDIGOS E AÇÕES RÁPIDAS
+   O acesso é restrito por código + Ctrl+Shift+S. O texto do código
+   não existe no projeto: só o hash com sal. A central é 100% local.
+   ============================================================ */
+
+/* Hash do código de acesso padrão (o texto puro não é armazenado). */
+const ADMIN_CODE_HASH = '1at1yiy5gys';
+const ADMIN_ARM_KEY = 'geekieAdminArmed_v24';
+const ADMIN_SECTIONS = [
+  { id: 'overview', label: 'Visão geral', icon: 'fa-gauge-high', kicker: 'Central NEXUS', title: 'Visão geral', sub: 'Estado do hub, atalhos e saúde dos dados.' },
+  { id: 'economy', label: 'Economia', icon: 'fa-coins', kicker: 'Economia', title: 'XP, moedas e boosts', sub: 'Ajustes diretos no saldo e nos multiplicadores.' },
+  { id: 'progress', label: 'Progresso', icon: 'fa-chart-line', kicker: 'Progresso', title: 'Progresso e desbloqueios', sub: 'Baús, missões, sequência, temas, pets e núcleo.' },
+  { id: 'codes', label: 'Códigos', icon: 'fa-key', kicker: 'Códigos', title: 'Códigos e campanhas', sub: 'Catálogo público, histórico e códigos personalizados.' },
+  { id: 'backup', label: 'Backup', icon: 'fa-database', kicker: 'Dados', title: 'Backup e restauração', sub: 'Exporte, importe e limpe partes específicas do estado.' },
+  { id: 'security', label: 'Segurança', icon: 'fa-fingerprint', kicker: 'Segurança', title: 'Acesso e credenciais', sub: 'Troque o código root e controle a sessão administrativa.' },
+  { id: 'tools', label: 'Ferramentas', icon: 'fa-screwdriver-wrench', kicker: 'Ferramentas', title: 'Ferramentas internas', sub: 'Dev Log, paleta, movimento, diagnóstico e atalhos de manutenção.' },
+  { id: 'audit', label: 'Auditoria', icon: 'fa-clipboard-list', kicker: 'Auditoria', title: 'Registro de ações', sub: 'As últimas ações administrativas desta conta.' }
+];
+let adminOpen = false;
+let adminSection = 'overview';
+let adminLastFocus = null;
+let adminClockTimer = null;
+
+function adminHash(raw) {
+  const input = 'geekie::v24::' + String(raw == null ? '' : raw).trim().toUpperCase() + '::root';
+  let h1 = 0xdeadbeef;
+  let h2 = 0x41c6ce57;
+  for (let i = 0; i < input.length; i++) {
+    const ch = input.charCodeAt(i);
+    h1 = Math.imul(h1 ^ ch, 2654435761);
+    h2 = Math.imul(h2 ^ ch, 1597334677);
+  }
+  h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+  h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+  return (4294967296 * (2097151 & h2) + (h1 >>> 0)).toString(36);
+}
+function adminHashCurrent() { return state.adminCodeHash || ADMIN_CODE_HASH; }
+function adminCodeOk(raw) { return !!String(raw == null ? '' : raw).trim() && adminHash(raw) === adminHashCurrent(); }
+function adminArmed() {
+  try { return sessionStorage.getItem(ADMIN_ARM_KEY) === adminHashCurrent(); } catch (e) { return false; }
+}
+function adminArm() {
+  try { sessionStorage.setItem(ADMIN_ARM_KEY, adminHashCurrent()); } catch (e) { /* sessão bloqueada */ }
+  toast('Acesso root reconhecido. Pressione Ctrl+Shift+S.', 'fa-shield-halved');
+}
+function adminLogger(action, detail) {
+  state.adminLog = Array.isArray(state.adminLog) ? state.adminLog : [];
+  state.adminLog.unshift({ at: Date.now(), action: String(action || 'Ação'), detail: String(detail || '') });
+  state.adminLog = state.adminLog.slice(0, 80);
+  save();
+}
+function adminSessionText() {
+  const s = state.session;
+  return s ? ('sessão ' + s.name + (s.guest ? ' · convidado' : '')) : 'sem sessão';
+}
+function adminUpdateClock() {
+  const el = $('#adminClock');
+  if (el) el.textContent = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+  const label = $('#adminSessionLabel');
+  if (label) label.innerHTML = '<i class="fa-solid fa-circle"></i> ' + esc(adminSessionText());
+}
+
+/* ---------- 37-A. Componentes visuais da central ---------- */
+function adminStatCard(label, value, sub, icon, tone) {
+  return '<div class="admin-stat' + (tone ? ' tone-' + tone : '') + '">' +
+    '<span class="admin-stat-label"><i class="fa-solid ' + icon + '"></i> ' + esc(label) + '</span>' +
+    '<b class="admin-stat-value">' + esc(value) + '</b>' +
+    '<small>' + esc(sub || '') + '</small></div>';
+}
+function adminCard(title, icon, body, extra) {
+  return '<article class="admin-card"><header class="admin-card-head"><h3><i class="fa-solid ' + icon + '"></i> ' + esc(title) + '</h3>' + (extra || '') + '</header>' + body + '</article>';
+}
+function adminButton(label, action, icon, variant, attrs) {
+  return '<button class="btn ' + (variant || 'btn-secondary') + ' btn-sm" type="button" data-admin-action="' + action + '"' + (attrs ? ' ' + attrs : '') + '><i class="fa-solid ' + icon + '"></i> ' + esc(label) + '</button>';
+}
+function adminKV(rows) {
+  return '<div class="admin-kv">' + rows.map((r) => '<div><span>' + esc(r[0]) + '</span><b>' + esc(r[1]) + '</b></div>').join('') + '</div>';
+}
+function adminStorageKb() {
+  try { return Math.max(1, Math.round(JSON.stringify(state).length / 1024)); } catch (e) { return 0; }
+}
+function adminThemeName(id) {
+  const t = THEMES.find((x) => x.id === id);
+  return t ? t.name : (id || 'nenhum');
+}
+
+/* ---------- 37-B. Visão geral ---------- */
+function adminViewOverview() {
+  const info = levelInfo(state.xp);
+  const todayFocus = state.focusByDate[dateKey()] || 0;
+  const due = dueCards().length;
+  const cards = Object.values(state.flashStats).reduce((a, b) => a + (Number(b) || 0), 0);
+  return '<div class="admin-stats">' +
+    adminStatCard('Nível', info.cur.title, state.xp + ' XP · ' + (info.next ? (info.next.xp - state.xp) + ' para o próximo' : 'máximo'), 'fa-star', 'violet') +
+    adminStatCard('Moedas', money(state.coins), 'ganhas no total: ' + money(state.coinsEarned || 0), 'fa-coins', 'gold') +
+    adminStatCard('Foguinho', computeStreak() + ' dia(s)', 'recorde ' + state.streakBest + ' · ' + (state.streakShields || 0) + '/5 escudos', 'fa-fire', 'fire') +
+    adminStatCard('Foco hoje', fmtMinutes(todayFocus), 'total ' + fmtMinutes(totalFocus()) + ' · ' + state.sessions + ' sessões', 'fa-clock', 'cyan') +
+    adminStatCard('Revisões', due + ' devidas', cards + ' avaliações no histórico', 'fa-clone', 'cyan') +
+    adminStatCard('Núcleo', money(Math.floor(state.clicker.points || 0)) + ' ⚡', (state.clicker.prestige || 0) + ' prestígio(s) · ' + (state.clicker.clicks || 0) + ' cliques', 'fa-bolt', 'gold') +
+    adminStatCard('Códigos', REWARDS.length + ' campanhas', state.redeemed.length + ' resgatados · ' + (state.customCodes || []).length + ' personalizados', 'fa-key', 'violet') +
+    adminStatCard('Dados', adminStorageKb() + ' KB', TABS.length + ' abas · chave ' + STORAGE_KEY, 'fa-database', '') +
+    '</div>' +
+    '<div class="admin-two">' +
+    adminCard('Sessão e ações', 'fa-user-shield', adminKV([
+      ['Conta', (state.session && state.session.name) || 'sem sessão'],
+      ['Tipo', state.session && state.session.guest ? 'convidado local' : 'conta local'],
+      ['Código root', state.adminCodeHash ? 'personalizado' : 'padrão embutido'],
+      ['Sessão root', adminArmed() ? 'armada nesta aba' : 'bloqueada'],
+      ['Versão', VERSION]
+    ]) + '<div class="admin-actions-row">' + adminButton('Salvar agora', 'save-now', 'fa-floppy-disk') + adminButton('Exportar JSON', 'export-json', 'fa-file-arrow-down') + adminButton('Copiar estado', 'copy-state', 'fa-copy') + '</div>') +
+    adminCard('Atalhos internos', 'fa-bolt', '<p class="admin-note">Ações rápidas para inspecionar o hub sem sair da central.</p><div class="admin-actions-row">' +
+      adminButton('Ir para economia', 'goto', 'fa-coins', 'btn-secondary', 'data-section="economy"') +
+      adminButton('Ir para códigos', 'goto', 'fa-key', 'btn-secondary', 'data-section="codes"') +
+      adminButton('Abrir Dev Log', 'open-devlog', 'fa-code-branch') +
+      adminButton('Abrir paleta', 'open-palette', 'fa-terminal') +
+      adminButton('Recarregar hub', 'reload', 'fa-rotate', 'btn-ghost') +
+    '</div><p class="admin-note">O código de acesso nunca aparece nesta tela; só o estado do hash e da sessão.</p>') +
+    '</div>';
+}
+
+/* ---------- 37-C. Economia ---------- */
+function adminViewEconomy() {
+  return '<div class="admin-stats admin-stats-3">' +
+    adminStatCard('XP atual', money(state.xp), 'nível ' + levelInfo(state.xp).cur.title, 'fa-star', 'violet') +
+    adminStatCard('Moedas atuais', money(state.coins), 'total ganho ' + money(state.coinsEarned || 0), 'fa-coins', 'gold') +
+    adminStatCard('Boosts', (boostActive('xp') ? 'x2 XP' : '—') + ' · ' + (boostActive('coin') ? '+50%' : '—'), activeBoostsText(), 'fa-flask', 'cyan') +
+    '</div>' +
+    adminCard('XP', 'fa-star', '<p class="admin-note">Ajuste direto do XP. Para subir de nível com bônus e escudos, prefira as ações normais do hub.</p>' +
+      '<div class="admin-inline"><label class="field"><span>Valor</span><input class="input" id="adminXpValue" type="number" value="500" min="-1000000" step="50"></label>' +
+      adminButton('Adicionar', 'xp-add', 'fa-plus', 'btn-primary') + adminButton('Definir', 'xp-set', 'fa-equals') + '</div>' +
+      '<div class="admin-actions-row">' + adminButton('+100', 'xp-add', 'fa-plus', 'btn-ghost', 'data-amount="100"') + adminButton('+500', 'xp-add', 'fa-plus', 'btn-ghost', 'data-amount="500"') + adminButton('+1.000', 'xp-add', 'fa-plus', 'btn-ghost', 'data-amount="1000"') + adminButton('Zerar XP', 'xp-set', 'fa-eraser', 'btn-danger', 'data-amount="0"') + '</div>') +
+    adminCard('Moedas', 'fa-coins', '<p class="admin-note">O saldo nunca fica negativo. Adicionar ou remover aqui não dispara multiplicadores de boost.</p>' +
+      '<div class="admin-inline"><label class="field"><span>Valor</span><input class="input" id="adminCoinsValue" type="number" value="500" min="-1000000" step="50"></label>' +
+      adminButton('Adicionar', 'coins-add', 'fa-plus', 'btn-primary') + adminButton('Definir', 'coins-set', 'fa-equals') + '</div>' +
+      '<div class="admin-actions-row">' + adminButton('+100', 'coins-add', 'fa-plus', 'btn-ghost', 'data-amount="100"') + adminButton('+500', 'coins-add', 'fa-plus', 'btn-ghost', 'data-amount="500"') + adminButton('+1.000', 'coins-add', 'fa-plus', 'btn-ghost', 'data-amount="1000"') + adminButton('Zerar moedas', 'coins-set', 'fa-eraser', 'btn-danger', 'data-amount="0"') + '</div>') +
+    adminCard('Boosts de 15 minutos', 'fa-flask', '<p class="admin-note">Ativar de novo estende o tempo restante, igual à Loja.</p><div class="admin-actions-row">' +
+      adminButton('Ativar x2 XP', 'boost-xp', 'fa-star', 'btn-primary') + adminButton('Ativar +50% moedas', 'boost-coin', 'fa-coins', 'btn-primary') + adminButton('Encerrar boosts', 'boost-clear', 'fa-ban', 'btn-danger') + '</div>') +
+    adminCard('Zona de risco', 'fa-triangle-exclamation', '<p class="admin-note danger-text">Zerar a economia remove XP e moedas de verdade. O progresso de nível, temas e pets não é apagado.</p><div class="admin-actions-row">' + adminButton('Resetar economia', 'reset-economy', 'fa-rotate-left', 'btn-danger') + '</div>');
+}
+
+/* ---------- 37-D. Progresso ---------- */
+function adminViewProgress() {
+  return '<div class="admin-stats admin-stats-3">' +
+    adminStatCard('Escudos', (state.streakShields || 0) + '/5', (state.shieldsUsed || 0) + ' usados', 'fa-shield-halved', 'cyan') +
+    adminStatCard('Baú de hoje', chestOpenedToday() ? 'aberto' : 'disponível', state.dailyChest.date ? prettyDate(state.dailyChest.date) : 'sem registro', 'fa-gift', 'gold') +
+    adminStatCard('Missões', (state.missionClaims || []).length + ' diárias', (state.weeklyClaims || []).length + ' semanais resgatadas', 'fa-flag-checkered', 'violet') +
+    '</div>' +
+    adminCard('Sequência e escudos', 'fa-fire', '<div class="admin-inline"><label class="field"><span>Escudos (0–5)</span><select class="input" id="adminShields">' + [0, 1, 2, 3, 4, 5].map((n) => '<option value="' + n + '"' + (Number(state.streakShields || 0) === n ? ' selected' : '') + '>' + n + '</option>').join('') + '</select></label>' + adminButton('Aplicar escudos', 'shields-set', 'fa-check', 'btn-primary') + '</div><p class="admin-note">O escudo protege um dia sem foco. A sequência é recalculada a partir dos registros.</p>') +
+    adminCard('Recompensas diárias e semanais', 'fa-calendar-check', '<p class="admin-note">Resetar permite testar o baú, as missões do dia e as da semana novamente.</p><div class="admin-actions-row">' +
+      adminButton('Resetar baú de hoje', 'reset-chest', 'fa-gift') + adminButton('Resetar missões diárias', 'reset-daily', 'fa-list-check') + adminButton('Resetar missões semanais', 'reset-weekly', 'fa-calendar-week') + adminButton('Resetar foco de hoje', 'reset-today-focus', 'fa-clock', 'btn-danger') + '</div>') +
+    adminCard('Desbloqueios', 'fa-lock-open', '<p class="admin-note">Libera todos os temas e pets. Os pets entram com energia inicial 10; o primeiro vira o ativo.</p><div class="admin-actions-row">' +
+      adminButton('Liberar todos os temas', 'unlock-themes', 'fa-palette') + adminButton('Liberar todos os pets', 'unlock-pets', 'fa-paw') + adminButton('Re-renderizar tudo', 'refresh-ui', 'fa-rotate') + '</div><p class="admin-note">Temas: ' + state.themesOwned.length + '/' + THEMES.length + ' · Pets: ' + state.petsOwned.length + '/' + PETS.length + '</p>') +
+    adminCard('Núcleo do clicker', 'fa-bolt', '<p class="admin-note">Zera energia, melhorias, prestígio, talentos e marcos do núcleo. Moedas e XP continuam intactos.</p><div class="admin-actions-row">' + adminButton('Resetar núcleo', 'reset-clicker', 'fa-rotate-left', 'btn-danger') + '</div>');
+}
+
+/* ---------- 37-E. Códigos ---------- */
+function adminCodeRow(r, custom) {
+  const used = state.redeemed.includes(r.code);
+  const expired = r.expires && r.expires < dateKey();
+  const prizes = [];
+  if (r.coins) prizes.push('+' + money(r.coins) + ' moedas');
+  if (r.xp) prizes.push('+' + money(r.xp) + ' XP');
+  if (r.energy) prizes.push('+' + money(r.energy) + ' ⚡');
+  if (r.theme) prizes.push('tema ' + adminThemeName(r.theme));
+  if (r.shield) prizes.push('+' + r.shield + ' escudo');
+  return '<div class="admin-code-row' + (used ? ' used' : '') + '">' +
+    '<div class="admin-code-main"><b>' + esc(r.code) + '</b><span>' + esc(r.label || r.hint || 'Código') + '</span><small>' + esc(prizes.join(' · ')) + '</small></div>' +
+    '<span class="badge ' + (used ? '' : expired ? 'danger' : 'gold') + '">' + (used ? 'resgatado' : expired ? 'expirado' : 'ativo') + '</span>' +
+    '<button class="btn btn-icon btn-ghost btn-sm" type="button" data-reward-copy="' + esc(r.code) + '" aria-label="Copiar código ' + esc(r.code) + '"><i class="fa-solid fa-copy"></i></button>' +
+    (custom ? '<button class="btn btn-icon btn-ghost btn-sm" type="button" data-admin-action="code-del" data-code="' + esc(r.code) + '" aria-label="Remover código ' + esc(r.code) + '"><i class="fa-solid fa-trash"></i></button>' : '') +
+    '</div>';
+}
+function adminViewCodes() {
+  const custom = Array.isArray(state.customCodes) ? state.customCodes : [];
+  return '<div class="admin-stats admin-stats-3">' +
+    adminStatCard('Campanhas', REWARDS.length, 'códigos públicos do hub', 'fa-gift', 'gold') +
+    adminStatCard('Personalizados', custom.length, 'só a central vê esta lista', 'fa-key', 'violet') +
+    adminStatCard('Resgates', state.redeemed.length, 'um por conta em cada código', 'fa-circle-check', 'cyan') +
+    '</div>' +
+    adminCard('Novo código personalizado', 'fa-plus', '<form class="admin-code-form" data-admin-form="custom-code" autocomplete="off">' +
+      '<label class="field"><span>Código</span><input class="input" name="code" maxlength="24" placeholder="EX.: TURMA2027" required></label>' +
+      '<label class="field"><span>Nome da campanha</span><input class="input" name="label" maxlength="40" placeholder="Código da turma"></label>' +
+      '<div class="admin-code-grid"><label class="field"><span>Moedas</span><input class="input" name="coins" type="number" min="0" value="50"></label>' +
+      '<label class="field"><span>XP</span><input class="input" name="xp" type="number" min="0" value="75"></label>' +
+      '<label class="field"><span>Energia ⚡</span><input class="input" name="energy" type="number" min="0" value="0"></label>' +
+      '<label class="field"><span>Escudos</span><input class="input" name="shield" type="number" min="0" max="5" value="0"></label></div>' +
+      '<div class="admin-code-grid"><label class="field"><span>Tema</span><select class="input" name="theme"><option value="">Sem tema</option>' + THEMES.map((t) => '<option value="' + esc(t.id) + '">' + esc(t.name) + '</option>').join('') + '</select></label>' +
+      '<label class="field"><span>Expira em</span><input class="input" name="expires" type="date" value="2027-12-31"></label></div>' +
+      '<div class="admin-actions-row"><button class="btn btn-primary" type="submit"><i class="fa-solid fa-key"></i> Criar código</button>' + adminButton('Limpar histórico de resgates', 'clear-redeemed', 'fa-eraser', 'btn-danger') + '</div>' +
+      '<p class="admin-note">Códigos personalizados não aparecem no catálogo público da aba Recompensas; só podem ser resgatados por quem souber o texto. O código root nunca é aceito aqui.</p></form>') +
+    adminCard('Códigos personalizados', 'fa-key', custom.length ? custom.map((r) => adminCodeRow(r, true)).join('') : '<div class="empty">Nenhum código personalizado ainda.</div>') +
+    adminCard('Campanhas públicas', 'fa-gift', '<p class="admin-note">Estes são os códigos visíveis na aba Recompensas, incluindo os cinco novos da v24.</p>' + REWARDS.map((r) => adminCodeRow(r, false)).join(''));
+}
+
+/* ---------- 37-F. Backup, segurança, ferramentas e auditoria ---------- */
+function adminViewBackup() {
+  return '<div class="admin-stats admin-stats-3">' +
+    adminStatCard('Estado', adminStorageKb() + ' KB', 'serializado no localStorage', 'fa-database', 'cyan') +
+    adminStatCard('Chave', STORAGE_KEY, 'compatível com v20–v24', 'fa-key', 'violet') +
+    adminStatCard('Registros', state.redeemed.length + ' resgates', state.adminLog.length + ' ações admin', 'fa-list', 'gold') +
+    '</div>' +
+    adminCard('Exportar e copiar', 'fa-file-arrow-down', '<p class="admin-note">O JSON inclui progresso, notas, diário, códigos personalizados e o hash do código root. Guarde-o em local seguro.</p><div class="admin-actions-row">' +
+      adminButton('Baixar backup .json', 'export-json', 'fa-file-arrow-down', 'btn-primary') + adminButton('Copiar JSON', 'copy-state', 'fa-copy') + adminButton('Salvar agora', 'save-now', 'fa-floppy-disk') + '</div>') +
+    adminCard('Importar backup', 'fa-file-import', '<p class="admin-note">Substitui o estado atual pelo JSON escolhido e recarrega o hub. Contas locais não são alteradas.</p><input type="file" id="adminImportFile" accept=".json,application/json" hidden><div class="admin-actions-row">' + adminButton('Escolher arquivo', 'import-click', 'fa-folder-open', 'btn-primary') + '</div>') +
+    adminCard('Limpar domínio específico', 'fa-broom', '<p class="admin-note">Remove só a área escolhida. A operação é imediata e não pode ser desfeita sem backup.</p><div class="admin-inline"><label class="field"><span>Domínio</span><select class="input" id="adminResetDomain"><option value="goals">Metas</option><option value="notes">Notas</option><option value="diary">Diário</option><option value="chat">Chat</option><option value="planner">Planner</option><option value="stats">Estatísticas e foco</option><option value="clicker">Núcleo</option><option value="rewards">Códigos e resgates</option></select></label>' + adminButton('Limpar domínio', 'reset-domain', 'fa-eraser', 'btn-danger') + '</div>') +
+    adminCard('Reset total', 'fa-triangle-exclamation', '<p class="admin-note danger-text">Apaga todo o estado do hub neste navegador e recarrega. Exporte um backup antes.</p><div class="admin-actions-row">' + adminButton('Apagar tudo e recarregar', 'hard-reset', 'fa-skull-crossbones', 'btn-danger') + '</div>');
+}
+function adminViewSecurity() {
+  return '<div class="admin-stats admin-stats-3">' +
+    adminStatCard('Código root', state.adminCodeHash ? 'personalizado' : 'padrão', 'o texto nunca é exibido', 'fa-fingerprint', 'violet') +
+    adminStatCard('Sessão', adminArmed() ? 'armada' : 'bloqueada', 'válida só nesta aba', 'fa-shield-halved', 'cyan') +
+    adminStatCard('Atalho', 'Ctrl+Shift+S', 'só responde depois do código', 'fa-keyboard', 'gold') +
+    '</div>' +
+    adminCard('Trocar o código de acesso', 'fa-key', '<form class="admin-code-form" data-admin-form="admin-code" autocomplete="off">' +
+      '<label class="field"><span>Novo código (10–24 caracteres)</span><input class="input" name="newCode" type="password" maxlength="24" required autocomplete="new-password"></label>' +
+      '<label class="field"><span>Confirmar novo código</span><input class="input" name="confirmCode" type="password" maxlength="24" required autocomplete="new-password"></label>' +
+      '<div class="admin-actions-row"><button class="btn btn-primary" type="submit"><i class="fa-solid fa-floppy-disk"></i> Salvar novo código</button>' + adminButton('Voltar ao código padrão', 'reset-admin-code', 'fa-rotate-left', 'btn-secondary') + '</div>' +
+      '<p class="admin-note">O código é guardado como hash com sal e o texto nunca é exibido. Se você esquecer o código personalizado, o reset total e o backup são as saídas; guarde o código fora do navegador.</p></form>') +
+    adminCard('Sessão administrativa', 'fa-user-lock', '<p class="admin-note">Bloquear apaga o desbloqueio desta aba. O próximo Ctrl+Shift+S volta a exigir o código.</p><div class="admin-actions-row">' + adminButton('Bloquear agora', 'lock', 'fa-lock', 'btn-danger') + adminButton('Copiar status', 'copy-diag', 'fa-copy') + '</div>') +
+    adminCard('Limite importante', 'fa-circle-info', '<p class="admin-note">Este hub é 100% estático: qualquer pessoa com acesso aos arquivos pode inspecionar o JavaScript. O hash evita que o código apareça em texto puro, mas não é autenticação de servidor. Use esta central como trava de conveniência e mantenha um backup.</p>');
+}
+function adminDiagText() {
+  return [
+    'Geekie Study Hub ' + VERSION,
+    'Conta: ' + adminSessionText(),
+    'Abas: ' + TABS.length + ' · páginas: ' + $$('.page').length,
+    'Caracteres: ' + CHAR_TOTAL + ' em ' + (CHAR_CATS.length - 1) + ' categorias',
+    'Códigos: ' + REWARDS.length + ' públicos · ' + (state.customCodes || []).length + ' personalizados',
+    'Resgates: ' + state.redeemed.length + ' · missões: ' + (state.missionClaims || []).length,
+    'Estado: ' + adminStorageKb() + ' KB · chave ' + STORAGE_KEY,
+    'Código root: ' + (state.adminCodeHash ? 'personalizado' : 'padrão') + ' · sessão ' + (adminArmed() ? 'armada' : 'bloqueada'),
+    'Modo reduzido: ' + (state.motionReduced ? 'sim' : 'não') + ' · som: ' + (state.soundEnabled ? 'sim' : 'não'),
+    'Dev Log: ' + DEVLOG.length + ' entradas · ' + DEVLOG.filter((d) => d.version === VERSION).length + ' nesta versão'
+  ].join('\n');
+}
+function adminViewTools() {
+  return '<div class="admin-two">' +
+    adminCard('Navegação interna', 'fa-compass', '<p class="admin-note">Abre uma aba do hub e fecha a central para devolver o foco à página.</p><div class="admin-inline"><label class="field"><span>Abrir aba</span><select class="input" id="adminTabSelect">' + TABS.map((t) => '<option value="' + t.id + '">' + esc(t.title) + '</option>').join('') + '</select></label>' + adminButton('Abrir', 'open-tab', 'fa-arrow-right', 'btn-primary') + '</div><div class="admin-actions-row">' + adminButton('Dev Log', 'open-devlog', 'fa-code-branch') + adminButton('Últimas 3', 'open-devlog-recent', 'fa-clock-rotate-left') + adminButton('Paleta', 'open-palette', 'fa-terminal') + '</div>') +
+    adminCard('Preferências', 'fa-sliders', '<div class="admin-actions-row">' + adminButton('Movimento', 'toggle-motion', 'fa-wand-magic-sparkles') + adminButton('Som', 'toggle-sound', 'fa-volume-high') + adminButton('Tema', 'apply-theme', 'fa-palette') + '</div><div class="admin-inline"><label class="field"><span>Tema</span><select class="input" id="adminThemeSelect">' + THEMES.map((t) => '<option value="' + t.id + '"' + (state.theme === t.id ? ' selected' : '') + '>' + esc(t.name) + '</option>').join('') + '</select></label></div><div class="admin-actions-row">' + adminButton('Rever novidades', 'clear-seen', 'fa-eye') + adminButton('Recarregar', 'reload', 'fa-rotate') + '</div>') +
+    '</div>' +
+    adminCard('Diagnóstico', 'fa-stethoscope', '<pre class="admin-diag" id="adminDiagOut">' + esc(adminDiagText()) + '</pre><div class="admin-actions-row">' + adminButton('Atualizar diagnóstico', 'refresh-diag', 'fa-rotate') + adminButton('Copiar diagnóstico', 'copy-diag', 'fa-copy') + '</div>');
+}
+function adminViewAudit() {
+  const log = Array.isArray(state.adminLog) ? state.adminLog : [];
+  return '<div class="admin-stats admin-stats-3">' +
+    adminStatCard('Ações registradas', log.length, 'limite de 80 entradas', 'fa-clipboard-list', 'violet') +
+    adminStatCard('Última ação', log[0] ? new Date(log[0].at).toLocaleTimeString('pt-BR') : '—', log[0] ? log[0].action : 'nenhuma', 'fa-clock', 'cyan') +
+    adminStatCard('Sessão', adminArmed() ? 'armada' : 'bloqueada', adminSessionText(), 'fa-user-shield', 'gold') +
+    '</div>' +
+    adminCard('Histórico', 'fa-list', log.length ? log.map((l) => '<div class="admin-log-item"><span class="admin-log-time">' + esc(new Date(l.at).toLocaleString('pt-BR')) + '</span><b>' + esc(l.action) + '</b><small>' + esc(l.detail) + '</small></div>').join('') : '<div class="empty">Nenhuma ação registrada ainda.</div>',
+      '<div class="row">' + adminButton('Copiar', 'audit-copy', 'fa-copy') + adminButton('Limpar', 'audit-clear', 'fa-broom', 'btn-danger') + '</div>');
+}
+
+/* ---------- 37-G. Roteador da central ---------- */
+function adminSectionInfo(id) { return ADMIN_SECTIONS.find((s) => s.id === id) || ADMIN_SECTIONS[0]; }
+function buildAdminNav() {
+  const nav = $('#adminNav');
+  if (!nav) return;
+  nav.innerHTML = ADMIN_SECTIONS.map((s, i) => '<button class="admin-nav-item" type="button" data-admin-section="' + s.id + '" style="--i:' + i + '" title="' + esc(s.label) + '" aria-label="' + esc(s.label) + '"><i class="fa-solid ' + s.icon + '"></i><span class="admin-nav-text">' + esc(s.label) + '</span><span class="admin-nav-pip" aria-hidden="true"></span></button>').join('');
+  syncAdminNav();
+}
+function syncAdminNav() {
+  $$('#adminNav .admin-nav-item').forEach((b) => {
+    const active = b.dataset.adminSection === adminSection;
+    b.classList.toggle('active', active);
+    if (active) b.setAttribute('aria-current', 'page');
+    else b.removeAttribute('aria-current');
+  });
+}
+function renderAdminSection(id) {
+  adminSection = adminSectionInfo(id || adminSection).id;
+  const info = adminSectionInfo(adminSection);
+  const kicker = $('#adminKicker'); if (kicker) kicker.textContent = info.kicker;
+  const title = $('#adminTitle'); if (title) title.textContent = info.title;
+  const sub = $('#adminSub'); if (sub) sub.textContent = info.sub;
+  const box = $('#adminContent');
+  if (!box) return;
+  const views = { overview: adminViewOverview, economy: adminViewEconomy, progress: adminViewProgress, codes: adminViewCodes, backup: adminViewBackup, security: adminViewSecurity, tools: adminViewTools, audit: adminViewAudit };
+  const view = views[adminSection] || adminViewOverview;
+  box.innerHTML = view();
+  box.scrollTop = 0;
+  syncAdminNav();
+  applyAdminRail();
+  adminUpdateClock();
+}
+function applyAdminRail() {
+  const shell = $('#adminShell');
+  const btn = $('#adminRailToggle');
+  const collapsed = !!state.adminRailCollapsed;
+  if (shell) shell.classList.toggle('rail-collapsed', collapsed);
+  if (btn) {
+    btn.setAttribute('aria-pressed', String(collapsed));
+    const label = collapsed ? 'Expandir seções da central' : 'Recolher seções (só ícones)';
+    btn.title = label;
+    btn.setAttribute('aria-label', label);
+  }
+  $$('#adminNav .admin-nav-item').forEach((item) => {
+    const s = adminSectionInfo(item.dataset.adminSection);
+    item.title = collapsed ? s.label : '';
+  });
+}
+function toggleAdminRail() {
+  state.adminRailCollapsed = !state.adminRailCollapsed;
+  applyAdminRail();
+  save();
+  const btn = $('#adminRailToggle');
+  if (btn && !state.motionReduced) {
+    btn.classList.remove('is-flipping');
+    void btn.offsetWidth;
+    btn.classList.add('is-flipping');
+    setTimeout(() => btn.classList.remove('is-flipping'), 600);
+  }
+}
+
+/* ---------- 37-H. Abrir, fechar e foco ---------- */
+function openAdmin() {
+  if (adminOpen || !adminArmed()) return;
+  if (!state.session) return;
+  const overlay = $('#adminOverlay');
+  const app = $('#app');
+  if (!overlay || !app || app.hidden) return;
+  hideCharPreviewV24();
+  const rewardField = $('#rewardInput');
+  if (rewardField && adminCodeOk(rewardField.value)) rewardField.value = '';
+  adminLastFocus = document.activeElement;
+  adminOpen = true;
+  adminSection = 'overview';
+  buildAdminNav();
+  renderAdminSection('overview');
+  overlay.hidden = false;
+  document.body.classList.add('admin-open');
+  applyAdminRail();
+  try { app.inert = true; } catch (e) { /* navegador antigo */ }
+  app.setAttribute('aria-hidden', 'true');
+  const shell = $('#adminShell');
+  if (shell && !state.motionReduced) {
+    shell.style.animation = 'none';
+    void shell.offsetWidth;
+    shell.style.animation = '';
+    const content = $('#adminContent');
+    if (content) content.classList.remove('admin-content-in');
+    if (content) { void content.offsetWidth; content.classList.add('admin-content-in'); }
+  }
+  adminLogger('Central aberta', adminSessionText());
+  adminUpdateClock();
+  clearInterval(adminClockTimer);
+  adminClockTimer = setInterval(adminUpdateClock, 1000);
+  setTimeout(() => { const c = $('#adminCloseBtn'); if (c) c.focus(); }, 80);
+}
+function closeAdmin(noFocus) {
+  if (!adminOpen) return;
+  adminOpen = false;
+  const overlay = $('#adminOverlay');
+  const app = $('#app');
+  if (overlay) overlay.hidden = true;
+  document.body.classList.remove('admin-open');
+  if (app) {
+    try { app.inert = false; } catch (e) { /* ignore */ }
+    app.removeAttribute('aria-hidden');
+  }
+  clearInterval(adminClockTimer);
+  adminClockTimer = null;
+  if (!noFocus && adminLastFocus && document.contains(adminLastFocus)) {
+    setTimeout(() => { try { adminLastFocus.focus(); } catch (e) { /* ignore */ } }, 30);
+  }
+  adminLastFocus = null;
+}
+function adminLock() {
+  const rewardField = $('#rewardInput');
+  if (rewardField && adminCodeOk(rewardField.value)) rewardField.value = '';
+  try { sessionStorage.removeItem(ADMIN_ARM_KEY); } catch (e) { /* ignore */ }
+  adminLogger('Sessão bloqueada', 'Desbloqueio removido desta aba');
+  saveNow();
+  closeAdmin(true);
+  toast('Sessão administrativa bloqueada. Ctrl+Shift+S exige o código novamente.', 'fa-lock');
+}
+
+/* ---------- 37-I. Ações da central ---------- */
+function adminActionAmount(btn, sel) {
+  if (btn && btn.dataset.amount != null) return Number(btn.dataset.amount) || 0;
+  const el = $(sel);
+  const n = Number(el && el.value);
+  return isFinite(n) ? n : 0;
+}
+function adminCommit(action, detail, section) {
+  adminLogger(action, detail);
+  saveNow();
+  adminSyncUi();
+  renderAdminSection(section || adminSection);
+  toast(detail || 'Ação aplicada.', 'fa-shield-halved');
+}
+function adminSyncUi() {
+  try { renderTopbar(); } catch (e) { /* ignore */ }
+  try { renderAll(); } catch (e) { /* ignore */ }
+  try { if (typeof renderV23All === 'function') renderV23All(); } catch (e) { /* ignore */ }
+  const id = state.currentTab;
+  if (id && RENDERERS[id]) { try { RENDERERS[id](); } catch (e) { console.error('Admin: falha ao renderizar ' + id, e); } }
+  if (id === 'rewards') { try { renderRewards(); } catch (e) { /* ignore */ } }
+  if (id === 'titles') { try { renderTitles(); } catch (e) { /* ignore */ } }
+  if (id === 'pets') { try { renderPets(); } catch (e) { /* ignore */ } }
+  if (id === 'clicker') { try { renderClickerShop(); renderClickerHud(); renderClickerExtras(); } catch (e) { /* ignore */ } }
+}
+function adminRun(action, btn) {
+  const amount = adminActionAmount(btn, action.startsWith('coins') ? '#adminCoinsValue' : '#adminXpValue');
+  switch (action) {
+    case 'save-now': saveNow(); adminLogger('Gravação forçada', 'Estado salvo manualmente'); toast('Estado salvo agora.', 'fa-floppy-disk'); return;
+    case 'export-json': download('geekie-progresso.json', JSON.stringify(state, null, 2), 'application/json'); adminLogger('Backup exportado', 'geekie-progresso.json'); toast('Backup exportado.', 'fa-file-arrow-down'); return;
+    case 'copy-state': copyText(JSON.stringify(state, null, 2)).then((ok) => toast(ok ? 'JSON copiado.' : 'Não foi possível copiar.', 'fa-copy', !ok)); return;
+    case 'goto': renderAdminSection(btn && btn.dataset.section); return;
+    case 'open-devlog': closeAdmin(true); switchTab('devlog'); renderDevlog(); return;
+    case 'open-devlog-recent': closeAdmin(true); openDevlogRecent(); return;
+    case 'open-palette': closeAdmin(true); openPalette(); return;
+    case 'reload': saveNow(); location.reload(); return;
+    case 'xp-add': { const v = amount; state.xp = clamp(Math.round(state.xp + v), 0, 9999999); adminCommit('XP ajustado', (v >= 0 ? '+' : '') + money(v) + ' XP · total ' + money(state.xp), 'economy'); return; }
+    case 'xp-set': { const v = asyncNumber(amount); state.xp = clamp(Math.round(v), 0, 9999999); adminCommit('XP definido', 'XP agora é ' + money(state.xp), 'economy'); return; }
+    case 'coins-add': { const v = amount; state.coins = Math.max(0, state.coins + Math.round(v)); adminCommit('Moedas ajustadas', (v >= 0 ? '+' : '') + money(v) + ' moedas · saldo ' + money(state.coins), 'economy'); return; }
+    case 'coins-set': { const v = asyncNumber(amount); state.coins = Math.max(0, Math.round(v)); adminCommit('Moedas definidas', 'Saldo agora é ' + money(state.coins), 'economy'); return; }
+    case 'boost-xp': state.boosts.xpUntil = Math.max(Date.now(), Number(state.boosts.xpUntil) || 0) + 15 * 60000; adminCommit('Boost de XP ativado', 'x2 XP por 15 minutos', 'economy'); return;
+    case 'boost-coin': state.boosts.coinUntil = Math.max(Date.now(), Number(state.boosts.coinUntil) || 0) + 15 * 60000; adminCommit('Boost de moedas ativado', '+50% moedas por 15 minutos', 'economy'); return;
+    case 'boost-clear': state.boosts.xpUntil = 0; state.boosts.coinUntil = 0; adminCommit('Boosts encerrados', 'Nenhum multiplicador ativo', 'economy'); return;
+    case 'reset-economy': if (!confirm('Zerar XP e moedas? Esta ação não afeta temas, pets ou títulos já equipados.')) return; state.xp = 0; state.coins = 25; adminCommit('Economia resetada', 'XP 0 e 25 moedas', 'economy'); return;
+    case 'shields-set': state.streakShields = clamp(Number((($('#adminShields') || {}).value) || 0), 0, 5); adminCommit('Escudos ajustados', state.streakShields + ' escudo(s)', 'progress'); return;
+    case 'reset-chest': state.dailyChest = Object.assign({}, DEFAULT_STATE.dailyChest); adminCommit('Baú resetado', 'O baú de hoje pode ser aberto de novo', 'progress'); return;
+    case 'reset-daily': state.missionClaims = []; state.dailyStats.missions = 0; adminCommit('Missões diárias resetadas', 'Resgates de hoje liberados', 'progress'); return;
+    case 'reset-weekly': state.weeklyClaims = []; state.weeklyStats = Object.assign({}, DEFAULT_STATE.weeklyStats, { week: weekStartKey() }); adminCommit('Missões semanais resetadas', 'Resgates da semana liberados', 'progress'); return;
+    case 'reset-today-focus': if (!confirm('Apagar o foco registrado hoje? Sessões e XP já ganhos não são revertidos.')) return; delete state.focusByDate[dateKey()]; adminCommit('Foco de hoje apagado', 'Registro de ' + prettyDate(dateKey()) + ' removido', 'progress'); return;
+    case 'unlock-themes': THEMES.forEach((t) => { if (!state.themesOwned.includes(t.id)) state.themesOwned.push(t.id); }); adminCommit('Temas liberados', state.themesOwned.length + ' de ' + THEMES.length + ' temas', 'progress'); return;
+    case 'unlock-pets': PETS.forEach((p) => { if (!state.petsOwned.includes(p.id)) { state.petsOwned.push(p.id); state.petEnergy[p.id] = state.petEnergy[p.id] || 10; } }); if (!state.pet) state.pet = PETS[0].id; adminCommit('Pets liberados', state.petsOwned.length + ' de ' + PETS.length + ' pets', 'progress'); return;
+    case 'reset-clicker': if (!confirm('Zerar energia, melhorias, prestígio, talentos e marcos do núcleo?')) return; state.clicker = JSON.parse(JSON.stringify(DEFAULT_STATE.clicker)); adminCommit('Núcleo resetado', 'O clicker voltou ao estado inicial', 'progress'); return;
+    case 'refresh-ui': adminSyncUi(); renderAdminSection(adminSection); toast('Interface atualizada.', 'fa-rotate'); return;
+    case 'code-del': { const code = btn && btn.dataset.code; if (!code || !confirm('Remover o código ' + code + '?')) return; state.customCodes = (state.customCodes || []).filter((c) => c.code !== code); state.redeemed = (state.redeemed || []).filter((c) => c !== code); adminCommit('Código removido', code, 'codes'); return; }
+    case 'clear-redeemed': if (!confirm('Limpar o histórico de resgates? Os códigos voltam a poder ser usados.')) return; state.redeemed = []; adminCommit('Histórico de resgates limpo', 'Todos os códigos podem ser resgatados novamente', 'codes'); return;
+    case 'import-click': { const f = $('#adminImportFile'); if (f) f.click(); return; }
+    case 'reset-domain': { const domain = (($('#adminResetDomain') || {}).value) || ''; if (!domain) return; if (!confirm('Limpar o domínio ' + domain + '? Faça backup antes.')) return; adminResetDomain(domain); adminCommit('Domínio limpo', domain, 'backup'); return; }
+    case 'hard-reset': if (!confirm('Apagar TODO o progresso deste navegador?')) return; if (!confirm('Confirma de novo? O backup é a única forma de voltar.')) return; cancelSave(); try { localStorage.removeItem(STORAGE_KEY); LEGACY_KEYS.forEach((k) => localStorage.removeItem(k)); sessionStorage.removeItem(ADMIN_ARM_KEY); } catch (e) { /* ignore */ } location.reload(); return;
+    case 'reset-admin-code': if (!confirm('Voltar ao código de acesso padrão? O código personalizado deixa de funcionar.')) return; state.adminCodeHash = ''; try { sessionStorage.setItem(ADMIN_ARM_KEY, adminHashCurrent()); } catch (e) { /* ignore */ } adminCommit('Código root restaurado', 'O código padrão voltou a valer', 'security'); return;
+    case 'lock': adminLock(); return;
+    case 'copy-diag': copyText(adminDiagText()).then((ok) => toast(ok ? 'Diagnóstico copiado.' : 'Não foi possível copiar.', 'fa-copy', !ok)); return;
+    case 'refresh-diag': { const pre = $('#adminDiagOut'); if (pre) pre.textContent = adminDiagText(); toast('Diagnóstico atualizado.', 'fa-stethoscope'); return; }
+    case 'open-tab': { const id = (($('#adminTabSelect') || {}).value) || 'hoje'; closeAdmin(true); switchTab(TAB_MAP[id] ? id : 'hoje'); return; }
+    case 'apply-theme': { const id = (($('#adminThemeSelect') || {}).value) || state.theme; applyTheme(id); adminCommit('Tema aplicado', adminThemeName(id), 'tools'); return; }
+    case 'toggle-motion': state.motionReduced = !state.motionReduced; applyMotion(); saveNow(); adminCommit('Movimento alternado', state.motionReduced ? 'animações reduzidas' : 'animações ativas', 'tools'); return;
+    case 'toggle-sound': state.soundEnabled = !state.soundEnabled; saveNow(); adminCommit('Som alternado', state.soundEnabled ? 'sons ativos' : 'sons desligados', 'tools'); return;
+    case 'clear-seen': try { localStorage.removeItem(SEEN_KEY); } catch (e) { /* ignore */ } adminLogger('Novidades reabertas', 'Chave de versão limpa'); toast('O aviso de novidades volta no próximo carregamento.', 'fa-eye'); return;
+    case 'audit-clear': if (!confirm('Limpar o registro de auditoria?')) return; state.adminLog = []; adminCommit('Auditoria limpa', 'Histórico de ações apagado', 'audit'); return;
+    case 'audit-copy': copyText((state.adminLog || []).map((l) => new Date(l.at).toLocaleString('pt-BR') + ' · ' + l.action + ' · ' + l.detail).join('\n')).then((ok) => toast(ok ? 'Auditoria copiada.' : 'Não foi possível copiar.', 'fa-copy', !ok)); return;
+    default: return;
+  }
+}
+/* Converte valores com segurança sem transformar vazio em zero acidental. */
+function asyncNumber(v) { const n = Number(v); return isFinite(n) ? n : 0; }
+function adminResetDomain(domain) {
+  if (domain === 'goals') { state.goals = []; state.totalGoalsDone = 0; }
+  else if (domain === 'notes') { state.notes = {}; state.noteOrder = []; state.currentNote = null; }
+  else if (domain === 'diary') { state.diary = {}; state.diaryDrafts = {}; }
+  else if (domain === 'chat') { state.chatHistory = []; }
+  else if (domain === 'planner') { state.planner = {}; }
+  else if (domain === 'stats') {
+    state.focusByDate = {}; state.subjectMinutes = {}; state.subjectLog = []; state.sessions = 0; state.pomoSessions = 0;
+    state.checkins = {}; state.streakProtect = {}; state.streakBest = 0; state.shieldsUsed = 0;
+    state.dailyStats = Object.assign({}, DEFAULT_STATE.dailyStats, { date: dateKey() });
+  } else if (domain === 'clicker') {
+    state.clicker = JSON.parse(JSON.stringify(DEFAULT_STATE.clicker));
+  } else if (domain === 'rewards') {
+    state.redeemed = []; state.customCodes = [];
+  }
+  saveNow();
+  adminSyncUi();
+}
+function adminHandleSubmit(form) {
+  if (!form) return;
+  if (form.dataset.adminForm === 'custom-code') {
+    const get = (name) => { const el = form.querySelector('[name="' + name + '"]'); return el ? el.value : ''; };
+    const code = String(get('code')).trim().toUpperCase().replace(/\s+/g, '');
+    if (!/^[A-Z0-9_-]{4,24}$/.test(code)) return toast('Use 4 a 24 caracteres: A–Z, 0–9, _ ou -.', 'fa-triangle-exclamation', true);
+    if (adminCodeOk(code)) return toast('Esse texto é reservado para o acesso root.', 'fa-shield-halved', true);
+    if (rewardPool().some((r) => r.code === code)) return toast('Já existe um código com esse texto.', 'fa-key', true);
+    const expires = get('expires') || '2099-12-31';
+    const theme = get('theme') || '';
+    state.customCodes = state.customCodes || [];
+    state.customCodes.unshift({
+      code: code,
+      label: String(get('label') || 'Código personalizado').trim().slice(0, 40),
+      coins: clamp(Math.round(Number(get('coins')) || 0), 0, 1000000),
+      xp: clamp(Math.round(Number(get('xp')) || 0), 0, 1000000),
+      energy: clamp(Math.round(Number(get('energy')) || 0), 0, 100000000),
+      shield: clamp(Math.round(Number(get('shield')) || 0), 0, 5),
+      theme: THEMES.some((t) => t.id === theme) ? theme : '',
+      hint: 'Código criado na central administrativa',
+      expires: expires,
+      createdAt: Date.now(),
+      custom: true
+    });
+    adminCommit('Código personalizado criado', code, 'codes');
+    return;
+  }
+  if (form.dataset.adminForm === 'admin-code') {
+    const a = (form.querySelector('[name="newCode"]') || {}).value || '';
+    const b = (form.querySelector('[name="confirmCode"]') || {}).value || '';
+    if (a.length < 10) return toast('O código precisa de pelo menos 10 caracteres.', 'fa-shield-halved', true);
+    if (a.length > 24) return toast('Use no máximo 24 caracteres.', 'fa-shield-halved', true);
+    if (a !== b) return toast('Os códigos não coincidem.', 'fa-triangle-exclamation', true);
+    if (rewardPool().some((r) => r.code === a.trim().toUpperCase())) return toast('Esse texto já é um código de recompensa.', 'fa-key', true);
+    if (adminCodeOk(a)) return toast('Esse já é o código atual.', 'fa-key', true);
+    state.adminCodeHash = adminHash(a);
+    try { sessionStorage.setItem(ADMIN_ARM_KEY, state.adminCodeHash); } catch (e) { /* ignore */ }
+    adminCommit('Código root alterado', 'Novo hash salvo; a sessão atual continua armada', 'security');
+  }
+}
+function adminImportBackup(file) {
+  if (!file) return;
+  if (file.size > 5 * 1024 * 1024) return toast('Backup grande demais (máx. 5 MB).', 'fa-triangle-exclamation', true);
+  const reader = new FileReader();
+  reader.onload = () => {
+    try {
+      const data = JSON.parse(String(reader.result || ''));
+      if (!data || typeof data !== 'object' || Array.isArray(data)) throw new Error('formato');
+      if (!confirm('Substituir o estado atual pelo backup ' + file.name + '? O hub será recarregado.')) return;
+      cancelSave();
+      data.adminLog = Array.isArray(data.adminLog) ? data.adminLog : [];
+      data.adminLog.unshift({ at: Date.now(), action: 'Backup importado', detail: file.name });
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      toast('Backup importado. Recarregando…', 'fa-file-import');
+      setTimeout(() => location.reload(), 650);
+    } catch (e) {
+      toast('JSON inválido ou corrompido.', 'fa-triangle-exclamation', true);
+    }
+  };
+  reader.onerror = () => toast('Não foi possível ler o arquivo.', 'fa-triangle-exclamation', true);
+  reader.readAsText(file);
+}
+
+/* ---------- 37-J. Preview flutuante dos caracteres ---------- */
+let charPreviewLastX = 0;
+let charPreviewHideTimer = null;
+let charPreviewShownChar = '';
+function showCharPreviewV24(btn) {
+  const el = $('#charHoverPreview');
+  if (!el || !btn) return;
+  const ch = btn.dataset.char;
+  const item = findChar(ch);
+  if (!item) return;
+  clearTimeout(charPreviewHideTimer);
+  const wasVisible = el.classList.contains('show');
+  if (wasVisible && charPreviewShownChar === ch) return;
+  charPreviewShownChar = ch;
+  const rect = btn.getBoundingClientRect();
+  const width = 244;
+  const height = 106;
+  const gap = 12;
+  let x = rect.right + gap;
+  if (x + width > window.innerWidth - 8) x = rect.left - width - gap;
+  x = clamp(x, 8, Math.max(8, window.innerWidth - width - 8));
+  const y = clamp(rect.top + rect.height / 2 - height / 2, 8, Math.max(8, window.innerHeight - height - 8));
+  const dir = rect.left >= charPreviewLastX ? 1 : -1;
+  charPreviewLastX = rect.left;
+  el.style.setProperty('--chp-x', x.toFixed(1) + 'px');
+  el.style.setProperty('--chp-y', y.toFixed(1) + 'px');
+  el.style.setProperty('--chp-shift', (dir * 10) + 'px');
+  const fav = state.charsFav.indexOf(ch) !== -1;
+  el.innerHTML = '<div class="chp-card">' +
+    '<span class="chp-glyph">' + esc(ch) + '</span>' +
+    '<div class="chp-copy"><b class="chp-name">' + esc(item.name) + '</b>' +
+    '<span class="chp-meta">' + esc(item.cat) + ' · ' + charCode(ch) + '</span>' +
+    '<span class="chp-hint">clique copia · Shift+clique favorita</span></div>' +
+    (fav ? '<i class="fa-solid fa-star chp-fav" aria-label="favorito"></i>' : '') + '</div>';
+  el.setAttribute('aria-hidden', 'false');
+  el.classList.add('show', 'open');
+  if (wasVisible) {
+    el.classList.remove('swap');
+    void el.offsetWidth;
+    el.classList.add('swap');
+  } else {
+    el.classList.remove('swap');
+    void el.offsetWidth;
+  }
+}
+function hideCharPreviewV24() {
+  clearTimeout(charPreviewHideTimer);
+  charPreviewShownChar = '';
+  const el = $('#charHoverPreview');
+  if (!el) return;
+  el.classList.remove('show', 'open', 'swap');
+  el.setAttribute('aria-hidden', 'true');
+}
+function scheduleHideCharPreviewV24() {
+  clearTimeout(charPreviewHideTimer);
+  charPreviewHideTimer = setTimeout(hideCharPreviewV24, 110);
+}
+function bindCharPreviewV24() {
+  const page = document.getElementById('page-chars');
+  if (!page || page.dataset.v24Preview === '1') return;
+  page.dataset.v24Preview = '1';
+  page.addEventListener('pointerover', (e) => {
+    const b = e.target.closest('.char-btn[data-char]');
+    if (!b || (e.pointerType && e.pointerType !== 'mouse' && e.pointerType !== 'pen')) return;
+    showCharPreviewV24(b);
+  });
+  page.addEventListener('pointerout', (e) => {
+    const b = e.target.closest('.char-btn[data-char]');
+    if (!b) return;
+    if (e.relatedTarget && b.contains(e.relatedTarget)) return;
+    scheduleHideCharPreviewV24();
+  });
+  page.addEventListener('focusin', (e) => {
+    const b = e.target.closest('.char-btn[data-char]');
+    if (b) showCharPreviewV24(b);
+  });
+  page.addEventListener('focusout', (e) => {
+    if (e.target.closest('.char-btn[data-char]')) scheduleHideCharPreviewV24();
+  });
+  page.addEventListener('click', (e) => {
+    if (e.target.closest('.char-btn[data-char]')) hideCharPreviewV24();
+  });
+  window.addEventListener('resize', hideCharPreviewV24, { passive: true });
+  document.addEventListener('scroll', hideCharPreviewV24, true);
+}
+
+/* ---------- 37-K. Ações rápidas em todas as 28 abas ---------- */
+const V24_ACTIONS = {
+  hoje: [{ label: 'Resumo do dia', action: 'day-summary', icon: 'fa-clipboard-list' }, { label: 'Foco 5 min', action: 'focus-5', icon: 'fa-play' }],
+  timer: [{ label: 'Foco 10 min', action: 'focus-10', icon: 'fa-bolt' }, { label: 'Foco 50 min', action: 'focus-50', icon: 'fa-fire' }],
+  goals: [{ label: 'Exportar metas .md', action: 'goals-export', icon: 'fa-file-arrow-down' }],
+  flashcards: [{ label: 'Reiniciar baralho', action: 'flash-reset', icon: 'fa-rotate-left' }, { label: 'Exportar CSV', action: 'flash-export', icon: 'fa-file-csv' }],
+  quiz: [{ label: 'Copiar últimos quizzes', action: 'quiz-copy', icon: 'fa-copy' }],
+  subjects: [{ label: 'Copiar sessões', action: 'subjects-copy', icon: 'fa-copy' }],
+  planner: [{ label: 'Copiar semana .md', action: 'planner-copy', icon: 'fa-copy' }],
+  stats: [{ label: 'Copiar relatório', action: 'stats-copy', icon: 'fa-chart-simple' }],
+  diary: [{ label: 'Copiar últimos 7 dias', action: 'diary-copy', icon: 'fa-copy' }],
+  chat: [{ label: 'Limpar conversa', action: 'chat-clear', icon: 'fa-broom' }],
+  commands: [{ label: 'Copiar saída', action: 'cmd-copy', icon: 'fa-copy' }],
+  store: [{ label: 'Tema aleatório', action: 'theme-random', icon: 'fa-shuffle' }],
+  titles: [{ label: 'Título aleatório', action: 'title-random', icon: 'fa-crown' }],
+  pets: [{ label: 'Alimentar todos', action: 'pets-feed-all', icon: 'fa-bowl-food' }],
+  journey: [{ label: 'Copiar progresso', action: 'journey-copy', icon: 'fa-copy' }],
+  clicker: [{ label: 'Copiar status', action: 'clicker-copy', icon: 'fa-bolt' }],
+  rewards: [{ label: 'Copiar códigos ativos', action: 'rewards-copy', icon: 'fa-key' }],
+  notes: [{ label: 'Exportar todas .md', action: 'notes-export', icon: 'fa-file-arrow-down' }],
+  ambient: [{ label: 'Silenciar tudo', action: 'ambient-stop', icon: 'fa-volume-xmark' }],
+  keysounds: [{ label: 'Estilo aleatório', action: 'keysound-random', icon: 'fa-shuffle' }],
+  calculator: [{ label: 'Copiar histórico', action: 'calc-copy', icon: 'fa-copy' }],
+  chars: [{ label: 'Copiar favoritos', action: 'chars-copy-favs', icon: 'fa-star' }],
+  title: [{ label: 'Copiar configuração', action: 'title-copy', icon: 'fa-copy' }],
+  password: [{ label: 'Copiar última senha', action: 'pass-copy', icon: 'fa-copy' }],
+  geekie: [{ label: 'Abrir em nova aba', action: 'portal-open', icon: 'fa-arrow-up-right-from-square' }],
+  google: [{ label: 'Abrir em nova aba', action: 'portal-open', icon: 'fa-arrow-up-right-from-square' }],
+  events: [{ label: 'Copiar evento', action: 'event-copy', icon: 'fa-calendar-day' }],
+  devlog: [{ label: 'Exportar Dev Log .md', action: 'devlog-export', icon: 'fa-file-arrow-down' }]
+};
+function buildV24Quickbars() {
+  $$('.page[data-tab]').forEach((page) => {
+    if ($('.v24-quickbar', page)) return;
+    const id = page.dataset.tab;
+    const actions = V24_ACTIONS[id];
+    if (!actions || !actions.length) return;
+    const card = document.createElement('article');
+    card.className = 'card v24-quickbar';
+    card.innerHTML = '<div class="card-head"><h3><i class="fa-solid fa-bolt"></i> Ações rápidas</h3><span class="badge">v24</span></div>' +
+      '<div class="row v24-quick-actions">' + actions.map((a) => '<button class="btn btn-secondary btn-sm" type="button" data-v24-action="' + a.action + '"><i class="fa-solid ' + a.icon + '"></i> ' + esc(a.label) + '</button>').join('') + '</div>' +
+      '<p class="hint">Atalhos desta aba, sem sair do fluxo.</p>';
+    page.appendChild(card);
+  });
+}
+function v24Copy(text, okMessage) {
+  if (!text) { toast('Nada para copiar ainda.', 'fa-copy', true); return; }
+  copyText(text).then((ok) => toast(ok ? okMessage : 'Não foi possível copiar.', ok ? 'fa-copy' : 'fa-triangle-exclamation', !ok));
+}
+function v24DaySummary() {
+  const info = levelInfo(state.xp);
+  const pending = state.goals.filter((g) => !g.done).length;
+  const due = dueCards().length;
+  return ['Geekie · resumo de ' + prettyDate(dateKey()),
+    'Foco hoje: ' + fmtMinutes(state.focusByDate[dateKey()] || 0) + ' de 60 min',
+    'Foguinho: ' + computeStreak() + ' dia(s) · ' + streakTier().name + ' (x' + streakTier().mult + ')',
+    'Metas pendentes: ' + pending + ' · revisões devidas: ' + due,
+    'Nível: ' + info.cur.title + ' · ' + state.xp + ' XP' + (info.next ? ' · faltam ' + (info.next.xp - state.xp) : ''),
+    'Moedas: ' + money(state.coins)].join('\n');
+}
+function v24StartFocus(min) {
+  if (pomo.running) { toast('Já existe um ciclo rodando.', 'fa-clock', true); return; }
+  state.pomoConfig.focus = clamp(Number(min) || 25, 5, 90);
+  save();
+  switchTab('timer');
+  pomoSetMode('focus');
+  renderTimer();
+  pomoStart();
+}
+function v24GoalsMarkdown() {
+  const list = state.goals.slice().sort((a, b) => (a.done ? 1 : 0) - (b.done ? 1 : 0) || (a.due || '9999').localeCompare(b.due || '9999'));
+  if (!list.length) return '';
+  return '# Metas Geekie\n\n' + list.map((g) => '- [' + (g.done ? 'x' : ' ') + '] **' + g.text + '** · ' + (g.subject || 'Geral') + ' · ' + g.priority + (g.due ? ' · ' + g.due : '')).join('\n');
+}
+function v24PlannerText() {
+  const days = plannerDays();
+  let md = '# Planner Geekie\n\n';
+  let blocks = 0;
+  days.forEach((d) => {
+    const plan = state.planner[dateKey(d)] || {};
+    const lines = PLANNER_SLOTS.map((slot, i) => plan[String(i)] ? '- **' + slot + '** — ' + plan[String(i)] : '').filter(Boolean);
+    if (!lines.length) return;
+    blocks += lines.length;
+    md += '## ' + WEEK_FULL[d.getDay()] + ', ' + d.getDate() + '/' + pad(d.getMonth() + 1) + '\n' + lines.join('\n') + '\n\n';
+  });
+  return blocks ? md : '';
+}
+function v24NotesMarkdown() {
+  const ids = state.noteOrder.slice();
+  Object.keys(state.notes).forEach((id) => { if (ids.indexOf(id) === -1) ids.push(id); });
+  const notes = ids.map((id) => state.notes[id]).filter(Boolean);
+  if (!notes.length) return '';
+  return '# Notas Geekie\n\n' + notes.map((n) => '## ' + (n.title || 'Sem título') + '\n' + (n.content || '') + (n.tags ? '\n\n_Tags: ' + n.tags + '_' : '')).join('\n\n---\n\n');
+}
+function v24DevlogMarkdown() {
+  return '# Geekie Study Hub — Dev Log\n\n' + DEVLOG.map((e) => '## ' + e.version + ' — ' + e.title + '\n_' + e.date + ' · ' + e.type + '_\n' + e.items.map((i) => '- ' + i).join('\n')).join('\n\n');
+}
+function v24StatsText() {
+  const series = seriesFocus(statsDays);
+  const total = series.reduce((a, b) => a + b.minutes, 0);
+  const active = series.filter((x) => dayActiveKey(x.key)).length;
+  const top = Object.entries(state.subjectMinutes).filter(([, m]) => m > 0).sort((a, b) => b[1] - a[1]).slice(0, 4);
+  return ['Geekie · relatório de estatísticas',
+    'Período: últimos ' + statsDays + ' dias',
+    'Foco no período: ' + fmtMinutes(total) + ' · média ' + fmtMinutes(total / statsDays),
+    'Dias ativos: ' + active + '/' + statsDays,
+    'Foco hoje: ' + fmtMinutes(state.focusByDate[dateKey()] || 0),
+    'Sequência: ' + computeStreak() + ' dias · recorde ' + state.streakBest,
+    'Sessões: ' + state.sessions + ' · pomodoros: ' + state.pomoSessions,
+    'Por matéria: ' + (top.length ? top.map(([s, m]) => s + ' ' + fmtMinutes(m)).join(' · ') : 'sem registro')].join('\n');
+}
+function v24DiaryText() {
+  const keys = Object.keys(state.diary).sort().slice(-7).reverse();
+  if (!keys.length) return '';
+  return '# Diário — últimos 7 registros\n\n' + keys.map((k) => '## ' + prettyDate(k) + ' ' + (state.diary[k].mood || '') + '\n' + (state.diary[k].text || '')).join('\n\n');
+}
+function v24JourneyText() {
+  const achieved = ACHIEVEMENTS.filter((a) => { try { return a.check(); } catch (e) { return false; } }).length;
+  return ['Geekie · progresso',
+    'Nível: ' + levelInfo(state.xp).cur.title + ' · ' + state.xp + ' XP',
+    'Marcos resgatados: ' + state.milestonesClaimed.length + '/' + MILESTONES.length,
+    'Conquistas: ' + achieved + '/' + ACHIEVEMENTS.length,
+    'Foguinho: ' + computeStreak() + ' dias · escudos ' + (state.streakShields || 0) + '/5'].join('\n');
+}
+function v24ClickerText() {
+  return ['Geekie · núcleo',
+    'Energia: ' + money(Math.floor(state.clicker.points || 0)) + ' ⚡',
+    'Produção: ' + money(clickerRate()) + '/s · por clique +' + money(clickerPower()),
+    'Prestígio: ' + (state.clicker.prestige || 0) + ' · críticos: ' + (state.clicker.crits || 0),
+    'Cliques: ' + (state.clicker.clicks || 0) + ' · trocas: ' + (state.clicker.exchanges || 0),
+    'Talentos: ' + Object.values(state.clicker.talents || {}).reduce((a, b) => a + b, 0) + '/15'].join('\n');
+}
+function v24EventText() {
+  const e = EVENTS[eventMonth];
+  const minutes = monthMinutes(eventMonth);
+  const level = Math.min(5, Math.floor(minutes / 60) + 1);
+  return e.emoji + ' ' + e.name + '\n' + e.desc + '\nFoco no mês: ' + fmtMinutes(minutes) + ' · nível ' + level + '/5 · recompensa ' + e.coins + ' moedas';
+}
+function feedAllPetsV24() {
+  const owned = state.petsOwned.slice();
+  if (!owned.length) return toast('Adote um pet primeiro.', 'fa-paw', true);
+  const cost = owned.length * 15;
+  if (state.coins < cost) return toast('Faltam ' + (cost - state.coins) + ' moedas para alimentar todos.', 'fa-coins', true);
+  state.coins -= cost;
+  let leveled = 0;
+  owned.forEach((id) => {
+    const before = petLevel(id);
+    state.petEnergy[id] = clamp((state.petEnergy[id] || 0) + 20, 0, 100);
+    state.petXp[id] = (state.petXp[id] || 0) + 15;
+    state.petFed[id] = Date.now();
+    if (petLevel(id) > before) leveled++;
+  });
+  save(); renderPets(); renderTopbar();
+  toast(owned.length + ' pet(s) alimentados por ' + cost + ' moedas.' + (leveled ? ' ' + leveled + ' subiram de nível!' : ''), 'fa-bowl-food');
+}
+function runV24Action(action, btn) {
+  const pageId = btn && btn.closest('.page') ? btn.closest('.page').dataset.tab : state.currentTab;
+  switch (action) {
+    case 'day-summary': v24Copy(v24DaySummary(), 'Resumo do dia copiado.'); return;
+    case 'focus-5': v24StartFocus(5); return;
+    case 'focus-10': v24StartFocus(10); return;
+    case 'focus-50': v24StartFocus(50); return;
+    case 'goals-export': { const md = v24GoalsMarkdown(); if (!md) return toast('Nenhuma meta para exportar.', 'fa-list-check', true); download('geekie-metas.md', md, 'text/markdown;charset=utf-8'); toast('Metas exportadas em .md.', 'fa-file-arrow-down'); return; }
+    case 'flash-reset': {
+      const cards = state.decks[state.deck] || [];
+      if (!cards.length) return toast('O baralho atual está vazio.', 'fa-clone', true);
+      if (!confirm('Reiniciar o progresso de ' + cards.length + ' card(s) do baralho ' + state.deck + '?')) return;
+      cards.forEach((c) => { c.ease = 2.5; c.interval = 0; c.due = ''; c.reps = 0; c.lapses = 0; });
+      state.flashRound = 0; flash.queue = []; flash.idx = 0; flash.flipped = false; flash.reviewed = 0;
+      buildFlashQueue(); save(); renderFlashcards(); renderFlashV23();
+      toast('Baralho reiniciado.', 'fa-rotate-left');
+      return;
+    }
+    case 'flash-export': if (typeof exportDeckCsvV23 === 'function') exportDeckCsvV23(); return;
+    case 'quiz-copy': { const h = (state.quizHistory || []).slice(0, 5); if (!h.length) return toast('Nenhum quiz concluído ainda.', 'fa-brain', true); v24Copy(h.map((q) => new Date(q.at).toLocaleDateString('pt-BR') + ': ' + q.score + '/' + q.total + ' · ' + (q.subject || 'Geral')).join('\n'), 'Resultados copiados.'); return; }
+    case 'subjects-copy': { const log = state.subjectLog || []; if (!log.length) return toast('Nenhuma sessão registrada.', 'fa-clock', true); v24Copy(log.slice(0, 12).map((s) => new Date(s.at).toLocaleString('pt-BR') + ' · ' + s.subject + ' · ' + fmtMinutes(s.minutes)).join('\n'), 'Sessões copiadas.'); return; }
+    case 'planner-copy': { const md = v24PlannerText(); if (!md) return toast('Nenhum bloco preenchido nesta semana.', 'fa-calendar-week', true); v24Copy(md, 'Semana copiada em markdown.'); return; }
+    case 'stats-copy': v24Copy(v24StatsText(), 'Relatório copiado.'); return;
+    case 'diary-copy': { const md = v24DiaryText(); if (!md) return toast('Nenhuma entrada nos últimos 7 registros.', 'fa-book', true); v24Copy(md, 'Diário copiado.'); return; }
+    case 'chat-clear': if (!state.chatHistory.length) return toast('A conversa já está vazia.', 'fa-comments', true); if (!confirm('Limpar todas as mensagens desta conversa?')) return; state.chatHistory = []; save(); renderChat(); toast('Conversa limpa.', 'fa-broom'); return;
+    case 'cmd-copy': { const out = $('#cmdOutput'); v24Copy(out ? (out.innerText || out.textContent || '') : '', 'Saída do terminal copiada.'); return; }
+    case 'theme-random': { const list = state.themesOwned.length ? state.themesOwned : ['default']; const pool = list.filter((t) => t !== state.theme); const id = pool.length ? pool[Math.floor(Math.random() * pool.length)] : list[0]; applyTheme(id); renderStore(); save(); toast('Tema aplicado: ' + adminThemeName(id) + '.', 'fa-palette'); return; }
+    case 'title-random': { const pool = LEVELS.filter((l) => state.xp >= l.xp && l.title !== state.title); if (!pool.length) return toast('Nenhum outro título liberado ainda.', 'fa-crown', true); const t = pool[Math.floor(Math.random() * pool.length)].title; state.title = t; save(); renderTitles(); renderTopbar(); toast('Título equipado: ' + t + '.', 'fa-crown'); return; }
+    case 'pets-feed-all': feedAllPetsV24(); return;
+    case 'journey-copy': v24Copy(v24JourneyText(), 'Progresso copiado.'); return;
+    case 'clicker-copy': v24Copy(v24ClickerText(), 'Status do núcleo copiado.'); return;
+    case 'rewards-copy': { const active = REWARDS.filter((r) => !state.redeemed.includes(r.code) && (!r.expires || r.expires >= dateKey())); if (!active.length) return toast('Nenhum código ativo para copiar.', 'fa-key', true); v24Copy(active.map((r) => r.code + ' — ' + r.label).join('\n'), active.length + ' códigos copiados.'); return; }
+    case 'notes-export': { const md = v24NotesMarkdown(); if (!md) return toast('Nenhuma nota para exportar.', 'fa-note-sticky', true); download('geekie-notas.md', md, 'text/markdown;charset=utf-8'); toast('Notas exportadas em .md.', 'fa-file-arrow-down'); return; }
+    case 'ambient-stop': { const b = $('#ambientStopAll'); if (b) b.click(); return; }
+    case 'keysound-random': { const ids = Object.keys(KEY_STYLES); const pool = ids.filter((x) => x !== state.keySounds.style); state.keySounds.style = pool[Math.floor(Math.random() * pool.length)] || ids[0]; const sel = $('#keySoundStyle'); if (sel) sel.value = state.keySounds.style; save(); playKeySound(); toast('Estilo de tecla: ' + state.keySounds.style + '.', 'fa-keyboard'); return; }
+    case 'calc-copy': { if (!calc.history.length) return toast('Nenhum cálculo no histórico.', 'fa-calculator', true); v24Copy(calc.history.map((x) => x.expr + ' = ' + x.result).join('\n'), 'Histórico copiado.'); return; }
+    case 'chars-copy-favs': { if (!state.charsFav.length) return toast('Nenhum favorito para copiar.', 'fa-star', true); v24Copy(state.charsFav.join(' '), state.charsFav.length + ' favoritos copiados.'); return; }
+    case 'title-copy': v24Copy('Título: ' + state.pageTitle + '\nFonte: ' + state.font + '\nÍcone: ' + state.icon, 'Configuração copiada.'); return;
+    case 'pass-copy': { const last = passHistory[0]; const out = $('#passwordOutput'); const text = last ? last.pass : (out && out.value !== 'Clique em gerar' ? out.value : ''); if (!text) return toast('Gere uma senha primeiro.', 'fa-shield-halved', true); v24Copy(text, 'Última senha copiada.'); return; }
+    case 'portal-open': { const p = document.getElementById('page-' + pageId); const frame = p ? p.querySelector('iframe') : null; const url = frame && (frame.getAttribute('src') || frame.dataset.src); if (!url) return toast('O portal ainda não carregou.', 'fa-globe', true); window.open(url, '_blank', 'noopener'); return; }
+    case 'event-copy': v24Copy(v24EventText(), 'Evento copiado.'); return;
+    case 'devlog-export': download('geekie-devlog.md', v24DevlogMarkdown(), 'text/markdown;charset=utf-8'); toast('Dev Log exportado em .md.', 'fa-file-arrow-down'); return;
+    default: return;
+  }
+}
+
+/* ---------- 37-L. Portais com zoom lembrado e navegação v24 ---------- */
+function applyPortalZoomV24(id) {
+  const page = document.getElementById('page-' + id);
+  if (!page) return;
+  const frame = page.querySelector('.iframe-frame iframe');
+  if (!frame) return;
+  const z = clamp(Number(state.portalZoom && state.portalZoom[id]) || 1, 0.7, 1.3);
+  try { frame.style.zoom = z; } catch (e) { /* navegador sem zoom CSS */ }
+  frame.dataset.zoom = z;
+  const label = page.querySelector('[data-v23-zoom-label]');
+  if (label) label.textContent = Math.round(z * 100) + '%';
+}
+const paintSwitchV24 = switchTab;
+switchTab = function (id, opts) {
+  paintSwitchV24(id, opts);
+  hideCharPreviewV24();
+  applyPortalZoomV24(id);
+};
+/* ---------- 37-M. Inicialização, atalhos e bindings v24 ---------- */
+const paintCharsV24 = renderChars;
+renderChars = function () { paintCharsV24(); hideCharPreviewV24(); };
+RENDERERS.chars = renderChars;
+
+function initV24() {
+  if (initV24.ready) return;
+  initV24.ready = true;
+  buildV24Quickbars();
+  bindCharPreviewV24();
+  $('#adminRailToggle') && $('#adminRailToggle').addEventListener('click', toggleAdminRail);
+  $('#adminCloseBtn') && $('#adminCloseBtn').addEventListener('click', () => closeAdmin());
+  $('#adminLockBtn') && $('#adminLockBtn').addEventListener('click', adminLock);
+  $('#adminOverlay') && $('#adminOverlay').addEventListener('click', (e) => { if (e.target.id === 'adminOverlay') closeAdmin(); });
+  $('#adminNav') && $('#adminNav').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-admin-section]');
+    if (b) renderAdminSection(b.dataset.adminSection);
+  });
+  $('#adminContent') && $('#adminContent').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-admin-action]');
+    if (!b || b.disabled) return;
+    adminRun(b.dataset.adminAction, b);
+  });
+  $('#adminContent') && $('#adminContent').addEventListener('submit', (e) => {
+    e.preventDefault();
+    adminHandleSubmit(e.target.closest('[data-admin-form]'));
+  });
+  $('#adminContent') && $('#adminContent').addEventListener('change', (e) => {
+    if (e.target.id !== 'adminImportFile') return;
+    const f = e.target.files && e.target.files[0];
+    adminImportBackup(f);
+    e.target.value = '';
+  });
+
+  /* Código de acesso: digitar no campo de códigos arma o atalho. */
+  const rewardInput = $('#rewardInput');
+  if (rewardInput) {
+    rewardInput.addEventListener('input', () => {
+      if (adminCodeOk(rewardInput.value) && !adminArmed()) adminArm();
+    });
+  }
+  const rewardForm = $('#rewardForm');
+  if (rewardForm) {
+    rewardForm.addEventListener('submit', (e) => {
+      const input = $('#rewardInput');
+      if (!input || !adminCodeOk(input.value)) return;
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      if (!adminArmed()) adminArm();
+    }, true);
+  }
+
+  /* Atalho do painel e armadilha de foco. */
+  document.addEventListener('keydown', (e) => {
+    const combo = (e.ctrlKey || e.metaKey) && e.shiftKey && !e.altKey && e.key.toLowerCase() === 's';
+    if (combo) {
+      if (adminOpen) { e.preventDefault(); e.stopImmediatePropagation(); closeAdmin(); return; }
+      if (adminArmed() && state.session && $('#app') && !$('#app').hidden) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        openAdmin();
+      }
+      return;
+    }
+    if (!adminOpen) {
+      const tag = document.activeElement && document.activeElement.tagName;
+      const typing = ['INPUT', 'TEXTAREA', 'SELECT'].includes(tag);
+      const isButton = document.activeElement && (document.activeElement.tagName === 'BUTTON' || document.activeElement.tagName === 'A');
+      if (state.currentTab === 'timer' && e.key === ' ' && !typing && !isButton && !e.repeat) {
+        e.preventDefault();
+        if (pomo.running) pomoPause(); else pomoStart();
+      }
+      return;
+    }
+    if (e.key === 'Escape') { e.preventDefault(); closeAdmin(); return; }
+    if (e.key === 'Tab') {
+      const shell = $('#adminShell');
+      if (!shell) return;
+      const focusables = $$('button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])', shell).filter((el) => !el.hidden);
+      if (!focusables.length) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      const active = document.activeElement;
+      if (e.shiftKey && (active === first || !shell.contains(active))) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && (active === last || !shell.contains(active))) { e.preventDefault(); first.focus(); }
+      return;
+    }
+    const tag = document.activeElement && document.activeElement.tagName;
+    const typing = ['INPUT', 'TEXTAREA', 'SELECT'].includes(tag);
+    if (!typing || e.ctrlKey || e.metaKey || e.altKey || e.key === '/' || e.key === ' ') {
+      e.stopImmediatePropagation();
+    }
+  }, true);
+
+  /* Ações rápidas e cópia de códigos. */
+  document.addEventListener('click', (e) => {
+    const quick = e.target.closest('[data-v24-action]');
+    if (quick) { runV24Action(quick.dataset.v24Action, quick); return; }
+    const copy = e.target.closest('[data-reward-copy]');
+    if (copy) { v24Copy(copy.dataset.rewardCopy, 'Código ' + copy.dataset.rewardCopy + ' copiado.'); return; }
+    if (e.target.closest('[data-char]')) hideCharPreviewV24();
+  });
+
+  /* Dev Log: botões do painel de atalho. */
+  $('#devlogRecentCopyBtn') && $('#devlogRecentCopyBtn').addEventListener('click', () => {
+    v24Copy(devlogLatest(3).map((e) => e.version + ' — ' + e.title + '\n' + e.items.map((i) => '• ' + i).join('\n')).join('\n\n'), 'Resumo do Dev Log copiado.');
+  });
+  $('#devlogRecentExportBtn') && $('#devlogRecentExportBtn').addEventListener('click', () => {
+    download('geekie-devlog.md', v24DevlogMarkdown(), 'text/markdown;charset=utf-8');
+    toast('Dev Log exportado.', 'fa-file-arrow-down');
+  });
+  const titleInput = $('#titleTextInput');
+  if (titleInput) {
+    titleInput.addEventListener('input', () => {
+      const p = $('#titlePreview');
+      if (p) p.textContent = titleInput.value.trim() || state.pageTitle;
+    });
+  }
+}
+
+/* Fim do núcleo v24. */
 
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
 else boot();
