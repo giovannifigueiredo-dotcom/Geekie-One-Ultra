@@ -1,5 +1,5 @@
 /* ============================================================
-   Geekie Study Hub v24.0.0 — script.js (parte 1/4)
+   Geekie Study Hub v25.0.0 — script.js (parte 1/4)
    Utilidades, estado, shell, login, tutorial, paleta, Hoje, Chat
    ============================================================ */
 'use strict';
@@ -97,7 +97,7 @@ function fxAudioCtxGet() {
 }
 
 /* ============ 2. ESTADO ============ */
-const VERSION = 'v24.0.0';
+const VERSION = 'v25.0.0';
 const STORAGE_KEY = 'geekieHubState_v22';
 const LEGACY_KEYS = ['geekieHubState_v20', 'geekieHubState_v194'];
 /* Contas continuam na mesma chave: trocar de versão não desloga ninguém. */
@@ -108,7 +108,7 @@ const SEEN_KEY = 'geekieHubSeenVersion_v22';
 const DEFAULT_STATE = {
   session: null,
   xp: 0, coins: 25, title: 'Novato',
-  pageTitle: 'Geekie Study Hub v24.0.0', font: 'Poppins', icon: 'fa-graduation-cap',
+  pageTitle: 'Geekie Study Hub v25.0.0', font: 'Poppins', icon: 'fa-graduation-cap',
   themesOwned: ['default'], theme: 'default',
   petsOwned: [], pet: null, petEnergy: {}, petFed: {},
   focusByDate: {}, subjectMinutes: {}, subjectGoals: {}, customSubjects: [],
@@ -168,7 +168,7 @@ function loadState() {
   s.streakShields = clamp(Number(s.streakShields) || 0, 0, 5);
   s.xpEarned = Math.max(0, Number(s.xpEarned) || 0);
   s.coinsEarned = Math.max(0, Number(s.coinsEarned) || 0);
-  if (['Geekie Study Hub v23.0.0', 'Geekie Study Hub v22.3.0', 'Geekie Study Hub v22.2.0', 'Geekie Study Hub v22.1.0', 'Geekie Study Hub v22.0.0', 'Geekie Study Hub v21.0.0', 'Geekie Study Hub v20.1.0'].indexOf(s.pageTitle) !== -1) s.pageTitle = DEFAULT_STATE.pageTitle;
+  if (['Geekie Study Hub v24.0.0', 'Geekie Study Hub v23.0.0', 'Geekie Study Hub v22.3.0', 'Geekie Study Hub v22.2.0', 'Geekie Study Hub v22.1.0', 'Geekie Study Hub v22.0.0', 'Geekie Study Hub v21.0.0', 'Geekie Study Hub v20.1.0'].indexOf(s.pageTitle) !== -1) s.pageTitle = DEFAULT_STATE.pageTitle;
   if (s.themesOwned.indexOf('default') === -1) s.themesOwned.unshift('default');
   return s;
 }
@@ -218,7 +218,7 @@ const TABS = [
   { id: 'geekie', title: 'Portal Geekie', icon: 'fa-graduation-cap', group: 'Extras', kicker: 'Portal', desc: 'O Geekie One embutido, com recarregar e tela cheia.', tips: ['Se bloquear o iframe, use Nova aba.', 'Os atalhos abrem portais em nova aba.'] },
   { id: 'google', title: 'Google', icon: 'fa-google', brand: true, group: 'Extras', kicker: 'Busca', desc: 'Google embutido mais atalhos para Classroom, Drive e YouTube.', tips: ['A busca embutida pode bloquear; use os atalhos.', 'Tela cheia amplia a área.'] },
   { id: 'events', title: 'Eventos', icon: 'fa-calendar-day', group: 'Extras', kicker: 'Calendário', desc: 'Evento de cada mês com progresso por XP e recompensa.', tips: ['O mês atual é destacado.', 'A recompensa é liberada por nível de evento.'] },
-  { id: 'devlog', title: 'Dev Log', icon: 'fa-code-branch', group: 'Extras', kicker: 'Versões', desc: 'Histórico de versões com filtros, busca e atalho para as 3 últimas.', tips: ['Filtre por correção, novidade ou interface.', 'A v24.0.0 documenta a central administrativa, os cinco códigos, o preview de caracteres e as ações rápidas.', 'Ctrl+Shift+D abre as 3 últimas em um painel flutuante; o rodapé copia ou exporta o resumo.', 'Ctrl+B alterna a nav bar compacta e não interfere na nav bar da central.'] }
+  { id: 'devlog', title: 'Dev Log', icon: 'fa-code-branch', group: 'Extras', kicker: 'Versões', desc: 'Histórico de versões com filtros, busca e atalho para as 3 últimas.', tips: ['Filtre por correção, novidade ou interface.', 'A v25.0.0 documenta os previews animados de itens, os cinco códigos novos e o radar ao vivo das 28 abas.', 'Ctrl+Shift+D abre as 3 últimas em um painel flutuante; o rodapé copia ou exporta o resumo.', 'Ctrl+B alterna a nav bar compacta e não interfere na nav bar da central.'] }
 ];
 const TAB_MAP = Object.fromEntries(TABS.map((t) => [t.id, t]));
 const GROUPS = ['Hoje', 'Estudo', 'Inteligência', 'Progresso', 'Ferramentas', 'Extras'];
@@ -2457,7 +2457,7 @@ function renderStore() {
   grid.innerHTML = list.map((t) => {
     const owned = state.themesOwned.includes(t.id);
     const equipped = state.theme === t.id;
-    return '<div class="theme-card' + (equipped ? ' equipped' : '') + '">' +
+    return '<div class="theme-card' + (equipped ? ' equipped' : '') + '" data-theme-card="' + t.id + '">' +
       '<div class="theme-preview" data-preview="' + t.id + '" style="--t-a:' + t.a + ';--t-b:' + t.b + '">' + esc(t.name) + '</div>' +
       '<div class="theme-name">' + esc(t.name) + (equipped ? ' <i class="fa-solid fa-circle-check" style="color:var(--primary)"></i>' : '') + '</div>' +
       '<div class="theme-meta"><span>' + (owned ? 'adquirido' : '<span class="theme-price"><i class="fa-solid fa-coins"></i> ' + t.price + '</span>') + '</span></div>' +
@@ -2504,7 +2504,7 @@ function renderTitles() {
   grid.innerHTML = LEVELS.map((l) => {
     const unlocked = state.xp >= l.xp;
     const equipped = state.title === l.title;
-    return '<div class="title-card' + (unlocked ? '' : ' locked') + (equipped ? ' equipped' : '') + '">' +
+    return '<div class="title-card' + (unlocked ? '' : ' locked') + (equipped ? ' equipped' : '') + '" data-title-card="' + esc(l.title) + '">' +
       '<span class="title-name">' + esc(l.title) + '</span>' +
       '<span class="title-meta">' + l.xp + ' XP' + (unlocked ? '' : ' · faltam ' + (l.xp - state.xp)) + '</span>' +
       '<button class="btn btn-sm ' + (equipped ? 'btn-secondary' : 'btn-primary') + '" type="button" data-title="' + esc(l.title) + '"' + (unlocked && !equipped ? '' : ' disabled') + '>' + (equipped ? 'equipado' : unlocked ? 'equipar' : 'bloqueado') + '</button></div>';
@@ -2540,7 +2540,7 @@ function renderPets() {
     const owned = state.petsOwned.includes(p.id);
     const active = state.pet === p.id;
     const energy = state.petEnergy[p.id] || 0;
-    return '<div class="pet-card' + (active ? ' active' : '') + '">' +
+    return '<div class="pet-card' + (active ? ' active' : '') + '" data-pet-card="' + p.id + '">' +
       '<span class="pet-emoji">' + p.emoji + '</span><span class="pet-name">' + esc(p.name) + '</span>' +
       '<span class="pet-meta">' + Math.round(p.income * (1 + (petLevel(p.id) - 1) * 0.15)) + ' moedas/tick · nível ' + petLevel(p.id) + '</span>' +
       '<div class="pet-energy"><span style="width:' + clamp(energy, 0, 100) + '%"></span></div>' +
@@ -2665,7 +2665,7 @@ function renderJourney() {
     const value = milestoneValue(m.type);
     const claimed = state.milestonesClaimed.includes(m.id);
     const ready = value >= m.goal && !claimed;
-    return '<div class="milestone' + (claimed ? ' claimed' : ready ? ' claimable' : '') + '"><i class="fa-solid ' + (claimed ? 'fa-circle-check' : 'fa-flag') + '" style="color:var(--gold)"></i>' +
+    return '<div class="milestone' + (claimed ? ' claimed' : ready ? ' claimable' : '') + '" data-milestone-card="' + m.id + '"><i class="fa-solid ' + (claimed ? 'fa-circle-check' : 'fa-flag') + '" style="color:var(--gold)"></i>' +
       '<div class="ms-main"><span>' + esc(m.label) + '</span><span class="ms-sub">' + Math.min(value, m.goal) + '/' + m.goal + ' · +' + m.coins + ' moedas +' + m.xp + ' XP</span></div>' +
       '<button class="btn btn-sm ' + (ready ? 'btn-primary' : 'btn-secondary') + '" type="button" data-milestone="' + m.id + '"' + (ready ? '' : ' disabled') + '>' + (claimed ? 'resgatado' : ready ? 'resgatar' : 'em curso') + '</button></div>';
   }).join('');
@@ -2675,7 +2675,7 @@ function renderAchievements() {
   if (!box) return;
   box.innerHTML = ACHIEVEMENTS.map((a) => {
     const unlocked = !!a.check();
-    return '<div class="ach-item ' + (unlocked ? 'unlocked' : 'locked') + '"><i class="fa-solid ' + a.icon + '"></i><span>' + esc(a.label) + '</span>' + (unlocked ? '<i class="fa-solid fa-check" style="margin-left:auto;color:var(--primary)"></i>' : '') + '</div>';
+    return '<div class="ach-item ' + (unlocked ? 'unlocked' : 'locked') + '" data-ach-card="' + a.id + '"><i class="fa-solid ' + a.icon + '"></i><span>' + esc(a.label) + '</span>' + (unlocked ? '<i class="fa-solid fa-check" style="margin-left:auto;color:var(--primary)"></i>' : '') + '</div>';
   }).join('');
 }
 function bindJourney() {
@@ -3965,7 +3965,12 @@ const REWARDS = [
   { code: 'ORBITA24', label: 'Órbita de energia', coins: 200, xp: 180, energy: 5000, hint: '5.000 de energia para o núcleo', expires: '2027-12-31' },
   { code: 'SINGULAR24', label: 'Singularidade', coins: 260, xp: 320, theme: 'ember', hint: 'Libera o tema Brasa e um pacote grande', expires: '2027-12-31' },
   { code: 'MESTRE24', label: 'Mestre dos atalhos', coins: 300, xp: 400, shield: 1, hint: 'Pacote completo de XP, moedas e escudo', expires: '2027-12-31' },
-  { code: 'SAKURA24', label: 'Sakura v24', coins: 150, xp: 220, theme: 'sakura', hint: 'Libera o tema Sakura', expires: '2027-12-31' }
+  { code: 'SAKURA24', label: 'Sakura v24', coins: 150, xp: 220, theme: 'sakura', hint: 'Libera o tema Sakura', expires: '2027-12-31' },
+  { code: 'ORION25', label: 'Órion v25', coins: 220, xp: 280, shield: 1, hint: 'Estreia da v25: moedas, XP e um escudo', expires: '2028-06-30' },
+  { code: 'PULSO25', label: 'Pulso v25', coins: 240, xp: 220, energy: 8000, hint: '8.000 de energia para o núcleo', expires: '2028-06-30' },
+  { code: 'HELIX25', label: 'Hélix v25', coins: 260, xp: 300, theme: 'ocean', hint: 'Libera o tema Oceano', expires: '2028-06-30' },
+  { code: 'QUASAR25', label: 'Quasar v25', coins: 320, xp: 360, theme: 'candy', hint: 'Libera o tema Candy', expires: '2028-06-30' },
+  { code: 'ECLIPSE25', label: 'Eclipse v25', coins: 400, xp: 480, shield: 2, hint: 'Pacote completo com dois escudos de sequência', expires: '2028-06-30' }
 ];
 function rewardPool() { return REWARDS.concat(Array.isArray(state.customCodes) ? state.customCodes : []); }
 function renderRewards() {
@@ -3974,7 +3979,7 @@ function renderRewards() {
     grid.innerHTML = REWARDS.map((r) => {
       const used = state.redeemed.includes(r.code);
       const expired = r.expires < dateKey();
-      return '<div class="reward-card' + (used ? ' used' : '') + (expired ? ' expired' : '') + '">' +
+      return '<div class="reward-card' + (used ? ' used' : '') + (expired ? ' expired' : '') + '" data-reward-card="' + esc(r.code) + '">' +
         '<div class="reward-card-head"><span class="reward-code">' + r.code + '</span><span class="row reward-head-actions"><span class="badge ' + (used ? '' : expired ? 'danger' : 'gold') + '">' + (used ? 'resgatado' : expired ? 'expirado' : 'ativo') + '</span>' +
         '<button class="btn btn-icon btn-ghost btn-sm reward-copy" type="button" data-reward-copy="' + esc(r.code) + '" aria-label="Copiar código ' + esc(r.code) + '"><i class="fa-solid fa-copy"></i></button></span></div>' +
         '<p>' + esc(r.hint) + '</p>' +
@@ -4032,6 +4037,50 @@ function bindRewards() {
 
 /* ============ 33. DEV LOG ============ */
 const DEVLOG = [
+  {
+    version: 'v25.0.0', date: '2026-11-23', type: 'feature', title: 'Previews animados de itens em toda a progressão',
+    items: [
+      'Loja, Pets, Títulos, Trilha e Recompensas ganharam um cartão flutuante ao passar o mouse (ou focar pelo teclado): tema com gradiente e brilho, pet com energia e renda, título com coroa e XP, marco com barra de progresso e campanha com prêmios.',
+      'A abertura combina escala, desfoque e uma subida curta; ao deslizar para o item vizinho, o cartão troca o conteúdo com uma transição lateral suave em vez de reabrir.',
+      'Cada preview tem animação própria: orbe do tema girando, pet quicando, brilho varrendo a coroa e preenchimento animado das barras de energia e progresso.',
+      'O cartão se reposiciona para não sair da tela e fecha ao rolar, clicar, trocar de aba ou abrir a central; tudo respeita prefers-reduced-motion.'
+    ]
+  },
+  {
+    version: 'v25.0.0', date: '2026-11-23', type: 'feature', title: 'Cinco códigos novos: Órion, Pulso, Hélix, Quasar e Eclipse',
+    items: [
+      'ORION25, PULSO25, HELIX25, QUASAR25 e ECLIPSE25 entram no catálogo com moedas, XP, energia de núcleo, temas e escudos.',
+      'Hélix libera o tema Oceano, Quasar libera o tema Candy e Eclipse entrega dois escudos de sequência.',
+      'Cada código continua valendo uma vez por conta e aparece automaticamente na aba Recompensas e na central administrativa.'
+    ]
+  },
+  {
+    version: 'v25.0.0', date: '2026-11-23', type: 'feature', title: 'Radar ao vivo e ações inteligentes nas 28 abas',
+    items: [
+      'Cada aba recebeu uma linha de radar dentro do painel de ações rápidas, com um indicador atualizado ao entrar na aba: pendências, fila de revisão, precisão do quiz, carga da semana, comparativo de foco, coleção, renda dos pets, conquistas e mais.',
+      'O radar traz um botão contextual que resolve a próxima tarefa: abrir a prioridade do dia, aplicar a sessão sugerida, concluir metas atrasadas, sortear o baralho, iniciar um quiz relâmpago, retomar a última matéria e duplicar a semana anterior.',
+      'Também entram em lote: resgatar todos os marcos prontos, adotar o próximo pet, comprar o próximo tema acessível, equipar o melhor título liberado, executar a melhor troca do núcleo e aplicar o preset de foco.',
+      'Os indicadores são recalculados ao trocar de aba, depois de cada ação e a cada 20 segundos, sem recarregar a página.'
+    ]
+  },
+  {
+    version: 'v25.0.0', date: '2026-11-23', type: 'feature', title: 'Melhorias de fluxo: metas, marcos, planner, loja, pets e núcleo',
+    items: [
+      'Metas atrasadas podem ser concluídas em lote com um clique, creditando XP e moedas de cada uma e atualizando o progresso do dia.',
+      'A Trilha resgata todos os marcos prontos de uma vez; o Planner duplica a semana anterior apenas nos blocos vazios; a Loja e os Pets compram o próximo item acessível.',
+      'O Clicker executa a melhor faixa de troca disponível, o Quiz inicia um relâmpago de 3 perguntas e o Timer de matérias retoma a última sessão registrada.',
+      'Recompensas, calculadora, caracteres, portais, eventos e Dev Log ganharam atalhos diretos no radar da própria aba.'
+    ]
+  },
+  {
+    version: 'v25.0.0', date: '2026-11-23', type: 'style', title: 'Interface v25: cartões de item, radar pulsante e movimento',
+    items: [
+      'Os previews usam vidro, gradientes por tipo de item e uma borda que acende na cor do assunto; o radar tem pulso luminoso e tipografia monoespaçada nos números.',
+      'A troca entre itens vizinhos anima na direção do movimento, sem piscar, e as barras de energia e progresso crescem a partir da esquerda.',
+      'Responsivo: o cartão encolhe em telas pequenas, o radar quebra em duas linhas e os botões continuam com alvo de toque confortável.',
+      'Tudo desliga com o modo de animações reduzidas do hub e com prefers-reduced-motion.'
+    ]
+  },
   {
     version: 'v24.0.0', date: '2026-11-19', type: 'feature', title: 'Central administrativa NEXUS com acesso restrito',
     items: [
@@ -4849,6 +4898,7 @@ function boot() {
   applyNavCollapsed();
   initV23();
   initV24();
+  initV25();
   bindGlobal();
   bindGamification();
   initButtonFx();
@@ -5926,14 +5976,14 @@ function adminViewCodes() {
       '<div class="admin-actions-row"><button class="btn btn-primary" type="submit"><i class="fa-solid fa-key"></i> Criar código</button>' + adminButton('Limpar histórico de resgates', 'clear-redeemed', 'fa-eraser', 'btn-danger') + '</div>' +
       '<p class="admin-note">Códigos personalizados não aparecem no catálogo público da aba Recompensas; só podem ser resgatados por quem souber o texto. O código root nunca é aceito aqui.</p></form>') +
     adminCard('Códigos personalizados', 'fa-key', custom.length ? custom.map((r) => adminCodeRow(r, true)).join('') : '<div class="empty">Nenhum código personalizado ainda.</div>') +
-    adminCard('Campanhas públicas', 'fa-gift', '<p class="admin-note">Estes são os códigos visíveis na aba Recompensas, incluindo os cinco novos da v24.</p>' + REWARDS.map((r) => adminCodeRow(r, false)).join(''));
+    adminCard('Campanhas públicas', 'fa-gift', '<p class="admin-note">Estes são os códigos visíveis na aba Recompensas, incluindo as campanhas das v24 e v25.</p>' + REWARDS.map((r) => adminCodeRow(r, false)).join(''));
 }
 
 /* ---------- 37-F. Backup, segurança, ferramentas e auditoria ---------- */
 function adminViewBackup() {
   return '<div class="admin-stats admin-stats-3">' +
     adminStatCard('Estado', adminStorageKb() + ' KB', 'serializado no localStorage', 'fa-database', 'cyan') +
-    adminStatCard('Chave', STORAGE_KEY, 'compatível com v20–v24', 'fa-key', 'violet') +
+    adminStatCard('Chave', STORAGE_KEY, 'compatível com v20–v25', 'fa-key', 'violet') +
     adminStatCard('Registros', state.redeemed.length + ' resgates', state.adminLog.length + ' ações admin', 'fa-list', 'gold') +
     '</div>' +
     adminCard('Exportar e copiar', 'fa-file-arrow-down', '<p class="admin-note">O JSON inclui progresso, notas, diário, códigos personalizados e o hash do código root. Guarde-o em local seguro.</p><div class="admin-actions-row">' +
@@ -6392,7 +6442,7 @@ function buildV24Quickbars() {
     if (!actions || !actions.length) return;
     const card = document.createElement('article');
     card.className = 'card v24-quickbar';
-    card.innerHTML = '<div class="card-head"><h3><i class="fa-solid fa-bolt"></i> Ações rápidas</h3><span class="badge">v24</span></div>' +
+    card.innerHTML = '<div class="card-head"><h3><i class="fa-solid fa-bolt"></i> Ações rápidas</h3><span class="badge">v24 · v25</span></div>' +
       '<div class="row v24-quick-actions">' + actions.map((a) => '<button class="btn btn-secondary btn-sm" type="button" data-v24-action="' + a.action + '"><i class="fa-solid ' + a.icon + '"></i> ' + esc(a.label) + '</button>').join('') + '</div>' +
       '<p class="hint">Atalhos desta aba, sem sair do fluxo.</p>';
     page.appendChild(card);
@@ -6692,7 +6742,633 @@ function initV24() {
   }
 }
 
-/* Fim do núcleo v24. */
+/* ============================================================
+   v25.0.0 — PREVIEW DE ITENS, CÓDIGOS E RADAR DAS ABAS
+   Previews flutuantes para Loja, Pets, Títulos, Trilha e
+   Recompensas + indicador contextual em todas as 28 abas.
+   ============================================================ */
+
+/* ---------- 38-A. Preview flutuante de itens ---------- */
+let itemPreviewKey = '';
+let itemPreviewHideTimer = null;
+let itemPreviewLastX = 0;
+
+function v25Tag(text, tone) {
+  if (!text) return '';
+  return '<span class="ip-tag' + (tone ? ' ' + tone : '') + '">' + esc(text) + '</span>';
+}
+function v25ThemePreview(card) {
+  const t = THEMES.find((x) => x.id === card.dataset.themeCard);
+  if (!t) return null;
+  const owned = state.themesOwned.includes(t.id);
+  const equipped = state.theme === t.id;
+  return {
+    key: 'theme:' + t.id,
+    html: '<div class="ip-card ip-theme" style="--ip-a:' + t.a + ';--ip-b:' + t.b + '">' +
+      '<div class="ip-theme-art"><span class="ip-theme-orb"></span><span class="ip-sheen"></span><span class="ip-art-caption">' + esc(t.name) + '</span></div>' +
+      '<div class="ip-body"><b class="ip-name">' + esc(t.name) + '</b>' +
+      '<span class="ip-sub">' + (equipped ? 'Em uso agora neste hub' : owned ? 'Na sua coleção, pronto para equipar' : 'Tema bloqueado na Loja') + '</span>' +
+      '<div class="ip-tags">' + v25Tag(owned ? 'adquirido' : money(t.price) + ' moedas', owned ? '' : 'gold') + v25Tag(equipped ? 'equipado' : 'clique para ' + (owned ? 'equipar' : 'comprar')) + '</div></div></div>'
+  };
+}
+function v25PetPreview(card) {
+  const p = PETS.find((x) => x.id === card.dataset.petCard);
+  if (!p) return null;
+  const owned = state.petsOwned.includes(p.id);
+  const active = state.pet === p.id;
+  const energy = clamp(Number((state.petEnergy || {})[p.id]) || 0, 0, 100);
+  const level = petLevel(p.id);
+  const income = Math.round(p.income * (1 + (level - 1) * 0.15));
+  return {
+    key: 'pet:' + p.id,
+    html: '<div class="ip-card ip-pet">' +
+      '<div class="ip-pet-art"><span class="ip-pet-emoji">' + p.emoji + '</span><span class="ip-pet-ring"></span></div>' +
+      '<div class="ip-body"><b class="ip-name">' + esc(p.name) + '</b>' +
+      '<span class="ip-sub">' + (owned ? 'Nível ' + level + ' · ' + income + ' moedas/tick' : money(p.price) + ' moedas para adotar') + '</span>' +
+      '<div class="ip-meter"><span style="width:' + (owned ? energy : 0) + '%"></span></div>' +
+      '<span class="ip-sub">' + (owned ? 'energia ' + Math.round(energy) + '/100' : 'renda base ' + p.income + ' moedas/tick') + '</span>' +
+      '<div class="ip-tags">' + v25Tag(owned ? (active ? 'acompanhando' : 'na coleção') : 'bloqueado', owned ? '' : 'gold') + v25Tag(owned ? 'alimentar 15' : 'adotar', owned ? '' : 'gold') + '</div></div></div>'
+  };
+}
+function v25TitlePreview(card) {
+  const l = LEVELS.find((x) => x.title === card.dataset.titleCard);
+  if (!l) return null;
+  const unlocked = state.xp >= l.xp;
+  const equipped = state.title === l.title;
+  return {
+    key: 'title:' + l.title,
+    html: '<div class="ip-card ip-title">' +
+      '<div class="ip-title-art"><span class="ip-crown"><i class="fa-solid fa-crown"></i></span><span class="ip-crown-glow"></span></div>' +
+      '<div class="ip-body"><b class="ip-name">' + esc(l.title) + '</b>' +
+      '<span class="ip-sub">' + (unlocked ? 'Liberado pelo seu XP' : 'Faltam ' + money(l.xp - state.xp) + ' XP') + '</span>' +
+      '<div class="ip-tags">' + v25Tag(money(l.xp) + ' XP', 'gold') + v25Tag(equipped ? 'equipado' : unlocked ? 'pronto para equipar' : 'bloqueado') + '</div></div></div>'
+  };
+}
+function v25MilestonePreview(card) {
+  const m = MILESTONES.find((x) => x.id === card.dataset.milestoneCard);
+  if (!m) return null;
+  const value = milestoneValue(m.type);
+  const claimed = state.milestonesClaimed.includes(m.id);
+  const ready = value >= m.goal && !claimed;
+  const pct = clamp((value / m.goal) * 100, 0, 100);
+  return {
+    key: 'milestone:' + m.id,
+    html: '<div class="ip-card ip-milestone">' +
+      '<div class="ip-body"><b class="ip-name">' + esc(m.label) + '</b>' +
+      '<span class="ip-sub">' + Math.min(value, m.goal) + ' de ' + m.goal + ' · ' + Math.round(pct) + '%</span>' +
+      '<div class="ip-meter"><span style="width:' + pct + '%"></span></div>' +
+      '<div class="ip-tags">' + v25Tag('+' + m.coins + ' moedas', 'gold') + v25Tag('+' + m.xp + ' XP') + v25Tag(claimed ? 'resgatado' : ready ? 'pronto' : 'em curso', ready ? 'gold' : '') + '</div></div></div>'
+  };
+}
+function v25AchPreview(card) {
+  const a = ACHIEVEMENTS.find((x) => x.id === card.dataset.achCard);
+  if (!a) return null;
+  let unlocked = false;
+  try { unlocked = !!a.check(); } catch (e) { unlocked = false; }
+  return {
+    key: 'ach:' + a.id,
+    html: '<div class="ip-card ip-ach">' +
+      '<div class="ip-ach-art"><i class="fa-solid ' + a.icon + '"></i><span class="ip-ach-ring"></span></div>' +
+      '<div class="ip-body"><b class="ip-name">' + esc(a.label) + '</b>' +
+      '<span class="ip-sub">' + (unlocked ? 'Conquista desbloqueada' : 'Ainda bloqueada — continue progredindo') + '</span>' +
+      '<div class="ip-tags">' + v25Tag(unlocked ? 'desbloqueada' : 'bloqueada', unlocked ? 'gold' : '') + '</div></div></div>'
+  };
+}
+function v25RewardPreview(card) {
+  const r = rewardPool().find((x) => x.code === card.dataset.rewardCard);
+  if (!r) return null;
+  const used = state.redeemed.includes(r.code);
+  const expired = r.expires && r.expires < dateKey();
+  const tags = [];
+  if (r.coins) tags.push(v25Tag('+' + money(r.coins) + ' moedas', 'gold'));
+  if (r.xp) tags.push(v25Tag('+' + money(r.xp) + ' XP'));
+  if (r.energy) tags.push(v25Tag('+' + money(r.energy) + ' ⚡', 'gold'));
+  if (r.theme) tags.push(v25Tag('tema ' + adminThemeName(r.theme)));
+  if (r.shield) tags.push(v25Tag('+' + r.shield + ' escudo'));
+  return {
+    key: 'reward:' + r.code,
+    html: '<div class="ip-card ip-reward">' +
+      '<div class="ip-reward-head"><span class="ip-code">' + esc(r.code) + '</span>' + v25Tag(used ? 'resgatado' : expired ? 'expirado' : 'ativo', used ? '' : expired ? 'danger' : 'gold') + '</div>' +
+      '<p class="ip-reward-hint">' + esc(r.hint || r.label || 'Campanha do hub') + '</p>' +
+      '<div class="ip-tags">' + tags.join('') + '</div>' +
+      (r.expires ? '<span class="ip-sub">expira em ' + prettyDate(r.expires) + '</span>' : '') + '</div>'
+  };
+}
+function v25BuildItemPreview(card) {
+  if (!card) return null;
+  try {
+    if (card.matches('[data-theme-card]')) return v25ThemePreview(card);
+    if (card.matches('[data-pet-card]')) return v25PetPreview(card);
+    if (card.matches('[data-title-card]')) return v25TitlePreview(card);
+    if (card.matches('[data-milestone-card]')) return v25MilestonePreview(card);
+    if (card.matches('[data-ach-card]')) return v25AchPreview(card);
+    if (card.matches('[data-reward-card]')) return v25RewardPreview(card);
+  } catch (e) { return null; }
+  return null;
+}
+function v25ShowItemPreview(card) {
+  const info = v25BuildItemPreview(card);
+  const el = $('#itemHoverPreview');
+  if (!info || !el) return;
+  clearTimeout(itemPreviewHideTimer);
+  const wasVisible = el.classList.contains('show');
+  const changed = itemPreviewKey !== info.key;
+  itemPreviewKey = info.key;
+  if (changed) el.innerHTML = info.html;
+  const width = Math.min(292, window.innerWidth - 16);
+  el.style.width = width + 'px';
+  const rect = card.getBoundingClientRect();
+  const height = el.offsetHeight || 160;
+  const gap = 12;
+  let x = rect.right + gap;
+  if (x + width > window.innerWidth - 8) x = rect.left - width - gap;
+  x = clamp(x, 8, Math.max(8, window.innerWidth - width - 8));
+  const y = clamp(rect.top + rect.height / 2 - height / 2, 8, Math.max(8, window.innerHeight - height - 8));
+  const dir = rect.left >= itemPreviewLastX ? 1 : -1;
+  itemPreviewLastX = rect.left;
+  el.style.setProperty('--ip-x', x.toFixed(1) + 'px');
+  el.style.setProperty('--ip-y', y.toFixed(1) + 'px');
+  el.style.setProperty('--ip-shift', (dir * 12) + 'px');
+  el.setAttribute('aria-hidden', 'false');
+  el.classList.add('show');
+  if (wasVisible && changed) {
+    el.classList.remove('swap');
+    void el.offsetWidth;
+    el.classList.add('swap');
+  } else if (!wasVisible) {
+    el.classList.remove('swap');
+  }
+}
+function hideItemPreviewV25() {
+  clearTimeout(itemPreviewHideTimer);
+  itemPreviewKey = '';
+  const el = $('#itemHoverPreview');
+  if (!el) return;
+  el.classList.remove('show', 'swap');
+  el.setAttribute('aria-hidden', 'true');
+}
+function scheduleHideItemPreviewV25() {
+  clearTimeout(itemPreviewHideTimer);
+  itemPreviewHideTimer = setTimeout(hideItemPreviewV25, 120);
+}
+function bindItemPreviewV25() {
+  const sel = '.theme-card[data-theme-card], .pet-card[data-pet-card], .title-card[data-title-card], .milestone[data-milestone-card], .ach-item[data-ach-card], .reward-card[data-reward-card]';
+  document.addEventListener('pointerover', (e) => {
+    if (e.pointerType && e.pointerType !== 'mouse' && e.pointerType !== 'pen') return;
+    const card = e.target.closest(sel);
+    if (!card || !card.closest('.page.active')) return;
+    v25ShowItemPreview(card);
+  });
+  document.addEventListener('pointerout', (e) => {
+    const card = e.target.closest(sel);
+    if (!card) return;
+    if (e.relatedTarget && card.contains(e.relatedTarget)) return;
+    scheduleHideItemPreviewV25();
+  });
+  document.addEventListener('focusin', (e) => {
+    const card = e.target.closest(sel);
+    if (card && e.target.closest('button') && card.closest('.page.active')) v25ShowItemPreview(card);
+  });
+  document.addEventListener('focusout', (e) => {
+    if (e.target.closest(sel)) scheduleHideItemPreviewV25();
+  });
+  document.addEventListener('click', (e) => {
+    if (e.target.closest(sel)) hideItemPreviewV25();
+  });
+  window.addEventListener('resize', hideItemPreviewV25, { passive: true });
+  document.addEventListener('scroll', hideItemPreviewV25, true);
+}
+
+/* ---------- 38-B. Radar ao vivo das 28 abas ---------- */
+function v25LateGoals() { const today = dateKey(); return state.goals.filter((g) => !g.done && g.due && g.due < today); }
+function v25OpenGoals() { return state.goals.filter((g) => !g.done).length; }
+function v25SuggestedFocus() {
+  const done = Number(state.focusByDate[dateKey()]) || 0;
+  const left = Math.max(0, 60 - done);
+  if (!left) return 25;
+  return clamp(Math.round(left / 5) * 5, 5, 60);
+}
+function v25QuizStats() {
+  const h = state.quizHistory || [];
+  const total = h.reduce((a, q) => a + (Number(q.total) || 0), 0);
+  const score = h.reduce((a, q) => a + (Number(q.score) || 0), 0);
+  return { n: h.length, pct: total ? Math.round((score / total) * 100) : 0 };
+}
+function v25ActiveRewards() {
+  return REWARDS.filter((r) => !state.redeemed.includes(r.code) && (!r.expires || r.expires >= dateKey()));
+}
+function v25WeekBlocks() {
+  let n = 0;
+  plannerDays().forEach((d) => { n += Object.keys(state.planner[dateKey(d)] || {}).length; });
+  return n;
+}
+function v25Achieved() {
+  return ACHIEVEMENTS.filter((a) => { try { return !!a.check(); } catch (e) { return false; } }).length;
+}
+function v25ReadyMilestones() {
+  return MILESTONES.filter((m) => !state.milestonesClaimed.includes(m.id) && milestoneValue(m.type) >= m.goal);
+}
+function v25NotesWords() {
+  return Object.values(state.notes).reduce((acc, n) => acc + String((n && n.content) || '').trim().split(/\s+/).filter(Boolean).length, 0);
+}
+function v25ActiveLayers() { return Object.values(state.ambient.layers || {}).filter((v) => Number(v) > 0).length; }
+
+const V25_TABS = {
+  hoje: {
+    label: 'Prioridade agora', icon: 'fa-compass',
+    insight() {
+      const late = v25LateGoals().length;
+      const due = dueCards().length;
+      const open = v25OpenGoals();
+      if (late) return late + ' meta(s) atrasada(s) · ' + due + ' revisão(ões) · ' + open + ' aberta(s)';
+      if (due) return due + ' revisão(ões) devidas · ' + open + ' meta(s) aberta(s)';
+      if (open) return open + ' meta(s) aberta(s) · nenhuma revisão devida';
+      return 'Tudo em dia — escolha um foco curto para começar.';
+    },
+    action: { id: 'plan-next', label: 'Abrir prioridade', icon: 'fa-arrow-right' }
+  },
+  timer: {
+    label: 'Ritmo sugerido', icon: 'fa-gauge-high',
+    insight() {
+      const done = Number(state.focusByDate[dateKey()]) || 0;
+      return 'sugestão de ' + v25SuggestedFocus() + ' min · foco hoje ' + fmtMinutes(done) + ' de 60 min';
+    },
+    action: { id: 'timer-suggest', label: 'Aplicar sugestão', icon: 'fa-play' }
+  },
+  goals: {
+    label: 'Pendências', icon: 'fa-list-check',
+    insight() {
+      const late = v25LateGoals().length;
+      const open = v25OpenGoals();
+      const today = dateKey();
+      const doneToday = state.goals.filter((g) => g.done && g.doneAt && dateKey(new Date(g.doneAt)) === today).length;
+      return open + ' aberta(s) · ' + late + ' atrasada(s) · ' + doneToday + ' concluída(s) hoje';
+    },
+    action: { id: 'goals-late', label: 'Concluir atrasadas', icon: 'fa-check-double' }
+  },
+  flashcards: {
+    label: 'Fila de revisão', icon: 'fa-clone',
+    insight() {
+      const deck = (state.decks[state.deck] || []).length;
+      return dueCards().length + ' devidos no hub · ' + deck + ' card(s) em ' + state.deck;
+    },
+    action: { id: 'flash-shuffle', label: 'Embaralhar', icon: 'fa-shuffle' }
+  },
+  quiz: {
+    label: 'Precisão', icon: 'fa-brain',
+    insight() {
+      const q = v25QuizStats();
+      return q.n ? q.pct + '% de precisão em ' + q.n + ' quiz(zes) · recorde ' + state.quizBest : 'Nenhum quiz concluído · recorde ' + state.quizBest + ' acertos';
+    },
+    action: { id: 'quiz-quick', label: 'Quiz relâmpago', icon: 'fa-bolt' }
+  },
+  subjects: {
+    label: 'Timer por matéria', icon: 'fa-clock',
+    insight() {
+      const entries = Object.entries(state.subjectMinutes || {}).filter(([, m]) => m > 0).sort((a, b) => b[1] - a[1]);
+      const total = entries.reduce((a, [, m]) => a + m, 0);
+      return fmtMinutes(total) + ' acumulados' + (entries.length ? ' · líder ' + entries[0][0] : ' · nenhuma sessão ainda');
+    },
+    action: { id: 'subject-resume', label: 'Retomar última', icon: 'fa-play' }
+  },
+  planner: {
+    label: 'Carga da semana', icon: 'fa-calendar-week',
+    insight() { return v25WeekBlocks() + '/42 blocos preenchidos na semana exibida'; },
+    action: { id: 'planner-prev', label: 'Duplicar anterior', icon: 'fa-copy' }
+  },
+  stats: {
+    label: 'Comparativo', icon: 'fa-chart-simple',
+    insight() {
+      const today = new Date();
+      let cur = 0, prev = 0;
+      for (let i = 0; i < 7; i++) {
+        cur += Number(state.focusByDate[dateKey(addDays(today, -i))]) || 0;
+        prev += Number(state.focusByDate[dateKey(addDays(today, -i - 7))]) || 0;
+      }
+      const delta = prev ? Math.round(((cur - prev) / prev) * 100) : (cur ? 100 : 0);
+      return fmtMinutes(cur) + ' em 7 dias · ' + (delta >= 0 ? '+' : '') + delta + '% vs. semana anterior';
+    },
+    action: { id: 'stats-checkin', label: 'Check-in de hoje', icon: 'fa-fire-flame-curved' }
+  },
+  diary: {
+    label: 'Constância', icon: 'fa-book',
+    insight() {
+      const entries = Object.values(state.diary || {});
+      if (!entries.length) return 'Nenhuma entrada ainda — comece com uma frase.';
+      const counts = {};
+      entries.forEach((e) => { const m = e.mood || '🙂'; counts[m] = (counts[m] || 0) + 1; });
+      const top = Object.keys(counts).sort((a, b) => counts[b] - counts[a])[0];
+      return entries.length + ' entrada(s) · humor mais comum ' + top;
+    },
+    action: { id: 'diary-today', label: 'Abrir hoje', icon: 'fa-pen' }
+  },
+  chat: {
+    label: 'Conversa', icon: 'fa-comments',
+    insight() {
+      const msgs = state.chatHistory || [];
+      const words = msgs.reduce((a, m) => a + String(m.content || '').trim().split(/\s+/).filter(Boolean).length, 0);
+      return msgs.length + ' mensagem(ns) · ' + money(words) + ' palavras no histórico';
+    },
+    action: { id: 'chat-export', label: 'Exportar conversa', icon: 'fa-download' }
+  },
+  commands: {
+    label: 'Terminal', icon: 'fa-terminal',
+    insight() { return (state.commandHistory || []).length + ' comando(s) usados · Ctrl+K abre a paleta'; },
+    action: { id: 'cmd-help', label: 'Ver comandos', icon: 'fa-circle-question' }
+  },
+  store: {
+    label: 'Coleção', icon: 'fa-store',
+    insight() { return state.themesOwned.length + '/' + THEMES.length + ' temas · ' + money(state.coins) + ' moedas disponíveis'; },
+    action: { id: 'store-next', label: 'Comprar acessível', icon: 'fa-palette' }
+  },
+  titles: {
+    label: 'Próximo título', icon: 'fa-crown',
+    insight() {
+      const info = levelInfo(state.xp);
+      return info.next ? 'Próximo: ' + info.next.title + ' em ' + money(info.next.xp - state.xp) + ' XP' : 'Nível máximo alcançado · ' + state.title;
+    },
+    action: { id: 'title-best', label: 'Equipar melhor', icon: 'fa-crown' }
+  },
+  pets: {
+    label: 'Companhia', icon: 'fa-paw',
+    insight() { return state.petsOwned.length + '/' + PETS.length + ' pets · ' + petIncome() + ' moedas/5s agora'; },
+    action: { id: 'pets-next', label: 'Adotar próximo', icon: 'fa-paw' }
+  },
+  journey: {
+    label: 'Conquistas', icon: 'fa-map',
+    insight() { return v25Achieved() + '/' + ACHIEVEMENTS.length + ' conquistas · ' + v25ReadyMilestones().length + ' marco(s) pronto(s)'; },
+    action: { id: 'journey-claim', label: 'Resgatar prontos', icon: 'fa-gift' }
+  },
+  clicker: {
+    label: 'Núcleo', icon: 'fa-bolt',
+    insight() { return money(clickerRate()) + ' ⚡/s · ' + money(Math.floor(state.clicker.points || 0)) + ' ⚡ armazenados'; },
+    action: { id: 'clicker-best', label: 'Melhor troca', icon: 'fa-coins' }
+  },
+  rewards: {
+    label: 'Campanhas', icon: 'fa-gift',
+    insight() { return v25ActiveRewards().length + ' código(s) ativo(s) · ' + state.redeemed.length + ' resgatado(s) nesta conta'; },
+    action: { id: 'rewards-active', label: 'Copiar ativos', icon: 'fa-key' }
+  },
+  notes: {
+    label: 'Biblioteca', icon: 'fa-note-sticky',
+    insight() { return Object.keys(state.notes).length + ' nota(s) · ' + money(v25NotesWords()) + ' palavras escritas'; },
+    action: { id: 'note-new', label: 'Nova nota', icon: 'fa-plus' }
+  },
+  ambient: {
+    label: 'Camadas', icon: 'fa-headphones',
+    insight() { return v25ActiveLayers() + ' camada(s) ativa(s) · volume geral ' + state.ambient.master + '%'; },
+    action: { id: 'ambient-focus', label: 'Preset foco', icon: 'fa-headphones' }
+  },
+  keysounds: {
+    label: 'Feedback', icon: 'fa-keyboard',
+    insight() { return (state.keySounds.on ? 'Ligado' : 'Desligado') + ' · estilo ' + state.keySounds.style + ' · volume ' + state.keySounds.volume + '%'; },
+    action: { id: 'keysound-test', label: 'Testar som', icon: 'fa-volume-high' }
+  },
+  calculator: {
+    label: 'Histórico', icon: 'fa-calculator',
+    insight() { return (calc.history || []).length + ' cálculo(s) nesta sessão · memória pronta'; },
+    action: { id: 'calc-history', label: 'Copiar histórico', icon: 'fa-copy' }
+  },
+  chars: {
+    label: 'Biblioteca Unicode', icon: 'fa-font',
+    insight() { return state.charsFav.length + ' favorito(s) · ' + state.recentChars.length + ' recente(s) · ' + money(state.charCopies || 0) + ' cópias'; },
+    action: { id: 'chars-favs', label: 'Copiar favoritos', icon: 'fa-star' }
+  },
+  title: {
+    label: 'Aparência', icon: 'fa-pen-nib',
+    insight() { return '"' + state.pageTitle + '" · fonte ' + state.font + ' · ícone ' + state.icon.replace('fa-', ''); },
+    action: { id: 'title-apply', label: 'Aplicar configuração', icon: 'fa-check' }
+  },
+  password: {
+    label: 'Segurança', icon: 'fa-shield-halved',
+    insight() {
+      const last = passHistory[0];
+      return last ? passHistory.length + ' gerada(s) nesta sessão · última com ' + last.bits + ' bits' : 'Nenhuma senha gerada nesta sessão';
+    },
+    action: { id: 'pass-generate', label: 'Gerar nova', icon: 'fa-shuffle' }
+  },
+  geekie: {
+    label: 'Portal', icon: 'fa-graduation-cap',
+    insight() { return 'Zoom ' + Math.round((state.portalZoom.geekie || 1) * 100) + '% · Geekie One embutido'; },
+    action: { id: 'portal-open', label: 'Abrir em nova aba', icon: 'fa-arrow-up-right-from-square' }
+  },
+  google: {
+    label: 'Busca', icon: 'fa-google',
+    insight() { return 'Zoom ' + Math.round((state.portalZoom.google || 1) * 100) + '% · Google embutido'; },
+    action: { id: 'portal-open', label: 'Abrir em nova aba', icon: 'fa-arrow-up-right-from-square' }
+  },
+  events: {
+    label: 'Evento do mês', icon: 'fa-calendar-day',
+    insight() { const e = EVENTS[eventMonth]; return e.emoji + ' ' + e.name + ' · ' + fmtMinutes(monthMinutes(eventMonth)) + ' de foco no mês'; },
+    action: { id: 'event-copy', label: 'Copiar evento', icon: 'fa-copy' }
+  },
+  devlog: {
+    label: 'Versões', icon: 'fa-code-branch',
+    insight() { return DEVLOG.length + ' entrada(s) · última ' + DEVLOG[0].version + ' em ' + DEVLOG[0].date; },
+    action: { id: 'devlog-recent', label: 'Ver últimas 3', icon: 'fa-layer-group' }
+  }
+};
+
+function v25PaintInsight(id) {
+  const page = document.getElementById('page-' + id);
+  if (!page) return;
+  const row = $('[data-v25-insight]', page);
+  const meta = V25_TABS[id];
+  if (!row || !meta) return;
+  const text = $('[data-v25-text]', row);
+  if (!text) return;
+  let value = '—';
+  try { value = meta.insight(); } catch (e) { value = '—'; }
+  if (text.textContent !== value) text.textContent = value;
+  row.classList.remove('is-fresh');
+  void row.offsetWidth;
+  row.classList.add('is-fresh');
+}
+function v25RefreshInsight() { v25PaintInsight(state.currentTab || 'hoje'); }
+function buildV25Insights() {
+  $$('.page[data-tab]').forEach((page) => {
+    const id = page.dataset.tab;
+    const meta = V25_TABS[id];
+    const card = $('.v24-quickbar', page);
+    if (!meta || !card) return;
+    if ($('.v25-insight', card)) { v25PaintInsight(id); return; }
+    const row = document.createElement('div');
+    row.className = 'v25-insight';
+    row.dataset.v25Insight = id;
+    row.innerHTML = '<span class="v25-pulse" aria-hidden="true"><i class="fa-solid ' + meta.icon + '"></i></span>' +
+      '<div class="v25-insight-copy"><b>' + esc(meta.label) + '</b><span data-v25-text>—</span></div>' +
+      '<button class="btn btn-primary btn-sm v25-insight-action" type="button" data-v25-action="' + meta.action.id + '"><i class="fa-solid ' + meta.action.icon + '"></i> ' + esc(meta.action.label) + '</button>';
+    const actions = $('.v24-quick-actions', card);
+    if (actions) card.insertBefore(row, actions); else card.appendChild(row);
+    v25PaintInsight(id);
+  });
+}
+function v25RunAction(action, btn) {
+  const page = btn && btn.closest ? btn.closest('.page') : null;
+  const pageId = page ? page.dataset.tab : (state.currentTab || 'hoje');
+  switch (action) {
+    case 'plan-next': {
+      const late = v25LateGoals();
+      if (late.length) {
+        goalFilter = 'late';
+        $$('#goalFilters .chip').forEach((c) => c.classList.toggle('active', c.dataset.filter === 'late'));
+        switchTab('goals');
+        toast(late.length + ' meta(s) atrasada(s) em destaque.', 'fa-list-check');
+        return;
+      }
+      if (dueCards().length) { switchTab('flashcards'); return; }
+      if (v25OpenGoals()) { switchTab('goals'); return; }
+      v24StartFocus(v25SuggestedFocus());
+      return;
+    }
+    case 'timer-suggest': v24StartFocus(v25SuggestedFocus()); return;
+    case 'goals-late': {
+      const late = v25LateGoals();
+      if (!late.length) return toast('Nenhuma meta atrasada agora.', 'fa-circle-check', true);
+      if (!confirm('Concluir ' + late.length + ' meta(s) atrasada(s) de uma vez?')) return;
+      late.forEach((g) => { g.done = true; g.doneAt = Date.now(); state.totalGoalsDone += 1; dailyBump('goals', 1); });
+      addXp(8 * late.length); addCoins(2 * late.length);
+      save(); renderGoals(); renderHoje(); renderJourney();
+      toast(late.length + ' meta(s) concluída(s) · XP e moedas creditados.', 'fa-check-double');
+      return;
+    }
+    case 'flash-shuffle': {
+      const cards = flash.queue.length ? flash.queue : (state.decks[state.deck] || []);
+      if (!cards.length) return toast('O baralho atual está vazio.', 'fa-clone', true);
+      flash.queue = shuffle(cards); flash.idx = 0; flash.flipped = false;
+      renderFlashcards();
+      toast('Baralho embaralhado — ' + flash.queue.length + ' card(s) na fila.', 'fa-shuffle');
+      return;
+    }
+    case 'quiz-quick': {
+      const sel = $('#quizCount'); if (sel) sel.value = '3';
+      startQuiz();
+      toast('Quiz relâmpago: 3 perguntas.', 'fa-bolt');
+      return;
+    }
+    case 'subject-resume': {
+      const log = state.subjectLog || [];
+      const top = Object.entries(state.subjectMinutes || {}).sort((a, b) => b[1] - a[1])[0];
+      const name = (log[0] && log[0].subject) || (top && top[0]) || '';
+      if (!name) return toast('Registre uma sessão de matéria primeiro.', 'fa-clock', true);
+      if (subjectTimer.running) subjectPause();
+      subjectTimer.name = name; subjectTimer.seconds = 0;
+      renderSubjects(); subjectStart();
+      return;
+    }
+    case 'planner-prev': {
+      const days = plannerDays();
+      let copied = 0;
+      days.forEach((d, i) => {
+        const src = state.planner[dateKey(addDays(d, -7))] || {};
+        const target = dateKey(d);
+        state.planner[target] = state.planner[target] || {};
+        Object.keys(src).forEach((slot) => {
+          if (!state.planner[target][slot]) { state.planner[target][slot] = src[slot]; copied++; }
+        });
+      });
+      if (!copied) return toast('Nenhum bloco livre para copiar da semana anterior.', 'fa-calendar-week', true);
+      save(); renderPlanner(); renderHoje();
+      toast(copied + ' bloco(s) copiados da semana anterior.', 'fa-copy');
+      return;
+    }
+    case 'stats-checkin': { const b = $('#statsCheckinBtn'); if (b) b.click(); return; }
+    case 'diary-today': {
+      const date = $('#diaryDate'); if (date) date.value = dateKey();
+      const ta = $('#diaryText'); if (ta) ta.dataset.dirty = '';
+      renderDiary();
+      if (ta) ta.focus();
+      return;
+    }
+    case 'chat-export': { const b = $('#chatExportBtn'); if (b) b.click(); return; }
+    case 'cmd-help': switchTab('commands'); runCommand('ajuda'); return;
+    case 'store-next': {
+      const next = THEMES.filter((t) => !state.themesOwned.includes(t.id)).sort((a, b) => a.price - b.price)[0];
+      if (!next) return toast('Você já tem todos os temas da loja.', 'fa-store');
+      if (state.coins < next.price) return toast('Faltam ' + money(next.price - state.coins) + ' moedas para ' + next.name + '.', 'fa-coins', true);
+      buyOrEquipTheme(next.id);
+      return;
+    }
+    case 'title-best': {
+      const unlocked = LEVELS.filter((l) => state.xp >= l.xp);
+      const best = unlocked[unlocked.length - 1];
+      if (!best) return toast('Nenhum título liberado ainda.', 'fa-crown', true);
+      if (best.title === state.title) return toast('Você já está com o melhor título liberado.', 'fa-crown');
+      state.title = best.title; save(); renderTitles(); renderTopbar();
+      toast('Título equipado: ' + best.title + '.', 'fa-crown');
+      return;
+    }
+    case 'pets-next': {
+      const next = PETS.filter((p) => !state.petsOwned.includes(p.id)).sort((a, b) => a.price - b.price)[0];
+      if (!next) return toast('Você já adotou todos os pets.', 'fa-paw');
+      if (state.coins < next.price) return toast('Faltam ' + money(next.price - state.coins) + ' moedas para ' + next.name + '.', 'fa-coins', true);
+      petAction(next.id);
+      return;
+    }
+    case 'journey-claim': {
+      const ready = v25ReadyMilestones();
+      if (!ready.length) return toast('Nenhum marco pronto para resgatar.', 'fa-flag', true);
+      const coins = ready.reduce((a, m) => a + m.coins, 0);
+      const xp = ready.reduce((a, m) => a + m.xp, 0);
+      ready.forEach((m) => { if (!state.milestonesClaimed.includes(m.id)) state.milestonesClaimed.push(m.id); });
+      addCoins(coins); addXp(xp); save(); renderJourney();
+      toast(ready.length + ' marco(s) resgatados · +' + money(coins) + ' moedas e XP.', 'fa-gift');
+      return;
+    }
+    case 'clicker-best': {
+      for (let i = CLICKER_EXCHANGES.length - 1; i >= 0; i--) {
+        if ((state.clicker.points || 0) >= CLICKER_EXCHANGES[i].energy) { exchangeClicker(i); return; }
+      }
+      return toast('Junte 50 ⚡ para a primeira troca.', 'fa-bolt', true);
+    }
+    case 'rewards-active': runV24Action('rewards-copy', btn); return;
+    case 'note-new': switchTab('notes'); { const b = $('#noteNewBtn'); if (b) b.click(); } return;
+    case 'ambient-focus': {
+      switchTab('ambient');
+      const sel = $('#ambientPreset');
+      if (sel) { sel.value = 'focus'; sel.dispatchEvent(new Event('change', { bubbles: true })); }
+      return;
+    }
+    case 'keysound-test': {
+      if (!state.keySounds.on) { state.keySounds.on = true; save(); renderKeySounds(); }
+      playKeySound();
+      toast('Som de tecla: ' + state.keySounds.style + '.', 'fa-keyboard');
+      return;
+    }
+    case 'calc-history': runV24Action('calc-copy', btn); return;
+    case 'chars-favs': runV24Action('chars-copy-favs', btn); return;
+    case 'title-apply': { const b = $('#titleApplyBtn'); if (b) b.click(); return; }
+    case 'pass-generate': { generatePassword(); toast('Nova senha gerada.', 'fa-shield-halved'); return; }
+    case 'portal-open': runV24Action('portal-open', btn); return;
+    case 'event-copy': runV24Action('event-copy', btn); return;
+    case 'devlog-recent': openDevlogRecent(); return;
+    default: return;
+  }
+}
+
+/* ---------- 38-C. Inicialização e ciclo do radar ---------- */
+const paintSwitchV25 = switchTab;
+switchTab = function (id, opts) {
+  paintSwitchV25(id, opts);
+  hideItemPreviewV25();
+  v25PaintInsight(id);
+};
+function initV25() {
+  if (initV25.ready) return;
+  initV25.ready = true;
+  buildV25Insights();
+  bindItemPreviewV25();
+  document.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-v25-action]');
+    if (b && !b.disabled) v25RunAction(b.dataset.v25Action, b);
+  });
+  setInterval(() => { if (!document.hidden) v25RefreshInsight(); }, 20000);
+  v25PaintInsight(state.currentTab || 'hoje');
+}
+
+/* Fim do núcleo v25. */
+
+/* Compatibilidade: o rodapé do núcleo v24 é mantido como marcador. */
 
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
 else boot();
