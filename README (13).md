@@ -2,7 +2,7 @@
 
 Hub de estudos em **3 arquivos** (HTML, CSS e JS), sem build e sem dependências locais — só os ícones e as fontes vêm de CDN.
 
-Versão atual: **v24.0.0**
+Versão atual: **v25.0.0**
 
 ```
 index.html
@@ -15,12 +15,109 @@ script.js
 - **Duplo clique** em `index.html` funciona (roda em `file://`).
 - **Servidor local** é mais confiável para o navegador carregar CSS/JS com o tipo correto:
 
-```bash
+```chart
+{
+  "type": "bar",
+  "title": "Chart title",
+  "x": "label",
+  "series": [
+    {
+      "key": "value",
+      "label": "Value"
+    }
+  ],
+  "data": [
+    {
+      "label": "A",
+      "value": 3
+    },
+    {
+      "label": "B",
+      "value": 5
+    },
+    {
+      "label": "C",
+      "value": 4
+    }
+  ]
+}
+```
+
+```text
 python3 -m http.server 3000
 # abra http://localhost:3000
 ```
 
 Login: crie uma conta local, entre com ela ou clique em **Entrar como convidado**. Nada é enviado para servidor.
+
+---
+
+## O que mudou na v25.0.0
+
+### 1. Previews animados de itens
+
+- **Loja, Pets, Títulos, Trilha e Recompensas** ganharam um cartão flutuante ao passar o mouse ou focar um item pelo teclado.
+- Cada tipo tem uma prévia própria:
+  - **Tema:** amostra do gradiente, orbe animado, brilho varrendo e preço/estado.
+  - **Pet:** emoji grande quicando, nível, renda, barra de energia e status.
+  - **Título:** coroa com brilho, XP exigido e se já está equipado.
+  - **Marco:** progresso atual, barra animada e recompensas.
+  - **Conquista:** ícone, estado bloqueado/desbloqueado.
+  - **Código:** código, status, prêmios e validade.
+- A abertura combina escala, desfoque e uma subida curta; ao deslizar para o item vizinho, a troca anima na direção do movimento em vez de reabrir.
+- O cartão se reposiciona para caber na tela e fecha ao rolar, clicar, trocar de aba ou abrir a central. Funciona por mouse, caneta e teclado (Tab); no toque, o toque continua executando a ação normal do cartão.
+
+### 2. Cinco códigos novos
+
+- `ORION25`, `PULSO25`, `HELIX25`, `QUASAR25` e `ECLIPSE25` entram no catálogo.
+- O catálogo passa de 17 para **22 códigos públicos**.
+- Hélix libera o tema **Oceano**, Quasar libera **Candy** e Eclipse entrega **2 escudos** de sequência.
+- Pulso entrega **8.000 ⚡** para o núcleo; Órion é o pacote de estreia com moedas, XP e escudo.
+
+### 3. Radar ao vivo nas 28 abas
+
+- Cada aba agora tem uma linha de **radar** dentro das ações rápidas, com um indicador recalculado ao entrar na aba, depois de cada ação e a cada 20 segundos.
+- O radar mostra dados reais: pendências, fila de revisão, precisão do quiz, carga da semana, comparativo de 7 dias, coleção de temas, renda dos pets, marcos prontos, energia do núcleo e mais.
+- Um botão contextual resolve a próxima tarefa sem navegar: abrir a prioridade, aplicar a sessão sugerida, concluir metas atrasadas, sortear o baralho, iniciar um quiz relâmpago, retomar a última matéria, duplicar a semana anterior, resgatar marcos e por aí vai.
+
+### 4. Ação nova em cada aba
+
+| Aba | Radar | Ação contextual |
+| --- | --- | --- |
+| **Hoje** | Pendências, revisões e metas abertas | Abrir prioridade |
+| **Pomodoro** | Sugestão de sessão para fechar a meta | Aplicar sugestão |
+| **Metas** | Abertas, atrasadas e concluídas hoje | Concluir atrasadas |
+| **Flashcards** | Fila devida e tamanho do baralho | Embaralhar |
+| **Quiz** | Precisão acumulada e recorde | Quiz relâmpago |
+| **Timer matérias** | Minutos acumulados e matéria líder | Retomar última |
+| **Planner** | Blocos preenchidos na semana | Duplicar anterior |
+| **Estatísticas** | Foco de 7 dias vs. semana anterior | Check-in de hoje |
+| **Diário** | Entradas e humor mais comum | Abrir hoje |
+| **Chat IA** | Mensagens e palavras no histórico | Exportar conversa |
+| **Comandos** | Comandos usados na conta | Ver comandos |
+| **Loja** | Temas e moedas disponíveis | Comprar acessível |
+| **Títulos** | Próximo título e XP restante | Equipar melhor |
+| **Pets** | Pets adotados e renda atual | Adotar próximo |
+| **Trilha** | Conquistas e marcos prontos | Resgatar prontos |
+| **Clicker** | Produção por segundo e energia | Melhor troca |
+| **Recompensas** | Códigos ativos e resgatados | Copiar ativos |
+| **Notas** | Notas e palavras escritas | Nova nota |
+| **Sons ambiente** | Camadas ativas e volume | Preset foco |
+| **Som de teclado** | Estilo, volume e estado | Testar som |
+| **Calculadora** | Cálculos da sessão | Copiar histórico |
+| **Caracteres** | Favoritos, recentes e cópias | Copiar favoritos |
+| **Título da página** | Título, fonte e ícone atuais | Aplicar configuração |
+| **Senhas** | Senhas geradas e entropia | Gerar nova |
+| **Portal Geekie** | Zoom do portal | Abrir em nova aba |
+| **Google** | Zoom da busca | Abrir em nova aba |
+| **Eventos** | Evento do mês e foco acumulado | Copiar evento |
+| **Dev Log** | Total de entradas e última versão | Ver últimas 3 |
+
+### 5. Interface, Dev Log e README
+
+- Os previews usam vidro, gradientes por tipo e borda na cor do assunto; o radar tem pulso luminoso e números em destaque.
+- A aba **Dev Log** recebeu **5 entradas v25.0.0**; o painel de `Ctrl+Shift+D` e o cartão de novidades passam a mostrar a v25.
+- Este README foi atualizado com a tabela das 28 ações, os cinco códigos, os previews, a estrutura nova e as limitações.
 
 ---
 
@@ -200,6 +297,8 @@ Cada aba recebeu uma barra de **Ações rápidas** no fim da página, com atalho
 
 ## As 28 abas
 
+Todas as 28 abas têm **Ações rápidas** (v24) e um **radar contextual** (v25) com indicador ao vivo e um botão que resolve a próxima tarefa.
+
 | Aba | O que faz |
 | --- | --- |
 | **Hoje** | Baú diário, missões do dia e da semana, painel Foguinho, meta de foco, metas, revisões, planner e atalhos |
@@ -213,12 +312,12 @@ Cada aba recebeu uma barra de **Ações rápidas** no fim da página, com atalho
 | **Diário** | Entrada por dia com rascunho automático, humor, busca, resumo de humor e exportação markdown |
 | **Chat IA** | Tutor local com modos, matéria, resposta progressiva, ações por mensagem e filtro da conversa |
 | **Comandos** | Terminal com 35 comandos, autocomplete, histórico e ajuda |
-| **Loja** | Onze temas e dois boosts consumíveis, compra com moedas e preview ao vivo |
-| **Títulos** | Doze títulos liberados por XP e equipáveis |
-| **Pets** | Sete pets com adoção, energia, alimentação, nível e renda passiva |
-| **Trilha** | Doze níveis, quinze marcos resgatáveis e dezenove conquistas |
+| **Loja** | Onze temas e dois boosts consumíveis, compra com moedas, preview ao vivo do tema e **cartão flutuante animado** |
+| **Títulos** | Doze títulos liberados por XP, equipáveis e com **preview de coroa, XP e estado** |
+| **Pets** | Sete pets com adoção, energia, alimentação, nível, renda passiva e **preview com barra de energia** |
+| **Trilha** | Doze níveis, quinze marcos resgatáveis e dezenove conquistas, com **preview de progresso e recompensas** |
 | **Clicker** | Núcleo 3.0 com doze melhorias, combo, críticos, núcleo dourado, talentos, cinco trocas, marcos, prestígio e renda offline |
-| **Recompensas** | **Dezessete** códigos com status, expiração, histórico, cópia por cartão, energia de núcleo e códigos personalizados fora do catálogo público |
+| **Recompensas** | **Vinte e dois** códigos com status, expiração, histórico, cópia por cartão, **preview de prêmios**, energia de núcleo e códigos personalizados fora do catálogo público |
 | **Notas** | Busca, tags, autosave, fixar, duplicar, contagem de palavras, estatísticas e exportação `.md` |
 | **Sons ambiente** | Seis camadas (chuva, ruído, ondas, lareira, vento, café), cinco presets, volume geral e timer |
 | **Som de teclado** | Sete estilos, volume e campo de teste |
@@ -229,7 +328,7 @@ Cada aba recebeu uma barra de **Ações rápidas** no fim da página, com atalho
 | **Portal Geekie** | Iframe do Geekie One, recarregar, nova aba, tela cheia e **zoom lembrado entre visitas** |
 | **Google** | Google embutido, atalhos para Classroom, Drive, Docs e YouTube, e **zoom lembrado** |
 | **Eventos** | Evento de cada mês, nível por foco, contagem para o próximo e recompensa em moedas |
-| **Dev Log** | Histórico de versões com filtro, busca, botão **Últimas 3** (`Ctrl+Shift+D`), copiar resumo e exportar `.md` |
+| **Dev Log** | Histórico de versões com filtro, busca, botão **Últimas 3** (`Ctrl+Shift+D`), copiar resumo, exportar `.md` e radar com a última versão |
 
 ---
 
@@ -332,8 +431,13 @@ Digite `ajuda` para listar, ou `ajuda <comando>` para detalhar. São **35 comand
 | `SINGULAR24` | +260 moedas, +320 XP e tema Brasa | 31/12/2027 |
 | `MESTRE24` | +300 moedas, +400 XP e 1 escudo | 31/12/2027 |
 | `SAKURA24` | +150 moedas, +220 XP e tema Sakura | 31/12/2027 |
+| `ORION25` | +220 moedas, +280 XP e 1 escudo | 30/06/2028 |
+| `PULSO25` | +240 moedas, +220 XP e 8.000 ⚡ | 30/06/2028 |
+| `HELIX25` | +260 moedas, +300 XP e tema Oceano | 30/06/2028 |
+| `QUASAR25` | +320 moedas, +360 XP e tema Candy | 30/06/2028 |
+| `ECLIPSE25` | +400 moedas, +480 XP e 2 escudos | 30/06/2028 |
 
-Um resgate por conta, sem diferenciar maiúsculas, com expiração validada na data local. Códigos personalizados criados na central **não aparecem nesta tabela nem no catálogo público**; só podem ser resgatados por quem souber o texto e são removíveis na seção **Códigos**.
+São **22 códigos públicos**. Um resgate por conta, sem diferenciar maiúsculas, com expiração validada na data local. Códigos personalizados criados na central **não aparecem nesta tabela nem no catálogo público**; só podem ser resgatados por quem souber o texto e são removíveis na seção **Códigos**.
 
 ## Atalhos
 
@@ -358,6 +462,7 @@ Um resgate por conta, sem diferenciar maiúsculas, com expiração validada na d
 - Progresso em `localStorage`, chave **`geekieHubState_v22`** — a mesma das versões anteriores, para ninguém perder progresso.
 - Campos novos da v23: `boosts`, `dailyChest`, `weeklyStats`, `weeklyClaims`, `subjectLog`, `petXp`, `chestsOpened`, `boostsBought`, `boostsUsed` e, dentro de `clicker`, `talents`, `milestones`, `goldUntil`, `goldNext`, `goldSeen` e `crits`.
 - Campos novos da v24: `portalZoom`, `adminCodeHash`, `adminLog`, `customCodes` e `adminRailCollapsed`. O hash do código root é mesclado sem revelar o texto; a sessão administrativa usa `sessionStorage` (chave `geekieAdminArmed_v24`) e cai ao fechar a aba.
+- A v25 não criou campos novos: os previews, o radar e as ações em lote usam os mesmos dados da v24, na mesma chave, sem migração destrutiva.
 - **Migração automática**: o estado antigo é mesclado com os padrões; `geekieHubState_v20` e `geekieHubState_v194` continuam aceitos.
 - O clicker guarda `lifetime`, `prestige`, `autoExchange`, `buyAmount`, `lastSeen`, `comboBest`, `exchanges`, `talents`, `milestones` e os campos do núcleo dourado.
 - Contas locais em `geekieHubAccounts_v20` (hash simples — **não é segurança de produção**).
@@ -366,7 +471,7 @@ Um resgate por conta, sem diferenciar maiúsculas, com expiração validada na d
 - Sons são gerados por Web Audio no próprio navegador; nenhuma requisição de áudio.
 - O tutor do chat é **local e offline** (heurísticas por modo/matéria), sem chave de API e sem enviar mensagens.
 - `exportar` gera um JSON com todo o estado; `reset` apaga o progresso.
-- O aviso “Novidades” aparece uma vez por versão (chave `geekieHubSeenVersion_v22`) e mostra até oito itens das entradas v24 do Dev Log.
+- O aviso “Novidades” aparece uma vez por versão (chave `geekieHubSeenVersion_v22`) e mostra até oito itens das entradas v25 do Dev Log.
 
 ## Estrutura do `script.js`
 
@@ -392,8 +497,26 @@ Um resgate por conta, sem diferenciar maiúsculas, com expiração validada na d
 | **37-K** | **Ações rápidas** das 28 abas, builders de texto e manipuladores |
 | **37-L** | **Portais** com zoom persistido e wrapper de navegação v24 |
 | **37-M** | **Bindings v24**: atalho `Ctrl+Shift+S`, gate do código, armadilha de foco, importação e Dev Log |
+| **38-A** | **Previews v25** de temas, pets, títulos, marcos, conquistas e códigos: cartão flutuante, builders, posicionamento e fechamento |
+| **38-B** | **Radar v25** das 28 abas: indicadores ao vivo, ações em lote, melhor troca, cópia e navegação contextual |
+| **38-C** | **Ciclo v25**: injeção do radar, atalho de clique, atualização a cada 20 s e wrapper de navegação |
 
 ## Últimas atualizações
+
+### v25.0.0 — Previews animados de itens
+Cartões flutuantes para temas, pets, títulos, marcos, conquistas e códigos, com abertura em escala/desfoque, troca lateral, orbe animado, pet quicando, coroa com brilho e barras animadas.
+
+### v25.0.0 — Cinco códigos novos
+`ORION25`, `PULSO25`, `HELIX25`, `QUASAR25` e `ECLIPSE25`; catálogo com 22 códigos públicos, incluindo temas Oceano e Candy, energia e escudos.
+
+### v25.0.0 — Radar ao vivo nas 28 abas
+Indicador contextual com dados reais em cada aba e um botão que resolve a próxima tarefa, atualizado ao trocar de aba, depois de cada ação e a cada 20 segundos.
+
+### v25.0.0 — Ações em lote e melhorias de fluxo
+Metas atrasadas de uma vez, todos os marcos prontos, semana anterior duplicada, próximo tema/pet acessível, melhor título, melhor troca do núcleo, quiz relâmpago e retomada da última matéria.
+
+### v25.0.0 — Interface e documentação
+Radar pulsante, cartões de vidro com borda temática, responsivo e movimento reduzido; Dev Log com 5 entradas v25 e README atualizado.
 
 ### v24.0.0 — Central administrativa NEXUS
 Central flutuante com blur, foco preso, oito seções em nav bar retrátil independente e abertura animada; acesso por código privado + `Ctrl+Shift+S`, com hash e sessão por aba.
@@ -451,6 +574,8 @@ Spotlight, magnético, ripple, glow pulsante, borda gradiente, pulso no danger e
 - A central administrativa é local: o hash do código e a sessão em `sessionStorage` não são autenticação de servidor. O código **não** é divulgado neste README; troque-o na seção **Segurança** e guarde-o fora do navegador.
 - Códigos personalizados são aceitos pelo campo de resgate, mas não aparecem no catálogo público; se o texto for perdido, só a central (ou um backup) os recupera.
 - O preview de caracteres depende de ponteiro/foco; em telas de toque ele não abre por hover (o toque continua copiando).
+- Os previews de itens seguem o mesmo critério: abrem por hover, caneta ou foco de teclado; no toque, o toque executa a ação normal do cartão (equipar, comprar, alimentar, resgatar).
+- As ações em lote (metas atrasadas, marcos prontos, melhor troca) usam as mesmas regras de XP, moedas e multiplicadores do hub e marcam cada item como concluído/resgatado, então não há recompensa duplicada.
 - O combo do clicker exige cliques em até **900 ms**; acima disso o contador reinicia.
 - Críticos usam sorteio local (`Math.random`), então a taxa de 4%–50% é probabilística, não garantida em janelas curtas.
 - O baú diário usa sorteio local; a recompensa é sorteada na abertura e fica registrada no estado.
