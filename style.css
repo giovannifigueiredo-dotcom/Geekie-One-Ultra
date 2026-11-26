@@ -2562,6 +2562,38 @@ html[data-theme="singularity"] {
     radial-gradient(56% 50% at 18% 8%, rgba(99, 102, 241, .36), transparent 70%);
 }
 
+html[data-theme="eclipse"] {
+  --primary: #fb7185; --primary-2: #818cf8; --accent: #fda4af; --violet: #c084fc; --primary-ink: #1a0714;
+  --chart-a: #fb7185; --chart-b: #818cf8; --wall-opacity: .84;
+  --wall-bg:
+    radial-gradient(circle at 50% 44%, #05050a 0 15%, rgba(251, 113, 133, .45) 19%, transparent 33%),
+    radial-gradient(circle at 50% 44%, transparent 0 28%, rgba(253, 164, 175, .2) 32%, transparent 44%),
+    radial-gradient(1.4px 1.4px at 22% 26%, rgba(255, 255, 255, .75), transparent 100%),
+    radial-gradient(1.3px 1.3px at 78% 70%, rgba(255, 255, 255, .6), transparent 100%),
+    radial-gradient(52% 46% at 16% 8%, rgba(251, 113, 133, .32), transparent 70%),
+    radial-gradient(54% 48% at 86% 92%, rgba(129, 140, 248, .34), transparent 72%);
+}
+html[data-theme="andromeda"] {
+  --primary: #22d3ee; --primary-2: #a855f7; --accent: #a5f3fc; --violet: #c084fc; --primary-ink: #04121a;
+  --chart-a: #22d3ee; --chart-b: #a855f7; --wall-opacity: .84;
+  --wall-bg:
+    radial-gradient(ellipse 46% 20% at 30% 44%, rgba(34, 211, 238, .34), transparent 72%),
+    radial-gradient(ellipse 40% 18% at 74% 62%, rgba(168, 85, 247, .34), transparent 72%),
+    radial-gradient(1.5px 1.5px at 18% 20%, rgba(255, 255, 255, .8), transparent 100%),
+    radial-gradient(1.2px 1.2px at 82% 28%, rgba(255, 255, 255, .65), transparent 100%),
+    radial-gradient(1.3px 1.3px at 56% 82%, rgba(255, 255, 255, .6), transparent 100%),
+    radial-gradient(56% 50% at 50% 4%, rgba(34, 211, 238, .26), transparent 72%);
+}
+html[data-theme="bigbang"] {
+  --primary: #fbbf24; --primary-2: #f97316; --accent: #fde68a; --violet: #fb923c; --primary-ink: #1f1002;
+  --chart-a: #fbbf24; --chart-b: #f97316; --wall-opacity: .86;
+  --wall-bg:
+    repeating-conic-gradient(from 0deg at 50% 52%, rgba(251, 191, 36, .16) 0 2deg, transparent 2deg 22deg),
+    radial-gradient(circle at 50% 52%, rgba(255, 255, 255, .9) 0 2%, rgba(251, 191, 36, .55) 4%, rgba(249, 115, 22, .3) 14%, transparent 40%),
+    radial-gradient(48% 42% at 14% 8%, rgba(251, 146, 60, .28), transparent 70%),
+    radial-gradient(52% 46% at 86% 94%, rgba(244, 63, 94, .24), transparent 72%);
+}
+
 /* ---------- 39-B. Favoritos e cards de item ---------- */
 .fav-btn {
   flex: 0 0 auto; display: inline-grid; place-items: center;
@@ -2586,6 +2618,20 @@ html[data-theme="singularity"] {
 .theme-card.locked, .pet-card.locked { opacity: .72; }
 .theme-card.locked .theme-preview { filter: grayscale(.65) brightness(.72); }
 .chip-count { font-family: var(--mono); font-size: .62rem; opacity: .75; margin-left: 2px; }
+
+/* v27: coleção cósmica e bônus de Rebirth por aba */
+.v27-collection { margin-bottom: 18px; }
+.v27-collection .card-head { margin-bottom: 10px; }
+.v27-collection-grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); }
+.v27-col-item { display: flex; flex-direction: column; gap: 6px; padding: 11px 12px; border-radius: 12px; border: 1px solid var(--line); background: color-mix(in srgb, var(--surface-2) 82%, transparent); }
+.v27-col-label { display: inline-flex; align-items: center; gap: 6px; font-size: .68rem; color: var(--muted); }
+.v27-col-label i { color: var(--chart-a, var(--primary)); }
+.v27-col-item b { font-family: var(--mono); font-size: .92rem; }
+.v27-col-item .progress { height: 6px; }
+.v27-col-item .progress span { background: linear-gradient(90deg, var(--chart-a, var(--primary)), var(--chart-b, var(--primary-2))); }
+.v27-collection .hint { margin: 10px 0 0; }
+.v27-mult-badge { display: inline-flex; align-items: center; gap: 5px; border-color: color-mix(in srgb, var(--chart-a, var(--primary)) 45%, transparent); color: var(--chart-a, var(--primary)); }
+.v27-mult-badge i { font-size: .62rem; }
 
 /* Preview enriquecido */
 .ip-rows { display: flex; flex-direction: column; gap: 3px; margin: 8px 0 2px; }
