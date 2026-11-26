@@ -4,14 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="dark">
-<meta name="description" content="Geekie Study Hub v25.0 — cockpit de estudos offline com foco, estatísticas ao vivo, check-in diário, metas, flashcards, quiz, progressão, previews animados de itens, radar por aba, central administrativa restrita e ferramentas.">
-<title>Geekie Study Hub v25.0.0</title>
+<meta name="description" content="Geekie Study Hub v26.0 — cockpit de estudos offline com foco, estatísticas ao vivo, metas, flashcards, quiz, progressão, Rebirth com foguete, favoritos, wallpapers por tema, previews animados de itens, radar por aba, central administrativa restrita e ferramentas.">
+<title>Geekie Study Hub v26.0.0</title>
 <link rel="icon" id="pageIcon" href="https://i.postimg.cc/gcHHYqtC/fire-geekie.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&family=Orbitron:wght@400;700&family=Space+Grotesk:wght@400;600;700&family=Caveat:wght@400;600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<link rel="stylesheet" href="style.css?v=25.0.0">
+<link rel="stylesheet" href="style.css?v=26.0.0">
 </head>
 <body>
 
@@ -24,7 +24,7 @@
       </span>
       <div>
         <strong>Geekie Study Hub</strong>
-        <span class="login-version">v25.0.0 · offline first</span>
+        <span class="login-version">v26.0.0 · offline first</span>
       </div>
     </div>
     <h1 class="login-title" id="loginTitle">Acesse seu cockpit de estudos</h1>
@@ -55,9 +55,9 @@
       <span class="tutorial-icon"><i class="fa-solid fa-compass" id="tutorialStepIcon"></i></span>
       <div>
         <h2 id="tutTitle">Portal Geekie</h2>
-        <p id="tutorialStepMeta">Aba 1 de 28</p>
+        <p id="tutorialStepMeta">Aba 1 de 29</p>
       </div>
-      <span class="badge" id="tutorialProgress">1 / 28</span>
+      <span class="badge" id="tutorialProgress">1 / 29</span>
     </header>
     <div class="tutorial-bar"><span id="tutorialProgressFill"></span></div>
     <div class="tutorial-body">
@@ -102,7 +102,7 @@
       <button class="nav-action nav-shortcut" type="button" id="navDevlogRecentBtn" title="Últimas 3 do Dev Log (Ctrl+Shift+D)" aria-label="Abrir as 3 últimas do Dev Log (Ctrl+Shift+D)"><i class="fa-solid fa-clock-rotate-left"></i><span class="nav-action-text">Últimas 3 do Dev Log</span> <kbd>Ctrl Shift D</kbd></button>
       <button class="nav-action" type="button" id="fabTutorialBtn" title="Rever tutorial" aria-label="Rever tutorial"><i class="fa-solid fa-circle-question"></i><span class="nav-action-text">Rever tutorial</span></button>
       <button class="nav-action" type="button" id="navPaletteBtn" title="Comandos (Ctrl+K)" aria-label="Abrir a paleta de comandos (Ctrl+K)"><i class="fa-solid fa-terminal"></i><span class="nav-action-text">Comandos</span> <kbd>Ctrl K</kbd></button>
-      <span class="sidebar-version" id="sidebarVersion">v25.0.0</span>
+      <span class="sidebar-version" id="sidebarVersion">v26.0.0</span>
     </div>
   </aside>
 
@@ -117,6 +117,9 @@
         <button class="stat-pill stat-streak" id="streakPill" type="button" title="Sequência de dias com foco">
           <i class="fa-solid fa-fire"></i><span id="streakCount">0</span><span class="stat-suffix">dias</span>
           <span class="streak-mult" id="streakMult">x1</span>
+        </button>
+        <button class="stat-pill stat-rebirth" id="rebirthMultPill" type="button" title="Multiplicador de Rebirth" data-goto="rebirth">
+          <i class="fa-solid fa-rocket"></i><b id="rebirthMultValue">x1</b><span class="stat-suffix">0 rebirths</span>
         </button>
         <div class="stat-pill stat-xp" id="xpContainer" title="Seu XP Geekie">
           <i class="fa-solid fa-star"></i>
@@ -591,6 +594,10 @@
           </article>
           <article class="card">
             <div class="card-head"><h3><i class="fa-solid fa-layer-group"></i> Distribuição por matéria</h3></div>
+            <div class="subject-donut-wrap">
+              <div class="subject-donut" id="subjectDonut" role="img" aria-label="Distribuição de foco por matéria"></div>
+              <div class="donut-legend" id="subjectDonutLegend"></div>
+            </div>
             <div class="breakdown" id="subjectBreakdown"></div>
           </article>
         </div>
@@ -631,6 +638,7 @@
             <button class="chip active" type="button" data-filter="all">Todos</button>
             <button class="chip" type="button" data-filter="owned">Meus temas</button>
             <button class="chip" type="button" data-filter="locked">Bloqueados</button>
+            <button class="chip" type="button" data-filter="fav"><i class="fa-solid fa-heart"></i> Favoritos <span class="chip-count" id="storeFavCount">0</span></button>
           </div>
           <div class="grid grid-themes" id="themeGrid"></div>
         </article>
@@ -641,7 +649,12 @@
         <article class="card">
           <div class="card-head"><h3><i class="fa-solid fa-crown"></i> Títulos</h3>
             <span class="badge" id="titleNext">Próximo em 100 XP</span></div>
-          <p class="hint">Cada título é liberado por XP e o equipado aparece na topbar.</p>
+          <p class="hint">Cada título é liberado por XP ou por Rebirth, e o equipado aparece na topbar. Toque no coração para favoritar.</p>
+          <div class="chips" id="titleFilters">
+            <button class="chip active" type="button" data-filter="all">Todos</button>
+            <button class="chip" type="button" data-filter="rebirth">Rebirth</button>
+            <button class="chip" type="button" data-filter="fav"><i class="fa-solid fa-heart"></i> Favoritos <span class="chip-count" id="titleFavCount">0</span></button>
+          </div>
           <div class="grid grid-titles" id="titleGrid"></div>
         </article>
       </section>
@@ -651,7 +664,12 @@
         <article class="card">
           <div class="card-head"><h3><i class="fa-solid fa-paw"></i> Pets de estudo</h3>
             <div class="stat-pill stat-coins"><i class="fa-solid fa-coins"></i><b id="petCoinCount">0</b></div></div>
-          <p class="hint">Pets rendem moedas passivas e energia a cada sessão de foco. Alimente com moedas para manter o bônus.</p>
+          <p class="hint">Pets rendem moedas passivas e energia a cada sessão de foco. Alimente com moedas para manter o bônus. Toque no coração para favoritar.</p>
+          <div class="chips" id="petFilters">
+            <button class="chip active" type="button" data-filter="all">Todos</button>
+            <button class="chip" type="button" data-filter="owned">Meus pets</button>
+            <button class="chip" type="button" data-filter="fav"><i class="fa-solid fa-heart"></i> Favoritos <span class="chip-count" id="petFavCount">0</span></button>
+          </div>
           <div class="pet-summary" id="petSummary"></div>
           <div class="grid grid-pets" id="petGrid"></div>
         </article>
@@ -671,6 +689,58 @@
             <div class="list list-scroll" id="achievementList"></div>
           </article>
         </div>
+      </section>
+
+      <!-- ===== REBIRTH ===== -->
+      <section class="page" id="page-rebirth" data-tab="rebirth">
+        <div class="rebirth-hero">
+          <div class="rebirth-stage" aria-hidden="true">
+            <div class="rb-stars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            <svg class="rb-rocket" viewBox="0 0 200 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="rbHull" x1="60" y1="30" x2="150" y2="230" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#bff4ff" stop-opacity=".95"/><stop offset=".55" stop-color="#35b6ff" stop-opacity=".75"/><stop offset="1" stop-color="#1358d9" stop-opacity=".35"/>
+                </linearGradient>
+                <filter id="rbGlow" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+              </defs>
+              <g class="rb-wire" filter="url(#rbGlow)">
+                <path d="M100 10C126 42 142 92 140 152l-13 36H73l-13-36C58 92 74 42 100 10Z" stroke="url(#rbHull)" stroke-width="2.4"/>
+                <path d="M87 10 100 48 113 10M74 62 100 96 126 62M64 108 100 140 136 108M60 158 100 188 140 158M73 188 100 210 127 188" stroke="#7fd8ff" stroke-opacity=".55" stroke-width="1"/>
+                <path d="M87 10 74 62 64 108 60 158 73 188 100 210 127 188 140 158 136 108 126 62 113 10Z" stroke="#8fe6ff" stroke-opacity=".4" stroke-width="1"/>
+                <circle cx="100" cy="98" r="21" stroke="#d6f7ff" stroke-width="2.4"/>
+                <circle cx="100" cy="98" r="12" stroke="#6fd4ff" stroke-opacity=".85" stroke-width="1.2"/>
+                <path d="M60 154 30 198l38-6M140 154l30 44-38-6" stroke="url(#rbHull)" stroke-width="2.2" stroke-linejoin="round"/>
+                <path d="M40 188 30 198l14 8M160 188l10 10-14 8M82 210l18 34 18-34" stroke="#7fd8ff" stroke-opacity=".7" stroke-width="1.4"/>
+              </g>
+            </svg>
+            <span class="rb-beam"></span>
+            <div class="rb-cloud"><span></span><span></span><span></span><span></span></div>
+          </div>
+          <div class="rebirth-hero-copy">
+            <span class="hero-kicker"><i class="fa-solid fa-rocket"></i> Renascimento</span>
+            <h1>Reacenda o hub e volte mais forte</h1>
+            <p>Renascer zera seu XP e suas moedas, mas mantém todas as suas multiplicações e libera um pacote cósmico exclusivo. Cada ciclo soma <b>+30% permanente</b> em XP e moedas.</p>
+            <div class="rebirth-progress">
+              <div class="rebirth-progress-head"><span>Ciclo atual: <b id="rebirthTierName">Faísca</b></span><b id="rebirthMultiplierLabel">x1</b></div>
+              <div class="progress"><span id="rebirthProgressFill"></span></div>
+              <div class="toolbar toolbar-between">
+                <span class="status-text" id="rebirthProgressText">0 / 2.500 XP</span>
+                <span class="badge" id="rebirthNextReq">2.500 XP restante</span>
+              </div>
+            </div>
+            <div class="toolbar rebirth-actions">
+              <button class="btn btn-primary btn-lg" id="rebirthBtn" type="button"><i class="fa-solid fa-rocket"></i> Iniciar Rebirth 1 · Faísca</button>
+              <span class="badge" id="rebirthCurrentBadge">0/5 renascimentos</span>
+            </div>
+            <p class="hint"><i class="fa-solid fa-circle-info"></i> O reset apaga somente XP e moedas. Temas, pets, títulos, boosts, escudos, sequência, talentos do núcleo e conquistas continuam intactos.</p>
+          </div>
+        </div>
+        <div class="grid grid-4" id="rebirthStats"></div>
+        <div class="rebirth-grid" id="rebirthGrid"></div>
+        <article class="card">
+          <div class="card-head"><h3><i class="fa-solid fa-clock-rotate-left"></i> Histórico de renascimentos</h3><span class="badge">permanente</span></div>
+          <div class="rebirth-log" id="rebirthLog"></div>
+        </article>
       </section>
 
       <!-- ===== CLICKER ===== -->
@@ -860,7 +930,7 @@
         <div class="grid grid-2 grid-top">
           <article class="card">
             <div class="card-head"><h3><i class="fa-solid fa-pen-nib"></i> Título da página</h3></div>
-            <div class="title-preview" id="titlePreview">Geekie Study Hub v25.0.0</div>
+            <div class="title-preview" id="titlePreview">Geekie Study Hub v26.0.0</div>
             <label class="field"><span>Texto</span><input type="text" id="titleTextInput" class="input" maxlength="60"></label>
             <div class="toolbar">
               <select id="titleFontSelect" aria-label="Fonte"></select>
@@ -959,9 +1029,9 @@
           <div class="card-head"><h3><i class="fa-solid fa-clock-rotate-left"></i> Dev Log</h3>
             <div class="row">
               <button class="btn btn-secondary btn-sm" id="devlogRecentBtn" type="button" data-fx="lift"><i class="fa-solid fa-layer-group"></i> Últimas 3 <kbd>Ctrl Shift D</kbd></button>
-              <span class="badge" id="devlogBuild">v25.0.0</span>
+              <span class="badge" id="devlogBuild">v26.0.0</span>
             </div></div>
-          <p class="hint">Registro de alterações do hub. A v25.0.0 trouxe previews animados de itens na Loja, Pets, Títulos, Trilha e Recompensas, cinco códigos novos e um radar ao vivo com ação contextual em todas as 28 abas. As três últimas também abrem no painel flutuante com <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>D</kbd>; o README guarda o restante.</p>
+          <p class="hint">Registro de alterações do hub. A v26.0.0 trouxe a aba Rebirth com animação de foguete, cinco ciclos cósmicos com temas, títulos e pets exclusivos, favoritos com previews mais completos, wallpapers e gráficos temáticos e cinco códigos novos. O atalho <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>D</kbd> abre as três últimas; <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>G</kbd> vai direto ao Rebirth. O README guarda o restante.</p>
           <div class="toolbar">
             <div class="chips" id="devlogFilters">
               <button class="chip active" type="button" data-filter="all">Tudo</button>
@@ -1086,6 +1156,37 @@
 <!-- ================= PREVIEW FLUTUANTE DE ITENS ================= -->
 <div class="item-hover-preview" id="itemHoverPreview" role="tooltip" aria-hidden="true"></div>
 
+<!-- ================= REBIRTH LAUNCH ================= -->
+<div class="rebirth-launch" id="rebirthLaunch" hidden aria-hidden="true">
+  <div class="rl-stars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="rl-constellation" aria-hidden="true">
+    <svg viewBox="0 0 420 420"><g><path d="M78 268 140 186 214 226 268 140 338 172"/><path d="M140 186 124 108 214 88 268 140"/><path d="M214 226 244 300 338 268 338 172"/></g><circle cx="78" cy="268" r="3"/><circle cx="140" cy="186" r="4"/><circle cx="214" cy="226" r="3"/><circle cx="268" cy="140" r="4"/><circle cx="338" cy="172" r="3"/><circle cx="124" cy="108" r="3"/><circle cx="214" cy="88" r="3"/><circle cx="244" cy="300" r="3"/><circle cx="338" cy="268" r="3"/></svg>
+  </div>
+  <div class="rl-rocket-wrap">
+    <svg class="rl-rocket" viewBox="0 0 200 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="rlHull" x1="60" y1="30" x2="150" y2="230" gradientUnits="userSpaceOnUse">
+          <stop stop-color="#e8fbff"/><stop offset=".5" stop-color="#66ccff"/><stop offset="1" stop-color="#2f6dff"/>
+        </linearGradient>
+        <filter id="rlGlow" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      </defs>
+      <g filter="url(#rlGlow)" stroke-linejoin="round">
+        <path d="M100 10C126 42 142 92 140 152l-13 36H73l-13-36C58 92 74 42 100 10Z" stroke="url(#rlHull)" stroke-width="2.4"/>
+        <path d="M87 10 100 48 113 10M74 62 100 96 126 62M64 108 100 140 136 108M60 158 100 188 140 158M73 188 100 210 127 188" stroke="#9fe6ff" stroke-opacity=".55"/>
+        <path d="M87 10 74 62 64 108 60 158 73 188 100 210 127 188 140 158 136 108 126 62 113 10Z" stroke="#b6f0ff" stroke-opacity=".45"/>
+        <path d="M79 10 100 210 121 10M50 158 100 188 150 158M64 108 136 108" stroke="#7fd8ff" stroke-opacity=".35"/>
+        <circle cx="100" cy="98" r="21" stroke="#f0fdff" stroke-width="2.6"/>
+        <circle cx="100" cy="98" r="12" stroke="#8ee2ff" stroke-width="1.2"/>
+        <path d="M60 154 30 198l38-6M140 154l30 44-38-6" stroke="url(#rlHull)" stroke-width="2.4"/>
+        <path d="M40 188 30 198l14 8M160 188l10 10-14 8M82 210l18 34 18-34" stroke="#9fe6ff" stroke-opacity=".8" stroke-width="1.5"/>
+      </g>
+    </svg>
+  </div>
+  <div class="rl-exhaust"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="rl-clouds"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+  <p class="rl-caption" id="rebirthLaunchCaption">Ignição confirmada · decolando</p>
+</div>
+
 <!-- ================= MOBILE NAV ================= -->
 <nav class="mobile-nav" id="mobileNav" aria-label="Navegação rápida"></nav>
 
@@ -1094,13 +1195,13 @@
 
 <div class="overlay" id="whatsNewOverlay" hidden>
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="whatsNewTitle">
-    <div class="card-head"><h3 id="whatsNewTitle"><i class="fa-solid fa-wand-magic-sparkles"></i> Novidades da v25.0.0</h3>
+    <div class="card-head"><h3 id="whatsNewTitle"><i class="fa-solid fa-wand-magic-sparkles"></i> Novidades da v26.0.0</h3>
       <button class="btn btn-icon btn-ghost" id="whatsNewClose" type="button" aria-label="Fechar"><i class="fa-solid fa-xmark"></i></button></div>
     <ul class="whatsnew-list" id="whatsNewList"></ul>
     <button class="btn btn-primary btn-block" id="whatsNewStart" type="button">Começar a explorar</button>
   </div>
 </div>
 
-<script src="script.js?v=25.0.0"></script>
+<script src="script.js?v=26.0.0"></script>
 </body>
 </html>
