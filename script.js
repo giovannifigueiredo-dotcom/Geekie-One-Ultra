@@ -1,5 +1,5 @@
 /* ============================================================
-   Geekie Study Hub v26.0.0 — script.js (parte 1/4)
+   Geekie Study Hub v27.0.0 — script.js (parte 1/4)
    Utilidades, estado, shell, login, tutorial, paleta, Hoje, Chat
    ============================================================ */
 'use strict';
@@ -97,7 +97,9 @@ function fxAudioCtxGet() {
 }
 
 /* ============ 2. ESTADO ============ */
-const VERSION = 'v26.0.0';
+const VERSION = 'v27.0.0';
+/* Limite lido antes de REBIRTH_TIERS existir; precisa bater com a lista de ciclos. */
+const REBIRTH_MAX = 8;
 const STORAGE_KEY = 'geekieHubState_v22';
 const LEGACY_KEYS = ['geekieHubState_v20', 'geekieHubState_v194'];
 /* Contas continuam na mesma chave: trocar de versão não desloga ninguém. */
@@ -108,7 +110,7 @@ const SEEN_KEY = 'geekieHubSeenVersion_v22';
 const DEFAULT_STATE = {
   session: null,
   xp: 0, coins: 25, title: 'Novato',
-  pageTitle: 'Geekie Study Hub v26.0.0', font: 'Poppins', icon: 'fa-graduation-cap',
+  pageTitle: 'Geekie Study Hub v27.0.0', font: 'Poppins', icon: 'fa-graduation-cap',
   themesOwned: ['default'], theme: 'default',
   petsOwned: [], pet: null, petEnergy: {}, petFed: {},
   focusByDate: {}, subjectMinutes: {}, subjectGoals: {}, customSubjects: [],
@@ -163,7 +165,7 @@ function loadState() {
   ['themesOwned', 'petsOwned', 'goals', 'noteOrder', 'charsFav', 'recentChars', 'chatHistory', 'redeemed', 'commandHistory', 'quizHistory', 'milestonesClaimed', 'customSubjects', 'calcHistory', 'missionClaims', 'weeklyClaims', 'subjectLog', 'adminLog', 'customCodes', 'rebirthLog'].forEach((k) => { if (!Array.isArray(s[k])) s[k] = []; });
   s.favs = Object.assign({}, DEFAULT_STATE.favs, s.favs || {});
   ['themes', 'pets', 'titles'].forEach((k) => { if (!Array.isArray(s.favs[k])) s.favs[k] = []; });
-  s.rebirths = clamp(Math.floor(Number(s.rebirths) || 0), 0, 5);
+  s.rebirths = clamp(Math.floor(Number(s.rebirths) || 0), 0, REBIRTH_MAX);
   s.rebirthBest = Math.max(Number(s.rebirthBest) || 0, s.rebirths);
   s.customCodes = s.customCodes.filter((c) => c && typeof c.code === 'string').slice(0, 60);
   s.adminLog = s.adminLog.filter((l) => l && typeof l.at === 'number').slice(0, 80);
@@ -174,7 +176,7 @@ function loadState() {
   s.streakShields = clamp(Number(s.streakShields) || 0, 0, 5);
   s.xpEarned = Math.max(0, Number(s.xpEarned) || 0);
   s.coinsEarned = Math.max(0, Number(s.coinsEarned) || 0);
-  if (['Geekie Study Hub v25.0.0', 'Geekie Study Hub v24.0.0', 'Geekie Study Hub v23.0.0', 'Geekie Study Hub v22.3.0', 'Geekie Study Hub v22.2.0', 'Geekie Study Hub v22.1.0', 'Geekie Study Hub v22.0.0', 'Geekie Study Hub v21.0.0', 'Geekie Study Hub v20.1.0'].indexOf(s.pageTitle) !== -1) s.pageTitle = DEFAULT_STATE.pageTitle;
+  if (['Geekie Study Hub v26.0.0', 'Geekie Study Hub v25.0.0', 'Geekie Study Hub v24.0.0', 'Geekie Study Hub v23.0.0', 'Geekie Study Hub v22.3.0', 'Geekie Study Hub v22.2.0', 'Geekie Study Hub v22.1.0', 'Geekie Study Hub v22.0.0', 'Geekie Study Hub v21.0.0', 'Geekie Study Hub v20.1.0'].indexOf(s.pageTitle) !== -1) s.pageTitle = DEFAULT_STATE.pageTitle;
   if (s.themesOwned.indexOf('default') === -1) s.themesOwned.unshift('default');
   return s;
 }
@@ -208,11 +210,11 @@ const TABS = [
   { id: 'diary', title: 'Diário', icon: 'fa-book', group: 'Estudo', kicker: 'Reflexão', desc: 'Entradas por dia com humor, busca e exportação em markdown.', tips: ['O humor aparece no resumo de cada entrada.', 'Exporte tudo em .md para guardar fora do navegador.'] },
   { id: 'chat', title: 'Chat IA', icon: 'fa-comments', group: 'Inteligência', kicker: 'Tutor local', desc: 'Tutor que explica, resolve, resume e cria revisão — offline.', tips: ['Troque o modo para mudar o formato da resposta.', 'Salve uma resposta como nota ou flashcard.'] },
   { id: 'commands', title: 'Comandos', icon: 'fa-terminal', group: 'Inteligência', kicker: 'Ctrl + K', desc: 'Terminal do hub com 30 comandos, autocomplete e histórico.', tips: ['Tab completa, ↑/↓ navegam o histórico.', 'Ctrl+K abre a paleta de qualquer aba.'] },
-  { id: 'store', title: 'Loja', icon: 'fa-store', group: 'Progresso', kicker: 'Temas', desc: 'Dezesseis temas com wallpaper próprio, favoritos e dois boosts consumíveis.', tips: ['Cada tema tem um wallpaper animado e um gráfico com a paleta dele.', 'Favoritar deixa o tema no filtro Favoritos e no topo da loja.', 'Temas de Rebirth só aparecem depois do renascimento.'] },
+  { id: 'store', title: 'Loja', icon: 'fa-store', group: 'Progresso', kicker: 'Temas', desc: 'Dezenove temas com wallpaper próprio, favoritos e dois boosts consumíveis.', tips: ['Cada tema tem um wallpaper animado e um gráfico com a paleta dele.', 'Favoritar deixa o tema no filtro Favoritos e no topo da loja.', 'Temas de Rebirth só aparecem depois do renascimento.'] },
   { id: 'titles', title: 'Títulos', icon: 'fa-crown', group: 'Progresso', kicker: 'Status', desc: 'Títulos liberados por XP e equipáveis na topbar.', tips: ['Você mantém o título ao subir de nível.', 'O próximo título mostra quanto falta.'] },
   { id: 'pets', title: 'Pets', icon: 'fa-paw', group: 'Progresso', kicker: 'Companhia', desc: 'Pets com energia, alimentação e renda passiva de moedas.', tips: ['Alimentar custa moedas e mantém o bônus.', 'Cada pet rende um valor diferente por tick.'] },
   { id: 'journey', title: 'Trilha', icon: 'fa-map', group: 'Progresso', kicker: 'Evolução', desc: 'Doze níveis, quinze marcos, dezenove conquistas e escudos de sequência.', tips: ['Marque marcos para resgatar moedas e XP.', 'Conquistas são automáticas, inclusive as do baú, dos críticos e dos talentos.', 'Compre escudos para não perder a sequência em um dia corrido.'] },
-  { id: 'rebirth', title: 'Rebirth', icon: 'fa-rocket', group: 'Progresso', kicker: 'Renascimento', desc: 'Renascimentos com foguete, multiplicador permanente e cinco pacotes cósmicos exclusivos.', tips: ['Renascer zera XP e moedas, mas mantém temas, pets, títulos, boosts, sequência e talentos.', 'Cada renascimento dá +30% em XP e moedas, para sempre.', 'Cada nível desbloqueia um tema, um título e um pet que não existem em outro lugar.'] },
+  { id: 'rebirth', title: 'Rebirth', icon: 'fa-rocket', group: 'Progresso', kicker: 'Renascimento', desc: 'Renascimentos com foguete, multiplicador permanente e oito pacotes cósmicos exclusivos.', tips: ['Renascer zera XP e moedas, mas mantém temas, pets, títulos, boosts, sequência e talentos.', 'Cada renascimento dá +30% em XP e moedas, para sempre.', 'Cada nível desbloqueia um tema, um título e um pet que não existem em outro lugar.'] },
   { id: 'clicker', title: 'Clicker', icon: 'fa-hand-pointer', group: 'Progresso', kicker: 'Energia', desc: 'Núcleo 3.0 com 12 melhorias, críticos, núcleo dourado, talentos de prestígio, cinco trocas e marcos.', tips: ['Críticos dão 6x energia e o núcleo dourado dá 5x produção por 20s.', 'Prestígio rende +15% permanente e núcleos para gastar em talentos.', 'A energia acumula offline por até 10min (+5min por prestígio, máx. 2h).'] },
   { id: 'rewards', title: 'Recompensas', icon: 'fa-gift', group: 'Progresso', kicker: 'Códigos', desc: 'Campanhas com códigos, expiração e histórico de resgates.', tips: ['Cada código vale uma vez por conta.', 'O código não diferencia maiúsculas.'] },
   { id: 'notes', title: 'Notas', icon: 'fa-note-sticky', group: 'Ferramentas', kicker: 'Escrita', desc: 'Notas com busca, tags, autosave e exportação em markdown.', tips: ['Ctrl+S salva a nota atual.', 'Tags ajudam a filtrar pela busca.'] },
@@ -225,7 +227,7 @@ const TABS = [
   { id: 'geekie', title: 'Portal Geekie', icon: 'fa-graduation-cap', group: 'Extras', kicker: 'Portal', desc: 'O Geekie One embutido, com recarregar e tela cheia.', tips: ['Se bloquear o iframe, use Nova aba.', 'Os atalhos abrem portais em nova aba.'] },
   { id: 'google', title: 'Google', icon: 'fa-google', brand: true, group: 'Extras', kicker: 'Busca', desc: 'Google embutido mais atalhos para Classroom, Drive e YouTube.', tips: ['A busca embutida pode bloquear; use os atalhos.', 'Tela cheia amplia a área.'] },
   { id: 'events', title: 'Eventos', icon: 'fa-calendar-day', group: 'Extras', kicker: 'Calendário', desc: 'Evento de cada mês com progresso por XP e recompensa.', tips: ['O mês atual é destacado.', 'A recompensa é liberada por nível de evento.'] },
-  { id: 'devlog', title: 'Dev Log', icon: 'fa-code-branch', group: 'Extras', kicker: 'Versões', desc: 'Histórico de versões com filtros, busca e atalho para as 3 últimas.', tips: ['Filtre por correção, novidade ou interface.', 'A v26.0.0 documenta o Rebirth com foguete, os cinco ciclos cósmicos, os favoritos e os wallpapers temáticos.', 'Ctrl+Shift+D abre as 3 últimas em um painel flutuante; Ctrl+Shift+G vai direto ao Rebirth.', 'Ctrl+B alterna a nav bar compacta e não interfere na nav bar da central.'] }
+  { id: 'devlog', title: 'Dev Log', icon: 'fa-code-branch', group: 'Extras', kicker: 'Versões', desc: 'Histórico de versões com filtros, busca e atalho para as 3 últimas.', tips: ['Filtre por correção, novidade ou interface.', 'A v27.0.0 documenta os três novos Rebirths, a coleção cósmica e os cinco códigos novos.', 'Ctrl+Shift+D abre as 3 últimas em um painel flutuante; Ctrl+Shift+G vai direto ao Rebirth.', 'Ctrl+B alterna a nav bar compacta e não interfere na nav bar da central.'] }
 ];
 const TAB_MAP = Object.fromEntries(TABS.map((t) => [t.id, t]));
 const GROUPS = ['Hoje', 'Estudo', 'Inteligência', 'Progresso', 'Ferramentas', 'Extras'];
@@ -259,7 +261,10 @@ const THEMES = [
   { id: 'orbit', name: 'Órbita', price: 0, a: '#38bdf8', b: '#6366f1', rebirth: 2, wall: 'Anéis orbitais sobre azul profundo' },
   { id: 'quasar', name: 'Quasar', price: 0, a: '#a3e635', b: '#22d3ee', rebirth: 3, wall: 'Jatos de luz verde e turquesa' },
   { id: 'supernova', name: 'Supernova', price: 0, a: '#fbbf24', b: '#f43f5e', rebirth: 4, wall: 'Explosão dourada com poeira vermelha' },
-  { id: 'singularity', name: 'Singularidade', price: 0, a: '#e879f9', b: '#6366f1', rebirth: 5, wall: 'Horizonte de eventos em magenta e índigo' }
+  { id: 'singularity', name: 'Singularidade', price: 0, a: '#e879f9', b: '#6366f1', rebirth: 5, wall: 'Horizonte de eventos em magenta e índigo' },
+  { id: 'eclipse', name: 'Eclipse', price: 0, a: '#fb7185', b: '#818cf8', rebirth: 6, wall: 'Coroa de luz sobre disco negro' },
+  { id: 'andromeda', name: 'Andrômeda', price: 0, a: '#22d3ee', b: '#a855f7', rebirth: 7, wall: 'Braços de galáxia em ciano e violeta' },
+  { id: 'bigbang', name: 'Big Bang', price: 0, a: '#fbbf24', b: '#f97316', rebirth: 8, wall: 'Explosão primordial em ouro e laranja' }
 ];
 const PETS = [
   { id: 'neko', name: 'Neko', emoji: '🐱', price: 40, income: 1 },
@@ -273,14 +278,20 @@ const PETS = [
   { id: 'cometa', name: 'Cometa', emoji: '☄️', price: 0, income: 22, rebirth: 2 },
   { id: 'pulsar', name: 'Pulsar', emoji: '🛸', price: 0, income: 26, rebirth: 3 },
   { id: 'solaris', name: 'Solaris', emoji: '☀️', price: 0, income: 31, rebirth: 4 },
-  { id: 'prisma', name: 'Prisma', emoji: '💠', price: 0, income: 38, rebirth: 5 }
+  { id: 'prisma', name: 'Prisma', emoji: '💠', price: 0, income: 38, rebirth: 5 },
+  { id: 'lunar', name: 'Lunar', emoji: '🌘', price: 0, income: 46, rebirth: 6 },
+  { id: 'nova', name: 'Nova', emoji: '🌟', price: 0, income: 55, rebirth: 7 },
+  { id: 'quark', name: 'Quark', emoji: '⚛️', price: 0, income: 66, rebirth: 8 }
 ];
 const REBIRTH_TIERS = [
   { n: 1, name: 'Faísca', icon: 'fa-bolt', req: 2500, color: '#38bdf8', theme: 'nebula', title: 'Faísca Cósmica', pet: 'astro', blurb: 'A primeira ignição: poeira estelar vira combustível.' },
   { n: 2, name: 'Órbita', icon: 'fa-satellite', req: 5000, color: '#6366f1', theme: 'orbit', title: 'Comandante Orbital', pet: 'cometa', blurb: 'A nave encontra a órbita certa e ganha velocidade.' },
   { n: 3, name: 'Quasar', icon: 'fa-circle-nodes', req: 9000, color: '#a3e635', theme: 'quasar', title: 'Viajante Quasar', pet: 'pulsar', blurb: 'Jatos de energia atravessam o cockpit de estudos.' },
   { n: 4, name: 'Supernova', icon: 'fa-sun', req: 15000, color: '#fbbf24', theme: 'supernova', title: 'Explorador Estelar', pet: 'solaris', blurb: 'Uma estrela inteira se acende atrás da sua cadeira.' },
-  { n: 5, name: 'Singularidade', icon: 'fa-atom', req: 24000, color: '#e879f9', theme: 'singularity', title: 'Lenda do Cosmos', pet: 'prisma', blurb: 'O horizonte de eventos coroa a última viagem.' }
+  { n: 5, name: 'Singularidade', icon: 'fa-atom', req: 24000, color: '#e879f9', theme: 'singularity', title: 'Lenda do Cosmos', pet: 'prisma', blurb: 'O horizonte de eventos coroa a última viagem.' },
+  { n: 6, name: 'Eclipse', icon: 'fa-moon', req: 36000, color: '#fb7185', theme: 'eclipse', title: 'Guardião do Eclipse', pet: 'lunar', blurb: 'A nave cruza a sombra e volta com a coroa de luz.' },
+  { n: 7, name: 'Andrômeda', icon: 'fa-meteor', req: 52000, color: '#22d3ee', theme: 'andromeda', title: 'Cartógrafo Galáctico', pet: 'nova', blurb: 'Um salto entre braços de galáxia abre novos mapas.' },
+  { n: 8, name: 'Big Bang', icon: 'fa-explosion', req: 75000, color: '#fbbf24', theme: 'bigbang', title: 'Arquiteto do Cosmos', pet: 'quark', blurb: 'Do primeiro instante nasce um universo inteiro de estudo.' }
 ];
 const REBIRTH_TITLES = REBIRTH_TIERS.map((r) => ({ title: r.title, xp: 0, rebirth: r.n, icon: r.icon }));
 const SUBJECTS = ['Matemática', 'Português', 'Biologia', 'Química', 'Física', 'História', 'Geografia', 'Inglês'];
@@ -4062,7 +4073,12 @@ const REWARDS = [
   { code: 'FOGUETE26', label: 'Foguete v26', coins: 450, xp: 400, energy: 10000, hint: '10.000 de energia para o núcleo', expires: '2028-12-31' },
   { code: 'ORBITA26', label: 'Órbita v26', coins: 380, xp: 520, shield: 1, hint: 'Um empurrão orbital com escudo extra', expires: '2028-12-31' },
   { code: 'NEBULOSA26', label: 'Nebulosa v26', coins: 600, xp: 300, energy: 15000, hint: '15.000 de energia e moedas para a coleção', expires: '2028-12-31' },
-  { code: 'APOGEU26', label: 'Apogeu v26', coins: 700, xp: 700, shield: 2, hint: 'Apogeu da campanha: o maior pacote público', expires: '2028-12-31' }
+  { code: 'APOGEU26', label: 'Apogeu v26', coins: 700, xp: 700, shield: 2, hint: 'Apogeu da campanha: o maior pacote público', expires: '2028-12-31' },
+  { code: 'ECLIPSE27', label: 'Eclipse v27', coins: 650, xp: 700, shield: 1, hint: 'Estreia da v27: moedas, XP e um escudo', expires: '2029-06-30' },
+  { code: 'ANDROMEDA27', label: 'Andrômeda v27', coins: 720, xp: 540, energy: 18000, hint: '18.000 de energia para o núcleo', expires: '2029-06-30' },
+  { code: 'LUNAR27', label: 'Lunar v27', coins: 600, xp: 420, energy: 12000, hint: '12.000 de energia e moedas para a coleção', expires: '2029-06-30' },
+  { code: 'HORIZONTE27', label: 'Horizonte v27', coins: 780, xp: 640, theme: 'aurora', shield: 1, hint: 'Tema Aurora liberado com bônus de campanha', expires: '2029-06-30' },
+  { code: 'BIGBANG27', label: 'Big Bang v27', coins: 900, xp: 900, shield: 2, hint: 'Maior pacote público da campanha', expires: '2029-06-30' }
 ];
 function rewardPool() { return REWARDS.concat(Array.isArray(state.customCodes) ? state.customCodes : []); }
 function renderRewards() {
@@ -4129,6 +4145,41 @@ function bindRewards() {
 
 /* ============ 33. DEV LOG ============ */
 const DEVLOG = [
+  {
+    version: 'v27.0.0', date: '2026-11-26', type: 'feature', title: 'Três novos Rebirths: Eclipse, Andrômeda e Big Bang',
+    items: [
+      'A escada de renascimento cresce de cinco para oito ciclos, com requisitos de 36.000, 52.000 e 75.000 XP.',
+      'Cada novo ciclo entrega um pacote fechado: um tema, um título e um pet que só existem depois daquele renascimento.',
+      'O multiplicador permanente agora chega a x3,4 em XP e moedas para quem completa os oito ciclos.',
+      'Nada muda para quem já renasceu: o progresso salvo continua válido e o próximo ciclo aparece automaticamente.'
+    ]
+  },
+  {
+    version: 'v27.0.0', date: '2026-11-26', type: 'feature', title: 'Coleção cósmica e bônus de Rebirth visível em todas as abas',
+    items: [
+      'A aba Rebirth ganhou o painel Coleção cósmica, com o quanto de temas, títulos e pets exclusivos já foi aberto.',
+      'Todas as 29 abas mostram o multiplicador de Rebirth no radar da página, junto das ações contextuais.',
+      'A barra de comandos ganhou ciclo e colecao; a topbar, o histórico e o botão de renascimento seguem os oito ciclos.',
+      'Pets de Rebirth continuam recebendo o multiplicador no tick, e os códigos nunca liberam conteúdo exclusivo.'
+    ]
+  },
+  {
+    version: 'v27.0.0', date: '2026-11-26', type: 'style', title: 'Wallpapers Eclipse, Andrômeda e Big Bang',
+    items: [
+      'Três wallpapers novos em camadas: coroa de luz sobre disco negro, braços de galáxia e explosão primordial.',
+      'Cada tema traz paleta própria para os gráficos de foco, distribuição e mapa de constância.',
+      'Os cards da Loja e os previews flutuantes mostram o wallpaper e as cores do tema antes da compra.',
+      'A versão respeita prefers-reduced-motion em todas as animações novas.'
+    ]
+  },
+  {
+    version: 'v27.0.0', date: '2026-11-26', type: 'feature', title: 'Cinco códigos novos: Eclipse, Andrômeda, Lunar, Horizonte e Big Bang',
+    items: [
+      'ECLIPSE27, ANDROMEDA27, LUNAR27, HORIZONTE27 e BIGBANG27 entram no catálogo com moedas, XP, energia e escudos.',
+      'O catálogo público passa a ter 32 campanhas, sem liberar temas nem pets de Rebirth.',
+      'O Dev Log recebeu as entradas da v27 e o painel de Ctrl+Shift+D passa a mostrar as três últimas.'
+    ]
+  },
   {
     version: 'v26.0.0', date: '2026-11-26', type: 'feature', title: 'Rebirth: renascimento com foguete, reset e multiplicador permanente',
     items: [
@@ -5047,6 +5098,7 @@ function boot() {
   initV24();
   initV25();
   initV26();
+  initV27();
   bindGlobal();
   bindGamification();
   initButtonFx();
@@ -7702,11 +7754,11 @@ function renderRebirth() {
   const done = !r;
   const pct = rebirthProgressPct();
   const tierName = $('#rebirthTierName');
-  if (tierName) tierName.textContent = done ? 'Lenda do Cosmos' : r.name;
+  if (tierName) tierName.textContent = done ? REBIRTH_TIERS[REBIRTH_TIERS.length - 1].title : r.name;
   const mult = $('#rebirthMultiplierLabel');
   if (mult) mult.textContent = 'x' + rebirthMultiplier().toFixed(1).replace('.0', '');
   const cur = $('#rebirthCurrentBadge');
-  if (cur) cur.textContent = state.rebirths + '/5 renascimentos';
+  if (cur) cur.textContent = state.rebirths + '/' + REBIRTH_TIERS.length + ' renascimentos';
   const prog = $('#rebirthProgressFill');
   if (prog) prog.style.width = (done ? 100 : pct) + '%';
   const progText = $('#rebirthProgressText');
@@ -7726,7 +7778,7 @@ function renderRebirth() {
     stats.innerHTML = [
       { label: 'Multiplicador', value: 'x' + rebirthMultiplier().toFixed(1).replace('.0', ''), icon: 'fa-rocket' },
       { label: 'Bônus permanente', value: '+' + (state.rebirths * 30) + '%', icon: 'fa-arrow-trend-up' },
-      { label: 'Renascimentos', value: state.rebirths + '/5', icon: 'fa-layer-group' },
+      { label: 'Renascimentos', value: state.rebirths + '/' + REBIRTH_TIERS.length, icon: 'fa-layer-group' },
       { label: 'Recorde de XP', value: money(state.rebirthBest || 0) + ' XP', icon: 'fa-trophy' },
       { label: 'Favoritos', value: favCount('themes') + favCount('pets') + favCount('titles'), icon: 'fa-heart' },
       { label: 'Tema atual', value: (THEMES.find((t) => t.id === state.theme) || {}).name || '—', icon: 'fa-palette' }
@@ -7751,6 +7803,7 @@ function renderRebirth() {
         '<div class="rb-status">' + (isDone ? 'Tema, título e pet liberados' : isCurrent ? 'Em progresso · ' + Math.round(rebirthProgressPct()) + '%' : 'Requer os ciclos anteriores') + '</div></article>';
     }).join('');
   }
+  v27PaintCollection();
   const log = $('#rebirthLog');
   if (log) {
     const items = (state.rebirthLog || []).slice(0, 8);
@@ -7778,7 +7831,7 @@ function runRebirth() {
     state.rebirthLog = state.rebirthLog || [];
     state.rebirthLog.unshift({ n: tier.n, name: tier.name, at: Date.now(), xp: Number(state.xp) || 0, coins: Number(state.coins) || 0 });
     state.rebirthLog = state.rebirthLog.slice(0, 20);
-    state.rebirths = clamp((state.rebirths || 0) + 1, 0, 5);
+    state.rebirths = clamp((state.rebirths || 0) + 1, 0, REBIRTH_TIERS.length);
     state.rebirthBest = Math.max(Number(state.rebirthBest) || 0, Number(state.xp) || 0);
     state.xp = 0;
     state.coins = 0;
@@ -7997,6 +8050,72 @@ function initV26() {
   buildV26Insights();
   v26PaintCharts();
   v26PaintRebirthTopbar();
+}
+
+/* ---------- 39-I. v27: coleção cósmica, bônus por aba e comandos ---------- */
+function v27Collection() {
+  const total = REBIRTH_TIERS.length;
+  return {
+    total,
+    themes: REBIRTH_TIERS.filter((t) => state.themesOwned.indexOf(t.theme) !== -1).length,
+    pets: REBIRTH_TIERS.filter((t) => state.petsOwned.indexOf(t.pet) !== -1).length,
+    titles: REBIRTH_TIERS.filter((t) => Number(state.rebirths || 0) >= t.n).length
+  };
+}
+function v27PaintCollection() {
+  const box = $('#rebirthCollection');
+  if (!box) return;
+  const c = v27Collection();
+  const next = rebirthTier();
+  const pctOf = (n) => Math.round((n / c.total) * 100);
+  const nextTheme = next ? THEMES.find((t) => t.id === next.theme) : null;
+  const nextPet = next ? PETS.find((p) => p.id === next.pet) : null;
+  box.innerHTML = '<div class="card-head"><h3><i class="fa-solid fa-gem"></i> Coleção cósmica</h3>' +
+    '<span class="badge gold">' + state.rebirths + '/' + c.total + ' ciclos · x' + rebirthMultiplier().toFixed(1).replace('.0', '') + '</span></div>' +
+    '<div class="v27-collection-grid">' + [
+      { icon: 'fa-palette', label: 'Temas exclusivos', value: c.themes },
+      { icon: 'fa-crown', label: 'Títulos exclusivos', value: c.titles },
+      { icon: 'fa-paw', label: 'Pets exclusivos', value: c.pets }
+    ].map((r) => '<div class="v27-col-item"><span class="v27-col-label"><i class="fa-solid ' + r.icon + '"></i> ' + r.label + '</span>' +
+      '<b>' + r.value + '/' + c.total + '</b><div class="progress"><span style="width:' + pctOf(r.value) + '%"></span></div></div>').join('') + '</div>' +
+    '<p class="hint">' + (next
+      ? 'Próximo pacote: <b>Rebirth ' + next.n + ' · ' + esc(next.name) + '</b> em ' + money(next.req) + ' XP, liberando o tema ' + esc(nextTheme ? nextTheme.name : '—') + ', o título ' + esc(next.title) + ' e ' + (nextPet ? nextPet.emoji + ' ' + esc(nextPet.name) : 'um pet exclusivo') + '.'
+      : 'Coleção completa: os ' + c.total + ' ciclos cósmicos foram abertos e o multiplicador chegou a x' + rebirthMultiplier().toFixed(1).replace('.0', '') + '.') + '</p>';
+}
+function v27PaintMultBadges() {
+  const mult = 'x' + rebirthMultiplier().toFixed(1).replace('.0', '');
+  $$('[data-v27-mult]').forEach((el) => { if (el.textContent !== mult) el.textContent = mult; });
+}
+function buildV27Badges() {
+  $$('.page[data-tab]').forEach((page) => {
+    const row = $('.v25-insight', page);
+    if (!row || $('[data-v27-mult]', row)) return;
+    const b = document.createElement('span');
+    b.className = 'badge v27-mult-badge';
+    b.title = 'Multiplicador de Rebirth ativo em todo XP e moeda desta aba';
+    b.innerHTML = '<i class="fa-solid fa-rocket"></i> <span data-v27-mult>x1</span>';
+    row.appendChild(b);
+  });
+  v27PaintMultBadges();
+}
+function registerV27Commands() {
+  if (typeof COMMANDS !== 'object' || !COMMANDS) return;
+  Object.assign(COMMANDS, {
+    ciclo: { desc: 'Mostra o próximo pacote cósmico do Rebirth', run: () => { switchTab('rebirth'); const r = rebirthTier(); v27PaintCollection(); const c = v27Collection(); return r ? 'Próximo: Rebirth ' + r.n + ' · ' + r.name + ' a ' + money(r.req) + ' XP · coleção ' + c.themes + '/' + c.total + ' temas, ' + c.titles + '/' + c.total + ' títulos e ' + c.pets + '/' + c.total + ' pets.' : 'Coleção cósmica completa: ' + c.total + ' ciclos concluídos.'; } },
+    colecao: { desc: 'Resume a coleção cósmica de Rebirth', run: () => { const c = v27Collection(); return 'Coleção cósmica · temas ' + c.themes + '/' + c.total + ' · títulos ' + c.titles + '/' + c.total + ' · pets ' + c.pets + '/' + c.total + ' · multiplicador x' + rebirthMultiplier().toFixed(1).replace('.0', ''); } }
+  });
+}
+const v27PaintTopbarBase = paintTopbar;
+paintTopbar = function () {
+  v27PaintTopbarBase();
+  v27PaintMultBadges();
+};
+function initV27() {
+  if (initV27.ready) return;
+  initV27.ready = true;
+  registerV27Commands();
+  buildV27Badges();
+  v27PaintCollection();
 }
 
 /* Compatibilidade: o rodapé do núcleo v24 é mantido como marcador. */
