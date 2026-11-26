@@ -1,5 +1,5 @@
 /* ============================================================
-   Geekie Study Hub v25.0.0 — script.js (parte 1/4)
+   Geekie Study Hub v26.0.0 — script.js (parte 1/4)
    Utilidades, estado, shell, login, tutorial, paleta, Hoje, Chat
    ============================================================ */
 'use strict';
@@ -97,7 +97,7 @@ function fxAudioCtxGet() {
 }
 
 /* ============ 2. ESTADO ============ */
-const VERSION = 'v25.0.0';
+const VERSION = 'v26.0.0';
 const STORAGE_KEY = 'geekieHubState_v22';
 const LEGACY_KEYS = ['geekieHubState_v20', 'geekieHubState_v194'];
 /* Contas continuam na mesma chave: trocar de versão não desloga ninguém. */
@@ -108,7 +108,7 @@ const SEEN_KEY = 'geekieHubSeenVersion_v22';
 const DEFAULT_STATE = {
   session: null,
   xp: 0, coins: 25, title: 'Novato',
-  pageTitle: 'Geekie Study Hub v25.0.0', font: 'Poppins', icon: 'fa-graduation-cap',
+  pageTitle: 'Geekie Study Hub v26.0.0', font: 'Poppins', icon: 'fa-graduation-cap',
   themesOwned: ['default'], theme: 'default',
   petsOwned: [], pet: null, petEnergy: {}, petFed: {},
   focusByDate: {}, subjectMinutes: {}, subjectGoals: {}, customSubjects: [],
@@ -134,7 +134,9 @@ const DEFAULT_STATE = {
   quizBest: 0, quizHistory: [], redeemed: [], commandHistory: [],
   streakBest: 0, lastVisit: '', seenVersion: '', achievements: {}, milestonesClaimed: [],
   calcHistory: [], createdAt: Date.now(), totalGoalsDone: 0,
-  xpEarned: 0, coinsEarned: 0, chestsOpened: 0, boostsBought: 0, boostsUsed: 0
+  xpEarned: 0, coinsEarned: 0, chestsOpened: 0, boostsBought: 0, boostsUsed: 0,
+  rebirths: 0, rebirthLog: [], rebirthBest: 0,
+  favs: { themes: [], pets: [], titles: [] }
 };
 
 function loadState() {
@@ -158,7 +160,11 @@ function loadState() {
   if (!s.decks || typeof s.decks !== 'object' || !Object.keys(s.decks).length) s.decks = DEFAULT_STATE.decks;
   Object.keys(s.decks).forEach((d) => { if (!Array.isArray(s.decks[d])) s.decks[d] = []; });
   if (!Array.isArray(s.deck ? [s.deck] : []) || !s.decks[s.deck]) s.deck = Object.keys(s.decks)[0];
-  ['themesOwned', 'petsOwned', 'goals', 'noteOrder', 'charsFav', 'recentChars', 'chatHistory', 'redeemed', 'commandHistory', 'quizHistory', 'milestonesClaimed', 'customSubjects', 'calcHistory', 'missionClaims', 'weeklyClaims', 'subjectLog', 'adminLog', 'customCodes'].forEach((k) => { if (!Array.isArray(s[k])) s[k] = []; });
+  ['themesOwned', 'petsOwned', 'goals', 'noteOrder', 'charsFav', 'recentChars', 'chatHistory', 'redeemed', 'commandHistory', 'quizHistory', 'milestonesClaimed', 'customSubjects', 'calcHistory', 'missionClaims', 'weeklyClaims', 'subjectLog', 'adminLog', 'customCodes', 'rebirthLog'].forEach((k) => { if (!Array.isArray(s[k])) s[k] = []; });
+  s.favs = Object.assign({}, DEFAULT_STATE.favs, s.favs || {});
+  ['themes', 'pets', 'titles'].forEach((k) => { if (!Array.isArray(s.favs[k])) s.favs[k] = []; });
+  s.rebirths = clamp(Math.floor(Number(s.rebirths) || 0), 0, 5);
+  s.rebirthBest = Math.max(Number(s.rebirthBest) || 0, s.rebirths);
   s.customCodes = s.customCodes.filter((c) => c && typeof c.code === 'string').slice(0, 60);
   s.adminLog = s.adminLog.filter((l) => l && typeof l.at === 'number').slice(0, 80);
   ['focusByDate', 'subjectMinutes', 'subjectGoals', 'petEnergy', 'petFed', 'petXp', 'notes', 'planner', 'diary', 'achievements', 'checkins', 'streakProtect', 'boosts', 'dailyChest', 'weeklyStats', 'diaryDrafts', 'portalZoom'].forEach((k) => { if (!s[k] || typeof s[k] !== 'object') s[k] = {}; });
@@ -168,7 +174,7 @@ function loadState() {
   s.streakShields = clamp(Number(s.streakShields) || 0, 0, 5);
   s.xpEarned = Math.max(0, Number(s.xpEarned) || 0);
   s.coinsEarned = Math.max(0, Number(s.coinsEarned) || 0);
-  if (['Geekie Study Hub v24.0.0', 'Geekie Study Hub v23.0.0', 'Geekie Study Hub v22.3.0', 'Geekie Study Hub v22.2.0', 'Geekie Study Hub v22.1.0', 'Geekie Study Hub v22.0.0', 'Geekie Study Hub v21.0.0', 'Geekie Study Hub v20.1.0'].indexOf(s.pageTitle) !== -1) s.pageTitle = DEFAULT_STATE.pageTitle;
+  if (['Geekie Study Hub v25.0.0', 'Geekie Study Hub v24.0.0', 'Geekie Study Hub v23.0.0', 'Geekie Study Hub v22.3.0', 'Geekie Study Hub v22.2.0', 'Geekie Study Hub v22.1.0', 'Geekie Study Hub v22.0.0', 'Geekie Study Hub v21.0.0', 'Geekie Study Hub v20.1.0'].indexOf(s.pageTitle) !== -1) s.pageTitle = DEFAULT_STATE.pageTitle;
   if (s.themesOwned.indexOf('default') === -1) s.themesOwned.unshift('default');
   return s;
 }
@@ -202,10 +208,11 @@ const TABS = [
   { id: 'diary', title: 'Diário', icon: 'fa-book', group: 'Estudo', kicker: 'Reflexão', desc: 'Entradas por dia com humor, busca e exportação em markdown.', tips: ['O humor aparece no resumo de cada entrada.', 'Exporte tudo em .md para guardar fora do navegador.'] },
   { id: 'chat', title: 'Chat IA', icon: 'fa-comments', group: 'Inteligência', kicker: 'Tutor local', desc: 'Tutor que explica, resolve, resume e cria revisão — offline.', tips: ['Troque o modo para mudar o formato da resposta.', 'Salve uma resposta como nota ou flashcard.'] },
   { id: 'commands', title: 'Comandos', icon: 'fa-terminal', group: 'Inteligência', kicker: 'Ctrl + K', desc: 'Terminal do hub com 30 comandos, autocomplete e histórico.', tips: ['Tab completa, ↑/↓ navegam o histórico.', 'Ctrl+K abre a paleta de qualquer aba.'] },
-  { id: 'store', title: 'Loja', icon: 'fa-store', group: 'Progresso', kicker: 'Temas', desc: 'Onze temas e dois boosts consumíveis (x2 XP e +50% moedas por 15 min).', tips: ['Passe o mouse para prever o tema.', 'Boosts podem ser estendidos comprando de novo.', 'Temas comprados ficam salvos para sempre.'] },
+  { id: 'store', title: 'Loja', icon: 'fa-store', group: 'Progresso', kicker: 'Temas', desc: 'Dezesseis temas com wallpaper próprio, favoritos e dois boosts consumíveis.', tips: ['Cada tema tem um wallpaper animado e um gráfico com a paleta dele.', 'Favoritar deixa o tema no filtro Favoritos e no topo da loja.', 'Temas de Rebirth só aparecem depois do renascimento.'] },
   { id: 'titles', title: 'Títulos', icon: 'fa-crown', group: 'Progresso', kicker: 'Status', desc: 'Títulos liberados por XP e equipáveis na topbar.', tips: ['Você mantém o título ao subir de nível.', 'O próximo título mostra quanto falta.'] },
   { id: 'pets', title: 'Pets', icon: 'fa-paw', group: 'Progresso', kicker: 'Companhia', desc: 'Pets com energia, alimentação e renda passiva de moedas.', tips: ['Alimentar custa moedas e mantém o bônus.', 'Cada pet rende um valor diferente por tick.'] },
   { id: 'journey', title: 'Trilha', icon: 'fa-map', group: 'Progresso', kicker: 'Evolução', desc: 'Doze níveis, quinze marcos, dezenove conquistas e escudos de sequência.', tips: ['Marque marcos para resgatar moedas e XP.', 'Conquistas são automáticas, inclusive as do baú, dos críticos e dos talentos.', 'Compre escudos para não perder a sequência em um dia corrido.'] },
+  { id: 'rebirth', title: 'Rebirth', icon: 'fa-rocket', group: 'Progresso', kicker: 'Renascimento', desc: 'Renascimentos com foguete, multiplicador permanente e cinco pacotes cósmicos exclusivos.', tips: ['Renascer zera XP e moedas, mas mantém temas, pets, títulos, boosts, sequência e talentos.', 'Cada renascimento dá +30% em XP e moedas, para sempre.', 'Cada nível desbloqueia um tema, um título e um pet que não existem em outro lugar.'] },
   { id: 'clicker', title: 'Clicker', icon: 'fa-hand-pointer', group: 'Progresso', kicker: 'Energia', desc: 'Núcleo 3.0 com 12 melhorias, críticos, núcleo dourado, talentos de prestígio, cinco trocas e marcos.', tips: ['Críticos dão 6x energia e o núcleo dourado dá 5x produção por 20s.', 'Prestígio rende +15% permanente e núcleos para gastar em talentos.', 'A energia acumula offline por até 10min (+5min por prestígio, máx. 2h).'] },
   { id: 'rewards', title: 'Recompensas', icon: 'fa-gift', group: 'Progresso', kicker: 'Códigos', desc: 'Campanhas com códigos, expiração e histórico de resgates.', tips: ['Cada código vale uma vez por conta.', 'O código não diferencia maiúsculas.'] },
   { id: 'notes', title: 'Notas', icon: 'fa-note-sticky', group: 'Ferramentas', kicker: 'Escrita', desc: 'Notas com busca, tags, autosave e exportação em markdown.', tips: ['Ctrl+S salva a nota atual.', 'Tags ajudam a filtrar pela busca.'] },
@@ -218,7 +225,7 @@ const TABS = [
   { id: 'geekie', title: 'Portal Geekie', icon: 'fa-graduation-cap', group: 'Extras', kicker: 'Portal', desc: 'O Geekie One embutido, com recarregar e tela cheia.', tips: ['Se bloquear o iframe, use Nova aba.', 'Os atalhos abrem portais em nova aba.'] },
   { id: 'google', title: 'Google', icon: 'fa-google', brand: true, group: 'Extras', kicker: 'Busca', desc: 'Google embutido mais atalhos para Classroom, Drive e YouTube.', tips: ['A busca embutida pode bloquear; use os atalhos.', 'Tela cheia amplia a área.'] },
   { id: 'events', title: 'Eventos', icon: 'fa-calendar-day', group: 'Extras', kicker: 'Calendário', desc: 'Evento de cada mês com progresso por XP e recompensa.', tips: ['O mês atual é destacado.', 'A recompensa é liberada por nível de evento.'] },
-  { id: 'devlog', title: 'Dev Log', icon: 'fa-code-branch', group: 'Extras', kicker: 'Versões', desc: 'Histórico de versões com filtros, busca e atalho para as 3 últimas.', tips: ['Filtre por correção, novidade ou interface.', 'A v25.0.0 documenta os previews animados de itens, os cinco códigos novos e o radar ao vivo das 28 abas.', 'Ctrl+Shift+D abre as 3 últimas em um painel flutuante; o rodapé copia ou exporta o resumo.', 'Ctrl+B alterna a nav bar compacta e não interfere na nav bar da central.'] }
+  { id: 'devlog', title: 'Dev Log', icon: 'fa-code-branch', group: 'Extras', kicker: 'Versões', desc: 'Histórico de versões com filtros, busca e atalho para as 3 últimas.', tips: ['Filtre por correção, novidade ou interface.', 'A v26.0.0 documenta o Rebirth com foguete, os cinco ciclos cósmicos, os favoritos e os wallpapers temáticos.', 'Ctrl+Shift+D abre as 3 últimas em um painel flutuante; Ctrl+Shift+G vai direto ao Rebirth.', 'Ctrl+B alterna a nav bar compacta e não interfere na nav bar da central.'] }
 ];
 const TAB_MAP = Object.fromEntries(TABS.map((t) => [t.id, t]));
 const GROUPS = ['Hoje', 'Estudo', 'Inteligência', 'Progresso', 'Ferramentas', 'Extras'];
@@ -247,7 +254,12 @@ const THEMES = [
   { id: 'candy', name: 'Candy', price: 320, a: '#f472b6', b: '#fda4af' },
   { id: 'ember', name: 'Brasa', price: 380, a: '#f97316', b: '#ef4444' },
   { id: 'aurora', name: 'Aurora', price: 420, a: '#8b5cf6', b: '#22d3ee' },
-  { id: 'sakura', name: 'Sakura', price: 480, a: '#f472b6', b: '#fb7185' }
+  { id: 'sakura', name: 'Sakura', price: 480, a: '#f472b6', b: '#fb7185' },
+  { id: 'nebula', name: 'Nebulosa', price: 0, a: '#818cf8', b: '#22d3ee', rebirth: 1, wall: 'Poeira estelar em violeta e ciano' },
+  { id: 'orbit', name: 'Órbita', price: 0, a: '#38bdf8', b: '#6366f1', rebirth: 2, wall: 'Anéis orbitais sobre azul profundo' },
+  { id: 'quasar', name: 'Quasar', price: 0, a: '#a3e635', b: '#22d3ee', rebirth: 3, wall: 'Jatos de luz verde e turquesa' },
+  { id: 'supernova', name: 'Supernova', price: 0, a: '#fbbf24', b: '#f43f5e', rebirth: 4, wall: 'Explosão dourada com poeira vermelha' },
+  { id: 'singularity', name: 'Singularidade', price: 0, a: '#e879f9', b: '#6366f1', rebirth: 5, wall: 'Horizonte de eventos em magenta e índigo' }
 ];
 const PETS = [
   { id: 'neko', name: 'Neko', emoji: '🐱', price: 40, income: 1 },
@@ -256,8 +268,21 @@ const PETS = [
   { id: 'raposa', name: 'Raposa', emoji: '🦊', price: 230, income: 4 },
   { id: 'dragao', name: 'Dragãozinho', emoji: '🐲', price: 340, income: 6 },
   { id: 'fenix', name: 'Fênix', emoji: '🔥', price: 520, income: 9 },
-  { id: 'corvo', name: 'Corvo sábio', emoji: '🐦‍⬛', price: 760, income: 13 }
+  { id: 'corvo', name: 'Corvo sábio', emoji: '🐦‍⬛', price: 760, income: 13 },
+  { id: 'astro', name: 'Astro', emoji: '🪐', price: 0, income: 18, rebirth: 1 },
+  { id: 'cometa', name: 'Cometa', emoji: '☄️', price: 0, income: 22, rebirth: 2 },
+  { id: 'pulsar', name: 'Pulsar', emoji: '🛸', price: 0, income: 26, rebirth: 3 },
+  { id: 'solaris', name: 'Solaris', emoji: '☀️', price: 0, income: 31, rebirth: 4 },
+  { id: 'prisma', name: 'Prisma', emoji: '💠', price: 0, income: 38, rebirth: 5 }
 ];
+const REBIRTH_TIERS = [
+  { n: 1, name: 'Faísca', icon: 'fa-bolt', req: 2500, color: '#38bdf8', theme: 'nebula', title: 'Faísca Cósmica', pet: 'astro', blurb: 'A primeira ignição: poeira estelar vira combustível.' },
+  { n: 2, name: 'Órbita', icon: 'fa-satellite', req: 5000, color: '#6366f1', theme: 'orbit', title: 'Comandante Orbital', pet: 'cometa', blurb: 'A nave encontra a órbita certa e ganha velocidade.' },
+  { n: 3, name: 'Quasar', icon: 'fa-circle-nodes', req: 9000, color: '#a3e635', theme: 'quasar', title: 'Viajante Quasar', pet: 'pulsar', blurb: 'Jatos de energia atravessam o cockpit de estudos.' },
+  { n: 4, name: 'Supernova', icon: 'fa-sun', req: 15000, color: '#fbbf24', theme: 'supernova', title: 'Explorador Estelar', pet: 'solaris', blurb: 'Uma estrela inteira se acende atrás da sua cadeira.' },
+  { n: 5, name: 'Singularidade', icon: 'fa-atom', req: 24000, color: '#e879f9', theme: 'singularity', title: 'Lenda do Cosmos', pet: 'prisma', blurb: 'O horizonte de eventos coroa a última viagem.' }
+];
+const REBIRTH_TITLES = REBIRTH_TIERS.map((r) => ({ title: r.title, xp: 0, rebirth: r.n, icon: r.icon }));
 const SUBJECTS = ['Matemática', 'Português', 'Biologia', 'Química', 'Física', 'História', 'Geografia', 'Inglês'];
 function subjects() { return SUBJECTS.concat(state.customSubjects); }
 
@@ -360,7 +385,8 @@ function xpBoostMult() {
 function coinBoostMult() {
   return state.boosts && Number(state.boosts.coinUntil) > Date.now() ? 1.5 : 1;
 }
-function xpMultiplier() { return streakTier().mult * xpBoostMult(); }
+function rebirthMultiplier() { return 1 + (Number(state.rebirths) || 0) * 0.3; }
+function xpMultiplier() { return streakTier().mult * xpBoostMult() * rebirthMultiplier(); }
 function addXp(n, silent) {
   if (!n) return 0;
   const raw = Math.round(n);
@@ -388,12 +414,14 @@ function addXp(n, silent) {
   if (gain > 0) popGain('#xpPop', '+' + gain + (mult > 1.01 ? ' · x' + String(Math.round(mult * 100) / 100).replace('.', ',') : ''));
   renderTopbar();
   if (state.currentTab === 'hoje') renderHoje();
+  if (state.currentTab === 'rebirth') renderRebirth();
   save();
   return gain;
 }
 function addCoins(n) {
   if (!n) return;
-  const bonus = n > 0 ? Math.round(n * (coinBoostMult() - 1)) : 0;
+  const factor = coinBoostMult() * rebirthMultiplier();
+  const bonus = n > 0 ? Math.round(n * (factor - 1)) : 0;
   const total = n + bonus;
   state.coins = Math.max(0, state.coins + total);
   if (total > 0) state.coinsEarned = (state.coinsEarned || 0) + total;
@@ -401,6 +429,7 @@ function addCoins(n) {
   renderTopbar();
   if (state.currentTab === 'store') renderStore();
   if (state.currentTab === 'pets') renderPets();
+  if (state.currentTab === 'rebirth') renderRebirth();
   save();
 }
 function addFocus(minutes, subject) {
@@ -2450,24 +2479,51 @@ function bindDiary() {
 
 /* ============ 19. LOJA ============ */
 let storeFilter = 'all';
+function isFav(kind, id) { return !!(state.favs && Array.isArray(state.favs[kind]) && state.favs[kind].includes(String(id))); }
+function toggleFav(kind, id) {
+  id = String(id);
+  if (!state.favs[kind]) state.favs[kind] = [];
+  const i = state.favs[kind].indexOf(id);
+  if (i === -1) state.favs[kind].push(id); else state.favs[kind].splice(i, 1);
+  save();
+  return i === -1;
+}
+function favButton(kind, id, label) {
+  const on = isFav(kind, id);
+  return '<button class="fav-btn' + (on ? ' on' : '') + '" type="button" data-fav-kind="' + kind + '" data-fav-id="' + esc(id) + '" aria-pressed="' + on + '" title="' + (on ? 'Remover dos favoritos' : 'Favoritar') + ' ' + esc(label || '') + '" aria-label="' + (on ? 'Remover dos favoritos' : 'Favoritar') + ' ' + esc(label || '') + '"><i class="fa-' + (on ? 'solid' : 'regular') + ' fa-heart"></i></button>';
+}
+function themeLocked(t) { return Number(t.rebirth || 0) > Number(state.rebirths || 0); }
 function renderStore() {
   const grid = $('#themeGrid');
   if (!grid) return;
-  const list = THEMES.filter((t) => storeFilter === 'owned' ? state.themesOwned.includes(t.id) : storeFilter === 'locked' ? !state.themesOwned.includes(t.id) : true);
+  const favOnly = storeFilter === 'fav';
+  const list = THEMES.filter((t) => {
+    if (favOnly) return isFav('themes', t.id);
+    if (storeFilter === 'owned') return state.themesOwned.includes(t.id);
+    if (storeFilter === 'locked') return !state.themesOwned.includes(t.id);
+    return true;
+  });
   grid.innerHTML = list.map((t) => {
     const owned = state.themesOwned.includes(t.id);
     const equipped = state.theme === t.id;
-    return '<div class="theme-card' + (equipped ? ' equipped' : '') + '" data-theme-card="' + t.id + '">' +
-      '<div class="theme-preview" data-preview="' + t.id + '" style="--t-a:' + t.a + ';--t-b:' + t.b + '">' + esc(t.name) + '</div>' +
-      '<div class="theme-name">' + esc(t.name) + (equipped ? ' <i class="fa-solid fa-circle-check" style="color:var(--primary)"></i>' : '') + '</div>' +
-      '<div class="theme-meta"><span>' + (owned ? 'adquirido' : '<span class="theme-price"><i class="fa-solid fa-coins"></i> ' + t.price + '</span>') + '</span></div>' +
-      '<button class="btn ' + (owned ? (equipped ? 'btn-secondary' : 'btn-primary') : 'btn-secondary') + ' btn-sm" type="button" data-theme-id="' + t.id + '"' + (equipped ? ' disabled' : '') + '>' +
-      (owned ? (equipped ? 'em uso' : 'equipar') : 'comprar') + '</button></div>';
-  }).join('') || '<div class="empty">Nada nesse filtro.</div>';
+    const locked = themeLocked(t);
+    return '<div class="theme-card' + (equipped ? ' equipped' : '') + (locked ? ' locked' : '') + (isFav('themes', t.id) ? ' is-fav' : '') + '" data-theme-card="' + t.id + '">' +
+      '<div class="theme-preview" data-preview="' + (locked ? '' : t.id) + '" style="--t-a:' + t.a + ';--t-b:' + t.b + '">' +
+        '<span class="tp-name">' + esc(t.name) + '</span>' +
+        '<span class="tp-chart" aria-hidden="true">' + [38, 62, 48, 84, 70, 92].map((h) => '<i style="height:' + h + '%"></i>').join('') + '</span>' +
+        '<span class="tp-wall">wallpaper</span>' +
+      '</div>' +
+      '<div class="theme-name">' + esc(t.name) + (equipped ? ' <i class="fa-solid fa-circle-check" style="color:var(--primary)"></i>' : '') + favButton('themes', t.id, t.name) + '</div>' +
+      '<div class="theme-meta"><span>' + (locked ? '<span class="theme-price"><i class="fa-solid fa-rocket"></i> Rebirth ' + t.rebirth + '</span>' : owned ? 'adquirido · wallpaper' : '<span class="theme-price"><i class="fa-solid fa-coins"></i> ' + t.price + '</span>') + '</span></div>' +
+      '<button class="btn ' + (owned ? (equipped ? 'btn-secondary' : 'btn-primary') : 'btn-secondary') + ' btn-sm" type="button" data-theme-id="' + t.id + '"' + (equipped || locked ? ' disabled' : '') + '>' +
+      (locked ? 'bloqueado' : owned ? (equipped ? 'em uso' : 'equipar') : 'comprar') + '</button></div>';
+  }).join('') || '<div class="empty">Nada nesse filtro' + (favOnly ? ' — toque no coração de um tema.' : '.') + '</div>';
+  const favCountEl = $('#storeFavCount'); if (favCountEl) favCountEl.textContent = favCount('themes');
 }
 function buyOrEquipTheme(id) {
   const t = THEMES.find((x) => x.id === id);
   if (!t) return;
+  if (themeLocked(t)) return toast('Tema exclusivo do Rebirth ' + t.rebirth + '.', 'fa-rocket', true);
   if (state.themesOwned.includes(id)) { applyTheme(id); renderStore(); toast('Tema "' + t.name + '" aplicado.', 'fa-palette'); return; }
   if (state.coins < t.price) return toast('Faltam ' + (t.price - state.coins) + ' moedas para esse tema.', 'fa-triangle-exclamation', true);
   state.coins -= t.price;
@@ -2485,12 +2541,13 @@ function bindStore() {
     renderStore();
   });
   $('#themeGrid') && $('#themeGrid').addEventListener('click', (e) => {
+    if (e.target.closest('[data-fav-kind]')) return;
     const b = e.target.closest('[data-theme-id]');
     if (b) buyOrEquipTheme(b.dataset.themeId);
   });
   $('#themeGrid') && $('#themeGrid').addEventListener('mouseover', (e) => {
     const p = e.target.closest('[data-preview]');
-    if (p) document.documentElement.setAttribute('data-theme', p.dataset.preview);
+    if (p && p.dataset.preview) document.documentElement.setAttribute('data-theme', p.dataset.preview);
   });
   $('#themeGrid') && $('#themeGrid').addEventListener('mouseout', (e) => {
     if (e.target.closest('[data-preview]')) document.documentElement.setAttribute('data-theme', state.theme);
@@ -2498,24 +2555,39 @@ function bindStore() {
 }
 
 /* ============ 20. TÍTULOS ============ */
+let titleFilter = 'all';
+function titlePool() {
+  return LEVELS.map((l) => ({ title: l.title, xp: l.xp, source: 'xp' }))
+    .concat(REBIRTH_TITLES.map((r) => ({ title: r.title, xp: r.xp, source: 'rebirth', rebirth: r.rebirth, icon: r.icon })));
+}
 function renderTitles() {
   const grid = $('#titleGrid');
   if (!grid) return;
-  grid.innerHTML = LEVELS.map((l) => {
-    const unlocked = state.xp >= l.xp;
+  const pool = titlePool().filter((l) => titleFilter === 'fav' ? isFav('titles', l.title) : titleFilter === 'rebirth' ? l.source === 'rebirth' : true);
+  grid.innerHTML = pool.map((l) => {
+    const unlocked = l.source === 'rebirth' ? Number(state.rebirths || 0) >= l.rebirth : state.xp >= l.xp;
     const equipped = state.title === l.title;
-    return '<div class="title-card' + (unlocked ? '' : ' locked') + (equipped ? ' equipped' : '') + '" data-title-card="' + esc(l.title) + '">' +
-      '<span class="title-name">' + esc(l.title) + '</span>' +
-      '<span class="title-meta">' + l.xp + ' XP' + (unlocked ? '' : ' · faltam ' + (l.xp - state.xp)) + '</span>' +
+    return '<div class="title-card' + (unlocked ? '' : ' locked') + (equipped ? ' equipped' : '') + (l.source === 'rebirth' ? ' rebirth' : '') + (isFav('titles', l.title) ? ' is-fav' : '') + '" data-title-card="' + esc(l.title) + '">' +
+      '<span class="title-name">' + (l.source === 'rebirth' ? '<i class="fa-solid ' + (l.icon || 'fa-rocket') + '"></i> ' : '') + esc(l.title) + favButton('titles', l.title, l.title) + '</span>' +
+      '<span class="title-meta">' + (l.source === 'rebirth' ? 'Rebirth ' + l.rebirth + (unlocked ? ' · exclusivo desbloqueado' : ' · bloqueado') : l.xp + ' XP' + (unlocked ? '' : ' · faltam ' + (l.xp - state.xp))) + '</span>' +
       '<button class="btn btn-sm ' + (equipped ? 'btn-secondary' : 'btn-primary') + '" type="button" data-title="' + esc(l.title) + '"' + (unlocked && !equipped ? '' : ' disabled') + '>' + (equipped ? 'equipado' : unlocked ? 'equipar' : 'bloqueado') + '</button></div>';
-  }).join('');
+  }).join('') || '<div class="empty">Nenhum título nesse filtro.</div>';
+  const favCountEl = $('#titleFavCount'); if (favCountEl) favCountEl.textContent = favCount('titles');
   const info = levelInfo(state.xp);
   const next = $('#titleNext');
   if (next) next.textContent = info.next ? 'Próximo em ' + Math.max(0, info.next.xp - state.xp) + ' XP' : 'Nível máximo';
 }
 function bindTitles() {
   renderTitles();
+  $('#titleFilters') && $('#titleFilters').addEventListener('click', (e) => {
+    const chip = e.target.closest('.chip');
+    if (!chip) return;
+    titleFilter = chip.dataset.filter;
+    $$('#titleFilters .chip').forEach((c) => c.classList.toggle('active', c === chip));
+    renderTitles();
+  });
   $('#titleGrid') && $('#titleGrid').addEventListener('click', (e) => {
+    if (e.target.closest('[data-fav-kind]')) return;
     const b = e.target.closest('[data-title]');
     if (!b) return;
     state.title = b.dataset.title;
@@ -2533,22 +2605,27 @@ function petIncome() {
   if (!p) return 0;
   return Math.round(p.income * (1 + (petLevel(p.id) - 1) * 0.15));
 }
+function petLocked(p) { return Number(p.rebirth || 0) > Number(state.rebirths || 0); }
 function renderPets() {
   const grid = $('#petGrid');
   if (!grid) return;
-  grid.innerHTML = PETS.map((p) => {
+  const list = PETS.filter((p) => petFilter === 'fav' ? isFav('pets', p.id) : petFilter === 'owned' ? state.petsOwned.includes(p.id) : true);
+  grid.innerHTML = list.map((p) => {
     const owned = state.petsOwned.includes(p.id);
     const active = state.pet === p.id;
     const energy = state.petEnergy[p.id] || 0;
-    return '<div class="pet-card' + (active ? ' active' : '') + '" data-pet-card="' + p.id + '">' +
+    const locked = petLocked(p);
+    return '<div class="pet-card' + (active ? ' active' : '') + (locked ? ' locked' : '') + (isFav('pets', p.id) ? ' is-fav' : '') + '" data-pet-card="' + p.id + '">' +
+      favButton('pets', p.id, p.name) +
       '<span class="pet-emoji">' + p.emoji + '</span><span class="pet-name">' + esc(p.name) + '</span>' +
-      '<span class="pet-meta">' + Math.round(p.income * (1 + (petLevel(p.id) - 1) * 0.15)) + ' moedas/tick · nível ' + petLevel(p.id) + '</span>' +
+      '<span class="pet-meta">' + (locked ? '<i class="fa-solid fa-rocket"></i> Rebirth ' + p.rebirth : Math.round(p.income * (1 + (petLevel(p.id) - 1) * 0.15) * rebirthMultiplier()) + ' moedas/tick · nível ' + petLevel(p.id)) + '</span>' +
       '<div class="pet-energy"><span style="width:' + clamp(energy, 0, 100) + '%"></span></div>' +
       '<span class="pet-meta">energia ' + energy + '</span>' +
-      '<button class="btn btn-sm ' + (owned ? (active ? 'btn-secondary' : 'btn-primary') : 'btn-secondary') + '" type="button" data-pet="' + p.id + '">' +
-      (owned ? (active ? 'ativo' : 'equipar') : '<i class="fa-solid fa-coins"></i> ' + p.price) + '</button>' +
+      '<button class="btn btn-sm ' + (owned ? (active ? 'btn-secondary' : 'btn-primary') : 'btn-secondary') + '" type="button" data-pet="' + p.id + '"' + (locked ? ' disabled' : '') + '>' +
+      (locked ? 'bloqueado' : owned ? (active ? 'ativo' : 'equipar') : p.rebirth ? 'adotar' : '<i class="fa-solid fa-coins"></i> ' + p.price) + '</button>' +
       (owned ? '<button class="btn btn-ghost btn-sm" type="button" data-feed="' + p.id + '">alimentar 15</button>' : '') + '</div>';
-  }).join('');
+  }).join('') || '<div class="empty">Nenhum pet nesse filtro.</div>';
+  const favCountEl = $('#petFavCount'); if (favCountEl) favCountEl.textContent = favCount('pets');
   const sum = $('#petSummary');
   if (sum) {
     const p = PETS.find((x) => x.id === state.pet);
@@ -2559,6 +2636,7 @@ function renderPets() {
 function petAction(id) {
   const p = PETS.find((x) => x.id === id);
   if (!p) return;
+  if (petLocked(p)) return toast('Pet exclusivo do Rebirth ' + p.rebirth + '.', 'fa-rocket', true);
   if (!state.petsOwned.includes(id)) {
     if (state.coins < p.price) return toast('Faltam ' + (p.price - state.coins) + ' moedas.', 'fa-triangle-exclamation', true);
     state.coins -= p.price; state.petsOwned.push(id); state.pet = id; state.petEnergy[id] = state.petEnergy[id] || 10;
@@ -2569,6 +2647,7 @@ function petAction(id) {
   state.pet = state.pet === id ? null : id;
   save(); renderPets(); toast(state.pet ? p.name + ' está acompanhando você.' : 'Pet guardado.', 'fa-paw');
 }
+let petFilter = 'all';
 function feedPet(id) {
   if (state.coins < 15) return toast('Faltam moedas para alimentar.', 'fa-triangle-exclamation', true);
   state.coins -= 15;
@@ -2582,7 +2661,15 @@ function feedPet(id) {
 }
 function bindPets() {
   renderPets();
+  $('#petFilters') && $('#petFilters').addEventListener('click', (e) => {
+    const chip = e.target.closest('.chip');
+    if (!chip) return;
+    petFilter = chip.dataset.filter;
+    $$('#petFilters .chip').forEach((c) => c.classList.toggle('active', c === chip));
+    renderPets();
+  });
   $('#petGrid') && $('#petGrid').addEventListener('click', (e) => {
+    if (e.target.closest('[data-fav-kind]')) return;
     const b = e.target.closest('[data-pet]');
     if (b) return petAction(b.dataset.pet);
     const f = e.target.closest('[data-feed]');
@@ -3970,7 +4057,12 @@ const REWARDS = [
   { code: 'PULSO25', label: 'Pulso v25', coins: 240, xp: 220, energy: 8000, hint: '8.000 de energia para o núcleo', expires: '2028-06-30' },
   { code: 'HELIX25', label: 'Hélix v25', coins: 260, xp: 300, theme: 'ocean', hint: 'Libera o tema Oceano', expires: '2028-06-30' },
   { code: 'QUASAR25', label: 'Quasar v25', coins: 320, xp: 360, theme: 'candy', hint: 'Libera o tema Candy', expires: '2028-06-30' },
-  { code: 'ECLIPSE25', label: 'Eclipse v25', coins: 400, xp: 480, shield: 2, hint: 'Pacote completo com dois escudos de sequência', expires: '2028-06-30' }
+  { code: 'ECLIPSE25', label: 'Eclipse v25', coins: 400, xp: 480, shield: 2, hint: 'Pacote completo com dois escudos de sequência', expires: '2028-06-30' },
+  { code: 'REBIRTH26', label: 'Renascimento v26', coins: 500, xp: 600, shield: 1, hint: 'Estreia do Rebirth: moedas, XP e um escudo', expires: '2028-12-31' },
+  { code: 'FOGUETE26', label: 'Foguete v26', coins: 450, xp: 400, energy: 10000, hint: '10.000 de energia para o núcleo', expires: '2028-12-31' },
+  { code: 'ORBITA26', label: 'Órbita v26', coins: 380, xp: 520, shield: 1, hint: 'Um empurrão orbital com escudo extra', expires: '2028-12-31' },
+  { code: 'NEBULOSA26', label: 'Nebulosa v26', coins: 600, xp: 300, energy: 15000, hint: '15.000 de energia e moedas para a coleção', expires: '2028-12-31' },
+  { code: 'APOGEU26', label: 'Apogeu v26', coins: 700, xp: 700, shield: 2, hint: 'Apogeu da campanha: o maior pacote público', expires: '2028-12-31' }
 ];
 function rewardPool() { return REWARDS.concat(Array.isArray(state.customCodes) ? state.customCodes : []); }
 function renderRewards() {
@@ -4037,6 +4129,61 @@ function bindRewards() {
 
 /* ============ 33. DEV LOG ============ */
 const DEVLOG = [
+  {
+    version: 'v26.0.0', date: '2026-11-26', type: 'feature', title: 'Rebirth: renascimento com foguete, reset e multiplicador permanente',
+    items: [
+      'Nova aba Rebirth com botão de renascimento, requisito de XP, progresso e histórico de cada viagem.',
+      'Ao renascer, uma animação de foguete neon decola com constelação, partículas e nuvem de impulso, inspirada na arte de referência.',
+      'O reset zera apenas XP e moedas: temas, pets, títulos, escudos, boosts, sequência, talentos e conquistas continuam intactos.',
+      'Cada renascimento adiciona +30% permanente em XP e moedas, somado ao foguinho, aos boosts e aos talentos do núcleo.',
+      'O XP máximo do renascimento atual é preservado no histórico e o multiplicador aparece na topbar e na aba.'
+    ]
+  },
+  {
+    version: 'v26.0.0', date: '2026-11-26', type: 'feature', title: 'Cinco ciclos cósmicos com temas, títulos e pets exclusivos',
+    items: [
+      'Faísca, Órbita, Quasar, Supernova e Singularidade formam a escada de renascimento, com requisitos de 2.500 a 24.000 XP.',
+      'Cada ciclo libera um tema com wallpaper próprio: Nebulosa, Órbita, Quasar, Supernova e Singularidade.',
+      'Cinco títulos exclusivos entram na aba Títulos com filtro Rebirth e só podem ser equipados depois do renascimento correspondente.',
+      'Cinco pets exclusivos entram na coleção: Astro, Cometa, Pulsar, Solaris e Prisma, com renda maior que a dos pets comuns.',
+      'Temas e pets de Rebirth ficam visíveis, mas bloqueados, até o renascimento certo — e nunca aparecem em códigos.'
+    ]
+  },
+  {
+    version: 'v26.0.0', date: '2026-11-26', type: 'feature', title: 'Favoritos e previews de item com muito mais informação',
+    items: [
+      'Coração em cada tema, pet e título, com filtro Favoritos nas três abas e estado salvo no navegador.',
+      'O preview agora mostra wallpaper e paleta do tema, renda por hora e progresso de nível do pet, origem e requisito do título, além do estado de favorito.',
+      'É possível favoritar direto do preview flutuante, sem fechar o cartão nem perder a posição.',
+      'Temas de Rebirth exibem o ciclo necessário, e os cards ganharam mini gráfico com a paleta do tema.'
+    ]
+  },
+  {
+    version: 'v26.0.0', date: '2026-11-26', type: 'style', title: 'Wallpaper por tema e gráficos que seguem a paleta',
+    items: [
+      'Cada um dos dezesseis temas ganhou um wallpaper próprio, feito em camadas de gradiente: malha, chuva, dunas, estrelas, pétalas e horizonte de eventos.',
+      'Os gráficos de foco, distribuição e mapa de constância agora usam as cores do tema equipado, com brilho, média e linha de meta.',
+      'A aba Estatísticas ganhou um donut de distribuição por matéria e uma legenda com percentuais.',
+      'Os cards da Loja mostram o wallpaper e um mini gráfico animado antes de você equipar o tema.'
+    ]
+  },
+  {
+    version: 'v26.0.0', date: '2026-11-26', type: 'feature', title: 'Cinco códigos novos: Renascimento, Foguete, Órbita, Nebulosa e Apogeu',
+    items: [
+      'REBIRTH26, FOGUETE26, ORBITA26, NEBULOSA26 e APOGEU26 entram no catálogo com moedas, XP, energia e escudos.',
+      'Os códigos não liberam temas nem pets de Rebirth: esses continuam exclusivos de quem renasce.',
+      'O catálogo público passa a ter 27 campanhas e o histórico de resgate continua por conta local.'
+    ]
+  },
+  {
+    version: 'v26.0.0', date: '2026-11-26', type: 'feature', title: 'Todas as abas ganharam uma segunda ação inteligente',
+    items: [
+      'O radar de cada aba agora traz uma segunda ação contextual, escolhida pelo estado real daquela página.',
+      'Atalhos novos: Ctrl+Shift+R abre o Rebirth e Ctrl+Shift+F alterna o filtro de favoritos na aba de itens atual.',
+      'A paleta de comandos ganhou rebirth, favoritos e wallpaper; o tutorial e as dicas das abas foram atualizados.',
+      'A topbar mostra o multiplicador de Rebirth ao lado do foguinho, e todas as fontes de XP e moedas usam o novo bônus.'
+    ]
+  },
   {
     version: 'v25.0.0', date: '2026-11-23', type: 'feature', title: 'Previews animados de itens em toda a progressão',
     items: [
@@ -4836,7 +4983,7 @@ const RENDERERS = {
   hoje: renderHoje, timer: renderTimer, goals: renderGoals, flashcards: renderFlashcards, quiz: renderQuizBest,
   subjects: renderSubjects, planner: renderPlanner, stats: renderStats, diary: renderDiary, chat: renderChat,
   commands: renderCmdSuggestions, store: renderStore, titles: renderTitles, pets: renderPets, journey: renderJourney,
-  clicker: renderClickerShop, rewards: renderRewards, notes: renderNotes, ambient: renderAmbient, keysounds: renderKeySounds,
+  clicker: renderClickerShop, rebirth: renderRebirth, rewards: renderRewards, notes: renderNotes, ambient: renderAmbient, keysounds: renderKeySounds,
   calculator: calcRender, chars: renderChars, title: renderPageTitle, password: renderPasswordHistory,
   geekie: () => {}, google: () => {}, events: renderEvents, devlog: renderDevlog
 };
@@ -4899,6 +5046,7 @@ function boot() {
   initV23();
   initV24();
   initV25();
+  initV26();
   bindGlobal();
   bindGamification();
   initButtonFx();
@@ -6420,6 +6568,7 @@ const V24_ACTIONS = {
   titles: [{ label: 'Título aleatório', action: 'title-random', icon: 'fa-crown' }],
   pets: [{ label: 'Alimentar todos', action: 'pets-feed-all', icon: 'fa-bowl-food' }],
   journey: [{ label: 'Copiar progresso', action: 'journey-copy', icon: 'fa-copy' }],
+  rebirth: [{ label: 'Renascencer', action: 'rebirth-run', icon: 'fa-rocket' }, { label: 'Copiar histórico', action: 'rebirth-copy', icon: 'fa-copy' }],
   clicker: [{ label: 'Copiar status', action: 'clicker-copy', icon: 'fa-bolt' }],
   rewards: [{ label: 'Copiar códigos ativos', action: 'rewards-copy', icon: 'fa-key' }],
   notes: [{ label: 'Exportar todas .md', action: 'notes-export', icon: 'fa-file-arrow-down' }],
@@ -6912,7 +7061,7 @@ function scheduleHideItemPreviewV25() {
   itemPreviewHideTimer = setTimeout(hideItemPreviewV25, 120);
 }
 function bindItemPreviewV25() {
-  const sel = '.theme-card[data-theme-card], .pet-card[data-pet-card], .title-card[data-title-card], .milestone[data-milestone-card], .ach-item[data-ach-card], .reward-card[data-reward-card]';
+  const sel = '.theme-card[data-theme-card], .pet-card[data-pet-card], .title-card[data-title-card], .milestone[data-milestone-card], .ach-item[data-ach-card], .reward-card[data-reward-card], .rebirth-card[data-rebirth-card]';
   document.addEventListener('pointerover', (e) => {
     if (e.pointerType && e.pointerType !== 'mouse' && e.pointerType !== 'pen') return;
     const card = e.target.closest(sel);
@@ -7166,6 +7315,15 @@ const V25_TABS = {
     label: 'Versões', icon: 'fa-code-branch',
     insight() { return DEVLOG.length + ' entrada(s) · última ' + DEVLOG[0].version + ' em ' + DEVLOG[0].date; },
     action: { id: 'devlog-recent', label: 'Ver últimas 3', icon: 'fa-layer-group' }
+  },
+  rebirth: {
+    label: 'Renascimento', icon: 'fa-rocket',
+    insight() {
+      const r = rebirthTier();
+      if (!r) return 'Ciclo máximo concluído · multiplicador x' + rebirthMultiplier().toFixed(1) + ' ativo';
+      return 'Rebirth ' + r.n + ' · ' + r.name + ' · ' + money(state.xp) + '/' + money(r.req) + ' XP · x' + rebirthMultiplier().toFixed(1) + ' atual';
+    },
+    action: { id: 'rebirth-open', label: 'Focar no foguete', icon: 'fa-rocket' }
   }
 };
 
@@ -7342,6 +7500,7 @@ function v25RunAction(action, btn) {
     case 'portal-open': runV24Action('portal-open', btn); return;
     case 'event-copy': runV24Action('event-copy', btn); return;
     case 'devlog-recent': openDevlogRecent(); return;
+    case 'rebirth-open': switchTab('rebirth'); return;
     default: return;
   }
 }
@@ -7367,6 +7526,478 @@ function initV25() {
 }
 
 /* Fim do núcleo v25. */
+
+/* ============================================================
+   v26.0.0 — REBIRTH, FAVORITOS, WALLPAPERS E PREVIEWS RICOS
+   Renascimento com foguete, cinco ciclos cósmicos, favoritos
+   persistentes, wallpapers por tema e gráficos temáticos.
+   ============================================================ */
+
+/* ---------- 39-A. Favoritos persistentes ---------- */
+const FAV_KIND_LABEL = { themes: 'tema', pets: 'pet', titles: 'título' };
+function favCount(kind) { return ((state.favs || {})[kind] || []).length; }
+function v26RefreshPreview() {
+  let card = itemPreviewCardV26;
+  if (!card || !document.body.contains(card)) {
+    const key = itemPreviewKey || '';
+    const split = key.indexOf(':');
+    const kind = split >= 0 ? key.slice(0, split) : '';
+    const id = split >= 0 ? key.slice(split + 1) : '';
+    const attr = { theme: 'data-theme-card', pet: 'data-pet-card', title: 'data-title-card', rebirth: 'data-rebirth-card' }[kind];
+    if (attr && id) card = document.querySelector('.page.active [' + attr + '="' + id.replace(/"/g, '') + '"]');
+  }
+  if (!card) { hideItemPreviewV25(); return; }
+  itemPreviewCardV26 = card;
+  itemPreviewKey = '';
+  v25ShowItemPreview(card);
+}
+let itemPreviewCardV26 = null;
+const v25ShowItemPreviewBase = v25ShowItemPreview;
+v25ShowItemPreview = function (card) {
+  itemPreviewCardV26 = card;
+  v25ShowItemPreviewBase(card);
+};
+function v26ToggleFavorite(kind, id) {
+  const on = toggleFav(kind, id);
+  if (kind === 'themes' && $('#themeGrid')) renderStore();
+  if (kind === 'pets' && $('#petGrid')) renderPets();
+  if (kind === 'titles' && $('#titleGrid')) renderTitles();
+  if (itemPreviewKey) v26RefreshPreview();
+  toast((on ? 'Adicionado aos favoritos: ' : 'Removido dos favoritos: ') + (FAV_KIND_LABEL[kind] || 'item') + ' ' + id + '.', on ? 'fa-heart' : 'fa-heart-crack');
+}
+function bindFavoritesV26() {
+  document.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-fav-kind]');
+    if (!b) return;
+    e.preventDefault();
+    e.stopPropagation();
+    v26ToggleFavorite(b.dataset.favKind, b.dataset.favId);
+  });
+}
+
+/* ---------- 39-B. Previews com mais informação ---------- */
+function v26Pips(a, b) {
+  return '<span class="ip-palette"><i style="background:' + a + '"></i><i style="background:' + b + '"></i><i style="background:color-mix(in srgb, ' + a + ' 55%, ' + b + ')"></i></span>';
+}
+function v26FavRow(kind, id, label) {
+  return '<div class="ip-fav-row">' + favButton(kind, id, label) + '<span>' + (isFav(kind, id) ? 'Nos seus favoritos' : 'Favoritar ' + esc(label || '')) + '</span></div>';
+}
+v25ThemePreview = function (card) {
+  const t = THEMES.find((x) => x.id === card.dataset.themeCard);
+  if (!t) return null;
+  const owned = state.themesOwned.includes(t.id);
+  const equipped = state.theme === t.id;
+  const locked = themeLocked(t);
+  return {
+    key: 'theme:' + t.id,
+    html: '<div class="ip-card ip-theme" style="--ip-a:' + t.a + ';--ip-b:' + t.b + '">' +
+      '<div class="ip-theme-art"><span class="ip-theme-orb"></span><span class="ip-sheen"></span><span class="ip-art-caption">' + esc(t.name) + '</span></div>' +
+      '<div class="ip-body"><b class="ip-name">' + esc(t.name) + '</b>' +
+      '<span class="ip-sub">' + (equipped ? 'Em uso agora neste hub' : owned ? 'Na coleção, pronto para equipar' : locked ? 'Exclusivo de quem renasce' : 'Disponível na Loja') + '</span>' +
+      '<div class="ip-rows">' +
+        '<div class="ip-row"><span>Wallpaper</span><b>' + esc(t.wall || 'Gradiente animado da paleta') + '</b></div>' +
+        '<div class="ip-row"><span>Paleta</span><b>' + v26Pips(t.a, t.b) + ' ' + t.a + ' · ' + t.b + '</b></div>' +
+        '<div class="ip-row"><span>Origem</span><b>' + (t.rebirth ? 'Rebirth ' + t.rebirth : t.price ? money(t.price) + ' moedas' : 'tema inicial') + '</b></div>' +
+      '</div>' +
+      '<div class="ip-tags">' + v25Tag(owned ? 'adquirido' : locked ? 'Rebirth ' + t.rebirth : money(t.price) + ' moedas', owned ? '' : locked ? 'danger' : 'gold') + v25Tag(equipped ? 'equipado' : locked ? 'renasça para liberar' : 'clique para ' + (owned ? 'equipar' : 'comprar')) + '</div>' +
+      v26FavRow('themes', t.id, t.name) + '</div></div>'
+  };
+};
+v25PetPreview = function (card) {
+  const p = PETS.find((x) => x.id === card.dataset.petCard);
+  if (!p) return null;
+  const owned = state.petsOwned.includes(p.id);
+  const active = state.pet === p.id;
+  const energy = clamp(Number((state.petEnergy || {})[p.id]) || 0, 0, 100);
+  const level = petLevel(p.id);
+  const income = Math.round(p.income * (1 + (level - 1) * 0.15));
+  const xp = Number((state.petXp || {})[p.id]) || 0;
+  const nextXp = 60 - (xp % 60);
+  const locked = petLocked(p);
+  return {
+    key: 'pet:' + p.id,
+    html: '<div class="ip-card ip-pet">' +
+      '<div class="ip-pet-art"><span class="ip-pet-emoji">' + p.emoji + '</span><span class="ip-pet-ring"></span></div>' +
+      '<div class="ip-body"><b class="ip-name">' + esc(p.name) + '</b>' +
+      '<span class="ip-sub">' + (owned ? 'Nível ' + level + ' · +' + income + ' moedas a cada 5s' : locked ? 'Exclusivo do Rebirth ' + p.rebirth : money(p.price) + ' moedas para adotar') + '</span>' +
+      '<div class="ip-rows">' +
+        '<div class="ip-row"><span>Renda</span><b>' + income + '/5s · ' + money(income * 720) + '/h</b></div>' +
+        '<div class="ip-row"><span>Nível</span><b>' + level + '/10 · faltam ' + nextXp + ' XP de pet</b></div>' +
+        '<div class="ip-row"><span>Origem</span><b>' + (p.rebirth ? 'Rebirth ' + p.rebirth : 'Loja de pets') + '</b></div>' +
+      '</div>' +
+      '<div class="ip-meter"><span style="width:' + (owned ? energy : 0) + '%"></span></div>' +
+      '<span class="ip-sub">' + (owned ? 'energia ' + Math.round(energy) + '/100' : 'renda base ' + p.income + ' moedas/5s') + '</span>' +
+      '<div class="ip-tags">' + v25Tag(owned ? (active ? 'acompanhando' : 'na coleção') : locked ? 'bloqueado' : 'disponível', owned ? '' : locked ? 'danger' : 'gold') + v25Tag(owned ? 'alimentar 15' : 'adotar', owned ? '' : 'gold') + '</div>' +
+      v26FavRow('pets', p.id, p.name) + '</div></div>'
+  };
+};
+v25TitlePreview = function (card) {
+  const name = card.dataset.titleCard;
+  const l = titlePool().find((x) => x.title === name);
+  if (!l) return null;
+  const unlocked = l.source === 'rebirth' ? Number(state.rebirths || 0) >= l.rebirth : state.xp >= l.xp;
+  const equipped = state.title === l.title;
+  return {
+    key: 'title:' + l.title,
+    html: '<div class="ip-card ip-title">' +
+      '<div class="ip-title-art"><span class="ip-crown"><i class="fa-solid ' + (l.icon || 'fa-crown') + '"></i></span><span class="ip-crown-glow"></span></div>' +
+      '<div class="ip-body"><b class="ip-name">' + esc(l.title) + '</b>' +
+      '<span class="ip-sub">' + (unlocked ? 'Liberado para equipar' : l.source === 'rebirth' ? 'Requer o Rebirth ' + l.rebirth : 'Faltam ' + money(l.xp - state.xp) + ' XP') + '</span>' +
+      '<div class="ip-rows">' +
+        '<div class="ip-row"><span>Origem</span><b>' + (l.source === 'rebirth' ? 'Rebirth ' + l.rebirth : 'Progressão por XP') + '</b></div>' +
+        '<div class="ip-row"><span>Requisito</span><b>' + (l.source === 'rebirth' ? 'renascer ' + l.rebirth + 'x' : money(l.xp) + ' XP') + '</b></div>' +
+      '</div>' +
+      '<div class="ip-tags">' + v25Tag(l.source === 'rebirth' ? 'exclusivo' : money(l.xp) + ' XP', 'gold') + v25Tag(equipped ? 'equipado' : unlocked ? 'pronto para equipar' : 'bloqueado') + '</div>' +
+      v26FavRow('titles', l.title, l.title) + '</div></div>'
+  };
+};
+function v26RebirthPreview(card) {
+  const r = REBIRTH_TIERS.find((x) => String(x.n) === card.dataset.rebirthCard);
+  if (!r) return null;
+  const done = state.rebirths >= r.n;
+  const current = state.rebirths + 1 === r.n;
+  const pct = current ? clamp((state.xp / r.req) * 100, 0, 100) : done ? 100 : 0;
+  const theme = THEMES.find((t) => t.id === r.theme);
+  const pet = PETS.find((p) => p.id === r.pet);
+  return {
+    key: 'rebirth:' + r.n,
+    html: '<div class="ip-card ip-rebirth" style="--ip-a:' + r.color + '">' +
+      '<div class="ip-rebirth-art"><i class="fa-solid ' + r.icon + '"></i><span class="ip-rebirth-orbit"></span></div>' +
+      '<div class="ip-body"><b class="ip-name">Rebirth ' + r.n + ' · ' + esc(r.name) + '</b>' +
+      '<span class="ip-sub">' + esc(r.blurb) + '</span>' +
+      '<div class="ip-rows">' +
+        '<div class="ip-row"><span>Requisito</span><b>' + money(r.req) + ' XP</b></div>' +
+        '<div class="ip-row"><span>Tema</span><b>' + (theme ? esc(theme.name) : '—') + '</b></div>' +
+        '<div class="ip-row"><span>Título</span><b>' + esc(r.title) + '</b></div>' +
+        '<div class="ip-row"><span>Pet</span><b>' + (pet ? pet.emoji + ' ' + esc(pet.name) : '—') + '</b></div>' +
+      '</div>' +
+      '<div class="ip-meter"><span style="width:' + pct + '%"></span></div>' +
+      '<div class="ip-tags">' + v25Tag(done ? 'concluído' : current ? Math.round(pct) + '% · ' + money(Math.max(0, r.req - state.xp)) + ' XP restante' : 'bloqueado', done ? 'gold' : '') + v25Tag('+' + Math.round(r.n * 30) + '% permanente') + '</div></div></div>'
+  };
+}
+const v25BuildItemPreviewBase = v25BuildItemPreview;
+v25BuildItemPreview = function (card) {
+  if (card && card.matches('[data-rebirth-card]')) return v26RebirthPreview(card);
+  return v25BuildItemPreviewBase(card);
+};
+
+/* ---------- 39-C. Rebirth: estado, render e animação ---------- */
+let rebirthArmed = false;
+let rebirthArmTimer = null;
+function rebirthTier() { return REBIRTH_TIERS[state.rebirths] || null; }
+function rebirthReady() { const r = rebirthTier(); return !!r && Number(state.xp) >= r.req; }
+function rebirthProgressPct() {
+  const r = rebirthTier();
+  return r ? clamp((Number(state.xp) / r.req) * 100, 0, 100) : 100;
+}
+function v26PaintRebirthTopbar() {
+  const pill = $('#rebirthMultPill');
+  if (!pill) return;
+  pill.innerHTML = '<i class="fa-solid fa-rocket"></i><b id="rebirthMultValue">x' + rebirthMultiplier().toFixed(1).replace('.0', '') + '</b><span class="stat-suffix">' + state.rebirths + ' rebirth' + (state.rebirths === 1 ? '' : 's') + '</span>';
+  pill.title = 'Multiplicador de Rebirth x' + rebirthMultiplier().toFixed(1) + ' · soma +30% por renascimento em XP e moedas';
+}
+function renderRebirth() {
+  v26PaintRebirthTopbar();
+  const r = rebirthTier();
+  const done = !r;
+  const pct = rebirthProgressPct();
+  const tierName = $('#rebirthTierName');
+  if (tierName) tierName.textContent = done ? 'Lenda do Cosmos' : r.name;
+  const mult = $('#rebirthMultiplierLabel');
+  if (mult) mult.textContent = 'x' + rebirthMultiplier().toFixed(1).replace('.0', '');
+  const cur = $('#rebirthCurrentBadge');
+  if (cur) cur.textContent = state.rebirths + '/5 renascimentos';
+  const prog = $('#rebirthProgressFill');
+  if (prog) prog.style.width = (done ? 100 : pct) + '%';
+  const progText = $('#rebirthProgressText');
+  if (progText) progText.textContent = done ? 'Todos os ciclos concluídos' : money(state.xp) + ' / ' + money(r.req) + ' XP · ' + Math.round(pct) + '%';
+  const nextReq = $('#rebirthNextReq');
+  if (nextReq) nextReq.textContent = done ? 'Máximo' : money(Math.max(0, r.req - state.xp)) + ' XP restante';
+  const btn = $('#rebirthBtn');
+  if (btn) {
+    btn.disabled = done || !rebirthReady();
+    btn.innerHTML = done ? '<i class="fa-solid fa-crown"></i> Ciclo máximo concluído'
+      : !rebirthReady() ? '<i class="fa-solid fa-lock"></i> Faltam ' + money(r.req - state.xp) + ' XP'
+      : rebirthArmed ? '<i class="fa-solid fa-triangle-exclamation"></i> Confirmar renascimento' : '<i class="fa-solid fa-rocket"></i> Iniciar Rebirth ' + r.n + ' · ' + r.name;
+    btn.classList.toggle('armed', !!rebirthArmed && !done && rebirthReady());
+  }
+  const stats = $('#rebirthStats');
+  if (stats) {
+    stats.innerHTML = [
+      { label: 'Multiplicador', value: 'x' + rebirthMultiplier().toFixed(1).replace('.0', ''), icon: 'fa-rocket' },
+      { label: 'Bônus permanente', value: '+' + (state.rebirths * 30) + '%', icon: 'fa-arrow-trend-up' },
+      { label: 'Renascimentos', value: state.rebirths + '/5', icon: 'fa-layer-group' },
+      { label: 'Recorde de XP', value: money(state.rebirthBest || 0) + ' XP', icon: 'fa-trophy' },
+      { label: 'Favoritos', value: favCount('themes') + favCount('pets') + favCount('titles'), icon: 'fa-heart' },
+      { label: 'Tema atual', value: (THEMES.find((t) => t.id === state.theme) || {}).name || '—', icon: 'fa-palette' }
+    ].map((s) => '<div class="stat-card"><span class="sc-label"><i class="fa-solid ' + s.icon + '"></i> ' + s.label + '</span><b class="sc-value">' + esc(s.value) + '</b></div>').join('');
+  }
+  const grid = $('#rebirthGrid');
+  if (grid) {
+    grid.innerHTML = REBIRTH_TIERS.map((t) => {
+      const isDone = state.rebirths >= t.n;
+      const isCurrent = state.rebirths + 1 === t.n;
+      const theme = THEMES.find((x) => x.id === t.theme);
+      const pet = PETS.find((x) => x.id === t.pet);
+      return '<article class="rebirth-card' + (isDone ? ' done' : '') + (isCurrent ? ' current' : '') + '" data-rebirth-card="' + t.n + '" style="--rb:' + t.color + '">' +
+        '<div class="rb-head"><span class="rb-icon"><i class="fa-solid ' + t.icon + '"></i></span><div><span class="kicker">Ciclo ' + t.n + '</span><h4>' + esc(t.name) + '</h4></div>' + (isDone ? '<span class="badge gold">concluído</span>' : isCurrent ? '<span class="badge">atual</span>' : '<span class="badge danger">bloqueado</span>') + '</div>' +
+        '<p class="rb-blurb">' + esc(t.blurb) + '</p>' +
+        '<div class="rb-req"><span>' + money(t.req) + ' XP</span><b>+' + (t.n * 30) + '% permanente</b></div>' +
+        '<div class="rb-unlocks">' +
+          '<span><i class="fa-solid fa-palette"></i> ' + (theme ? esc(theme.name) : '—') + '</span>' +
+          '<span><i class="fa-solid fa-crown"></i> ' + esc(t.title) + '</span>' +
+          '<span><i class="fa-solid fa-paw"></i> ' + (pet ? pet.emoji + ' ' + esc(pet.name) : '—') + '</span>' +
+        '</div>' +
+        '<div class="rb-status">' + (isDone ? 'Tema, título e pet liberados' : isCurrent ? 'Em progresso · ' + Math.round(rebirthProgressPct()) + '%' : 'Requer os ciclos anteriores') + '</div></article>';
+    }).join('');
+  }
+  const log = $('#rebirthLog');
+  if (log) {
+    const items = (state.rebirthLog || []).slice(0, 8);
+    log.innerHTML = items.length ? items.map((l) => '<div class="rebirth-log-item"><i class="fa-solid fa-rocket"></i><div><b>Rebirth ' + l.n + ' · ' + esc(l.name) + '</b><span>' + prettyDate(dateKey(new Date(l.at))) + ' · ' + money(l.xp || 0) + ' XP e ' + money(l.coins || 0) + ' moedas convertidos</span></div><span class="badge">x' + (1 + l.n * 0.3).toFixed(1).replace('.0', '') + '</span></div>').join('')
+      : '<div class="empty">Nenhum renascimento ainda. Junte ' + money(REBIRTH_TIERS[0].req) + ' XP e acenda o primeiro foguete.</div>';
+  }
+}
+function runRebirth() {
+  const r = rebirthTier();
+  if (!r) return toast('Todos os renascimentos já foram concluídos.', 'fa-crown', true);
+  if (!rebirthReady()) return toast('Faltam ' + money(r.req - state.xp) + ' XP para o Rebirth ' + r.n + '.', 'fa-lock', true);
+  if (!rebirthArmed) {
+    rebirthArmed = true;
+    clearTimeout(rebirthArmTimer);
+    rebirthArmTimer = setTimeout(() => { rebirthArmed = false; renderRebirth(); }, 6000);
+    renderRebirth();
+    toast('Confirme no botão: XP e moedas serão zerados, todo o resto fica.', 'fa-triangle-exclamation');
+    return;
+  }
+  clearTimeout(rebirthArmTimer);
+  rebirthArmed = false;
+  v26PlayLaunch(() => {
+    const tier = rebirthTier();
+    if (!tier) return;
+    state.rebirthLog = state.rebirthLog || [];
+    state.rebirthLog.unshift({ n: tier.n, name: tier.name, at: Date.now(), xp: Number(state.xp) || 0, coins: Number(state.coins) || 0 });
+    state.rebirthLog = state.rebirthLog.slice(0, 20);
+    state.rebirths = clamp((state.rebirths || 0) + 1, 0, 5);
+    state.rebirthBest = Math.max(Number(state.rebirthBest) || 0, Number(state.xp) || 0);
+    state.xp = 0;
+    state.coins = 0;
+    if (!state.themesOwned.includes(tier.theme)) state.themesOwned.push(tier.theme);
+    if (!state.petsOwned.includes(tier.pet)) state.petsOwned.push(tier.pet);
+    state.petEnergy[tier.pet] = 100;
+    state.title = tier.title;
+    state.milestonesClaimed = state.milestonesClaimed || [];
+    saveNow();
+    renderTopbar(); renderRebirth(); renderStore(); renderTitles(); renderPets(); renderJourney(); renderHoje(); renderRewards();
+    if (state.currentTab === 'stats') renderStats();
+    toast('Rebirth ' + tier.n + ' concluído: +30% permanente, ' + tier.title + ' e pacote ' + tier.name + '.', 'fa-rocket');
+  });
+}
+function v26PlayLaunch(done) {
+  const overlay = $('#rebirthLaunch');
+  const caption = $('#rebirthLaunchCaption');
+  if (!overlay) { done(); return; }
+  overlay.hidden = false;
+  overlay.setAttribute('aria-hidden', 'false');
+  overlay.classList.remove('run');
+  void overlay.offsetWidth;
+  overlay.classList.add('run');
+  if (caption) caption.textContent = 'Ignição confirmada · decolando';
+  const fast = !!state.motionReduced;
+  setTimeout(() => {
+    done();
+    if (caption) caption.textContent = 'Órbita alcançada · novo ciclo aberto';
+  }, fast ? 700 : 1800);
+  setTimeout(() => {
+    overlay.classList.remove('run');
+    overlay.hidden = true;
+    overlay.setAttribute('aria-hidden', 'true');
+  }, fast ? 1400 : 3600);
+}
+function bindRebirth() {
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('#rebirthBtn')) runRebirth();
+  });
+  renderRebirth();
+}
+
+/* ---------- 39-D. Gráficos temáticos e donut de matérias ---------- */
+const v26RenderStatsBase = renderStats;
+renderStats = function () {
+  v26RenderStatsBase();
+  v26PaintCharts();
+};
+RENDERERS.stats = renderStats;
+function v26ChartMeta() {
+  const card = $('#weeklyChart') && $('#weeklyChart').closest('.card');
+  if (!card) return null;
+  let meta = $('#statsChartMeta');
+  if (!meta) {
+    meta = document.createElement('div');
+    meta.id = 'statsChartMeta';
+    meta.className = 'chart-meta';
+    const chart = $('#weeklyChart');
+    card.insertBefore(meta, chart);
+  }
+  return meta;
+}
+function v26PaintCharts() {
+  const chart = $('#weeklyChart');
+  if (chart) {
+    const series = seriesFocus(statsDays);
+    const total = series.reduce((a, b) => a + b.minutes, 0);
+    const avg = Math.round(total / statsDays);
+    const max = Math.max(60, Math.max.apply(null, series.map((s) => s.minutes)));
+    chart.classList.add('v26-chart');
+    chart.style.setProperty('--goal-y', clamp((60 / max) * 100, 0, 100).toFixed(1) + '%');
+    chart.dataset.goal = 'meta 60min';
+    const meta = v26ChartMeta();
+    if (meta) {
+      const best = series.slice().sort((a, b) => b.minutes - a.minutes)[0];
+      meta.innerHTML = '<span><i class="fa-solid fa-chart-line"></i> média <b>' + fmtMinutes(avg) + '</b></span><span><i class="fa-solid fa-bullseye"></i> meta <b>60min</b></span><span><i class="fa-solid fa-trophy"></i> melhor dia <b>' + esc(best ? best.label : '—') + ' · ' + fmtMinutes(best ? best.minutes : 0) + '</b></span><span class="chart-theme"><i class="fa-solid fa-palette"></i> paleta <b>' + esc((THEMES.find((t) => t.id === state.theme) || {}).name || 'Geekie') + '</b></span>';
+    }
+  }
+  const donut = $('#subjectDonut');
+  const legend = $('#subjectDonutLegend');
+  if (donut) {
+    const entries = Object.entries(state.subjectMinutes || {}).filter(([, m]) => m > 0).sort((a, b) => b[1] - a[1]).slice(0, 6);
+    const total = entries.reduce((a, [, m]) => a + m, 0);
+    if (!total) {
+      donut.style.background = 'conic-gradient(rgba(255,255,255,.08) 0 100%)';
+      donut.classList.add('empty');
+      if (legend) legend.innerHTML = '<span class="hint">Registre foco por matéria para montar o gráfico.</span>';
+    } else {
+      const colors = ['var(--primary)', 'var(--primary-2)', 'var(--accent)', 'var(--violet)', 'var(--gold)', 'var(--danger)'];
+      let acc = 0;
+      const parts = entries.map(([, m], i) => {
+        const from = acc;
+        acc += (m / total) * 100;
+        return colors[i] + ' ' + from.toFixed(1) + '% ' + acc.toFixed(1) + '%';
+      });
+      donut.classList.remove('empty');
+      donut.style.background = 'conic-gradient(' + parts.join(', ') + ')';
+      if (legend) legend.innerHTML = entries.map(([name, m], i) => '<span class="donut-legend-row"><i style="background:' + colors[i] + '"></i>' + esc(name) + '<b>' + Math.round((m / total) * 100) + '%</b></span>').join('');
+    }
+  }
+}
+
+/* ---------- 39-E. Segunda ação contextual em todas as abas ---------- */
+function v26QuizScore() {
+  const h = state.quizHistory || [];
+  const total = h.reduce((a, q) => a + (Number(q.total) || 0), 0);
+  const score = h.reduce((a, q) => a + (Number(q.score) || 0), 0);
+  return { n: h.length, score, total, pct: total ? Math.round((score / total) * 100) : 0 };
+}
+const V26_ACTIONS = {
+  hoje: { label: 'Check-in', icon: 'fa-fire-flame-curved', run: () => doDailyCheckin() },
+  timer: { label: 'Pausa 5 min', icon: 'fa-mug-hot', run: () => { if (pomo.running) return toast('Já existe um ciclo rodando.', 'fa-clock', true); if (typeof pomoSetMode === 'function') pomoSetMode('short'); renderTimer(); pomoStart(); } },
+  goals: { label: 'Copiar metas', icon: 'fa-copy', run: () => v24Copy(v24GoalsMarkdown(), 'Metas copiadas.') },
+  flashcards: { label: 'Só devidos', icon: 'fa-filter', run: () => { const due = dueCards(); if (!due.length) return toast('Nenhum card devido agora.', 'fa-clone'); flash.queue = due; flash.idx = 0; flash.flipped = false; renderFlashcards(); toast(due.length + ' card(s) devidos na fila.', 'fa-filter'); } },
+  quiz: { label: 'Copiar placar', icon: 'fa-copy', run: () => { const q = v26QuizScore(); v24Copy('Quiz Geekie · ' + q.n + ' rodada(s) · ' + q.score + '/' + q.total + ' acertos (' + q.pct + '%) · recorde ' + state.quizBest, 'Placar copiado.'); } },
+  subjects: { label: 'Copiar totais', icon: 'fa-copy', run: () => { const rows = Object.entries(state.subjectMinutes || {}).sort((a, b) => b[1] - a[1]); v24Copy(rows.length ? rows.map(([s, m]) => s + ': ' + fmtMinutes(m)).join('\n') : '', 'Totais de matérias copiados.'); } },
+  planner: { label: 'Copiar semana', icon: 'fa-copy', run: () => runV24Action('planner-copy') },
+  stats: { label: 'Exportar CSV', icon: 'fa-file-csv', run: () => { const b = $('#statsExportBtn'); if (b) b.click(); } },
+  diary: { label: 'Copiar 7 dias', icon: 'fa-copy', run: () => runV24Action('diary-copy') },
+  chat: { label: 'Copiar resposta', icon: 'fa-copy', run: () => { const last = (state.chatHistory || []).slice().reverse().find((m) => m.role !== 'user'); v24Copy(last ? last.content : '', 'Última resposta copiada.'); } },
+  commands: { label: 'Ajuda', icon: 'fa-circle-question', run: () => runCommand('ajuda') },
+  store: { label: 'Só favoritos', icon: 'fa-heart', run: () => { storeFilter = 'fav'; $$('#storeFilters .chip').forEach((c) => c.classList.toggle('active', c.dataset.filter === 'fav')); renderStore(); toast(favCount('themes') + ' tema(s) favorito(s).', 'fa-heart'); } },
+  titles: { label: 'Só favoritos', icon: 'fa-heart', run: () => { titleFilter = 'fav'; $$('#titleFilters .chip').forEach((c) => c.classList.toggle('active', c.dataset.filter === 'fav')); renderTitles(); toast(favCount('titles') + ' título(s) favorito(s).', 'fa-heart'); } },
+  pets: { label: 'Alimentar ativo', icon: 'fa-bowl-food', run: () => { if (!state.pet) return toast('Equipe um pet primeiro.', 'fa-paw', true); feedPet(state.pet); } },
+  journey: { label: 'Comprar escudo', icon: 'fa-shield-halved', run: () => { const b = $('#statsShieldBtn'); if (b) b.click(); } },
+  clicker: { label: 'Melhor troca', icon: 'fa-arrows-rotate', run: () => v25RunAction('clicker-best') },
+  rebirth: { label: 'Renascencer', icon: 'fa-rocket', run: () => runRebirth() },
+  rewards: { label: 'Copiar ativos', icon: 'fa-copy', run: () => v24Copy(v25ActiveRewards().map((r) => r.code).join(', '), 'Códigos ativos copiados.') },
+  notes: { label: 'Nova nota', icon: 'fa-plus', run: () => { const b = $('#noteNewBtn'); if (b) b.click(); } },
+  ambient: { label: 'Preset foco', icon: 'fa-headphones', run: () => { const s = $('#ambientPreset'); if (!s) return; s.value = 'focus'; s.dispatchEvent(new Event('change', { bubbles: true })); } },
+  keysounds: { label: 'Testar som', icon: 'fa-keyboard', run: () => playKeySound() },
+  calculator: { label: 'Histórico', icon: 'fa-clock-rotate-left', run: () => v25RunAction('calc-history') },
+  chars: { label: 'Favoritos', icon: 'fa-star', run: () => v25RunAction('chars-favs') },
+  title: { label: 'Aplicar', icon: 'fa-check', run: () => { const b = $('#titleApplyBtn'); if (b) b.click(); } },
+  password: { label: 'Gerar nova', icon: 'fa-shuffle', run: () => generatePassword() },
+  geekie: { label: 'Recarregar', icon: 'fa-rotate', run: () => loadIframe('geekieIframe', 'iframeLoading') },
+  google: { label: 'Recarregar', icon: 'fa-rotate', run: () => loadIframe('googleIframe', null) },
+  events: { label: 'Copiar evento', icon: 'fa-calendar-day', run: () => runV24Action('event-copy') },
+  devlog: { label: 'Exportar .md', icon: 'fa-file-arrow-down', run: () => runV24Action('devlog-export') }
+};
+function buildV26Insights() {
+  $$('.page[data-tab]').forEach((page) => {
+    const id = page.dataset.tab;
+    const meta = V26_ACTIONS[id];
+    const row = $('.v25-insight', page);
+    if (!meta || !row || $('[data-v26-action]', row)) return;
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'btn btn-secondary btn-sm v26-insight-action';
+    b.dataset.v26Action = id;
+    b.innerHTML = '<i class="fa-solid ' + meta.icon + '"></i> ' + esc(meta.label);
+    row.appendChild(b);
+  });
+}
+function bindV26Actions() {
+  document.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-v26-action]');
+    if (!b || b.disabled) return;
+    const meta = V26_ACTIONS[b.dataset.v26Action];
+    if (meta) { try { meta.run(b); } catch (err) { console.warn('Geekie v26:', err); } }
+  });
+}
+
+/* ---------- 39-F. Atalhos, comandos e inicialização ---------- */
+const v24RunActionBase = runV24Action;
+runV24Action = function (action, btn) {
+  if (action === 'rebirth-run') { switchTab('rebirth'); runRebirth(); return; }
+  if (action === 'rebirth-copy') {
+    const rows = (state.rebirthLog || []).map((l) => 'Rebirth ' + l.n + ' · ' + l.name + ' · ' + money(l.xp || 0) + ' XP · ' + money(l.coins || 0) + ' moedas');
+    v24Copy(rows.length ? rows.join('\n') : '', 'Histórico de Rebirth copiado.');
+    return;
+  }
+  return v24RunActionBase(action, btn);
+};
+function bindV26Shortcuts() {
+  document.addEventListener('keydown', (e) => {
+    const typing = ['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement && document.activeElement.tagName);
+    if (typing) return;
+    if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === 'g') {
+      e.preventDefault();
+      switchTab('rebirth');
+      return;
+    }
+    if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === 'f') {
+      const tab = state.currentTab;
+      if (tab !== 'store' && tab !== 'pets' && tab !== 'titles') return;
+      e.preventDefault();
+      if (tab === 'store') { storeFilter = storeFilter === 'fav' ? 'all' : 'fav'; renderStore(); }
+      else if (tab === 'pets') { petFilter = petFilter === 'fav' ? 'all' : 'fav'; renderPets(); }
+      else { titleFilter = titleFilter === 'fav' ? 'all' : 'fav'; renderTitles(); }
+      toast('Filtro de favoritos da aba ' + (TAB_MAP[tab] ? TAB_MAP[tab].title : tab) + '.', 'fa-heart');
+    }
+  });
+}
+function registerV26Commands() {
+  if (typeof COMMANDS !== 'object' || !COMMANDS) return;
+  Object.assign(COMMANDS, {
+    rebirth: { desc: 'Abre a aba Rebirth e mostra o próximo ciclo', run: () => { switchTab('rebirth'); const r = rebirthTier(); return r ? 'Rebirth ' + r.n + ' · ' + r.name + ' · ' + state.xp + '/' + r.req + ' XP · multiplicador x' + rebirthMultiplier().toFixed(1) : 'Todos os renascimentos concluídos.'; } },
+    favoritos: { desc: 'Abre a Loja no filtro de favoritos', run: () => { switchTab('store'); storeFilter = 'fav'; $$('#storeFilters .chip').forEach((c) => c.classList.toggle('active', c.dataset.filter === 'fav')); renderStore(); return favCount('themes') + ' tema(s), ' + favCount('pets') + ' pet(s) e ' + favCount('titles') + ' título(s) favoritos.'; } },
+    wallpaper: { desc: 'Mostra o wallpaper do tema equipado', run: () => { const t = THEMES.find((x) => x.id === state.theme) || THEMES[0]; return t.name + ' · ' + (t.wall || 'gradiente da paleta') + ' · ' + t.a + ' → ' + t.b; } }
+  });
+}
+const v26PaintTopbarBase = paintTopbar;
+paintTopbar = function () {
+  v26PaintTopbarBase();
+  v26PaintRebirthTopbar();
+};
+function initV26() {
+  if (initV26.ready) return;
+  initV26.ready = true;
+  bindFavoritesV26();
+  bindRebirth();
+  bindV26Actions();
+  bindV26Shortcuts();
+  registerV26Commands();
+  buildV26Insights();
+  v26PaintCharts();
+  v26PaintRebirthTopbar();
+}
 
 /* Compatibilidade: o rodapé do núcleo v24 é mantido como marcador. */
 
