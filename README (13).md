@@ -2,7 +2,7 @@
 
 Hub de estudos em **3 arquivos** (HTML, CSS e JS), sem build e sem dependências locais — só os ícones e as fontes vêm de CDN.
 
-Versão atual: **v26.0.0**
+Versão atual: **v27.0.0**
 
 ```
 index.html
@@ -49,6 +49,44 @@ python3 -m http.server 3000
 ```
 
 Login: crie uma conta local, entre com ela ou clique em **Entrar como convidado**. Nada é enviado para servidor.
+
+---
+
+## O que mudou na v27.0.0
+
+### 1. Três novos Rebirths: Eclipse, Andrômeda e Big Bang
+
+| Ciclo | XP exigido | Tema | Título | Pet |
+| --- | --- | --- | --- | --- |
+| **6 · Eclipse** | 36.000 | Eclipse | Guardião do Eclipse | 🌘 Lunar |
+| **7 · Andrômeda** | 52.000 | Andrômeda | Cartógrafo Galáctico | 🌟 Nova |
+| **8 · Big Bang** | 75.000 | Big Bang | Arquiteto do Cosmos | ⚛️ Quark |
+
+- A escada passa de cinco para **oito ciclos**; o progresso salvo continua válido e o próximo ciclo aparece sozinho.
+- Cada novo ciclo entrega **um tema, um título e um pet exclusivos**, disponíveis só depois do renascimento correspondente.
+- Os três pets novos rendem **46, 55 e 66 moedas por tick**, e o tick continua recebendo o multiplicador de Rebirth.
+- Com os oito ciclos o multiplicador chega a **x3,4** (8 × +30%) em XP e moedas.
+- Botão, histórico, pílula da topbar e contador da aba passam a falar em **8 renascimentos**.
+
+### 2. Coleção cósmica e bônus visível em todas as abas
+
+- A aba Rebirth ganhou o painel **Coleção cósmica**: quantos temas, títulos e pets exclusivos já foram abertos, com barra de progresso e o próximo pacote descrito em detalhe.
+- O radar das **29 abas** agora mostra o **multiplicador de Rebirth ativo** ao lado das ações contextuais, atualizado a cada ganho.
+- Novos comandos na paleta: `ciclo` (próximo pacote) e `colecao` (resumo da coleção).
+- Nada da v26 foi removido: favoritos, previews, wallpapers, segunda ação por aba e atalhos continuam iguais.
+
+### 3. Wallpapers Eclipse, Andrômeda e Big Bang
+
+- Três wallpapers novos em camadas: **coroa de luz sobre disco negro**, **braços de galáxia em ciano e violeta** e **raios primordiais em ouro e laranja**.
+- Cada tema define `--chart-a` e `--chart-b`, então gráficos, donut, barras e cards da Loja seguem a paleta nova.
+- Previews flutuantes, cards da Loja e o comando `wallpaper` reconhecem os três temas automaticamente.
+
+### 4. Códigos, Dev Log e README
+
+- Entram `ECLIPSE27`, `ANDROMEDA27`, `LUNAR27`, `HORIZONTE27` e `BIGBANG27`; o catálogo vai a **32 códigos públicos**.
+- Nenhum código libera tema, título ou pet de Rebirth.
+- O Dev Log recebeu **4 entradas v27.0.0** e o cartão de novidades abre na v27.
+- Este README foi atualizado com a tabela dos oito ciclos, a coleção cósmica, os códigos e a migração.
 
 ---
 
@@ -369,13 +407,13 @@ Todas as 29 abas têm **Ações rápidas** (v24), um **radar contextual** (v25) 
 | **Diário** | Entrada por dia com rascunho automático, humor, busca, resumo de humor e exportação markdown |
 | **Chat IA** | Tutor local com modos, matéria, resposta progressiva, ações por mensagem e filtro da conversa |
 | **Comandos** | Terminal com 35 comandos, autocomplete, histórico e ajuda |
-| **Loja** | **Dezesseis temas** com wallpaper próprio e mini gráfico, favoritos, dois boosts consumíveis, preview ao vivo e **cartão flutuante animado** |
-| **Títulos** | Doze títulos por XP + **cinco títulos de Rebirth**, filtro Rebirth, favoritos e **preview de coroa/XP/estado** |
-| **Pets** | Sete pets comuns + **cinco pets de Rebirth**, adoção, energia, alimentação, nível, renda passiva, favoritos e **preview completo** |
+| **Loja** | **Dezenove temas** com wallpaper próprio e mini gráfico, favoritos, dois boosts consumíveis, preview ao vivo e **cartão flutuante animado** |
+| **Títulos** | Doze títulos por XP + **oito títulos de Rebirth**, filtro Rebirth, favoritos e **preview de coroa/XP/estado** |
+| **Pets** | Sete pets comuns + **oito pets de Rebirth**, adoção, energia, alimentação, nível, renda passiva, favoritos e **preview completo** |
 | **Trilha** | Doze níveis, quinze marcos resgatáveis e dezenove conquistas, com **preview de progresso e recompensas** |
-| **Rebirth** | Cinco ciclos, botão com confirmação, animação de foguete, multiplicador permanente, reset só de XP/moedas, conteúdo exclusivo e histórico |
+| **Rebirth** | Oito ciclos, botão com confirmação, animação de foguete, multiplicador permanente, reset só de XP/moedas, coleção cósmica, conteúdo exclusivo e histórico |
 | **Clicker** | Núcleo 3.0 com doze melhorias, combo, críticos, núcleo dourado, talentos, cinco trocas, marcos, prestígio e renda offline |
-| **Recompensas** | **Vinte e sete** códigos com status, expiração, histórico, cópia por cartão, **preview de prêmios**, energia de núcleo e códigos personalizados fora do catálogo público |
+| **Recompensas** | **Trinta e dois** códigos com status, expiração, histórico, cópia por cartão, **preview de prêmios**, energia de núcleo e códigos personalizados fora do catálogo público |
 | **Notas** | Busca, tags, autosave, fixar, duplicar, contagem de palavras, estatísticas e exportação `.md` |
 | **Sons ambiente** | Seis camadas (chuva, ruído, ondas, lareira, vento, café), cinco presets, volume geral e timer |
 | **Som de teclado** | Sete estilos, volume e campo de teste |
@@ -502,8 +540,13 @@ Digite `ajuda` para listar, ou `ajuda <comando>` para detalhar. São **35 comand
 | `ORBITA26` | +380 moedas, +520 XP e 1 escudo | 31/12/2028 |
 | `NEBULOSA26` | +600 moedas, +300 XP e 15.000 ⚡ | 31/12/2028 |
 | `APOGEU26` | +700 moedas, +700 XP e 2 escudos | 31/12/2028 |
+| `ECLIPSE27` | +650 moedas, +700 XP e 1 escudo | 30/06/2029 |
+| `ANDROMEDA27` | +720 moedas, +540 XP e 18.000 ⚡ | 30/06/2029 |
+| `LUNAR27` | +600 moedas, +420 XP e 12.000 ⚡ | 30/06/2029 |
+| `HORIZONTE27` | +780 moedas, +640 XP, tema Aurora e 1 escudo | 30/06/2029 |
+| `BIGBANG27` | +900 moedas, +900 XP e 2 escudos | 30/06/2029 |
 
-São **27 códigos públicos**. Um resgate por conta, sem diferenciar maiúsculas, com expiração validada na data local. Códigos personalizados criados na central **não aparecem nesta tabela nem no catálogo público**; só podem ser resgatados por quem souber o texto e são removíveis na seção **Códigos**.
+São **32 códigos públicos**. Um resgate por conta, sem diferenciar maiúsculas, com expiração validada na data local. Códigos personalizados criados na central **não aparecem nesta tabela nem no catálogo público**; só podem ser resgatados por quem souber o texto e são removíveis na seção **Códigos**.
 
 ## Atalhos
 
@@ -577,8 +620,21 @@ São **27 códigos públicos**. Um resgate por conta, sem diferenciar maiúscula
 | **39-E** | **Segunda ação v26** de cada uma das 29 abas |
 | **39-F** | **Atalhos, comandos e init v26**; wrapper do `renderStats`, da topbar e de `runV24Action` |
 | **39-G–39-H** | Estilos de wallpaper, favoritos, cards, Rebirth, foguete, responsivo e movimento reduzido |
+| **39-I** | **Coleção cósmica v27**, badge do multiplicador em todas as abas, comandos `ciclo`/`colecao` e init v27 |
 
 ## Últimas atualizações
+
+### v27.0.0 — Três novos Rebirths
+Eclipse (36.000 XP), Andrômeda (52.000 XP) e Big Bang (75.000 XP) entram na escada, cada um com um tema, um título e um pet exclusivos. O multiplicador permanente passa a chegar a x3,4.
+
+### v27.0.0 — Coleção cósmica
+Painel na aba Rebirth com o progresso de temas, títulos e pets exclusivos, o próximo pacote descrito em detalhe e o multiplicador de Rebirth visível no radar das 29 abas.
+
+### v27.0.0 — Wallpapers Eclipse, Andrômeda e Big Bang
+Três wallpapers em camadas (coroa de luz, braços de galáxia e raios primordiais) com paleta própria para gráficos, donut e cards da Loja.
+
+### v27.0.0 — Cinco códigos novos
+`ECLIPSE27`, `ANDROMEDA27`, `LUNAR27`, `HORIZONTE27` e `BIGBANG27`; catálogo com 32 códigos públicos, sem liberar conteúdo de Rebirth.
 
 ### v26.0.0 — Rebirth com foguete
 Nova aba com cinco ciclos, requisito de XP, confirmação dupla, animação de foguete neon com constelação e nuvem, reset só de XP/moedas e histórico permanente. Cada ciclo soma +30% em XP e moedas.
@@ -680,7 +736,7 @@ Spotlight, magnético, ripple, glow pulsante, borda gradiente, pulso no danger e
 - As pílulas de boost ficam ocultas abaixo de 1220px para não espremer a topbar; os boosts continuam ativos.
 - O Rebirth é **destrutivo para XP e moedas** por decisão de design: a confirmação dupla existe justamente para evitar clique acidental. Temas, pets, títulos, boosts, escudos, sequência e talentos são preservados.
 - Os temas, títulos e pets de Rebirth não aparecem em códigos promocionais; a única forma de obtê-los é renascer no ciclo correspondente.
-- O multiplicador de Rebirth é linear (+30% por ciclo, até +150%) e se soma multiplicativamente ao foguinho, aos boosts e aos talentos — por isso os números podem crescer rápido no fim da coleção.
+- O multiplicador de Rebirth é linear (+30% por ciclo, até +240% com os oito ciclos) e se soma multiplicativamente ao foguinho, aos boosts e aos talentos — por isso os números podem crescer rápido no fim da coleção.
 - Wallpapers usam `background` em camadas e `color-mix`; navegadores muito antigos mostram apenas o gradiente base, sem quebrar o layout.
 - A animação do foguete respeita `prefers-reduced-motion` e a preferência interna de movimento; nesse modo ela dura menos de 1,5 s e mantém o reset e o feedback.
 - Favoritos ficam no `localStorage` (chave `geekieHubState_v22`); limpar os dados do navegador apaga a lista junto com o progresso.
