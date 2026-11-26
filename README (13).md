@@ -2,7 +2,7 @@
 
 Hub de estudos em **3 arquivos** (HTML, CSS e JS), sem build e sem dependências locais — só os ícones e as fontes vêm de CDN.
 
-Versão atual: **v25.0.0**
+Versão atual: **v26.0.0**
 
 ```
 index.html
@@ -49,6 +49,63 @@ python3 -m http.server 3000
 ```
 
 Login: crie uma conta local, entre com ela ou clique em **Entrar como convidado**. Nada é enviado para servidor.
+
+---
+
+## O que mudou na v26.0.0
+
+### 1. Rebirth: renascimento com foguete
+
+- A nova aba **Rebirth** (grupo Progresso) mostra o ciclo atual, o XP exigido, o multiplicador permanente, seis estatísticas e o histórico de renascimentos.
+- O botão pede **duas confirmações** (a segunda vira “Confirmar renascimento”) e então dispara a animação de **foguete neon decolando**, inspirada na arte de referência: casco wireframe, constelação ligada por linhas, partículas, chama e nuvem de impulso.
+- O reset zera **apenas XP e moedas**. Temas, pets, títulos, boosts ativos, escudos de sequência, foguinho, talentos e prestígio do núcleo, conquistas, notas e todo o resto continuam intactos.
+- Cada renascimento soma **+30% permanente** em XP e moedas. O bônus entra em `addXp` e `addCoins`, então vale para foco, pomodoro, metas, marcos, códigos, pets, clicker e qualquer outra fonte — e se acumula com o foguinho, os boosts e os talentos.
+- A pílula de Rebirth na topbar mostra o multiplicador e o total de renascimentos; a aba também lista o recorde de XP de cada ciclo.
+- A animação dura cerca de 3,6 s (0,8–1,4 s com movimento reduzido) e não bloqueia o restante do hub depois de fechar.
+
+### 2. Cinco ciclos cósmicos com conteúdo exclusivo
+
+| Ciclo | XP exigido | Tema | Título | Pet |
+| --- | --- | --- | --- | --- |
+| **1 · Faísca** | 2.500 | Nebulosa | Faísca Cósmica | 🪐 Astro |
+| **2 · Órbita** | 5.000 | Órbita | Comandante Orbital | ☄️ Cometa |
+| **3 · Quasar** | 9.000 | Quasar | Viajante Quasar | 🛸 Pulsar |
+| **4 · Supernova** | 15.000 | Supernova | Explorador Estelar | ☀️ Solaris |
+| **5 · Singularidade** | 24.000 | Singularidade | Lenda do Cosmos | 💠 Prisma |
+
+- Cada renascimento libera automaticamente **um tema, um título e um pet**, e o título novo já é equipado.
+- Os cinco temas entram na Loja com **wallpaper próprio**; os cinco pets entram na coleção com renda de **18 a 38 moedas por tick**, acima dos pets comuns.
+- Temas e pets exclusivos aparecem **bloqueados** até o renascimento correspondente e **não são liberados por códigos**. Os títulos ganharam um filtro **Rebirth** na aba Títulos.
+- Depois do quinto ciclo não há mais renascimento: o botão vira “Ciclo máximo concluído”.
+
+### 3. Favoritos e previews mais completos
+
+- **Coração em cada tema, pet e título**, com estado salvo no navegador, contador nos filtros e filtro **Favoritos** nas três abas.
+- É possível favoritar **direto do preview flutuante**; o cartão se atualiza na hora sem fechar nem perder a posição.
+- O preview de **tema** agora mostra wallpaper, paleta em três amostras, origem/preço e estado de favorito.
+- O preview de **pet** mostra nível, XP restante para o próximo nível, renda por tick, renda por hora, energia e origem.
+- O preview de **título** mostra origem (XP ou Rebirth), requisito e favorito.
+- Os **cards de Rebirth** também têm preview, com requisito, tema, título, pet, progresso e bônus.
+
+### 4. Wallpapers e gráficos por tema
+
+- Os **16 temas** ganharam wallpaper próprio em camadas de gradiente: malha neon, ondas oceânicas, feixes da floresta, sol do pôr do sol, grade Matrix, campo de estrelas, bolinhas Candy, brasa, aurora, pétalas Sakura, poeira estelar, anéis orbitais, jatos de quasar, explosão de supernova e horizonte de eventos.
+- Cada tema define também `--chart-a` e `--chart-b`, usados nos gráficos de foco, nas barras de distribuição, no donut e nos cards da Loja.
+- A aba **Estatísticas** ganhou uma linha de resumo do gráfico (**média**, **meta de 60 min**, **melhor dia** e **paleta ativa**), uma linha de meta tracejada e um **donut de distribuição por matéria** com legenda e percentuais.
+- Cada card da Loja mostra o wallpaper da paleta e um **mini gráfico animado** antes de equipar.
+
+### 5. Segunda ação em todas as 29 abas
+
+- Cada radar ganhou um **segundo botão contextual**, com uma ação diferente da principal: check-in, pausa de 5 min, copiar metas/placar/totais/semana, só cards devidos, exportar CSV, copiar resposta, favoritos da Loja/Pets/Títulos, alimentar o pet ativo, comprar escudo, melhor troca, renascer, nova nota, preset foco, testar som, recarregar portais e mais.
+- Atalhos novos: **`Ctrl+Shift+G`** abre o Rebirth e **`Ctrl+Shift+F`** alterna o filtro de favoritos na Loja, Pets ou Títulos.
+- A paleta de comandos ganhou `rebirth`, `favoritos` e `wallpaper`; o tutorial foi para **29 abas** e as dicas de Loja, Títulos, Pets e Rebirth foram reescritas.
+- A topbar mostra o **multiplicador de Rebirth** ao lado do foguinho, e todo ganho de XP/moedas já usa o novo bônus.
+
+### 6. Códigos, Dev Log e README
+
+- Entram `REBIRTH26`, `FOGUETE26`, `ORBITA26`, `NEBULOSA26` e `APOGEU26`; o catálogo vai a **27 códigos públicos**.
+- A aba **Dev Log** recebeu **6 entradas v26.0.0**; o painel de `Ctrl+Shift+D` e o cartão de novidades passam a mostrar a v26.
+- Este README foi atualizado com a tabela dos cinco ciclos, os wallpapers, os favoritos, os códigos, os atalhos, a migração e as limitações.
 
 ---
 
@@ -295,9 +352,9 @@ Cada aba recebeu uma barra de **Ações rápidas** no fim da página, com atalho
 
 ---
 
-## As 28 abas
+## As 29 abas
 
-Todas as 28 abas têm **Ações rápidas** (v24) e um **radar contextual** (v25) com indicador ao vivo e um botão que resolve a próxima tarefa.
+Todas as 29 abas têm **Ações rápidas** (v24), um **radar contextual** (v25) com indicador ao vivo e **duas ações** (v26) que resolvem a próxima tarefa.
 
 | Aba | O que faz |
 | --- | --- |
@@ -312,12 +369,13 @@ Todas as 28 abas têm **Ações rápidas** (v24) e um **radar contextual** (v25)
 | **Diário** | Entrada por dia com rascunho automático, humor, busca, resumo de humor e exportação markdown |
 | **Chat IA** | Tutor local com modos, matéria, resposta progressiva, ações por mensagem e filtro da conversa |
 | **Comandos** | Terminal com 35 comandos, autocomplete, histórico e ajuda |
-| **Loja** | Onze temas e dois boosts consumíveis, compra com moedas, preview ao vivo do tema e **cartão flutuante animado** |
-| **Títulos** | Doze títulos liberados por XP, equipáveis e com **preview de coroa, XP e estado** |
-| **Pets** | Sete pets com adoção, energia, alimentação, nível, renda passiva e **preview com barra de energia** |
+| **Loja** | **Dezesseis temas** com wallpaper próprio e mini gráfico, favoritos, dois boosts consumíveis, preview ao vivo e **cartão flutuante animado** |
+| **Títulos** | Doze títulos por XP + **cinco títulos de Rebirth**, filtro Rebirth, favoritos e **preview de coroa/XP/estado** |
+| **Pets** | Sete pets comuns + **cinco pets de Rebirth**, adoção, energia, alimentação, nível, renda passiva, favoritos e **preview completo** |
 | **Trilha** | Doze níveis, quinze marcos resgatáveis e dezenove conquistas, com **preview de progresso e recompensas** |
+| **Rebirth** | Cinco ciclos, botão com confirmação, animação de foguete, multiplicador permanente, reset só de XP/moedas, conteúdo exclusivo e histórico |
 | **Clicker** | Núcleo 3.0 com doze melhorias, combo, críticos, núcleo dourado, talentos, cinco trocas, marcos, prestígio e renda offline |
-| **Recompensas** | **Vinte e dois** códigos com status, expiração, histórico, cópia por cartão, **preview de prêmios**, energia de núcleo e códigos personalizados fora do catálogo público |
+| **Recompensas** | **Vinte e sete** códigos com status, expiração, histórico, cópia por cartão, **preview de prêmios**, energia de núcleo e códigos personalizados fora do catálogo público |
 | **Notas** | Busca, tags, autosave, fixar, duplicar, contagem de palavras, estatísticas e exportação `.md` |
 | **Sons ambiente** | Seis camadas (chuva, ruído, ondas, lareira, vento, café), cinco presets, volume geral e timer |
 | **Som de teclado** | Sete estilos, volume e campo de teste |
@@ -404,6 +462,9 @@ Digite `ajuda` para listar, ou `ajuda <comando>` para detalhar. São **35 comand
 | `critico` | Mostra críticos, núcleo dourado, talentos e núcleos livres |
 | `cards` | Quantos cards estão devidos |
 | `devlog [fix\|feature\|style]` | Abre o Dev Log filtrado |
+| `rebirth` | Abre o Rebirth e mostra ciclo, XP e multiplicador |
+| `favoritos` | Abre a Loja no filtro de favoritos |
+| `wallpaper` | Mostra o wallpaper e a paleta do tema equipado |
 | `zen` / `animacoes on\|off` | Modo Zen e preferência de movimento |
 | `data` / `sobre` | Data/hora e informações da versão |
 | `perfil` / `conquistas` | Resumo do perfil e conquistas |
@@ -436,8 +497,13 @@ Digite `ajuda` para listar, ou `ajuda <comando>` para detalhar. São **35 comand
 | `HELIX25` | +260 moedas, +300 XP e tema Oceano | 30/06/2028 |
 | `QUASAR25` | +320 moedas, +360 XP e tema Candy | 30/06/2028 |
 | `ECLIPSE25` | +400 moedas, +480 XP e 2 escudos | 30/06/2028 |
+| `REBIRTH26` | +500 moedas, +600 XP e 1 escudo | 31/12/2028 |
+| `FOGUETE26` | +450 moedas, +400 XP e 10.000 ⚡ | 31/12/2028 |
+| `ORBITA26` | +380 moedas, +520 XP e 1 escudo | 31/12/2028 |
+| `NEBULOSA26` | +600 moedas, +300 XP e 15.000 ⚡ | 31/12/2028 |
+| `APOGEU26` | +700 moedas, +700 XP e 2 escudos | 31/12/2028 |
 
-São **22 códigos públicos**. Um resgate por conta, sem diferenciar maiúsculas, com expiração validada na data local. Códigos personalizados criados na central **não aparecem nesta tabela nem no catálogo público**; só podem ser resgatados por quem souber o texto e são removíveis na seção **Códigos**.
+São **27 códigos públicos**. Um resgate por conta, sem diferenciar maiúsculas, com expiração validada na data local. Códigos personalizados criados na central **não aparecem nesta tabela nem no catálogo público**; só podem ser resgatados por quem souber o texto e são removíveis na seção **Códigos**.
 
 ## Atalhos
 
@@ -446,6 +512,8 @@ São **22 códigos públicos**. Um resgate por conta, sem diferenciar maiúscula
 | `Ctrl+K` / `Cmd+K` | Paleta de comandos e abas |
 | `Ctrl+B` / `Cmd+B` | Recolher e expandir a nav bar (só ícones), de qualquer aba |
 | `Ctrl+Shift+D` | Abre as 3 últimas entradas do Dev Log em um painel flutuante |
+| `Ctrl+Shift+G` | Abre a aba Rebirth |
+| `Ctrl+Shift+F` | Alterna o filtro de favoritos na Loja, Pets ou Títulos |
 | `Alt+Z` | Modo Zen |
 | `/` | Focar a busca de abas |
 | `Espaço` / `1`–`4` | Virar e avaliar flashcards (na aba Flashcards) |
@@ -462,6 +530,7 @@ São **22 códigos públicos**. Um resgate por conta, sem diferenciar maiúscula
 - Progresso em `localStorage`, chave **`geekieHubState_v22`** — a mesma das versões anteriores, para ninguém perder progresso.
 - Campos novos da v23: `boosts`, `dailyChest`, `weeklyStats`, `weeklyClaims`, `subjectLog`, `petXp`, `chestsOpened`, `boostsBought`, `boostsUsed` e, dentro de `clicker`, `talents`, `milestones`, `goldUntil`, `goldNext`, `goldSeen` e `crits`.
 - Campos novos da v24: `portalZoom`, `adminCodeHash`, `adminLog`, `customCodes` e `adminRailCollapsed`. O hash do código root é mesclado sem revelar o texto; a sessão administrativa usa `sessionStorage` (chave `geekieAdminArmed_v24`) e cai ao fechar a aba.
+- Campos novos da v26: `rebirths`, `rebirthLog`, `rebirthBest` e `favs` (com `themes`, `pets`, `titles`). A migração normaliza os tipos, limita `rebirths` a 0–5 e preserva o progresso anterior na mesma chave.
 - A v25 não criou campos novos: os previews, o radar e as ações em lote usam os mesmos dados da v24, na mesma chave, sem migração destrutiva.
 - **Migração automática**: o estado antigo é mesclado com os padrões; `geekieHubState_v20` e `geekieHubState_v194` continuam aceitos.
 - O clicker guarda `lifetime`, `prestige`, `autoExchange`, `buyAmount`, `lastSeen`, `comboBest`, `exchanges`, `talents`, `milestones` e os campos do núcleo dourado.
@@ -471,7 +540,8 @@ São **22 códigos públicos**. Um resgate por conta, sem diferenciar maiúscula
 - Sons são gerados por Web Audio no próprio navegador; nenhuma requisição de áudio.
 - O tutor do chat é **local e offline** (heurísticas por modo/matéria), sem chave de API e sem enviar mensagens.
 - `exportar` gera um JSON com todo o estado; `reset` apaga o progresso.
-- O aviso “Novidades” aparece uma vez por versão (chave `geekieHubSeenVersion_v22`) e mostra até oito itens das entradas v25 do Dev Log.
+- O aviso “Novidades” aparece uma vez por versão (chave `geekieHubSeenVersion_v22`) e mostra até oito itens das entradas v26 do Dev Log.
+- O Rebirth grava `rebirths`, `rebirthLog`, `rebirthBest` e o bônus de **+30% por ciclo**; o reset é intencional e afeta somente `xp` e `coins`. Se quiser guardar o XP antes, use `exportar` ou o backup da central.
 
 ## Estrutura do `script.js`
 
@@ -500,8 +570,33 @@ São **22 códigos públicos**. Um resgate por conta, sem diferenciar maiúscula
 | **38-A** | **Previews v25** de temas, pets, títulos, marcos, conquistas e códigos: cartão flutuante, builders, posicionamento e fechamento |
 | **38-B** | **Radar v25** das 28 abas: indicadores ao vivo, ações em lote, melhor troca, cópia e navegação contextual |
 | **38-C** | **Ciclo v25**: injeção do radar, atalho de clique, atualização a cada 20 s e wrapper de navegação |
+| **39-A** | **Favoritos v26**: persistência por tipo, corações, filtros e atualização do preview aberto |
+| **39-B** | **Previews v26**: tema com wallpaper/paleta, pet com nível/renda por hora, título com origem e cards de Rebirth |
+| **39-C** | **Rebirth**: tiers, requisitos, render da aba, reset seguro, log, confirmação e animação de lançamento |
+| **39-D** | **Gráficos**: resumo do gráfico de foco, linha de meta e donut de matérias com a paleta do tema |
+| **39-E** | **Segunda ação v26** de cada uma das 29 abas |
+| **39-F** | **Atalhos, comandos e init v26**; wrapper do `renderStats`, da topbar e de `runV24Action` |
+| **39-G–39-H** | Estilos de wallpaper, favoritos, cards, Rebirth, foguete, responsivo e movimento reduzido |
 
 ## Últimas atualizações
+
+### v26.0.0 — Rebirth com foguete
+Nova aba com cinco ciclos, requisito de XP, confirmação dupla, animação de foguete neon com constelação e nuvem, reset só de XP/moedas e histórico permanente. Cada ciclo soma +30% em XP e moedas.
+
+### v26.0.0 — Cinco pacotes cósmicos
+Faísca, Órbita, Quasar, Supernova e Singularidade liberam, cada um, um tema com wallpaper, um título exclusivo e um pet de renda alta. Conteúdo bloqueado até o renascimento certo e fora dos códigos.
+
+### v26.0.0 — Favoritos e previews completos
+Coração em temas, pets e títulos, filtro Favoritos nas três abas, favoritar pelo preview e informações novas: wallpaper, paleta, renda por hora, XP de pet, origem do título e bônus de Rebirth.
+
+### v26.0.0 — Wallpapers e gráficos temáticos
+16 wallpapers em camadas, paletas de gráfico por tema, resumo com média/meta/melhor dia, linha de meta e donut de distribuição por matéria.
+
+### v26.0.0 — Segunda ação em todas as abas
+Cada radar ganhou uma segunda ação contextual, além de atalhos `Ctrl+Shift+G`/`Ctrl+Shift+F` e três comandos novos.
+
+### v26.0.0 — Cinco códigos novos
+`REBIRTH26`, `FOGUETE26`, `ORBITA26`, `NEBULOSA26` e `APOGEU26`; catálogo com 27 códigos públicos, sem liberar conteúdo de Rebirth.
 
 ### v25.0.0 — Previews animados de itens
 Cartões flutuantes para temas, pets, títulos, marcos, conquistas e códigos, com abertura em escala/desfoque, troca lateral, orbe animado, pet quicando, coroa com brilho e barras animadas.
@@ -583,3 +678,9 @@ Spotlight, magnético, ripple, glow pulsante, borda gradiente, pulso no danger e
 - A borda gradiente girando (`@property --fx-angle`) degrada para borda estática em navegadores muito antigos; o resto dos efeitos continua funcionando.
 - A nav bar compacta (só ícones) só existe em telas com mais de 1024px de largura; no mobile o menu continua sendo a gaveta e o `Ctrl+B` não tem efeito.
 - As pílulas de boost ficam ocultas abaixo de 1220px para não espremer a topbar; os boosts continuam ativos.
+- O Rebirth é **destrutivo para XP e moedas** por decisão de design: a confirmação dupla existe justamente para evitar clique acidental. Temas, pets, títulos, boosts, escudos, sequência e talentos são preservados.
+- Os temas, títulos e pets de Rebirth não aparecem em códigos promocionais; a única forma de obtê-los é renascer no ciclo correspondente.
+- O multiplicador de Rebirth é linear (+30% por ciclo, até +150%) e se soma multiplicativamente ao foguinho, aos boosts e aos talentos — por isso os números podem crescer rápido no fim da coleção.
+- Wallpapers usam `background` em camadas e `color-mix`; navegadores muito antigos mostram apenas o gradiente base, sem quebrar o layout.
+- A animação do foguete respeita `prefers-reduced-motion` e a preferência interna de movimento; nesse modo ela dura menos de 1,5 s e mantém o reset e o feedback.
+- Favoritos ficam no `localStorage` (chave `geekieHubState_v22`); limpar os dados do navegador apaga a lista junto com o progresso.
