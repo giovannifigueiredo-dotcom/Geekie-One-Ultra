@@ -4,14 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="dark">
-<meta name="description" content="Geekie Study Hub v26.0 — cockpit de estudos offline com foco, estatísticas ao vivo, metas, flashcards, quiz, progressão, Rebirth com foguete, favoritos, wallpapers por tema, previews animados de itens, radar por aba, central administrativa restrita e ferramentas.">
-<title>Geekie Study Hub v26.0.0</title>
+<meta name="description" content="Geekie Study Hub v27.0 — cockpit de estudos offline com foco, estatísticas ao vivo, metas, flashcards, quiz, progressão, Rebirth com foguete, favoritos, wallpapers por tema, previews animados de itens, radar por aba, central administrativa restrita e ferramentas.">
+<title>Geekie Study Hub v27.0.0</title>
 <link rel="icon" id="pageIcon" href="https://i.postimg.cc/gcHHYqtC/fire-geekie.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&family=Orbitron:wght@400;700&family=Space+Grotesk:wght@400;600;700&family=Caveat:wght@400;600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<link rel="stylesheet" href="style.css?v=26.0.0">
+<link rel="stylesheet" href="style.css?v=27.0.0">
 </head>
 <body>
 
@@ -24,7 +24,7 @@
       </span>
       <div>
         <strong>Geekie Study Hub</strong>
-        <span class="login-version">v26.0.0 · offline first</span>
+        <span class="login-version">v27.0.0 · offline first</span>
       </div>
     </div>
     <h1 class="login-title" id="loginTitle">Acesse seu cockpit de estudos</h1>
@@ -102,7 +102,7 @@
       <button class="nav-action nav-shortcut" type="button" id="navDevlogRecentBtn" title="Últimas 3 do Dev Log (Ctrl+Shift+D)" aria-label="Abrir as 3 últimas do Dev Log (Ctrl+Shift+D)"><i class="fa-solid fa-clock-rotate-left"></i><span class="nav-action-text">Últimas 3 do Dev Log</span> <kbd>Ctrl Shift D</kbd></button>
       <button class="nav-action" type="button" id="fabTutorialBtn" title="Rever tutorial" aria-label="Rever tutorial"><i class="fa-solid fa-circle-question"></i><span class="nav-action-text">Rever tutorial</span></button>
       <button class="nav-action" type="button" id="navPaletteBtn" title="Comandos (Ctrl+K)" aria-label="Abrir a paleta de comandos (Ctrl+K)"><i class="fa-solid fa-terminal"></i><span class="nav-action-text">Comandos</span> <kbd>Ctrl K</kbd></button>
-      <span class="sidebar-version" id="sidebarVersion">v26.0.0</span>
+      <span class="sidebar-version" id="sidebarVersion">v27.0.0</span>
     </div>
   </aside>
 
@@ -730,12 +730,13 @@
             </div>
             <div class="toolbar rebirth-actions">
               <button class="btn btn-primary btn-lg" id="rebirthBtn" type="button"><i class="fa-solid fa-rocket"></i> Iniciar Rebirth 1 · Faísca</button>
-              <span class="badge" id="rebirthCurrentBadge">0/5 renascimentos</span>
+              <span class="badge" id="rebirthCurrentBadge">0/8 renascimentos</span>
             </div>
             <p class="hint"><i class="fa-solid fa-circle-info"></i> O reset apaga somente XP e moedas. Temas, pets, títulos, boosts, escudos, sequência, talentos do núcleo e conquistas continuam intactos.</p>
           </div>
         </div>
         <div class="grid grid-4" id="rebirthStats"></div>
+        <div class="card v27-collection" id="rebirthCollection"></div>
         <div class="rebirth-grid" id="rebirthGrid"></div>
         <article class="card">
           <div class="card-head"><h3><i class="fa-solid fa-clock-rotate-left"></i> Histórico de renascimentos</h3><span class="badge">permanente</span></div>
@@ -930,7 +931,7 @@
         <div class="grid grid-2 grid-top">
           <article class="card">
             <div class="card-head"><h3><i class="fa-solid fa-pen-nib"></i> Título da página</h3></div>
-            <div class="title-preview" id="titlePreview">Geekie Study Hub v26.0.0</div>
+            <div class="title-preview" id="titlePreview">Geekie Study Hub v27.0.0</div>
             <label class="field"><span>Texto</span><input type="text" id="titleTextInput" class="input" maxlength="60"></label>
             <div class="toolbar">
               <select id="titleFontSelect" aria-label="Fonte"></select>
@@ -1029,9 +1030,9 @@
           <div class="card-head"><h3><i class="fa-solid fa-clock-rotate-left"></i> Dev Log</h3>
             <div class="row">
               <button class="btn btn-secondary btn-sm" id="devlogRecentBtn" type="button" data-fx="lift"><i class="fa-solid fa-layer-group"></i> Últimas 3 <kbd>Ctrl Shift D</kbd></button>
-              <span class="badge" id="devlogBuild">v26.0.0</span>
+              <span class="badge" id="devlogBuild">v27.0.0</span>
             </div></div>
-          <p class="hint">Registro de alterações do hub. A v26.0.0 trouxe a aba Rebirth com animação de foguete, cinco ciclos cósmicos com temas, títulos e pets exclusivos, favoritos com previews mais completos, wallpapers e gráficos temáticos e cinco códigos novos. O atalho <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>D</kbd> abre as três últimas; <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>G</kbd> vai direto ao Rebirth. O README guarda o restante.</p>
+          <p class="hint">Registro de alterações do hub. A v27.0.0 trouxe três novos Rebirths (Eclipse, Andrômeda e Big Bang) com três temas, três títulos e três pets exclusivos, a coleção cósmica, o multiplicador visível em todas as abas e cinco códigos novos. A v26 trouxe a aba Rebirth com animação de foguete, os cinco ciclos cósmicos, favoritos com previews completos, wallpapers e gráficos temáticos. O atalho <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>D</kbd> abre as três últimas; <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>G</kbd> vai direto ao Rebirth. O README guarda o restante.</p>
           <div class="toolbar">
             <div class="chips" id="devlogFilters">
               <button class="chip active" type="button" data-filter="all">Tudo</button>
@@ -1195,13 +1196,13 @@
 
 <div class="overlay" id="whatsNewOverlay" hidden>
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="whatsNewTitle">
-    <div class="card-head"><h3 id="whatsNewTitle"><i class="fa-solid fa-wand-magic-sparkles"></i> Novidades da v26.0.0</h3>
+    <div class="card-head"><h3 id="whatsNewTitle"><i class="fa-solid fa-wand-magic-sparkles"></i> Novidades da v27.0.0</h3>
       <button class="btn btn-icon btn-ghost" id="whatsNewClose" type="button" aria-label="Fechar"><i class="fa-solid fa-xmark"></i></button></div>
     <ul class="whatsnew-list" id="whatsNewList"></ul>
     <button class="btn btn-primary btn-block" id="whatsNewStart" type="button">Começar a explorar</button>
   </div>
 </div>
 
-<script src="script.js?v=26.0.0"></script>
+<script src="script.js?v=27.0.0"></script>
 </body>
 </html>
